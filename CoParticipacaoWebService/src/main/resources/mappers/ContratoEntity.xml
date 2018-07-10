@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="ContratoEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_CONTRATO(
+				ID_EMPRESA,
+				CD_CONTRATO,
+				NM_CONTRATO,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="ContratoEntity.update">
+		<![CDATA[	
+			UPDATE TB_CONTRATO
+			SET
+				ID_EMPRESA		= ?,
+				CD_CONTRATO 	= ?,
+				NM_CONTRATO 	= ?,
+				USER_ALTERED 	= ?,
+				DT_ALTERED 		= CURRENT_TIMESTAMP()
+			WHERE ID = ?		
+		]]>
+	</query>
+	
+	<query id="ContratoEntity.delete">
+		<![CDATA[				
+			DELETE FROM coparticipacao.tb_contrato
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

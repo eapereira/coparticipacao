@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="LancamentoEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_LANCAMENTO(
+				ID_TITULAR,
+				ID_DEPENDENTE,
+				ID_CONTRATO,
+				CD_MES,
+				CD_ANO,
+				LIVRE_01,
+				VL_PRINCIPAL,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="LancamentoEntity.insert">
+		<![CDATA[	
+			UPDATE TB_LANCAMENTO
+			SET
+				ID_TITULAR = ?,
+				ID_DEPENDENTE = ?,
+				ID_CONTRATO = ?,
+				CD_MES = ?,
+				CD_ANO = ?,
+				LIVRE_01 = ?,
+				VL_PRINCIPAL = ?,
+				USER_ALTERED = ?,
+				DT_ALTERED = CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="LancamentoEntity.insert">
+		<![CDATA[	
+			DELETE FROM TB_LANCAMENTO
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>

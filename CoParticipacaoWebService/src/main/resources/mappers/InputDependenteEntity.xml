@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="InputDependenteEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_INPUT_DEPENDENTE(
+				ID_DEPENDENTE_COLS_DEF,
+				ID_ARQUIVO_INPUT_COLS_DEF,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="InputDependenteEntity.update">
+		<![CDATA[	
+			UPDATE TB_INPUT_DEPENDENTE
+			SET
+				ID_DEPENDENTE_COLS_DEF 		= ?,
+				ID_ARQUIVO_INPUT_COLS_DEF 	= ?,
+				USER_CREATED 				= ?,
+				USER_ALTERED 				= ?,
+				DT_ALTERED 					= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+	
+	<query id="InputDependenteEntity.delete">
+		<![CDATA[	
+			DELETE FROM TB_INPUT_DEPENDENTE
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

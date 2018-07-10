@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="IsentoEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_ISENTO(
+				NM_ISENTO,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="IsentoEntity.insert">
+		<![CDATA[	
+			UPDATE TB_ISENTO
+			SET
+				NM_ISENTO 		= ?,
+				USER_ALTERED 	= ?,
+				DT_ALTERED 		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="IsentoEntity.insert">
+		<![CDATA[				
+			DELETE FROM TB_ISENTO
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

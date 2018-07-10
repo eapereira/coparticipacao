@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="DependenteEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_DEPENDENTE(
+				TP_DEPENDENTE,
+				NM_DEPENDENTE,
+				NR_CPF,
+				DT_NASCIMENTO,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="DependenteEntity.update">
+		<![CDATA[	
+			UPDATE TB_DEPENDENTE
+			SET
+				TP_DEPENDENTE 	= ?,
+				NM_DEPENDENTE 	= ?,
+				NR_CPF 			= ?,
+				DT_NASCIMENTO 	= ?,
+				USER_ALTERED 	= ?,
+				DT_ALTERED 		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+	
+	<query id="DependenteEntity.delete">
+		<![CDATA[	
+			DELETE FROM TB_DEPENDENTE
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="TitularIsentoEntity.insert">
+		<![CDATA[
+			INSERT INTO TB_TITULAR_ISENTO(
+				ID_TITULAR,
+				ID_ISENTO,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="TitularIsentoEntity.insert">
+		<![CDATA[
+			UPDATE TB_TITULAR_ISENTO
+			SET
+				ID_TITULAR 		= ?,
+				ID_ISENTO 		= ?,
+				USER_ALTERED 	= ?,
+				DT_ALTERED 		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="TitularIsentoEntity.insert">
+		<![CDATA[
+			DELETE FROM TB_TITULAR_ISENTO
+			WHERE  ID = ?
+		]]>
+	</query>
+</queries>
+	
