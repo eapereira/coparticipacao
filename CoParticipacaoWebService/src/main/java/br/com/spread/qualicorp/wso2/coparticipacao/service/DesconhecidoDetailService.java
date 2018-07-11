@@ -5,6 +5,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 
 /**
  * 
@@ -26,4 +27,9 @@ public interface DesconhecidoDetailService
 
 	Object getValue(DesconhecidoDetailUi desconhecidoDetailUi)
 			throws ServiceException;
+
+	void createDesconhecidoDetail(
+			DesconhecidoUi desconhecidoUi,
+			CoParticipacaoContext coParticipacaoContext,
+			LancamentoUi lancamentoUi) throws ServiceException;
 }

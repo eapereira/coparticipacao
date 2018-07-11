@@ -94,7 +94,7 @@ public class QueryUtils {
 		if (mapQueries.containsKey(id)) {
 			return mapQueries.get(id);
 		} else {
-			throw new CoParticipacaoException("Query [{}] not found:", id);
+			throw new CoParticipacaoException("Query [%s] not found:", id);
 		}
 	}
 }

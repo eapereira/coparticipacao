@@ -26,6 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraUiMappe
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalService;
@@ -94,6 +95,7 @@ public class RegraServiceImpl
 
 			for (LancamentoDetail lancamentoDetail : lancamentoUi
 					.getLancamentoDetails()) {
+
 				for (RegraUi regraUi : coParticipacaoContext.getRegraUis()) {
 
 					LOGGER.info(
@@ -117,6 +119,39 @@ public class RegraServiceImpl
 		}
 	}
 
+	private boolean isLancamentoDetailAcceptable(
+			RegraUi regraUi,
+			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoDetailUi
+					.getArquivoInputColsDef();
+
+			for (RegraOperation regraOperation : regraUi.getRegraOperations()) {
+				for (RegraField regraField : regraOperation.getRegraFields()) {
+					if (regraField.getArquivoInputColsDef().getId()
+							.equals(arquivoInputColsDefUi.getId())) {
+						LOGGER.info("END");
+						LOGGER.info(
+								"This Regra can process that LancamentoDetail with field[{}]",
+								arquivoInputColsDefUi.getNameColumn());
+						return true;
+					}
+				}
+			}
+
+			LOGGER.info("Using Regra refuised by LancamentoDetail:");
+			LOGGER.info("END");
+			return false;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
 	public void applyRegra(
 			RegraUi regraUi,
 			LancamentoDetail lancamentoDetail,
@@ -125,33 +160,32 @@ public class RegraServiceImpl
 		List<RegraOperation> regraOperatios;
 		BigDecimal value;
 		BigDecimal result;
-		boolean fieldFound = false;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			if (RegraType.SIMPLS.equals(regraUi.getTpRegra())) {
-				result = BigDecimal.ZERO;
 
-				regraOperatios = regraUi.getRegraOperations();
+				if (isLancamentoDetailAcceptable(
+						regraUi,
+						(LancamentoDetailUi) lancamentoDetail)) {
 
-				LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
+					result = BigDecimal.ZERO;
+					regraOperatios = regraUi.getRegraOperations();
 
-				for (RegraOperation regraOperation : regraOperatios) {
+					LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
 
-					for (RegraField regraField : regraOperation
-							.getRegraFields()) {
+					for (RegraOperation regraOperation : regraOperatios) {
 
-						if (regraField.getArquivoInputColsDef().getId().equals(
-								lancamentoDetail.getArquivoInputColsDef()
-										.getId())) {
+						for (RegraField regraField : regraOperation
+								.getRegraFields()) {
+
 							LOGGER.info(
 									"Applying regra [{}] to field [{}]:",
 									regraUi.getNameRegra(),
 									regraField.getArquivoInputColsDef()
 											.getNameColumn());
 
-							fieldFound = true;
 							value = lancamentoDetailService
 									.getFieldValueAsBigDecimal(
 											regraField.getArquivoInputColsDef(),
@@ -171,29 +205,25 @@ public class RegraServiceImpl
 										value,
 										result);
 							}
-						} else {
-							break;
+						}
+
+						LOGGER.info("Result value [{}]:", result);
+
+						for (RegraValor regraValor : regraOperation
+								.getRegraValors()) {
+							value = regraValor.getValor();
+
+							LOGGER.info(
+									"Field value for RegraValor has value [{}]:",
+									value);
+
+							result = executeOperation(
+									regraOperation.getTpOperation(),
+									value,
+									result);
 						}
 					}
 
-					LOGGER.info("Result value [{}]:", result);
-
-					for (RegraValor regraValor : regraOperation
-							.getRegraValors()) {
-						value = regraValor.getValor();
-
-						LOGGER.info(
-								"Field value for RegraValor has value [{}]:",
-								value);
-
-						result = executeOperation(
-								regraOperation.getTpOperation(),
-								value,
-								result);
-					}
-				}
-
-				if (fieldFound) {
 					LOGGER.info(
 							"Final result after all RegraOperations value is [{}]:",
 							result);

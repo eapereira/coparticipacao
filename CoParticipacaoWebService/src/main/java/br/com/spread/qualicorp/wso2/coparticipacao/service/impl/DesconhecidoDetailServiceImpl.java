@@ -14,6 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.dao.DesconhecidoDetailDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoDetailEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.DesconhecidoDetailEntityMapper;
@@ -21,7 +22,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.Desconhecido
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoDetailService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -45,6 +48,9 @@ public class DesconhecidoDetailServiceImpl extends
 
 	@Autowired
 	private DesconhecidoDetailDao desconhecidoDetailDao;
+
+	@Autowired
+	private LancamentoDetailService lancamentoDetailService;
 
 	@Override
 	protected DesconhecidoDetailUi createUi() {
@@ -111,33 +117,21 @@ public class DesconhecidoDetailServiceImpl extends
 			CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
 		Object value;
-		DesconhecidoDetailUi desconhecidoDetail;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			for (ArquivoInputColsDefUi arquivoInputColsDefUi : coParticipacaoContext
 					.getArquivoInputColsDefUis()) {
-				desconhecidoDetail = new DesconhecidoDetailUi();
 
 				value = coParticipacaoContext
 						.getColumnValue(arquivoInputColsDefUi);
 
-				defineDesconhecidoDetailValue(
-						desconhecidoDetail,
-						value,
-						arquivoInputColsDefUi);
-
-				desconhecidoDetail
-						.setArquivoInputColsDef(arquivoInputColsDefUi);
-				desconhecidoDetail.setCreated(LocalDateTime.now());
-				desconhecidoDetail.setAltered(LocalDateTime.now());
-				desconhecidoDetail
-						.setUserCreated(coParticipacaoContext.getUser());
-				desconhecidoDetail
-						.setUserAltered(coParticipacaoContext.getUser());
-
-				desconhecidoUi.addDesconhecidoDetail(desconhecidoDetail);
+				createDesconhecidoDetail(
+						desconhecidoUi,
+						coParticipacaoContext,
+						arquivoInputColsDefUi,
+						value);
 			}
 
 			LOGGER.info("END");
@@ -180,6 +174,75 @@ public class DesconhecidoDetailServiceImpl extends
 
 			LOGGER.info("END");
 			return value;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void createDesconhecidoDetail(
+			DesconhecidoUi desconhecidoUi,
+			CoParticipacaoContext coParticipacaoContext,
+			LancamentoUi lancamentoUi) throws ServiceException {
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		Object value;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (LancamentoDetail lancamentoDetail : lancamentoUi
+					.getLancamentoDetails()) {
+				arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoDetail
+						.getArquivoInputColsDef();
+
+				value = lancamentoDetailService
+						.getFieldValue(arquivoInputColsDefUi, lancamentoDetail);
+
+				createDesconhecidoDetail(
+						desconhecidoUi,
+						coParticipacaoContext,
+						arquivoInputColsDefUi,
+						value);
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void createDesconhecidoDetail(
+			DesconhecidoUi desconhecidoUi,
+			CoParticipacaoContext coParticipacaoContext,
+			ArquivoInputColsDefUi arquivoInputColsDefUi,
+			Object value) throws ServiceException {
+		DesconhecidoDetailUi desconhecidoDetail;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoDetail = new DesconhecidoDetailUi();
+
+			LOGGER.info(
+					"Creating DesconhecidoDetail for column[{}] with value [{}]:",
+					arquivoInputColsDefUi.getNameColumn(),
+					value);
+
+			defineDesconhecidoDetailValue(
+					desconhecidoDetail,
+					value,
+					arquivoInputColsDefUi);
+
+			desconhecidoDetail.setArquivoInputColsDef(arquivoInputColsDefUi);
+			desconhecidoDetail.setCreated(LocalDateTime.now());
+			desconhecidoDetail.setAltered(LocalDateTime.now());
+			desconhecidoDetail.setUserCreated(coParticipacaoContext.getUser());
+			desconhecidoDetail.setUserAltered(coParticipacaoContext.getUser());
+
+			desconhecidoUi.addDesconhecidoDetail(desconhecidoDetail);
+
+			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

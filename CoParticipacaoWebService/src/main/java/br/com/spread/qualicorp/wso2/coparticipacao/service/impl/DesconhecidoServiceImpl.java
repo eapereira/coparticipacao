@@ -19,11 +19,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputOutputD
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputDesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputOutputDesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.DesconhecidoSpreadsheetListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetBuilder;
@@ -58,6 +59,9 @@ public class DesconhecidoServiceImpl extends
 
 	@Autowired
 	private ArquivoOutputDesconhecidoService arquivoOutputDesconhecidoService;
+	
+	@Autowired
+	private LancamentoDetailService lancamentoDetailService;
 
 	public DesconhecidoServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -109,6 +113,41 @@ public class DesconhecidoServiceImpl extends
 			desconhecidoDetailService.createDesconhecidoDetail(
 					desconhecidoUi,
 					coParticipacaoContext);
+
+			coParticipacaoContext.addDesconhecido(desconhecidoUi);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void createDesconhecido(
+			CoParticipacaoContext coParticipacaoContext,
+			LancamentoUi lancamentoUi) throws ServiceException {
+		DesconhecidoUi desconhecidoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Creating Desconhecido register for beneficiario at line [{}]:",
+					coParticipacaoContext.getCurrentLine());
+
+			lancamentoDetailService.showLancamentoDetailInfo(lancamentoUi);			
+			
+			desconhecidoUi = new DesconhecidoUi();
+			desconhecidoUi.setMes(coParticipacaoContext.getMes());
+			desconhecidoUi.setAno(coParticipacaoContext.getAno());
+			desconhecidoUi
+					.setArquivoInput(coParticipacaoContext.getArquivoInputUi());
+			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
+			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());
+
+			desconhecidoDetailService.createDesconhecidoDetail(
+					desconhecidoUi,
+					coParticipacaoContext,
+					lancamentoUi);
 
 			coParticipacaoContext.addDesconhecido(desconhecidoUi);
 

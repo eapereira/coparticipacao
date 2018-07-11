@@ -7,8 +7,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestination
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public interface ViewDestinationDao
-		extends
-		AbstractDao<ViewDestinationEntity> {
+public interface ViewDestinationDao extends AbstractDao<ViewDestinationEntity> {
+
+	
 
 }

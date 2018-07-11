@@ -141,7 +141,8 @@ public class MecsasServiceImpl implements MecsasService {
 
 				coParticipacaoContext.addTitular(titularUi);
 			} else {
-				desconhecidoService.createDesconhecido(coParticipacaoContext);
+				desconhecidoService
+						.createDesconhecido(coParticipacaoContext);
 			}
 
 			LOGGER.info("END");
@@ -206,7 +207,8 @@ public class MecsasServiceImpl implements MecsasService {
 				titularUi.addDependente(dependenteUi);
 				coParticipacaoContext.addDependente(dependenteUi);
 			} else {
-				desconhecidoService.createDesconhecido(coParticipacaoContext);
+				desconhecidoService
+						.createDesconhecido(coParticipacaoContext);
 			}
 
 			LOGGER.info("END");

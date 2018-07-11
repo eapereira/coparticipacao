@@ -3997,3 +3997,104 @@ insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
 /*****************************************************************************************************************************************************/
 
 commit;
+
+insert into TB_VIEW_DESTINATION(
+	NM_VIEW,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	'VW_LANCAMENTO_MUITO_FACIL',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_VIEW_DESTINATION_COLS_DEF(
+	ID_VIEW_DESTINATION	,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* MUITO-FACIL */
+	'NM_TITULAR',
+	3, /* VARCHAR */
+	32,
+	1,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_VIEW_DESTINATION_COLS_DEF(
+	ID_VIEW_DESTINATION	,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* MUITO-FACIL */
+	'NR_CPF',
+	5, /* LONG */
+	12,
+	2,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_VIEW_DESTINATION_COLS_DEF(
+	ID_VIEW_DESTINATION	,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* MUITO-FACIL */
+	'NR_MATRICULA',
+	3, /* VARCHAR */
+	8,
+	3,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_VIEW_DESTINATION_COLS_DEF(
+	ID_VIEW_DESTINATION	,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* MUITO-FACIL */
+	'VL_PRINCIPAL',
+	2, /* DOUBLE */
+	15,
+	4,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+commit;
+
+

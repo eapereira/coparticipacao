@@ -57,7 +57,7 @@ public class CoParticipacaoServiceTest {
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 25;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 94;
 
-	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA = 376;
+	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA = 2162;
 
 	// private static final String
 	// MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813 =
@@ -80,7 +80,7 @@ public class CoParticipacaoServiceTest {
 
 	@Test
 	public void testProcessFatoCopa() throws Exception {
-		int totalLAncamentoDetails=0;
+		int totalLancamentoDetails=0;
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -100,7 +100,7 @@ public class CoParticipacaoServiceTest {
 		lancamentoUis=lancamentoService.listAll();
 
 		for(LancamentoUi lancamentoUi:lancamentoUis) {
-			totalLAncamentoDetails += lancamentoUi.getLancamentoDetails().size();
+			totalLancamentoDetails += lancamentoUi.getLancamentoDetails().size();
 			
 		}
 		
@@ -108,7 +108,7 @@ public class CoParticipacaoServiceTest {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());		
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA, lancamentoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA, totalLAncamentoDetails);
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA, totalLancamentoDetails);
 	}
 
 	//@Test

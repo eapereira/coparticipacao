@@ -42,7 +42,7 @@ public class ViewDestinationColsDefEntity extends ViewDestinationColsDef
 
 	@Column(name = "NM_COLUMN")
 	public String getNameColumn() {
-		return this.getNameColumn();
+		return super.getNameColumn();
 	}
 
 	// bi-directional many-to-one association to ArquivoOutputSheetColsDef
@@ -50,7 +50,7 @@ public class ViewDestinationColsDefEntity extends ViewDestinationColsDef
 			mappedBy = "viewDestinationColsDef",
 			targetEntity = ArquivoOutputSheetColsDefEntity.class)
 	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefs() {
-		return this.getArquivoOutputSheetColsDefs();
+		return super.getArquivoOutputSheetColsDefs();
 	}
 
 	// bi-directional many-to-one association to ViewDestination
@@ -59,7 +59,7 @@ public class ViewDestinationColsDefEntity extends ViewDestinationColsDef
 			targetEntity = ViewDestinationEntity.class)
 	@JoinColumn(name = "ID_VIEW_DESTINATION")
 	public ViewDestination getViewDestination() {
-		return this.getViewDestination();
+		return super.getViewDestination();
 	}
 
 }

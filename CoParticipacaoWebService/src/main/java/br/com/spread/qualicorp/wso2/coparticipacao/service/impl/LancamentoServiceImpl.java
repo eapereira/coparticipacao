@@ -26,6 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.ProcessorListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
@@ -62,6 +63,9 @@ public class LancamentoServiceImpl
 
 	@Autowired
 	private RegraService regraService;
+
+	@Autowired
+	private ArquivoOutputService arquivoOutputService;
 
 	public void processLine(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
@@ -114,10 +118,10 @@ public class LancamentoServiceImpl
 				}
 			}
 
-			if (validateLancamento(coParticipacaoContext, lancamentoUi)) {
+			// Aplicamdo regras do arquivo se existirem:
+			regraService.applyRegras(lancamentoUi, coParticipacaoContext);
 
-				// Aplicamdo regras do arquivo se existirem:
-				regraService.applyRegras(lancamentoUi, coParticipacaoContext);
+			if (validateLancamento(coParticipacaoContext, lancamentoUi)) {
 
 				lancamentoUi.setEmpresa(coParticipacaoContext.getEmpresaUi());
 				lancamentoUi.setUserAltered(coParticipacaoContext.getUser());
@@ -129,7 +133,9 @@ public class LancamentoServiceImpl
 
 				coParticipacaoContext.addLancamento(lancamentoUi);
 			} else {
-				desconhecidoService.createDesconhecido(coParticipacaoContext);
+				desconhecidoService.createDesconhecido(
+						coParticipacaoContext,
+						lancamentoUi);
 			}
 
 			LOGGER.info("END");
@@ -149,7 +155,7 @@ public class LancamentoServiceImpl
 			beneficiarioFound = true;
 		} else {
 			LOGGER.info(
-					"Não foram encontrados beneficiários para a linha [%d]",
+					"Não foram encontrados beneficiários para a linha [{}]",
 					coParticipacaoContext.getCurrentLine());
 		}
 
@@ -346,6 +352,8 @@ public class LancamentoServiceImpl
 			LOGGER.info("BEGIN");
 
 			desconhecidoService.writeDesconhecidosFile(coParticipacaoContext);
+
+			arquivoOutputService.writeOutputFile(coParticipacaoContext);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

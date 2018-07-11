@@ -40,7 +40,7 @@ public class ViewDestinationEntity extends ViewDestination
 
 	@Column(name = "NM_VIEW")
 	public String getNameView() {
-		return this.getNameView();
+		return super.getNameView();
 	}
 
 	// bi-directional many-to-one association to ArquivoOutputSheet
@@ -48,7 +48,7 @@ public class ViewDestinationEntity extends ViewDestination
 			mappedBy = "viewDestination",
 			targetEntity = ArquivoOutputSheetEntity.class)
 	public List<ArquivoOutputSheet> getArquivoOutputSheets() {
-		return this.getArquivoOutputSheets();
+		return super.getArquivoOutputSheets();
 	}
 
 	// bi-directional many-to-one association to ArquivoOutputSheetColsDef
@@ -56,7 +56,7 @@ public class ViewDestinationEntity extends ViewDestination
 			mappedBy = "viewDestination",
 			targetEntity = ArquivoOutputSheetColsDefEntity.class)
 	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefs() {
-		return this.getArquivoOutputSheetColsDefs();
+		return super.getArquivoOutputSheetColsDefs();
 	}
 
 	// bi-directional many-to-one association to ViewDestinationColsDef
@@ -64,7 +64,7 @@ public class ViewDestinationEntity extends ViewDestination
 			mappedBy = "viewDestination",
 			targetEntity = ViewDestinationColsDefEntity.class)
 	public List<ViewDestinationColsDef> getViewDestinationColsDefs() {
-		return this.getViewDestinationColsDefs();
+		return super.getViewDestinationColsDefs();
 	}
 
 }
