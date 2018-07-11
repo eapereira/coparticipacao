@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.UserDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -23,6 +22,10 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity>
 
 	private static final Logger LOGGER = LogManager
 			.getLogger(UserDaoImpl.class);
+
+	public UserDaoImpl() throws DaoException {
+		super();
+	}
 
 	public UserEntity findByLogin(String nameLogin) throws DaoException {
 		UserEntity userEntity;

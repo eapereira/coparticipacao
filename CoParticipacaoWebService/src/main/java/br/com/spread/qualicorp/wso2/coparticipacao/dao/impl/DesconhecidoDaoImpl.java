@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,23 +24,19 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
 	private static final Logger LOGGER = LogManager
 			.getLogger(DesconhecidoDaoImpl.class);
 
-	public DesconhecidoDaoImpl() {
-		// TODO Auto-generated constructor stub
+	public DesconhecidoDaoImpl() throws DaoException {
+		super();
 	}
 
-	public void deleteByMesAndAno(int mes, int ano) throws DaoException {
+	public void deleteByMesAndAno(Long arquivoInputId, int mes, int ano)
+			throws DaoException {
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			sb = new StringBuilder();
-			sb.append("delete from DesconhecidoEntity desconhecido ");
-			sb.append("where	desconhecido.mes = :mes ");
-			sb.append("and		desconhecido.ano = :ano ");
-
-			query = createQuery(sb.toString());
+			query = createQuery2("deleteByMesAndAno");
+			query.setParameter("arquivoInputId", arquivoInputId);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
 
@@ -50,6 +48,31 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
 			throw new DaoException(e.getMessage(), e);
 		}
 
+	}
+
+	public List<DesconhecidoEntity> listByMesAndAno(
+			Long arquivoInputId,
+			int mes,
+			int ano) throws DaoException {
+		Query query;
+		List<DesconhecidoEntity> desconhecidoEntities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery2("listByMesAndAno");
+			query.setParameter("arquivoInputId", arquivoInputId);
+			query.setParameter("mes", mes);
+			query.setParameter("ano", ano);
+
+			desconhecidoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return desconhecidoEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
 	}
 
 }

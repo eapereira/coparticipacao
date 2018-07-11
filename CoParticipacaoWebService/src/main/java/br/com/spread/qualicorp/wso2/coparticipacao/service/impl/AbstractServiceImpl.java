@@ -124,9 +124,9 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 
 			if (ui.getId() == null) {
 				ui.setCreated(LocalDateTime.now());
-			} else {
-				ui.setAltered(LocalDateTime.now());
 			}
+
+			ui.setAltered(LocalDateTime.now());
 
 			entity = uiToEntity(ui);
 
@@ -144,12 +144,6 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 			LOGGER.info("BEGIN");
 
 			for (UI ui : uis) {
-				if (ui.getId() == null) {
-					ui.setCreated(LocalDateTime.now());
-				}
-
-				ui.setAltered(LocalDateTime.now());
-
 				save(ui);
 			}
 			LOGGER.info("END");

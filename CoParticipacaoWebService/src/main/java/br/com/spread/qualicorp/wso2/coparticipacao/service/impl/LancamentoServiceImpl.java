@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.LancamentoUi
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputLancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -67,7 +68,6 @@ public class LancamentoServiceImpl
 		Object value;
 		List<InputLancamentoUi> inputLancamentoUis;
 		LancamentoUi lancamentoUi;
-		boolean foundColumnLancamento;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -89,8 +89,6 @@ public class LancamentoServiceImpl
 							arquivoInputColsDefUi.getNameColumn(),
 							value);
 
-					foundColumnLancamento = false;
-
 					for (InputLancamentoUi inputLancamentoUi : inputLancamentoUis) {
 						if (inputLancamentoUi.getArquivoInputColsDef().getId()
 								.equals(arquivoInputColsDefUi.getId())) {
@@ -99,23 +97,20 @@ public class LancamentoServiceImpl
 									inputLancamentoUi,
 									value,
 									coParticipacaoContext);
+						} else {
+							LOGGER.info(
+									"Registro em InputLancamento informando a coluna de destino para [{}] não foi localizada.",
+									arquivoInputColsDefUi.getNameColumn());
 
-							lancamentoDetailService.storeLancamentoDetail(
-									lancamentoUi,
-									arquivoInputColsDefUi,
-									value,
-									coParticipacaoContext.getUser());
-
-							foundColumnLancamento = true;
 						}
 					}
 
-					if (!foundColumnLancamento) {
-						LOGGER.info(
-								"Registro em InputLancamento informando a coluna de destino para [{}] não foi localizada.",
-								arquivoInputColsDefUi.getNameColumn());
+					lancamentoDetailService.storeLancamentoDetail(
+							lancamentoUi,
+							arquivoInputColsDefUi,
+							value,
+							coParticipacaoContext.getUser());
 
-					}
 				}
 			}
 
@@ -129,6 +124,8 @@ public class LancamentoServiceImpl
 				lancamentoUi.setUserCreated(coParticipacaoContext.getUser());
 				lancamentoUi.setAltered(LocalDateTime.now());
 				lancamentoUi.setCreated(LocalDateTime.now());
+
+				lancamentoDetailService.showLancamentoDetailInfo(lancamentoUi);
 
 				coParticipacaoContext.addLancamento(lancamentoUi);
 			} else {
@@ -207,13 +204,13 @@ public class LancamentoServiceImpl
 			titularUi = coParticipacaoContext.findTitularByCpf(cpf);
 
 			if (titularUi == null) {
-				LOGGER.info("O portador do CPF[%s] não é Titular.", cpf);
+				LOGGER.info("O portador do CPF[{}] não é Titular.", cpf);
 
 				dependenteUi = coParticipacaoContext.findDependenteByCpf(cpf);
 
 				if (dependenteUi == null) {
 					LOGGER.info(
-							"O Dependente portador do CPF[%s] não foi encontrado.",
+							"O Dependente portador do CPF[{}] não foi encontrado.",
 							cpf);
 				} else {
 					lancamentoUi.setTitular(dependenteUi.getTitular());
@@ -285,6 +282,8 @@ public class LancamentoServiceImpl
 			desconhecidoService.save(
 					coParticipacaoContext.getBunker().getDesconhecidoUis());
 
+			writeOutputFiles(coParticipacaoContext);
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
@@ -311,10 +310,12 @@ public class LancamentoServiceImpl
 					coParticipacaoContext.getMes());
 
 			deleteByMesAndAno(
+					coParticipacaoContext.getEmpresaUi(),
 					coParticipacaoContext.getMes(),
 					coParticipacaoContext.getAno());
 
 			desconhecidoService.deleteByMesAndAno(
+					coParticipacaoContext.getArquivoInputUi(),
 					coParticipacaoContext.getMes(),
 					coParticipacaoContext.getAno());
 
@@ -325,11 +326,26 @@ public class LancamentoServiceImpl
 		}
 	}
 
-	public void deleteByMesAndAno(int mes, int ano) throws ServiceException {
+	public void deleteByMesAndAno(EmpresaUi empresaUi, int mes, int ano)
+			throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			lancamentoDao.deleteByMesAndAno(mes, ano);
+			lancamentoDao.deleteByMesAndAno(empresaUi.getId(), mes, ano);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void writeOutputFiles(CoParticipacaoContext coParticipacaoContext)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoService.writeDesconhecidosFile(coParticipacaoContext);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

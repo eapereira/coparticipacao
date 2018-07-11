@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 import java.math.BigDecimal;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -76,6 +77,7 @@ public class LancamentoEntity extends Lancamento implements DomainEntity {
 
 	@OneToMany(
 			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL,
 			mappedBy = "lancamento",
 			targetEntity = LancamentoDetailEntity.class)
 	@Override

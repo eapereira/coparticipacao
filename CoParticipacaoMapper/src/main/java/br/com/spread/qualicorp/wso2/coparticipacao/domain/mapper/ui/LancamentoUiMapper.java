@@ -18,6 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 				UserUiMapper.class,
 				DependenteUiMapper.class,
 				TitularIsentoUiMapper.class,
+				LancamentoDetailUiMapper.class,
 				ContratoUiMapper.class })
 public abstract class LancamentoUiMapper
 		extends AbstractMapper<Lancamento, LancamentoUi> {

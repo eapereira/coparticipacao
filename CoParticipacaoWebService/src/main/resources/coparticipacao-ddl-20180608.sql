@@ -14,6 +14,7 @@ drop table if exists TB_LANCAMENTO_COLS_DEF;
 drop table if exists TB_DEPENDENTE_ISENTO_COLS_DEF;
 drop table if exists TB_TITULAR_ISENTO_COLS_DEF;
 
+drop table if exists TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO;
 drop table if exists TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF;
 drop table if exists TB_ARQUIVO_OUTPUT_DESCONHECIDO;
 drop table if exists TB_DESCONHECIDO_DETAIL;
@@ -178,6 +179,7 @@ create table TB_ARQUIVO_INPUT(
 create table TB_ARQUIVO_INPUT_COLS_DEF(
 	ID 					bigint( 17 ) auto_increment,
 	ID_ARQUIVO_INPUT	bigint( 17 ) not null,
+	
 	NM_COLUMN			varchar( 60 ) not null,
 	CD_TYPE				int( 3 ) not null, 	/* 0 = INT, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
 	VL_LENGTH			int( 5 ) null, 		/* arquivos CSV nao precisa de tamanho de coluna */
@@ -235,6 +237,7 @@ create table TB_VIEW_DESTINATION_COLS_DEF(
 create table TB_ARQUIVO_OUTPUT(
 	ID 					bigint( 17 ) auto_increment,
 	ID_EMPRESA			bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT	bigint( 17 ) not null,
 	NM_ARQUIVO_FORMAT	varchar( 200 ) not null, /* pode colocar {CC} = contrato, {DD} para dia, {MM} para mês e {YYYY} para ano */
 	DESCR_ARQUIVO		varchar( 200 ) not null,
 	
@@ -247,7 +250,8 @@ create table TB_ARQUIVO_OUTPUT(
 	
 	constraint FK_ARQUIVO_OUTPUT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_OUTPUT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_OUTPUT_04 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )
+	constraint FK_ARQUIVO_OUTPUT_04 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID ),
+	constraint FK_ARQUIVO_OUTPUT_05 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
 );
 
 create table TB_ARQUIVO_OUTPUT_SHEET(
@@ -560,6 +564,7 @@ create table TB_LANCAMENTO_DETAIL(
 	ID 							bigint( 17 ) auto_increment,
 	ID_LANCAMENTO				bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
+	
 	VL_DOUBLE					numeric( 17, 2 ) null,
 	VL_INT						int( 10 ) null,
 	VL_DATE						date null,
@@ -830,8 +835,8 @@ create table TB_DESCONHECIDO_DETAIL(
 
 create table TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 	ID 					bigint( 17 ) auto_increment,
-	ID_EMPRESA			bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT	bigint( 17 ) not null,
+	
 	NM_ARQUIVO_FORMAT	varchar( 200 ) not null, /* pode colocar {CC} = contrato, {DD} para dia, {MM} para mês e {YYYY} para ano */
 	NM_DESCR_ARQUIVO	varchar( 200 ) not null,
 	
@@ -842,17 +847,23 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 	
 	constraint PK_ARQUIVO_OUTPUT_DESCONHECIDO primary key( ID ),
 	
+	constraint UN_ARQUIVO_OUTPUT_DESCONHECIDO unique key( ID_ARQUIVO_INPUT ),
+	
 	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_04 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID ),
-	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_05 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
+	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
 );
 
 create table TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
 	ID 								bigint( 17 ) auto_increment,
 	ID_ARQUIVO_OUTPUT_DESCONHECIDO	bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) not null,
-	
+
+	NM_COLUMN						varchar( 60 ) not null,
+	CD_TYPE							int( 3 ) not null, 	/* 0 = INT, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	VL_LENGTH						int( 5 ) null, 		/* arquivos CSV nao precisa de tamanho de coluna */
+	CD_ORDEM						int( 3 ) not null,
+	CD_FORMAT						varchar( 200 ) null, /* Para usar com datas e números */
+
 	USER_CREATED					bigint( 17 ) not null,
 	USER_ALTERED 					bigint( 17 ),
 	DT_CREATED						timestamp not null,
@@ -862,8 +873,27 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
 		
 	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID ),	
-	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_03 foreign key( ID_ARQUIVO_OUTPUT_DESCONHECIDO ) references TB_ARQUIVO_OUTPUT_DESCONHECIDO( ID ),
-	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
+	constraint FK_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_03 foreign key( ID_ARQUIVO_OUTPUT_DESCONHECIDO ) references TB_ARQUIVO_OUTPUT_DESCONHECIDO( ID )
+);
+
+create table TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+	ID 										bigint( 17 ) auto_increment,
+	ID_ARQUIVO_INPUT_COLS_DEF				bigint( 17 ) not null,
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF	bigint( 17 ) not null,
+		
+	USER_CREATED							bigint( 17 ) not null,
+	USER_ALTERED 							bigint( 17 ),
+	DT_CREATED								timestamp not null,
+	DT_ALTERED								timestamp not null,	
+	
+	constraint PK_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO primary key( ID ),
+	
+	constraint UN_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO unique key( ID_ARQUIVO_INPUT_COLS_DEF, ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF ),
+	
+	constraint FK_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
+	constraint FK_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO_05 foreign key( ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF ) references TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF( ID )
 );
 
 /*****************************************************************************************************************************************************/

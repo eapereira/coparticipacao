@@ -5,7 +5,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
  * 
  */
 public abstract class Parameter extends AbstractDomain {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; 
 
 	private String nameParameter;
 	private String value;

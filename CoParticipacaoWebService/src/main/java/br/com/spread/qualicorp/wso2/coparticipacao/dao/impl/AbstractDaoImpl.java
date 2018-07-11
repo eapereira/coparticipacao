@@ -15,6 +15,7 @@ import org.apache.logging.log4j.Logger;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
+import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
 
 /**
  * 
@@ -31,10 +32,25 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 
 	private Class<ENTITY> entityClass;
 
+	private QueryUtils queryUtils;
+
 	@SuppressWarnings("unchecked")
-	public AbstractDaoImpl() {
-		entityClass = (Class<ENTITY>) ((ParameterizedType) getClass()
-				.getGenericSuperclass()).getActualTypeArguments()[0];
+	public AbstractDaoImpl() throws DaoException {
+
+		try {
+			LOGGER.info("BEGIN");
+
+			entityClass = (Class<ENTITY>) ((ParameterizedType) getClass()
+					.getGenericSuperclass()).getActualTypeArguments()[0];
+
+			queryUtils = new QueryUtils(
+					this.getClass().getSimpleName(),
+					"/jpql");
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
 	}
 
 	public ENTITY findById(Long id) throws DaoException {
@@ -131,6 +147,27 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 			entity = entityManager.merge(entity);
 			entityManager.persist(entity);
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
+	protected Query createQuery2(String queryId) throws DaoException {
+		Query query;
+		String jpql;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			jpql = queryUtils.getQueryById(queryId);
+
+			LOGGER.debug("Executing JPQL query:");
+			LOGGER.debug(jpql);
+			query = entityManager.createQuery(jpql);
+
+			LOGGER.info("END");
+			return query;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e);

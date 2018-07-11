@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="deleteByMesAndAno">
+		<![CDATA[
+			delete from LancamentoEntity lancamento
+			where	lancamento.empresa.id	= :empresaId
+			and		lancamento.mes 			= :mes
+			and		lancamento.ano 			= :ano
+		]]>
+	</query>
+
+</queries>

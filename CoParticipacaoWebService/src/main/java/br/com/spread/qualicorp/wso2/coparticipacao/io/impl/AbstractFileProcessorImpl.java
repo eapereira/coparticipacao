@@ -152,7 +152,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			ArquivoInputColsDefUi arquivoInputColsDefUi)
 			throws ServiceException {
 		Integer intValue = Integer.parseInt(value);
-		BigDecimal bdValue = new BigDecimal(intValue / 100);
+		BigDecimal bdValue = new BigDecimal(intValue);
 		DecimalFormat decimalFormat;
 
 		try {

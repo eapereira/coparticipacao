@@ -20,6 +20,8 @@ public abstract class ArquivoOutput extends AbstractDomain {
 	private String nameArquivoFormat;
 	private Empresa empresa;
 
+	private ArquivoInput arquivoInput;
+	
 	private List<ArquivoOutputSheet> arquivoOutputSheets;
 
 	public ArquivoOutput() {
@@ -74,6 +76,67 @@ public abstract class ArquivoOutput extends AbstractDomain {
 		arquivoOutputSheet.setArquivoOutput(null);
 
 		return arquivoOutputSheet;
+	}
+
+	public ArquivoInput getArquivoInput() {
+		return arquivoInput;
+	}
+
+	public void setArquivoInput(ArquivoInput arquivoInput) {
+		this.arquivoInput = arquivoInput;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+		result = prime * result + ((arquivoOutputSheets == null) ? 0
+				: arquivoOutputSheets.hashCode());
+		result = prime * result
+				+ ((descrArquivo == null) ? 0 : descrArquivo.hashCode());
+		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
+		result = prime * result + ((nameArquivoFormat == null) ? 0
+				: nameArquivoFormat.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ArquivoOutput other = (ArquivoOutput) obj;
+		if (arquivoInput == null) {
+			if (other.arquivoInput != null)
+				return false;
+		} else if (!arquivoInput.equals(other.arquivoInput))
+			return false;
+		if (arquivoOutputSheets == null) {
+			if (other.arquivoOutputSheets != null)
+				return false;
+		} else if (!arquivoOutputSheets.equals(other.arquivoOutputSheets))
+			return false;
+		if (descrArquivo == null) {
+			if (other.descrArquivo != null)
+				return false;
+		} else if (!descrArquivo.equals(other.descrArquivo))
+			return false;
+		if (empresa == null) {
+			if (other.empresa != null)
+				return false;
+		} else if (!empresa.equals(other.empresa))
+			return false;
+		if (nameArquivoFormat == null) {
+			if (other.nameArquivoFormat != null)
+				return false;
+		} else if (!nameArquivoFormat.equals(other.nameArquivoFormat))
+			return false;
+		return true;
 	}
 
 }

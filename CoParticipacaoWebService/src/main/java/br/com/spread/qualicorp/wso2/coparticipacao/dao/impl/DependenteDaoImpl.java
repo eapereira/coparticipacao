@@ -25,6 +25,10 @@ public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity>
 	private static final Logger LOGGER = LogManager
 			.getLogger(DependenteDaoImpl.class);
 
+	public DependenteDaoImpl() throws DaoException {
+		super();
+	}
+
 	public DependenteEntity findByCpf(String cpf) throws DaoException {
 		DependenteEntity dependenteEntity;
 		Query query;

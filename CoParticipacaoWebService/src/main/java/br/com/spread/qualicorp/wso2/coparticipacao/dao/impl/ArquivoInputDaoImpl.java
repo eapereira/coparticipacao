@@ -18,12 +18,17 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputEnt
  */
 @Repository
 public class ArquivoInputDaoImpl extends AbstractDaoImpl<ArquivoInputEntity>
-		implements
-		ArquivoInputDao {
+		implements ArquivoInputDao {
 
-	private static final Logger LOGGER = LogManager.getLogger(ArquivoInputDaoImpl.class);
+	private static final Logger LOGGER = LogManager
+			.getLogger(ArquivoInputDaoImpl.class);
 
-	public ArquivoInputEntity findByContrato(Long contratoId) throws DaoException {
+	public ArquivoInputDaoImpl() throws DaoException {
+		super();
+	}
+
+	public ArquivoInputEntity findByContrato(Long contratoId)
+			throws DaoException {
 		ArquivoInputEntity arquivoInputEntity;
 		Query query;
 		StringBuilder sb;
@@ -31,7 +36,8 @@ public class ArquivoInputDaoImpl extends AbstractDaoImpl<ArquivoInputEntity>
 		try {
 			LOGGER.info("BEGIN");
 			sb = new StringBuilder();
-			sb.append("select arquivoInput from ArquivoInputEntity arquivoInput ");
+			sb.append(
+					"select arquivoInput from ArquivoInputEntity arquivoInput ");
 			sb.append("join fetch arquivoInput.contrato contrato ");
 			sb.append("where contrato.id = :contratoId ");
 

@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.RegraConditionalResultDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditionalResultEntity;
 
@@ -15,8 +16,8 @@ public class RegraConditionalResultDaoImpl
 		extends AbstractDaoImpl<RegraConditionalResultEntity>
 		implements RegraConditionalResultDao {
 
-	public RegraConditionalResultDaoImpl() {
-		// TODO Auto-generated constructor stub
+	public RegraConditionalResultDaoImpl() throws DaoException {
+		super();
 	}
 
 }

@@ -24,6 +24,10 @@ public class RegraDaoImpl extends AbstractDaoImpl<RegraEntity>
 	private static final Logger LOGGER = LogManager
 			.getLogger(RegraDaoImpl.class);
 
+	public RegraDaoImpl() throws DaoException {
+		super();
+	}
+
 	public List<RegraEntity> listRegrasByArquivoInput(Long id)
 			throws DaoException {
 		List<RegraEntity> regraEntities;

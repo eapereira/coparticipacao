@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DesconhecidoDetailDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoDetailEntity;
 
@@ -15,8 +16,8 @@ public class DesconhecidoDetailDaoImpl
 		extends AbstractDaoImpl<DesconhecidoDetailEntity>
 		implements DesconhecidoDetailDao {
 
-	public DesconhecidoDetailDaoImpl() {
-		// TODO Auto-generated constructor stub
+	public DesconhecidoDetailDaoImpl() throws DaoException {
+		super();
 	}
 
 }

@@ -23,4 +23,7 @@ public interface DesconhecidoDetailService
 			DesconhecidoUi desconhecidoUi,
 			CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException;
+
+	Object getValue(DesconhecidoDetailUi desconhecidoDetailUi)
+			throws ServiceException;
 }

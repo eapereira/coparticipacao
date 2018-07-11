@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.RegraResultDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraResultEntity;
 
@@ -18,5 +19,10 @@ public class RegraResultDaoImpl extends AbstractDaoImpl<RegraResultEntity>
 
 	private static final Logger LOGGER = LogManager
 			.getLogger(RegraResultDaoImpl.class);
+
+	public RegraResultDaoImpl() throws DaoException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 }

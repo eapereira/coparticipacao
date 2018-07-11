@@ -24,6 +24,10 @@ public class InputTitularDaoImpl extends AbstractDaoImpl<InputTitularEntity>
 	private static final Logger LOGGER = LogManager
 			.getLogger(InputTitularDaoImpl.class);
 
+	public InputTitularDaoImpl() throws DaoException {
+		super();
+	}
+
 	public List<InputTitularEntity> listByArquivoInputColsDefId(Long id)
 			throws DaoException {
 		Query query;
@@ -67,7 +71,8 @@ public class InputTitularDaoImpl extends AbstractDaoImpl<InputTitularEntity>
 			sb.append(
 					"join fetch inputTitular.arquivoInputColsDef arquivoInputColsDef ");
 			sb.append("join fetch inputTitular.titularColsDef titularColsDef ");
-			sb.append("join fetch arquivoInputColsDef.arquivoInput arquivoInput ");
+			sb.append(
+					"join fetch arquivoInputColsDef.arquivoInput arquivoInput ");
 			sb.append("where arquivoInput.id = :arquivoInputId ");
 
 			query = createQuery(sb.toString());

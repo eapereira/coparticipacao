@@ -10,4 +10,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputDe
 public interface ArquivoOutputDesconhecidoDao
 		extends AbstractDao<ArquivoOutputDesconhecidoEntity> {
 
+	ArquivoOutputDesconhecidoEntity findByArquivoInputId(Long id)
+			throws DaoException;
+
 }

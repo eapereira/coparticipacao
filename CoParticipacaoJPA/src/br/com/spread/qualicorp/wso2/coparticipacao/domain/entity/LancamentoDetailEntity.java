@@ -24,7 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
  *
  */
 @Entity
-@Table(name = "TB_LANCAMENTO_DETAIL_ENTITY")
+@Table(name = "TB_LANCAMENTO_DETAIL")
 @NamedQuery(
 		name = "LancamentoDetailEntity.findAll",
 		query = "SELECT l FROM LancamentoDetailEntity l")

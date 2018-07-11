@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
 import org.springframework.stereotype.Repository;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.TitularColsDefDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularColsDefEntity;
 
@@ -12,7 +13,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularColsDefE
  */
 @Repository
 public class TitularColsDefDaoImpl extends AbstractDaoImpl<TitularColsDefEntity>
-		implements
-		TitularColsDefDao {
+		implements TitularColsDefDao {
+
+	public TitularColsDefDaoImpl() throws DaoException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 }

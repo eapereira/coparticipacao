@@ -203,15 +203,6 @@ public class MecsasServiceImpl implements MecsasService {
 			}
 
 			if (validateDependente(dependenteUi)) {
-				if (dependenteUi.getId() == null) {
-					dependenteUi
-							.setUserCreated(coParticipacaoContext.getUser());
-					dependenteUi.setCreated(LocalDateTime.now());
-				}
-
-				dependenteUi.setUserAltered(coParticipacaoContext.getUser());
-				dependenteUi.setAltered(LocalDateTime.now());
-
 				titularUi.addDependente(dependenteUi);
 				coParticipacaoContext.addDependente(dependenteUi);
 			} else {
@@ -291,12 +282,26 @@ public class MecsasServiceImpl implements MecsasService {
 				} else if (DependenteColType.NR_CPF.equals(dependenteColType)) {
 					dependenteUiStored = coParticipacaoContext
 							.findDependenteByCpf(value.toString());
+
 					if (dependenteUiStored != null) {
 						LOGGER.info(
 								"The dependente [{}] with cpf [{}] already exists:",
 								dependenteUiStored.getNameDependente(),
 								dependenteUiStored.getCpf());
 						dependenteUi.setId(dependenteUiStored.getId());
+						dependenteUi.setUserCreated(
+								dependenteUiStored.getUserCreated());
+						dependenteUi
+								.setCreated(dependenteUiStored.getCreated());
+						dependenteUi
+								.setAltered(dependenteUiStored.getCreated());
+					} else {
+						dependenteUi.setUserCreated(
+								coParticipacaoContext.getUser());
+						dependenteUi.setUserAltered(
+								coParticipacaoContext.getUser());
+						dependenteUi.setCreated(LocalDateTime.now());
+						dependenteUi.setAltered(LocalDateTime.now());
 					}
 
 					dependenteUi.setCpf(value.toString());
@@ -341,6 +346,19 @@ public class MecsasServiceImpl implements MecsasService {
 								titularUiStored.getNameTitular(),
 								titularUiStored.getCpf());
 						titularUi.setId(titularUiStored.getId());
+						titularUi.setUserCreated(
+								titularUiStored.getUserCreated());
+						titularUi.setUserAltered(
+								coParticipacaoContext.getUser());
+						titularUi.setCreated(titularUiStored.getCreated());
+						titularUi.setAltered(titularUiStored.getCreated());
+					} else {
+						titularUi.setUserCreated(
+								coParticipacaoContext.getUser());
+						titularUi.setUserAltered(
+								coParticipacaoContext.getUser());
+						titularUi.setCreated(LocalDateTime.now());
+						titularUi.setAltered(LocalDateTime.now());
 					}
 
 					titularUi.setCpf(value.toString());

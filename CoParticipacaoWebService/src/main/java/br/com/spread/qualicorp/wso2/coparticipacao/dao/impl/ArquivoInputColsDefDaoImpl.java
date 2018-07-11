@@ -18,12 +18,18 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputCol
  *
  */
 @Repository
-public class ArquivoInputColsDefDaoImpl extends AbstractDaoImpl<ArquivoInputColsDefEntity>
-		implements
-		ArquivoInputColsDefDao {
-	private static final Logger LOGGER = LogManager.getLogger(ArquivoInputColsDefDaoImpl.class);
+public class ArquivoInputColsDefDaoImpl
+		extends AbstractDaoImpl<ArquivoInputColsDefEntity>
+		implements ArquivoInputColsDefDao {
+	private static final Logger LOGGER = LogManager
+			.getLogger(ArquivoInputColsDefDaoImpl.class);
 
-	public List<ArquivoInputColsDefEntity> listByArquivoInput(Long id) throws DaoException {
+	public ArquivoInputColsDefDaoImpl() throws DaoException {
+		super();
+	}
+
+	public List<ArquivoInputColsDefEntity> listByArquivoInput(Long id)
+			throws DaoException {
 		List<ArquivoInputColsDefEntity> arquivoInputColsDefEntities;
 		Query query;
 		StringBuilder sb;

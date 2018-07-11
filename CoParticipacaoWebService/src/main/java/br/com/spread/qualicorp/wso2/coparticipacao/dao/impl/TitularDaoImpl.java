@@ -25,6 +25,10 @@ public class TitularDaoImpl extends AbstractDaoImpl<TitularEntity>
 	private static final Logger LOGGER = LogManager
 			.getLogger(TitularDaoImpl.class);
 
+	public TitularDaoImpl() throws DaoException {
+		super();
+	}
+
 	public TitularEntity findByCpf(String cpf) throws DaoException {
 		TitularEntity TitularEntity;
 		Query query;

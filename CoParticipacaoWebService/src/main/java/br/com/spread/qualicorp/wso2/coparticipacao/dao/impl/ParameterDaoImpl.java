@@ -24,6 +24,10 @@ public class ParameterDaoImpl extends AbstractDaoImpl<ParameterEntity>
 	private static final Logger LOGGER = LogManager
 			.getLogger(ParameterDaoImpl.class);
 
+	public ParameterDaoImpl() throws DaoException {
+		super();
+	}
+
 	public List<ParameterEntity> listByEmpresaId(Long id) throws DaoException {
 		List<ParameterEntity> parameterEntities;
 		Query query;

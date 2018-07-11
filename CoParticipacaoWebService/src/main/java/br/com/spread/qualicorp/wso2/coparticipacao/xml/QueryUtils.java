@@ -21,12 +21,25 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoExcep
 public class QueryUtils {
 	private static final Logger LOGGER = LogManager.getLogger(QueryUtils.class);
 
-	private static final String QUERIES_FILE = "/mappers/%s.xml";
+	private static final String QUERIES_FILE = "/%s.xml";
+
+	private static final String QUERY_DIR = "/mappers";
 
 	private Map<String, String> mapQueries;
 
+	private String queryDir;
+
 	public QueryUtils(String fileName) throws CoParticipacaoException {
-		mapQueries = new HashMap<String, String>();
+		this.mapQueries = new HashMap<String, String>();
+		this.queryDir = QUERY_DIR;
+
+		loadQueries(fileName);
+	}
+
+	public QueryUtils(String fileName, String queryDir)
+			throws CoParticipacaoException {
+		this.mapQueries = new HashMap<String, String>();
+		this.queryDir = queryDir;
 
 		loadQueries(fileName);
 	}
@@ -46,7 +59,8 @@ public class QueryUtils {
 			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
 			LOGGER.info("Loading queries XML file:");
-			queriesFile = String.format(QUERIES_FILE, fileName);
+			queriesFile = String
+					.format(queryDir.concat(QUERIES_FILE), fileName);
 			is = getClass().getResourceAsStream(queriesFile);
 
 			LOGGER.info("Unmarshalling XML file");
@@ -59,10 +73,14 @@ public class QueryUtils {
 						mapQueries.put(queryXml.getId(), queryXml.getValue());
 					}
 				} else {
-					LOGGER.info("There is no queries in [resources/{}]", queriesFile);
+					LOGGER.info(
+							"There is no queries in [resources/{}]",
+							queriesFile);
 				}
 			} else {
-				throw new CoParticipacaoException("Queries file [%s] not found.", queriesFile);
+				throw new CoParticipacaoException(
+						"Queries file [%s] not found.",
+						queriesFile);
 			}
 
 			LOGGER.info("END");

@@ -22,19 +22,19 @@ public class LancamentoDaoImpl extends AbstractDaoImpl<LancamentoEntity>
 	private static final Logger LOGGER = LogManager
 			.getLogger(LancamentoDaoImpl.class);
 
-	public void deleteByMesAndAno(int mes, int ano) throws DaoException {
+	public LancamentoDaoImpl() throws DaoException {
+		super();
+	}
+
+	public void deleteByMesAndAno(Long empresaId, int mes, int ano)
+			throws DaoException {
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			sb = new StringBuilder();
-			sb.append("delete from LancamentoEntity lancamento ");
-			sb.append("where	lancamento.mes = :mes ");
-			sb.append("and		lancamento.ano = :ano ");
-
-			query = createQuery(sb.toString());
+			query = createQuery2("deleteByMesAndAno");
+			query.setParameter("empresaId", empresaId);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
 

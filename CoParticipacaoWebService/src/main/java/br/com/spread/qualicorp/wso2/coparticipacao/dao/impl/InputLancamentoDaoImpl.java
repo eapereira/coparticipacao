@@ -18,12 +18,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputLancamento
  *
  */
 @Repository
-public class InputLancamentoDaoImpl
-		extends AbstractDaoImpl<InputLancamentoEntity>
-		implements InputLancamentoDao {
+public class InputLancamentoDaoImpl extends
+		AbstractDaoImpl<InputLancamentoEntity> implements InputLancamentoDao {
 
 	private static final Logger LOGGER = LogManager
 			.getLogger(InputLancamentoDaoImpl.class);
+
+	public InputLancamentoDaoImpl() throws DaoException {
+		super();
+	}
 
 	public List<InputLancamentoEntity> listByArquivoInputColsDefId(Long id)
 			throws DaoException {
@@ -69,7 +72,8 @@ public class InputLancamentoDaoImpl
 			sb.append(
 					"join fetch entity.arquivoInputColsDef arquivoInputColsDef ");
 			sb.append("join fetch entity.lancamentoColsDef lancamentoColsDef ");
-			sb.append("join fetch arquivoInputColsDef.arquivoInput arquivoInput ");
+			sb.append(
+					"join fetch arquivoInputColsDef.arquivoInput arquivoInput ");
 			sb.append("where arquivoInput.id = :arquivoInputId ");
 			sb.append("order by arquivoInputColsDef.ordem ");
 

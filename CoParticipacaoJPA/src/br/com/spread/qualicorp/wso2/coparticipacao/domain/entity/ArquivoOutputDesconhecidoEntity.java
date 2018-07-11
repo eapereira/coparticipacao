@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -16,7 +15,6 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecido;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecidoColsDef;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 
 /**
  * 
@@ -37,16 +35,6 @@ public class ArquivoOutputDesconhecidoEntity extends ArquivoOutputDesconhecido {
 
 	public ArquivoOutputDesconhecidoEntity() {
 		super();
-	}
-
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = EmpresaEntity.class)
-	@JoinColumn(name = "ID_EMPRESA")
-	@Override
-	public Empresa getEmpresa() {
-		// TODO Auto-generated method stub
-		return super.getEmpresa();
 	}
 
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)

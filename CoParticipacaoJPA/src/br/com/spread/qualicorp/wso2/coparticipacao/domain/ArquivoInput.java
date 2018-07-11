@@ -26,6 +26,8 @@ public abstract class ArquivoInput extends AbstractDomain {
 	private Integer regexpMes;
 	private Integer regexpAno;
 
+	private ArquivoOutput arquivoOutput;
+
 	private List<ArquivoInputColsDef> arquivoInputColsDefs;
 	private List<Regra> regras;
 
@@ -176,22 +178,26 @@ public abstract class ArquivoInput extends AbstractDomain {
 		this.regexpAno = regexpAno;
 	}
 
+	public ArquivoOutput getArquivoOutput() {
+		return arquivoOutput;
+	}
+
+	public void setArquivoOutput(ArquivoOutput arquivoOutput) {
+		this.arquivoOutput = arquivoOutput;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((arquivoInputColsDefs == null) ? 0
 				: arquivoInputColsDefs.hashCode());
+		result = prime * result
+				+ ((arquivoOutput == null) ? 0 : arquivoOutput.hashCode());
 		result = prime * result + ((arquivoOutputDesconhecido == null) ? 0
 				: arquivoOutputDesconhecido.hashCode());
 		result = prime * result
 				+ ((arquivoType == null) ? 0 : arquivoType.hashCode());
-		result = prime * result
-				+ ((regexpAno == null) ? 0 : regexpAno.hashCode());
-		result = prime * result
-				+ ((regexpContrato == null) ? 0 : regexpContrato.hashCode());
-		result = prime * result
-				+ ((regexpMes == null) ? 0 : regexpMes.hashCode());
 		result = prime * result
 				+ ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result + ((defaultLineLength == null) ? 0
@@ -200,6 +206,12 @@ public abstract class ArquivoInput extends AbstractDomain {
 				+ ((descrArquivo == null) ? 0 : descrArquivo.hashCode());
 		result = prime * result + ((nameArquivoRegexp == null) ? 0
 				: nameArquivoRegexp.hashCode());
+		result = prime * result
+				+ ((regexpAno == null) ? 0 : regexpAno.hashCode());
+		result = prime * result
+				+ ((regexpContrato == null) ? 0 : regexpContrato.hashCode());
+		result = prime * result
+				+ ((regexpMes == null) ? 0 : regexpMes.hashCode());
 		result = prime * result + ((regras == null) ? 0 : regras.hashCode());
 		result = prime * result
 				+ ((skipLines == null) ? 0 : skipLines.hashCode());
@@ -221,6 +233,11 @@ public abstract class ArquivoInput extends AbstractDomain {
 				return false;
 		} else if (!arquivoInputColsDefs.equals(other.arquivoInputColsDefs))
 			return false;
+		if (arquivoOutput == null) {
+			if (other.arquivoOutput != null)
+				return false;
+		} else if (!arquivoOutput.equals(other.arquivoOutput))
+			return false;
 		if (arquivoOutputDesconhecido == null) {
 			if (other.arquivoOutputDesconhecido != null)
 				return false;
@@ -228,21 +245,6 @@ public abstract class ArquivoInput extends AbstractDomain {
 				.equals(other.arquivoOutputDesconhecido))
 			return false;
 		if (arquivoType != other.arquivoType)
-			return false;
-		if (regexpAno == null) {
-			if (other.regexpAno != null)
-				return false;
-		} else if (!regexpAno.equals(other.regexpAno))
-			return false;
-		if (regexpContrato == null) {
-			if (other.regexpContrato != null)
-				return false;
-		} else if (!regexpContrato.equals(other.regexpContrato))
-			return false;
-		if (regexpMes == null) {
-			if (other.regexpMes != null)
-				return false;
-		} else if (!regexpMes.equals(other.regexpMes))
 			return false;
 		if (contrato == null) {
 			if (other.contrato != null)
@@ -263,6 +265,21 @@ public abstract class ArquivoInput extends AbstractDomain {
 			if (other.nameArquivoRegexp != null)
 				return false;
 		} else if (!nameArquivoRegexp.equals(other.nameArquivoRegexp))
+			return false;
+		if (regexpAno == null) {
+			if (other.regexpAno != null)
+				return false;
+		} else if (!regexpAno.equals(other.regexpAno))
+			return false;
+		if (regexpContrato == null) {
+			if (other.regexpContrato != null)
+				return false;
+		} else if (!regexpContrato.equals(other.regexpContrato))
+			return false;
+		if (regexpMes == null) {
+			if (other.regexpMes != null)
+				return false;
+		} else if (!regexpMes.equals(other.regexpMes))
 			return false;
 		if (regras == null) {
 			if (other.regras != null)

@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DependenteColsDefDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteColsDefEntity;
 
@@ -8,8 +9,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteColsD
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public class DependenteColsDefDaoImpl extends AbstractDaoImpl<DependenteColsDefEntity>
-		implements
-		DependenteColsDefDao {
+public class DependenteColsDefDaoImpl
+		extends AbstractDaoImpl<DependenteColsDefEntity>
+		implements DependenteColsDefDao {
+
+	public DependenteColsDefDaoImpl() throws DaoException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 }

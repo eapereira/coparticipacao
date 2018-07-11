@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 import org.springframework.stereotype.Repository;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.ArquivoOutputDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEntity;
 
 /**
@@ -12,7 +13,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEn
  */
 @Repository
 public class ArquivoOutputDaoImpl extends AbstractDaoImpl<ArquivoOutputEntity>
-		implements
-		ArquivoOutputDao {
+		implements ArquivoOutputDao {
+
+	public ArquivoOutputDaoImpl() throws DaoException {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 
 }

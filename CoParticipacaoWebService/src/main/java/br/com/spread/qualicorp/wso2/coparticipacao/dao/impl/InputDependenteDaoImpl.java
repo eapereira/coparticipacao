@@ -18,12 +18,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependente
  *
  */
 @Repository
-public class InputDependenteDaoImpl
-		extends AbstractDaoImpl<InputDependenteEntity>
-		implements InputDependenteDao {
+public class InputDependenteDaoImpl extends
+		AbstractDaoImpl<InputDependenteEntity> implements InputDependenteDao {
 
 	private static final Logger LOGGER = LogManager
 			.getLogger(InputDependenteDaoImpl.class);
+
+	public InputDependenteDaoImpl() throws DaoException {
+		super();
+	}
 
 	public List<InputDependenteEntity> listByArquivoInputColsDefId(Long id)
 			throws DaoException {

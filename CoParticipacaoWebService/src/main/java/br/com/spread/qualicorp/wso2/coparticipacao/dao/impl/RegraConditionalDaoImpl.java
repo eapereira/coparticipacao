@@ -24,8 +24,8 @@ public class RegraConditionalDaoImpl extends
 	private static final Logger LOGGER = LogManager
 			.getLogger(RegraConditionalDaoImpl.class);
 
-	public RegraConditionalDaoImpl() {
-		// TODO Auto-generated constructor stub
+	public RegraConditionalDaoImpl() throws DaoException {
+		super();
 	}
 
 	public List<RegraConditionalEntity> listRegrasByArquivoInput(Long id)

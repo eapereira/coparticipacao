@@ -42,4 +42,7 @@ public interface LancamentoDetailService
 			ArquivoInputColsDefUi arquivoInputColsDefUi)
 			throws ServiceException;
 
+	void showLancamentoDetailInfo(LancamentoUi lancamentoUi)
+			throws ServiceException;
+
 }

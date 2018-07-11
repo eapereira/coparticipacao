@@ -9,6 +9,7 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputSheetColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputSheetEntity</class>
+				
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ContratoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntity</class>
@@ -45,7 +46,10 @@
 
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoDetailEntity</class>
+		
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputDesconhecidoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputDesconhecidoColsDefEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputOutputDesconhecidoEntity</class>		
+		
 	</persistence-unit>
 </persistence>

@@ -13,7 +13,6 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 	 * 
 	 */
 	private static final long serialVersionUID = 4168384786061689139L;
-	private Empresa empresa;
 	private ArquivoInput arquivoInput;
 	private String nameArquivoFormat;
 	private String description;
@@ -22,14 +21,6 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 
 	public ArquivoOutputDesconhecido() {
 
-	}
-
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
 	}
 
 	public ArquivoInput getArquivoInput() {
@@ -71,11 +62,11 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 		int result = 1;
 		result = prime * result
 				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
-		result = prime * result + ((arquivoOutputDesconhecidoColsDefs == null)
-				? 0 : arquivoOutputDesconhecidoColsDefs.hashCode());
+		result = prime * result
+				+ ((arquivoOutputDesconhecidoColsDefs == null) ? 0
+						: arquivoOutputDesconhecidoColsDefs.hashCode());
 		result = prime * result
 				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
 		result = prime * result + ((nameArquivoFormat == null) ? 0
 				: nameArquivoFormat.hashCode());
 		return result;
@@ -106,11 +97,6 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 				return false;
 		} else if (!description.equals(other.description))
 			return false;
-		if (empresa == null) {
-			if (other.empresa != null)
-				return false;
-		} else if (!empresa.equals(other.empresa))
-			return false;
 		if (nameArquivoFormat == null) {
 			if (other.nameArquivoFormat != null)
 				return false;
@@ -118,4 +104,5 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 }

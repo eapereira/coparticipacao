@@ -1,8 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>br.com.spread.qualicorp.wso2</groupId>
+	<groupId>br.com.spread.qualicorp.wso2.coparticipacao</groupId>
 	<artifactId>CoParticipacaoWebService</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
@@ -101,10 +102,14 @@
 		</dependency>
 
 		<dependency>
-			<groupId>
-				br.com.spread.qualicorp.wso2.coparticipacao
-			</groupId>
+			<groupId>br.com.spread.qualicorp.wso2.coparticipacao</groupId>
 			<artifactId>CoParticipacaoJPA</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>br.com.spread.qualicorp.wso2.coparticipacao</groupId>
+			<artifactId>CoParticipacaoMapper</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -138,13 +143,6 @@
 			<version>1.9.3</version>
 		</dependency>
 
-		<dependency>
-			<groupId>
-				br.com.spread.qualicorp.wso2.coparticipacao
-			</groupId>
-			<artifactId>CoParticipacaoMapper</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 	</dependencies>
 	<build>
 		<finalName>CoParticipacaoWebService</finalName>

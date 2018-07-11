@@ -7,6 +7,9 @@
         <dependent-module archiveName="CoParticipacaoJPA-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CoParticipacaoJPA/CoParticipacaoJPA">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="CoParticipacaoMapper-0.0.1-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/CoParticipacaoMapper/CoParticipacaoMapper">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="context-root" value="CoParticipacaoWebService"/>
         <property name="java-output-path" value="/CoParticipacaoWebService/target/classes"/>
     </wb-module>

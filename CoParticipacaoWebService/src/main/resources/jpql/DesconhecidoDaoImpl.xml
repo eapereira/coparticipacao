@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="deleteByMesAndAno">
+		<![CDATA[
+			delete from DesconhecidoEntity desconhecido
+			where	desconhecido.arquivoInput.id = :arquivoInputId
+			and		desconhecido.mes	= :mes
+			and		desconhecido.ano	= :ano
+		]]>
+	</query>
+
+	<query id="listByMesAndAno">
+		<![CDATA[
+			select desconhecido from DesconhecidoEntity desconhecido
+			join fetch desconhecido.arquivoInput arquivoInput
+			where	arquivoInput.id		= :arquivoInputId
+			and		desconhecido.mes	= :mes
+			and		desconhecido.ano	= :ano
+		]]>
+	</query>
+
+</queries>
+	

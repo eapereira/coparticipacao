@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputLancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -62,10 +63,13 @@ public class CoParticipacaoContext {
 
 	private List<DependenteUi> dependenteUis;
 
+	private List<ParameterUi> parameterUis;
+
 	private Bunker bunker;
 
 	private Integer currentLine;
 
+	private int dia;
 	private int mes;
 	private int ano;
 
@@ -76,9 +80,10 @@ public class CoParticipacaoContext {
 		inputLancamentoUis = new ArrayList<InputLancamentoUi>();
 		titularUis = new ArrayList<TitularUi>();
 		dependenteUis = new ArrayList<DependenteUi>();
-		
+
 		regraConditionalUis = new ArrayList<RegraConditionalUi>();
 		regraUis = new ArrayList<RegraUi>();
+		parameterUis = new ArrayList<ParameterUi>();
 
 		mapLine = new HashMap<String, Object>();
 
@@ -260,6 +265,14 @@ public class CoParticipacaoContext {
 		this.empresaUi = empresaUi;
 	}
 
+	public int getDia() {
+		return dia;
+	}
+
+	public void setDia(int dia) {
+		this.dia = dia;
+	}
+
 	public int getMes() {
 		return mes;
 	}
@@ -303,4 +316,24 @@ public class CoParticipacaoContext {
 			List<RegraConditionalUi> regraConditionalUis) {
 		this.regraConditionalUis = regraConditionalUis;
 	}
+
+	public List<ParameterUi> getParameterUis() {
+		return parameterUis;
+	}
+
+	public void setParameterUis(List<ParameterUi> parameterUis) {
+		this.parameterUis = parameterUis;
+	}
+
+	public ParameterUi findParameterByName(ParameterName parameterName) {
+		for (ParameterUi parameterUi : getParameterUis()) {
+			if (parameterUi.getNameParameter()
+					.equals(parameterName.getName())) {
+				return parameterUi;
+			}
+		}
+
+		return null;
+	}
+
 }

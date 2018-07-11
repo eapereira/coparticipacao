@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -80,6 +81,9 @@ public class LancamentoDetailServiceImpl extends
 
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Adding LancamentoDetail column [{}]:",
+					arquivoInputColsDefUi.getNameColumn());
 
 			lancamentoDetailUi = new LancamentoDetailUi();
 			lancamentoDetailUi.setArquivoInputColsDef(arquivoInputColsDefUi);
@@ -91,6 +95,10 @@ public class LancamentoDetailServiceImpl extends
 					value);
 
 			lancamentoDetailUi.setUserCreated(userUi);
+			lancamentoDetailUi.setUserAltered(userUi);
+			lancamentoDetailUi.setCreated(LocalDateTime.now());
+			lancamentoDetailUi.setAltered(LocalDateTime.now());
+
 			lancamentoUi.addLancamentoDetail(lancamentoDetailUi);
 
 			LOGGER.info("END");
@@ -244,6 +252,31 @@ public class LancamentoDetailServiceImpl extends
 
 			LOGGER.info("END");
 			return lancamentoDetailUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+
+	}
+
+	public void showLancamentoDetailInfo(LancamentoUi lancamentoUi)
+			throws ServiceException {
+		ArquivoInputColsDef arquivoInputColsDef;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (LancamentoDetail lancamentoDetail : lancamentoUi
+					.getLancamentoDetails()) {
+				arquivoInputColsDef = lancamentoDetail.getArquivoInputColsDef();
+
+				LOGGER.info(
+						"LancamentoDetail with column [{}] and value [{}]:",
+						arquivoInputColsDef.getNameColumn(),
+						getFieldValue(arquivoInputColsDef, lancamentoDetail));
+			}
+
+			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

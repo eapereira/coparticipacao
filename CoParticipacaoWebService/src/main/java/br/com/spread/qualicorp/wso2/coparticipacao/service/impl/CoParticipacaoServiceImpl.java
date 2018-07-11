@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputLancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -213,6 +214,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		EmpresaUi empresaUi;
+		List<ParameterUi> parameterUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -232,6 +234,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext.setEmpresaUi(empresaUi);
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);
+
+			parameterUis = parameterService.listByEmpresaId(empresaUi.getId());
+			coParticipacaoContext.getParameterUis().addAll(parameterUis);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

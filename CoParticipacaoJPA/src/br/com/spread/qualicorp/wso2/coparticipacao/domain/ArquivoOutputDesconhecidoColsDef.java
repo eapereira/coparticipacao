@@ -1,21 +1,33 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain{
-	
+public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5744067170574192256L;
+
+	private Integer ordem;
+	private ColDefType type;
+
+	private String nameColumn;
+	private Integer length;
+	private String format;
+
 	private ArquivoOutputDesconhecido arquivoOutputDesconhecido;
-	private ArquivoInputColsDef arquivoInputColsDef;
-	
-	public ArquivoOutputDesconhecidoColsDef(){
-		
+
+	private List<ArquivoInputOutputDesconhecido> arquivoInputOutputDesconhecidos;
+
+	public ArquivoOutputDesconhecidoColsDef() {
+		arquivoInputOutputDesconhecidos = new ArrayList<>();
 	}
 
 	public ArquivoOutputDesconhecido getArquivoOutputDesconhecido() {
@@ -27,45 +39,53 @@ public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain{
 		this.arquivoOutputDesconhecido = arquivoOutputDesconhecido;
 	}
 
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
+	public List<ArquivoInputOutputDesconhecido> getArquivoInputOutputDesconhecidos() {
+		return arquivoInputOutputDesconhecidos;
 	}
 
-	public void setArquivoInputColsDef(ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
+	public void setArquivoInputOutputDesconhecidos(
+			List<ArquivoInputOutputDesconhecido> arquivoInputOutputDesconhecidos) {
+		this.arquivoInputOutputDesconhecidos = arquivoInputOutputDesconhecidos;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0
-				: arquivoInputColsDef.hashCode());
-		result = prime * result + ((arquivoOutputDesconhecido == null) ? 0
-				: arquivoOutputDesconhecido.hashCode());
-		return result;
+	public Integer getOrdem() {
+		return ordem;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		ArquivoOutputDesconhecidoColsDef other = (ArquivoOutputDesconhecidoColsDef) obj;
-		if (arquivoInputColsDef == null) {
-			if (other.arquivoInputColsDef != null)
-				return false;
-		} else if (!arquivoInputColsDef.equals(other.arquivoInputColsDef))
-			return false;
-		if (arquivoOutputDesconhecido == null) {
-			if (other.arquivoOutputDesconhecido != null)
-				return false;
-		} else if (!arquivoOutputDesconhecido
-				.equals(other.arquivoOutputDesconhecido))
-			return false;
-		return true;
+	public void setOrdem(Integer ordem) {
+		this.ordem = ordem;
 	}
+
+	public ColDefType getType() {
+		return type;
+	}
+
+	public void setType(ColDefType type) {
+		this.type = type;
+	}
+
+	public String getNameColumn() {
+		return nameColumn;
+	}
+
+	public void setNameColumn(String nameColumn) {
+		this.nameColumn = nameColumn;
+	}
+
+	public Integer getLength() {
+		return length;
+	}
+
+	public void setLength(Integer length) {
+		this.length = length;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
 }

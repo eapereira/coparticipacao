@@ -138,4 +138,72 @@ public abstract class Empresa extends AbstractDomain {
 		this.lancamentos = lancamentos;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((arquivoOutputs == null) ? 0 : arquivoOutputs.hashCode());
+		result = prime * result
+				+ ((contratos == null) ? 0 : contratos.hashCode());
+		result = prime * result
+				+ ((lancamentos == null) ? 0 : lancamentos.hashCode());
+		result = prime * result
+				+ ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
+		result = prime * result
+				+ ((operadora == null) ? 0 : operadora.hashCode());
+		result = prime * result
+				+ ((parameters == null) ? 0 : parameters.hashCode());
+		result = prime * result
+				+ ((titulars == null) ? 0 : titulars.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Empresa other = (Empresa) obj;
+		if (arquivoOutputs == null) {
+			if (other.arquivoOutputs != null)
+				return false;
+		} else if (!arquivoOutputs.equals(other.arquivoOutputs))
+			return false;
+		if (contratos == null) {
+			if (other.contratos != null)
+				return false;
+		} else if (!contratos.equals(other.contratos))
+			return false;
+		if (lancamentos == null) {
+			if (other.lancamentos != null)
+				return false;
+		} else if (!lancamentos.equals(other.lancamentos))
+			return false;
+		if (nameEmpresa == null) {
+			if (other.nameEmpresa != null)
+				return false;
+		} else if (!nameEmpresa.equals(other.nameEmpresa))
+			return false;
+		if (operadora == null) {
+			if (other.operadora != null)
+				return false;
+		} else if (!operadora.equals(other.operadora))
+			return false;
+		if (parameters == null) {
+			if (other.parameters != null)
+				return false;
+		} else if (!parameters.equals(other.parameters))
+			return false;
+		if (titulars == null) {
+			if (other.titulars != null)
+				return false;
+		} else if (!titulars.equals(other.titulars))
+			return false;
+		return true;
+	}
+
 }

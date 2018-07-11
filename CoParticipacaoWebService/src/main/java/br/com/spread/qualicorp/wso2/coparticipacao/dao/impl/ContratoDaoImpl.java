@@ -18,12 +18,17 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ContratoEntity;
  */
 @Repository
 public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity>
-		implements
-		ContratoDao {
+		implements ContratoDao {
 
-	private static final Logger LOGGER = LogManager.getLogger(ContratoDaoImpl.class);
+	private static final Logger LOGGER = LogManager
+			.getLogger(ContratoDaoImpl.class);
 
-	public ContratoEntity findByCdContrato(String cdContrato) throws DaoException {
+	public ContratoDaoImpl() throws DaoException {
+		super();
+	}
+
+	public ContratoEntity findByCdContrato(String cdContrato)
+			throws DaoException {
 		ContratoEntity contratoEntity;
 		Query query;
 		StringBuilder sb;
@@ -41,7 +46,7 @@ public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity>
 
 			LOGGER.info("END");
 			return contratoEntity;
-		}catch(NoResultException e){
+		} catch (NoResultException e) {
 			LOGGER.info(e.getMessage());
 			return null;
 		} catch (Exception e) {

@@ -96,6 +96,11 @@ public class RegraServiceImpl
 					.getLancamentoDetails()) {
 				for (RegraUi regraUi : coParticipacaoContext.getRegraUis()) {
 
+					LOGGER.info(
+							"Checking if we have a Regra for column [{}]:",
+							lancamentoDetail.getArquivoInputColsDef()
+									.getNameColumn());
+
 					applyRegra(
 							regraUi,
 							lancamentoDetail,
@@ -120,6 +125,7 @@ public class RegraServiceImpl
 		List<RegraOperation> regraOperatios;
 		BigDecimal value;
 		BigDecimal result;
+		boolean fieldFound = false;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -136,30 +142,37 @@ public class RegraServiceImpl
 					for (RegraField regraField : regraOperation
 							.getRegraFields()) {
 
-						LOGGER.info(
-								"Applying regra [{}] to field [{}]:",
-								regraUi.getNameRegra(),
-								regraField.getArquivoInputColsDef()
-										.getNameColumn());
+						if (regraField.getArquivoInputColsDef().getId().equals(
+								lancamentoDetail.getArquivoInputColsDef()
+										.getId())) {
+							LOGGER.info(
+									"Applying regra [{}] to field [{}]:",
+									regraUi.getNameRegra(),
+									regraField.getArquivoInputColsDef()
+											.getNameColumn());
 
-						value = lancamentoDetailService
-								.getFieldValueAsBigDecimal(
-										regraField.getArquivoInputColsDef(),
-										lancamentoDetail);
+							fieldFound = true;
+							value = lancamentoDetailService
+									.getFieldValueAsBigDecimal(
+											regraField.getArquivoInputColsDef(),
+											lancamentoDetail);
 
-						LOGGER.info(
-								"Field [{}] has value [{}]:",
-								regraField.getArquivoInputColsDef()
-										.getNameColumn(),
-								value);
+							LOGGER.info(
+									"Field [{}] has value [{}]:",
+									regraField.getArquivoInputColsDef()
+											.getNameColumn(),
+									value);
 
-						if (BigDecimal.ZERO.equals(result)) {
-							result = value;
+							if (BigDecimal.ZERO.equals(result)) {
+								result = value;
+							} else {
+								result = executeOperation(
+										regraOperation.getTpOperation(),
+										value,
+										result);
+							}
 						} else {
-							result = executeOperation(
-									regraOperation.getTpOperation(),
-									value,
-									result);
+							break;
 						}
 					}
 
@@ -180,23 +193,25 @@ public class RegraServiceImpl
 					}
 				}
 
-				LOGGER.info(
-						"Final result after all RegraOperations value is [{}]:",
-						result);
-
-				for (RegraResult regraResult : regraUi.getRegraResults()) {
-
+				if (fieldFound) {
 					LOGGER.info(
-							"Sending calculated value [{}] to lancamento field [{}]",
-							result,
-							regraResult.getArquivoInputColsDef()
-									.getNameColumn());
-
-					lancamentoDetailService.updateLancamentoDetail(
-							(LancamentoDetailUi) lancamentoDetail,
-							(ArquivoInputColsDefUi) regraResult
-									.getArquivoInputColsDef(),
+							"Final result after all RegraOperations value is [{}]:",
 							result);
+
+					for (RegraResult regraResult : regraUi.getRegraResults()) {
+
+						LOGGER.info(
+								"Sending calculated value [{}] to lancamento field [{}]",
+								result,
+								regraResult.getArquivoInputColsDef()
+										.getNameColumn());
+
+						lancamentoDetailService.updateLancamentoDetail(
+								(LancamentoDetailUi) lancamentoDetail,
+								(ArquivoInputColsDefUi) regraResult
+										.getArquivoInputColsDef(),
+								result);
+					}
 				}
 			}
 
@@ -223,7 +238,8 @@ public class RegraServiceImpl
 				valueResult = valueResult.subtract(value);
 			} else if (OperationType.DIVISION.equals(operationType)) {
 				LOGGER.info("Executing [{}] / [{}]", valueResult, value);
-				valueResult = valueResult.divide(value);
+				valueResult = valueResult
+						.divide(value, 2, BigDecimal.ROUND_HALF_UP);
 			} else if (OperationType.MULTIPLY.equals(operationType)) {
 				LOGGER.info("Executing [{}] * [{}]", valueResult, value);
 				valueResult = valueResult.multiply(value);

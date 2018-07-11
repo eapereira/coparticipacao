@@ -146,4 +146,43 @@ public class DesconhecidoDetailServiceImpl extends
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}
+
+	public Object getValue(DesconhecidoDetailUi desconhecidoDetailUi)
+			throws ServiceException {
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		Object value = null;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoInputColsDefUi = (ArquivoInputColsDefUi) desconhecidoDetailUi
+					.getArquivoInputColsDef();
+
+			if (ColDefType.INT.equals(arquivoInputColsDefUi.getType())) {
+				value = desconhecidoDetailUi.getIntValue();
+			} else if (ColDefType.LONG
+					.equals(arquivoInputColsDefUi.getType())) {
+				value = desconhecidoDetailUi.getLongValue();
+			} else if (ColDefType.DOUBLE
+					.equals(arquivoInputColsDefUi.getType())) {
+				value = desconhecidoDetailUi.getBigDecimalValue();
+			} else if (ColDefType.DATE
+					.equals(arquivoInputColsDefUi.getType())) {
+				value = desconhecidoDetailUi.getDateValue();
+			} else if (ColDefType.STRING
+					.equals(arquivoInputColsDefUi.getType())) {
+				value = desconhecidoDetailUi.getStringValue();
+			} else {
+				LOGGER.info(
+						"Não foi definido um tipo válido para a coluna [{}]:",
+						arquivoInputColsDefUi.getNameColumn());
+			}
+
+			LOGGER.info("END");
+			return value;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
 }
