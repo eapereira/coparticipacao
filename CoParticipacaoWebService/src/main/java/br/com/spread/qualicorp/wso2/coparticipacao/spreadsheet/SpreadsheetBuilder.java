@@ -17,6 +17,8 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -286,6 +288,9 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			cellStyleColumnTitle
 					.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 			cellStyleColumnTitle.setFont(fontTitle);
+			cellStyleColumnTitle.setAlignment(HorizontalAlignment.CENTER);
+			cellStyleColumnTitle
+					.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 			fontNormal = (XSSFFont) workbook.createFont();
 			fontNormal.setFontName("Arial");

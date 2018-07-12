@@ -229,6 +229,7 @@ create table TB_VIEW_DESTINATION_COLS_DEF(
 	VL_LENGTH					int( 5 ) null, 		/* arquivos CSV nao precisa de tamanho de coluna */
 	CD_ORDEM					int( 3 ) not null,
 	CD_FORMAT					varchar( 200 ) null, /* Para usar com datas e números */
+	NM_COL_TITLE_LABEL			varchar( 200 ) null,
 	
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
@@ -246,7 +247,6 @@ create table TB_VIEW_DESTINATION_COLS_DEF(
 
 create table TB_ARQUIVO_OUTPUT(
 	ID 					bigint( 17 ) auto_increment,
-	ID_EMPRESA			bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT	bigint( 17 ) not null,
 	NM_ARQUIVO_FORMAT	varchar( 200 ) not null, /* pode colocar {CC} = contrato, {DD} para dia, {MM} para mês e {YYYY} para ano */
 	DESCR_ARQUIVO		varchar( 200 ) not null,
@@ -258,10 +258,11 @@ create table TB_ARQUIVO_OUTPUT(
 	
 	constraint PK_ARQUIVO_OUTPUT primary key( ID ),
 	
+	constraint UN_ARQUIVO_OUTPUT unique key( ID_ARQUIVO_INPUT ),
+	
 	constraint FK_ARQUIVO_OUTPUT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_OUTPUT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_OUTPUT_04 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID ),
-	constraint FK_ARQUIVO_OUTPUT_05 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
+	constraint FK_ARQUIVO_OUTPUT_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
 );
 
 create table TB_ARQUIVO_OUTPUT_SHEET(
@@ -285,7 +286,7 @@ create table TB_ARQUIVO_OUTPUT_SHEET(
 
 create table TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
 	ID 								bigint( 17 ) auto_increment,
-	ID_VIEW_DESTINATION				bigint( 17 ) not null,
+	ID_ARQUIVO_OUTPUT_SHEET			bigint( 17 ) not null,
 	ID_VIEW_DESTINATION_COLS_DEF 	bigint( 17 ) not null,
 	
 	USER_CREATED					bigint( 17 ) not null,
@@ -297,7 +298,7 @@ create table TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
 	
 	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_03 foreign key( ID_VIEW_DESTINATION ) references TB_VIEW_DESTINATION( ID ),
+	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_03 foreign key( ID_ARQUIVO_OUTPUT_SHEET ) references TB_ARQUIVO_OUTPUT_SHEET( ID ),
 	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_04 foreign key( ID_VIEW_DESTINATION_COLS_DEF ) references TB_VIEW_DESTINATION_COLS_DEF( ID )
 );
 
@@ -938,19 +939,26 @@ group by detail.ID_LANCAMENTO, detail.VL_STRING;
 
 create view VW_LANCAMENTO_MUITO_FACIL as
 select
-	lanc_titular.ID,
 	lanc_titular.ID_EMPRESA,
 	lanc_titular.CD_MES,
 	lanc_titular.CD_ANO,
 	lanc_titular.NM_TITULAR,
 	lanc_titular.NR_CPF,
-	lanc_principal.VL_PRINCIPAL,
-	lanc_matricula.NR_MATRICULA
+	lanc_matricula.NR_MATRICULA,    
+	sum( lanc_principal.VL_PRINCIPAL ) VL_PRINCIPAL
 from VW_LANCAMENTO_TITULAR lanc_titular,
 	VW_LANCAMENTO_DETAIL_PRINCIPAL lanc_principal,
 	VW_LANCAMENTO_DETAIL_MATRICULA lanc_matricula
 where	lanc_titular.ID = lanc_principal.ID
-and 	lanc_titular.ID = lanc_matricula.ID;
+and 	lanc_titular.ID = lanc_matricula.ID
+group by 	lanc_titular.ID,
+	lanc_titular.ID_EMPRESA,
+	lanc_titular.CD_MES,
+	lanc_titular.CD_ANO,
+	lanc_titular.NM_TITULAR,
+	lanc_titular.NR_CPF,
+	lanc_matricula.NR_MATRICULA
+order by lanc_titular.NM_TITULAR
 
 
 /*****************************************************************************************************************************************************/

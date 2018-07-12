@@ -12,7 +12,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetU
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@Mapper(componentModel = "spring", uses = { UserUiMapper.class })
+@Mapper(
+		componentModel = "spring",
+		uses = {
+				UserUiMapper.class,
+				ArquivoOutputUiMapper.class,
+				ArquivoOutputSheetColsDefUiMapper.class,
+				ViewDestinationUiMapper.class })
 public abstract class ArquivoOutputSheetUiMapper
 		extends AbstractMapper<ArquivoOutputSheet, ArquivoOutputSheetUi> {
 	public static final ArquivoOutputSheetUiMapper INSTANCE = Mappers

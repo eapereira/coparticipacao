@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.jdbc.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -8,7 +10,9 @@ import org.springframework.stereotype.Repository;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.DynamicDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.impl.preparedStatementSetter.DynamicSetter;
 import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.impl.preparedStatementSetter.SetterAdapterType;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.impl.rowmapper.DynamicEntityRowMapper;
 
 /**
  * 
@@ -31,8 +35,36 @@ public class DynamicDaoImpl extends AbstractJdbcDaoImpl<DynamicEntity>
 	protected PreparedStatementSetter getPreparedStatementSetter(
 			DynamicEntity entity,
 			SetterAdapterType setterAdapterType) throws DaoException {
-		// TODO Auto-generated method stub
-		return null;
+		return new DynamicSetter(setterAdapterType, entity);
+	}
+
+	public List<DynamicEntity> listByEmpresaAndMesAndAno(
+			String sql,
+			Long id,
+			int mes,
+			int ano) throws DaoException {
+		List<DynamicEntity> dynamicEntities;
+		DynamicEntity dynamicEntity;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			dynamicEntity = new DynamicEntity();
+			dynamicEntity.addColumn("ID_EMPRESA", id);
+			dynamicEntity.addColumn("CD_MES", mes);
+			dynamicEntity.addColumn("CD_ANO", ano);
+
+			dynamicEntities = querySql(
+					sql,
+					dynamicEntity,
+					new DynamicEntityRowMapper());
+
+			LOGGER.info("END");
+			return dynamicEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
 	}
 
 }

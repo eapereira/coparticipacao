@@ -24,9 +24,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain> implements AbstractJdbcDao<ENTITY> {
+public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain>
+		implements AbstractJdbcDao<ENTITY> {
 
-	private static final Logger LOGGER = LogManager.getLogger(AbstractJdbcDaoImpl.class);
+	private static final Logger LOGGER = LogManager
+			.getLogger(AbstractJdbcDaoImpl.class);
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -38,8 +40,8 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain> impleme
 	public AbstractJdbcDaoImpl() throws DaoException {
 		try {
 			LOGGER.info("BEGIN");
-			entityClass = (Class<ENTITY>) ((ParameterizedType) getClass().getGenericSuperclass())
-					.getActualTypeArguments()[0];
+			entityClass = (Class<ENTITY>) ((ParameterizedType) getClass()
+					.getGenericSuperclass()).getActualTypeArguments()[0];
 
 			queryUtils = new QueryUtils(entityClass.getSimpleName());
 			LOGGER.info("END");
@@ -58,10 +60,12 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain> impleme
 
 			if (entity.getId() == null) {
 				sql = queryUtils.getQueryById(getInsertSql());
-				jdbcTemplate.update(sql, getUpdatePreparedStatementSetter(entity));
+				jdbcTemplate
+						.update(sql, getUpdatePreparedStatementSetter(entity));
 			} else {
 				sql = queryUtils.getQueryById(getUpdateSql());
-				jdbcTemplate.update(sql, getInsertPreparedStatementSetter(entity));
+				jdbcTemplate
+						.update(sql, getInsertPreparedStatementSetter(entity));
 			}
 
 			LOGGER.info("END");
@@ -80,9 +84,12 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain> impleme
 
 			if (entity.getId() == null) {
 				sql = queryUtils.getQueryById(getDeleteSql());
-				jdbcTemplate.update(sql, getDeletePreparedStatementSetter(entity));
+				jdbcTemplate
+						.update(sql, getDeletePreparedStatementSetter(entity));
 			} else {
-				throw new DaoException("Registro em [{}] com ID null:", entityClass.getName());
+				throw new DaoException(
+						"Registro em [{}] com ID null:",
+						entityClass.getName());
 			}
 
 			LOGGER.info("END");
@@ -92,7 +99,9 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain> impleme
 		}
 	}
 
-	protected List<ENTITY> query(String queryId, PreparedStatementSetter preparedStatementSetter,
+	protected List<ENTITY> query(
+			String queryId,
+			PreparedStatementSetter preparedStatementSetter,
 			RowMapper<ENTITY> rowMapper) throws DaoException {
 		String sql;
 		List<ENTITY> entities;
@@ -101,7 +110,30 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain> impleme
 			LOGGER.info("BEGIN");
 			sql = queryUtils.getQueryById(queryId);
 
-			entities = jdbcTemplate.query(sql, preparedStatementSetter, rowMapper);
+			entities = jdbcTemplate
+					.query(sql, preparedStatementSetter, rowMapper);
+
+			LOGGER.info("END");
+			return entities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
+	protected List<ENTITY> querySql(
+			String sql,
+			ENTITY entity,
+			RowMapper<ENTITY> rowMapper) throws DaoException {
+		List<ENTITY> entities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			entities = jdbcTemplate.query(
+					sql,
+					getQueryPreparedStatementSetter(entity),
+					rowMapper);
 
 			LOGGER.info("END");
 			return entities;
@@ -180,18 +212,28 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain> impleme
 		return sb.toString();
 	}
 
-	protected PreparedStatementSetter getInsertPreparedStatementSetter(ENTITY entity) throws DaoException {
+	protected PreparedStatementSetter getQueryPreparedStatementSetter(
+			ENTITY entity) throws DaoException {
+		return getPreparedStatementSetter(entity, SetterAdapterType.SELECT);
+	}
+
+	protected PreparedStatementSetter getInsertPreparedStatementSetter(
+			ENTITY entity) throws DaoException {
 		return getPreparedStatementSetter(entity, SetterAdapterType.INSERT);
 	}
 
-	protected PreparedStatementSetter getUpdatePreparedStatementSetter(ENTITY entity) throws DaoException {
+	protected PreparedStatementSetter getUpdatePreparedStatementSetter(
+			ENTITY entity) throws DaoException {
 		return getPreparedStatementSetter(entity, SetterAdapterType.UPDATE);
 	}
 
-	protected PreparedStatementSetter getDeletePreparedStatementSetter(ENTITY entity) throws DaoException {
+	protected PreparedStatementSetter getDeletePreparedStatementSetter(
+			ENTITY entity) throws DaoException {
 		return getPreparedStatementSetter(entity, SetterAdapterType.DELETE);
 	}
 
-	protected abstract PreparedStatementSetter getPreparedStatementSetter(ENTITY entity,
+	protected abstract PreparedStatementSetter getPreparedStatementSetter(
+			ENTITY entity,
 			SetterAdapterType setterAdapterType) throws DaoException;
+
 }

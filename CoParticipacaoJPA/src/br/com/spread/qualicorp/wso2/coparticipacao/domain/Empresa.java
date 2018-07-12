@@ -11,7 +11,6 @@ public abstract class Empresa extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
 	private String nameEmpresa;
-	private List<ArquivoOutput> arquivoOutputs;
 	private List<Contrato> contratos;
 
 	private Operadora operadora;
@@ -23,7 +22,6 @@ public abstract class Empresa extends AbstractDomain {
 	private List<Lancamento> lancamentos;
 
 	public Empresa() {
-		arquivoOutputs = new ArrayList<>();
 		parameters = new ArrayList<>();
 		titulars = new ArrayList<>();
 		lancamentos = new ArrayList<>();
@@ -39,28 +37,6 @@ public abstract class Empresa extends AbstractDomain {
 
 	public void setNameEmpresa(String nameEmpresa) {
 		this.nameEmpresa = nameEmpresa;
-	}
-
-	public List<ArquivoOutput> getArquivoOutputs() {
-		return this.arquivoOutputs;
-	}
-
-	public void setArquivoOutputs(List<ArquivoOutput> arquivoOutputs) {
-		this.arquivoOutputs = arquivoOutputs;
-	}
-
-	public ArquivoOutput addArquivoOutput(ArquivoOutput arquivoOutput) {
-		getArquivoOutputs().add(arquivoOutput);
-		arquivoOutput.setEmpresa(this);
-
-		return arquivoOutput;
-	}
-
-	public ArquivoOutput removeArquivoOutput(ArquivoOutput arquivoOutput) {
-		getArquivoOutputs().remove(arquivoOutput);
-		arquivoOutput.setEmpresa(null);
-
-		return arquivoOutput;
 	}
 
 	public List<Contrato> getContratos() {
@@ -143,8 +119,6 @@ public abstract class Empresa extends AbstractDomain {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((arquivoOutputs == null) ? 0 : arquivoOutputs.hashCode());
-		result = prime * result
 				+ ((contratos == null) ? 0 : contratos.hashCode());
 		result = prime * result
 				+ ((lancamentos == null) ? 0 : lancamentos.hashCode());
@@ -168,11 +142,6 @@ public abstract class Empresa extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		Empresa other = (Empresa) obj;
-		if (arquivoOutputs == null) {
-			if (other.arquivoOutputs != null)
-				return false;
-		} else if (!arquivoOutputs.equals(other.arquivoOutputs))
-			return false;
 		if (contratos == null) {
 			if (other.contratos != null)
 				return false;

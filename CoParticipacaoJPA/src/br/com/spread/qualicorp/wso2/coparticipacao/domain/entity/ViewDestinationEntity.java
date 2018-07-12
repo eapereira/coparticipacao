@@ -9,7 +9,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestination;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
@@ -23,8 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 @NamedQuery(
 		name = "ViewDestinationEntity.findAll",
 		query = "SELECT v FROM ViewDestinationEntity v")
-public class ViewDestinationEntity extends ViewDestination
-		implements DomainEntity {
+public class ViewDestinationEntity extends ViewDestination {
 
 	/**
 	 * 
@@ -49,14 +47,6 @@ public class ViewDestinationEntity extends ViewDestination
 			targetEntity = ArquivoOutputSheetEntity.class)
 	public List<ArquivoOutputSheet> getArquivoOutputSheets() {
 		return super.getArquivoOutputSheets();
-	}
-
-	// bi-directional many-to-one association to ArquivoOutputSheetColsDef
-	@OneToMany(
-			mappedBy = "viewDestination",
-			targetEntity = ArquivoOutputSheetColsDefEntity.class)
-	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefs() {
-		return super.getArquivoOutputSheetColsDefs();
 	}
 
 	// bi-directional many-to-one association to ViewDestinationColsDef

@@ -9,7 +9,6 @@ import java.util.List;
  */
 public abstract class ArquivoOutput extends AbstractDomain {
 
-
 	/**
 	 * 
 	 */
@@ -18,14 +17,13 @@ public abstract class ArquivoOutput extends AbstractDomain {
 	private String descrArquivo;
 
 	private String nameArquivoFormat;
-	private Empresa empresa;
 
 	private ArquivoInput arquivoInput;
-	
+
 	private List<ArquivoOutputSheet> arquivoOutputSheets;
 
 	public ArquivoOutput() {
-		arquivoOutputSheets=new ArrayList<>();
+		arquivoOutputSheets = new ArrayList<>();
 	}
 
 	public ArquivoOutput(ArquivoOutput entity) {
@@ -48,30 +46,25 @@ public abstract class ArquivoOutput extends AbstractDomain {
 		this.nameArquivoFormat = nmArquivoFormat;
 	}
 
-	public Empresa getEmpresa() {
-		return this.empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}
-
 	public List<ArquivoOutputSheet> getArquivoOutputSheets() {
 		return this.arquivoOutputSheets;
 	}
 
-	public void setArquivoOutputSheets(List<ArquivoOutputSheet> arquivoOutputSheets) {
+	public void setArquivoOutputSheets(
+			List<ArquivoOutputSheet> arquivoOutputSheets) {
 		this.arquivoOutputSheets = arquivoOutputSheets;
 	}
 
-	public ArquivoOutputSheet addArquivoOutputSheet(ArquivoOutputSheet arquivoOutputSheet) {
+	public ArquivoOutputSheet addArquivoOutputSheet(
+			ArquivoOutputSheet arquivoOutputSheet) {
 		getArquivoOutputSheets().add(arquivoOutputSheet);
 		arquivoOutputSheet.setArquivoOutput(this);
 
 		return arquivoOutputSheet;
 	}
 
-	public ArquivoOutputSheet removeArquivoOutputSheet(ArquivoOutputSheet arquivoOutputSheet) {
+	public ArquivoOutputSheet removeArquivoOutputSheet(
+			ArquivoOutputSheet arquivoOutputSheet) {
 		getArquivoOutputSheets().remove(arquivoOutputSheet);
 		arquivoOutputSheet.setArquivoOutput(null);
 
@@ -96,7 +89,6 @@ public abstract class ArquivoOutput extends AbstractDomain {
 				: arquivoOutputSheets.hashCode());
 		result = prime * result
 				+ ((descrArquivo == null) ? 0 : descrArquivo.hashCode());
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
 		result = prime * result + ((nameArquivoFormat == null) ? 0
 				: nameArquivoFormat.hashCode());
 		return result;
@@ -125,11 +117,6 @@ public abstract class ArquivoOutput extends AbstractDomain {
 			if (other.descrArquivo != null)
 				return false;
 		} else if (!descrArquivo.equals(other.descrArquivo))
-			return false;
-		if (empresa == null) {
-			if (other.empresa != null)
-				return false;
-		} else if (!empresa.equals(other.empresa))
 			return false;
 		if (nameArquivoFormat == null) {
 			if (other.nameArquivoFormat != null)

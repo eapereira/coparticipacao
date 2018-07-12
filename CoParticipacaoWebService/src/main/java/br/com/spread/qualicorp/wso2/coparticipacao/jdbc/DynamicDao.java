@@ -1,5 +1,8 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.jdbc;
 
+import java.util.List;
+
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 
 /**
@@ -8,5 +11,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
  *
  */
 public interface DynamicDao extends AbstractJdbcDao<DynamicEntity> {
+
+	List<DynamicEntity> listByEmpresaAndMesAndAno(
+			String sql,
+			Long id,
+			int mes,
+			int ano) throws DaoException;
 
 }

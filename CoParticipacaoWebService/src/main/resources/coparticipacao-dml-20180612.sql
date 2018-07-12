@@ -4017,7 +4017,8 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	CD_TYPE,
 	VL_LENGTH,
 	CD_ORDEM,
-
+	NM_COL_TITLE_LABEL,
+	
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
@@ -4026,6 +4027,7 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	3, /* VARCHAR */
 	32,
 	1,
+	'Títular',
 	
 	1,
 	current_timestamp(),
@@ -4038,6 +4040,7 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	CD_TYPE,
 	VL_LENGTH,
 	CD_ORDEM,
+	NM_COL_TITLE_LABEL,
 
 	USER_CREATED,
 	DT_CREATED,
@@ -4047,6 +4050,7 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	5, /* LONG */
 	12,
 	2,
+	'CPF',
 	
 	1,
 	current_timestamp(),
@@ -4059,6 +4063,7 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	CD_TYPE,
 	VL_LENGTH,
 	CD_ORDEM,
+	NM_COL_TITLE_LABEL,
 
 	USER_CREATED,
 	DT_CREATED,
@@ -4068,6 +4073,7 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	3, /* VARCHAR */
 	8,
 	3,
+	'Matricula',
 	
 	1,
 	current_timestamp(),
@@ -4080,7 +4086,8 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	CD_TYPE,
 	VL_LENGTH,
 	CD_ORDEM,
-
+	NM_COL_TITLE_LABEL,
+	
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
@@ -4089,12 +4096,110 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	2, /* DOUBLE */
 	15,
 	4,
+	'Valor Principal',
 	
 	1,
 	current_timestamp(),
 	current_timestamp()		
 );
 
+insert into TB_ARQUIVO_OUTPUT(
+	ID_ARQUIVO_INPUT,
+	NM_ARQUIVO_FORMAT,
+	DESCR_ARQUIVO,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* FATU-COPA */
+	'{CC}-FATUCOPA-{YYYY}{MM}{DD}F.xlsx',
+	'Arquivo de saída para a carga dos lançamentos FATU COPA',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+
+insert into TB_ARQUIVO_OUTPUT_SHEET(
+	ID_ARQUIVO_OUTPUT,
+	ID_VIEW_DESTINATION,
+	NM_SHEET,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* FATU-COPA */
+	1, /* VW_LANCAMNETO_FATU_COPA */
+	'Lançamentos',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* FATU-COPA */
+	1, /* NM_TITULAR */ 
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* FATU-COPA */
+	2, /* NR_CPF */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* FATU-COPA */
+	3, /* NR_MATRICULA */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* FATU-COPA */
+	4, /* VL_PRINCIPAL */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+/*****************************************************************************************************************************************************/
+
 commit;
 
-
+/*****************************************************************************************************************************************************/

@@ -1,15 +1,20 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestination;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetUi;
 
@@ -56,6 +61,17 @@ public class ArquivoOutputSheetEntity extends ArquivoOutputSheet
 	@JoinColumn(name = "ID_VIEW_DESTINATION")
 	public ViewDestination getViewDestination() {
 		return super.getViewDestination();
+	}
+
+	// bi-directional many-to-one association to ArquivoOutputSheet
+	@OneToMany(
+			mappedBy = "arquivoOutputSheet",
+			cascade = CascadeType.ALL,
+			targetEntity = ArquivoOutputSheetColsDefEntity.class)
+	@Override
+	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefs() {
+		// TODO Auto-generated method stub
+		return super.getArquivoOutputSheetColsDefs();
 	}
 
 }

@@ -12,7 +12,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
@@ -30,7 +29,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 @NamedQuery(
 		name = "EmpresaEntity.findAll",
 		query = "SELECT e FROM EmpresaEntity e")
-public class EmpresaEntity extends Empresa implements DomainEntity {
+public class EmpresaEntity extends Empresa {
 
 	/**
 	 * 
@@ -47,12 +46,6 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	@Column(name = "NM_EMPRESA")
 	public String getNameEmpresa() {
 		return super.getNameEmpresa();
-	}
-
-	// bi-directional many-to-one association to ArquivoOutput
-	@OneToMany(mappedBy = "empresa", targetEntity = ArquivoOutputEntity.class)
-	public List<ArquivoOutput> getArquivoOutputs() {
-		return super.getArquivoOutputs();
 	}
 
 	// bi-directional many-to-one association to Contrato

@@ -7,6 +7,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEn
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public interface ArquivoOutputDao extends AbstractDao<ArquivoOutputEntity>{
+public interface ArquivoOutputDao extends AbstractDao<ArquivoOutputEntity> {
+
+	ArquivoOutputEntity findByArquivoInputId(Long id) throws DaoException;
 
 }

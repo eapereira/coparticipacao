@@ -26,4 +26,20 @@ public abstract class DateUtils {
 
 		return null;
 	}
+
+	public static LocalDate dateToLocalDate(Date date) {
+		if (date != null) {
+			return date.toLocalDate();
+		}
+
+		return null;
+	}
+
+	public static LocalDateTime timestampToLocalDateTime(Timestamp timestamp) {
+		if (timestamp != null) {
+			return timestamp.toLocalDateTime();
+		}
+
+		return null;
+	}
 }

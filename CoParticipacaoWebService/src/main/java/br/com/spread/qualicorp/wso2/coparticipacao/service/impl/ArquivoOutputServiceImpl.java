@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,17 +10,21 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.ArquivoOutputDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ArquivoOutputEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ArquivoOutputUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.LancamentoSpreadsheetListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetBuilder;
 
 /**
  * 
@@ -72,50 +78,60 @@ public class ArquivoOutputServiceImpl extends
 
 	public void writeOutputFile(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
+		ArquivoOutputUi arquivoOutputUi;
+		List<DynamicEntity> dynamicEntities;
+		ViewDestinationUi viewDestinationUi;
+		SpreadsheetBuilder<DynamicEntity> spreadsheetBuilder;
+
 		try {
 			LOGGER.info("BEGIN");
+
+			arquivoOutputUi = entityToUi(
+					arquivoOutputDao.findByArquivoInputId(
+							coParticipacaoContext.getArquivoInputUi().getId()));
+
+			if (arquivoOutputUi != null) {
+				LOGGER.info(
+						"Exists an ArquivoOutput configured to use as [{}]:",
+						arquivoOutputUi.getDescrArquivo());
+
+				spreadsheetBuilder = new SpreadsheetBuilder<DynamicEntity>(
+						arquivoOutputUi.getNameArquivoFormat());
+
+				for (ArquivoOutputSheet arquivoOutputSheet : arquivoOutputUi
+						.getArquivoOutputSheets()) {
+
+					viewDestinationUi = (ViewDestinationUi) arquivoOutputSheet
+							.getViewDestination();
+
+					dynamicEntities = viewDestinationService
+							.listByEmpresaAndMesAndAno(
+									viewDestinationUi,
+									coParticipacaoContext.getEmpresaUi(),
+									coParticipacaoContext.getMes(),
+									coParticipacaoContext.getAno());
+
+					// Criando um listener para cada pasta da planilha:
+					spreadsheetBuilder.addSpreadsheetListener(
+							new LancamentoSpreadsheetListener(
+									coParticipacaoContext,
+									(ArquivoOutputSheetUi) arquivoOutputSheet,
+									dynamicEntities));
+				}
+
+				// Escrevendo a planilha:
+				spreadsheetBuilder.writeSpreadsheet(coParticipacaoContext);
+			} else {
+				LOGGER.info(
+						"No ArquivoOutput defined for ArquivoInput [{}]:",
+						coParticipacaoContext.getArquivoInputUi()
+								.getDescrArquivo());
+			}
 
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
-		}
-	}
-
-	private String createSqlToViewDestination(
-			ViewDestinationUi viewDestinationUi) throws ServiceException {
-		StringBuilder sb;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			sb = new StringBuilder();
-
-			sb.append("select ");
-
-			for (ViewDestinationColsDef viewDestinationColsDef : viewDestinationUi
-					.getViewDestinationColsDefs()) {
-				sb.append(viewDestinationColsDef.getNameColumn());
-				sb.append(", ");
-			}
-
-			sb.append(" 1 ID_BLAH ");
-			sb.append(" from ");
-			sb.append(viewDestinationUi.getNameView());
-			sb.append(" viewDestination ");
-			sb.append("where	viewDestination.ID_EMPRESA = ? ");
-			sb.append("and		viewDestination.CD_MES = ? ");
-			sb.append("and 		viewDestination.CD_ANO = ? ");
-
-			LOGGER.info(
-					"Query to use with dynamic created view [{}]:",
-					sb.toString());
-
-			LOGGER.info("END");
-			return sb.toString();
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 }

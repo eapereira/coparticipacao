@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="findByArquivoInputId">
 		<![CDATA[
+			select arquivoOutputEntity from ArquivoOutputEntity arquivoOutputEntity
+			join fetch arquivoOutputEntity.arquivoInput arquivoInput
+			where arquivoInput.id = :arquivoInputId
 		]]>
 	</query>
 

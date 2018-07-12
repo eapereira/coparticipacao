@@ -1,9 +1,9 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
-
-import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 
 /**
  * 
@@ -15,22 +15,22 @@ public class DynamicEntity extends AbstractDomain {
 	 * 
 	 */
 	private static final long serialVersionUID = -6130898664447953695L;
-	
-	private Map<Long, Object> mapColumns;
+
+	private Map<String, Object> mapColumns;
 
 	public DynamicEntity() {
-		mapColumns = new HashMap<Long, Object>();
+		mapColumns = new HashMap<String, Object>();
 	}
 
-	public Map<Long, Object> getMapColumns() {
+	public Map<String, Object> getMapColumns() {
 		return mapColumns;
 	}
 
-	public void setMapColumns(Map<Long, Object> mapColumns) {
+	public void setMapColumns(Map<String, Object> mapColumns) {
 		this.mapColumns = mapColumns;
 	}
 
-	public void addColumn(Long id, Object value) throws DaoException {
+	public void addColumn(String id, Object value) {
 		getMapColumns().put(id, value);
 	}
 
@@ -41,4 +41,33 @@ public class DynamicEntity extends AbstractDomain {
 
 		return null;
 	}
+
+	public Object getColumnValue(String columnName) {
+		if (getMapColumns().containsKey(columnName)) {
+			return getMapColumns().get(columnName);
+		}
+
+		return null;
+	}
+
+	public Long getColumnAsLong(String columnName) {
+		return (Long) getColumnValue(columnName);
+	}
+
+	public Integer getColumnAsInteger(String columnName) {
+		return (Integer) getColumnValue(columnName);
+	}
+
+	public BigDecimal getColumnAsBigDecimal(String columnName) {
+		return (BigDecimal) getColumnValue(columnName);
+	}
+
+	public LocalDate getColumnAsDate(String columnName) {
+		return (LocalDate) getColumnValue(columnName);
+	}
+
+	public String getColumnAsString(String columnName) {
+		return (String) getColumnValue(columnName);
+	}
+
 }

@@ -7,8 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheetColsDef;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestination;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetColsDefUi;
 
@@ -36,15 +36,6 @@ public class ArquivoOutputSheetColsDefEntity extends ArquivoOutputSheetColsDef
 		super(ui);
 	}
 
-	// bi-directional many-to-one association to ViewDestination
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = ViewDestinationEntity.class)
-	@JoinColumn(name = "ID_VIEW_DESTINATION")
-	public ViewDestination getViewDestination() {
-		return super.getViewDestination();
-	}
-
 	// bi-directional many-to-one association to ViewDestinationColsDef
 	@ManyToOne(
 			fetch = FetchType.LAZY,
@@ -52,6 +43,17 @@ public class ArquivoOutputSheetColsDefEntity extends ArquivoOutputSheetColsDef
 	@JoinColumn(name = "ID_VIEW_DESTINATION_COLS_DEF")
 	public ViewDestinationColsDef getViewDestinationColsDef() {
 		return super.getViewDestinationColsDef();
+	}
+
+	// bi-directional many-to-one association to ViewDestination
+	@ManyToOne(
+			fetch = FetchType.LAZY,
+			targetEntity = ArquivoOutputSheetEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_OUTPUT_SHEET")
+	@Override
+	public ArquivoOutputSheet getArquivoOutputSheet() {
+		// TODO Auto-generated method stub
+		return super.getArquivoOutputSheet();
 	}
 
 }

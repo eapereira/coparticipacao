@@ -13,7 +13,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
  */
 @Mapper(
 		componentModel = "spring",
-		uses = { UserUiMapper.class, ArquivoOutputSheetUiMapper.class })
+		uses = {
+				UserUiMapper.class,
+				ArquivoOutputSheetUiMapper.class,
+				ArquivoInputUiMapper.class })
 public abstract class ArquivoOutputUiMapper
 		extends AbstractMapper<ArquivoOutput, ArquivoOutputUi> {
 

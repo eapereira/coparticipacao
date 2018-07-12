@@ -6,8 +6,9 @@ package br.com.spread.qualicorp.wso2.coparticipacao.jdbc.impl.preparedStatementS
  *
  */
 public enum SetterAdapterType {
-	UPDATE,
-	DELETE,
-	INSERT;
+								UPDATE,
+								DELETE,
+								INSERT,
+								SELECT;
 
 }
