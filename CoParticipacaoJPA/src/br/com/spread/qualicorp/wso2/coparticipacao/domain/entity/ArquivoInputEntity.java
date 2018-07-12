@@ -145,4 +145,11 @@ public class ArquivoInputEntity extends ArquivoInput {
 		return super.getArquivoOutput();
 	}
 
+	@Column(name = "CD_REGEXP_DIA")
+	@Override
+	public Integer getRegexpDia() {
+		// TODO Auto-generated method stub
+		return super.getRegexpDia();
+	}
+
 }

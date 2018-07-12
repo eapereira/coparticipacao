@@ -111,6 +111,7 @@ insert into TB_ARQUIVO_INPUT(
 	NUM_DEFAULT_LINE_LENGTH,
 	
 	CD_REGEXP_CONTRATO,
+	CD_REGEXP_DIA,
 	CD_REGEXP_MES,
 	CD_REGEXP_ANO,
 	
@@ -126,6 +127,7 @@ insert into TB_ARQUIVO_INPUT(
 	182,
 	
 	1, /* REGEXP_CONTRATO */
+	4, /* REGEXP_DIA */
 	3, /* REGEXP_MES */
 	2, /* REGEXP_ANO */
 	
@@ -581,6 +583,9 @@ insert into TB_ARQUIVO_INPUT_COLS_DEF(
 	current_timestamp()
 );
 
+/********************************************************************************************************************/
+/* FATU-COPA - 8CHE8*/
+
 insert into TB_ARQUIVO_INPUT(
 	ID_CONTRATO,
 	NM_ARQUIVO_REGEXP,
@@ -591,6 +596,7 @@ insert into TB_ARQUIVO_INPUT(
 	NUM_DEFAULT_LINE_LENGTH,
 	
 	CD_REGEXP_CONTRATO,
+	CD_REGEXP_DIA,
 	CD_REGEXP_MES,
 	CD_REGEXP_ANO,
 	
@@ -598,7 +604,7 @@ insert into TB_ARQUIVO_INPUT(
 	DT_CREATED,
 	DT_ALTERED ) values (	
     2,
-	'^(8CHE8)FATUSEGU\\.([0-9]{4})([0-9]{2})([0-9]{1,})(F)\\.(txt|TXT)',
+	'^(8CHE8)FATUCOPA\\.([0-9]{4})([0-9]{2})([0-9]{1,})(F)\\.(txt|TXT)',
 	'Arquivo de carga de coparticipação',
 	0, /* FLAT_FILE */
 	1, /* FATUCOPA */
@@ -606,6 +612,7 @@ insert into TB_ARQUIVO_INPUT(
 	182,
 	
 	1, /* REGEXP_CONTRATO */
+	4, /* REGEXP_DIA */
 	3, /* REGEXP_MES */
 	2, /* REGEXP_ANO */
 	
@@ -753,14 +760,16 @@ insert into TB_ARQUIVO_INPUT_COLS_DEF(
 	CD_TYPE,
 	VL_LENGTH,
 	CD_ORDEM,
+	
 	USER_CREATED, 
 	DT_CREATED,
 	DT_ALTERED ) values (	
 	2,
 	'COLUMN_08',
 	3, /* VARCHAR */
-	5,
+	6,
 	8,
+	
 	1,
 	current_timestamp(),
 	current_timestamp()
@@ -772,6 +781,7 @@ insert into TB_ARQUIVO_INPUT_COLS_DEF(
 	CD_TYPE,
 	VL_LENGTH,
 	CD_ORDEM,
+	CD_FORMAT,
 	
 	USER_CREATED, 
 	DT_CREATED,
@@ -779,8 +789,9 @@ insert into TB_ARQUIVO_INPUT_COLS_DEF(
 	2,
 	'COLUMN_09_CPF',
 	5, /* LONG */
-	13,
+	12,
 	9,
+	'#0',
 	
 	1,
 	current_timestamp(),
@@ -798,7 +809,7 @@ insert into TB_ARQUIVO_INPUT_COLS_DEF(
 	DT_ALTERED ) values (	
 	2,
 	'COLUMN_10_MES',
-	5, /* LONG */
+	1, /* INT */
 	2,
 	10,
 	1,
@@ -3377,6 +3388,61 @@ insert into TB_INPUT_LANCAMENTO (
 	current_timestamp()	
 );
 
+/*****************************************************************************************/
+/* FATU-COPA.2 */
+
+insert into TB_INPUT_LANCAMENTO (
+	ID_LANCAMENTO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* ID_BENEFICIARIO */
+	32, /* NR_CPF */
+	1,
+	current_timestamp(),
+	current_timestamp()	
+);
+
+insert into TB_INPUT_LANCAMENTO (
+	ID_LANCAMENTO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	3, /* ID_CONTRATO */
+	38, /* NR_CONTRATO */
+	1,
+	current_timestamp(),
+	current_timestamp()	
+);
+
+insert into TB_INPUT_LANCAMENTO (
+	ID_LANCAMENTO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	4, /* CD_MES */
+	33, /* NR_MES */
+	1,
+	current_timestamp(),
+	current_timestamp()	
+);
+
+insert into TB_INPUT_LANCAMENTO (
+	ID_LANCAMENTO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	5, /* CD_ANO */
+	35, /* NR_ANO */
+	1,
+	current_timestamp(),
+	current_timestamp()	
+);
+
 /*****************************************************************************************************************************************************/
 
 /* MECSAS */
@@ -3766,6 +3832,254 @@ insert into TB_REGRA_CONDITIONAL_RESULT(
 );
 
 
+/* FATU-COPA.2 */
+
+insert into TB_REGRA(
+	NM_REGRA,
+	TP_REGRA,
+	CD_ORDEM,
+	ID_ARQUIVO_INPUT,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	'Regra para Valor do Arquivo FATUCOPA.2 dividido por 100',
+	1, /* SIMPLES */
+	0,
+	2, /* FATO-COPA.2 */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_OPERATION(
+	ID_REGRA,
+	TP_OPERATION,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	3,
+	4, /* DIVIDIR */
+	0,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_FIELD(
+	ID_REGRA_OPERATION,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	3,
+	14, /* Vl_PRINCIPAL */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_VALOR(
+	ID_REGRA_OPERATION,
+	VL_REGRA_VALOR,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	3,
+	100.0, /* 100 */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+
+insert into TB_REGRA_RESULT(
+	ID_REGRA,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	3,
+	14, /* Vl_PRINCIPAL */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+	
+/* Regra Condicional */
+
+insert into TB_REGRA(
+	NM_REGRA,
+	TP_REGRA,
+	CD_ORDEM,
+	ID_ARQUIVO_INPUT,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	'Regra para FATO-COPA.2 multiplicar o VL_PRINCIPAL por ( -1 ) se o valor da coluna COLUMN_13_POSITIVO_NEGATIVO for igual a ( - )',
+	2, /* CONDICIONAL */
+	0,
+	2, /* FATO-COPA.2 */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_OPERATION(
+	ID_REGRA,
+	TP_OPERATION,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	4,
+	3, /* MULTIPLICAR */
+	0,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_FIELD(
+	ID_REGRA_OPERATION,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	4,
+	14, /* Vl_PRINCIPAL */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_VALOR(
+	ID_REGRA_OPERATION,
+	VL_REGRA_VALOR,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	4,
+	-1.0, /* -1 */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+
+insert into TB_REGRA_RESULT(
+	ID_REGRA,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	4,
+	14, /* Vl_PRINCIPAL */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_CONDITIONAL(
+	NM_REGRA_CONDITIONAL,
+	CD_ORDEM,
+	ID_ARQUIVO_INPUT,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	'Regra para FATU-COPA.2 mudar o sinal do campo VL_PRINCIPAL dependendo do valor (+/-) do campo VL_NEGATIVO_POSITIVO',
+	0,
+	1, /* FATO-COPA */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_CONDITIONAL_OPERATION(
+	ID_REGRA_CONDITIONAL,
+	TP_OPERATION,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2,
+	5, /* EQUALS */
+	0,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_CONDITIONAL_FIELD(
+	ID_REGRA_CONDITIONAL_OPERATION,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2,
+	13, /* COLUMN_13_POSITIVO_NEGATIVO */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_REGRA_CONDITIONAL_VALOR(
+	ID_REGRA_CONDITIONAL_OPERATION,
+	VL_STRING,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2,
+	'-', /* VALOR */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+
+insert into TB_REGRA_CONDITIONAL_RESULT(
+	ID_REGRA_CONDITIONAL,
+	ID_REGRA_EXECUTION,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2,
+	2, /* REGRA TO EXECUTE */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
 /*****************************************************************************************************************************************************/
 
 commit;
@@ -3794,6 +4108,8 @@ insert into TB_PARAMETER(
 commit;
 
 /*****************************************************************************************************************************************************/
+
+/* FATU-COPA.1 */
 
 insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 	ID_ARQUIVO_INPUT,
@@ -3996,6 +4312,209 @@ insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
 
 /*****************************************************************************************************************************************************/
 
+/* FATU-COPA.2 */
+
+insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
+	ID_ARQUIVO_INPUT,
+	NM_ARQUIVO_FORMAT,
+	NM_DESCR_ARQUIVO,	
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* FATUCOPA - MUITO FACIL */
+	'NAO-ENCONTRADOS-{CC}-{YYYY}{MM}{DD}.xlsx',
+	'Arquivo com os beneficiários não localizados pelo processo',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* NAO-ENCONTRADO FATUCOPA */
+	'NR_MATRICULA',
+	3, /*VARCHAR  */
+	8,
+	1,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* NAO-ENCONTRADO FATUCOPA */
+	'NM_BENEFICIARIO',
+	3, /*VARCHAR  */
+	32,
+	2,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* NAO-ENCONTRADO FATUCOPA */
+	'NM_TITULAR',
+	3, /*VARCHAR  */
+	32,
+	3,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* NAO-ENCONTRADO FATUCOPA */
+	'NR_CPF',
+	5, /* LONG */
+	12,
+	4,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+	NM_COLUMN,
+	CD_TYPE,
+	VL_LENGTH,
+	CD_ORDEM,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* NAO-ENCONTRADO FATUCOPA */
+	'VL_PRINCIPAL',
+	2, /* DOUBLE */
+	15,
+	5,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+/* BIND */
+
+insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	45, /* NR_MATRICULA */
+	1,
+
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	30, /* NM_BENEFICIARIO */
+	2,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	44, /* NM_TITULAR */
+	3,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	32, /* NR_CPF */
+	4,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+	ID_ARQUIVO_INPUT_COLS_DEF,
+	ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	37, /* VL_PRINCIPAL */
+	5,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+/*****************************************************************************************************************************************************/
+
 commit;
 
 insert into TB_VIEW_DESTINATION(
@@ -4103,6 +4622,10 @@ insert into TB_VIEW_DESTINATION_COLS_DEF(
 	current_timestamp()		
 );
 
+/*****************************************************************************************************************************************************/
+
+/* FASTU-COPA.1 */
+
 insert into TB_ARQUIVO_OUTPUT(
 	ID_ARQUIVO_INPUT,
 	NM_ARQUIVO_FORMAT,
@@ -4191,6 +4714,105 @@ insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
 	DT_CREATED,
 	DT_ALTERED ) values (
 	1, /* FATU-COPA */
+	4, /* VL_PRINCIPAL */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+/*****************************************************************************************************************************************************/
+
+/* FASTU-COPA.2 */
+
+insert into TB_ARQUIVO_OUTPUT(
+	ID_ARQUIVO_INPUT,
+	NM_ARQUIVO_FORMAT,
+	DESCR_ARQUIVO,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* FATU-COPA */
+	'{CC}-FATUCOPA-{YYYY}{MM}{DD}F.xlsx',
+	'Arquivo de saída para a carga dos lançamentos FATU COPA',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+
+insert into TB_ARQUIVO_OUTPUT_SHEET(
+	ID_ARQUIVO_OUTPUT,
+	ID_VIEW_DESTINATION,
+	NM_SHEET,
+	
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* FATU-COPA */
+	1, /* VW_LANCAMNETO_FATU_COPA */
+	'Lançamentos',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* FATU-COPA */
+	1, /* NM_TITULAR */ 
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* FATU-COPA */
+	2, /* NR_CPF */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* FATU-COPA */
+	3, /* NR_MATRICULA */
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
+	ID_ARQUIVO_OUTPUT_SHEET,
+	ID_VIEW_DESTINATION_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* FATU-COPA */
 	4, /* VL_PRINCIPAL */
 	
 	1,

@@ -23,6 +23,7 @@ public abstract class ArquivoInput extends AbstractDomain {
 	private Integer defaultLineLength;
 
 	private Integer regexpContrato;
+	private Integer regexpDia;
 	private Integer regexpMes;
 	private Integer regexpAno;
 
@@ -186,6 +187,14 @@ public abstract class ArquivoInput extends AbstractDomain {
 		this.arquivoOutput = arquivoOutput;
 	}
 
+	public Integer getRegexpDia() {
+		return regexpDia;
+	}
+
+	public void setRegexpDia(Integer regexpDia) {
+		this.regexpDia = regexpDia;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -210,6 +219,8 @@ public abstract class ArquivoInput extends AbstractDomain {
 				+ ((regexpAno == null) ? 0 : regexpAno.hashCode());
 		result = prime * result
 				+ ((regexpContrato == null) ? 0 : regexpContrato.hashCode());
+		result = prime * result
+				+ ((regexpDia == null) ? 0 : regexpDia.hashCode());
 		result = prime * result
 				+ ((regexpMes == null) ? 0 : regexpMes.hashCode());
 		result = prime * result + ((regras == null) ? 0 : regras.hashCode());
@@ -276,6 +287,11 @@ public abstract class ArquivoInput extends AbstractDomain {
 				return false;
 		} else if (!regexpContrato.equals(other.regexpContrato))
 			return false;
+		if (regexpDia == null) {
+			if (other.regexpDia != null)
+				return false;
+		} else if (!regexpDia.equals(other.regexpDia))
+			return false;
 		if (regexpMes == null) {
 			if (other.regexpMes != null)
 				return false;
@@ -295,5 +311,6 @@ public abstract class ArquivoInput extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 
 }

@@ -37,10 +37,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWeb
 @ContextConfiguration(
 		classes = { CoParticipacaoWebServiceConfigurationTest.class })
 @Transactional
-public class CoParticipacaoServiceTest {
+public class CoParticipacaoServiceMecsasTest {
 
 	private static final Logger LOGGER = LogManager
-			.getLogger(CoParticipacaoServiceTest.class);
+			.getLogger(CoParticipacaoServiceMecsasTest.class);
 
 	// private static final String MUITO_FACIL_8CH5YFATUCOPA__201802001F
 	// ="/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
@@ -79,7 +79,7 @@ public class CoParticipacaoServiceTest {
 	private LancamentoService lancamentoService;
 
 	@Test
-	public void testProcessFatoCopa() throws Exception {
+	public void testProcessFatoCopa8CH5YF() throws Exception {
 		int totalLancamentoDetails=0;
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
@@ -111,7 +111,7 @@ public class CoParticipacaoServiceTest {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA, totalLancamentoDetails);
 	}
 
-	//@Test
+	@Test
 	public void testProcessMecsas() throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;

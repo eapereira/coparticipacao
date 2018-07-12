@@ -164,6 +164,7 @@ create table TB_ARQUIVO_INPUT(
 	NUM_DEFAULT_LINE_LENGTH	int( 3 ) null,
 	
 	CD_REGEXP_CONTRATO		int( 3 ) not null,
+	CD_REGEXP_DIA			int( 3 ) null,
 	CD_REGEXP_MES			int( 3 ) not null,
 	CD_REGEXP_ANO			int( 3 ) not null,
 	
@@ -926,7 +927,7 @@ select
 	detail.ID_LANCAMENTO ID,
 	sum( detail.VL_DOUBLE ) VL_PRINCIPAL
 from TB_LANCAMENTO_DETAIL detail
-where detail.ID_ARQUIVO_INPUT_COLS_DEF = 14
+where detail.ID_ARQUIVO_INPUT_COLS_DEF in ( 14, 37 )
 group by detail.ID_LANCAMENTO;
 
 create view VW_LANCAMENTO_DETAIL_MATRICULA as
@@ -934,7 +935,7 @@ select
 	detail.ID_LANCAMENTO ID,
 	detail.VL_STRING NR_MATRICULA
 from TB_LANCAMENTO_DETAIL detail
-where detail.ID_ARQUIVO_INPUT_COLS_DEF = 22
+where detail.ID_ARQUIVO_INPUT_COLS_DEF in ( 22, 45 )
 group by detail.ID_LANCAMENTO, detail.VL_STRING;
 
 create view VW_LANCAMENTO_MUITO_FACIL as

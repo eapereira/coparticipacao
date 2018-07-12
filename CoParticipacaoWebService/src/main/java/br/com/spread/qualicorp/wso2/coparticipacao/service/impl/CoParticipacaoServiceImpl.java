@@ -147,7 +147,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			if (coParticipacaoContext == null) {
 				throw new ServiceException(
-						"O arquivo [%s] não é cadastrado em ArquivoInput no sistema.");
+						"O arquivo [%s] não é cadastrado em ArquivoInput no sistema.",
+						fileName);
 			} else {
 				arquivoInputColsDefUis = arquivoInputColsDefService
 						.listByArquivoInputId(

@@ -23,6 +23,7 @@ import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -62,6 +63,8 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 	private String spreadsheetFileName;
 
+	private int numSheets;
+
 	// pixels
 	private static final int DEFAULT_FONT_WIDTH = 350;
 
@@ -80,7 +83,8 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 			workbook = new XSSFWorkbook();
 
-			currentRow = 0;
+			currentRow = NumberUtils.INTEGER_ZERO;
+			numSheets = NumberUtils.INTEGER_ZERO;
 
 			createCellStyles();
 
@@ -93,6 +97,9 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 				createColumnNames(spreadsheetListener, sheet, columnInfos);
 
 				writeData(spreadsheetListener, sheet);
+
+				createColumnFilters(sheet);
+				numSheets++;
 			}
 
 			writeWorkbook(coParticipacaoContext, workbook);
@@ -285,8 +292,8 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			cellStyleColumnTitle = workbook.createCellStyle();
 			cellStyleColumnTitle
 					.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			cellStyleColumnTitle
-					.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+			cellStyleColumnTitle.setFillForegroundColor(
+					IndexedColors.GREY_25_PERCENT.getIndex());
 			cellStyleColumnTitle.setFont(fontTitle);
 			cellStyleColumnTitle.setAlignment(HorizontalAlignment.CENTER);
 			cellStyleColumnTitle
@@ -338,5 +345,46 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
+	}
+
+	private void createColumnFilters(Sheet sheet) throws ServiceException {
+		Row firstRow;
+		Row lastRow;
+		Cell firstCellA;
+		Cell lastCellA;
+
+		Cell firstCellB;
+		Cell lastCellB;
+		int numRows;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			numRows = sheet.getLastRowNum();
+
+			firstRow = sheet.getRow(0);
+			lastRow = sheet.getRow(numRows - 1);
+
+			firstCellA = firstRow.getCell(0);
+			lastCellA = lastRow.getCell(0);
+
+			for (int col = 0; col < numColumns; col++) {
+				firstCellB = firstRow.getCell(col);
+				lastCellB = lastRow.getCell(col);
+
+				sheet.setAutoFilter(
+						new CellRangeAddress(
+								firstCellA.getRowIndex(),
+								lastCellB.getRowIndex(),
+								firstCellA.getColumnIndex(),
+								lastCellB.getColumnIndex()));
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+
 	}
 }

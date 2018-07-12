@@ -54,6 +54,7 @@ public class ArquivoInputServiceImpl extends
 		Pattern regexpFileName;
 		Matcher matcher;
 		CoParticipacaoContext coParticipacaoContext = null;
+		int dia;
 		int mes;
 		int ano;
 
@@ -70,6 +71,11 @@ public class ArquivoInputServiceImpl extends
 					LOGGER.info(
 							"Found ArquivoInput for the file [{}]:",
 							fileName);
+
+					if (arquivoInputUi.getRegexpDia() != null) {
+						dia = Integer.parseInt(
+								matcher.group(arquivoInputUi.getRegexpDia()));
+					}
 
 					mes = Integer.parseInt(
 							matcher.group(arquivoInputUi.getRegexpMes()));
