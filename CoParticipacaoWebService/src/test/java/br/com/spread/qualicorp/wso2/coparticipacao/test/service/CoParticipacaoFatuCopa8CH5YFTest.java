@@ -43,11 +43,11 @@ public class CoParticipacaoFatuCopa8CH5YFTest {
 
 	// private static final String MUITO_FACIL_8CH5YFATUCOPA__201802001F
 	// ="/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
-	private static final String MUITO_FACIL_8CH5Y_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
+	private static final String MUITO_FACIL_8CH5Y_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201806001F.TXT";
 
 	private static final String MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/MECSAS-EXPORT-DADOS-1781-20180227-111813.csv";
 
-	private static final String MUITO_FACIL_8CHE8_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CHE8FATUCOPA.201802001F.TXT";
+	private static final String MUITO_FACIL_8CHE8_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CHE8FATUCOPA.201806001F.TXT";
 
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 310;

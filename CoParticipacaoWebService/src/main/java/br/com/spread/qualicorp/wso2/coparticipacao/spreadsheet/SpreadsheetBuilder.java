@@ -68,6 +68,10 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 	// pixels
 	private static final int DEFAULT_FONT_WIDTH = 350;
 
+	private static final String DEFAULT_FONT = "Calibri";
+
+	private static final short DEFAULT_FONT_HEIGHT_11 = 11 * 20;
+
 	public SpreadsheetBuilder() {
 		spreadsheetListeners = new ArrayList<SpreadsheetListener<UI>>();
 	}
@@ -104,7 +108,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 				writeData(spreadsheetListener, sheet);
 
-				// createColumnFilters(sheet);
+				createColumnFilters(sheet);
 				numSheets++;
 			}
 
@@ -242,17 +246,30 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			spreadsheetFileName = StringUtils.replace(
 					spreadsheetFileName,
 					"{MM}",
-					String.valueOf(coParticipacaoContext.getMes()));
+					StringUtils.leftPad(
+							String.valueOf(coParticipacaoContext.getMes()),
+							2,
+							"0"));
 			spreadsheetFileName = StringUtils.replace(
 					spreadsheetFileName,
 					"{DD}",
-					String.valueOf(coParticipacaoContext.getDia()));
+					StringUtils.leftPad(
+							String.valueOf(coParticipacaoContext.getDia()),
+							2,
+							"0"));
 
 			spreadsheetFilePath = reportPath.concat(spreadsheetFileName);
 
 			LOGGER.info(
 					"Wrting spreadsheet file to [{}]:",
 					spreadsheetFilePath);
+
+			file = new File(reportPath);
+
+			if (!file.exists()) {
+				file.mkdirs();
+			}
+
 			file = new File(spreadsheetFilePath);
 
 			if (file.exists()) {
@@ -292,7 +309,8 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			LOGGER.info("BEGIN");
 
 			fontTitle = (XSSFFont) workbook.createFont();
-			fontTitle.setFontName("Arial");
+			fontTitle.setFontName(DEFAULT_FONT);
+			fontTitle.setFontHeight(DEFAULT_FONT_HEIGHT_11);
 			fontTitle.setBold(true);
 
 			cellStyleColumnTitle = workbook.createCellStyle();
@@ -306,7 +324,8 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 					.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 			fontNormal = (XSSFFont) workbook.createFont();
-			fontNormal.setFontName("Arial");
+			fontNormal.setFontName(DEFAULT_FONT);
+			fontNormal.setFontHeight(DEFAULT_FONT_HEIGHT_11);
 			fontNormal.setBold(false);
 
 			cellStyleColumnNormal = workbook.createCellStyle();
@@ -357,9 +376,6 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 		Row firstRow;
 		Row lastRow;
 		Cell firstCellA;
-		Cell lastCellA;
-
-		Cell firstCellB;
 		Cell lastCellB;
 		int numRows;
 
@@ -371,17 +387,14 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 			numRows = sheet.getLastRowNum();
 
-			firstRow = sheet.getRow(0);
+			if (numRows > 0) {
+				firstRow = sheet.getRow(0);
 
-			if (firstRow != null) {
-				lastRow = sheet.getRow(numRows - 1);
+				if (firstRow != null) {
+					lastRow = sheet.getRow(numRows - 1);
 
-				firstCellA = firstRow.getCell(0);
-				lastCellA = lastRow.getCell(0);
-
-				for (int col = 0; col < numColumns; col++) {
-					firstCellB = firstRow.getCell(col);
-					lastCellB = lastRow.getCell(col);
+					firstCellA = firstRow.getCell(0);
+					lastCellB = lastRow.getCell(numColumns - 1);
 
 					sheet.setAutoFilter(
 							new CellRangeAddress(

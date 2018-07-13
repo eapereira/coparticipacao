@@ -4129,7 +4129,7 @@ insert into TB_PARAMETER(
 	DT_ALTERED ) values (
 	1, /* MUITO FACIL */
 	'outputReportDir',
-	'/home/eapereira/desenv/work/coparticipacao/sulamerica/muito-facil/output-reports/',
+	'/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/muito-facil/',
 	
 	1,
 	current_timestamp(),
@@ -4153,7 +4153,7 @@ insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 	DT_CREATED,
 	DT_ALTERED ) values (
 	1, /* FATUCOPA - MUITO FACIL */
-	'NAO-ENCONTRADOS-{YYYY}{MM}{DD}.xlsx',
+	'Não localizados PAG FACIL (Saúde) - Coparticipação {MM}_{YYYY}.xlsx',
 	'Arquivo com os beneficiários não localizados pelo processo',
 	
 	1,
@@ -4356,7 +4356,7 @@ insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 	DT_CREATED,
 	DT_ALTERED ) values (
 	2, /* FATUCOPA.2 - MUITO FACIL */
-	'NAO-ENCONTRADOS-{YYYY}{MM}{DD}.xlsx',
+	'Não localizados PAG FACIL (Saúde) - Coparticipação {MM}_{YYYY}.xlsx',
 	'Arquivo com os beneficiários não localizados pelo processo',
 	
 	1,
@@ -4779,7 +4779,7 @@ insert into TB_ARQUIVO_OUTPUT(
 	DT_CREATED,
 	DT_ALTERED ) values (
 	1, /* FATU-COPA */
-	'FATUCOPA-{YYYY}{MM}{DD}F.xlsx',
+	'Muito Facil (Pag Facil)_SAS_(Saude)_CoParticipacao_({YYYY}_{MM}).xlsx',
 	'Arquivo de saída para a carga dos lançamentos FATU COPA',
 	
 	1,
@@ -4955,7 +4955,7 @@ insert into TB_ARQUIVO_OUTPUT(
 	DT_CREATED,
 	DT_ALTERED ) values (
 	2, /* FATU-COPA */
-	'FATUCOPA-{YYYY}{MM}{DD}F.xlsx',
+	'Muito Facil (Pag Facil)_SAS_(Saude)_CoParticipacao_({YYYY}_{MM}).xlsx',
 	'Arquivo de saída para a carga dos lançamentos FATU COPA',
 	
 	1,
