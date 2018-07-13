@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,8 @@ public class ArquivoInputServiceImpl extends
 			LOGGER.info("BEGIN");
 			arquivoInputUis = entityToUi(arquivoInputDao.listAll());
 
+			dia = NumberUtils.INTEGER_ZERO;
+
 			for (ArquivoInputUi arquivoInputUi : arquivoInputUis) {
 				regexpFileName = Pattern
 						.compile(arquivoInputUi.getNameArquivoRegexp());
@@ -84,8 +87,11 @@ public class ArquivoInputServiceImpl extends
 
 					coParticipacaoContext = new CoParticipacaoContext();
 					coParticipacaoContext.setArquivoInputUi(arquivoInputUi);
+					coParticipacaoContext.setDia(dia);
 					coParticipacaoContext.setAno(ano);
 					coParticipacaoContext.setMes(mes);
+
+					break;
 				}
 			}
 

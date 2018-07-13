@@ -336,4 +336,22 @@ public class CoParticipacaoContext {
 		return null;
 	}
 
+	public TitularUi findTitularByName(String nameTitular) {
+		LOGGER.info("BEGIN");
+
+		for (TitularUi titularUi : getTitularUis()) {
+			if (titularUi.getNameTitular().equals(nameTitular)) {
+				LOGGER.info(
+						"Titular [{}] with CPF [{}] found:",
+						titularUi.getNameTitular(),
+						titularUi.getCpf());
+				LOGGER.info("END");
+				return titularUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
 }

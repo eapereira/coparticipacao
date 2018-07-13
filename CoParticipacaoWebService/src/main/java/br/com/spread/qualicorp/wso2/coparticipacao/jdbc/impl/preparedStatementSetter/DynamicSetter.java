@@ -13,9 +13,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 public class DynamicSetter
 		extends PreparedStatementSetterAdapter<DynamicEntity> {
 
-	private static final int ID_EMPRESA = 1;
-	private static final int COL_MES = 2;
-	private static final int COL_ANO = 3;
+	private static final int COL_MES = 1;
+	private static final int COL_ANO = 2;
 
 	public DynamicSetter(
 			SetterAdapterType setterAdapterType,
@@ -40,7 +39,6 @@ public class DynamicSetter
 	@Override
 	protected void setValuesForSelect(PreparedStatement ps)
 			throws SQLException {
-		ps.setLong(ID_EMPRESA, getEntity().getColumnAsLong("ID_EMPRESA"));
 		ps.setInt(COL_MES, getEntity().getColumnAsInteger("CD_MES"));
 		ps.setInt(COL_ANO, getEntity().getColumnAsInteger("CD_ANO"));
 

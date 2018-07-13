@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service;
 import java.util.List;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputOutputDesconhecidoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 
 /**
  * 
@@ -14,4 +15,7 @@ public interface ArquivoInputOutputDesconhecidoService
 
 	List<ArquivoInputOutputDesconhecidoUi> listByArquivoInputId(Long id)
 			throws ServiceException;
+
+	List<ArquivoInputOutputDesconhecidoUi> listByContratoId(
+			ContratoUi contratoUi) throws ServiceException;
 }

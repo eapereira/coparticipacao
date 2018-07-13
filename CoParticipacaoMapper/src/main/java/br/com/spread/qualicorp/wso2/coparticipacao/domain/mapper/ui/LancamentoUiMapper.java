@@ -17,6 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 		uses = {
 				UserUiMapper.class,
 				DependenteUiMapper.class,
+				TitularUiMapper.class,
 				TitularIsentoUiMapper.class,
 				LancamentoDetailUiMapper.class,
 				ContratoUiMapper.class })

@@ -53,4 +53,29 @@ public class ArquivoOutputDesconhecidoDaoImpl
 		}
 	}
 
+	public ArquivoOutputDesconhecidoEntity findByContratoId(Long id)
+			throws DaoException {
+		ArquivoOutputDesconhecidoEntity arquivoOutputDesconhecidoEntity;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery2("findByContratoId");
+			query.setParameter("id", id);
+
+			arquivoOutputDesconhecidoEntity = (ArquivoOutputDesconhecidoEntity) query
+					.getSingleResult();
+
+			LOGGER.info("END");
+			return arquivoOutputDesconhecidoEntity;
+		} catch (NoResultException e) {
+			LOGGER.info(e.getMessage());
+			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
 }

@@ -8,5 +8,14 @@
 		]]>
 	</query>
 
+	<query id="findByContratoId">
+		<![CDATA[
+			select arquivoOutputDesconhecido from ArquivoOutputDesconhecidoEntity arquivoOutputDesconhecido
+			join fetch arquivoOutputDesconhecido.arquivoInput arquivoInput
+			join fetch arquivoInput.contrato contrato
+			where contrato.id = :id
+		]]>
+	</query>
+
 </queries>
 	

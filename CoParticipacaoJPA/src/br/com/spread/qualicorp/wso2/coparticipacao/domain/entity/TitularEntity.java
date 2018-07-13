@@ -68,7 +68,7 @@ public class TitularEntity extends Titular implements DomainEntity {
 	}
 
 	@Column(name = "NR_MATRICULA")
-	public Integer getMatricula() {
+	public Long getMatricula() {
 		return super.getMatricula();
 	}
 
@@ -101,10 +101,7 @@ public class TitularEntity extends Titular implements DomainEntity {
 		return super.getDependentes();
 	}
 
-	@ManyToOne(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			targetEntity = EmpresaEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = EmpresaEntity.class)
 	@JoinColumn(name = "ID_EMPRESA")
 	@Override
 	public Empresa getEmpresa() {

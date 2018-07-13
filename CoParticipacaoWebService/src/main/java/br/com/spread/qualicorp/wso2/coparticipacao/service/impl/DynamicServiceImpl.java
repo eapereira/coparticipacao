@@ -1,7 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
-import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
-
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.DynamicDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DynamicService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -31,7 +28,6 @@ public class DynamicServiceImpl implements DynamicService {
 
 	public List<DynamicEntity> listByEmpresaAndMesAndAno(
 			String sql,
-			EmpresaUi empresaUi,
 			int mes,
 			int ano) throws ServiceException {
 		List<DynamicEntity> dynamicEntities;
@@ -41,7 +37,6 @@ public class DynamicServiceImpl implements DynamicService {
 
 			dynamicEntities = dynamicDao.listByEmpresaAndMesAndAno(
 					sql,
-					empresaUi.getId(),
 					mes,
 					ano);
 

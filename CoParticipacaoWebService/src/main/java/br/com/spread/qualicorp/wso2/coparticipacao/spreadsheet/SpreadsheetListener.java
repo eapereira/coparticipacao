@@ -11,7 +11,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 public interface SpreadsheetListener<UI extends AbstractDomain> {
-	String getSheetName() throws ServiceException;
+	String getSheetName(int sheetId) throws ServiceException;
 
 	List<ColumnInfo> createColumnTitles() throws ServiceException;
 

@@ -12,8 +12,6 @@ public abstract class Lancamento extends AbstractDomain {
 
 	private Integer ano;
 	private Integer mes;
-	
-	private Empresa empresa;
 
 	private Contrato contrato;
 	private Dependente dependente;
@@ -22,7 +20,7 @@ public abstract class Lancamento extends AbstractDomain {
 	private List<LancamentoDetail> lancamentoDetails;
 
 	public Lancamento() {
-		lancamentoDetails=new ArrayList<>();
+		lancamentoDetails = new ArrayList<>();
 	}
 
 	public Lancamento(Lancamento entity) {
@@ -89,14 +87,6 @@ public abstract class Lancamento extends AbstractDomain {
 		this.mes = mes;
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -106,7 +96,6 @@ public abstract class Lancamento extends AbstractDomain {
 				+ ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result
 				+ ((dependente == null) ? 0 : dependente.hashCode());
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
 		result = prime * result + ((lancamentoDetails == null) ? 0
 				: lancamentoDetails.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
@@ -137,11 +126,6 @@ public abstract class Lancamento extends AbstractDomain {
 			if (other.dependente != null)
 				return false;
 		} else if (!dependente.equals(other.dependente))
-			return false;
-		if (empresa == null) {
-			if (other.empresa != null)
-				return false;
-		} else if (!empresa.equals(other.empresa))
 			return false;
 		if (lancamentoDetails == null) {
 			if (other.lancamentoDetails != null)

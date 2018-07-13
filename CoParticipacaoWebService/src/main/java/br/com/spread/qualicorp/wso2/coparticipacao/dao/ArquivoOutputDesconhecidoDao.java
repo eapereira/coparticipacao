@@ -13,4 +13,7 @@ public interface ArquivoOutputDesconhecidoDao
 	ArquivoOutputDesconhecidoEntity findByArquivoInputId(Long id)
 			throws DaoException;
 
+	ArquivoOutputDesconhecidoEntity findByContratoId(Long id)
+			throws DaoException;
+
 }

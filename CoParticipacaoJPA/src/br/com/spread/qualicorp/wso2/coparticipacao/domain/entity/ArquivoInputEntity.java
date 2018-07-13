@@ -19,6 +19,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecido;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputBeneficiario;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseTypeConverter;
@@ -150,6 +151,17 @@ public class ArquivoInputEntity extends ArquivoInput {
 	public Integer getRegexpDia() {
 		// TODO Auto-generated method stub
 		return super.getRegexpDia();
+	}
+
+	// bi-directional many-to-one association to Regra
+	@OneToMany(
+			mappedBy = "arquivoInput",
+			targetEntity = InputBeneficiarioEntity.class,
+			cascade = CascadeType.ALL)
+	@Override
+	public List<InputBeneficiario> getInputBeneficiarios() {
+		// TODO Auto-generated method stub
+		return super.getInputBeneficiarios();
 	}
 
 }

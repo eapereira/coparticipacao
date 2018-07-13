@@ -11,9 +11,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEnt
  */
 public interface DesconhecidoDao extends AbstractDao<DesconhecidoEntity> {
 
-	void deleteByMesAndAno(Long empresaId, int mes, int ano) throws DaoException;
+	void deleteByMesAndAno(Long contratoId, int mes, int ano) throws DaoException;
 
-	List<DesconhecidoEntity> listByMesAndAno(Long arquivoInputId, int mes, int ano)
+	List<DesconhecidoEntity> listByMesAndAno(Long contratoId, int mes, int ano)
 			throws DaoException;
 
 }

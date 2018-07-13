@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecidoColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputOutputDesconhecidoUi;
@@ -38,6 +39,8 @@ public class DesconhecidoSpreadsheetListener
 
 	private int columnIndex;
 
+	private int currentSheet;
+
 	public DesconhecidoSpreadsheetListener(
 			DesconhecidoDetailService desconhecidoDetailService,
 			List<ArquivoInputOutputDesconhecidoUi> arquivoInputOutputDesconhecidoUis,
@@ -49,9 +52,19 @@ public class DesconhecidoSpreadsheetListener
 		this.coParticipacaoContext = coParticipacaoContext;
 
 		this.columnIndex = NumberUtils.INTEGER_ZERO;
+		currentSheet = NumberUtils.INTEGER_ZERO;
 	}
 
-	public String getSheetName() throws ServiceException {
+	public String getSheetName(int sheetId) throws ServiceException {
+		for (Contrato contrato : coParticipacaoContext.getEmpresaUi()
+				.getContratos()) {
+			if (currentSheet >= sheetId) {
+				return contrato.getCdContrato();
+			}
+
+			currentSheet++;
+		}
+
 		return "Desconhecidos";
 	}
 
@@ -101,10 +114,9 @@ public class DesconhecidoSpreadsheetListener
 	public CellInfo createCellContent(DesconhecidoUi desconhecidoUi, int column)
 			throws ServiceException {
 		CellInfo cellInfo;
-		ArquivoInputColsDef arquivoInputColsDef;
-		ArquivoOutputDesconhecidoColsDef arquivoOutputDesconhecidoColsDef;
 		int col = NumberUtils.INTEGER_ZERO;
 		DesconhecidoDetailUi desconhecidoDetail;
+		ArquivoInputColsDef arquivoInputColsDef;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -113,24 +125,28 @@ public class DesconhecidoSpreadsheetListener
 			if (columnIndex < desconhecidoUi.getDesconhecidoDetails().size()) {
 
 				for (ArquivoInputOutputDesconhecidoUi arquivoInputOutputDesconhecidoUi : arquivoInputOutputDesconhecidoUis) {
-					arquivoOutputDesconhecidoColsDef = arquivoInputOutputDesconhecidoUi
-							.getArquivoOutputDesconhecidoColsDef();
 					arquivoInputColsDef = arquivoInputOutputDesconhecidoUi
 							.getArquivoInputColsDef();
 
 					if (col >= columnIndex) {
 						LOGGER.info(
 								"Value for column [{}]:",
-								arquivoOutputDesconhecidoColsDef
-										.getNameColumn());
+								arquivoInputColsDef.getNameColumn());
 
 						desconhecidoDetail = findDesconhecidoDetail(
 								desconhecidoUi,
 								arquivoInputColsDef);
 
-						cellInfo.setValue(
-								desconhecidoDetailService.getValue(
-										(DesconhecidoDetailUi) desconhecidoDetail));
+						if (desconhecidoDetail != null) {
+							cellInfo.setValue(
+									desconhecidoDetailService.getValue(
+											(DesconhecidoDetailUi) desconhecidoDetail));
+						} else {
+							LOGGER.info(
+									"No values found for Desconhecido's field [{}]",
+									arquivoInputColsDef.getNameColumn());
+						}
+
 						columnIndex++;
 						break;
 					}
@@ -165,6 +181,12 @@ public class DesconhecidoSpreadsheetListener
 
 			for (DesconhecidoDetail desconhecidoDetail : desconhecidoUi
 					.getDesconhecidoDetails()) {
+				LOGGER.debug(
+						"Comparing ArquivoInput[{}] with DesconhecidoDetail[{}]",
+						arquivoInputColsDef.getNameColumn(),
+						desconhecidoDetail.getArquivoInputColsDef()
+								.getNameColumn());
+
 				if (arquivoInputColsDef.getId().equals(
 						desconhecidoDetail.getArquivoInputColsDef().getId())) {
 					LOGGER.info(

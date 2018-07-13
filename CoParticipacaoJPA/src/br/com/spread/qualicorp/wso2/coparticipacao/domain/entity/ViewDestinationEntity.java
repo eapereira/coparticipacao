@@ -57,4 +57,11 @@ public class ViewDestinationEntity extends ViewDestination {
 		return super.getViewDestinationColsDefs();
 	}
 
+	@Column(name = "NM_TITLE_LABEL")
+	@Override
+	public String getTitleLabel() {
+		// TODO Auto-generated method stub
+		return super.getTitleLabel();
+	}
+
 }

@@ -19,12 +19,9 @@ public abstract class Empresa extends AbstractDomain {
 
 	private List<Titular> titulars;
 
-	private List<Lancamento> lancamentos;
-
 	public Empresa() {
 		parameters = new ArrayList<>();
 		titulars = new ArrayList<>();
-		lancamentos = new ArrayList<>();
 	}
 
 	public Empresa(Empresa empresa) {
@@ -106,22 +103,12 @@ public abstract class Empresa extends AbstractDomain {
 		this.operadora = operadora;
 	}
 
-	public List<Lancamento> getLancamentos() {
-		return lancamentos;
-	}
-
-	public void setLancamentos(List<Lancamento> lancamentos) {
-		this.lancamentos = lancamentos;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((contratos == null) ? 0 : contratos.hashCode());
-		result = prime * result
-				+ ((lancamentos == null) ? 0 : lancamentos.hashCode());
 		result = prime * result
 				+ ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
 		result = prime * result
@@ -146,11 +133,6 @@ public abstract class Empresa extends AbstractDomain {
 			if (other.contratos != null)
 				return false;
 		} else if (!contratos.equals(other.contratos))
-			return false;
-		if (lancamentos == null) {
-			if (other.lancamentos != null)
-				return false;
-		} else if (!lancamentos.equals(other.lancamentos))
 			return false;
 		if (nameEmpresa == null) {
 			if (other.nameEmpresa != null)

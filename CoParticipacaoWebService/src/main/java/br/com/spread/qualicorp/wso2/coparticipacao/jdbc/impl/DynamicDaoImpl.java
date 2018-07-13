@@ -40,7 +40,6 @@ public class DynamicDaoImpl extends AbstractJdbcDaoImpl<DynamicEntity>
 
 	public List<DynamicEntity> listByEmpresaAndMesAndAno(
 			String sql,
-			Long id,
 			int mes,
 			int ano) throws DaoException {
 		List<DynamicEntity> dynamicEntities;
@@ -50,7 +49,6 @@ public class DynamicDaoImpl extends AbstractJdbcDaoImpl<DynamicEntity>
 			LOGGER.info("BEGIN");
 
 			dynamicEntity = new DynamicEntity();
-			dynamicEntity.addColumn("ID_EMPRESA", id);
 			dynamicEntity.addColumn("CD_MES", mes);
 			dynamicEntity.addColumn("CD_ANO", ano);
 

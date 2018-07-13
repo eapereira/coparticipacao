@@ -14,7 +14,6 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Parameter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
@@ -78,14 +77,6 @@ public class EmpresaEntity extends Empresa {
 	public Operadora getOperadora() {
 		// TODO Auto-generated method stub
 		return super.getOperadora();
-	}
-
-	// bi-directional many-to-one association to Contrato
-	@OneToMany(mappedBy = "empresa", targetEntity = LancamentoEntity.class)
-	@Override
-	public List<Lancamento> getLancamentos() {
-		// TODO Auto-generated method stub
-		return super.getLancamentos();
 	}
 
 }

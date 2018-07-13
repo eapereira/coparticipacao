@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Desconhecido;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
 
@@ -51,17 +51,6 @@ public class DesconhecidoEntity extends Desconhecido {
 		return super.getAno();
 	}
 
-	@ManyToOne(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			targetEntity = ArquivoInputEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT")
-	@Override
-	public ArquivoInput getArquivoInput() {
-		// TODO Auto-generated method stub
-		return super.getArquivoInput();
-	}
-
 	@OneToMany(
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY,
@@ -71,6 +60,14 @@ public class DesconhecidoEntity extends Desconhecido {
 	public List<DesconhecidoDetail> getDesconhecidoDetails() {
 		// TODO Auto-generated method stub
 		return super.getDesconhecidoDetails();
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
+	@JoinColumn(name = "ID_CONTRATO")
+	@Override
+	public Contrato getContrato() {
+		// TODO Auto-generated method stub
+		return super.getContrato();
 	}
 
 }

@@ -19,14 +19,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.Lancamen
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.LancamentoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputLancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
@@ -66,6 +67,9 @@ public class LancamentoServiceImpl
 
 	@Autowired
 	private ArquivoOutputService arquivoOutputService;
+
+	@Autowired
+	private BeneficiarioService beneficiarioService;
 
 	public void processLine(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
@@ -121,9 +125,9 @@ public class LancamentoServiceImpl
 			// Aplicamdo regras do arquivo se existirem:
 			regraService.applyRegras(lancamentoUi, coParticipacaoContext);
 
-			if (validateLancamento(coParticipacaoContext, lancamentoUi)) {
-
-				lancamentoUi.setEmpresa(coParticipacaoContext.getEmpresaUi());
+			if (beneficiarioService.validateBeneficiario(
+					coParticipacaoContext,
+					lancamentoUi)) {
 				lancamentoUi.setUserAltered(coParticipacaoContext.getUser());
 				lancamentoUi.setUserCreated(coParticipacaoContext.getUser());
 				lancamentoUi.setAltered(LocalDateTime.now());
@@ -143,23 +147,6 @@ public class LancamentoServiceImpl
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
-	}
-
-	private boolean validateLancamento(
-			CoParticipacaoContext coParticipacaoContext,
-			LancamentoUi lancamentoUi)
-			throws ServiceException, BeneficiarioNotFoundException {
-		boolean beneficiarioFound = false;
-
-		if (lancamentoUi.getTitular() != null) {
-			beneficiarioFound = true;
-		} else {
-			LOGGER.info(
-					"Não foram encontrados beneficiários para a linha [{}]",
-					coParticipacaoContext.getCurrentLine());
-		}
-
-		return beneficiarioFound;
 	}
 
 	private void storeInputValue(
@@ -316,12 +303,12 @@ public class LancamentoServiceImpl
 					coParticipacaoContext.getMes());
 
 			deleteByMesAndAno(
-					coParticipacaoContext.getEmpresaUi(),
+					coParticipacaoContext.getContratoUi(),
 					coParticipacaoContext.getMes(),
 					coParticipacaoContext.getAno());
 
 			desconhecidoService.deleteByMesAndAno(
-					coParticipacaoContext.getArquivoInputUi(),
+					coParticipacaoContext.getContratoUi(),
 					coParticipacaoContext.getMes(),
 					coParticipacaoContext.getAno());
 
@@ -332,12 +319,12 @@ public class LancamentoServiceImpl
 		}
 	}
 
-	public void deleteByMesAndAno(EmpresaUi empresaUi, int mes, int ano)
+	public void deleteByMesAndAno(ContratoUi contratoUi, int mes, int ano)
 			throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			lancamentoDao.deleteByMesAndAno(empresaUi.getId(), mes, ano);
+			lancamentoDao.deleteByMesAndAno(contratoUi.getId(), mes, ano);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

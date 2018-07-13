@@ -3,7 +3,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service;
 import java.util.List;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 
 /**
  * 
@@ -11,10 +10,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
  *
  */
 public interface DynamicService {
-	List<DynamicEntity> listByEmpresaAndMesAndAno(
-			String sql,
-			EmpresaUi empresaUi,
-			int mes,
-			int ano) throws ServiceException;
+	List<DynamicEntity> listByEmpresaAndMesAndAno(String sql, int mes, int ano)
+			throws ServiceException;
 
 }

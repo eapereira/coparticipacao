@@ -15,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ArquivoInputOutputDesconhecidoEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ArquivoInputOutputDesconhecidoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputOutputDesconhecidoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputOutputDesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -82,6 +83,25 @@ public class ArquivoInputOutputDesconhecidoServiceImpl extends
 			throw new ServiceException(e.getMessage(), e);
 		}
 
+	}
+
+	public List<ArquivoInputOutputDesconhecidoUi> listByContratoId(
+			ContratoUi contratoUi) throws ServiceException {
+		List<ArquivoInputOutputDesconhecidoUi> arquivoInputOutputDesconhecidoUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoInputOutputDesconhecidoUis = entityToUi(
+					arquivoInputOutputDesconhecidoDao
+							.listByContratoId(contratoUi.getId()));
+
+			LOGGER.info("END");
+			return arquivoInputOutputDesconhecidoUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

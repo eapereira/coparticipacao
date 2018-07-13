@@ -16,7 +16,7 @@ public abstract class Titular extends AbstractDomain {
 	private LocalDate dtNascimento;
 	private String nameTitular;
 	private String cpf;
-	private Integer matricula;
+	private Long matricula;
 	private List<Lancamento> lancamentos;
 
 	private List<Dependente> dependentes;
@@ -67,11 +67,11 @@ public abstract class Titular extends AbstractDomain {
 		this.cpf = nrCpf;
 	}
 
-	public Integer getMatricula() {
+	public Long getMatricula() {
 		return this.matricula;
 	}
 
-	public void setMatricula(Integer nrMatricula) {
+	public void setMatricula(Long nrMatricula) {
 		this.matricula = nrMatricula;
 	}
 

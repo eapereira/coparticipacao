@@ -17,4 +17,7 @@
     <artifact name="CoParticipacaoEndpoint" groupId="br.com.spread.qualicorp.wso2.coparticipacao.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/endpoints/CoParticipacaoEndpoint.xml</file>
     </artifact>
+    <artifact name="loadCoParticipacaoFiles" groupId="br.com.spread.qualicorp.wso2.coparticipacao.inbound-endpoint" version="1.0.0" type="synapse/inbound-endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/inbound-endpoints/loadCoParticipacaoFiles.xml</file>
+    </artifact>
 </artifacts>

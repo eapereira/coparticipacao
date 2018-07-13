@@ -16,7 +16,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestination
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ViewDestinationEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ViewDestinationUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DynamicService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -93,8 +92,7 @@ public class ViewDestinationServiceImpl extends
 			sb.append(" from ");
 			sb.append(viewDestinationUi.getNameView());
 			sb.append(" viewDestination ");
-			sb.append("where	viewDestination.ID_EMPRESA = ? ");
-			sb.append("and		viewDestination.CD_MES = ? ");
+			sb.append("where	viewDestination.CD_MES = ? ");
 			sb.append("and 		viewDestination.CD_ANO = ? ");
 
 			LOGGER.info(
@@ -109,9 +107,8 @@ public class ViewDestinationServiceImpl extends
 		}
 	}
 
-	public List<DynamicEntity> listByEmpresaAndMesAndAno(
+	public List<DynamicEntity> listByContratoAndMesAndAno(
 			ViewDestinationUi ViewDestinationUi,
-			EmpresaUi empresaUi,
 			int mes,
 			int ano) throws ServiceException {
 		List<DynamicEntity> dynamicEntities;
@@ -122,7 +119,7 @@ public class ViewDestinationServiceImpl extends
 			sql = createSqlToViewDestination(ViewDestinationUi);
 
 			dynamicEntities = dynamicService
-					.listByEmpresaAndMesAndAno(sql, empresaUi, mes, ano);
+					.listByEmpresaAndMesAndAno(sql, mes, ano);
 
 			LOGGER.info("END");
 			return dynamicEntities;

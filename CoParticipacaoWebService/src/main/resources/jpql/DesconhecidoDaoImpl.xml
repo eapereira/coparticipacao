@@ -3,7 +3,7 @@
 	<query id="deleteByMesAndAno">
 		<![CDATA[
 			delete from DesconhecidoEntity desconhecido
-			where	desconhecido.arquivoInput.id = :arquivoInputId
+			where	desconhecido.contrato.id = :contratoId
 			and		desconhecido.mes	= :mes
 			and		desconhecido.ano	= :ano
 		]]>
@@ -12,8 +12,8 @@
 	<query id="listByMesAndAno">
 		<![CDATA[
 			select desconhecido from DesconhecidoEntity desconhecido
-			join fetch desconhecido.arquivoInput arquivoInput
-			where	arquivoInput.id		= :arquivoInputId
+			join fetch desconhecido.contrato contrato
+			where	contrato.id			= :contratoId
 			and		desconhecido.mes	= :mes
 			and		desconhecido.ano	= :ano
 		]]>

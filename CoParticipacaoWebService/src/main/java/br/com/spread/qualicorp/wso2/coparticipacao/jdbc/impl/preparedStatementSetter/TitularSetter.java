@@ -29,7 +29,7 @@ public class TitularSetter extends PreparedStatementSetterAdapter<TitularEntity>
 
 	@Override
 	protected void setValuesForInsert(PreparedStatement ps) throws SQLException {
-		ps.setInt(COL_NR_MATRICULA, getEntity().getMatricula());
+		ps.setLong(COL_NR_MATRICULA, getEntity().getMatricula());
 		ps.setString(COL_NM_TITULAR, getEntity().getNameTitular());
 		ps.setString(COL_NR_CPF, getEntity().getCpf());
 		ps.setDate(COL_DT_NASCIMENTO, DateUtils.dateToSqlDate(getEntity().getDtNascimento()));
@@ -39,7 +39,7 @@ public class TitularSetter extends PreparedStatementSetterAdapter<TitularEntity>
 
 	@Override
 	protected void setValuesForUpdate(PreparedStatement ps) throws SQLException {
-		ps.setInt(COL_NR_MATRICULA, getEntity().getMatricula());
+		ps.setLong(COL_NR_MATRICULA, getEntity().getMatricula());
 		ps.setString(COL_NM_TITULAR, getEntity().getNameTitular());
 		ps.setString(COL_NR_CPF, getEntity().getCpf());
 		ps.setDate(COL_DT_NASCIMENTO, DateUtils.dateToSqlDate(getEntity().getDtNascimento()));

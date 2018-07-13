@@ -36,7 +36,7 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
 			LOGGER.info("BEGIN");
 
 			query = createQuery2("deleteByMesAndAno");
-			query.setParameter("arquivoInputId", arquivoInputId);
+			query.setParameter("contratoId", arquivoInputId);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
 
@@ -51,7 +51,7 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
 	}
 
 	public List<DesconhecidoEntity> listByMesAndAno(
-			Long arquivoInputId,
+			Long contratoId,
 			int mes,
 			int ano) throws DaoException {
 		Query query;
@@ -61,7 +61,7 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
 			LOGGER.info("BEGIN");
 
 			query = createQuery2("listByMesAndAno");
-			query.setParameter("arquivoInputId", arquivoInputId);
+			query.setParameter("contratoId", contratoId);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
 

@@ -51,5 +51,10 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputDesconhecidoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputOutputDesconhecidoEntity</class>		
 		
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.BeneficiarioEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.BeneficiarioColsDefEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputBeneficiarioEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputBeneficiarioBindEntity</class>
+		
 	</persistence-unit>
 </persistence>

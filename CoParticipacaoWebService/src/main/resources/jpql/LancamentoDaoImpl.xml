@@ -3,7 +3,7 @@
 	<query id="deleteByMesAndAno">
 		<![CDATA[
 			delete from LancamentoEntity lancamento
-			where	lancamento.empresa.id	= :empresaId
+			where	lancamento.contrato.id	= :contratoId
 			and		lancamento.mes 			= :mes
 			and		lancamento.ano 			= :ano
 		]]>

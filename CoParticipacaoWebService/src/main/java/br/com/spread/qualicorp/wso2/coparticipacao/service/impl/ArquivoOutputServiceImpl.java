@@ -104,10 +104,12 @@ public class ArquivoOutputServiceImpl extends
 					viewDestinationUi = (ViewDestinationUi) arquivoOutputSheet
 							.getViewDestination();
 
+					LOGGER.info(
+							"Creating the report for the ViewDestination [{}]:",
+							viewDestinationUi.getNameView());
 					dynamicEntities = viewDestinationService
-							.listByEmpresaAndMesAndAno(
+							.listByContratoAndMesAndAno(
 									viewDestinationUi,
-									coParticipacaoContext.getEmpresaUi(),
 									coParticipacaoContext.getMes(),
 									coParticipacaoContext.getAno());
 

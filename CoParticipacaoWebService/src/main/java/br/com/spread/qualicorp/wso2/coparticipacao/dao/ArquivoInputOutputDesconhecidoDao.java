@@ -14,4 +14,7 @@ public interface ArquivoInputOutputDesconhecidoDao
 
 	List<ArquivoInputOutputDesconhecidoEntity> listByArquivoInputId(Long id)
 			throws DaoException;
+
+	List<ArquivoInputOutputDesconhecidoEntity> listByContratoId(Long id)
+			throws DaoException;
 }

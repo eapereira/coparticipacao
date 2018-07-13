@@ -141,8 +141,7 @@ public class MecsasServiceImpl implements MecsasService {
 
 				coParticipacaoContext.addTitular(titularUi);
 			} else {
-				desconhecidoService
-						.createDesconhecido(coParticipacaoContext);
+				desconhecidoService.createDesconhecido(coParticipacaoContext);
 			}
 
 			LOGGER.info("END");
@@ -207,8 +206,7 @@ public class MecsasServiceImpl implements MecsasService {
 				titularUi.addDependente(dependenteUi);
 				coParticipacaoContext.addDependente(dependenteUi);
 			} else {
-				desconhecidoService
-						.createDesconhecido(coParticipacaoContext);
+				desconhecidoService.createDesconhecido(coParticipacaoContext);
 			}
 
 			LOGGER.info("END");
@@ -281,6 +279,9 @@ public class MecsasServiceImpl implements MecsasService {
 				} else if (DependenteColType.NM_DEPENDENTE
 						.equals(dependenteColType)) {
 					dependenteUi.setNameDependente((String) value);
+				} else if (DependenteColType.NR_MATRICULA
+						.equals(dependenteColType)) {
+					dependenteUi.setMatricula((Long) value);
 				} else if (DependenteColType.NR_CPF.equals(dependenteColType)) {
 					dependenteUiStored = coParticipacaoContext
 							.findDependenteByCpf(value.toString());
@@ -335,7 +336,7 @@ public class MecsasServiceImpl implements MecsasService {
 				titularColType = TitularColType.parseByDescription(
 						inputTitularUi.getTitularColsDef().getNameColumn());
 				if (TitularColType.NM_MATRICULA.equals(titularColType)) {
-					titularUi.setMatricula((Integer) value);
+					titularUi.setMatricula((Long) value);
 				} else if (TitularColType.NM_TITULAR.equals(titularColType)) {
 					titularUi.setNameTitular((String) value);
 				} else if (TitularColType.NR_CPF.equals(titularColType)) {

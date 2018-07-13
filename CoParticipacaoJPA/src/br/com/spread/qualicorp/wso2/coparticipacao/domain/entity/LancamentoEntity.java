@@ -1,6 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -15,7 +14,6 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
@@ -69,7 +67,10 @@ public class LancamentoEntity extends Lancamento implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to Titular
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = TitularEntity.class)
+	@ManyToOne(
+			fetch = FetchType.LAZY,
+			targetEntity = TitularEntity.class,
+			cascade = CascadeType.ALL)
 	@JoinColumn(name = "ID_TITULAR")
 	public Titular getTitular() {
 		return super.getTitular();
@@ -84,15 +85,6 @@ public class LancamentoEntity extends Lancamento implements DomainEntity {
 	public List<LancamentoDetail> getLancamentoDetails() {
 		// TODO Auto-generated method stub
 		return super.getLancamentoDetails();
-	}
-
-	// bi-directional many-to-one association to Titular
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = EmpresaEntity.class)
-	@JoinColumn(name = "ID_EMPRESA")
-	@Override
-	public Empresa getEmpresa() {
-		// TODO Auto-generated method stub
-		return super.getEmpresa();
 	}
 
 }

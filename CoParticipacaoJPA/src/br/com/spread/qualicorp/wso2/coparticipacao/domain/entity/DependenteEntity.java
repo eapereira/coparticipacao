@@ -89,4 +89,11 @@ public class DependenteEntity extends Dependente {
 		return super.getTitular();
 	}
 
+	@Column(name = "NR_MATRICULA")
+	@Override
+	public Long getMatricula() {
+		// TODO Auto-generated method stub
+		return super.getMatricula();
+	}
+
 }

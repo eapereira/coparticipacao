@@ -68,9 +68,14 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 	// pixels
 	private static final int DEFAULT_FONT_WIDTH = 350;
 
-	public SpreadsheetBuilder(String spreadsheetFileName) {
-		this.spreadsheetFileName = spreadsheetFileName;
+	public SpreadsheetBuilder() {
 		spreadsheetListeners = new ArrayList<SpreadsheetListener<UI>>();
+	}
+
+	public SpreadsheetBuilder(String spreadsheetFileName) {
+		this();
+
+		this.spreadsheetFileName = spreadsheetFileName;
 	}
 
 	public void writeSpreadsheet(CoParticipacaoContext coParticipacaoContext)
@@ -83,14 +88,15 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 			workbook = new XSSFWorkbook();
 
-			currentRow = NumberUtils.INTEGER_ZERO;
 			numSheets = NumberUtils.INTEGER_ZERO;
 
 			createCellStyles();
 
 			for (SpreadsheetListener<UI> spreadsheetListener : getSpreadsheetListeners()) {
-				sheet = workbook
-						.createSheet(spreadsheetListener.getSheetName());
+				sheet = workbook.createSheet(
+						spreadsheetListener.getSheetName(numSheets));
+
+				currentRow = NumberUtils.INTEGER_ZERO;
 
 				columnInfos = spreadsheetListener.createColumnTitles();
 
@@ -98,7 +104,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 				writeData(spreadsheetListener, sheet);
 
-				createColumnFilters(sheet);
+				// createColumnFilters(sheet);
 				numSheets++;
 			}
 
@@ -359,25 +365,31 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Creating filters for sheet [{}]:",
+					sheet.getSheetName());
 
 			numRows = sheet.getLastRowNum();
 
 			firstRow = sheet.getRow(0);
-			lastRow = sheet.getRow(numRows - 1);
 
-			firstCellA = firstRow.getCell(0);
-			lastCellA = lastRow.getCell(0);
+			if (firstRow != null) {
+				lastRow = sheet.getRow(numRows - 1);
 
-			for (int col = 0; col < numColumns; col++) {
-				firstCellB = firstRow.getCell(col);
-				lastCellB = lastRow.getCell(col);
+				firstCellA = firstRow.getCell(0);
+				lastCellA = lastRow.getCell(0);
 
-				sheet.setAutoFilter(
-						new CellRangeAddress(
-								firstCellA.getRowIndex(),
-								lastCellB.getRowIndex(),
-								firstCellA.getColumnIndex(),
-								lastCellB.getColumnIndex()));
+				for (int col = 0; col < numColumns; col++) {
+					firstCellB = firstRow.getCell(col);
+					lastCellB = lastRow.getCell(col);
+
+					sheet.setAutoFilter(
+							new CellRangeAddress(
+									firstCellA.getRowIndex(),
+									lastCellB.getRowIndex(),
+									firstCellA.getColumnIndex(),
+									lastCellB.getColumnIndex()));
+				}
 			}
 
 			LOGGER.info("END");
@@ -386,5 +398,13 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			throw new ServiceException(e.getMessage(), e);
 		}
 
+	}
+
+	public String getSpreadsheetFileName() {
+		return spreadsheetFileName;
+	}
+
+	public void setSpreadsheetFileName(String spreadsheetFileName) {
+		this.spreadsheetFileName = spreadsheetFileName;
 	}
 }

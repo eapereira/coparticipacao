@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntit
  * The persistent class for the tb_dependente database table.
  * 
  */
-public class DependenteUi extends Dependente implements DomainUi {
+public class DependenteUi extends Dependente {
 	private static final long serialVersionUID = 1L;
 
 	public DependenteUi() {

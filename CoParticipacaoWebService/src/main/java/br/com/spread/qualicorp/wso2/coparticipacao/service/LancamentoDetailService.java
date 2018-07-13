@@ -33,6 +33,10 @@ public interface LancamentoDetailService
 			ArquivoInputColsDef arquivoInputColsDef,
 			LancamentoDetail lancamentoDetail) throws ServiceException;
 
+	Object getFieldValue(
+			ArquivoInputColsDef arquivoInputColsDef,
+			LancamentoUi lancamentoUi) throws ServiceException;
+
 	BigDecimal getFieldValueAsBigDecimal(
 			ArquivoInputColsDef arquivoInputColsDef,
 			LancamentoDetail lancamentoDetail) throws ServiceException;

@@ -26,7 +26,7 @@ public class LancamentoDaoImpl extends AbstractDaoImpl<LancamentoEntity>
 		super();
 	}
 
-	public void deleteByMesAndAno(Long empresaId, int mes, int ano)
+	public void deleteByMesAndAno(Long contratoId, int mes, int ano)
 			throws DaoException {
 		Query query;
 
@@ -34,7 +34,7 @@ public class LancamentoDaoImpl extends AbstractDaoImpl<LancamentoEntity>
 			LOGGER.info("BEGIN");
 
 			query = createQuery2("deleteByMesAndAno");
-			query.setParameter("empresaId", empresaId);
+			query.setParameter("contratoId", contratoId);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
 

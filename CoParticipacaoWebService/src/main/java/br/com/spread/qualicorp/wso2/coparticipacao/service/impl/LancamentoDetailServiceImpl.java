@@ -284,4 +284,26 @@ public class LancamentoDetailServiceImpl extends
 
 	}
 
+	public Object getFieldValue(
+			ArquivoInputColsDef arquivoInputColsDef,
+			LancamentoUi lancamentoUi) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			for (LancamentoDetail lancamentoDetail : lancamentoUi
+					.getLancamentoDetails()) {
+				if (lancamentoDetail.getArquivoInputColsDef().getId()
+						.equals(arquivoInputColsDef.getId())) {
+					return getFieldValue(arquivoInputColsDef, lancamentoDetail);
+				}
+			}
+
+			LOGGER.info("END");
+			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
 }

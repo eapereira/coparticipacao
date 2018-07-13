@@ -43,9 +43,12 @@ public class CoParticipacaoFatuCopa8CH5YFTest {
 
 	// private static final String MUITO_FACIL_8CH5YFATUCOPA__201802001F
 	// ="/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
-	private static final String MUITO_FACIL_8CH5YFATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
+	private static final String MUITO_FACIL_8CH5Y_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
 
 	private static final String MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/MECSAS-EXPORT-DADOS-1781-20180227-111813.csv";
+
+	private static final String MUITO_FACIL_8CHE8_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CHE8FATUCOPA.201802001F.TXT";
+
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 310;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 20;
@@ -77,13 +80,61 @@ public class CoParticipacaoFatuCopa8CH5YFTest {
 		List<DesconhecidoUi> desconhecidoUis;
 		List<LancamentoUi> lancamentoUis;
 
-		int pos = MUITO_FACIL_8CH5YFATUCOPA__201802001F.lastIndexOf("/") + 1;
+		int pos = MUITO_FACIL_8CH5Y_FATUCOPA__201802001F.lastIndexOf("/") + 1;
+
+		loadMecsas(MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813);
+
+
+		coParticipacaoService.processFile(
+				MUITO_FACIL_8CH5Y_FATUCOPA__201802001F.substring(pos),
+				MUITO_FACIL_8CH5Y_FATUCOPA__201802001F);
+
+		pos = MUITO_FACIL_8CHE8_FATUCOPA__201802001F.lastIndexOf("/") + 1;
+		
+		coParticipacaoService.processFile(
+				MUITO_FACIL_8CHE8_FATUCOPA__201802001F.substring(pos),
+				MUITO_FACIL_8CHE8_FATUCOPA__201802001F);
+
+		titularUis = titularService.listAll();
+		dependenteUis = dependenteService.listAll();
+		desconhecidoUis = desconhecidoService.listAll();
+		lancamentoUis = lancamentoService.listAll();
+
+		for (LancamentoUi lancamentoUi : lancamentoUis) {
+			totalLancamentoDetails += lancamentoUi.getLancamentoDetails()
+					.size();
+		}
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA, titularUis.size());
+		Assert.assertEquals(
+				NUM_TOTAL_DEPENDENTES_FATUCOPA,
+				dependenteUis.size());
+		Assert.assertEquals(
+				NUM_TOTAL_DESCONHECIDOS_FATUCOPA,
+				desconhecidoUis.size());
+		Assert.assertEquals(
+				NUM_TOTAL_LANCAMENTOS_FATUCOPA,
+				lancamentoUis.size());
+		Assert.assertEquals(
+				NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA,
+				totalLancamentoDetails);
+	}
+	
+	//@Test
+	public void testProcessFatoCopa8CHE8F() throws Exception {
+		int totalLancamentoDetails = 0;
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+
+		int pos = MUITO_FACIL_8CH5Y_FATUCOPA__201802001F.lastIndexOf("/") + 1;
 
 		loadMecsas(MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813);
 
 		coParticipacaoService.processFile(
-				MUITO_FACIL_8CH5YFATUCOPA__201802001F.substring(pos),
-				MUITO_FACIL_8CH5YFATUCOPA__201802001F);
+				MUITO_FACIL_8CH5Y_FATUCOPA__201802001F.substring(pos),
+				MUITO_FACIL_8CH5Y_FATUCOPA__201802001F);
 
 		titularUis = titularService.listAll();
 		dependenteUis = dependenteService.listAll();
@@ -110,7 +161,7 @@ public class CoParticipacaoFatuCopa8CH5YFTest {
 				NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA,
 				totalLancamentoDetails);
 	}
-
+	
 	private void loadMecsas(String filePath) throws Exception {
 		int pos = filePath.lastIndexOf("/") + 1;
 

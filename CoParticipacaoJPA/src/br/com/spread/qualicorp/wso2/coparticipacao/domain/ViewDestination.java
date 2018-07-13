@@ -11,6 +11,9 @@ public abstract class ViewDestination extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
 	private String nameView;
+	
+	private String titleLabel;
+	
 	private List<ArquivoOutputSheet> arquivoOutputSheets;
 
 	private List<ViewDestinationColsDef> viewDestinationColsDefs;
@@ -80,6 +83,14 @@ public abstract class ViewDestination extends AbstractDomain {
 
 		return viewDestinationColsDef;
 	}
+	
+	public String getTitleLabel() {
+		return titleLabel;
+	}
+
+	public void setTitleLabel(String titleLabel) {
+		this.titleLabel = titleLabel;
+	}
 
 	@Override
 	public int hashCode() {
@@ -89,6 +100,8 @@ public abstract class ViewDestination extends AbstractDomain {
 				: arquivoOutputSheets.hashCode());
 		result = prime * result
 				+ ((nameView == null) ? 0 : nameView.hashCode());
+		result = prime * result
+				+ ((titleLabel == null) ? 0 : titleLabel.hashCode());
 		result = prime * result + ((viewDestinationColsDefs == null) ? 0
 				: viewDestinationColsDefs.hashCode());
 		return result;
@@ -112,6 +125,11 @@ public abstract class ViewDestination extends AbstractDomain {
 			if (other.nameView != null)
 				return false;
 		} else if (!nameView.equals(other.nameView))
+			return false;
+		if (titleLabel == null) {
+			if (other.titleLabel != null)
+				return false;
+		} else if (!titleLabel.equals(other.titleLabel))
 			return false;
 		if (viewDestinationColsDefs == null) {
 			if (other.viewDestinationColsDefs != null)

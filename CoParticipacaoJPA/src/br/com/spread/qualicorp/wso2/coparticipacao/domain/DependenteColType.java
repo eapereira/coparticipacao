@@ -9,7 +9,8 @@ public enum DependenteColType {
 								TP_DEPENDENTE(1, "TP_DEPENDENTE"),
 								NM_DEPENDENTE(2, "NM_DEPENDENTE"),
 								NR_CPF(3, "NR_CPF"),
-								DT_NASCIMENTO(4, "DT_NASCIMENTO");
+								DT_NASCIMENTO(4, "DT_NASCIMENTO"),
+								NR_MATRICULA(5, "NR_MATRICULA");
 
 	private Integer id;
 

@@ -8,12 +8,15 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -37,6 +40,8 @@ public class LancamentoSpreadsheetListener
 
 	private int numColumns;
 
+	private int currentSheet;
+
 	public LancamentoSpreadsheetListener(
 			CoParticipacaoContext coParticipacaoContext,
 			ArquivoOutputSheetUi arquivoOutputSheetUi,
@@ -46,10 +51,34 @@ public class LancamentoSpreadsheetListener
 		this.arquivoOutputSheetUi = arquivoOutputSheetUi;
 
 		numColumns = NumberUtils.INTEGER_ZERO;
+		currentSheet = NumberUtils.INTEGER_ZERO;
 	}
 
-	public String getSheetName() throws ServiceException {
-		return coParticipacaoContext.getContratoUi().getCdContrato();
+	public String getSheetName(int sheetId) throws ServiceException {
+		ViewDestinationUi viewDestinationUi = null;
+		String sheetName = null;
+		ArquivoOutputUi arquivoOutputUi = (ArquivoOutputUi) arquivoOutputSheetUi
+				.getArquivoOutput();
+
+		for (ArquivoOutputSheet arquivoOutputSheet : arquivoOutputUi
+				.getArquivoOutputSheets()) {
+			if (currentSheet >= sheetId) {
+				viewDestinationUi = (ViewDestinationUi) arquivoOutputSheet
+						.getViewDestination();
+
+				if (StringUtils.isNotBlank(viewDestinationUi.getTitleLabel())) {
+					sheetName = viewDestinationUi.getTitleLabel();
+				} else {
+					sheetName = viewDestinationUi.getNameView();
+				}
+
+				break;
+			}
+
+			currentSheet++;
+		}
+
+		return sheetName;
 	}
 
 	public List<ColumnInfo> createColumnTitles() throws ServiceException {

@@ -17,7 +17,7 @@ public abstract class Desconhecido extends AbstractDomain {
 	private Integer mes;
 	private Integer ano;
 
-	private ArquivoInput arquivoInput;
+	private Contrato contrato;
 
 	private List<DesconhecidoDetail> desconhecidoDetails;
 
@@ -41,12 +41,31 @@ public abstract class Desconhecido extends AbstractDomain {
 		this.ano = ano;
 	}
 
-	public ArquivoInput getArquivoInput() {
-		return arquivoInput;
+	public List<DesconhecidoDetail> getDesconhecidoDetails() {
+		return desconhecidoDetails;
 	}
 
-	public void setArquivoInput(ArquivoInput arquivoInput) {
-		this.arquivoInput = arquivoInput;
+	public void setDesconhecidoDetails(
+			List<DesconhecidoDetail> desconhecidoDetails) {
+		this.desconhecidoDetails = desconhecidoDetails;
+	}
+
+	public void addDesconhecidoDetail(DesconhecidoDetail desconhecidoDetail) {
+		getDesconhecidoDetails().add(desconhecidoDetail);
+		desconhecidoDetail.setDesconhecido(this);
+	}
+
+	public void removeDesconhecido(DesconhecidoDetail desconhecidoDetail) {
+		getDesconhecidoDetails().remove(desconhecidoDetail);
+		desconhecidoDetail.setDesconhecido(null);
+	}
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 	@Override
@@ -55,7 +74,7 @@ public abstract class Desconhecido extends AbstractDomain {
 		int result = 1;
 		result = prime * result + ((ano == null) ? 0 : ano.hashCode());
 		result = prime * result
-				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+				+ ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result + ((desconhecidoDetails == null) ? 0
 				: desconhecidoDetails.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
@@ -76,10 +95,10 @@ public abstract class Desconhecido extends AbstractDomain {
 				return false;
 		} else if (!ano.equals(other.ano))
 			return false;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
+		if (contrato == null) {
+			if (other.contrato != null)
 				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
+		} else if (!contrato.equals(other.contrato))
 			return false;
 		if (desconhecidoDetails == null) {
 			if (other.desconhecidoDetails != null)
@@ -92,25 +111,6 @@ public abstract class Desconhecido extends AbstractDomain {
 		} else if (!mes.equals(other.mes))
 			return false;
 		return true;
-	}
-
-	public List<DesconhecidoDetail> getDesconhecidoDetails() {
-		return desconhecidoDetails;
-	}
-
-	public void setDesconhecidoDetails(
-			List<DesconhecidoDetail> desconhecidoDetails) {
-		this.desconhecidoDetails = desconhecidoDetails;
-	}
-
-	public void addDesconhecidoDetail(DesconhecidoDetail desconhecidoDetail) {
-		getDesconhecidoDetails().add(desconhecidoDetail);
-		desconhecidoDetail.setDesconhecido(this);
-	}
-
-	public void removeDesconhecido(DesconhecidoDetail desconhecidoDetail) {
-		getDesconhecidoDetails().remove(desconhecidoDetail);
-		desconhecidoDetail.setDesconhecido(null);
 	}
 
 }
