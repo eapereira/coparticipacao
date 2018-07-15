@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
@@ -108,10 +109,16 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			throws ServiceException {
 		CoParticipacaoInfo coParticipacaoInfo;
 		CoParticipacaoContext coParticipacaoContext;
+		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Receiving file [{}] to process:", fileName);
+
+			sb = new StringBuilder();
+			sb.append(filePath);
+			sb.append(File.separator);
+			sb.append(fileName);
 
 			coParticipacaoInfo = new CoParticipacaoInfo();
 			coParticipacaoInfo.setFileName(fileName);
@@ -120,7 +127,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext = createCoParticipacaoContext(fileName);
 
 			if (!coParticipacaoContext.getArquivoInputColsDefUis().isEmpty()) {
-				loadFileInputData(filePath, coParticipacaoContext);
+				loadFileInputData(sb.toString(), coParticipacaoContext);
 			} else {
 				throw new ServiceException(
 						"O arquivo [%s] não possui colunas definidas.",
@@ -176,6 +183,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info("Loading file [{}]:", filePath);
 
 			fileInputStream = new FileInputStream(filePath);
 

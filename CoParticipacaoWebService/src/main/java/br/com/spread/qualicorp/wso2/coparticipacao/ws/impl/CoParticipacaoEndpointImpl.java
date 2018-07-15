@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.ws.impl;
 
+import java.math.BigInteger;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,36 +23,47 @@ import br.com.spread.qualicorp.wso2.coparticipacao.ws.CoParticipacaoEndPoint;
  *
  */
 @Endpoint
-public class CoParticipacaoEndpointImpl
-		implements
-		CoParticipacaoEndPoint {
+public class CoParticipacaoEndpointImpl implements CoParticipacaoEndPoint {
 
-	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoEndpointImpl.class);
+	private static final Logger LOGGER = LogManager
+			.getLogger(CoParticipacaoEndpointImpl.class);
 
 	@Autowired
 	private CoParticipacaoService coParticipacaoService;
 
-	@PayloadRoot(namespace = CoParticipacaoEndPoint.NAMESPACE, localPart = "CoParticipacaoRequest")
+	@PayloadRoot(
+			namespace = CoParticipacaoEndPoint.NAMESPACE,
+			localPart = "CoParticipacaoRequest")
 	@ResponsePayload
-	public CoParticipacaoResponse processFile(@RequestPayload CoParticipacaoRequest coParticipacaoRequest)
+	public CoParticipacaoResponse processFile(
+			@RequestPayload CoParticipacaoRequest coParticipacaoRequest)
 			throws CoParticipacaoException {
-		CoParticipacaoResponse coParticipacaoResponse;
-		CoParticipacaoInfo coParticipacaoInfo;
+		CoParticipacaoResponse coParticipacaoResponse = null;
+		CoParticipacaoInfo coParticipacaoInfo = null;
 
 		try {
 			LOGGER.info("BEGIN");
-			LOGGER.info("Receiving file [{}] to process:", coParticipacaoRequest.getFileName());
+			LOGGER.info(
+					"Receiving file [{}] to process:",
+					coParticipacaoRequest.getFileName());
 			coParticipacaoResponse = new CoParticipacaoResponse();
 
-			coParticipacaoInfo = coParticipacaoService
-					.processFile(coParticipacaoRequest.getFileName(), coParticipacaoRequest.getFilePath());
+			coParticipacaoInfo = coParticipacaoService.processFile(
+					coParticipacaoRequest.getFileName().trim(),
+					coParticipacaoRequest.getFilePath().trim());
+			coParticipacaoResponse.setCoParticipacaoInfo(coParticipacaoInfo);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			coParticipacaoInfo.setErrorMessage(e.getMessage());
+			coParticipacaoInfo.setErrorCode(BigInteger.valueOf(1));
+
+			throw new CoParticipacaoException(e.getMessage(), e);
+		} finally {
 			coParticipacaoResponse.setCoParticipacaoInfo(coParticipacaoInfo);
 
 			LOGGER.info("END");
 			return coParticipacaoResponse;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new CoParticipacaoException(e.getMessage(), e);
+
 		}
 	}
 
