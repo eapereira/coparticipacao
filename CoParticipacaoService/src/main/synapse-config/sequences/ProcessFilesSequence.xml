@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence name="ProcessFilesSequence" trace="disable" xmlns="http://ws.apache.org/ns/synapse">
+    <log description="inputLog" level="full"/>
+    <property description="createFileNameProperties" expression="$trp:FILE_NAME" name="fileName" scope="default" type="STRING"/>
+    <property description="createFilePathProperty" expression="$trp:FILE_PATH" name="filePath" scope="default" type="STRING"/>
+    <log description="propertiesLog" level="custom">
+        <property expression="fn:concat(&quot;File Name: &quot;, get-property(&quot;fileName&quot;))" name="message"/>
+        <property expression="fn:concat(&quot;File Path: &quot;, get-property(&quot;filePath&quot;))" name="message"/>
+    </log>
+    <payloadFactory description="createPayload" media-type="xml">
+        <format>
+            <cop:CoParticipacaoRequest xmlns:cop="http://qualicorp.spread.com.br/WebService/CoParticipacao">
+                <cop:fileName>$1</cop:fileName>
+                <cop:filePath>$2</cop:filePath>
+            </cop:CoParticipacaoRequest>
+        </format>
+        <args>
+            <arg evaluator="xml" expression="get-property(&quot;fileName&quot;)"/>
+            <arg evaluator="xml" expression="get-property(&quot;filePath&quot;)"/>
+        </args>
+    </payloadFactory>
+    <log description="logPayload" level="full"/>
+    <!-- SOAP 1.1 -->
+    <property name="ContentType" scope="axis2" type="STRING" value="text/xml"/>
+    <!-- SOAP 1.2 -
+    <property name="ContentType" scope="axis2" type="STRING" value="application/soap+xml"/>
+    -->
+    <property name="OUT_ONLY" scope="default" type="STRING" value="true"/>
+    <call>
+        <endpoint key="CoParticipacaoWebService"/>
+    </call>
+</sequence>

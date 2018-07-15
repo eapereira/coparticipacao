@@ -13,18 +13,22 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  *
  */
 @SpringBootApplication
-public class CoParticipacaoWebServiceApplication extends SpringBootServletInitializer {
-	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoWebServiceApplication.class);
+public class CoParticipacaoWebServiceApplication
+		extends SpringBootServletInitializer {
+	private static final Logger LOGGER = LogManager
+			.getLogger(CoParticipacaoWebServiceApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(CoParticipacaoWebServiceApplication.class, args);
 	}
 
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	protected SpringApplicationBuilder configure(
+			SpringApplicationBuilder application) {
 		LOGGER.info("BEGIN");
 		LOGGER.info("Starting application [ CoParticipacaoWebService ]:");
 		LOGGER.info("END");
 		return application.sources(CoParticipacaoWebServiceApplication.class);
 	}
+
 }

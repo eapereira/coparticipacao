@@ -25,6 +25,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
+import org.springframework.ws.soap.SoapVersion;
+import org.springframework.ws.soap.saaj.SaajSoapMessageFactory;
 import org.springframework.ws.transport.http.MessageDispatcherServlet;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
@@ -164,7 +166,8 @@ public class CoParticipacaoWebServiceConfiguration extends WsConfigurerAdapter {
 
 			properties.setProperty("spring.jpa.show-sql", "true");
 			properties.setProperty("spring.jpa.hibernate.format_sql", "true");
-			//properties.setProperty("spring.jpa.hibernate.ddl-auto", "update");
+			// properties.setProperty("spring.jpa.hibernate.ddl-auto",
+			// "update");
 			properties.setProperty(
 					"spring.jpa.properties.hibernate.dialect",
 					"org.hibernate.dialect.MySQL5Dialect");
@@ -207,6 +210,24 @@ public class CoParticipacaoWebServiceConfiguration extends WsConfigurerAdapter {
 
 			LOGGER.info("END");
 			return dataSourceLookup.getDataSource(CO_PARTICIPACAO_DS);
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new CoParticipacaoException(e);
+		}
+	}
+
+	@Bean
+	public SaajSoapMessageFactory messageFactory()
+			throws CoParticipacaoException {
+		SaajSoapMessageFactory messageFactory;
+
+		try {
+			LOGGER.info("BEGIN");
+			messageFactory = new SaajSoapMessageFactory();
+			messageFactory.setSoapVersion(SoapVersion.SOAP_11);
+
+			LOGGER.info("END");
+			return messageFactory;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new CoParticipacaoException(e);

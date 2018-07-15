@@ -29,41 +29,41 @@ BEGIN
 	declare VAR_ID_COLUMN_08_SETOR 			bigint( 17 );
 	declare VAR_ID_COLUMN_09_LOCAL 			bigint( 17 );
 	declare VAR_ID_COLUMN_10_DT_NASCIMENTO	bigint( 17 );
-	declare VAR_ID_COLUMN_11 bigint( 17 );
+	declare VAR_ID_COLUMN_11 				bigint( 17 );
 	declare VAR_ID_COLUMN_12_CPF_DEPENDENTE	bigint( 17 );
 	declare VAR_ID_COLUMN_13_EMPRESA		bigint( 17 );
 	declare VAR_ID_COLUMN_14 				bigint( 17 );
 	declare VAR_ID_COLUMN_15				bigint( 17 );
 	
-	declare VAR_ID_COLUMN_01_PREFIXO_EMPRESA 	bigint( 17 );
-	declare VAR_ID_COLUMN_01_EMPRESA 			bigint( 17 );
-	declare VAR_ID_COLUMN_03_NR_MATRICULA 		bigint( 17 );
-	declare VAR_ID_COLUMN_04_DV 				bigint( 17 );
-	declare VAR_ID_COLUMN_05_RDP 				bigint( 17 );
-	declare VAR_ID_COLUMN_06_DC 				bigint( 17 );
-	declare VAR_ID_COLUMN_07_COD_LOCAL 			bigint( 17 );
-	declare VAR_ID_COLUMN_08_CAT_FUNCIONAL 		bigint( 17 );
-	declare VAR_ID_COLUMN_09_SETOR 				bigint( 17 );
-	declare VAR_ID_COLUMN_10_ESTADO_CIVIL 		bigint( 17 );
-	declare VAR_ID_COLUMN_11_PLANO 				bigint( 17 );
-	declare VAR_ID_COLUMN_12_PLANO_AGREG 		bigint( 17 );
-	declare VAR_ID_COLUMN_13_DT_INCLUSAO 		bigint( 17 );
-	declare VAR_ID_COLUMN_14_PLANO_COMPL 		bigint( 17 );
-	declare VAR_ID_COLUMN_15_CPF 				bigint( 17 );
-	declare VAR_ID_COLUMN_16_BANCO 				bigint( 17 );
-	declare VAR_ID_COLUMN_17_AGENCIA 			bigint( 17 );
-	declare VAR_ID_COLUMN_18_AGENCIA_DV	 		bigint( 17 );
-	declare VAR_ID_COLUMN_19_CONTA 				bigint( 17 );
-	declare VAR_ID_COLUMN_20 					bigint( 17 );
-	declare VAR_ID_COLUMN_21_NM_BENEFICIARIO	bigint( 17 );
-	declare VAR_ID_COLUMN_22_DT_NASCIMENTO	 	bigint( 17 );
-	declare VAR_ID_COLUMN_23_SEXO 				bigint( 17 );
-	declare VAR_ID_COLUMN_24_PERMANENCIA 		bigint( 17 );
-	declare VAR_ID_COLUMN_25_GRAU_PARENTESCO 	bigint( 17 );
-	declare VAR_ID_COLUMN_26_AGREGADO	 		bigint( 17 );
-	declare VAR_ID_COLUMN_27_DT_EXCLUSAO 		bigint( 17 );
-	declare VAR_ID_COLUMN_28_CARENCIA 			bigint( 17 );
-	declare VAR_ID_COLUMN_29 					bigint( 17 );
+	declare VAR_ID_COLUMN_01_PREFIXO_EMPRESA 		bigint( 17 );
+	declare VAR_ID_COLUMN_02_EMPRESA 				bigint( 17 );
+	declare VAR_ID_COLUMN_03_NR_MATRICULA 			bigint( 17 );
+	declare VAR_ID_COLUMN_04_DV 					bigint( 17 );
+	declare VAR_ID_COLUMN_05_RDP 					bigint( 17 );
+	declare VAR_ID_COLUMN_06_DC 					bigint( 17 );
+	declare VAR_ID_COLUMN_07_COD_LOCAL 				bigint( 17 );
+	declare VAR_ID_COLUMN_08_CAT_FUNCIONAL 			bigint( 17 );
+	declare VAR_ID_COLUMN_09_SETOR 					bigint( 17 );
+	declare VAR_ID_COLUMN_10_ESTADO_CIVIL 			bigint( 17 );
+	declare VAR_ID_COLUMN_11_PLANO 					bigint( 17 );
+	declare VAR_ID_COLUMN_12_PLANO_AGREG 			bigint( 17 );
+	declare VAR_ID_COLUMN_13_DT_INCLUSAO 			bigint( 17 );
+	declare VAR_ID_COLUMN_14_PLANO_COMPL 			bigint( 17 );
+	declare VAR_ID_COLUMN_15_CPF 					bigint( 17 );
+	declare VAR_ID_COLUMN_16_BANCO 					bigint( 17 );
+	declare VAR_ID_COLUMN_17_AGENCIA 				bigint( 17 );
+	declare VAR_ID_COLUMN_18_AGENCIA_DV	 			bigint( 17 );
+	declare VAR_ID_COLUMN_19_CONTA 					bigint( 17 );
+	declare VAR_ID_COLUMN_20 						bigint( 17 );
+	declare VAR_ID_COLUMN_21_NM_BENEFICIARIO		bigint( 17 );
+	declare VAR_ID_COLUMN_22_DT_NASCIMENTO	 		bigint( 17 );
+	declare VAR_ID_COLUMN_23_SEXO 					bigint( 17 );
+	declare VAR_ID_COLUMN_24_PERMANENCIA 			bigint( 17 );
+	declare VAR_ID_COLUMN_25_GRAU_PARENTESCO 		bigint( 17 );
+	declare VAR_ID_COLUMN_26_AGREGADO	 			bigint( 17 );
+	declare VAR_ID_COLUMN_27_DT_EXCLUSAO 			bigint( 17 );
+	declare VAR_ID_COLUMN_28_CARENCIA 				bigint( 17 );
+	declare VAR_ID_COLUMN_29 						bigint( 17 );
 	declare VAR_ID_COLUMN_30_DT_REFERENCIA 			bigint( 17 );
 	declare VAR_ID_COLUMN_31_CD_ORCAO_LOTACAO 		bigint( 17 );
 	declare VAR_ID_COLUMN_32_NM_ORGAO_LOTACAO 		bigint( 17 );
@@ -628,7 +628,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_01_EMPRESA from TB_ARQUIVO_INPUT_COLS_DEF; 
+	select max( ID ) into VAR_ID_COLUMN_02_EMPRESA from TB_ARQUIVO_INPUT_COLS_DEF; 
 
 	insert into TB_ARQUIVO_INPUT_COLS_DEF(
 		ID_ARQUIVO_INPUT,
@@ -2333,6 +2333,202 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_ID_COLUMN_76 from TB_ARQUIVO_INPUT_COLS_DEF; 
+	
+	/************************************************************************************************************************************************/
+	/* Inputs */
+	
+	insert into TB_INPUT_LANCAMENTO (
+		ID_LANCAMENTO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		1, /* ID_BENEFICIARIO */
+		VAR_ID_COLUMN_12_CPF_DEPENDENTE,				
+		
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+
+	insert into TB_INPUT_LANCAMENTO (
+		ID_LANCAMENTO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		3, /* ID_CONTRATO */
+		VAR_ID_COLUMN_12_CPF_DEPENDENTE,				
+		VAR_ID_COLUMN_13_EMPRESA,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	/* MECSAS */
+	
+	insert into TB_INPUT_TITULAR(
+		ID_TITULAR_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		1,
+		VAR_ID_COLUMN_03_NR_MATRICULA,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_INPUT_TITULAR(
+		ID_TITULAR_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		2,
+		VAR_ID_COLUMN_21_NM_BENEFICIARIO,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_INPUT_TITULAR(
+		ID_TITULAR_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		3,
+		VAR_ID_COLUMN_15_CPF,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_INPUT_TITULAR(
+		ID_TITULAR_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		4,
+		VAR_ID_COLUMN_22_DT_NASCIMENTO,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_INPUT_TITULAR(
+		ID_TITULAR_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		5,
+		VAR_ID_COLUMN_13_DT_INCLUSAO,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_INPUT_DEPENDENTE(
+		ID_DEPENDENTE_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		1, /* TP_DEPENDENTE */
+		VAR_ID_COLUMN_25_GRAU_PARENTESCO,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+		
+	);
+	
+	insert into TB_INPUT_DEPENDENTE(
+		ID_DEPENDENTE_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		2, /* NM_DEPENDENTE */
+		VAR_ID_COLUMN_21_NM_BENEFICIARIO,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+		
+	);
+	
+	insert into TB_INPUT_DEPENDENTE(
+		ID_DEPENDENTE_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		3, /* NR_CPF */
+		VAR_ID_COLUMN_15_CPF,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+		
+	);
+	
+	insert into TB_INPUT_DEPENDENTE(
+		ID_DEPENDENTE_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		4, /* DT_NASCIMENTO */
+		VAR_ID_COLUMN_22_DT_NASCIMENTO,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_INPUT_DEPENDENTE(
+		ID_DEPENDENTE_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		5, /* MATRICULA */
+		VAR_ID_COLUMN_03_NR_MATRICULA,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	/************************************************************************************************************************************************/	
+	/* Regra */
+
+	
+	/************************************************************************************************************************************************/
+	
 	
 	
 	
