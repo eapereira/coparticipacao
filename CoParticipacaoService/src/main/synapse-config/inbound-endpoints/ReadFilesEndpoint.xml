@@ -9,11 +9,11 @@
         <parameter name="transport.vfs.AutoLockRelease">false</parameter>
         <parameter name="transport.vfs.ActionAfterFailure">MOVE</parameter>
         <parameter name="transport.vfs.ActionAfterProcess">MOVE</parameter>
-        <parameter name="transport.vfs.FileURI">file:///home/eapereira/desenv/work/coparticipacao/input</parameter>
-        <parameter name="transport.vfs.MoveAfterFailure">file:///home/eapereira/desenv/work/coparticipacao/failure</parameter>
+        <parameter name="transport.vfs.FileURI">file://c:/desenv/work/coparticipacao/input</parameter>
+        <parameter name="transport.vfs.MoveAfterFailure">file://c:/desenv/work/coparticipacao/failure</parameter>
         <parameter name="transport.vfs.DistributedLock">false</parameter>
         <parameter name="transport.vfs.FileNamePattern">^.+(\.txt|\.TXT|\.csv|\.CSV)$</parameter>
-        <parameter name="transport.vfs.MoveAfterProcess">file:///home/eapereira/desenv/work/coparticipacao/output</parameter>
+        <parameter name="transport.vfs.MoveAfterProcess">file://c:/desenv/work/coparticipacao/output</parameter>
         <parameter name="transport.vfs.Locking">disable</parameter>
         <parameter name="transport.vfs.FileSortAttribute">none</parameter>
         <parameter name="transport.vfs.FileSortAscending">true</parameter>

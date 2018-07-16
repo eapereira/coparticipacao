@@ -689,7 +689,7 @@ create table TB_TITULAR_ISENTO(
 create table TB_DEPENDENTE_ISENTO(
 	ID 						bigint( 17 ) auto_increment,
 	ID_DEPENDENTE			bigint( 17 ) not null,
-	TP_ISENTO				int( 3 ) not null, /* */
+	TP_ISENTO				int( 3 ) not null, /* 1 = GRAVIDA,  */
 	
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
@@ -779,7 +779,8 @@ create table TB_INPUT_TITULAR_ISENTO_COLS(
 	ID 							bigint( 17 ) auto_increment,
     ID_INPUT_TITULAR_ISENTO		bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
-	ID_TITULAR_ISENTO_COLS_DEF	bigint( 17 ) not null,
+	ID_TITULAR_ISENTO_COLS_DEF	bigint( 17 ) null,
+	TP_ISENTO					int( 3 ) null,
 		
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
@@ -800,7 +801,8 @@ create table TB_INPUT_DEPENDENTE_ISENTO_COLS(
 	ID 								bigint( 17 ) auto_increment,
 	ID_INPUT_DEPENDENTE_ISENTO		bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) not null,
-	ID_DEPENDENTE_ISENTO_COLS_DEF	bigint( 17 ) not null,
+	ID_DEPENDENTE_ISENTO_COLS_DEF	bigint( 17 ) null,
+	TP_ISENTO						int( 3 ) null,
 		
 	USER_CREATED					bigint( 17 ) not null,
 	USER_ALTERED 					bigint( 17 ),

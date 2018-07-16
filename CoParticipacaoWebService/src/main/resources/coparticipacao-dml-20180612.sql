@@ -3069,7 +3069,7 @@ insert into TB_TITULAR_ISENTO_COLS_DEF(
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (	
-	'ID_ISENTO',
+	'TP_ISENTO',
 	5, /* LONG */
 	17,
 	1,
@@ -3099,7 +3099,7 @@ insert into TB_DEPENDENTE_ISENTO_COLS_DEF(
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (	
-	'ID_ISENTO',
+	'TP_ISENTO',
 	5, /* LONG */
 	17,
 	1,
@@ -5357,3 +5357,6 @@ insert into TB_INPUT_BENEFICIARIO_BIND(
 	current_timestamp()		
 );
 
+/********************************************************************************************************************************************************/
+
+commit;

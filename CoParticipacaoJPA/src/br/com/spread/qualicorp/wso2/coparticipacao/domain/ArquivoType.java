@@ -6,8 +6,9 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
  *
  */
 public enum ArquivoType {
-	FIXED_LENGTH(1, "Flat File"),
-	CSV(2, "Comma Delimited");
+							FIXED_LENGTH(1, "Flat File"),
+							CSV(2, "Comma Delimited"),
+							SPREADSHEET(3, "Spreadsheet");
 
 	private Integer id;
 

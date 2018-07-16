@@ -25,18 +25,18 @@
 	<!-- <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" 
 		/> -->
 
-	<!-- Windows -->
-	<!-- 
+	<!-- Windows --> 
 	<Resource name="jdbc/CoparticipacaoDS" auth="Container"
 		type="javax.sql.DataSource" maxActive="50" maxIdle="30" maxWait="10000"
 		username="coparticipacao" password="coparticipacao" driverClassName="com.mysql.cj.jdbc.Driver"
 		url="jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&amp;useJDBCCompliantTimezoneShift=true&amp;serverTimezone=UTC&amp;useLegacyDatetimeCode=false&amp;zeroDateTimeBehavior=CONVERT_TO_NULL" />
-	-->
 
 	<!-- Linux -->
+	<!-- 
 	<Resource name="jdbc/CoparticipacaoDS" auth="Container"
 		type="javax.sql.DataSource" maxActive="50" maxIdle="30" maxWait="10000"
 		username="coparticipacao" password="coparticipacao" driverClassName="com.mysql.cj.jdbc.Driver"
 		url="jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&amp;characterEncoding=UTF-8&amp;useJDBCCompliantTimezoneShift=true&amp;serverTimezone=UTC&amp;useLegacyDatetimeCode=false" />
+	-->
 
 </Context>

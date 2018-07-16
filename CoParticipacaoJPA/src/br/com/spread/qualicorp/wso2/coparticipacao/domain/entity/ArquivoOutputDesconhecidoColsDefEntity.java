@@ -1,6 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -66,7 +65,6 @@ public class ArquivoOutputDesconhecidoColsDefEntity
 	}
 
 	@ManyToOne(
-			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY,
 			targetEntity = ArquivoOutputDesconhecidoEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_OUTPUT_DESCONHECIDO")

@@ -1,9 +1,9 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,8 +54,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.UserService;
 @Transactional
 public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(CoParticipacaoServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoServiceImpl.class);
 
 	@Autowired
 	private ArquivoInputService arquivoInputService;
@@ -105,20 +104,14 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	private static final Long USER_ADMIN_ID = 1l;
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public CoParticipacaoInfo processFile(String fileName, String filePath)
-			throws ServiceException {
+	public CoParticipacaoInfo processFile(String fileName, String filePath) throws ServiceException {
 		CoParticipacaoInfo coParticipacaoInfo;
 		CoParticipacaoContext coParticipacaoContext;
-		StringBuilder sb;
+		String tmp;
 
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Receiving file [{}] to process:", fileName);
-
-			sb = new StringBuilder();
-			sb.append(filePath);
-			sb.append(File.separator);
-			sb.append(fileName);
 
 			coParticipacaoInfo = new CoParticipacaoInfo();
 			coParticipacaoInfo.setFileName(fileName);
@@ -127,11 +120,12 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext = createCoParticipacaoContext(fileName);
 
 			if (!coParticipacaoContext.getArquivoInputColsDefUis().isEmpty()) {
-				loadFileInputData(sb.toString(), coParticipacaoContext);
+				tmp = StringUtils.replaceAll(filePath, "\\\\", "/");
+				tmp = StringUtils.replaceAll(tmp, "input", "output");
+				
+				loadFileInputData(tmp, coParticipacaoContext);
 			} else {
-				throw new ServiceException(
-						"O arquivo [%s] não possui colunas definidas.",
-						fileName);
+				throw new ServiceException("O arquivo [%s] não possui colunas definidas.", fileName);
 			}
 
 			LOGGER.info("END");
@@ -142,8 +136,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		}
 	}
 
-	private CoParticipacaoContext createCoParticipacaoContext(String fileName)
-			throws ServiceException {
+	private CoParticipacaoContext createCoParticipacaoContext(String fileName) throws ServiceException {
 		CoParticipacaoContext coParticipacaoContext = null;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 
@@ -153,17 +146,12 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext = arquivoInputService.findByName(fileName);
 
 			if (coParticipacaoContext == null) {
-				throw new ServiceException(
-						"O arquivo [%s] não é cadastrado em ArquivoInput no sistema.",
-						fileName);
+				throw new ServiceException("O arquivo [%s] não é cadastrado em ArquivoInput no sistema.", fileName);
 			} else {
 				arquivoInputColsDefUis = arquivoInputColsDefService
-						.listByArquivoInputId(
-								coParticipacaoContext.getArquivoInputUi()
-										.getId());
+						.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
 
-				coParticipacaoContext
-						.setArquivoInputColsDefUis(arquivoInputColsDefUis);
+				coParticipacaoContext.setArquivoInputColsDefUis(arquivoInputColsDefUis);
 			}
 
 			LOGGER.info("END");
@@ -174,9 +162,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		}
 	}
 
-	private void loadFileInputData(
-			String filePath,
-			CoParticipacaoContext coParticipacaoContext)
+	private void loadFileInputData(String filePath, CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
 		FileInputStream fileInputStream;
 		ArquivoInputUi arquivoInputUi;
@@ -193,20 +179,15 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
 
-			if (ArquivoType.FIXED_LENGTH
-					.equals(arquivoInputUi.getArquivoType())) {
+			if (ArquivoType.FIXED_LENGTH.equals(arquivoInputUi.getArquivoType())) {
 				loadLancamentoDefinitions(coParticipacaoContext);
 
-				fixedLengthProcessorService.readInputStream(
-						coParticipacaoContext,
+				fixedLengthProcessorService.readInputStream(coParticipacaoContext,
 						(ProcessorListener) lancamentoService);
-			} else if (ArquivoType.CSV
-					.equals(arquivoInputUi.getArquivoType())) {
+			} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 				loadMecsasDefinitions(coParticipacaoContext);
 
-				csvProcessorService.readInputStream(
-						coParticipacaoContext,
-						(ProcessorListener) mecsasService);
+				csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) mecsasService);
 			}
 
 			LOGGER.info("END");
@@ -216,9 +197,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		}
 	}
 
-	private void loadDefaultDefinitions(
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	private void loadDefaultDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		UserUi userUi;
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
@@ -232,13 +211,11 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			coParticipacaoContext.setUser(userUi);
 
-			empresaUi = (EmpresaUi) coParticipacaoContext.getArquivoInputUi()
-					.getContrato().getEmpresa();
+			empresaUi = (EmpresaUi) coParticipacaoContext.getArquivoInputUi().getContrato().getEmpresa();
 
 			// Carregando todos os beneficiários existentes da empresa:
 			titularUis = titularService.listByEmpresaId(empresaUi.getId());
-			dependenteUis = dependenteService
-					.listByEmpresaId(empresaUi.getId());
+			dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
 
 			coParticipacaoContext.setEmpresaUi(empresaUi);
 			coParticipacaoContext.setTitularUis(titularUis);
@@ -255,33 +232,27 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	}
 
-	private void loadMecsasDefinitions(
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	private void loadMecsasDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		List<InputDependenteUi> inputDependenteUis;
 		List<InputTitularUi> inputTitularUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			inputDependenteUis = inputDependenteService.listByArquivoInputId(
-					coParticipacaoContext.getArquivoInputUi().getId());
+			inputDependenteUis = inputDependenteService
+					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
 
-			inputTitularUis = inputTitularService.listByArquivoInputId(
-					coParticipacaoContext.getArquivoInputUi().getId());
+			inputTitularUis = inputTitularService
+					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
 
 			if (inputDependenteUis.isEmpty()) {
-				LOGGER.info(
-						"Didn't found mappings at InputDependente for ArquivoInput[{}]:",
-						coParticipacaoContext.getArquivoInputUi()
-								.getNameArquivoRegexp());
+				LOGGER.info("Didn't found mappings at InputDependente for ArquivoInput[{}]:",
+						coParticipacaoContext.getArquivoInputUi().getNameArquivoRegexp());
 			}
 
 			if (inputTitularUis.isEmpty()) {
-				LOGGER.info(
-						"Didn't found mappings at InputTitular for ArquivoInput[{}]:",
-						coParticipacaoContext.getArquivoInputUi()
-								.getNameArquivoRegexp());
+				LOGGER.info("Didn't found mappings at InputTitular for ArquivoInput[{}]:",
+						coParticipacaoContext.getArquivoInputUi().getNameArquivoRegexp());
 			}
 
 			coParticipacaoContext.setInputDependenteUis(inputDependenteUis);
@@ -295,9 +266,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	}
 
-	private void loadLancamentoDefinitions(
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	private void loadLancamentoDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		List<InputLancamentoUi> inputLancamentoUis;
 		List<RegraUi> regraUis;
 		List<RegraConditionalUi> regraConditionalUis;
@@ -305,33 +274,23 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		try {
 			LOGGER.info("BEGIN");
 
-			inputLancamentoUis = inputLancamentoService.listByArquivoInputId(
-					coParticipacaoContext.getArquivoInputUi().getId());
+			inputLancamentoUis = inputLancamentoService
+					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
 
-			coParticipacaoContext.getInputLancamentoUis()
-					.addAll(inputLancamentoUis);
+			coParticipacaoContext.getInputLancamentoUis().addAll(inputLancamentoUis);
 
 			// Caregando as regras para o arquivo:
-			regraUis = regraService.listRegrasByArquivoInputId(
-					coParticipacaoContext.getArquivoInputUi().getId());
+			regraUis = regraService.listRegrasByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
 			regraConditionalUis = regraConditionalService
-					.listRegrasByArquivoInputId(
-							coParticipacaoContext.getArquivoInputUi().getId());
+					.listRegrasByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
 
-			LOGGER.info(
-					"Loading [{}] Regras to use with ArquivoInput [{}]:",
-					regraUis.size(),
-					coParticipacaoContext.getArquivoInputUi()
-							.getDescrArquivo());
-			LOGGER.info(
-					"Loading [{}] RegraCondicionais to use with ArquivoInput [{}]:",
-					regraConditionalUis.size(),
-					coParticipacaoContext.getArquivoInputUi()
-							.getDescrArquivo());
+			LOGGER.info("Loading [{}] Regras to use with ArquivoInput [{}]:", regraUis.size(),
+					coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
+			LOGGER.info("Loading [{}] RegraCondicionais to use with ArquivoInput [{}]:", regraConditionalUis.size(),
+					coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 
 			coParticipacaoContext.getRegraUis().addAll(regraUis);
-			coParticipacaoContext.getRegraConditionalUis()
-					.addAll(regraConditionalUis);
+			coParticipacaoContext.getRegraConditionalUis().addAll(regraConditionalUis);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
