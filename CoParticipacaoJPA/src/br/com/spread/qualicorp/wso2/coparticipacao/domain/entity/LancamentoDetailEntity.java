@@ -15,7 +15,7 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LocalDateConverter;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 
 /**

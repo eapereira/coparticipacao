@@ -28,7 +28,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				InputDependenteEntityMapper.class,
 				InputLancamentoEntityMapper.class,
 				InputTitularEntityMapper.class,
-				IsentoEntityMapper.class,
 				LancamentoColsDefEntityMapper.class,
 				LancamentoDetailEntityMapper.class,
 				LancamentoEntityMapper.class,

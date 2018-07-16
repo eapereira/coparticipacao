@@ -1,4 +1,4 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.domain;
+package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;

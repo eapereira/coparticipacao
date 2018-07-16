@@ -41,8 +41,6 @@ public abstract class User extends AbstractDomain {
 	private List<InputLancamento> inputLancamentosUserAltered;
 	private List<InputTitular> inputTitularsUserCreated;
 	private List<InputTitular> inputTitularsUserAltered;
-	private List<Isento> isentosUserCreated;
-	private List<Isento> isentosUserAltered;
 	private List<Lancamento> lancamentosUserCreated;
 	private List<Lancamento> lancamentosUserAltered;
 	private List<LancamentoColsDef> lancamentoColsDefsUserCreated;
@@ -759,50 +757,6 @@ public abstract class User extends AbstractDomain {
 		return inputTitularsUserAltered;
 	}
 
-	public List<Isento> getIsentosUserCreated() {
-		return this.isentosUserCreated;
-	}
-
-	public void setIsentosUserCreated(List<Isento> isentosUserCreated) {
-		this.isentosUserCreated = isentosUserCreated;
-	}
-
-	public Isento addIsentosUserCreated(Isento isentosUserCreated) {
-		getIsentosUserCreated().add(isentosUserCreated);
-		isentosUserCreated.setUserCreated(this);
-
-		return isentosUserCreated;
-	}
-
-	public Isento removeIsentosUserCreated(Isento isentosUserCreated) {
-		getIsentosUserCreated().remove(isentosUserCreated);
-		isentosUserCreated.setUserCreated(null);
-
-		return isentosUserCreated;
-	}
-
-	public List<Isento> getIsentosUserAltered() {
-		return this.isentosUserAltered;
-	}
-
-	public void setIsentosUserAltered(List<Isento> isentosUserAltered) {
-		this.isentosUserAltered = isentosUserAltered;
-	}
-
-	public Isento addIsentosUserAltered(Isento isentosUserAltered) {
-		getIsentosUserAltered().add(isentosUserAltered);
-		isentosUserAltered.setUserAltered(this);
-
-		return isentosUserAltered;
-	}
-
-	public Isento removeIsentosUserAltered(Isento isentosUserAltered) {
-		getIsentosUserAltered().remove(isentosUserAltered);
-		isentosUserAltered.setUserAltered(null);
-
-		return isentosUserAltered;
-	}
-
 	public List<Lancamento> getLancamentosUserCreated() {
 		return this.lancamentosUserCreated;
 	}
@@ -1501,10 +1455,6 @@ public abstract class User extends AbstractDomain {
 				: inputTitularsUserAltered.hashCode());
 		result = prime * result + ((inputTitularsUserCreated == null) ? 0
 				: inputTitularsUserCreated.hashCode());
-		result = prime * result + ((isentosUserAltered == null) ? 0
-				: isentosUserAltered.hashCode());
-		result = prime * result + ((isentosUserCreated == null) ? 0
-				: isentosUserCreated.hashCode());
 		result = prime * result + ((lancamentoColsDefsUserAltered == null) ? 0
 				: lancamentoColsDefsUserAltered.hashCode());
 		result = prime * result + ((lancamentoColsDefsUserCreated == null) ? 0
@@ -1554,10 +1504,12 @@ public abstract class User extends AbstractDomain {
 				: userAlteredParameter.hashCode());
 		result = prime * result + ((userCreatedParameter == null) ? 0
 				: userCreatedParameter.hashCode());
-		result = prime * result + ((viewDestinationColsDefsUserAltered == null)
-				? 0 : viewDestinationColsDefsUserAltered.hashCode());
-		result = prime * result + ((viewDestinationColsDefsUserCreated == null)
-				? 0 : viewDestinationColsDefsUserCreated.hashCode());
+		result = prime * result
+				+ ((viewDestinationColsDefsUserAltered == null) ? 0
+						: viewDestinationColsDefsUserAltered.hashCode());
+		result = prime * result
+				+ ((viewDestinationColsDefsUserCreated == null) ? 0
+						: viewDestinationColsDefsUserCreated.hashCode());
 		result = prime * result + ((viewDestinationsUserAltered == null) ? 0
 				: viewDestinationsUserAltered.hashCode());
 		result = prime * result + ((viewDestinationsUserCreated == null) ? 0
@@ -1729,16 +1681,6 @@ public abstract class User extends AbstractDomain {
 		} else if (!inputTitularsUserCreated
 				.equals(other.inputTitularsUserCreated))
 			return false;
-		if (isentosUserAltered == null) {
-			if (other.isentosUserAltered != null)
-				return false;
-		} else if (!isentosUserAltered.equals(other.isentosUserAltered))
-			return false;
-		if (isentosUserCreated == null) {
-			if (other.isentosUserCreated != null)
-				return false;
-		} else if (!isentosUserCreated.equals(other.isentosUserCreated))
-			return false;
 		if (lancamentoColsDefsUserAltered == null) {
 			if (other.lancamentoColsDefsUserAltered != null)
 				return false;
@@ -1895,4 +1837,5 @@ public abstract class User extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 }

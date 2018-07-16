@@ -15,15 +15,21 @@ drop table if exists TB_INPUT_BENEFICIARIO;
 drop table if exists TB_BENEFICIARIO_COLS_DEF;
 drop table if exists TB_BENEFICIARIO;
 
-drop table if exists TB_INPUT_ISENTO;
+drop table if exists TB_INPUT_DEPENDENTE_ISENTO;
+drop table if exists TB_INPUT_TITULAR_ISENTO;
+drop table if exists TB_INPUT_DEPENDENTE_ISENTO_COLS;
+drop table if exists TB_INPUT_TITULAR_ISENTO_COLS;
+drop table if exists TB_DEPENDENTE_ISENTO_COLS_DEF;
+drop table if exists TB_TITULAR_ISENTO_COLS_DEF;
+drop table if exists TB_DEPENDENTE_ISENTO;
+drop table if exists TB_TITULAR_ISENTO;
+
 drop table if exists TB_INPUT_DEPENDENTE;
 drop table if exists TB_INPUT_TITULAR;
 drop table if exists TB_INPUT_LANCAMENTO;
 drop table if exists TB_DEPENDENTE_COLS_DEF; 
 drop table if exists TB_TITULAR_COLS_DEF;
 drop table if exists TB_LANCAMENTO_COLS_DEF;
-drop table if exists TB_DEPENDENTE_ISENTO_COLS_DEF;
-drop table if exists TB_TITULAR_ISENTO_COLS_DEF;
 
 drop table if exists TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO;
 drop table if exists TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF;
@@ -31,9 +37,6 @@ drop table if exists TB_ARQUIVO_OUTPUT_DESCONHECIDO;
 drop table if exists TB_DESCONHECIDO_DETAIL;
 drop table if exists TB_DESCONHECIDO;
 
-drop table if exists TB_DEPENDENTE_ISENTO;
-drop table if exists TB_TITULAR_ISENTO;
-drop table if exists TB_ISENTO;
 drop table if exists TB_LANCAMENTO_DETAIL;
 drop table if exists TB_LANCAMENTO;
 drop table if exists TB_DEPENDENTE;
@@ -605,61 +608,11 @@ create table TB_LANCAMENTO_DETAIL(
 	constraint FK_LANCAMENTO_DETAIL_03 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
 );
 
-create table TB_ISENTO(
-	ID 						bigint( 17 ) auto_increment,
-	NM_ISENTO				varchar( 60 ) not null,
-	
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,		
-	
-	constraint PK_ISENTO primary key( ID ),
-	
-	constraint FK_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID )
-);
-
-create table TB_TITULAR_ISENTO(
-	ID 						bigint( 17 ) auto_increment,
-	ID_TITULAR				bigint( 17 ) not null,
-	ID_ISENTO				bigint( 17 ) not null,
-	
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,		
-	
-	constraint PK_TITULAR_ISENTO primary key( ID ),
-	
-	constraint FK_TITULAR_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_TITULAR_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_TITULAR_ISENTO_03 foreign key( ID_TITULAR ) references TB_TITULAR( ID ),
-	constraint FK_TITULAR_ISENTO_04 foreign key( ID_ISENTO ) references TB_ISENTO( ID )
-);
-
-create table TB_DEPENDENTE_ISENTO(
-	ID 						bigint( 17 ) auto_increment,
-	ID_DEPENDENTE			bigint( 17 ) not null,
-	ID_ISENTO				bigint( 17 ) not null,
-	
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,		
-	
-	constraint PK_DEPENDENTE_ISENTO primary key( ID ),
-	
-	constraint FK_DEPENDENTE_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_DEPENDENTE_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_DEPENDENTE_ISENTO_03 foreign key( ID_DEPENDENTE ) references TB_DEPENDENTE( ID ),
-	constraint FK_DEPENDENTE_ISENTO_04 foreign key( ID_ISENTO ) references TB_ISENTO( ID )
-);
 
 create table TB_LANCAMENTO_COLS_DEF(
 	ID 						bigint( 17 ) auto_increment,
 	NM_COLUMN				varchar( 60 ),
-	CD_TYPE					int( 3 ) not null, /* 0 = int, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
 	USER_CREATED			bigint( 17 ) not null,
@@ -678,7 +631,7 @@ create table TB_LANCAMENTO_COLS_DEF(
 create table TB_TITULAR_COLS_DEF(
 	ID 						bigint( 17 ) auto_increment,
 	NM_COLUMN				varchar( 60 ),
-	CD_TYPE					int( 3 ) not null, /* 0 = bigint( 17 ), 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
 	USER_CREATED			bigint( 17 ) not null,
@@ -697,7 +650,7 @@ create table TB_TITULAR_COLS_DEF(
 create table TB_DEPENDENTE_COLS_DEF(
 	ID 						bigint( 17 ) auto_increment,
 	NM_COLUMN				varchar( 60 ),
-	CD_TYPE					int( 3 ) not null, /* 0 = bigint( 17 ), 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
 	USER_CREATED			bigint( 17 ) not null,
@@ -713,10 +666,47 @@ create table TB_DEPENDENTE_COLS_DEF(
 	constraint FK_DEPENDENTE_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID )
 );
 
+/***********************************************************************************************************************/
+/* Isento */
+
+create table TB_TITULAR_ISENTO(
+	ID 						bigint( 17 ) auto_increment,
+	ID_TITULAR				bigint( 17 ) not null,
+	TP_ISENTO				int( 3 ) not null, /* */
+	
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,		
+	
+	constraint PK_TITULAR_ISENTO primary key( ID ),
+	
+	constraint FK_TITULAR_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_TITULAR_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_TITULAR_ISENTO_03 foreign key( ID_TITULAR ) references TB_TITULAR( ID )
+);
+
+create table TB_DEPENDENTE_ISENTO(
+	ID 						bigint( 17 ) auto_increment,
+	ID_DEPENDENTE			bigint( 17 ) not null,
+	TP_ISENTO				int( 3 ) not null, /* */
+	
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,		
+	
+	constraint PK_DEPENDENTE_ISENTO primary key( ID ),
+	
+	constraint FK_DEPENDENTE_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_DEPENDENTE_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_DEPENDENTE_ISENTO_03 foreign key( ID_DEPENDENTE ) references TB_DEPENDENTE( ID )
+);
+
 create table TB_TITULAR_ISENTO_COLS_DEF(
 	ID 						bigint( 17 ) auto_increment,
 	NM_COLUMN				varchar( 60 ),
-	CD_TYPE					int( 3 ) not null, /* 0 = bigint( 17 ), 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
 	USER_CREATED			bigint( 17 ) not null,
@@ -735,7 +725,7 @@ create table TB_TITULAR_ISENTO_COLS_DEF(
 create table TB_DEPENDENTE_ISENTO_COLS_DEF(
 	ID 						bigint( 17 ) auto_increment,
 	NM_COLUMN				varchar( 60 ),
-	CD_TYPE					int( 3 ) not null, /* 0 = bigint( 17 ), 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
 	USER_CREATED			bigint( 17 ) not null,
@@ -750,6 +740,85 @@ create table TB_DEPENDENTE_ISENTO_COLS_DEF(
 	constraint FK_DEPENDENTE_ISENTO_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_DEPENDENTE_ISENTO_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID )
 );
+
+create table TB_INPUT_TITULAR_ISENTO(
+	ID 								bigint( 17 ) auto_increment,
+	ID_ARQUIVO_INPUT				bigint( 17 ) not null,
+	
+	USER_CREATED					bigint( 17 ) not null,
+	USER_ALTERED 					bigint( 17 ),
+	DT_CREATED						timestamp not null,
+	DT_ALTERED						timestamp not null,
+	
+	constraint PK_INPUT_TITULAR_ISENTO primary key( ID ),
+	
+	constraint FK_INPUT_TITULAR_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_INPUT_TITULAR_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_INPUT_TITULAR_ISENTO_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
+	
+);
+
+create table TB_INPUT_DEPENDENTE_ISENTO(
+	ID 								bigint( 17 ) auto_increment,
+	ID_ARQUIVO_INPUT				bigint( 17 ) not null,
+	
+	USER_CREATED					bigint( 17 ) not null,
+	USER_ALTERED 					bigint( 17 ),
+	DT_CREATED						timestamp not null,
+	DT_ALTERED						timestamp not null,
+	
+	constraint PK_INPUT_DEPENDENTE_ISENTO primary key( ID ),
+	
+	constraint FK_INPUT_DEPENDENTE_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_INPUT_DEPENDENTE_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_INPUT_DEPENDENTE_ISENTO_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
+	
+);
+
+create table TB_INPUT_TITULAR_ISENTO_COLS(
+	ID 							bigint( 17 ) auto_increment,
+    ID_INPUT_TITULAR_ISENTO		bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
+	ID_TITULAR_ISENTO_COLS_DEF	bigint( 17 ) not null,
+		
+	USER_CREATED				bigint( 17 ) not null,
+	USER_ALTERED 				bigint( 17 ),
+	DT_CREATED					timestamp not null,
+	DT_ALTERED					timestamp not null,
+
+	constraint PK_INPUT_TITULAR_ISENTO_COLS primary key( ID ),
+    
+    constraint UN_INPUT_TITULAR_ISENTO_COLS unique key( ID_INPUT_TITULAR_ISENTO, ID_ARQUIVO_INPUT_COLS_DEF, ID_TITULAR_ISENTO_COLS_DEF ),
+
+	constraint FK_INPUT_TITULAR_ISENTO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_INPUT_TITULAR_ISENTO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_INPUT_TITULAR_ISENTO_COLS_03 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
+	constraint FK_INPUT_TITULAR_ISENTO_COLS_04 foreign key( ID_TITULAR_ISENTO_COLS_DEF ) references TB_TITULAR_ISENTO_COLS_DEF( ID )
+);
+
+create table TB_INPUT_DEPENDENTE_ISENTO_COLS(
+	ID 								bigint( 17 ) auto_increment,
+	ID_INPUT_DEPENDENTE_ISENTO		bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) not null,
+	ID_DEPENDENTE_ISENTO_COLS_DEF	bigint( 17 ) not null,
+		
+	USER_CREATED					bigint( 17 ) not null,
+	USER_ALTERED 					bigint( 17 ),
+	DT_CREATED						timestamp not null,
+	DT_ALTERED						timestamp not null,
+
+	constraint PK_INPUT_DEPENDENTE_ISENTO_COLS primary key( ID ),
+	
+	constraint UN_INPUT_DEPENDENTE_ISENTO_COLS unique key( ID_INPUT_DEPENDENTE_ISENTO, ID_ARQUIVO_INPUT_COLS_DEF, ID_DEPENDENTE_ISENTO_COLS_DEF ),
+
+	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_03 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
+	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_04 foreign key( ID_DEPENDENTE_ISENTO_COLS_DEF ) references TB_DEPENDENTE_ISENTO_COLS_DEF( ID ),
+	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_05 foreign key( ID_INPUT_DEPENDENTE_ISENTO ) references TB_DEPENDENTE_ISENTO( ID )
+);
+
+/***********************************************************************************************************************/
 
 create table TB_INPUT_LANCAMENTO(
 	ID 							bigint( 17 ) auto_increment,

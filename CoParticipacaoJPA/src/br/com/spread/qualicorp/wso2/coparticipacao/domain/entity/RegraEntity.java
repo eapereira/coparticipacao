@@ -17,7 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraOperation;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraTypeConverter;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.RegraTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 
 /**

@@ -17,9 +17,9 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 
 /**

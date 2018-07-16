@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateTimeConverter;
 
 /**
  * 

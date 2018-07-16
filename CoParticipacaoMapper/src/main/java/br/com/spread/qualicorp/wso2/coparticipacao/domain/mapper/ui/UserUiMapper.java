@@ -29,7 +29,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 				InputDependenteUiMapper.class,
 				InputLancamentoUiMapper.class,
 				InputTitularUiMapper.class,
-				IsentoUiMapper.class,
 				LancamentoColsDefUiMapper.class,
 				LancamentoDetailUiMapper.class,
 				LancamentoUiMapper.class,

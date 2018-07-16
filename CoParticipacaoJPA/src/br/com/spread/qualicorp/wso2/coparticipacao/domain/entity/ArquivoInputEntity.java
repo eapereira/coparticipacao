@@ -22,7 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputBeneficiario;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseTypeConverter;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.UseTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 
 /**

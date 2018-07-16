@@ -8,7 +8,7 @@ public abstract class DependenteIsento extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
 	private Dependente dependente;
-	private Isento isento;
+	private IsentoType isentoType;
 
 	public DependenteIsento() {
 	}
@@ -25,12 +25,43 @@ public abstract class DependenteIsento extends AbstractDomain {
 		this.dependente = dependente;
 	}
 
-	public Isento getIsento() {
-		return this.isento;
+	public IsentoType getIsentoType() {
+		return isentoType;
 	}
 
-	public void setIsento(Isento isento) {
-		this.isento = isento;
+	public void setIsentoType(IsentoType isentoType) {
+		this.isentoType = isentoType;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((dependente == null) ? 0 : dependente.hashCode());
+		result = prime * result
+				+ ((isentoType == null) ? 0 : isentoType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DependenteIsento other = (DependenteIsento) obj;
+		if (dependente == null) {
+			if (other.dependente != null)
+				return false;
+		} else if (!dependente.equals(other.dependente))
+			return false;
+		if (isentoType != other.isentoType)
+			return false;
+		return true;
+	}
+
 
 }

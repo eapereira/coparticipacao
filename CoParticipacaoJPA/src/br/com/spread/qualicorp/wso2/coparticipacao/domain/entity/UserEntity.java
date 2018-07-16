@@ -22,7 +22,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputDependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputLancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitular;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Isento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
@@ -36,9 +35,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.User;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UserStatusType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.UserStatusTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestination;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.UserStatusTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 
 /**
@@ -48,7 +47,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 @Entity
 @Table(name = "TB_USER")
 @NamedQuery(name = "UserEntity.findAll", query = "SELECT u FROM UserEntity u")
-public class UserEntity extends User{
+public class UserEntity extends User {
 
 	/**
 	 * 
@@ -277,18 +276,6 @@ public class UserEntity extends User{
 			targetEntity = InputTitularEntity.class)
 	public List<InputTitular> getInputTitularsUserAltered() {
 		return super.getInputTitularsUserAltered();
-	}
-
-	// bi-directional many-to-one association to Isento
-	@OneToMany(mappedBy = "userCreated", targetEntity = IsentoEntity.class)
-	public List<Isento> getIsentosUserCreated() {
-		return super.getIsentosUserCreated();
-	}
-
-	// bi-directional many-to-one association to Isento
-	@OneToMany(mappedBy = "userAltered", targetEntity = IsentoEntity.class)
-	public List<Isento> getIsentosUserAltered() {
-		return super.getIsentosUserAltered();
 	}
 
 	// bi-directional many-to-one association to Lancamento

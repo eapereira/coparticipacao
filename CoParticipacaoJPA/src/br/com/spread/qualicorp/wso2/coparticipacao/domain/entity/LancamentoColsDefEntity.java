@@ -10,9 +10,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputLancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDefTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoColsDefUi;
 
 /**

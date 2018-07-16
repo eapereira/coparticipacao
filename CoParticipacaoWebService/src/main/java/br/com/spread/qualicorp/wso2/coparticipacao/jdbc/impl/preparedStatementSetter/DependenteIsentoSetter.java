@@ -25,14 +25,14 @@ public class DependenteIsentoSetter extends PreparedStatementSetterAdapter<Depen
 	@Override
 	protected void setValuesForInsert(PreparedStatement ps) throws SQLException {
 		ps.setLong(COL_ID_DEPENDENTE, getEntity().getDependente().getId());
-		ps.setLong(COL_ID_ISENTO, getEntity().getIsento().getId());
+		ps.setLong(COL_ID_ISENTO, getEntity().getIsentoType().getId());
 		ps.setLong(COL_USER_CREATED, getEntity().getUserCreated().getId());
 	}
 
 	@Override
 	protected void setValuesForUpdate(PreparedStatement ps) throws SQLException {
 		ps.setLong(COL_ID_DEPENDENTE, getEntity().getDependente().getId());
-		ps.setLong(COL_ID_ISENTO, getEntity().getIsento().getId());
+		ps.setLong(COL_ID_ISENTO, getEntity().getIsentoType().getId());
 		ps.setLong(COL_USER_ALTERED, getEntity().getUserAltered().getId());
 	}
 

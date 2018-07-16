@@ -16,10 +16,10 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteIsento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.DependenteTypeConverter;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 
 /**

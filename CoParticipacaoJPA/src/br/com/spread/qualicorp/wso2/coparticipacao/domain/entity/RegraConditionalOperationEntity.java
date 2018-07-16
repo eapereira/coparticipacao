@@ -13,11 +13,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditional;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalField;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalOperation;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalValor;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.OperationTypeConverter;
 
 /**
  * 
