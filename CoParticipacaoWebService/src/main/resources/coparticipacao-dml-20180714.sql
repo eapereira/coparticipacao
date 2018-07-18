@@ -128,6 +128,15 @@ BEGIN
 	declare VAR_ID_COLUMN_02_GESTANTE_NM_GESTANTE	bigint( 17 );
 	declare VAR_ID_COLUMN_03_GESTANTE_NR_CPF		bigint( 17 );
 	
+	declare VAR_VIEW_DESTINATION_HOC				bigint( 17 );
+	declare VAR_ARQUIVO_OUTPUT_DESCONHECIDO			bigint( 17 );
+	
+	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NR_MATRICULA 		bigint( 17 ); 
+	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NN_BENEFICIARIO 	bigint( 17 );
+	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NR_CPF 				bigint( 17 );
+	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_VL_PRINCIPAL 		bigint( 17 );
+	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NN_TITULAR 			bigint( 17 );
+		
 	DECLARE exit handler for sqlexception
 	BEGIN
 		-- ERROR
@@ -2840,7 +2849,1317 @@ BEGIN
 	/* Regra */
 
 	
-	/************************************************************************************************************************************************/
+	/************************************************************************************************************************************************/	
+	/* Views Destinations - Reports */
+	
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_LANCAMENTO_ORIGINAL_HOC',
+		'Coparticipação',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_VIEW_DESTINATION_HOC from TB_VIEW_DESTINATION;
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'COD_TITULAR',
+		5, /* LONG */
+		17,
+		1,
+		'COD. TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'COD_DEPENDENTE',
+		5, /* LONG */
+		17,
+		2,
+		'COD. DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NM_USUARIO',
+		3, /* VARCHAR */
+		60,
+		3,
+		'NOME DO USUARIO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'TOT_COPART',
+		2, /* DOUBLE */
+		17,
+		4,
+		'TOTAL COPARTICIPAÇAO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'DT_NASCIMENTO',
+		4, /* DATE */
+		10,
+		5,
+		'DT_BASCIMENTO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'CPF_DEPENDENTE',
+		5, /* LONG */
+		17,
+		6,
+		'CPF_DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NR_MATRICULA',
+		5, /* LONG */
+		17,
+		7,
+		'NR_MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_ISENCAO_GESTANTES_HOC',
+		'Isenção de Gestantes',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_VIEW_DESTINATION_HOC from TB_VIEW_DESTINATION;	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NR_MATRICULA',
+		5, /* LONG */
+		17,
+		1,
+		'NR_MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'SEGURADA',
+		5, /* LONG */
+		17,
+		2,
+		'SEGURADA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'VALOR_ISENTO',
+		5, /* LONG */
+		17,
+		3,
+		'VALOR_ISENTO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_ISENCAO_CONSELHEIROS_HOC',
+		'Isenção de Conselheiros',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_VIEW_DESTINATION_HOC from TB_VIEW_DESTINATION;		
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'COD_DEPENDENTE',
+		5, /* LONG */
+		17,
+		1,
+		'COD_DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NOME_USUÁRIO',
+		3, /* VARCHAR */
+		80,
+		2,
+		'NOME DO USUÁRIO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'TOT_COPART',
+		2, /* DOUBLE */
+		17,
+		3,
+		'TOTAL COPART.',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'DT_NASCIMENTO',
+		4, /* DATE */
+		17,
+		4,
+		'DT_NASCIMENTO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'CPF_DEPENDENTE',
+		5, /* LONG */
+		17,
+		5,
+		'CPF_DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+		
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NR_MATRICULA',
+		5, /* LONG */
+		17,
+		6,
+		'MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_AFASTADOS_HOC',
+		'Afastados',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_VIEW_DESTINATION_HOC from TB_VIEW_DESTINATION;			
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'COD_TITULAR',
+		5, /* LONG */
+		17,
+		1,
+		'COD_TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'COD_DEPENDENTE',
+		5, /* LONG */
+		17,
+		2,
+		'COD_DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NN_USUARIO',
+		3, /* VARCHAR */
+		60,
+		3,
+		'NONE USUÁRIO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'TOTAL_COPART',
+		2, /* DOUBLE */
+		17,
+		4,
+		'TOTAL COPART',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'LOCAL',
+		1, /* INT */
+		10,
+		5,
+		'LOCAL',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'DT_NASCIMENTO',
+		5, /* LONG */
+		10,
+		6,
+		'DT_NASCIMENTO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'CPF_DEPENDENTE',
+		5, /* LONG */
+		15,
+		7,
+		'CPF_DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NR_MATRICULA',
+		5, /* LONG */
+		17,
+		8,
+		'MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_AGREGADOS_HOC',
+		'Agregados',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_VIEW_DESTINATION_HOC from TB_VIEW_DESTINATION;	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NR_MATRICULA',
+		5, /* LONG */
+		17,
+		1,
+		'MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NN_USUARIO',
+		3, /* VARCHAR */
+		17,
+		2,
+		'NONE USUÁRIO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'TOT_COPART',
+		2, /* DOUBLE */
+		17,
+		3,
+		'TOTAL COPART',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'LOCAL',
+		1, /* INT */
+		10,
+		4,
+		'LOCAL',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'DT_NASCIMENTO',
+		5, /* DATE */
+		15,
+		5,
+		'DT_NASCIMENTO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'CPF',
+		5, /* LONG */
+		15,
+		6,
+		'CPF',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_PLANO_EXTENCAO_HOCC',
+		'Plano de Extenção',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_VIEW_DESTINATION_HOC from TB_VIEW_DESTINATION;	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'COD_TITULAR',
+		5, /* LONG */
+		17,
+		1,
+		'COD. TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'COD_DEPENDENTEF',
+		5, /* LONG */
+		17,
+		2,
+		'COD_DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	select 'checkpoint - 0025';
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NOME_USUARIO',
+		3, /* VARCHAR */
+		80,
+		6
+		3,
+		'NONE_USUARIO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	
+	select 'checkpoint - 0026';
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'TOT_COPART',
+		2, /* DOUBLE */
+		17,
+		4,
+		'TOT_COPART',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'LOCAL',
+		1, /* INT */
+		10,
+		5,
+		'LOCAL',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'DT_NASCIMENTO',
+		5, /* DATE */
+		15,
+		6,
+		'DT_NASCIMENTO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'CPF_DEPENDENTE',
+		5, /* LONG */
+		15,
+		7,
+		'CPF_DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'MATRICULA',
+		5, /* LONG */
+		17,
+		8,
+		'MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_PRN_HOC',
+		'PRN',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_VIEW_DESTINATION_HOC from TB_VIEW_DESTINATION;	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'NR_MATRICULA',
+		5, /* LONG */
+		17,
+		1,
+		'NR_MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_VIEW_DESTINATION_HOC,
+		'VL_PRINCIPAL',
+		5, /* DOUBLE */
+		17,
+		2,
+		'VL_PRINCIPAL',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);							
+	
+	
+	insert into TB_ARQUIVO_OUTPUT(
+		ID_ARQUIVO_INPUT,
+		NM_ARQUIVO_FORMAT,
+		DESCR_ARQUIVO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_ARQUIVO_INPUT_FATUCOPA,
+		'HOC-coparticipacao-{YYYY}{MM}.xlsx',
+		'Arquivo de saída para a carga dos lançamentos HOC',
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	
+	select nax( ID ) into VAR_ARQUIVO_OUTPUT_HOC from TB_ARQUIVO_OUTPUT;
+	
+	insert into TB_ARQUIVO_OUTPUT_SHEET(
+		ID_ARQUIVO_OUTPUT,
+		ID_VIEW_DESTINATION,
+		NM_SHEET,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_ARQUIVO_INPUT_FATUCOPA,
+		3,
+		'Coparticipação',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+		
+	
+	
+	/****************************************************************************************************************************/
+	/* Desconhecidos */
+	
+	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
+		ID_ARQUIVO_INPUT,
+		NM_ARQUIVO_FORMAT,
+		NM_DESCR_ARQUIVO,	
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_ARQUIVO_INPUT_FATUCOPA,
+		'HOC-NAO-LOCALIZADOS-{YYYY}{MM}.xlsx',
+		'Arquivo com os beneficiários não localizados pelo processo',
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select nax( ID ) into VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO from TB_ARQUIVO_OUTPUT_DESCONHECIDO;
+	
+	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ARQUIVO_OUTPUT_DESCONHECIDO
+		'NR_MATRICULA',
+		5, /* LONG  */
+		8,
+		1,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NR_MATRICULA from TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF;
+	
+	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ARQUIVO_OUTPUT_DESCONHECIDO
+		'NM_BENEFICIARIO',
+		3, /*VARCHAR  */
+		32,
+		2,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NM_BENEFICIARIO from TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF;
+	
+	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ARQUIVO_OUTPUT_DESCONHECIDO
+		'NM_TITULAR',
+		3, /*VARCHAR  */
+		32,
+		3,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NR_TITULAR from TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF;
+	
+	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ARQUIVO_OUTPUT_DESCONHECIDO
+		'NR_CPF',
+		5, /* LONG */
+		12,
+		4,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NR_CPF from TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF;
+	
+	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ARQUIVO_OUTPUT_DESCONHECIDO
+		'VL_PRINCIPAL',
+		2, /* DOUBLE */
+		15,
+		5,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_VL_PRINCIPAL from TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF;
+	
+	/* BIND */
+	
+	insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		45, /* NR_MATRICULA */
+		1,
+	
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		30, /* NM_BENEFICIARIO */
+		2,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		44, /* NM_TITULAR */
+		3,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		32, /* NR_CPF */
+		4,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		37, /* VL_PRINCIPAL */
+		5,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	
 	
 	
 	

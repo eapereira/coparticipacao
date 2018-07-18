@@ -26,14 +26,14 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWeb
 @SpringBootTest
 @ContextConfiguration(
 		classes = { CoParticipacaoWebServiceConfigurationTest.class })
-@Transactional
+//@Transactional
 public class OswaldoCruzTest {
 
-	private static final String OSWALDO_CRUZ_GESTANTES_201803 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/Isenção Cop março 2018.xlsx";
+	private static final String OSWALDO_CRUZ_GESTANTES_201803 = "/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/Isenção Cop março 2018.xlsx";
 
-	private static final String OSWALDO_CRUZ_BENEFICIARIOS_201803 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/00444.0000000.ARQCADBENEF_CSV_M_20180301.CSV";
+	private static final String OSWALDO_CRUZ_BENEFICIARIOS_201803 = "/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/00444.0000000.ARQCADBENEF_CSV_M_20180301.CSV";
 
-	private static final String OSWALDO_CRUZ_LANCAMENTOS_201803 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/00444.0000000.ARQCOPART_CSV_M_20180310.CSV";
+	private static final String OSWALDO_CRUZ_LANCAMENTOS_201803 = "/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/00444.0000000.ARQCOPART_CSV_M_20180310.CSV";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 310;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 20;
