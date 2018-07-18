@@ -37,7 +37,7 @@ public class InputBeneficiarioDaoImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery2("findByArquivoInputId");
+			query = createQuery("findByArquivoInputId");
 			query.setParameter("arquivoInputId", id);
 
 			inputBeneficiarioEntity = (InputBeneficiarioEntity) query.getSingleResult();

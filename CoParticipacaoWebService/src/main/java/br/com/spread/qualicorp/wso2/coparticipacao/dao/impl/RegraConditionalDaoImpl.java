@@ -44,7 +44,7 @@ public class RegraConditionalDaoImpl extends
 			sb.append("where arquivoInput.id = :id ");
 			sb.append("order by regraConditional.ordem ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("id", id);
 
 			regraConditionalEntities = query.getResultList();

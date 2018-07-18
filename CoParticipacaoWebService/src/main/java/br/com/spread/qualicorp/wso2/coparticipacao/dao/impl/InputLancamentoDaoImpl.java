@@ -45,7 +45,7 @@ public class InputLancamentoDaoImpl extends
 			sb.append("where arquivoInputColsDef.id = :arquivoInputColsDefId ");
 			sb.append("order by arquivoInputColsDef.ordem ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("arquivoInputColsDefId", id);
 
 			inputLancamentoEntities = query.getResultList();
@@ -77,7 +77,7 @@ public class InputLancamentoDaoImpl extends
 			sb.append("where arquivoInput.id = :arquivoInputId ");
 			sb.append("order by arquivoInputColsDef.ordem ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("arquivoInputId", id);
 
 			inputLancamentoEntities = query.getResultList();

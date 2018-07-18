@@ -20,8 +20,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhec
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputBeneficiario;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputDependenteIsento;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ArquivoTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.UseTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 
@@ -58,6 +61,7 @@ public class ArquivoInputEntity extends ArquivoInput {
 		return super.getNameArquivoRegexp();
 	}
 
+	@Convert(converter = ArquivoTypeConverter.class)
 	@Column(name = "TP_ARQUIVO")
 	public ArquivoType getArquivoType() {
 		return super.getArquivoType();
@@ -162,6 +166,28 @@ public class ArquivoInputEntity extends ArquivoInput {
 	public List<InputBeneficiario> getInputBeneficiarios() {
 		// TODO Auto-generated method stub
 		return super.getInputBeneficiarios();
+	}
+
+	// bi-directional many-to-one association to Empresa
+	@OneToOne(
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInput",
+			targetEntity = InputTitularIsentoEntity.class)
+	@Override
+	public InputTitularIsento getInputTitularIsento() {
+		// TODO Auto-generated method stub
+		return super.getInputTitularIsento();
+	}
+
+	// bi-directional many-to-one association to Empresa
+	@OneToOne(
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInput",
+			targetEntity = InputDependenteIsentoEntity.class)
+	@Override
+	public InputDependenteIsento getInputDependenteIsento() {
+		// TODO Auto-generated method stub
+		return super.getInputDependenteIsento();
 	}
 
 }

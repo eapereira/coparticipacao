@@ -6,9 +6,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -34,7 +34,7 @@ public class InputTitularIsentoEntity extends InputTitularIsento {
 
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT")
 	@Override
 	public ArquivoInput getArquivoInput() {

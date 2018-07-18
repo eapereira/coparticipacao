@@ -38,7 +38,7 @@ public class UserDaoImpl extends AbstractDaoImpl<UserEntity>
 			sb.append("select user from UserEntity user ");
 			sb.append("where user.nameLogin = :nameLogin ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("nameLogin", nameLogin);
 
 			userEntity = (UserEntity) query.getSingleResult();

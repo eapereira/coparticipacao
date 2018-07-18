@@ -12,9 +12,11 @@ public abstract class InputDependenteIsentoCols extends AbstractDomain {
 	 */
 	private static final long serialVersionUID = 818677883331187364L;
 
+	private Integer tpIsento;
+	
 	private InputDependenteIsento inputDependenteIsento;
 
-	private InputDependenteIsentoColsDef inputDependenteIsentoColsDef;
+	private DependenteIsentoColsDef dependenteIsentoColsDef;
 
 	private ArquivoInputColsDef arquivoInputColsDef;
 
@@ -30,14 +32,6 @@ public abstract class InputDependenteIsentoCols extends AbstractDomain {
 		this.inputDependenteIsento = inputDependenteIsento;
 	}
 
-	public InputDependenteIsentoColsDef getInputDependenteIsentoColsDef() {
-		return inputDependenteIsentoColsDef;
-	}
-
-	public void setInputDependenteIsentoColsDef(InputDependenteIsentoColsDef inputDependenteIsentoColsDef) {
-		this.inputDependenteIsentoColsDef = inputDependenteIsentoColsDef;
-	}
-
 	public ArquivoInputColsDef getArquivoInputColsDef() {
 		return arquivoInputColsDef;
 	}
@@ -46,14 +40,26 @@ public abstract class InputDependenteIsentoCols extends AbstractDomain {
 		this.arquivoInputColsDef = arquivoInputColsDef;
 	}
 
+	public Integer getTpIsento() {
+		return tpIsento;
+	}
+
+	public void setTpIsento(Integer tpIsento) {
+		this.tpIsento = tpIsento;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0 : arquivoInputColsDef.hashCode());
-		result = prime * result + ((inputDependenteIsento == null) ? 0 : inputDependenteIsento.hashCode());
+		result = prime * result + ((arquivoInputColsDef == null) ? 0
+				: arquivoInputColsDef.hashCode());
+		result = prime * result + ((inputDependenteIsento == null) ? 0
+				: inputDependenteIsento.hashCode());
+		result = prime * result + ((dependenteIsentoColsDef == null) ? 0
+				: dependenteIsentoColsDef.hashCode());
 		result = prime * result
-				+ ((inputDependenteIsentoColsDef == null) ? 0 : inputDependenteIsentoColsDef.hashCode());
+				+ ((tpIsento == null) ? 0 : tpIsento.hashCode());
 		return result;
 	}
 
@@ -76,12 +82,27 @@ public abstract class InputDependenteIsentoCols extends AbstractDomain {
 				return false;
 		} else if (!inputDependenteIsento.equals(other.inputDependenteIsento))
 			return false;
-		if (inputDependenteIsentoColsDef == null) {
-			if (other.inputDependenteIsentoColsDef != null)
+		if (dependenteIsentoColsDef == null) {
+			if (other.dependenteIsentoColsDef != null)
 				return false;
-		} else if (!inputDependenteIsentoColsDef.equals(other.inputDependenteIsentoColsDef))
+		} else if (!dependenteIsentoColsDef
+				.equals(other.dependenteIsentoColsDef))
+			return false;
+		if (tpIsento == null) {
+			if (other.tpIsento != null)
+				return false;
+		} else if (!tpIsento.equals(other.tpIsento))
 			return false;
 		return true;
+	}
+
+	public DependenteIsentoColsDef getDependenteIsentoColsDef() {
+		return dependenteIsentoColsDef;
+	}
+
+	public void setDependenteIsentoColsDef(
+			DependenteIsentoColsDef dependenteIsentoColsDef) {
+		this.dependenteIsentoColsDef = dependenteIsentoColsDef;
 	}
 
 }

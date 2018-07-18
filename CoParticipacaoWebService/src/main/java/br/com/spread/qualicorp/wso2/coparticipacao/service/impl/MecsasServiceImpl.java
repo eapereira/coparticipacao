@@ -22,6 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
@@ -45,6 +46,9 @@ public class MecsasServiceImpl implements MecsasService {
 	@Autowired
 	private DesconhecidoService desconhecidoService;
 
+	@Autowired
+	private IsentoService isentoService;
+
 	public void processLine(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
 		Object value;
@@ -53,27 +57,33 @@ public class MecsasServiceImpl implements MecsasService {
 		try {
 			LOGGER.info("BEGIN");
 
-			value = coParticipacaoContext.getMapLine().get("GP");
+			if (isentoService.hasIsento(coParticipacaoContext)) {
+				LOGGER.info("Stating Isento processing:");
 
-			if (value != null) {
-				beneficiarioType = BeneficiarioType.parse((Integer) value);
+				isentoService.processIsento(coParticipacaoContext);
 			} else {
-				beneficiarioType = BeneficiarioType.TITULAR;
-			}
+				value = coParticipacaoContext.getMapLine().get("GP");
 
-			if (BeneficiarioType.TITULAR.equals(beneficiarioType)) {
-				LOGGER.info("Processing titular:");
-
-				titularUi = new TitularUi();
-				storeTitular(titularUi, coParticipacaoContext);
-			} else {
-				LOGGER.info("Processing beneficiario:");
-
-				if (titularUi != null) {
-					storeDependente(titularUi, coParticipacaoContext);
+				if (value != null) {
+					beneficiarioType = BeneficiarioType.parse((Integer) value);
 				} else {
-					throw new TitularNotFoundException(
-							"Should exists a line for Titular before its Dependente:");
+					beneficiarioType = BeneficiarioType.TITULAR;
+				}
+
+				if (BeneficiarioType.TITULAR.equals(beneficiarioType)) {
+					LOGGER.info("Processing titular:");
+
+					titularUi = new TitularUi();
+					storeTitular(titularUi, coParticipacaoContext);
+				} else {
+					LOGGER.info("Processing beneficiario:");
+
+					if (titularUi != null) {
+						storeDependente(titularUi, coParticipacaoContext);
+					} else {
+						throw new TitularNotFoundException(
+								"Should exists a line for Titular before its Dependente:");
+					}
 				}
 			}
 
@@ -405,6 +415,9 @@ public class MecsasServiceImpl implements MecsasService {
 			desconhecidoService.save(
 					coParticipacaoContext.getBunker().getDesconhecidoUis());
 
+			LOGGER.info("Storing Isentos to database:");
+			isentoService.saveIsentos(coParticipacaoContext);
+			
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);

@@ -54,4 +54,18 @@ public class DependenteIsentoEntity extends DependenteIsento
 		return super.getIsentoType();
 	}
 
+	@Column(name="CD_MES")
+	@Override
+	public Integer getMes() {
+		// TODO Auto-generated method stub
+		return super.getMes();
+	}
+
+	@Column(name="CD_ANO")
+	@Override
+	public Integer getAno() {
+		// TODO Auto-generated method stub
+		return super.getAno();
+	}
+
 }

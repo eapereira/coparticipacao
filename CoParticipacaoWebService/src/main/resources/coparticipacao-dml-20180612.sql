@@ -121,7 +121,7 @@ insert into TB_ARQUIVO_INPUT(
     1,
 	'^(8CH5Y)FATUCOPA\\.([0-9]{4})([0-9]{2})([0-9]{1,})(F)\\.(txt|TXT)',
 	'Arquivo de carga de coparticipação',
-	0, /* FLAT_FILE */
+	1, /* FLAT_FILE */
 	1, /* FATUCOPA */
 	1,
 	182,
@@ -606,7 +606,7 @@ insert into TB_ARQUIVO_INPUT(
     2,
 	'^(8CHE8)FATUCOPA\\.([0-9]{4})([0-9]{2})([0-9]{1,})(F)\\.(txt|TXT)',
 	'Arquivo de carga de coparticipação',
-	0, /* FLAT_FILE */
+	1, /* FLAT_FILE */
 	1, /* FATUCOPA */
 	1,
 	182,
@@ -1089,7 +1089,7 @@ insert into TB_ARQUIVO_INPUT(
     3,
 	'^(MECSAS)\\-(EXPORT\\-DADOS)\\-(1781)\\-([0-9]{4})(([0-9]{2})([0-9]{2})\\-([0-9]{6}))\\.(csv|CSV)',
 	'Arquivo de carga de coparticipação',
-	1, /* CSV */
+	2, /* CSV */
 	2, /* MECSAS */
 	2,
 	null, /* Não é usado para arquivo CSV */

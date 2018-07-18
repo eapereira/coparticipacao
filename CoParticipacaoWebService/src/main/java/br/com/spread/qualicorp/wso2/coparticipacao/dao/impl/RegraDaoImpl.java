@@ -43,7 +43,7 @@ public class RegraDaoImpl extends AbstractDaoImpl<RegraEntity>
 			sb.append("where arquivoInput.id = :id ");
 			sb.append("order by regra.ordem ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("id", id);
 
 			regraEntities = query.getResultList();

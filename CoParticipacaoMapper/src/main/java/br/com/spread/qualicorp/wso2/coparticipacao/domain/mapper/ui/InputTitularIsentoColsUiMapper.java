@@ -13,7 +13,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoC
  */
 @Mapper(
 		componentModel = "spring",
-		uses = { UserUiMapper.class, InputTitularIsentoColsDefUiMapper.class, ArquivoInputColsDefUiMapper.class,
+		uses = { UserUiMapper.class, TitularIsentoColsDefUiMapper.class, ArquivoInputColsDefUiMapper.class,
 				InputTitularIsentoUiMapper.class })
 public abstract class InputTitularIsentoColsUiMapper
 		extends

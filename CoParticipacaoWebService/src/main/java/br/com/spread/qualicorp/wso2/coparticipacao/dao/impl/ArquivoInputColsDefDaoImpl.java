@@ -42,7 +42,7 @@ public class ArquivoInputColsDefDaoImpl
 			sb.append("where entity.arquivoInput.id = :arquivoInputId ");
 			sb.append("order by entity.ordem ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("arquivoInputId", id);
 
 			arquivoInputColsDefEntities = query.getResultList();

@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependente
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.InputDependenteIsentoColsEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.InputDependenteIsentoColsUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.InputDependenteIsentoColsService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -29,7 +34,7 @@ public class InputDependenteIsentoColsServiceImpl extends
 			.getLogger(InputDependenteIsentoColsServiceImpl.class);
 
 	@Autowired
-	private InputDependenteIsentoColsDao dependenteIsentoColsDao;
+	private InputDependenteIsentoColsDao inputDependenteIsentoColsDao;
 
 	@Autowired
 	private InputDependenteIsentoColsUiMapper uiMapper;
@@ -49,7 +54,7 @@ public class InputDependenteIsentoColsServiceImpl extends
 
 	@Override
 	protected AbstractDao<InputDependenteIsentoColsEntity> getDao() {
-		return dependenteIsentoColsDao;
+		return inputDependenteIsentoColsDao;
 	}
 
 	@Override
@@ -60,6 +65,45 @@ public class InputDependenteIsentoColsServiceImpl extends
 	@Override
 	protected AbstractMapper<InputDependenteIsentoCols, InputDependenteIsentoColsEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<InputDependenteIsentoColsUi> listByInputDependenteIsentoId(
+			InputDependenteIsentoUi inputDependenteIsentoUi)
+			throws ServiceException {
+		List<InputDependenteIsentoColsUi> inputDependenteIsentoCols;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			inputDependenteIsentoCols = entityToUi(
+					inputDependenteIsentoColsDao.listByInputDependenteIsentoId(
+							inputDependenteIsentoUi.getId()));
+
+			LOGGER.info("END");
+			return inputDependenteIsentoCols;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<InputDependenteIsentoColsUi> listByArquivoInput(
+			ArquivoInputUi arquivoInputUi) throws ServiceException {
+		List<InputDependenteIsentoColsUi> inputDependenteIsentoCols;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			inputDependenteIsentoCols = entityToUi(
+					inputDependenteIsentoColsDao
+							.listByArquivoInputId(arquivoInputUi.getId()));
+
+			LOGGER.info("END");
+			return inputDependenteIsentoCols;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

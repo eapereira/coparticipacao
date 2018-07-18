@@ -39,7 +39,7 @@ public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity>
 			sb.append("select contrato from ContratoEntity contrato ");
 			sb.append("where contrato.cdContrato = :cdContrato ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("cdContrato", cdContrato);
 
 			contratoEntity = (ContratoEntity) query.getSingleResult();

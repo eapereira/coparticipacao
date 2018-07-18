@@ -45,7 +45,7 @@ public class InputDependenteDaoImpl extends
 					"join fetch inputDependente.dependenteColsDef dependenteColsDef ");
 			sb.append("where arquivoInputColsDef.id = :arquivoInputColsDefId ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("arquivoInputColsDefId", id);
 
 			inputDependenteEntities = query.getResultList();
@@ -77,7 +77,7 @@ public class InputDependenteDaoImpl extends
 					"join fetch arquivoInputColsDef.arquivoInput arquivoInput ");
 			sb.append("where arquivoInput.id = :arquivoInputId ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("arquivoInputId", id);
 
 			inputDependenteEntities = query.getResultList();

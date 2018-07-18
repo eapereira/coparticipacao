@@ -37,7 +37,7 @@ public class ArquivoInputOutputDesconhecidoDaoImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery2("listByArquivoInputId");
+			query = createQuery("listByArquivoInputId");
 			query.setParameter("id", id);
 
 			arquivoInputOutputDesconhecidoEntities = query.getResultList();
@@ -58,7 +58,7 @@ public class ArquivoInputOutputDesconhecidoDaoImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery2("listByContratoId");
+			query = createQuery("listByContratoId");
 			query.setParameter("id", id);
 
 			arquivoInputOutputDesconhecidoEntities = query.getResultList();

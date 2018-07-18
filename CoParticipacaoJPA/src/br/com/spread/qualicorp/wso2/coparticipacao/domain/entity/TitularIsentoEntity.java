@@ -53,4 +53,18 @@ public class TitularIsentoEntity extends TitularIsento implements DomainEntity {
 		return super.getIsentoType();
 	}
 
+	@Column(name="CD_MES")
+	@Override
+	public Integer getMes() {
+		// TODO Auto-generated method stub
+		return super.getMes();
+	}
+
+	@Column(name="CD_ANO")
+	@Override
+	public Integer getAno() {
+		// TODO Auto-generated method stub
+		return super.getAno();
+	}
+	
 }

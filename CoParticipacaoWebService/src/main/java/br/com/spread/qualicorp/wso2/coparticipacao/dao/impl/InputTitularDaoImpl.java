@@ -44,7 +44,7 @@ public class InputTitularDaoImpl extends AbstractDaoImpl<InputTitularEntity>
 			sb.append("join fetch inputTitular.titularColsDef titularColsDef ");
 			sb.append("where arquivoInputColsDef.id = :arquivoInputColsDefId ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("arquivoInputColsDefId", id);
 
 			inputTitularEntities = query.getResultList();
@@ -75,7 +75,7 @@ public class InputTitularDaoImpl extends AbstractDaoImpl<InputTitularEntity>
 					"join fetch arquivoInputColsDef.arquivoInput arquivoInput ");
 			sb.append("where arquivoInput.id = :arquivoInputId ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("arquivoInputId", id);
 
 			inputTitularEntities = query.getResultList();

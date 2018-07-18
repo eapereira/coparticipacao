@@ -23,6 +23,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ContratoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
  * 
@@ -64,6 +65,7 @@ public class ArquivoInputServiceImpl extends
 			arquivoInputUis = entityToUi(arquivoInputDao.listAll());
 
 			dia = NumberUtils.INTEGER_ZERO;
+			mes = NumberUtils.INTEGER_ZERO;
 
 			for (ArquivoInputUi arquivoInputUi : arquivoInputUis) {
 				regexpFileName = Pattern
@@ -78,18 +80,25 @@ public class ArquivoInputServiceImpl extends
 					if (arquivoInputUi.getRegexpDia() != null) {
 						dia = Integer.parseInt(
 								matcher.group(arquivoInputUi.getRegexpDia()));
+					} else {
+						dia = DateUtils.now().getDayOfMonth();
 					}
 
-					mes = Integer.parseInt(
-							matcher.group(arquivoInputUi.getRegexpMes()));
+					if (arquivoInputUi.getRegexpMes() != null) {
+						mes = Integer.parseInt(
+								matcher.group(arquivoInputUi.getRegexpMes()));
+					} else {
+						mes = DateUtils.now().getMonthValue();
+					}
+
 					ano = Integer.parseInt(
 							matcher.group(arquivoInputUi.getRegexpAno()));
 
 					coParticipacaoContext = new CoParticipacaoContext();
 					coParticipacaoContext.setArquivoInputUi(arquivoInputUi);
 					coParticipacaoContext.setDia(dia);
-					coParticipacaoContext.setAno(ano);
 					coParticipacaoContext.setMes(mes);
+					coParticipacaoContext.setAno(ano);
 
 					break;
 				}

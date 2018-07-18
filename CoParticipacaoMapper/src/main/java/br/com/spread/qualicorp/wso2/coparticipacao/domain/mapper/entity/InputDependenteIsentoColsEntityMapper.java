@@ -13,7 +13,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
  */
 @Mapper(
 		componentModel = "spring",
-		uses = { UserEntityMapper.class, InputDependenteIsentoColsDefEntityMapper.class,
+		uses = { UserEntityMapper.class, DependenteIsentoColsDefEntityMapper.class,
 				ArquivoInputColsDefEntityMapper.class, InputDependenteIsentoEntityMapper.class })
 public abstract class InputDependenteIsentoColsEntityMapper
 		extends

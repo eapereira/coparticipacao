@@ -15,18 +15,22 @@ COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
 	DECLARE VAR_ID_USER 					bigint( 17 ) default 1;
 	DECLARE VAR_ID_EMPRESA 					bigint( 17 );
-	DECLARE VAR_ID_CONTRATO 				bigint( 17 );
+	DECLARE VAR_ID_CONTRATO_FATUCOPA 		bigint( 17 );
+	DECLARE VAR_ID_CONTRATO_MECSAS 			bigint( 17 );
 	DECLARE VAR_ID_CONTRATO_GESTANTES 		bigint( 17 );
 	
 	declare VAR_ID_ARQUIVO_INPUT_FATUCOPA 	bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT_MECSAS 	bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT_GESTANTES 	bigint( 17 );
 
-	declare VAR_ID_TITULAR_ISENTO_COLS_DEF_ID_TITULAR		bigint( 17 ) default 1;
-	declare VAR_ID_TITULAR_ISENTO_COLS_DEF_TP-ISENTO		bigint( 17 ) default 2;
-	declare VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_ID_TITULAR	bigint( 17 ) default 1;
-	declare VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_TP-ISENTO		bigint( 17 ) default 2;
+	declare VAR_ID_INPUT_TITULAR_ISENTO_GESTANTE			bigint( 17 );
+	declare VAR_ID_INPUT_DEPENDENTE_ISENTO_GESTANTE			bigint( 17 );
 	
+	declare VAR_ID_TITULAR_ISENTO_COLS_DEF_ID_TITULAR		bigint( 17 ) default 1;
+	declare VAR_ID_TITULAR_ISENTO_COLS_DEF_TP_ISENTO		bigint( 17 ) default 2;
+	declare VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_ID_DEPENDENTE	bigint( 17 ) default 1;
+	declare VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_TP_ISENTO		bigint( 17 ) default 2;
+
 	declare VAR_ID_COLUMN_01_COD 			bigint( 17 );
 	declare VAR_ID_COLUMN_02_COD_REF 		bigint( 17 );
 	declare VAR_ID_COLUMN_03_PREF 			bigint( 17 );
@@ -127,12 +131,15 @@ BEGIN
 	DECLARE exit handler for sqlexception
 	BEGIN
 		-- ERROR
+		select 'Erro ao executar procedure:'
 		ROLLBACK;
 	END;
 
 	START TRANSACTION;
 	
 	/***********************************************************************************************************************/
+	
+	select 'Criando a empresa:';
 	
 	insert into TB_EMPRESA (
 		ID_OPERADORA,
@@ -161,7 +168,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'00444',
+		'ARQCOPART',
 	    'Hospital Oswaldo Cruz',
 	    
 		VAR_ID_USER,
@@ -169,8 +176,27 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+	select max( ID ) into VAR_ID_CONTRATO_FATUCOPA from TB_CONTRATO;
 
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'ARQCADBENEF',
+	    'Hospital Oswaldo Cruz',
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_CONTRATO_MECSAS from TB_CONTRATO;
+	
 	insert into TB_CONTRATO(
 		ID_EMPRESA,
 		CD_CONTRATO,	
@@ -190,6 +216,7 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_CONTRATO_GESTANTES from TB_CONTRATO;
 	
+	select 'Criando arquivos de entrada:';
 	/***********************************************************************************************************************/
 	
 	/* FATU-COPA */
@@ -211,18 +238,18 @@ BEGIN
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
-	    VAR_ID_CONTRATO,
-		'^(00444)\\.([0-9]{7})\\.ARQCOPART_CSV_M_([0-9]{4})([0-9]{2})([0-9]{2})\\.(csv|CSV)$',
+	    VAR_ID_CONTRATO_FATUCOPA,
+		'^(00444)\\.([0-9]{7})\\.(ARQCOPART)_CSV_M_([0-9]{4})([0-9]{2})([0-9]{2})\\.(csv|CSV)$',
 		'Arquivo de carga de coparticipação',
-		1, /* CSV */
+		2, /* CSV */
 		1, /* FATUCOPA */
 		3,
 		null,
 		
-		1, /* REGEXP_CONTRATO */
-		5, /* REGEXP_DIA */
-		4, /* REGEXP_MES */
-		3, /* REGEXP_ANO */
+		3, /* REGEXP_CONTRATO */
+		6, /* REGEXP_DIA */
+		5, /* REGEXP_MES */
+		4, /* REGEXP_ANO */
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -375,6 +402,7 @@ BEGIN
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -384,6 +412,7 @@ BEGIN
 		2, /* DOUBLE */
 		null,
 		7,
+		'#0.00',
 		
 		1,
 		current_timestamp(),
@@ -576,6 +605,8 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_COLUMN_15 from TB_ARQUIVO_INPUT_COLS_DEF;
 	
+	select 'Criando arquivo MECSAS:';
+	
 	/* MECSAS */
 	
 	insert into TB_ARQUIVO_INPUT(
@@ -595,18 +626,18 @@ BEGIN
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
-	    VAR_ID_CONTRATO,
-		'^(00444)\\.([0-9]{7})\\.ARQCADBENEF_CSV_M_([0-9]{4})([0-9]{2})([0-9]{2})\\.(csv|CSV)$',
+	    VAR_ID_CONTRATO_MECSAS,
+		'^(00444)\\.([0-9]{7})\\.(ARQCADBENEF)_CSV_M_([0-9]{4})([0-9]{2})([0-9]{2})\\.(csv|CSV)$',
 		'Arquivo de carga de beneficiários',
-		1, /* CSV */
-		1, /* FATUCOPA */
+		2, /* CSV */
+		2, /* MECSAS */
 		3,
 		null,
 		
-		1, /* REGEXP_CONTRATO */
-		5, /* REGEXP_DIA */
-		4, /* REGEXP_MES */
-		3, /* REGEXP_ANO */
+		3, /* REGEXP_CONTRATO */
+		6, /* REGEXP_DIA */
+		5, /* REGEXP_MES */
+		4, /* REGEXP_ANO */
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -631,7 +662,7 @@ BEGIN
 		null,
 		1,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -654,7 +685,7 @@ BEGIN
 		null,
 		2,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -677,7 +708,7 @@ BEGIN
 		null,
 		3,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -700,7 +731,7 @@ BEGIN
 		null,
 		4,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -723,7 +754,7 @@ BEGIN
 		null,
 		5,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -746,7 +777,7 @@ BEGIN
 		null,
 		6,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -769,7 +800,7 @@ BEGIN
 		null,
 		7,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -792,7 +823,7 @@ BEGIN
 		null,
 		8,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -811,11 +842,11 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_09_SETOR',
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		9,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -838,7 +869,7 @@ BEGIN
 		null,
 		10,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
@@ -861,13 +892,15 @@ BEGIN
 		null,
 		11,
 		
-		1,
+		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
 	select max( ID ) into VAR_ID_COLUMN_11_PLANO from TB_ARQUIVO_INPUT_COLS_DEF; 
 
+	select 'Breakpoint 01';
+	
 	insert into TB_ARQUIVO_INPUT_COLS_DEF(
 		ID_ARQUIVO_INPUT,
 		NM_COLUMN,
@@ -897,15 +930,17 @@ BEGIN
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_13_DT_INCLUSAO',
-		1, /* INT */
+		4, /* DATE */
 		null,
 		13,
+		'yyyyMMdd',
 		
 		1,
 		current_timestamp(),
@@ -1041,7 +1076,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_19_CONTA',
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		19,
 		
@@ -1104,6 +1139,7 @@ BEGIN
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -1113,6 +1149,7 @@ BEGIN
 		4, /* DATE */
 		null,
 		22,
+		'yyyyMMdd',
 		
 		1,
 		current_timestamp(),
@@ -1156,7 +1193,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_24_PERMANENCIA',
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		24,
 		
@@ -1219,6 +1256,7 @@ BEGIN
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -1228,6 +1266,7 @@ BEGIN
 		4, /* DATE */
 		null,
 		27,
+		'yyyyMMdd',
 		
 		1,
 		current_timestamp(),
@@ -1288,6 +1327,7 @@ BEGIN
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -1297,6 +1337,7 @@ BEGIN
 		4, /* DATE */
 		null,
 		30,
+		'yyyyMMdd',
 		
 		1,
 		current_timestamp(),
@@ -1478,7 +1519,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_38_NUM_LOGRADOURO',
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		38,
 		
@@ -1547,7 +1588,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_41_MUNICIPIO',
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		41,
 		
@@ -1754,7 +1795,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_50_RG',
-		5, /* LONG */
+		3, /* VARCHAR */
 		null,
 		50,
 		
@@ -1818,6 +1859,7 @@ BEGIN
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -1827,6 +1869,7 @@ BEGIN
 		4, /* DATE */
 		null,
 		53,
+		'yyyyMMdd',
 		
 		1,
 		current_timestamp(),
@@ -2054,7 +2097,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_63_CD_CPT',
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		63,
 		
@@ -2077,7 +2120,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_64_ID_BLOQ_BENEF',
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		64,
 		
@@ -2147,7 +2190,7 @@ BEGIN
 		VAR_ID_ARQUIVO_INPUT_MECSAS,
 		'COLUMN_67_DECL_NASC_VIVO',
 		
-		1, /* INT */
+		3, /* VARCHAR */
 		null,
 		67,
 		
@@ -2368,6 +2411,8 @@ BEGIN
 	/************************************************************************************************************************************************/
 	/* Inputs */
 	
+	select 'Criando INPUT_LANCAMENTO:';
+	
 	insert into TB_INPUT_LANCAMENTO (
 		ID_LANCAMENTO_COLS_DEF,
 		ID_ARQUIVO_INPUT_COLS_DEF,
@@ -2383,6 +2428,7 @@ BEGIN
 		current_timestamp()
 	);
 
+	select 'Criando INPUT_LANCAMENTO_02:';
 	insert into TB_INPUT_LANCAMENTO (
 		ID_LANCAMENTO_COLS_DEF,
 		ID_ARQUIVO_INPUT_COLS_DEF,
@@ -2390,8 +2436,7 @@ BEGIN
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
-		3, /* ID_CONTRATO */
-		VAR_ID_COLUMN_12_CPF_DEPENDENTE,				
+		3, /* ID_CONTRATO */				
 		VAR_ID_COLUMN_13_EMPRESA,
 		
 		VAR_ID_USER,
@@ -2400,6 +2445,8 @@ BEGIN
 	);
 	
 	/* MECSAS */
+	
+	select 'Criando INPUT_TITULAR';
 	
 	insert into TB_INPUT_TITULAR(
 		ID_TITULAR_COLS_DEF,
@@ -2416,6 +2463,8 @@ BEGIN
 		current_timestamp()		
 	);
 	
+	select 'Criando INPUT_TITULAR_02';
+	
 	insert into TB_INPUT_TITULAR(
 		ID_TITULAR_COLS_DEF,
 		ID_ARQUIVO_INPUT_COLS_DEF,
@@ -2430,6 +2479,8 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
+	
+	select 'Criando INPUT_TITULAR_03';
 	
 	insert into TB_INPUT_TITULAR(
 		ID_TITULAR_COLS_DEF,
@@ -2446,6 +2497,8 @@ BEGIN
 		current_timestamp()		
 	);
 	
+	select 'Criando INPUT_TITULAR_04';
+	
 	insert into TB_INPUT_TITULAR(
 		ID_TITULAR_COLS_DEF,
 		ID_ARQUIVO_INPUT_COLS_DEF,
@@ -2461,6 +2514,8 @@ BEGIN
 		current_timestamp()		
 	);
 	
+	select 'Criando INPUT_TITULAR_05';
+	
 	insert into TB_INPUT_TITULAR(
 		ID_TITULAR_COLS_DEF,
 		ID_ARQUIVO_INPUT_COLS_DEF,
@@ -2475,6 +2530,8 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
+	
+	select 'Criando INPUT_DEPENDENTE';
 	
 	insert into TB_INPUT_DEPENDENTE(
 		ID_DEPENDENTE_COLS_DEF,
@@ -2557,6 +2614,8 @@ BEGIN
 	/************************************************************************************************************************************************/
 	/* Isentos */
 	
+	select 'Criando arquivo de gestantes';
+	
 	insert into TB_ARQUIVO_INPUT(
 		ID_CONTRATO,
 		NM_ARQUIVO_REGEXP,
@@ -2574,10 +2633,10 @@ BEGIN
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
-	    VAR_ID_CONTRATO,
+	    VAR_ID_CONTRATO_GESTANTES,
 		'^(Isenção\\WCop)\\W(janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)\\W([0-9]{4})\\.(xlsx)$',
 		'Arquivo de carga ds gestantes do Oswaldo Cruz',
-		2, /* SPREADSHEET */
+		3, /* SPREADSHEET */
 		2, /* MECSAS */
 		3,
 		null,
@@ -2594,6 +2653,8 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_ARQUIVO_INPUT_GESTANTES from TB_ARQUIVO_INPUT;
 
+	select 'Criando ARQUIVO_INPUT_COLS_DEF para gestantes';
+	
 	insert into TB_ARQUIVO_INPUT_COLS_DEF(
 		ID_ARQUIVO_INPUT,
 		NM_COLUMN,
@@ -2604,7 +2665,7 @@ BEGIN
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT_FATUCOPA,
+		VAR_ID_ARQUIVO_INPUT_GESTANTES,
 		'COLUMN_01_MATRICULA',
 		5, /* LONG */
 		null,
@@ -2627,7 +2688,7 @@ BEGIN
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT_FATUCOPA,
+		VAR_ID_ARQUIVO_INPUT_GESTANTES,
 		'COLUMN_02_NM_GESTANTE',
 		3, /* VARCHAR */
 		null,
@@ -2650,7 +2711,7 @@ BEGIN
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT_FATUCOPA,
+		VAR_ID_ARQUIVO_INPUT_GESTANTES,
 		'COLUMN_03_NR_CPF',
 		5, /* LONG */
 		null,
@@ -2662,6 +2723,8 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_ID_COLUMN_03_GESTANTE_NR_CPF from TB_ARQUIVO_INPUT_COLS_DEF; 
+	
+	select 'Criando INPUT_TITULAR_ISENTO para gestantes';
 	
 	insert into TB_INPUT_TITULAR_ISENTO(
 		ID_ARQUIVO_INPUT,
@@ -2678,6 +2741,7 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_INPUT_TITULAR_ISENTO_GESTANTE from TB_INPUT_TITULAR_ISENTO;
 	
+	select 'Criando INPUT_TITULAR_ISENTO_COLS para gestantes';
 	insert into TB_INPUT_TITULAR_ISENTO_COLS(
 	 	ID_INPUT_TITULAR_ISENTO,
 	 	ID_ARQUIVO_INPUT_COLS_DEF,
@@ -2687,24 +2751,27 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (			
 		VAR_ID_INPUT_TITULAR_ISENTO_GESTANTE,
-		VAR_ID_TITULAR_ISENTO_COLS_DEF_ID_TITULAR,
 		VAR_ID_COLUMN_03_GESTANTE_NR_CPF,
+		VAR_ID_TITULAR_ISENTO_COLS_DEF_ID_TITULAR,
 
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
 
+	select 'Criando INPUT_TITULAR_ISENTO_COLS_02 para gestantes';
 	insert into TB_INPUT_TITULAR_ISENTO_COLS(
 	 	ID_INPUT_TITULAR_ISENTO,
 	 	ID_ARQUIVO_INPUT_COLS_DEF,
+	 	ID_TITULAR_ISENTO_COLS_DEF,
 	 	TP_ISENTO,
 	
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (			
 		VAR_ID_INPUT_TITULAR_ISENTO_GESTANTE,
-		VAR_ID_TITULAR_ISENTO_COLS_DEF_TP_ISENTO
+		VAR_ID_COLUMN_01_GESTANTE_MATRICULA,
+		VAR_ID_TITULAR_ISENTO_COLS_DEF_TP_ISENTO,
 		1, /* GESTANTE */
 
 		VAR_ID_USER,
@@ -2712,6 +2779,25 @@ BEGIN
 		current_timestamp()
 	);
 
+	select 'Criando INPUT_DEPENDENTE_ISENTO para gestantes';
+	
+	insert into TB_INPUT_DEPENDENTE_ISENTO(
+		ID_ARQUIVO_INPUT,
+	
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_GESTANTES,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_INPUT_DEPENDENTE_ISENTO_GESTANTE from TB_INPUT_DEPENDENTE_ISENTO;
+	
+	select 'Criando INPUT_DEPENDENTE_ISENTO_COLS_01 para gestantes';
+	
 	insert into TB_INPUT_DEPENDENTE_ISENTO_COLS(
 	 	ID_INPUT_DEPENDENTE_ISENTO,
 	 	ID_ARQUIVO_INPUT_COLS_DEF,
@@ -2721,24 +2807,28 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (			
 		VAR_ID_INPUT_DEPENDENTE_ISENTO_GESTANTE,
-		VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_ID_DEPENDENTE,
 		VAR_ID_COLUMN_03_GESTANTE_NR_CPF,
+		VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_ID_DEPENDENTE,
 
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()
 	);
 
+	select 'Criando INPUT_DEPENDENTE_ISENTO_COLS_02 para gestantes';
+	
 	insert into TB_INPUT_DEPENDENTE_ISENTO_COLS(
 	 	ID_INPUT_DEPENDENTE_ISENTO,
 	 	ID_ARQUIVO_INPUT_COLS_DEF,
+	 	ID_DEPENDENTE_ISENTO_COLS_DEF,
 	 	TP_ISENTO,
 	
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (			
-		VAR_ID_INPUT_DEPENDENTE_ISENTO_GESTANTE,
-		VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_TP_ISENTO
+		VAR_ID_INPUT_DEPENDENTE_ISENTO_GESTANTE,		
+		VAR_ID_COLUMN_01_GESTANTE_MATRICULA,
+		VAR_ID_DEPENDENTE_ISENTO_COLS_DEF_TP_ISENTO,
 		1, /* GESTANTE */
 
 		VAR_ID_USER,
@@ -2755,8 +2845,9 @@ BEGIN
 	
 	
 	
-	
 	COMMIT;
+	
+	select 'Alterações executadas com sucesso.';
 END
 $$
 

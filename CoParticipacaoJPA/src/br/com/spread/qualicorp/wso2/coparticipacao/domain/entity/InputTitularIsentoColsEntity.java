@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -10,7 +11,7 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsentoCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsentoColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsentoColsDef;
 
 /**
  * 
@@ -19,7 +20,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsentoCols
  */
 @Entity
 @Table(name = "TB_INPUT_TITULAR_ISENTO_COLS")
-@NamedQuery(name = "InputTitularIsentoColsEntity.findAll", query = "SELECT a FROM InputTitularIsentoColsEntity a")
+@NamedQuery(
+		name = "InputTitularIsentoColsEntity.findAll",
+		query = "SELECT a FROM InputTitularIsentoColsEntity a")
 public class InputTitularIsentoColsEntity extends InputTitularIsentoCols {
 
 	/**
@@ -31,23 +34,36 @@ public class InputTitularIsentoColsEntity extends InputTitularIsentoCols {
 		super();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = InputTitularIsentoEntity.class)
-	@JoinColumn(name = "ID_TITULAR_ISENTO")
+	@Column(name = "TP_ISENTO")
+	@Override
+	public Integer getTpIsento() {
+		// TODO Auto-generated method stub
+		return super.getTpIsento();
+	}
+
+	@ManyToOne(
+			fetch = FetchType.LAZY,
+			targetEntity = InputTitularIsentoEntity.class)
+	@JoinColumn(name = "ID_INPUT_TITULAR_ISENTO")
 	@Override
 	public InputTitularIsento getInputTitularIsento() {
 		// TODO Auto-generated method stub
 		return super.getInputTitularIsento();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = InputTitularIsentoColsDefEntity.class)
+	@ManyToOne(
+			fetch = FetchType.LAZY,
+			targetEntity = TitularIsentoColsDefEntity.class)
 	@JoinColumn(name = "ID_TITULAR_ISENTO_COLS_DEF")
 	@Override
-	public InputTitularIsentoColsDef getInputTitularIsentoColsDef() {
+	public TitularIsentoColsDef getTitularIsentoColsDef() {
 		// TODO Auto-generated method stub
-		return super.getInputTitularIsentoColsDef();
+		return super.getTitularIsentoColsDef();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(
+			fetch = FetchType.LAZY,
+			targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
 	@Override
 	public ArquivoInputColsDef getArquivoInputColsDef() {

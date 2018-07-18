@@ -106,7 +106,8 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 		}
 	}
 
-	protected Query createQuery(String sql) throws DaoException {
+	@Deprecated
+	protected Query createQueryOld(String sql) throws DaoException {
 		Query query;
 
 		try {
@@ -153,7 +154,7 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 		}
 	}
 
-	protected Query createQuery2(String queryId) throws DaoException {
+	protected Query createQuery(String queryId) throws DaoException {
 		Query query;
 		String jpql;
 

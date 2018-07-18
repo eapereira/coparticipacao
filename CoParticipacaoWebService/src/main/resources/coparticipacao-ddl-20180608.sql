@@ -15,14 +15,14 @@ drop table if exists TB_INPUT_BENEFICIARIO;
 drop table if exists TB_BENEFICIARIO_COLS_DEF;
 drop table if exists TB_BENEFICIARIO;
 
-drop table if exists TB_INPUT_DEPENDENTE_ISENTO;
-drop table if exists TB_INPUT_TITULAR_ISENTO;
-drop table if exists TB_INPUT_DEPENDENTE_ISENTO_COLS;
-drop table if exists TB_INPUT_TITULAR_ISENTO_COLS;
-drop table if exists TB_DEPENDENTE_ISENTO_COLS_DEF;
-drop table if exists TB_TITULAR_ISENTO_COLS_DEF;
 drop table if exists TB_DEPENDENTE_ISENTO;
 drop table if exists TB_TITULAR_ISENTO;
+drop table if exists TB_INPUT_DEPENDENTE_ISENTO_COLS;
+drop table if exists TB_INPUT_TITULAR_ISENTO_COLS;
+drop table if exists TB_INPUT_DEPENDENTE_ISENTO;
+drop table if exists TB_INPUT_TITULAR_ISENTO;
+drop table if exists TB_DEPENDENTE_ISENTO_COLS_DEF;
+drop table if exists TB_TITULAR_ISENTO_COLS_DEF;
 
 drop table if exists TB_INPUT_DEPENDENTE;
 drop table if exists TB_INPUT_TITULAR;
@@ -174,7 +174,7 @@ create table TB_ARQUIVO_INPUT(
 	
 	CD_REGEXP_CONTRATO		int( 3 ) not null,
 	CD_REGEXP_DIA			int( 3 ) null,
-	CD_REGEXP_MES			int( 3 ) not null,
+	CD_REGEXP_MES			int( 3 ) null,
 	CD_REGEXP_ANO			int( 3 ) not null,
 	
 	USER_CREATED			bigint( 17 ) not null,
@@ -673,7 +673,10 @@ create table TB_TITULAR_ISENTO(
 	ID 						bigint( 17 ) auto_increment,
 	ID_TITULAR				bigint( 17 ) not null,
 	TP_ISENTO				int( 3 ) not null, /* */
-	
+
+	CD_MES					int( 3 ) not null,
+	CD_ANO					int( 3 ) not null,
+
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -690,6 +693,9 @@ create table TB_DEPENDENTE_ISENTO(
 	ID 						bigint( 17 ) auto_increment,
 	ID_DEPENDENTE			bigint( 17 ) not null,
 	TP_ISENTO				int( 3 ) not null, /* 1 = GRAVIDA,  */
+
+	CD_MES					int( 3 ) not null,
+	CD_ANO					int( 3 ) not null,
 	
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
@@ -778,8 +784,8 @@ create table TB_INPUT_DEPENDENTE_ISENTO(
 create table TB_INPUT_TITULAR_ISENTO_COLS(
 	ID 							bigint( 17 ) auto_increment,
     ID_INPUT_TITULAR_ISENTO		bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
-	ID_TITULAR_ISENTO_COLS_DEF	bigint( 17 ) null,
+	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) null,
+	ID_TITULAR_ISENTO_COLS_DEF	bigint( 17 ) not null,
 	TP_ISENTO					int( 3 ) null,
 		
 	USER_CREATED				bigint( 17 ) not null,
@@ -800,8 +806,8 @@ create table TB_INPUT_TITULAR_ISENTO_COLS(
 create table TB_INPUT_DEPENDENTE_ISENTO_COLS(
 	ID 								bigint( 17 ) auto_increment,
 	ID_INPUT_DEPENDENTE_ISENTO		bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) not null,
-	ID_DEPENDENTE_ISENTO_COLS_DEF	bigint( 17 ) null,
+	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) null,
+	ID_DEPENDENTE_ISENTO_COLS_DEF	bigint( 17 ) not null,
 	TP_ISENTO						int( 3 ) null,
 		
 	USER_CREATED					bigint( 17 ) not null,
@@ -817,7 +823,7 @@ create table TB_INPUT_DEPENDENTE_ISENTO_COLS(
 	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_03 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
 	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_04 foreign key( ID_DEPENDENTE_ISENTO_COLS_DEF ) references TB_DEPENDENTE_ISENTO_COLS_DEF( ID ),
-	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_05 foreign key( ID_INPUT_DEPENDENTE_ISENTO ) references TB_DEPENDENTE_ISENTO( ID )
+	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_05 foreign key( ID_INPUT_DEPENDENTE_ISENTO ) references TB_INPUT_DEPENDENTE_ISENTO( ID )
 );
 
 /***********************************************************************************************************************/

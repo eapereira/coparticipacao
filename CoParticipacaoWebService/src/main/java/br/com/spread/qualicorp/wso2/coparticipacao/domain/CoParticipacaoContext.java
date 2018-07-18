@@ -13,16 +13,20 @@ import org.apache.logging.log4j.Logger;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputLancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 
@@ -40,6 +44,8 @@ public class CoParticipacaoContext {
 	private EmpresaUi empresaUi;
 
 	private FileInputStream fileInputStream;
+
+	private String fileName;
 
 	private List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 
@@ -65,6 +71,10 @@ public class CoParticipacaoContext {
 
 	private List<ParameterUi> parameterUis;
 
+	private List<InputTitularIsentoColsUi> inputTitularIsentoColsUis;
+
+	private List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis;
+
 	private Bunker bunker;
 
 	private Integer currentLine;
@@ -84,6 +94,9 @@ public class CoParticipacaoContext {
 		regraConditionalUis = new ArrayList<RegraConditionalUi>();
 		regraUis = new ArrayList<RegraUi>();
 		parameterUis = new ArrayList<ParameterUi>();
+
+		inputTitularIsentoColsUis = new ArrayList<InputTitularIsentoColsUi>();
+		inputDependenteIsentoColsUis = new ArrayList<InputDependenteIsentoColsUi>();
 
 		mapLine = new HashMap<String, Object>();
 
@@ -354,4 +367,76 @@ public class CoParticipacaoContext {
 		return null;
 	}
 
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+
+	public void addTitularIsento(TitularIsentoUi titularIsentoUi) {
+		getBunker().getTitularIsentoUis().add(titularIsentoUi);
+	}
+
+	public void addDependenteIsento(DependenteIsentoUi dependenteIsentoUi) {
+		getBunker().getDependenteIsentoUis().add(dependenteIsentoUi);
+	}
+
+	public List<InputTitularIsentoColsUi> getInputTitularIsentoColsUis() {
+		return inputTitularIsentoColsUis;
+	}
+
+	public void setInputTitularIsentoColsUis(
+			List<InputTitularIsentoColsUi> inputTitularIsentoColsUis) {
+		this.inputTitularIsentoColsUis = inputTitularIsentoColsUis;
+	}
+
+	public List<InputDependenteIsentoColsUi> getInputDependenteIsentoColsUis() {
+		return inputDependenteIsentoColsUis;
+	}
+
+	public void setInputDependenteIsentoColsUis(
+			List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis) {
+		this.inputDependenteIsentoColsUis = inputDependenteIsentoColsUis;
+	}
+
+	public DependenteUi findDependenteByMatricula(Long matricula) {
+		LOGGER.info("BEGIN");
+
+		for (DependenteUi dependenteUi : getDependenteUis()) {
+			if (dependenteUi.getMatricula().equals(matricula)) {
+				LOGGER.info(
+						"Dependente [{}] with CPF [{}] found:",
+						dependenteUi.getNameDependente(),
+						dependenteUi.getCpf());
+
+				LOGGER.info("END");
+				return dependenteUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public TitularUi findTitularByMatricula(Long matricula) {
+		LOGGER.info("BEGIN");
+
+		for (TitularUi TitularUi : getTitularUis()) {
+			if (TitularUi.getMatricula().equals(matricula)) {
+				LOGGER.info(
+						"Titular [{}] with CPF [{}] found:",
+						TitularUi.getNameTitular(),
+						TitularUi.getCpf());
+
+				LOGGER.info("END");
+				return TitularUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+	
 }

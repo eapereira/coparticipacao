@@ -33,7 +33,7 @@ public class LancamentoDaoImpl extends AbstractDaoImpl<LancamentoEntity>
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery2("deleteByMesAndAno");
+			query = createQuery("deleteByMesAndAno");
 			query.setParameter("contratoId", contratoId);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);

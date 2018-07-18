@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 /**
  * 
@@ -41,5 +42,18 @@ public abstract class DateUtils {
 		}
 
 		return null;
+	}
+
+	public static LocalDate dateToLocalDate(java.util.Date date) {
+		if (date != null) {
+			return date.toInstant().atZone(ZoneId.systemDefault())
+					.toLocalDate();
+		}
+
+		return null;
+	}
+
+	public static LocalDate now() {
+		return LocalDate.now();
 	}
 }

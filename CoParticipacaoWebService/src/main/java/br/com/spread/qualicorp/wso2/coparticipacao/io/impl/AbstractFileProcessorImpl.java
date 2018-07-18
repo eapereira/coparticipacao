@@ -96,23 +96,27 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			ArquivoInputColsDefUi arquivoInputColsDefUi,
 			String columnValue) throws ServiceException {
 		Object value = null;
+		String tmp;
 
 		LOGGER.info("BEGIN");
 
-		if (StringUtils.isNotBlank(columnValue)) {
+		tmp = StringUtils.replaceAll(columnValue, "'", "");
+		tmp = tmp.trim();
+
+		if (StringUtils.isNotBlank(tmp)) {
 			if (ColDefType.INT.equals(arquivoInputColsDefUi.getType())) {
-				value = Integer.parseInt(columnValue);
+				value = Integer.parseInt(tmp);
 			} else if (ColDefType.LONG
 					.equals(arquivoInputColsDefUi.getType())) {
-				value = stringToLong(columnValue, arquivoInputColsDefUi);
+				value = stringToLong(tmp, arquivoInputColsDefUi);
 			} else if (ColDefType.DOUBLE
 					.equals(arquivoInputColsDefUi.getType())) {
-				value = stringToBigDecimal(columnValue, arquivoInputColsDefUi);
+				value = stringToBigDecimal(tmp, arquivoInputColsDefUi);
 			} else if (ColDefType.DATE
 					.equals(arquivoInputColsDefUi.getType())) {
-				value = stringToDate(columnValue, arquivoInputColsDefUi);
+				value = stringToDate(tmp, arquivoInputColsDefUi);
 			} else {
-				value = columnValue;
+				value = tmp;
 			}
 		}
 
@@ -151,18 +155,22 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			String value,
 			ArquivoInputColsDefUi arquivoInputColsDefUi)
 			throws ServiceException {
-		Integer intValue = Integer.parseInt(value);
-		BigDecimal bdValue = new BigDecimal(intValue);
+		BigDecimal bdValue = null;
 		DecimalFormat decimalFormat;
+		String tmp;
 
 		try {
 			LOGGER.info("BEGIN");
+
+			tmp = StringUtils.replaceAll(value, ",", ".");
 
 			if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
 				decimalFormat = new DecimalFormat(
 						arquivoInputColsDefUi.getFormat());
 				bdValue = BigDecimal
-						.valueOf(decimalFormat.parse(value).doubleValue());
+						.valueOf(decimalFormat.parse(tmp).doubleValue());
+			} else {
+				bdValue = new BigDecimal(tmp);
 			}
 
 			LOGGER.info("END");
@@ -181,13 +189,22 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		String formatPattern = "dd/MM/yyyy";
 		LocalDate localDate;
 
-		if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
-			formatPattern = arquivoInputColsDefUi.getFormat();
+		try {
+			LOGGER.info("BEGIN");
+
+			if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
+				formatPattern = arquivoInputColsDefUi.getFormat();
+			}
+
+			dateTimeFormatter = DateTimeFormatter.ofPattern(formatPattern);
+			localDate = LocalDate.parse(value, dateTimeFormatter);
+
+			LOGGER.info("END");
+			return localDate;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage());
+			return null;
 		}
 
-		dateTimeFormatter = DateTimeFormatter.ofPattern(formatPattern);
-		localDate = LocalDate.parse(value, dateTimeFormatter);
-
-		return localDate;
 	}
 }

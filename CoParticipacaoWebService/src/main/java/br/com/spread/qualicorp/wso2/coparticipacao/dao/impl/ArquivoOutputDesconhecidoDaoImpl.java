@@ -36,7 +36,7 @@ public class ArquivoOutputDesconhecidoDaoImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery2("findByArquivoInputId");
+			query = createQuery("findByArquivoInputId");
 			query.setParameter("id", id);
 
 			arquivoOutputDesconhecidoEntity = (ArquivoOutputDesconhecidoEntity) query
@@ -61,7 +61,7 @@ public class ArquivoOutputDesconhecidoDaoImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery2("findByContratoId");
+			query = createQuery("findByContratoId");
 			query.setParameter("id", id);
 
 			arquivoOutputDesconhecidoEntity = (ArquivoOutputDesconhecidoEntity) query

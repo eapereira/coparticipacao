@@ -6,9 +6,9 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -22,7 +22,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputDependenteIsentoC
  */
 @Entity
 @Table(name = "TB_INPUT_DEPENDENTE_ISENTO")
-@NamedQuery(name = "InputDependenteIsentoEntity.findAll", query = "SELECT a FROM InputDependenteIsentoEntity a")
+@NamedQuery(
+		name = "InputDependenteIsentoEntity.findAll",
+		query = "SELECT a FROM InputDependenteIsentoEntity a")
 public class InputDependenteIsentoEntity extends InputDependenteIsento {
 
 	/**
@@ -34,7 +36,7 @@ public class InputDependenteIsentoEntity extends InputDependenteIsento {
 
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT")
 	@Override
 	public ArquivoInput getArquivoInput() {

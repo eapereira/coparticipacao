@@ -41,7 +41,7 @@ public class ArquivoInputDaoImpl extends AbstractDaoImpl<ArquivoInputEntity>
 			sb.append("join fetch arquivoInput.contrato contrato ");
 			sb.append("where contrato.id = :contratoId ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("contratoId", contratoId);
 
 			arquivoInputEntity = (ArquivoInputEntity) query.getSingleResult();

@@ -41,7 +41,7 @@ public class ParameterDaoImpl extends AbstractDaoImpl<ParameterEntity>
 			sb.append("join fetch parameter.empresa empresa ");
 			sb.append("where empresa.id = :id ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("id", id);
 
 			parameterEntities = query.getResultList();

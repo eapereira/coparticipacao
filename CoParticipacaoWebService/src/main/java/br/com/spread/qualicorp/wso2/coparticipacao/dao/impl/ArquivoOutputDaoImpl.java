@@ -36,7 +36,7 @@ public class ArquivoOutputDaoImpl extends AbstractDaoImpl<ArquivoOutputEntity>
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery2("findByArquivoInputId");
+			query = createQuery("findByArquivoInputId");
 			query.setParameter("arquivoInputId", id);
 
 			arquivoOutputEntity = (ArquivoOutputEntity) query.getSingleResult();

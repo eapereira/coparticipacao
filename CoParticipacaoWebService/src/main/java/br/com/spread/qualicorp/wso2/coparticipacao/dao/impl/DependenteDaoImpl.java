@@ -41,7 +41,7 @@ public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity>
 			sb.append("join fetch entity.titular titular ");
 			sb.append("where entity.cpf = :cpf ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("cpf", cpf);
 
 			dependenteEntity = (DependenteEntity) query.getSingleResult();
@@ -70,7 +70,7 @@ public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity>
 			sb.append("join fetch titular.empresa empresa ");
 			sb.append("where empresa.id = :idEmpresa ");
 
-			query = createQuery(sb.toString());
+			query = createQueryOld(sb.toString());
 			query.setParameter("idEmpresa", id);
 
 			dependenteEntities = query.getResultList();

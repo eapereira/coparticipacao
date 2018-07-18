@@ -128,6 +128,14 @@ public class LancamentoServiceImpl
 			if (beneficiarioService.validateBeneficiario(
 					coParticipacaoContext,
 					lancamentoUi)) {
+				if (lancamentoUi.getMes() == null) {
+					lancamentoUi.setMes(coParticipacaoContext.getMes());
+				}
+
+				if (lancamentoUi.getAno() == null) {
+					lancamentoUi.setAno(coParticipacaoContext.getAno());
+				}
+
 				lancamentoUi.setUserAltered(coParticipacaoContext.getUser());
 				lancamentoUi.setUserCreated(coParticipacaoContext.getUser());
 				lancamentoUi.setAltered(LocalDateTime.now());
@@ -224,8 +232,13 @@ public class LancamentoServiceImpl
 			String line,
 			CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
-		if (line.length() == coParticipacaoContext.getArquivoInputUi()
-				.getDefaultLineLength()) {
+		if (coParticipacaoContext.getArquivoInputUi()
+				.getDefaultLineLength() != null) {
+			if (line.length() == coParticipacaoContext.getArquivoInputUi()
+					.getDefaultLineLength()) {
+				return true;
+			}
+		} else {
 			return true;
 		}
 
@@ -338,9 +351,16 @@ public class LancamentoServiceImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			desconhecidoService.writeDesconhecidosFile(coParticipacaoContext);
+			if (!coParticipacaoContext.getBunker().getDependenteIsentoUis()
+					.isEmpty()) {
+				desconhecidoService
+						.writeDesconhecidosFile(coParticipacaoContext);
+			}
 
-			arquivoOutputService.writeOutputFile(coParticipacaoContext);
+			if (!coParticipacaoContext.getBunker().getLancamentoUis()
+					.isEmpty()) {
+				arquivoOutputService.writeOutputFile(coParticipacaoContext);
+			}
 
 			LOGGER.info("END");
 		} catch (Exception e) {
