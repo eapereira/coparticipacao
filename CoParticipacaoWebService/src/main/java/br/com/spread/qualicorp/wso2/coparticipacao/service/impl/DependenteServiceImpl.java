@@ -15,6 +15,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.DependenteEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DependenteUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.DependenteJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -39,6 +41,9 @@ public class DependenteServiceImpl
 
 	@Autowired
 	private DependenteEntityMapper entityMapper;
+
+	@Autowired
+	private DependenteJdbcDao dependenteJdbcDao;
 
 	@Override
 	protected AbstractDao<DependenteEntity> getDao() {
@@ -93,6 +98,11 @@ public class DependenteServiceImpl
 	@Override
 	protected AbstractMapper<Dependente, DependenteEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	@Override
+	protected AbstractJdbcDao<DependenteEntity> getJdbcDao() {
+		return dependenteJdbcDao;
 	}
 
 }

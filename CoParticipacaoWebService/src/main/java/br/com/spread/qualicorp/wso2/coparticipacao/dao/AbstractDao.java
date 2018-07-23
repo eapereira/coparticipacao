@@ -17,4 +17,6 @@ public interface AbstractDao<ENTITY extends AbstractDomain> {
 	void delete(ENTITY entity) throws DaoException;
 
 	void save(ENTITY entity) throws DaoException;
+
+	void save(List<ENTITY> entities) throws DaoException;
 }

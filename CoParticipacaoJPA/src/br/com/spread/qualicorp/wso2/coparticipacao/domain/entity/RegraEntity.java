@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -76,6 +77,7 @@ public class RegraEntity extends Regra {
 			fetch = FetchType.LAZY,
 			mappedBy = "regra",
 			targetEntity = RegraResultEntity.class)
+	@OrderColumn(name="INDEX")
 	@Override
 	public List<RegraResult> getRegraResults() {
 		return super.getRegraResults();

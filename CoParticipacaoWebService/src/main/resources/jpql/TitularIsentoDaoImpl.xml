@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+
+	<query id="deleteByMesAndAno">
 		<![CDATA[
+			delete from TitularIsentoEntity titularIsento			
+			where	titularIsento.titular.id in (
+				select titularRoot from TitularEntity titularRoot
+				join titularRoot.empresa empresa
+				where 	titularRoot.id 	= titularIsento.titular.id
+				and		empresa.id 		= :empresaId )
+			and		titularIsento.mes 			= :mes
+			and		titularIsento.ano 			= :ano
 		]]>
 	</query>
+
 
 </queries>
 	

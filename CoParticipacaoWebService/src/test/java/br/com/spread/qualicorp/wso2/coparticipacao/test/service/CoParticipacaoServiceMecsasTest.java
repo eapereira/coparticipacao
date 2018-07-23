@@ -34,19 +34,19 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWeb
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@ContextConfiguration(
-		classes = { CoParticipacaoWebServiceConfigurationTest.class })
+@ContextConfiguration(classes = { CoParticipacaoWebServiceConfigurationTest.class })
 @Transactional
 public class CoParticipacaoServiceMecsasTest {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(CoParticipacaoServiceMecsasTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoServiceMecsasTest.class);
 
 	// private static final String MUITO_FACIL_8CH5YFATUCOPA__201802001F
 	// ="/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
-	private static final String MUITO_FACIL_8CH5YFATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
+	private static final String MUITO_FACIL_8CH5Y_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/output/8CH5YFATUCOPA.201802001F.TXT";
 
-	private static final String MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/MECSAS-EXPORT-DADOS-1781-20180227-111813.csv";
+	private static final String MUITO_FACIL_8CHE8_FATUCOPA__201802001F = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/output/8CHE8FATUCOPA.201802001F.TXT";
+
+	private static final String MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/output/MECSAS-EXPORT-DADOS-1781-20180227-111813.csv";
 
 	private static final int NUM_TOTAL_TITULARES_MECSAS = 310;
 	private static final int NUM_TOTAL_DEPENDENTES_MECSAS = 20;
@@ -54,7 +54,7 @@ public class CoParticipacaoServiceMecsasTest {
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 310;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 20;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 25;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 27;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 94;
 
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA = 2162;
@@ -74,61 +74,66 @@ public class CoParticipacaoServiceMecsasTest {
 
 	@Autowired
 	private DesconhecidoService desconhecidoService;
-	
+
 	@Autowired
 	private LancamentoService lancamentoService;
 
 	@Test
 	public void testProcessFatoCopa8CH5YF() throws Exception {
-		int totalLancamentoDetails=0;
+		int totalLancamentoDetails = 0;
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
 		List<LancamentoUi> lancamentoUis;
-		
-		int pos = MUITO_FACIL_8CH5YFATUCOPA__201802001F.lastIndexOf("/") + 1;
 
-		loadMecsas(MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813);
+		loadProcess(MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813);
 
-		coParticipacaoService.processFile(
-				MUITO_FACIL_8CH5YFATUCOPA__201802001F.substring(pos),
-				MUITO_FACIL_8CH5YFATUCOPA__201802001F);
-		
+		loadProcess(MUITO_FACIL_8CH5Y_FATUCOPA__201802001F);
+		loadProcess(MUITO_FACIL_8CHE8_FATUCOPA__201802001F);
+
 		titularUis = titularService.listAll();
 		dependenteUis = dependenteService.listAll();
 		desconhecidoUis = desconhecidoService.listAll();
-		lancamentoUis=lancamentoService.listAll();
+		lancamentoUis = lancamentoService.listAll();
 
-		for(LancamentoUi lancamentoUi:lancamentoUis) {
-			totalLancamentoDetails += lancamentoUi.getLancamentoDetails().size();
-			
-		}
+		LOGGER.info("Total titulares ....... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ..... [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ..... [{}]:", lancamentoUis.size());
 		
+		for (LancamentoUi lancamentoUi : lancamentoUis) {
+			totalLancamentoDetails += lancamentoUi.getLancamentoDetails().size();
+		}
+
 		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA, titularUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());		
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA, lancamentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA, totalLancamentoDetails);
 	}
 
-	@Test
+	// @Test
 	public void testProcessMecsas() throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
 
-		loadMecsas(MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813);
+		loadProcess(MUITO_FACIL_MECSAS_EXPORT_DADOS_1781_20180227_111813);
 
 		titularUis = titularService.listAll();
 		dependenteUis = dependenteService.listAll();
 		desconhecidoUis = desconhecidoService.listAll();
+
+		LOGGER.info("Total titulares [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos [{}]:", desconhecidoUis.size());
 
 		Assert.assertEquals(NUM_TOTAL_TITULARES_MECSAS, titularUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_MECSAS, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_MECSAS, desconhecidoUis.size());
 	}
 
-	private void loadMecsas(String filePath) throws Exception {
+	private void loadProcess(String filePath) throws Exception {
 		int pos = filePath.lastIndexOf("/") + 1;
 
 		coParticipacaoService.processFile(filePath.substring(pos), filePath);
@@ -142,9 +147,7 @@ public class CoParticipacaoServiceMecsasTest {
 				is = getClass().getResourceAsStream(filePath);
 
 				if (is == null) {
-					throw new CoParticipacaoException(
-							"Arquivo de entrada para processamento [%s] não foi encontrado na pasta de testes:",
-							filePath);
+					throw new CoParticipacaoException("Arquivo de entrada para processamento [%s] não foi encontrado na pasta de testes:", filePath);
 				}
 			}
 		} catch (Exception e) {

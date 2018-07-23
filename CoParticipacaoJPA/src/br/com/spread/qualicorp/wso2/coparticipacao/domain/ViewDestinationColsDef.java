@@ -18,55 +18,14 @@ public abstract class ViewDestinationColsDef extends AbstractDomain {
 	private String format;
 	private String columnTitleLabel;
 
-	private List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefs;
-
 	private ViewDestination viewDestination;
 
 	public ViewDestinationColsDef() {
-		arquivoOutputSheetColsDefs=new ArrayList<>();
+		
 	}
 
 	public ViewDestinationColsDef(ViewDestinationColsDef entity) {
 		super(entity);
-	}
-
-	public String getNameColumn() {
-		return this.nameColumn;
-	}
-
-	public void setNameColumn(String nmColumn) {
-		this.nameColumn = nmColumn;
-	}
-
-	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefs() {
-		return this.arquivoOutputSheetColsDefs;
-	}
-
-	public void setArquivoOutputSheetColsDefs(List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefs) {
-		this.arquivoOutputSheetColsDefs = arquivoOutputSheetColsDefs;
-	}
-
-	public ArquivoOutputSheetColsDef addArquivoOutputSheetColsDef(ArquivoOutputSheetColsDef arquivoOutputSheetColsDef) {
-		getArquivoOutputSheetColsDefs().add(arquivoOutputSheetColsDef);
-		arquivoOutputSheetColsDef.setViewDestinationColsDef(this);
-
-		return arquivoOutputSheetColsDef;
-	}
-
-	public ArquivoOutputSheetColsDef removeArquivoOutputSheetColsDef(
-			ArquivoOutputSheetColsDef arquivoOutputSheetColsDef) {
-		getArquivoOutputSheetColsDefs().remove(arquivoOutputSheetColsDef);
-		arquivoOutputSheetColsDef.setViewDestinationColsDef(null);
-
-		return arquivoOutputSheetColsDef;
-	}
-
-	public ViewDestination getViewDestination() {
-		return this.viewDestination;
-	}
-
-	public void setViewDestination(ViewDestination viewDestination) {
-		this.viewDestination = viewDestination;
 	}
 
 	public Integer getOrdem() {
@@ -83,6 +42,14 @@ public abstract class ViewDestinationColsDef extends AbstractDomain {
 
 	public void setType(ColDefType type) {
 		this.type = type;
+	}
+
+	public String getNameColumn() {
+		return nameColumn;
+	}
+
+	public void setNameColumn(String nameColumn) {
+		this.nameColumn = nameColumn;
 	}
 
 	public Integer getLength() {
@@ -109,22 +76,25 @@ public abstract class ViewDestinationColsDef extends AbstractDomain {
 		this.columnTitleLabel = columnTitleLabel;
 	}
 
+	public ViewDestination getViewDestination() {
+		return viewDestination;
+	}
+
+	public void setViewDestination(ViewDestination viewDestination) {
+		this.viewDestination = viewDestination;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoOutputSheetColsDefs == null) ? 0
-				: arquivoOutputSheetColsDefs.hashCode());
-		result = prime * result + ((columnTitleLabel == null) ? 0
-				: columnTitleLabel.hashCode());
+		result = prime * result + ((columnTitleLabel == null) ? 0 : columnTitleLabel.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
 		result = prime * result + ((length == null) ? 0 : length.hashCode());
-		result = prime * result
-				+ ((nameColumn == null) ? 0 : nameColumn.hashCode());
+		result = prime * result + ((nameColumn == null) ? 0 : nameColumn.hashCode());
 		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		result = prime * result
-				+ ((viewDestination == null) ? 0 : viewDestination.hashCode());
+		result = prime * result + ((viewDestination == null) ? 0 : viewDestination.hashCode());
 		return result;
 	}
 
@@ -137,12 +107,6 @@ public abstract class ViewDestinationColsDef extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		ViewDestinationColsDef other = (ViewDestinationColsDef) obj;
-		if (arquivoOutputSheetColsDefs == null) {
-			if (other.arquivoOutputSheetColsDefs != null)
-				return false;
-		} else if (!arquivoOutputSheetColsDefs
-				.equals(other.arquivoOutputSheetColsDefs))
-			return false;
 		if (columnTitleLabel == null) {
 			if (other.columnTitleLabel != null)
 				return false;

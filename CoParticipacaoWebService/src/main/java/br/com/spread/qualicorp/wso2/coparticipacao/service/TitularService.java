@@ -13,4 +13,5 @@ public interface TitularService extends AbstractService<TitularUi> {
 	TitularUi findByCpf(String cpf) throws ServiceException;
 
 	List<TitularUi> listByEmpresaId(Long id) throws ServiceException;
+
 }

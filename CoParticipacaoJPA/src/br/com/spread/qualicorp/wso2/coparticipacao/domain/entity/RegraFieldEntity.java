@@ -5,6 +5,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
@@ -40,6 +41,7 @@ public class RegraFieldEntity extends RegraField implements DomainEntity {
 			fetch = FetchType.LAZY,
 			targetEntity = RegraOperationEntity.class)
 	@JoinColumn(name = "ID_REGRA_OPERATION")
+	@OrderColumn(name="INDEX")
 	public RegraOperation getRegraOperation() {
 		return super.getRegraOperation();
 	}
@@ -49,6 +51,7 @@ public class RegraFieldEntity extends RegraField implements DomainEntity {
 			fetch = FetchType.LAZY,
 			targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
+	@OrderColumn(name="INDEX")
 	public ArquivoInputColsDef getArquivoInputColsDef() {
 		return super.getArquivoInputColsDef();
 	}

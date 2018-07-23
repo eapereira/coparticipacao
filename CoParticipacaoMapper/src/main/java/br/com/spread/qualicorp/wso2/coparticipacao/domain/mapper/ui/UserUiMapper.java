@@ -19,7 +19,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 				ArquivoInputColsDefUiMapper.class,
 				ArquivoInputUiMapper.class,
 				ArquivoOutputUiMapper.class,
-				ArquivoOutputSheetColsDefUiMapper.class,
 				ArquivoOutputSheetUiMapper.class,
 				ContratoUiMapper.class,
 				DependenteColsDefUiMapper.class,

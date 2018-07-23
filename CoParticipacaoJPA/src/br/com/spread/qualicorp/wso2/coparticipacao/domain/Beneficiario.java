@@ -1,8 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 
@@ -28,6 +26,12 @@ public abstract class Beneficiario extends AbstractDomain {
 
 	private BeneficiarioType type;
 
+	private Long matriculaTitular;
+
+	private Long cpfTitular;
+	
+	private LocalDate dtAdmissao;
+	
 	public Beneficiario() {
 	}
 
@@ -79,15 +83,45 @@ public abstract class Beneficiario extends AbstractDomain {
 		this.type = type;
 	}
 
+	public Long getMatriculaTitular() {
+		return matriculaTitular;
+	}
+
+	public void setMatriculaTitular(Long matriculaTitular) {
+		this.matriculaTitular = matriculaTitular;
+	}
+
+	public Long getCpfTitular() {
+		return cpfTitular;
+	}
+
+	public void setCpfTitular(Long cpfTitular) {
+		this.cpfTitular = cpfTitular;
+	}
+
+	public LocalDate getDtAdmissao() {
+		return dtAdmissao;
+	}
+
+	public void setDtAdmissao(LocalDate dtAdmissao) {
+		this.dtAdmissao = dtAdmissao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result
+				+ ((cpfTitular == null) ? 0 : cpfTitular.hashCode());
+		result = prime * result
+				+ ((dtAdmissao == null) ? 0 : dtAdmissao.hashCode());
+		result = prime * result
 				+ ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
 		result = prime * result
 				+ ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((matriculaTitular == null) ? 0
+				: matriculaTitular.hashCode());
 		result = prime * result
 				+ ((nameDependente == null) ? 0 : nameDependente.hashCode());
 		result = prime * result
@@ -110,6 +144,16 @@ public abstract class Beneficiario extends AbstractDomain {
 				return false;
 		} else if (!cpf.equals(other.cpf))
 			return false;
+		if (cpfTitular == null) {
+			if (other.cpfTitular != null)
+				return false;
+		} else if (!cpfTitular.equals(other.cpfTitular))
+			return false;
+		if (dtAdmissao == null) {
+			if (other.dtAdmissao != null)
+				return false;
+		} else if (!dtAdmissao.equals(other.dtAdmissao))
+			return false;
 		if (dtNascimento == null) {
 			if (other.dtNascimento != null)
 				return false;
@@ -119,6 +163,11 @@ public abstract class Beneficiario extends AbstractDomain {
 			if (other.matricula != null)
 				return false;
 		} else if (!matricula.equals(other.matricula))
+			return false;
+		if (matriculaTitular == null) {
+			if (other.matriculaTitular != null)
+				return false;
+		} else if (!matriculaTitular.equals(other.matriculaTitular))
 			return false;
 		if (nameDependente == null) {
 			if (other.nameDependente != null)

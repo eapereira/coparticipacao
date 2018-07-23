@@ -3043,8 +3043,6 @@ insert into TB_ARQUIVO_INPUT_COLS_DEF(
 	current_timestamp()
 );
 
-commit;
-
 /*****************************************************************************************************************************************************/
 
 insert into TB_TITULAR_ISENTO_COLS_DEF(
@@ -3349,8 +3347,6 @@ insert into TB_DEPENDENTE_COLS_DEF(
 	current_timestamp(),
 	current_timestamp()	
 );
-
-commit;
 
 /*****************************************************************************************************************************************************/
 
@@ -4115,10 +4111,6 @@ insert into TB_REGRA_CONDITIONAL_RESULT(
 
 /*****************************************************************************************************************************************************/
 
-commit;
-
-/*****************************************************************************************************************************************************/
-
 insert into TB_PARAMETER(
 	ID_EMPRESA,
 	NM_PARAMETER,
@@ -4137,8 +4129,6 @@ insert into TB_PARAMETER(
 );
 
 /*****************************************************************************************************************************************************/
-
-commit;
 
 /*****************************************************************************************************************************************************/
 
@@ -4548,8 +4538,6 @@ insert into TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
 
 /*****************************************************************************************************************************************************/
 
-commit;
-
 insert into TB_VIEW_DESTINATION(
 	NM_VIEW,
 	NM_TITLE_LABEL,
@@ -4805,66 +4793,6 @@ insert into TB_ARQUIVO_OUTPUT_SHEET(
 	current_timestamp()		
 );
 
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	1, /* FATU-COPA */
-	1, /* NM_TITULAR */ 
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	1, /* FATU-COPA */
-	2, /* NR_CPF */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	1, /* FATU-COPA */
-	3, /* NR_MATRICULA */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	1, /* FATU-COPA */
-	4, /* VL_PRINCIPAL */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
 insert into TB_ARQUIVO_OUTPUT_SHEET(
 	ID_ARQUIVO_OUTPUT,
 	ID_VIEW_DESTINATION,
@@ -4876,66 +4804,6 @@ insert into TB_ARQUIVO_OUTPUT_SHEET(
 	1, /* FATU-COPA */
 	2, /* VW_LANCAMNETO_FATU_COPA */
 	'Lançamentos',
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	2, /* FATU-COPA */
-	1, /* NM_TITULAR */ 
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	2, /* FATU-COPA */
-	2, /* NR_CPF */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	2, /* FATU-COPA */
-	3, /* NR_MATRICULA */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	2, /* FATU-COPA */
-	4, /* VL_PRINCIPAL */
 	
 	1,
 	current_timestamp(),
@@ -4981,65 +4849,6 @@ insert into TB_ARQUIVO_OUTPUT_SHEET(
 	current_timestamp()		
 );
 
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	3, /* FATU-COPA */
-	1, /* NM_TITULAR */ 
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	3, /* FATU-COPA */
-	2, /* NR_CPF */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	3, /* FATU-COPA */
-	3, /* NR_MATRICULA */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	3, /* FATU-COPA */
-	4, /* VL_PRINCIPAL */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
 
 insert into TB_ARQUIVO_OUTPUT_SHEET(
 	ID_ARQUIVO_OUTPUT,
@@ -5058,165 +4867,20 @@ insert into TB_ARQUIVO_OUTPUT_SHEET(
 	current_timestamp()		
 );
 
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	4, /* FATU-COPA */
-	1, /* NM_TITULAR */ 
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	4, /* FATU-COPA */
-	2, /* NR_CPF */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	4, /* FATU-COPA */
-	3, /* NR_MATRICULA */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID_ARQUIVO_OUTPUT_SHEET,
-	ID_VIEW_DESTINATION_COLS_DEF,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	4, /* FATU-COPA */
-	4, /* VL_PRINCIPAL */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
 /*****************************************************************************************************************************************************/
 
-commit;
-
 /*****************************************************************************************************************************************************/
-
-insert into TB_BENEFICIARIO_COLS_DEF(
-	NM_COLUMN,
-	CD_TYPE,
-	VL_LENGTH,	
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	'NR_MATRICULA',
-	5, /* LONG */
-	17,
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_BENEFICIARIO_COLS_DEF(
-	NM_COLUMN,
-	CD_TYPE,
-	VL_LENGTH,	
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	'NM_TITULAR',
-	3, /* VARCHAR */
-	200,
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_BENEFICIARIO_COLS_DEF(
-	NM_COLUMN,
-	CD_TYPE,
-	VL_LENGTH,	
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	'NR_CPF',
-	3, /* VARCHAR */
-	11,
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_BENEFICIARIO_COLS_DEF(
-	NM_COLUMN,
-	CD_TYPE,
-	VL_LENGTH,	
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	'NM_BENEFICIARIO',
-	3, /* VARCHAR */
-	200,
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
 
 /* FATO-COPA.1 */
 
-insert into TB_INPUT_BENEFICIARIO(
-	ID_ARQUIVO_INPUT,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	1, /* FATO-COPA.1 */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	1,
-	1, /* NR_MATRICULA */
+	2, /* NR_MATRICULA */
 	22,
 	
 	1,
@@ -5224,16 +4888,14 @@ insert into TB_INPUT_BENEFICIARIO_BIND(
 	current_timestamp()		
 );
 
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	1,
-	2, /* NM_BENEFICIARIO */
+	4, /* NM_BENEFICIARIO */
 	21,
 	
 	1,
@@ -5241,16 +4903,14 @@ insert into TB_INPUT_BENEFICIARIO_BIND(
 	current_timestamp()		
 );
 
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	1,
-	3, /* NR_CPF */
+	7, /* NR_CPF */
 	9,
 	
 	1,
@@ -5258,16 +4918,14 @@ insert into TB_INPUT_BENEFICIARIO_BIND(
 	current_timestamp()		
 );
 
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	1,
-	4, /* NM_BENEFICIARIO */
+	5, /* NM_BENEFICIARIO */
 	7,
 	
 	1,
@@ -5277,45 +4935,28 @@ insert into TB_INPUT_BENEFICIARIO_BIND(
 
 /* FATO-COPA.2 */
 
-insert into TB_INPUT_BENEFICIARIO(
-	ID_ARQUIVO_INPUT,
-
-	USER_CREATED,
-	DT_CREATED,
-	DT_ALTERED ) values (
-	2, /* FATO-COPA.2 */
-	
-	1,
-	current_timestamp(),
-	current_timestamp()		
-);
-
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	2,
-	1, /* NR_MATRICULA */
+	2, /* NR_MATRICULA */
 	45,
 	1,
 	current_timestamp(),
 	current_timestamp()		
 );
 
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	2,
-	2, /* NM_BENEFICIARIO */
+	4, /* NM_BENEFICIARIO */
 	44,
 	
 	1,
@@ -5323,16 +4964,14 @@ insert into TB_INPUT_BENEFICIARIO_BIND(
 	current_timestamp()		
 );
 
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	2,
-	3, /* NR_CPF */
+	7, /* NR_CPF */
 	32,
 	
 	1,
@@ -5340,17 +4979,93 @@ insert into TB_INPUT_BENEFICIARIO_BIND(
 	current_timestamp()		
 );
 
-insert into TB_INPUT_BENEFICIARIO_BIND(
-	ID_INPUT_BENEFICIARIO,
-	ID_BENEFICIARIO_COLS_DEF,
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
 	ID_ARQUIVO_INPUT_COLS_DEF,
 
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (
-	2,
-	4, /* NM_BENEFICIARIO */
+	5, /* NM_BENEFICIARIO */
 	30,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+/* MECSAS */
+
+
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	1, /* TP_BENEFICIARIO */
+	63,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	2, /* NR_MATRICULA_TITULAR */
+	49,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	4, /* NM_TITULAR */
+	59,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	6, /* DT_NASCIMENTO */
+	60,
+	
+	1,
+	current_timestamp(),
+	current_timestamp()		
+);
+
+insert into TB_BENEFICIARIO_COLS(
+	CD_BENEFICIARIO_COLS_DEF,
+	ID_ARQUIVO_INPUT_COLS_DEF,
+
+	USER_CREATED,
+	DT_CREATED,
+	DT_ALTERED ) values (
+	7, /* NR_CPF_TITULAR */
+	58,
 	
 	1,
 	current_timestamp(),

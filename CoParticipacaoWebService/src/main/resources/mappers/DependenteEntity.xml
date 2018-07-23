@@ -3,11 +3,15 @@
 	<query id="DependenteEntity.insert">
 		<![CDATA[	
 			INSERT INTO TB_DEPENDENTE(
+				ID_TITULAR,
 				TP_DEPENDENTE,
 				NM_DEPENDENTE,
 				NR_CPF,
 				DT_NASCIMENTO,
+				NR_MATRICULA,
+				
 				USER_CREATED,
+				DT_ALTERED,
 				DT_CREATED
 			) VALUES (
 				?,
@@ -15,6 +19,10 @@
 				?,
 				?,
 				?,
+				?,
+				
+				?,
+				CURRENT_TIMESTAMP(),
 				CURRENT_TIMESTAMP()
 			)
 		]]>
@@ -24,10 +32,13 @@
 		<![CDATA[	
 			UPDATE TB_DEPENDENTE
 			SET
+				ID_TITULAR		= ?,
 				TP_DEPENDENTE 	= ?,
 				NM_DEPENDENTE 	= ?,
 				NR_CPF 			= ?,
 				DT_NASCIMENTO 	= ?,
+				NR_MATRICULA	= ?,
+				
 				USER_ALTERED 	= ?,
 				DT_ALTERED 		= CURRENT_TIMESTAMP()
 			WHERE ID = ?

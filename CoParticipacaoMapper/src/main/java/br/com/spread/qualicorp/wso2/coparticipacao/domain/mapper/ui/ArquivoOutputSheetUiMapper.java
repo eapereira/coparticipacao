@@ -17,7 +17,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetU
 		uses = {
 				UserUiMapper.class,
 				ArquivoOutputUiMapper.class,
-				ArquivoOutputSheetColsDefUiMapper.class,
 				ViewDestinationUiMapper.class })
 public abstract class ArquivoOutputSheetUiMapper
 		extends AbstractMapper<ArquivoOutputSheet, ArquivoOutputSheetUi> {

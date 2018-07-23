@@ -2,8 +2,9 @@
 <queries>
 	<query id="findByArquivoInputId">
 		<![CDATA[
-			select arquivoOutputEntity from ArquivoOutputEntity arquivoOutputEntity
-			join fetch arquivoOutputEntity.arquivoInput arquivoInput
+			select arquivoOutput from ArquivoOutputEntity arquivoOutput
+			join fetch arquivoOutput.arquivoOutputSheets arquivoOutputSheets
+			join fetch arquivoOutput.arquivoInput arquivoInput
 			where arquivoInput.id = :arquivoInputId
 		]]>
 	</query>

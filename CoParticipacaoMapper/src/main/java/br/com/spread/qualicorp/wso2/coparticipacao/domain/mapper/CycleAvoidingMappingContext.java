@@ -36,4 +36,5 @@ public class CycleAvoidingMappingContext {
 			@MappingTarget Object target) {
 		knownInstances.put(source, target);
 	}
+
 }

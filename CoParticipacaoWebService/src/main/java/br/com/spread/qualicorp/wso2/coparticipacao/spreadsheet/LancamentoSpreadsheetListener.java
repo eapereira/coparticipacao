@@ -9,10 +9,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
@@ -24,13 +24,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class LancamentoSpreadsheetListener
-		implements SpreadsheetListener<DynamicEntity> {
+public class LancamentoSpreadsheetListener implements SpreadsheetListener<DynamicEntity> {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(LancamentoSpreadsheetListener.class);
+	private static final Logger LOGGER = LogManager.getLogger(LancamentoSpreadsheetListener.class);
 
 	private List<DynamicEntity> dynamicEntities;
+
+	private List<ViewDestinationColsDefUi> viewDestinationColsDefUis;
 
 	private CoParticipacaoContext coParticipacaoContext;
 
@@ -40,74 +40,42 @@ public class LancamentoSpreadsheetListener
 
 	private int numColumns;
 
-	private int currentSheet;
-
 	public LancamentoSpreadsheetListener(
 			CoParticipacaoContext coParticipacaoContext,
 			ArquivoOutputSheetUi arquivoOutputSheetUi,
+			List<ViewDestinationColsDefUi> viewDestinationColsDefUis,
 			List<DynamicEntity> dynamicEntities) {
 		this.coParticipacaoContext = coParticipacaoContext;
 		this.dynamicEntities = dynamicEntities;
 		this.arquivoOutputSheetUi = arquivoOutputSheetUi;
+		this.viewDestinationColsDefUis = viewDestinationColsDefUis;
 
 		numColumns = NumberUtils.INTEGER_ZERO;
-		currentSheet = NumberUtils.INTEGER_ZERO;
 	}
 
 	public String getSheetName(int sheetId) throws ServiceException {
-		ViewDestinationUi viewDestinationUi = null;
-		String sheetName = null;
-		ArquivoOutputUi arquivoOutputUi = (ArquivoOutputUi) arquivoOutputSheetUi
-				.getArquivoOutput();
-
-		for (ArquivoOutputSheet arquivoOutputSheet : arquivoOutputUi
-				.getArquivoOutputSheets()) {
-			if (currentSheet >= sheetId) {
-				viewDestinationUi = (ViewDestinationUi) arquivoOutputSheet
-						.getViewDestination();
-
-				if (StringUtils.isNotBlank(viewDestinationUi.getTitleLabel())) {
-					sheetName = viewDestinationUi.getTitleLabel();
-				} else {
-					sheetName = viewDestinationUi.getNameView();
-				}
-
-				break;
-			}
-
-			currentSheet++;
-		}
-
-		return sheetName;
+		return arquivoOutputSheetUi.getViewDestination().getTitleLabel();
 	}
 
 	public List<ColumnInfo> createColumnTitles() throws ServiceException {
 		List<ColumnInfo> columnInfos = new ArrayList<ColumnInfo>();
 		ColumnInfo columnInfo;
-		ViewDestinationColsDefUi viewDestinationColsDefUi;
 		String columnName;
 
-		for (ArquivoOutputSheetColsDef arquivoOutputSheetColsDef : arquivoOutputSheetUi
-				.getArquivoOutputSheetColsDefs()) {
-			viewDestinationColsDefUi = (ViewDestinationColsDefUi) arquivoOutputSheetColsDef
-					.getViewDestinationColsDef();
+		for (ViewDestinationColsDef viewDestinationColsDef : viewDestinationColsDefUis) {
 
 			columnInfo = new ColumnInfo();
 
-			if (StringUtils.isNotBlank(
-					viewDestinationColsDefUi.getColumnTitleLabel())) {
-				columnName = viewDestinationColsDefUi.getColumnTitleLabel();
+			if (StringUtils.isNotBlank(viewDestinationColsDef.getColumnTitleLabel())) {
+				columnName = viewDestinationColsDef.getColumnTitleLabel();
 			} else {
-				columnName = viewDestinationColsDefUi.getNameColumn();
+				columnName = viewDestinationColsDef.getNameColumn();
 			}
 
 			columnInfo.setName(columnName);
-			columnInfo.setWidth(viewDestinationColsDefUi.getLength());
+			columnInfo.setWidth(viewDestinationColsDef.getLength());
 
-			LOGGER.info(
-					"Defining spreadsheet columnName [{}] with length [{}]",
-					columnName,
-					viewDestinationColsDefUi.getLength());
+			LOGGER.info("Defining spreadsheet columnName [{}] with length [{}]", columnName, viewDestinationColsDef.getLength());
 
 			columnInfos.add(columnInfo);
 
@@ -121,11 +89,9 @@ public class LancamentoSpreadsheetListener
 		return dynamicEntities;
 	}
 
-	public CellInfo createCellContent(DynamicEntity dynamicEntity, int column)
-			throws ServiceException {
+	public CellInfo createCellContent(DynamicEntity dynamicEntity, int column) throws ServiceException {
 		CellInfo cellInfo;
 		int col = NumberUtils.INTEGER_ZERO;
-		ViewDestinationColsDefUi viewDestinationColsDefUi;
 		Object value;
 
 		try {
@@ -134,24 +100,17 @@ public class LancamentoSpreadsheetListener
 
 			if (columnIndex < numColumns) {
 
-				for (ArquivoOutputSheetColsDef arquivoOutputSheetColsDef : arquivoOutputSheetUi
-						.getArquivoOutputSheetColsDefs()) {
-					viewDestinationColsDefUi = (ViewDestinationColsDefUi) arquivoOutputSheetColsDef
-							.getViewDestinationColsDef();
+				for (ViewDestinationColsDef viewDestinationColsDef : viewDestinationColsDefUis) {
 
 					if (col >= columnIndex) {
-						LOGGER.info(
-								"Value for column [{}]:",
-								viewDestinationColsDefUi.getNameColumn());
+						LOGGER.info("Value for column [{}]:", viewDestinationColsDef.getNameColumn());
 
-						value = dynamicEntity.getColumnValue(
-								viewDestinationColsDefUi.getNameColumn());
+						value = dynamicEntity.getColumnValue(viewDestinationColsDef.getNameColumn());
 
 						LOGGER.info(
 								"ViewDestination [{}] has column [{}] with value [{}]:",
-								viewDestinationColsDefUi.getViewDestination()
-										.getNameView(),
-								viewDestinationColsDefUi.getNameColumn(),
+								viewDestinationColsDef.getViewDestination().getNameView(),
+								viewDestinationColsDef.getNameColumn(),
 								value);
 
 						cellInfo.setValue(value);
@@ -183,7 +142,6 @@ public class LancamentoSpreadsheetListener
 	}
 
 	public String getOutputFilePath() throws ServiceException {
-		return coParticipacaoContext
-				.findParameterByName(ParameterName.OUTPUT_FILE_PATH).getValue();
+		return coParticipacaoContext.findParameterByName(ParameterName.OUTPUT_FILE_PATH).getValue();
 	}
 }

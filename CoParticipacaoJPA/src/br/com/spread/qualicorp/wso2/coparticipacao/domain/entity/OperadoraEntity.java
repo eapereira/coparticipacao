@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
@@ -42,6 +43,7 @@ public class OperadoraEntity extends Operadora {
 
 	// bi-directional many-to-one association to Contrato
 	@OneToMany(mappedBy = "operadora", targetEntity = EmpresaEntity.class)
+	@OrderColumn(name="INDEX")
 	@Override
 	public List<Empresa> getEmpresas() {
 		// TODO Auto-generated method stub

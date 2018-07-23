@@ -233,4 +233,5 @@ public class CoParticipacaoWebServiceConfiguration extends WsConfigurerAdapter {
 			throw new CoParticipacaoException(e);
 		}
 	}
+
 }

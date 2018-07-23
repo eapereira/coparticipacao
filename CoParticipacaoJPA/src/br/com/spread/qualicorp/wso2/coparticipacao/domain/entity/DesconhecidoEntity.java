@@ -23,9 +23,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
  */
 @Entity
 @Table(name = "TB_DESCONHECIDO")
-@NamedQuery(
-		name = "DesconhecidoEntity.findAll",
-		query = "SELECT a FROM DesconhecidoEntity a")
+@NamedQuery(name = "DesconhecidoEntity.findAll", query = "SELECT a FROM DesconhecidoEntity a")
 public class DesconhecidoEntity extends Desconhecido {
 
 	/**
@@ -51,11 +49,7 @@ public class DesconhecidoEntity extends Desconhecido {
 		return super.getAno();
 	}
 
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			mappedBy = "desconhecido",
-			targetEntity = DesconhecidoDetailEntity.class)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "desconhecido", targetEntity = DesconhecidoDetailEntity.class)
 	@Override
 	public List<DesconhecidoDetail> getDesconhecidoDetails() {
 		// TODO Auto-generated method stub

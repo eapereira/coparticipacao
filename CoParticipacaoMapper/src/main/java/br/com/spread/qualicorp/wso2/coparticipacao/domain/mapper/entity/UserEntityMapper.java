@@ -18,7 +18,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				ArquivoInputColsDefEntityMapper.class,
 				ArquivoInputEntityMapper.class,
 				ArquivoOutputEntityMapper.class,
-				ArquivoOutputSheetColsDefEntityMapper.class,
 				ArquivoOutputSheetEntityMapper.class,
 				ContratoEntityMapper.class,
 				DependenteColsDefEntityMapper.class,

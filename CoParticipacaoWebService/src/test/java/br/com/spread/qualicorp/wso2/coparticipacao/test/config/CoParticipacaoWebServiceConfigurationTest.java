@@ -7,14 +7,18 @@ import javax.sql.DataSource;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.jmx.export.annotation.AnnotationMBeanExporter;
 import org.springframework.orm.jpa.JpaTransactionManager;
@@ -38,18 +42,22 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoExcep
 @ComponentScan(basePackages = { "br.com.spread.qualicorp" })
 @EnableWs
 @EnableAutoConfiguration
-@EnableJpaRepositories(basePackages = "br.com.spread.qualicorp.wso2.coparticipacao.dao")
+@EnableJpaRepositories(
+		basePackages = "br.com.spread.qualicorp.wso2.coparticipacao.dao")
 @EnableTransactionManagement
 // @PropertySource("persistence-generic-entity.properties")
-public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapter {
-	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoWebServiceConfigurationTest.class);
+public class CoParticipacaoWebServiceConfigurationTest
+		extends WsConfigurerAdapter {
+	private static final Logger LOGGER = LogManager
+			.getLogger(CoParticipacaoWebServiceConfigurationTest.class);
 
 	private static final String WEB_SERVICE_URI = "/ws/*";
 
 	private static final String CO_PARTICIPACAO_DS = "jdbc/CoparticipacaoDS";
 
 	@Bean
-	public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext)
+	public ServletRegistrationBean messageDispatcherServlet(
+			ApplicationContext applicationContext)
 			throws CoParticipacaoException {
 		MessageDispatcherServlet servlet;
 		ServletRegistrationBean servletRegistrationBean;
@@ -59,7 +67,9 @@ public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapt
 			servlet = new MessageDispatcherServlet();
 			servlet.setApplicationContext(applicationContext);
 			servlet.setTransformWsdlLocations(true);
-			servletRegistrationBean = new ServletRegistrationBean(servlet, WEB_SERVICE_URI);
+			servletRegistrationBean = new ServletRegistrationBean(
+					servlet,
+					WEB_SERVICE_URI);
 
 			LOGGER.info("END");
 			return servletRegistrationBean;
@@ -70,8 +80,8 @@ public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapt
 	}
 
 	@Bean
-	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource)
-			throws CoParticipacaoException {
+	public LocalContainerEntityManagerFactoryBean entityManagerFactory(
+			DataSource dataSource) throws CoParticipacaoException {
 		LocalContainerEntityManagerFactoryBean em;
 		JpaVendorAdapter vendorAdapter;
 
@@ -80,7 +90,9 @@ public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapt
 			LOGGER.info("Creating EntityManagerFactoryBean");
 			em = new LocalContainerEntityManagerFactoryBean();
 			em.setDataSource(dataSource);
-			em.setPackagesToScan(new String[] { "br.com.spread.qualicorp.wso2.coparticipacao.domain" });
+			em.setPackagesToScan(
+					new String[] {
+							"br.com.spread.qualicorp.wso2.coparticipacao.domain" });
 
 			vendorAdapter = new HibernateJpaVendorAdapter();
 			em.setJpaVendorAdapter(vendorAdapter);
@@ -94,8 +106,11 @@ public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapt
 		}
 	}
 
+	@Primary
 	@Bean
-	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) throws CoParticipacaoException {
+	@Qualifier(value = "jpaTransactionManager")
+	public PlatformTransactionManager transactionManager(
+			EntityManagerFactory emf) throws CoParticipacaoException {
 		JpaTransactionManager transactionManager;
 
 		try {
@@ -113,7 +128,8 @@ public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapt
 	}
 
 	@Bean
-	public PersistenceExceptionTranslationPostProcessor exceptionTranslation() throws CoParticipacaoException {
+	public PersistenceExceptionTranslationPostProcessor exceptionTranslation()
+			throws CoParticipacaoException {
 		PersistenceExceptionTranslationPostProcessor translationPostProcessor;
 
 		try {
@@ -132,15 +148,22 @@ public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapt
 	private Properties additionalProperties() {
 		Properties properties = new Properties();
 		// properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-		properties.setProperty("spring.jpa.properties.hibernate.jdbc.time_zone", "UTC");
-		properties.setProperty("spring.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver");
+		properties.setProperty(
+				"hibernate.dialect",
+				"org.hibernate.dialect.MySQL5Dialect");
+		properties.setProperty(
+				"spring.jpa.properties.hibernate.jdbc.time_zone",
+				"UTC");
+		properties.setProperty(
+				"spring.datasource.driver-class-name",
+				"com.mysql.cj.jdbc.Driver");
 
 		return properties;
 	}
 
 	@Bean
-	public AnnotationMBeanExporter annotationMBeanExporter() throws CoParticipacaoException {
+	public AnnotationMBeanExporter annotationMBeanExporter()
+			throws CoParticipacaoException {
 		try {
 			LOGGER.info("BEGIN");
 			AnnotationMBeanExporter annotationMBeanExporter = new AnnotationMBeanExporter();
@@ -161,6 +184,7 @@ public class CoParticipacaoWebServiceConfigurationTest extends WsConfigurerAdapt
 	 * @return
 	 * @throws CoParticipacaoException
 	 */
+	@Primary
 	@Bean
 	public DataSource dataSource() throws CoParticipacaoException {
 		try {

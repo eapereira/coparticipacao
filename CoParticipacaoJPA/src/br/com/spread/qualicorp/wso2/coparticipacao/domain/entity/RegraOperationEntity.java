@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
@@ -54,6 +55,7 @@ public class RegraOperationEntity extends RegraOperation
 	@OneToMany(
 			mappedBy = "regraOperation",
 			targetEntity = RegraFieldEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<RegraField> getRegraFields() {
 		return super.getRegraFields();
 	}
@@ -69,6 +71,7 @@ public class RegraOperationEntity extends RegraOperation
 			fetch = FetchType.LAZY,
 			mappedBy = "regraOperation",
 			targetEntity = RegraValorEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<RegraValor> getRegraValors() {
 		return super.getRegraValors();
 	}

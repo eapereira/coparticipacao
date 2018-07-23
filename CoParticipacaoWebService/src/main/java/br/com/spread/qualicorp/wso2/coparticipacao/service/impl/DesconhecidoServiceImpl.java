@@ -12,6 +12,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.dao.DesconhecidoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Desconhecido;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.DesconhecidoEntityMapper;
@@ -19,8 +20,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.Desconhecido
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputOutputDesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputDesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.DesconhecidoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputOutputDesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoDetailService;
@@ -63,6 +67,9 @@ public class DesconhecidoServiceImpl extends
 
 	@Autowired
 	private LancamentoDetailService lancamentoDetailService;
+
+	@Autowired
+	private DesconhecidoJdbcDao desconhecidoJdbcDao;
 
 	public DesconhecidoServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -265,4 +272,48 @@ public class DesconhecidoServiceImpl extends
 		}
 	}
 
+	@Override
+	protected AbstractJdbcDao<DesconhecidoEntity> getJdbcDao() {
+		return desconhecidoJdbcDao;
+	}
+
+	@Override
+	public void saveBatch(List<DesconhecidoUi> desconhecidoUis)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			super.saveBatch(desconhecidoUis);
+
+			for (DesconhecidoUi desconhecidoUi : desconhecidoUis) {
+				for (DesconhecidoDetail desconhecidoDetail : desconhecidoUi
+						.getDesconhecidoDetails()) {
+					desconhecidoDetailService.saveBatch(
+							(DesconhecidoDetailUi) desconhecidoDetail);
+				}
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	protected void logBatchInfo(DesconhecidoUi desconhecidoUi)
+			throws ServiceException {
+		LOGGER.debug(
+				"ID:......................... [{}]",
+				desconhecidoUi.getId());
+		LOGGER.debug(
+				"CD_CONTRATO:................ [{}]",
+				desconhecidoUi.getContrato().getCdContrato());
+		LOGGER.debug(
+				"CD_MES:..................... [{}]",
+				desconhecidoUi.getContrato().getCdContrato());
+		LOGGER.debug(
+				"CD_ANO:..................... [{}]",
+				desconhecidoUi.getContrato().getCdContrato());
+	}
 }

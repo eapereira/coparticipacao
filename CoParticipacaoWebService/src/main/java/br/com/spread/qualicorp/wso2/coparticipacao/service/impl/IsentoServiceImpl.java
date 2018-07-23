@@ -14,6 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDef
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
@@ -94,7 +95,7 @@ public class IsentoServiceImpl implements IsentoService {
 		InputDependenteIsentoUi inputDependenteIsentoUi;
 		DependenteIsentoColType dependenteIsentoColType;
 		DependenteIsentoUi dependenteIsentoUi = null;
-		DependenteUi DependenteUi;
+		DependenteUi dependenteUi;
 		Integer tpIsento;
 		List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis;
 		Long cpf;
@@ -123,12 +124,12 @@ public class IsentoServiceImpl implements IsentoService {
 								(ArquivoInputColsDefUi) inputDependenteIsentoColsUi
 										.getArquivoInputColsDef());
 
-						DependenteUi = coParticipacaoContext
+						dependenteUi = coParticipacaoContext
 								.findDependenteByCpf(cpf.toString());
 
-						if (DependenteUi != null) {
+						if (dependenteUi != null) {
 							dependenteIsentoUi = new DependenteIsentoUi();
-							dependenteIsentoUi.setDependente(DependenteUi);
+							dependenteIsentoUi.setDependente(dependenteUi);
 						} else {
 							LOGGER.info(
 									"Beneficiário user of CPF[{}] is not a Dependente:",
@@ -273,14 +274,14 @@ public class IsentoServiceImpl implements IsentoService {
 					"Saving [{}] registers of TitularIsento:",
 					coParticipacaoContext.getBunker().getTitularIsentoUis()
 							.size());
-			titularIsentoService.save(
+			titularIsentoService.saveBatch(
 					coParticipacaoContext.getBunker().getTitularIsentoUis());
 
 			LOGGER.info(
 					"Saving [{}] registers of DependenteIsento:",
 					coParticipacaoContext.getBunker().getDependenteIsentoUis()
 							.size());
-			dependenteIsentoService.save(
+			dependenteIsentoService.saveBatch(
 					coParticipacaoContext.getBunker().getDependenteIsentoUis());
 
 			LOGGER.info("END");
@@ -291,4 +292,19 @@ public class IsentoServiceImpl implements IsentoService {
 
 	}
 
+	public void deleteByMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			LOGGER.info("Removing all Isentos in this month:");
+			dependenteIsentoService.deleteByMesAndAno(empresaUi, mes, ano);
+			titularIsentoService.deleteByMesAndAno(empresaUi, mes, ano);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
 }

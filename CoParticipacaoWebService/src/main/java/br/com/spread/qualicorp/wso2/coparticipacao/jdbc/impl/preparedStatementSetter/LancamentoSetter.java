@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.jdbc.impl.preparedStatementS
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntity;
 
@@ -20,6 +21,8 @@ public class LancamentoSetter extends PreparedStatementSetterAdapter<LancamentoE
 	private static final int COL_USER_CREATED = 6;
 	private static final int COL_USER_ALTERED = 6;
 
+	private static final int COL_ID = 7;
+
 	public LancamentoSetter(SetterAdapterType setterAdapterType, LancamentoEntity entity) {
 		super(setterAdapterType, entity);
 		// TODO Auto-generated constructor stub
@@ -27,22 +30,31 @@ public class LancamentoSetter extends PreparedStatementSetterAdapter<LancamentoE
 
 	@Override
 	protected void setValuesForInsert(PreparedStatement ps) throws SQLException {
+		setCommonsValues(ps);
+
+		ps.setLong(COL_USER_CREATED, getEntity().getUserCreated().getId());
+	}
+
+	private void setCommonsValues(PreparedStatement ps) throws SQLException {
 		ps.setLong(COL_ID_TITULAR, getEntity().getTitular().getId());
-		ps.setLong(COL_ID_DEPENDENTE, getEntity().getDependente().getId());
+
+		if (getEntity().getDependente() != null) {
+			ps.setLong(COL_ID_DEPENDENTE, getEntity().getDependente().getId());
+		} else {
+			ps.setNull(COL_ID_DEPENDENTE, Types.BIGINT);
+		}
+
 		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
 		ps.setInt(COL_CD_MES, getEntity().getMes());
 		ps.setInt(COL_CD_ANO, getEntity().getAno());
-		ps.setLong(COL_USER_CREATED, getEntity().getUserCreated().getId());
 	}
 
 	@Override
 	protected void setValuesForUpdate(PreparedStatement ps) throws SQLException {
-		ps.setLong(COL_ID_TITULAR, getEntity().getTitular().getId());
-		ps.setLong(COL_ID_DEPENDENTE, getEntity().getDependente().getId());
-		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
-		ps.setInt(COL_CD_MES, getEntity().getMes());
-		ps.setInt(COL_CD_ANO, getEntity().getAno());
+		setCommonsValues(ps);
+
 		ps.setLong(COL_USER_ALTERED, getEntity().getUserAltered().getId());
+		ps.setLong(COL_ID, getEntity().getId());
 	}
 
 }

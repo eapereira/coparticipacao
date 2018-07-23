@@ -3,12 +3,15 @@
 	<query id="TitularEntity.insert">
 		<![CDATA[
 			INSERT INTO TB_TITULAR(
+				ID_EMPRESA,
 				NR_MATRICULA,
 				NM_TITULAR,
 				NR_CPF,
 				DT_NASCIMENTO,
 				DT_ADMISSAO,
+				
 				USER_CREATED,
+				DT_ALTERED,
 				DT_CREATED
 			) VALUES (
 				?,
@@ -17,6 +20,9 @@
 				?,
 				?,
 				?,
+				
+				?,
+				CURRENT_TIMESTAMP(),
 				CURRENT_TIMESTAMP()
 			)
 		]]>
@@ -26,12 +32,13 @@
 		<![CDATA[
 			UPDATE TB_TITULAR
 			SET
+				ID_EMPRESA 		= ?,
 				NR_MATRICULA	= ?,
 				NM_TITULAR 		= ?,
 				NR_CPF 			= ?,
 				DT_NASCIMENTO 	= ?,
 				DT_ADMISSAO 	= ?,
-				USER_CREATED 	= ?,
+
 				USER_ALTERED 	= ?,
 				DT_ALTERED 		= CURRENT_TIMESTAMP()
 			WHERE ID = ?

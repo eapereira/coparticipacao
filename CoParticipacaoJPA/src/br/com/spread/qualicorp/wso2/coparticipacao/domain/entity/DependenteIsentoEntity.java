@@ -7,6 +7,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
@@ -42,6 +43,7 @@ public class DependenteIsentoEntity extends DependenteIsento
 	// bi-directional many-to-one association to Dependente
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = DependenteEntity.class)
 	@JoinColumn(name = "ID_DEPENDENTE")
+	@OrderColumn(name="INDEX")
 	public Dependente getDependente() {
 		return super.getDependente();
 	}

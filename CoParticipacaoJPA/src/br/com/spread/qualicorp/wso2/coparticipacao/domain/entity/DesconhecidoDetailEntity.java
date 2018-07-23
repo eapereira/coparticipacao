@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
@@ -42,6 +43,7 @@ public class DesconhecidoDetailEntity extends DesconhecidoDetail {
 			fetch = FetchType.LAZY,
 			targetEntity = DesconhecidoEntity.class)
 	@JoinColumn(name = "ID_DESCONHECIDO")
+	@OrderColumn(name="INDEX")
 	@Override
 	public Desconhecido getDesconhecido() {
 		// TODO Auto-generated method stub
@@ -53,6 +55,7 @@ public class DesconhecidoDetailEntity extends DesconhecidoDetail {
 			fetch = FetchType.LAZY,
 			targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
+	@OrderColumn(name="INDEX")
 	@Override
 	public ArquivoInputColsDef getArquivoInputColsDef() {
 		// TODO Auto-generated method stub

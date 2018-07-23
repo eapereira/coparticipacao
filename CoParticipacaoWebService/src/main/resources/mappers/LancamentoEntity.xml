@@ -8,42 +8,41 @@
 				ID_CONTRATO,
 				CD_MES,
 				CD_ANO,
-				LIVRE_01,
-				VL_PRINCIPAL,
+				
 				USER_CREATED,
+				DT_ALTERED,
 				DT_CREATED
 			) VALUES (
 				?,
 				?,
 				?,
 				?,
+				?,				
+				
 				?,
-				?,
-				?,
-				?,
+				CURRENT_TIMESTAMP(),
 				CURRENT_TIMESTAMP()
 			)
 		]]>
 	</query>
 
-	<query id="LancamentoEntity.insert">
+	<query id="LancamentoEntity.update">
 		<![CDATA[	
 			UPDATE TB_LANCAMENTO
 			SET
-				ID_TITULAR = ?,
-				ID_DEPENDENTE = ?,
-				ID_CONTRATO = ?,
-				CD_MES = ?,
-				CD_ANO = ?,
-				LIVRE_01 = ?,
-				VL_PRINCIPAL = ?,
-				USER_ALTERED = ?,
+				ID_TITULAR 		= ?,
+				ID_DEPENDENTE 	= ?,
+				ID_CONTRATO 	= ?,
+				CD_MES 			= ?,
+				CD_ANO 			= ?,
+				
+				USER_ALTERED 	= ?,
 				DT_ALTERED = CURRENT_TIMESTAMP()
 			WHERE ID = ?
 		]]>
 	</query>
 
-	<query id="LancamentoEntity.insert">
+	<query id="LancamentoEntity.delete">
 		<![CDATA[	
 			DELETE FROM TB_LANCAMENTO
 			WHERE ID = ?

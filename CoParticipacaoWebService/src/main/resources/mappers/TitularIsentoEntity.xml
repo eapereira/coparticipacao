@@ -4,13 +4,21 @@
 		<![CDATA[
 			INSERT INTO TB_TITULAR_ISENTO(
 				ID_TITULAR,
-				ID_ISENTO,
+				TP_ISENTO,
+				CD_MES,
+				CD_ANO,
+				
 				USER_CREATED,
+				DT_ALTERED,
 				DT_CREATED
 			) VALUES (
 				?,
 				?,
 				?,
+				?,
+				
+				?,
+				CURRENT_TIMESTAMP(),
 				CURRENT_TIMESTAMP()
 			)
 		]]>
@@ -21,7 +29,10 @@
 			UPDATE TB_TITULAR_ISENTO
 			SET
 				ID_TITULAR 		= ?,
-				ID_ISENTO 		= ?,
+				TP_ISENTO 		= ?,
+				CD_MES			= ?,
+				CD_ANO			= ?,
+				
 				USER_ALTERED 	= ?,
 				DT_ALTERED 		= CURRENT_TIMESTAMP()
 			WHERE ID = ?

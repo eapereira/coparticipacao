@@ -56,4 +56,12 @@ public abstract class DateUtils {
 	public static LocalDate now() {
 		return LocalDate.now();
 	}
+
+	public static Date localDateTimeToSqlDate(LocalDate localDate) {
+		if (localDate != null) {
+			return Date.valueOf(localDate);
+		}
+
+		return null;
+	}
 }

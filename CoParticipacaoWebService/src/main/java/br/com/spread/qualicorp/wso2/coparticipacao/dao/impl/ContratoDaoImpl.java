@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
@@ -17,18 +19,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ContratoEntity;
  *
  */
 @Repository
-public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity>
-		implements ContratoDao {
+public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity> implements ContratoDao {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(ContratoDaoImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(ContratoDaoImpl.class);
 
 	public ContratoDaoImpl() throws DaoException {
 		super();
 	}
 
-	public ContratoEntity findByCdContrato(String cdContrato)
-			throws DaoException {
+	public ContratoEntity findByCdContrato(String cdContrato) throws DaoException {
 		ContratoEntity contratoEntity;
 		Query query;
 		StringBuilder sb;
@@ -53,6 +52,30 @@ public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity>
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e.getMessage(), e);
 		}
+	}
+
+	public List<ContratoEntity> listByEmpresaId(Long id) throws DaoException {
+		Query query;
+		List<ContratoEntity> contratoEntities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByEmpresaId");
+			query.setParameter("empresaId", id);
+
+			contratoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return contratoEntities;
+		} catch (NoResultException e) {
+			LOGGER.info(e.getMessage());
+			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+
 	}
 
 }

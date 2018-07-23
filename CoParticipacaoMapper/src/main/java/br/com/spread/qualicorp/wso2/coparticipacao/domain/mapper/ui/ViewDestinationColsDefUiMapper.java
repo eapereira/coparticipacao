@@ -16,7 +16,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationCols
 		uses = {
 				UserUiMapper.class,
 				ArquivoOutputSheetUiMapper.class,
-				ArquivoOutputSheetColsDefUiMapper.class,
 				ViewDestinationUiMapper.class })
 public abstract class ViewDestinationColsDefUiMapper extends
 		AbstractMapper<ViewDestinationColsDef, ViewDestinationColsDefUi> {

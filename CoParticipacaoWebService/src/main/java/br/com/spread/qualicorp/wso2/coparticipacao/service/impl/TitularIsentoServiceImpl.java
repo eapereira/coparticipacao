@@ -12,7 +12,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoEn
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.TitularIsentoEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.TitularIsentoUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 
 /**
@@ -60,6 +62,20 @@ public class TitularIsentoServiceImpl extends
 	@Override
 	protected AbstractMapper<TitularIsento, TitularIsentoEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public void deleteByMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			titularIsentoDao.deleteByMesAndAno(empresaUi.getId(), mes, ano);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

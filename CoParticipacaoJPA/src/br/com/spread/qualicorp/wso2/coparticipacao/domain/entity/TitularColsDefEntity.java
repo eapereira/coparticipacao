@@ -7,6 +7,7 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
@@ -59,6 +60,7 @@ public class TitularColsDefEntity extends TitularColsDef
 	@OneToMany(
 			mappedBy = "titularColsDef",
 			targetEntity = InputTitularEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<InputTitular> getInputTitulars() {
 		return super.getInputTitulars();
 	}

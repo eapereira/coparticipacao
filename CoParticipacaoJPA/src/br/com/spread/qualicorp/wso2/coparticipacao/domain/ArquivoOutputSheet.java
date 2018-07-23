@@ -1,8 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The persistent class for the tb_arquivo_output_sheet database table.
  * 
@@ -15,10 +12,7 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 
 	private ViewDestination viewDestination;
 
-	private List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefs;
-
 	public ArquivoOutputSheet() {
-		arquivoOutputSheetColsDefs = new ArrayList<>();
 	}
 
 	public ArquivoOutputSheet(ArquivoOutputSheet entity) {
@@ -26,7 +20,7 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 	}
 
 	public String getNmSheet() {
-		return this.nmSheet;
+		return nmSheet;
 	}
 
 	public void setNmSheet(String nmSheet) {
@@ -34,7 +28,7 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 	}
 
 	public ArquivoOutput getArquivoOutput() {
-		return this.arquivoOutput;
+		return arquivoOutput;
 	}
 
 	public void setArquivoOutput(ArquivoOutput arquivoOutput) {
@@ -42,45 +36,20 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 	}
 
 	public ViewDestination getViewDestination() {
-		return this.viewDestination;
+		return viewDestination;
 	}
 
 	public void setViewDestination(ViewDestination viewDestination) {
 		this.viewDestination = viewDestination;
 	}
 
-	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefs() {
-		return arquivoOutputSheetColsDefs;
-	}
-
-	public void setArquivoOutputSheetColsDefs(
-			List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefs) {
-		this.arquivoOutputSheetColsDefs = arquivoOutputSheetColsDefs;
-	}
-
-	public void addArquivoOutputSheetColsDef(
-			ArquivoOutputSheetColsDef arquivoOutputSheetColsDef) {
-		getArquivoOutputSheetColsDefs().add(arquivoOutputSheetColsDef);
-		arquivoOutputSheetColsDef.setArquivoOutputSheet(this);
-	}
-
-	public void removeArquivoOutputSheetColsDef(
-			ArquivoOutputSheetColsDef arquivoOutputSheetColsDef) {
-		getArquivoOutputSheetColsDefs().remove(arquivoOutputSheetColsDef);
-		arquivoOutputSheetColsDef.setArquivoOutputSheet(null);
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((arquivoOutput == null) ? 0 : arquivoOutput.hashCode());
-		result = prime * result + ((arquivoOutputSheetColsDefs == null) ? 0
-				: arquivoOutputSheetColsDefs.hashCode());
+		result = prime * result + ((arquivoOutput == null) ? 0 : arquivoOutput.hashCode());
 		result = prime * result + ((nmSheet == null) ? 0 : nmSheet.hashCode());
-		result = prime * result
-				+ ((viewDestination == null) ? 0 : viewDestination.hashCode());
+		result = prime * result + ((viewDestination == null) ? 0 : viewDestination.hashCode());
 		return result;
 	}
 
@@ -98,12 +67,6 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 				return false;
 		} else if (!arquivoOutput.equals(other.arquivoOutput))
 			return false;
-		if (arquivoOutputSheetColsDefs == null) {
-			if (other.arquivoOutputSheetColsDefs != null)
-				return false;
-		} else if (!arquivoOutputSheetColsDefs
-				.equals(other.arquivoOutputSheetColsDefs))
-			return false;
 		if (nmSheet == null) {
 			if (other.nmSheet != null)
 				return false;
@@ -116,4 +79,5 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 }

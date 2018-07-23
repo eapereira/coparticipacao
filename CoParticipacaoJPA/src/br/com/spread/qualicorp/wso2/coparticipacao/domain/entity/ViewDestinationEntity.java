@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
@@ -45,6 +46,7 @@ public class ViewDestinationEntity extends ViewDestination {
 	@OneToMany(
 			mappedBy = "viewDestination",
 			targetEntity = ArquivoOutputSheetEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<ArquivoOutputSheet> getArquivoOutputSheets() {
 		return super.getArquivoOutputSheets();
 	}
@@ -53,6 +55,7 @@ public class ViewDestinationEntity extends ViewDestination {
 	@OneToMany(
 			mappedBy = "viewDestination",
 			targetEntity = ViewDestinationColsDefEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<ViewDestinationColsDef> getViewDestinationColsDefs() {
 		return super.getViewDestinationColsDefs();
 	}

@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -54,6 +55,7 @@ public class ArquivoOutputEntity extends ArquivoOutput {
 			mappedBy = "arquivoOutput",
 			cascade = CascadeType.ALL,
 			targetEntity = ArquivoOutputSheetEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<ArquivoOutputSheet> getArquivoOutputSheets() {
 		return super.getArquivoOutputSheets();
 	}

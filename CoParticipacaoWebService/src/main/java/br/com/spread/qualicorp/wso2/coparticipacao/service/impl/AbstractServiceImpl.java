@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -87,6 +88,16 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 		return ui;
 	}
 
+	protected List<ENTITY> uiToEntity(List<UI> uis) {
+		List<ENTITY> entities = new ArrayList<ENTITY>();
+
+		for (UI ui : uis) {
+			uiToEntity(ui);
+		}
+
+		return entities;
+	}
+
 	protected ENTITY uiToEntity(UI ui) {
 		ENTITY entity = null;
 
@@ -146,11 +157,70 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 			for (UI ui : uis) {
 				save(ui);
 			}
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
+	}
+
+	public void saveBatch(List<UI> uis) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			for (UI ui : uis) {
+				saveBatch(ui);
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	public void saveBatch(UI ui) throws ServiceException {
+		Long id;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			ui.setAltered(LocalDateTime.now());
+			ui.setCreated(LocalDateTime.now());
+
+			logBatchInfo(ui);
+
+			if (getJdbcDao() != null) {
+				id = getJdbcDao().save(uiToEntity((UI) ui));
+
+				ui.setId(id);
+			} else {
+				throw new ServiceException(
+						"There is no JdbcDao define to [{}]:",
+						getClass().getSimpleName());
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	protected AbstractJdbcDao<ENTITY> getJdbcDao() {
+		return null;
+	}
+
+	/**
+	 * Método para caso o desenvolvedor desejar, imprimir algumas mensagens de
+	 * log.
+	 * 
+	 * @param ui
+	 *            Objeto que será gravado no banco.
+	 */
+	protected void logBatchInfo(UI ui) throws ServiceException {
+		// TODO
 	}
 
 	protected abstract UI createUi();

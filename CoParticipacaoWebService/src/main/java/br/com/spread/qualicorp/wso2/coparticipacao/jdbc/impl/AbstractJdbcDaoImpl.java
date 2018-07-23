@@ -8,8 +8,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,6 +27,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
+@Transactional(value = "jdbcTransactionManager")
 public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain>
 		implements AbstractJdbcDao<ENTITY> {
 
@@ -52,27 +56,64 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain>
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
-	public void save(ENTITY entity) throws DaoException {
+	public Long save(ENTITY entity) throws DaoException {
 		String sql;
+		KeyHolder keyHolder;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			if (entity.getId() == null) {
+				keyHolder = new GeneratedKeyHolder();
+
 				sql = queryUtils.getQueryById(getInsertSql());
-				jdbcTemplate
-						.update(sql, getUpdatePreparedStatementSetter(entity));
+
+				LOGGER.debug("using SQL [{}]:", sql);
+
+				jdbcTemplate.update(
+						createPreparedStatement(sql, entity),
+						keyHolder);
+
+				LOGGER.debug(
+						"Using ID[{}] for INSERT:",
+						keyHolder.getKey().longValue());
+				LOGGER.info("END");
+				return keyHolder.getKey().longValue();
 			} else {
+				LOGGER.debug("Using ID[{}] for UPDATE:", entity.getId());
+
 				sql = queryUtils.getQueryById(getUpdateSql());
 				jdbcTemplate
-						.update(sql, getInsertPreparedStatementSetter(entity));
-			}
+						.update(sql, getUpdatePreparedStatementSetter(entity));
 
-			LOGGER.info("END");
+				LOGGER.info("END");
+				return entity.getId();
+			}
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e);
 		}
+	}
+
+	private PreparedStatementCreator createPreparedStatement(
+			String sql,
+			ENTITY entity) throws DaoException {
+		SimplePreparedStatementCreator preparedStatementCreator;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			preparedStatementCreator = new SimplePreparedStatementCreator(
+					sql,
+					getInsertPreparedStatementSetter(entity));
+
+			LOGGER.info("END");
+			return preparedStatementCreator;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED)
@@ -143,8 +184,8 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain>
 		}
 	}
 
-	public Integer save(List<ENTITY> entities) throws DaoException {
-		Integer rowCount = NumberUtils.INTEGER_ZERO;
+	public Long save(List<ENTITY> entities) throws DaoException {
+		Long rowCount = NumberUtils.LONG_ZERO;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -185,7 +226,7 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain>
 	protected String getInsertSql() throws DaoException {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(entityClass.getName());
+		sb.append(entityClass.getSimpleName());
 		sb.append(".");
 		sb.append("insert");
 
@@ -195,7 +236,7 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain>
 	protected String getUpdateSql() throws DaoException {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(entityClass.getName());
+		sb.append(entityClass.getSimpleName());
 		sb.append(".");
 		sb.append("update");
 
@@ -205,7 +246,7 @@ public abstract class AbstractJdbcDaoImpl<ENTITY extends AbstractDomain>
 	protected String getDeleteSql() throws DaoException {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append(entityClass.getName());
+		sb.append(entityClass.getSimpleName());
 		sb.append(".");
 		sb.append("delete");
 

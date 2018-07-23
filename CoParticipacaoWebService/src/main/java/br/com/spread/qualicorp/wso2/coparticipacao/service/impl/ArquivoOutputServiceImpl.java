@@ -13,15 +13,19 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ArquivoOutputEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ArquivoOutputUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.LancamentoSpreadsheetListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetBuilder;
@@ -32,12 +36,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetBuilde
  *
  */
 @Service
-public class ArquivoOutputServiceImpl extends
-		AbstractServiceImpl<ArquivoOutputUi, ArquivoOutputEntity, ArquivoOutput>
-		implements ArquivoOutputService {
+public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputUi, ArquivoOutputEntity, ArquivoOutput> implements ArquivoOutputService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(ArquivoOutputServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(ArquivoOutputServiceImpl.class);
 
 	@Autowired
 	private ArquivoOutputDao arquivoOutputDao;
@@ -50,6 +51,12 @@ public class ArquivoOutputServiceImpl extends
 
 	@Autowired
 	private ViewDestinationService viewDestinationService;
+
+	@Autowired
+	private ViewDestinationColsDefService viewDestinationColsDefService;
+
+	@Autowired
+	private ArquivoOutputSheetService arquivoOutputSheetService;
 
 	@Override
 	protected ArquivoOutputUi createUi() {
@@ -76,58 +83,51 @@ public class ArquivoOutputServiceImpl extends
 		return entityMapper;
 	}
 
-	public void writeOutputFile(CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	public void writeOutputFile(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		ArquivoOutputUi arquivoOutputUi;
 		List<DynamicEntity> dynamicEntities;
 		ViewDestinationUi viewDestinationUi;
 		SpreadsheetBuilder<DynamicEntity> spreadsheetBuilder;
+		List<ViewDestinationColsDefUi> viewDestinationColsDefUis;
+		List<ArquivoOutputSheetUi> arquivoOutputSheetUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoOutputUi = entityToUi(
-					arquivoOutputDao.findByArquivoInputId(
-							coParticipacaoContext.getArquivoInputUi().getId()));
+			arquivoOutputUi = entityToUi(arquivoOutputDao.findByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId()));
 
 			if (arquivoOutputUi != null) {
-				LOGGER.info(
-						"Exists an ArquivoOutput configured to use as [{}]:",
-						arquivoOutputUi.getDescrArquivo());
+				LOGGER.info("Exists an ArquivoOutput configured to use as [{}]:", arquivoOutputUi.getDescrArquivo());
 
-				spreadsheetBuilder = new SpreadsheetBuilder<DynamicEntity>(
-						arquivoOutputUi.getNameArquivoFormat());
+				spreadsheetBuilder = new SpreadsheetBuilder<DynamicEntity>(arquivoOutputUi.getNameArquivoFormat());
 
-				for (ArquivoOutputSheet arquivoOutputSheet : arquivoOutputUi
-						.getArquivoOutputSheets()) {
+				arquivoOutputSheetUis = arquivoOutputSheetService.listByArquivoOutputId(arquivoOutputUi);
 
-					viewDestinationUi = (ViewDestinationUi) arquivoOutputSheet
-							.getViewDestination();
+				for (ArquivoOutputSheet arquivoOutputSheet : arquivoOutputSheetUis) {
 
-					LOGGER.info(
-							"Creating the report for the ViewDestination [{}]:",
-							viewDestinationUi.getNameView());
-					dynamicEntities = viewDestinationService
-							.listByContratoAndMesAndAno(
-									viewDestinationUi,
-									coParticipacaoContext.getMes(),
-									coParticipacaoContext.getAno());
+					viewDestinationUi = (ViewDestinationUi) arquivoOutputSheet.getViewDestination();
+					viewDestinationColsDefUis = viewDestinationColsDefService.listByViewDestinationId(viewDestinationUi);
+
+					LOGGER.info("Creating the report for the ViewDestination [{}]:", viewDestinationUi.getNameView());
+					dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
+							viewDestinationUi,
+							coParticipacaoContext.getEmpresaUi(),
+							coParticipacaoContext.getMes(),
+							coParticipacaoContext.getAno());
 
 					// Criando um listener para cada pasta da planilha:
 					spreadsheetBuilder.addSpreadsheetListener(
 							new LancamentoSpreadsheetListener(
 									coParticipacaoContext,
 									(ArquivoOutputSheetUi) arquivoOutputSheet,
+									viewDestinationColsDefUis,
 									dynamicEntities));
 				}
 
 				// Escrevendo a planilha:
 				spreadsheetBuilder.writeSpreadsheet(coParticipacaoContext);
 			} else {
-				LOGGER.info(
-						"No ArquivoOutput defined for ArquivoInput [{}]:",
-						coParticipacaoContext.getArquivoInputUi()
-								.getDescrArquivo());
+				LOGGER.info("No ArquivoOutput defined for ArquivoInput [{}]:", coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 			}
 
 			LOGGER.info("END");

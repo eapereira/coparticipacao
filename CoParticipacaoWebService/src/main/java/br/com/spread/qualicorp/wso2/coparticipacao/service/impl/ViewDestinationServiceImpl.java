@@ -16,9 +16,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestination
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ViewDestinationEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ViewDestinationUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DynamicService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
 
 /**
@@ -27,12 +30,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationServic
  *
  */
 @Service
-public class ViewDestinationServiceImpl extends
-		AbstractServiceImpl<ViewDestinationUi, ViewDestinationEntity, ViewDestination>
+public class ViewDestinationServiceImpl extends AbstractServiceImpl<ViewDestinationUi, ViewDestinationEntity, ViewDestination>
 		implements ViewDestinationService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(ViewDestinationServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(ViewDestinationServiceImpl.class);
 
 	@Autowired
 	private ViewDestinationDao viewDestinationDao;
@@ -45,6 +46,9 @@ public class ViewDestinationServiceImpl extends
 
 	@Autowired
 	private DynamicService dynamicService;
+
+	@Autowired
+	private ViewDestinationColsDefService viewDestinationColsDefService;
 
 	@Override
 	protected ViewDestinationUi createUi() {
@@ -71,8 +75,8 @@ public class ViewDestinationServiceImpl extends
 		return entityMapper;
 	}
 
-	public String createSqlToViewDestination(
-			ViewDestinationUi viewDestinationUi) throws ServiceException {
+	public String createSqlToViewDestination(ViewDestinationUi viewDestinationUi) throws ServiceException {
+		List<ViewDestinationColsDefUi> viewDestinationColsDefUis;
 		StringBuilder sb;
 
 		try {
@@ -80,11 +84,12 @@ public class ViewDestinationServiceImpl extends
 
 			sb = new StringBuilder();
 
+			viewDestinationColsDefUis = viewDestinationColsDefService.listByViewDestinationId(viewDestinationUi);
+
 			sb.append("select ");
 
-			for (ViewDestinationColsDef viewDestinationColsDef : viewDestinationUi
-					.getViewDestinationColsDefs()) {
-				sb.append(viewDestinationColsDef.getNameColumn());
+			for (ViewDestinationColsDefUi viewDestinationColsDefUi : viewDestinationColsDefUis) {
+				sb.append(viewDestinationColsDefUi.getNameColumn());
 				sb.append(", ");
 			}
 
@@ -92,12 +97,11 @@ public class ViewDestinationServiceImpl extends
 			sb.append(" from ");
 			sb.append(viewDestinationUi.getNameView());
 			sb.append(" viewDestination ");
-			sb.append("where	viewDestination.CD_MES = ? ");
-			sb.append("and 		viewDestination.CD_ANO = ? ");
+			sb.append("where	viewDestination.ID_EMPRESA	= ? ");
+			sb.append("and		viewDestination.CD_MES 		= ? ");
+			sb.append("and 		viewDestination.CD_ANO 		= ? ");
 
-			LOGGER.info(
-					"Query to use with dynamic created view [{}]:",
-					sb.toString());
+			LOGGER.info("Query to use with dynamic created view [{}]:", sb.toString());
 
 			LOGGER.info("END");
 			return sb.toString();
@@ -107,10 +111,7 @@ public class ViewDestinationServiceImpl extends
 		}
 	}
 
-	public List<DynamicEntity> listByContratoAndMesAndAno(
-			ViewDestinationUi ViewDestinationUi,
-			int mes,
-			int ano) throws ServiceException {
+	public List<DynamicEntity> listByContratoAndMesAndAno(ViewDestinationUi ViewDestinationUi, EmpresaUi empresaUi, int mes, int ano) throws ServiceException {
 		List<DynamicEntity> dynamicEntities;
 		String sql;
 		try {
@@ -118,8 +119,7 @@ public class ViewDestinationServiceImpl extends
 
 			sql = createSqlToViewDestination(ViewDestinationUi);
 
-			dynamicEntities = dynamicService
-					.listByEmpresaAndMesAndAno(sql, mes, ano);
+			dynamicEntities = dynamicService.listByEmpresaAndMesAndAno(sql, empresaUi, mes, ano);
 
 			LOGGER.info("END");
 			return dynamicEntities;

@@ -11,6 +11,8 @@ import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
@@ -22,6 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
+@Transactional(value="jpaTransactionManager")
 public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 		implements AbstractDao<ENTITY> {
 	private static final Logger LOGGER = LogManager
@@ -122,11 +125,27 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void delete(ENTITY entity) throws DaoException {
 		try {
 			LOGGER.info("BEGIN");
 
 			entityManager.remove(entity);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+	
+	public void save(List<ENTITY> entities) throws DaoException {
+		try {
+			LOGGER.info("BEGIN");
+
+			for (ENTITY entity : entities) {
+				save(entity);
+			}
 
 			LOGGER.info("END");
 		} catch (Exception e) {

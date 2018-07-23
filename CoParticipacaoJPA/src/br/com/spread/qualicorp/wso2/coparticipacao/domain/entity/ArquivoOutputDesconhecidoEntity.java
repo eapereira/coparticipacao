@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -64,6 +65,7 @@ public class ArquivoOutputDesconhecidoEntity extends ArquivoOutputDesconhecido {
 			fetch = FetchType.LAZY,
 			mappedBy = "arquivoOutputDesconhecido",
 			targetEntity = ArquivoOutputDesconhecidoColsDefEntity.class)
+	@OrderColumn(name="INDEX")
 	@Override
 	public List<ArquivoOutputDesconhecidoColsDef> getArquivoOutputDesconhecidoColsDefs() {
 		// TODO Auto-generated method stub

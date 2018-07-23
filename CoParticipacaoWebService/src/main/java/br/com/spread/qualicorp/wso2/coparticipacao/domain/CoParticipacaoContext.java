@@ -12,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
@@ -49,8 +50,6 @@ public class CoParticipacaoContext {
 
 	private List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 
-	private List<InputDependenteUi> inputDependenteUis;
-
 	private List<InputTitularUi> inputTitularUis;
 
 	private List<InputLancamentoUi> inputLancamentoUis;
@@ -75,6 +74,8 @@ public class CoParticipacaoContext {
 
 	private List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis;
 
+	private List<BeneficiarioColsUi> beneficiarioColsUis;
+
 	private Bunker bunker;
 
 	private Integer currentLine;
@@ -85,7 +86,6 @@ public class CoParticipacaoContext {
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
-		inputDependenteUis = new ArrayList<InputDependenteUi>();
 		inputTitularUis = new ArrayList<InputTitularUi>();
 		inputLancamentoUis = new ArrayList<InputLancamentoUi>();
 		titularUis = new ArrayList<TitularUi>();
@@ -97,6 +97,8 @@ public class CoParticipacaoContext {
 
 		inputTitularIsentoColsUis = new ArrayList<InputTitularIsentoColsUi>();
 		inputDependenteIsentoColsUis = new ArrayList<InputDependenteIsentoColsUi>();
+
+		beneficiarioColsUis = new ArrayList<BeneficiarioColsUi>();
 
 		mapLine = new HashMap<String, Object>();
 
@@ -120,15 +122,6 @@ public class CoParticipacaoContext {
 	public void setArquivoInputColsDefUis(
 			List<ArquivoInputColsDefUi> arquivoInputColsDefUis) {
 		this.arquivoInputColsDefUis = arquivoInputColsDefUis;
-	}
-
-	public List<InputDependenteUi> getInputDependenteUis() {
-		return inputDependenteUis;
-	}
-
-	public void setInputDependenteUis(
-			List<InputDependenteUi> inputDependenteUis) {
-		this.inputDependenteUis = inputDependenteUis;
 	}
 
 	public List<RegraUi> getRegraUis() {
@@ -438,5 +431,33 @@ public class CoParticipacaoContext {
 		LOGGER.info("END");
 		return null;
 	}
-	
+
+	public DependenteUi findDependenteByName(String nameDependente) {
+		LOGGER.info("BEGIN");
+
+		for (DependenteUi dependenteUi : getDependenteUis()) {
+			if (dependenteUi.getNameDependente().equals(nameDependente)) {
+				LOGGER.info(
+						"Dependente [{}] with CPF [{}] found:",
+						dependenteUi.getNameDependente(),
+						dependenteUi.getCpf());
+
+				LOGGER.info("END");
+				return dependenteUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public List<BeneficiarioColsUi> getBeneficiarioColsUis() {
+		return beneficiarioColsUis;
+	}
+
+	public void setBeneficiarioColsUis(
+			List<BeneficiarioColsUi> beneficiarioColsUis) {
+		this.beneficiarioColsUis = beneficiarioColsUis;
+	}
+
 }

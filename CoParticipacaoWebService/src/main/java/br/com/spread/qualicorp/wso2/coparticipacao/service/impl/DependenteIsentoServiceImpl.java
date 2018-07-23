@@ -13,7 +13,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.DependenteIsentoEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DependenteIsentoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -60,6 +62,20 @@ public class DependenteIsentoServiceImpl extends
 	@Override
 	protected AbstractMapper<DependenteIsento, DependenteIsentoEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public void deleteByMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			dependenteIsentoDao.deleteByMesAndAno(empresaUi.getId(), mes, ano);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

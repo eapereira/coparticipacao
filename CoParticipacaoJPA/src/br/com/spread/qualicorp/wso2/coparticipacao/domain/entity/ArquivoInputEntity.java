@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -19,7 +20,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecido;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputBeneficiario;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputDependenteIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
@@ -77,12 +77,14 @@ public class ArquivoInputEntity extends ArquivoInput {
 	@OneToMany(
 			mappedBy = "arquivoInput",
 			targetEntity = ArquivoInputColsDefEntity.class)
+	@OrderColumn(name = "INDEX")
 	public List<ArquivoInputColsDef> getArquivoInputColsDefs() {
 		return super.getArquivoInputColsDefs();
 	}
 
 	// bi-directional many-to-one association to Regra
 	@OneToMany(mappedBy = "arquivoInput", targetEntity = RegraEntity.class)
+	@OrderColumn(name = "INDEX")
 	public List<Regra> getRegras() {
 		return super.getRegras();
 	}
@@ -90,6 +92,7 @@ public class ArquivoInputEntity extends ArquivoInput {
 	// bi-directional many-to-one association to Empresa
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
 	@JoinColumn(name = "ID_CONTRATO")
+	@OrderColumn(name = "INDEX")
 	public Contrato getContrato() {
 		return super.getContrato();
 	}
@@ -155,17 +158,6 @@ public class ArquivoInputEntity extends ArquivoInput {
 	public Integer getRegexpDia() {
 		// TODO Auto-generated method stub
 		return super.getRegexpDia();
-	}
-
-	// bi-directional many-to-one association to Regra
-	@OneToMany(
-			mappedBy = "arquivoInput",
-			targetEntity = InputBeneficiarioEntity.class,
-			cascade = CascadeType.ALL)
-	@Override
-	public List<InputBeneficiario> getInputBeneficiarios() {
-		// TODO Auto-generated method stub
-		return super.getInputBeneficiarios();
 	}
 
 	// bi-directional many-to-one association to Empresa

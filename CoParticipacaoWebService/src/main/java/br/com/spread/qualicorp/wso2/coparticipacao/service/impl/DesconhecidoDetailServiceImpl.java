@@ -23,6 +23,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDef
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.DesconhecidoDetailJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -51,6 +53,9 @@ public class DesconhecidoDetailServiceImpl extends
 
 	@Autowired
 	private LancamentoDetailService lancamentoDetailService;
+
+	@Autowired
+	private DesconhecidoDetailJdbcDao desconhecidoDetailJdbcDao;
 
 	@Override
 	protected DesconhecidoDetailUi createUi() {
@@ -247,5 +252,40 @@ public class DesconhecidoDetailServiceImpl extends
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	protected void logBatchInfo(DesconhecidoDetailUi desconhecidoDetail)
+			throws ServiceException {
+		LOGGER.debug(
+				"ID_DESCONHECIDO:............ [{}]",
+				desconhecidoDetail.getDesconhecido().getId());
+		LOGGER.debug(
+				"COLUMN_NAME:................ [{}]",
+				desconhecidoDetail.getArquivoInputColsDef().getNameColumn());
+		LOGGER.debug(
+				"COLUMN_TYPE:................ [{}]",
+				desconhecidoDetail.getArquivoInputColsDef().getType()
+						.getDescription());
+		LOGGER.debug(
+				"VL_DOUBLE:.................. [{}]",
+				desconhecidoDetail.getBigDecimalValue());
+		LOGGER.debug(
+				"VL_DATE:.................... [{}]",
+				desconhecidoDetail.getDateValue());
+		LOGGER.debug(
+				"VL_INT:..................... [{}]",
+				desconhecidoDetail.getIntValue());
+		LOGGER.debug(
+				"VL_LONG:.................... [{}]",
+				desconhecidoDetail.getLongValue());
+		LOGGER.debug(
+				"VL_STRING:.................. [{}]",
+				desconhecidoDetail.getStringValue());
+	}
+
+	@Override
+	protected AbstractJdbcDao<DesconhecidoDetailEntity> getJdbcDao() {
+		return desconhecidoDetailJdbcDao;
 	}
 }

@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
@@ -77,6 +78,7 @@ public class TitularEntity extends Titular implements DomainEntity {
 			mappedBy = "titular",
 			targetEntity = LancamentoEntity.class,
 			cascade = CascadeType.ALL)
+	@OrderColumn(name="INDEX")
 	public List<Lancamento> getLancamentos() {
 		return super.getLancamentos();
 	}
@@ -86,6 +88,7 @@ public class TitularEntity extends Titular implements DomainEntity {
 			mappedBy = "titular",
 			targetEntity = TitularIsentoEntity.class,
 			cascade = CascadeType.ALL)
+	@OrderColumn(name="INDEX")
 	public List<TitularIsento> getTitularIsentos() {
 		return super.getTitularIsentos();
 	}
@@ -95,6 +98,7 @@ public class TitularEntity extends Titular implements DomainEntity {
 			mappedBy = "titular",
 			targetEntity = DependenteEntity.class,
 			cascade = CascadeType.ALL)
+	@OrderColumn(name="INDEX")
 	@Override
 	public List<Dependente> getDependentes() {
 		// TODO Auto-generated method stub

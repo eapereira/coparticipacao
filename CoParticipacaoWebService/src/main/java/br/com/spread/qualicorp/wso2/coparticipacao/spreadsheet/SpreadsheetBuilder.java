@@ -108,7 +108,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 				writeData(spreadsheetListener, sheet);
 
-				createColumnFilters(sheet);
+				//createColumnFilters(sheet);
 				numSheets++;
 			}
 
@@ -393,7 +393,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 				if (firstRow != null) {
 					lastRow = sheet.getRow(numRows - 1);
 
-					firstCellA = firstRow.getCell(0);
+					firstCellA = firstRow.getCell(1);
 					lastCellB = lastRow.getCell(numColumns - 1);
 
 					sheet.setAutoFilter(

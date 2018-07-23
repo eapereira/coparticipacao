@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.TitularDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
@@ -16,6 +17,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.TitularE
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.TitularUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.TitularJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
@@ -44,6 +47,9 @@ public class TitularServiceImpl
 
 	@Autowired
 	private TitularEntityMapper entityMapper;
+
+	@Autowired
+	private TitularJdbcDao titularJdbcDao;
 
 	@Override
 	protected AbstractDao<TitularEntity> getDao() {
@@ -110,6 +116,58 @@ public class TitularServiceImpl
 	@Override
 	protected AbstractMapper<Titular, TitularEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	@Override
+	protected AbstractJdbcDao<TitularEntity> getJdbcDao() {
+		return titularJdbcDao;
+	}
+
+	@Override
+	public void saveBatch(List<TitularUi> uis) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			super.saveBatch(uis);
+
+			for (Titular titular : uis) {
+				LOGGER.debug(
+						"ID_TITULAR:........................[{}]",
+						titular.getId());
+				LOGGER.debug(
+						"NM_TITULAR:........................[{}]",
+						titular.getNameTitular());
+				LOGGER.debug(
+						"NR_MATRICULA_TITULAR:..............[{}]",
+						titular.getMatricula());
+
+				for (Dependente dependente : titular.getDependentes()) {
+					LOGGER.debug(
+							"NM_DEPENDENTE:.....................[{}]",
+							dependente.getNameDependente());
+					LOGGER.debug(
+							"NR_MATRICULA:......................[{}]",
+							dependente.getMatricula());
+					LOGGER.debug(
+							"NR_CPF_DEPENDENTE:.................[{}]",
+							dependente.getCpf());
+					LOGGER.debug(
+							"DT_NASCIMENTO:.....................[{}]",
+							dependente.getDtNascimento());
+					LOGGER.debug(
+							"TP_DEPENDENTE:.....................[{}]",
+							dependente.getTpDependente().getDescription());
+
+					dependenteService.saveBatch((DependenteUi) dependente);
+				}
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+
 	}
 
 }

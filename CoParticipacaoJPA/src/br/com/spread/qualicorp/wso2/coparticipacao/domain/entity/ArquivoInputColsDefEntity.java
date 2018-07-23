@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -84,8 +85,9 @@ public class ArquivoInputColsDefEntity extends ArquivoInputColsDef {
 	// bi-directional many-to-one association to InputDependente
 	@OneToMany(
 			mappedBy = "arquivoInputColsDef",
-			cascade = CascadeType.ALL,
-			targetEntity = InputDependenteEntity.class)
+			cascade = CascadeType.ALL,			
+			targetEntity = InputDependenteEntity.class)	
+	@OrderColumn(name="INDEX")
 	public List<InputDependente> getInputDependentes() {
 		return super.getInputDependentes();
 	}
@@ -95,6 +97,7 @@ public class ArquivoInputColsDefEntity extends ArquivoInputColsDef {
 			mappedBy = "arquivoInputColsDef",
 			cascade = CascadeType.ALL,
 			targetEntity = InputLancamentoEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<InputLancamento> getInputLancamentos() {
 		return super.getInputLancamentos();
 	}
@@ -104,6 +107,7 @@ public class ArquivoInputColsDefEntity extends ArquivoInputColsDef {
 			mappedBy = "arquivoInputColsDef",
 			cascade = CascadeType.ALL,
 			targetEntity = InputTitularEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<InputTitular> getInputTitulars() {
 		return super.getInputTitulars();
 	}
@@ -114,6 +118,7 @@ public class ArquivoInputColsDefEntity extends ArquivoInputColsDef {
 			cascade = CascadeType.ALL,
 			targetEntity = RegraResultEntity.class)
 	@Override
+	@OrderColumn(name="INDEX")
 	public List<RegraResult> getRegraResults() {
 		// TODO Auto-generated method stub
 		return super.getRegraResults();

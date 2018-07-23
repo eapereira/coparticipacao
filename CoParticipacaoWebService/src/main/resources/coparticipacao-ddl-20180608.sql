@@ -10,10 +10,7 @@ drop view if exists VW_LANCAMENTO_DETAIL_MATRICULA;
 drop view if exists VW_LANCAMENTO_MUITO_FACIL_8CH5Y;
 drop view if exists VW_LANCAMENTO_MUITO_FACIL_8CHE8;
 
-drop table if exists TB_INPUT_BENEFICIARIO_BIND;
-drop table if exists TB_INPUT_BENEFICIARIO;
-drop table if exists TB_BENEFICIARIO_COLS_DEF;
-drop table if exists TB_BENEFICIARIO;
+drop table if exists TB_BENEFICIARIO_COLS;
 
 drop table if exists TB_DEPENDENTE_ISENTO;
 drop table if exists TB_TITULAR_ISENTO;
@@ -23,6 +20,8 @@ drop table if exists TB_INPUT_DEPENDENTE_ISENTO;
 drop table if exists TB_INPUT_TITULAR_ISENTO;
 drop table if exists TB_DEPENDENTE_ISENTO_COLS_DEF;
 drop table if exists TB_TITULAR_ISENTO_COLS_DEF;
+
+drop table if exists TB_MECSAS_COLS;
 
 drop table if exists TB_INPUT_DEPENDENTE;
 drop table if exists TB_INPUT_TITULAR;
@@ -78,7 +77,10 @@ create table TB_USER(
 	DESCR_NAME		varchar( 60 ) not null,
 	DESCR_PASSWD	varchar( 200 ) not null,
 	TP_STATUS		int( 3 ) not null, /* 0 = ativo, 1 = bloqueado */
+	
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED	bigint( 17 ),
 	USER_ALTERED 	bigint( 17 ),
 	DT_CREATED		timestamp not null,
@@ -91,6 +93,8 @@ create table TB_OPERADORA(
 	ID 					bigint( 17 ) auto_increment,
 	NM_OPERADORA		varchar( 200 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -107,6 +111,8 @@ create table TB_EMPRESA(
 	ID_OPERADORA		bigint( 17 ) not null,
 	NM_EMPRESA			varchar( 200 ) not null,	
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -126,6 +132,8 @@ create table TB_PARAMETER(
 	NM_PARAMETER		varchar( 200 ) not null,
 	VL_PARAMETER		varchar( 4000 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -146,6 +154,8 @@ create table TB_CONTRATO(
 	CD_CONTRATO			varchar( 60 ) not null,
 	NM_CONTRATO			varchar( 200 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -177,6 +187,8 @@ create table TB_ARQUIVO_INPUT(
 	CD_REGEXP_MES			int( 3 ) null,
 	CD_REGEXP_ANO			int( 3 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -201,6 +213,8 @@ create table TB_ARQUIVO_INPUT_COLS_DEF(
 	CD_ORDEM			int( 3 ) not null,
 	CD_FORMAT			varchar( 200 ) null, /* Para usar com datas e números */
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -220,6 +234,8 @@ create table TB_VIEW_DESTINATION(
 	NM_VIEW			varchar( 200 ) not null,
 	NM_TITLE_LABEL	varchar( 200 ) null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED	bigint( 17 ) not null,
 	USER_ALTERED 	bigint( 17 ),
 	DT_CREATED		timestamp not null,
@@ -242,6 +258,8 @@ create table TB_VIEW_DESTINATION_COLS_DEF(
 	CD_FORMAT					varchar( 200 ) null, /* Para usar com datas e números */
 	NM_COL_TITLE_LABEL			varchar( 200 ) null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -262,6 +280,8 @@ create table TB_ARQUIVO_OUTPUT(
 	NM_ARQUIVO_FORMAT	varchar( 200 ) not null, /* pode colocar {CC} = contrato, {DD} para dia, {MM} para mês e {YYYY} para ano */
 	DESCR_ARQUIVO		varchar( 200 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -282,6 +302,8 @@ create table TB_ARQUIVO_OUTPUT_SHEET(
 	ID_VIEW_DESTINATION	bigint( 17 ) not null,
 	NM_SHEET			varchar( 60 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -297,24 +319,6 @@ create table TB_ARQUIVO_OUTPUT_SHEET(
 	constraint FK_ARQUIVO_OUTPUT_SHEET_04 foreign key( ID_VIEW_DESTINATION ) references TB_VIEW_DESTINATION( ID )
 );
 
-create table TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF(
-	ID 								bigint( 17 ) auto_increment,
-	ID_ARQUIVO_OUTPUT_SHEET			bigint( 17 ) not null,
-	ID_VIEW_DESTINATION_COLS_DEF 	bigint( 17 ) not null,
-	
-	USER_CREATED					bigint( 17 ) not null,
-	USER_ALTERED 					bigint( 17 ),
-	DT_CREATED						timestamp not null,
-	DT_ALTERED						timestamp not null,
-	
-	constraint PK_ARQUIVO_OUTPUT_SHEET_COLS_DEF primary key( ID ),
-	
-	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_03 foreign key( ID_ARQUIVO_OUTPUT_SHEET ) references TB_ARQUIVO_OUTPUT_SHEET( ID ),
-	constraint FK_ARQUIVO_OUTPUT_SHEET_COLS_DEF_04 foreign key( ID_VIEW_DESTINATION_COLS_DEF ) references TB_VIEW_DESTINATION_COLS_DEF( ID )
-);
-
 /*****************************************************************************************************************************************************/
 
 /**
@@ -328,6 +332,8 @@ create table TB_REGRA (
 	CD_ORDEM			int( 3 ) not null,
 	ID_ARQUIVO_INPUT 	bigint( 17 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -348,6 +354,8 @@ create table TB_REGRA_OPERATION(
 	TP_OPERATION	int( 3 ) not null, /* 1 = SOMAR, 2 = SUBTRAIR = 3 = MULTIPLICAR, 4 = DIVIDIR */
 	CD_ORDEM		int( 3 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED	bigint( 17 ) not null,
 	USER_ALTERED 	bigint( 17 ),
 	DT_CREATED		timestamp not null,
@@ -365,6 +373,8 @@ create table TB_REGRA_FIELD(
 	ID_REGRA_OPERATION			bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -383,6 +393,8 @@ create table TB_REGRA_VALOR(
 	ID_REGRA_OPERATION		bigint( 17 ) not null,
 	VL_REGRA_VALOR			numeric( 17, 2 ) not null,
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -400,6 +412,8 @@ create table TB_REGRA_RESULT(
 	ID_REGRA					bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -421,6 +435,8 @@ create table TB_REGRA_CONDITIONAL (
 	CD_ORDEM				int( 3 ) not null,
 	ID_ARQUIVO_INPUT 		bigint( 17 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -441,6 +457,8 @@ create table TB_REGRA_CONDITIONAL_OPERATION(
 	TP_OPERATION			int( 3 ) not null, /* 5 = EQUALS, 6 = NOT_EQUALS */
 	CD_ORDEM				int( 3 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED	bigint( 17 ) not null,
 	USER_ALTERED 	bigint( 17 ),
 	DT_CREATED		timestamp not null,
@@ -458,6 +476,8 @@ create table TB_REGRA_CONDITIONAL_FIELD(
 	ID_REGRA_CONDITIONAL_OPERATION	bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) not null,
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED					bigint( 17 ) not null,
 	USER_ALTERED 					bigint( 17 ),
 	DT_CREATED						timestamp not null,
@@ -481,6 +501,8 @@ create table TB_REGRA_CONDITIONAL_VALOR(
 	VL_LONG								bigint( 17 ) null,
 	VL_STRING							varchar( 500 ),
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED						bigint( 17 ) not null,
 	USER_ALTERED 						bigint( 17 ),
 	DT_CREATED							timestamp not null,
@@ -498,6 +520,8 @@ create table TB_REGRA_CONDITIONAL_RESULT(
 	ID_REGRA_CONDITIONAL		bigint( 17 ) not null,
 	ID_REGRA_EXECUTION       	bigint( 17 ) not null,
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -528,6 +552,8 @@ create table TB_TITULAR(
 	DT_NASCIMENTO			date,
 	DT_ADMISSAO				date,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -549,6 +575,8 @@ create table TB_DEPENDENTE(
 	NR_CPF					char( 11 ),
 	DT_NASCIMENTO			date,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -569,6 +597,8 @@ create table TB_LANCAMENTO(
 	CD_MES					int( 2 ) not null,
 	CD_ANO					int( 5 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -594,6 +624,8 @@ create table TB_LANCAMENTO_DETAIL(
 	VL_LONG						bigint( 17 ) null,
 	VL_STRING					varchar( 500 ),
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -615,6 +647,8 @@ create table TB_LANCAMENTO_COLS_DEF(
 	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -634,6 +668,8 @@ create table TB_TITULAR_COLS_DEF(
 	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -653,6 +689,8 @@ create table TB_DEPENDENTE_COLS_DEF(
 	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -677,6 +715,8 @@ create table TB_TITULAR_ISENTO(
 	CD_MES					int( 3 ) not null,
 	CD_ANO					int( 3 ) not null,
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -697,6 +737,8 @@ create table TB_DEPENDENTE_ISENTO(
 	CD_MES					int( 3 ) not null,
 	CD_ANO					int( 3 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -715,6 +757,8 @@ create table TB_TITULAR_ISENTO_COLS_DEF(
 	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -734,6 +778,8 @@ create table TB_DEPENDENTE_ISENTO_COLS_DEF(
 	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
 	VL_LENGTH				int( 5 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -751,6 +797,8 @@ create table TB_INPUT_TITULAR_ISENTO(
 	ID 								bigint( 17 ) auto_increment,
 	ID_ARQUIVO_INPUT				bigint( 17 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED					bigint( 17 ) not null,
 	USER_ALTERED 					bigint( 17 ),
 	DT_CREATED						timestamp not null,
@@ -768,6 +816,8 @@ create table TB_INPUT_DEPENDENTE_ISENTO(
 	ID 								bigint( 17 ) auto_increment,
 	ID_ARQUIVO_INPUT				bigint( 17 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED					bigint( 17 ) not null,
 	USER_ALTERED 					bigint( 17 ),
 	DT_CREATED						timestamp not null,
@@ -788,6 +838,8 @@ create table TB_INPUT_TITULAR_ISENTO_COLS(
 	ID_TITULAR_ISENTO_COLS_DEF	bigint( 17 ) not null,
 	TP_ISENTO					int( 3 ) null,
 		
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -810,6 +862,8 @@ create table TB_INPUT_DEPENDENTE_ISENTO_COLS(
 	ID_DEPENDENTE_ISENTO_COLS_DEF	bigint( 17 ) not null,
 	TP_ISENTO						int( 3 ) null,
 		
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED					bigint( 17 ) not null,
 	USER_ALTERED 					bigint( 17 ),
 	DT_CREATED						timestamp not null,
@@ -833,6 +887,8 @@ create table TB_INPUT_LANCAMENTO(
 	ID_LANCAMENTO_COLS_DEF		bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -853,6 +909,8 @@ create table TB_INPUT_TITULAR(
 	ID_TITULAR_COLS_DEF			bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -873,6 +931,8 @@ create table TB_INPUT_DEPENDENTE(
 	ID_DEPENDENTE_COLS_DEF		bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -894,6 +954,8 @@ create table TB_DESCONHECIDO(
 	CD_MES						int( 3 ) not null,
 	CD_ANO						int( 3 ),
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -916,6 +978,8 @@ create table TB_DESCONHECIDO_DETAIL(
 	VL_LONG						bigint( 17 ) null,
 	VL_STRING					varchar( 500 ),
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -937,6 +1001,8 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 	NM_ARQUIVO_FORMAT	varchar( 200 ) not null, /* pode colocar {CC} = contrato, {DD} para dia, {MM} para mês e {YYYY} para ano */
 	NM_DESCR_ARQUIVO	varchar( 200 ) not null,
 	
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -961,6 +1027,8 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF(
 	CD_ORDEM						int( 3 ) not null,
 	CD_FORMAT						varchar( 200 ) null, /* Para usar com datas e números */
 
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED					bigint( 17 ) not null,
 	USER_ALTERED 					bigint( 17 ),
 	DT_CREATED						timestamp not null,
@@ -978,6 +1046,8 @@ create table TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
 	ID_ARQUIVO_INPUT_COLS_DEF				bigint( 17 ) not null,
 	ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF	bigint( 17 ) not null,
 		
+	VERSION		bigint( 17 ) null,
+`INDEX`		bigint( 17 ) not null default 0, 
 	USER_CREATED							bigint( 17 ) not null,
 	USER_ALTERED 							bigint( 17 ),
 	DT_CREATED								timestamp not null,
@@ -993,83 +1063,35 @@ create table TB_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO(
 	constraint FK_ARQUIVO_INPUT_OUTPUT_DESCONHECIDO_05 foreign key( ID_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF ) references TB_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF( ID )
 );
 
-create table TB_BENEFICIARIO(
-	ID 								bigint( 17 ) auto_increment,
-	NR_MATRICULA					bigint( 17 ) null,
-	NM_TITULAR						varchar( 200 ) null,
-	NR_CPF							char( 11 ) null,	
-	NM_BENEFICIARIO					varchar( 200 ) null,
-	
-	USER_CREATED					bigint( 17 ) not null,
-	USER_ALTERED 					bigint( 17 ),
-	DT_CREATED						timestamp not null,
-	DT_ALTERED						timestamp not null,
-
-	constraint PK_BENEFICIARIO primary key( ID ),
-	
-	constraint FK_BENEFICIARIO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_BENEFICIARIO_02 foreign key( USER_ALTERED ) references TB_USER( ID )
-	
-);
-
-create table TB_BENEFICIARIO_COLS_DEF(
-	ID 						bigint( 17 ) auto_increment,
-	NM_COLUMN				varchar( 60 ),
-	CD_TYPE					int( 3 ) not null, /* 1 = INT, 2 = DOUBLE, 3 = VARCHAR, 4 = DATE, 5 = LONG */
-	VL_LENGTH				int( 5 ) not null,
-	
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,
-	
-	constraint PK_BENEFICIARIO_COLS_DEF primary key( ID ),
-	
-	constraint UN_BENEFICIARIO_COLS_DEF_01 unique key( NM_COLUMN ),
-	
-	constraint FK_BENEFICIARIO_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_BENEFICIARIO_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID )
-);
-
-create table TB_INPUT_BENEFICIARIO(
-	ID 							bigint( 17 ) auto_increment,
-	ID_ARQUIVO_INPUT			bigint( 17 ) not null,
-	
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,
-	
-	constraint PK_INPUT_BENEFICIARIO primary key( ID ),
-	
-	constraint UN_INPUT_BENEFICIARIO_01 unique key( ID_ARQUIVO_INPUT ),
-	
-	constraint FK_INPUT_BENEFICIARIO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_INPUT_BENEFICIARIO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_INPUT_BENEFICIARIO_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
-);
-
-create table TB_INPUT_BENEFICIARIO_BIND(
-	ID 							bigint( 17 ) auto_increment,
-	ID_INPUT_BENEFICIARIO		bigint( 17 ) not null,
-	
-	ID_BENEFICIARIO_COLS_DEF	bigint( 17 ) not null,
+/**
+ * 1 - TP_BENEFICIARIO
+ * 2 - NR_MATRICULA_TITULAR
+ * 3 - NR_MATRICULA_DEPENDENTE
+ * 4 - NM_BENEFICIARIO_TITULAR
+ * 5 - NM_BENEFICIARIO_DEPENDENTE
+ * 6 - DT_NASCIMENTO
+ * 7 - NR_CPF_TITULAR
+ * 8 - NR_CPF_DEPENDENTE 
+ */
+create table TB_BENEFICIARIO_COLS(
+	ID 							bigint( 17 ) auto_increment,	
+	CD_BENEFICIARIO_COLS_DEF	int( 3 ) not null,
 	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
 	
+	VERSION						bigint( 17 ) null,
+	`INDEX`						bigint( 17 ) not null default 0, 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
 	DT_ALTERED					timestamp not null,
 	
-	constraint PK_INPUT_BENEFICIARIO_BIND primary key( ID ),
+	constraint PK_BENEFICIARIO_COLS primary key( ID ),
 	
-	constraint UN_INPUT_BENEFICIARIO_BIND_01 unique key( ID_INPUT_BENEFICIARIO, ID_BENEFICIARIO_COLS_DEF, ID_ARQUIVO_INPUT_COLS_DEF ),
+	constraint UN_BENEFICIARIO_COLS_01 unique key( CD_BENEFICIARIO_COLS_DEF, ID_ARQUIVO_INPUT_COLS_DEF ),
 	
-	constraint FK_INPUT_BENEFICIARIO_BIND_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_INPUT_BENEFICIARIO_BIND_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_INPUT_BENEFICIARIO_BIND_03 foreign key( ID_BENEFICIARIO_COLS_DEF ) references TB_BENEFICIARIO_COLS_DEF( ID ),
-	constraint FK_INPUT_BENEFICIARIO_BIND_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
-	constraint FK_INPUT_BENEFICIARIO_BIND_05 foreign key( ID_INPUT_BENEFICIARIO ) references TB_INPUT_BENEFICIARIO( ID )
+	constraint FK_BENEFICIARIO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_BENEFICIARIO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_BENEFICIARIO_COLS_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
 );
 
 /*****************************************************************************************************************************************************/
@@ -1105,7 +1127,7 @@ group by detail.ID_LANCAMENTO, detail.VL_LONG;
 
 create view VW_LANCAMENTO_MUITO_FACIL_8CH5Y as
 select
-	lanc_titular.ID_CONTRATO,
+	lanc_titular.ID_EMPRESA,
 	lanc_titular.CD_MES,
 	lanc_titular.CD_ANO,
 	lanc_titular.NM_TITULAR,
@@ -1129,7 +1151,7 @@ order by lanc_titular.NM_TITULAR;
 
 create view VW_LANCAMENTO_MUITO_FACIL_8CHE8 as
 select
-	lanc_titular.ID_CONTRATO,
+    lanc_titular.ID_EMPRESA,
 	lanc_titular.CD_MES,
 	lanc_titular.CD_ANO,
 	lanc_titular.NM_TITULAR,
@@ -1143,7 +1165,7 @@ where	lanc_titular.ID 			= lanc_principal.ID
 and 	lanc_titular.ID 			= lanc_matricula.ID
 and		lanc_titular.ID_CONTRATO 	= 2
 group by 	lanc_titular.ID,
-	lanc_titular.ID_CONTRATO,
+	lanc_titular.ID_EMPRESA,
 	lanc_titular.CD_MES,
 	lanc_titular.CD_ANO,
 	lanc_titular.NM_TITULAR,

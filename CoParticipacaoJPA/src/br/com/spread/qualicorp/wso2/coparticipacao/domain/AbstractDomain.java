@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Version;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateTimeConverter;
@@ -30,6 +31,10 @@ public abstract class AbstractDomain implements Serializable {
 	private static final long serialVersionUID = 7751554221237230488L;
 
 	private Long id;
+	
+	private Long version;
+	
+	private Long index;
 
 	private LocalDateTime altered;
 
@@ -97,5 +102,23 @@ public abstract class AbstractDomain implements Serializable {
 
 	public void setUserAltered(User userAltered) {
 		this.userAltered = userAltered;
+	}
+
+	@Version
+	public Long getVersion() {
+		return version;
+	}
+
+	public void setVersion(Long version) {
+		this.version = version;
+	}
+
+	@Column(name="INDEX")
+	public Long getIndex() {
+		return index;
+	}
+
+	public void setIndex(Long index) {
+		this.index = index;
 	}
 }

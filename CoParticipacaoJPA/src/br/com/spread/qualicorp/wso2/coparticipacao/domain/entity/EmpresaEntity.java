@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
@@ -49,18 +50,21 @@ public class EmpresaEntity extends Empresa {
 
 	// bi-directional many-to-one association to Contrato
 	@OneToMany(mappedBy = "empresa", targetEntity = ContratoEntity.class)
+	@OrderColumn(name="index")
 	public List<Contrato> getContratos() {
 		return super.getContratos();
 	}
 
 	// bi-directional many-to-one association to Parameter
 	@OneToMany(mappedBy = "empresa", targetEntity = ParameterEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<Parameter> getParameters() {
 		return super.getParameters();
 	}
 
 	// bi-directional many-to-one association to Contrato
 	@OneToMany(mappedBy = "empresa", targetEntity = TitularEntity.class)
+	@OrderColumn(name="INDEX")
 	@Override
 	public List<Titular> getTitulars() {
 		// TODO Auto-generated method stub

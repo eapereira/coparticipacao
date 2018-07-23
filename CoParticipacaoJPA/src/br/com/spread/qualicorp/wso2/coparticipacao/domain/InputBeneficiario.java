@@ -16,7 +16,7 @@ public abstract class InputBeneficiario extends AbstractDomain {
 
 	private ArquivoInput arquivoInput;
 
-	private List<InputBeneficiarioBind> inputBeneficiarioBinds;
+	private List<BeneficiarioCols> inputBeneficiarioBinds;
 
 	public InputBeneficiario() {
 
@@ -30,12 +30,12 @@ public abstract class InputBeneficiario extends AbstractDomain {
 		this.arquivoInput = arquivoInput;
 	}
 
-	public List<InputBeneficiarioBind> getInputBeneficiarioBinds() {
+	public List<BeneficiarioCols> getInputBeneficiarioBinds() {
 		return inputBeneficiarioBinds;
 	}
 
 	public void setInputBeneficiarioBinds(
-			List<InputBeneficiarioBind> inputBeneficiarioBinds) {
+			List<BeneficiarioCols> inputBeneficiarioBinds) {
 		this.inputBeneficiarioBinds = inputBeneficiarioBinds;
 	}
 

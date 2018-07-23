@@ -16,7 +16,7 @@
 			join fetch inputDependenteIsentoCols.arquivoInputColsDef arquivoInputColsDef
 			join fetch arquivoInputColsDef.arquivoInput arquivoInput
 			where arquivoInput.id = :id
-			order by arquivoInputColsDef.ordem
+			order by inputDependenteIsentoCols.id
 		]]>
 	</query>
 </queries>

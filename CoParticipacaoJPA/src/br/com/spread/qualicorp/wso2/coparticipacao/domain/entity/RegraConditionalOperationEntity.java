@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
@@ -50,6 +51,7 @@ public class RegraConditionalOperationEntity extends RegraConditionalOperation {
 	@OneToMany(
 			mappedBy = "regraConditionalOperation",
 			targetEntity = RegraConditionalFieldEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<RegraConditionalField> getRegraConditionalFields() {
 		return super.getRegraConditionalFields();
 	}
@@ -67,6 +69,7 @@ public class RegraConditionalOperationEntity extends RegraConditionalOperation {
 			fetch = FetchType.LAZY,
 			mappedBy = "regraConditionalOperation",
 			targetEntity = RegraConditionalValorEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<RegraConditionalValor> getRegraConditionalValors() {
 		return super.getRegraConditionalValors();
 	}

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="findById">
 		<![CDATA[
+			select empresa from EmpresaEntity empresa
+			join fetch empresa.contratos contratos
+			where empresa.id = :id
 		]]>
 	</query>
 

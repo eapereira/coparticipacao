@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="listByArquivoOutputId">
 		<![CDATA[
+			select arquivoOutputSheet from ArquivoOutputSheetEntity arquivoOutputSheet
+			join fetch arquivoOutputSheet.arquivoOutput arquivoOutput
+			where arquivoOutput.id = :arquivoOutputId
 		]]>
 	</query>
 

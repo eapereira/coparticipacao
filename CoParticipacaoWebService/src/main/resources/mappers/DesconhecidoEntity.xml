@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="DesconhecidoEntity.insert">
+		<![CDATA[	
+			insert into TB_DESCONHECIDO(
+				ID_CONTRATO,
+				CD_MES,
+				CD_ANO,
+				
+				USER_CREATED,
+				DT_CREATED,
+				DT_ALTERED
+			) values (
+				?,
+				?,
+				?,				
+				
+				?,
+				CURRENT_TIMESTAMP(),
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="DesconhecidoEntity.update">
+		<![CDATA[	
+			update TB_DESCONHECIDO
+			set
+				ID_CONTRATO		= ?,
+				CD_MES			= ?,
+				CD_ANO			= ?,
+				
+				USER_CREATED	= ?,
+				DT_CREATED		= ?,
+				DT_ALTERED		= ?
+			where ID = ?
+		]]>
+	</query>
+
+	<query id="DesconhecidoEntity.delete">
+		<![CDATA[	
+			delete from TB_DESCONHECIDO
+			where ID = ?
+		]]>
+	</query>
+	
+</queries>

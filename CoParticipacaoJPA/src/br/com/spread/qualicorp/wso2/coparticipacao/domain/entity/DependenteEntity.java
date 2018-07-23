@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
@@ -71,19 +72,21 @@ public class DependenteEntity extends Dependente {
 	@OneToMany(
 			mappedBy = "dependente",
 			targetEntity = DependenteIsentoEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<DependenteIsento> getDependenteIsentos() {
 		return super.getDependenteIsentos();
 	}
 
 	// bi-directional many-to-one association to Lancamento
 	@OneToMany(mappedBy = "dependente", targetEntity = LancamentoEntity.class)
+	@OrderColumn(name="INDEX")
 	public List<Lancamento> getLancamentos() {
 		return super.getLancamentos();
 	}
 
 	// bi-directional many-to-one association to RegraOperation
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = TitularEntity.class)
-	@JoinColumn(name = "ID_TITULAR")
+	@JoinColumn(name = "ID_TITULAR")	
 	@Override
 	public Titular getTitular() {
 		return super.getTitular();

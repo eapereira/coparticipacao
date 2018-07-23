@@ -92,12 +92,9 @@ public abstract class Lancamento extends AbstractDomain {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((ano == null) ? 0 : ano.hashCode());
-		result = prime * result
-				+ ((contrato == null) ? 0 : contrato.hashCode());
-		result = prime * result
-				+ ((dependente == null) ? 0 : dependente.hashCode());
-		result = prime * result + ((lancamentoDetails == null) ? 0
-				: lancamentoDetails.hashCode());
+		result = prime * result + ((contrato == null) ? 0 : contrato.hashCode());
+		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
+		result = prime * result + ((lancamentoDetails == null) ? 0 : lancamentoDetails.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
 		return result;

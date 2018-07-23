@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ContratoEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ContratoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ContratoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -22,12 +25,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 @Service
-public class ContratoServiceImpl
-		extends AbstractServiceImpl<ContratoUi, ContratoEntity, Contrato>
-		implements ContratoService {
+public class ContratoServiceImpl extends AbstractServiceImpl<ContratoUi, ContratoEntity, Contrato> implements ContratoService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(ContratoServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(ContratoServiceImpl.class);
 
 	@Autowired
 	private ContratoDao contratoDao;
@@ -38,8 +38,7 @@ public class ContratoServiceImpl
 	@Autowired
 	private ContratoEntityMapper entityMapper;
 
-	public ContratoUi findByCdContrato(String contratoName)
-			throws ServiceException {
+	public ContratoUi findByCdContrato(String contratoName) throws ServiceException {
 		ContratoUi contratoUi;
 
 		try {
@@ -77,6 +76,22 @@ public class ContratoServiceImpl
 	@Override
 	protected AbstractMapper<Contrato, ContratoEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<ContratoUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException {
+		List<ContratoUi> contratoUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			contratoUis = entityToUi(contratoDao.listByEmpresaId(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return contratoUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

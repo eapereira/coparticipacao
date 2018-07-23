@@ -11,9 +11,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
  *
  */
 public interface AbstractJdbcDao<ENTITY extends AbstractDomain> {
-	Integer save(List<ENTITY> entity) throws DaoException;
+	Long save(List<ENTITY> entity) throws DaoException;
 
-	void save(ENTITY entity) throws DaoException;
+	Long save(ENTITY entity) throws DaoException;
 
 	Integer delete(List<ENTITY> entity) throws DaoException;
 

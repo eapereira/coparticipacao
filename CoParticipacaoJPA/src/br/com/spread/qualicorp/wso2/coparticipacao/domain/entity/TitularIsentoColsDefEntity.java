@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
@@ -58,6 +59,7 @@ public class TitularIsentoColsDefEntity extends TitularIsentoColsDef {
 			mappedBy = "titularIsentoColsDef",
 			fetch = FetchType.LAZY,
 			targetEntity = InputTitularIsentoColsEntity.class)
+	@OrderColumn(name="INDEX")
 	@Override
 	public List<InputTitularIsentoCols> getInputTitularIsentoCols() {
 		// TODO Auto-generated method stub

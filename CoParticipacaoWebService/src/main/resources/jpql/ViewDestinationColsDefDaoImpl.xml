@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="listByViewDestinationId">
 		<![CDATA[
+			select viewDestinationColsDef from ViewDestinationColsDefEntity viewDestinationColsDef
+			join fetch viewDestinationColsDef.viewDestination viewDestination
+			where viewDestination.id = :viewDestinationId
 		]]>
 	</query>
 

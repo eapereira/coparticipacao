@@ -23,8 +23,6 @@ public abstract class User extends AbstractDomain {
 	private List<ArquivoOutput> arquivoOutputsUserAltered;
 	private List<ArquivoOutputSheet> arquivoOutputSheetsUserCreated;
 	private List<ArquivoOutputSheet> arquivoOutputSheetsUserAltered;
-	private List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefUserCreated;
-	private List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefUserAltered;
 	private List<Contrato> contratosUserCreated;
 	private List<Contrato> contratosUserAltered;
 	private List<Dependente> dependentesUserCreated;
@@ -113,21 +111,18 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoInputsUserCreated;
 	}
 
-	public void setArquivoInputsUserCreated(
-			List<ArquivoInput> arquivoInputsUserCreated) {
+	public void setArquivoInputsUserCreated(List<ArquivoInput> arquivoInputsUserCreated) {
 		this.arquivoInputsUserCreated = arquivoInputsUserCreated;
 	}
 
-	public ArquivoInput addArquivoInputsUserCreated(
-			ArquivoInput arquivoInputsUserCreated) {
+	public ArquivoInput addArquivoInputsUserCreated(ArquivoInput arquivoInputsUserCreated) {
 		getArquivoInputsUserCreated().add(arquivoInputsUserCreated);
 		arquivoInputsUserCreated.setUserCreated(this);
 
 		return arquivoInputsUserCreated;
 	}
 
-	public ArquivoInput removeArquivoInputsUserCreated(
-			ArquivoInput arquivoInputsUserCreated) {
+	public ArquivoInput removeArquivoInputsUserCreated(ArquivoInput arquivoInputsUserCreated) {
 		getArquivoInputsUserCreated().remove(arquivoInputsUserCreated);
 		arquivoInputsUserCreated.setUserCreated(null);
 
@@ -138,21 +133,18 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoInputsUserAltered;
 	}
 
-	public void setArquivoInputsUserAltered(
-			List<ArquivoInput> arquivoInputsUserAltered) {
+	public void setArquivoInputsUserAltered(List<ArquivoInput> arquivoInputsUserAltered) {
 		this.arquivoInputsUserAltered = arquivoInputsUserAltered;
 	}
 
-	public ArquivoInput addArquivoInputsUserAltered(
-			ArquivoInput arquivoInputsUserAltered) {
+	public ArquivoInput addArquivoInputsUserAltered(ArquivoInput arquivoInputsUserAltered) {
 		getArquivoInputsUserAltered().add(arquivoInputsUserAltered);
 		arquivoInputsUserAltered.setUserAltered(this);
 
 		return arquivoInputsUserAltered;
 	}
 
-	public ArquivoInput removeArquivoInputsUserAltered(
-			ArquivoInput arquivoInputsUserAltered) {
+	public ArquivoInput removeArquivoInputsUserAltered(ArquivoInput arquivoInputsUserAltered) {
 		getArquivoInputsUserAltered().remove(arquivoInputsUserAltered);
 		arquivoInputsUserAltered.setUserAltered(null);
 
@@ -163,23 +155,19 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoInputColsDefUserCreated;
 	}
 
-	public void setArquivoInputColsDefUserCreated(
-			List<ArquivoInputColsDef> arquivoInputColsDefUserCreated) {
+	public void setArquivoInputColsDefUserCreated(List<ArquivoInputColsDef> arquivoInputColsDefUserCreated) {
 		this.arquivoInputColsDefUserCreated = arquivoInputColsDefUserCreated;
 	}
 
-	public ArquivoInputColsDef addArquivoInputColsDefUserCreated(
-			ArquivoInputColsDef arquivoInputColsDefUserCreated) {
+	public ArquivoInputColsDef addArquivoInputColsDefUserCreated(ArquivoInputColsDef arquivoInputColsDefUserCreated) {
 		getArquivoInputColsDefUserCreated().add(arquivoInputColsDefUserCreated);
 		arquivoInputColsDefUserCreated.setUserCreated(this);
 
 		return arquivoInputColsDefUserCreated;
 	}
 
-	public ArquivoInputColsDef removeArquivoInputColsDefUserCreated(
-			ArquivoInputColsDef arquivoInputColsDefUserCreated) {
-		getArquivoInputColsDefUserCreated()
-				.remove(arquivoInputColsDefUserCreated);
+	public ArquivoInputColsDef removeArquivoInputColsDefUserCreated(ArquivoInputColsDef arquivoInputColsDefUserCreated) {
+		getArquivoInputColsDefUserCreated().remove(arquivoInputColsDefUserCreated);
 		arquivoInputColsDefUserCreated.setUserCreated(null);
 
 		return arquivoInputColsDefUserCreated;
@@ -189,23 +177,19 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoInputColsDefUserAltered;
 	}
 
-	public void setArquivoInputColsDefUserAltered(
-			List<ArquivoInputColsDef> arquivoInputColsDefUserAltered) {
+	public void setArquivoInputColsDefUserAltered(List<ArquivoInputColsDef> arquivoInputColsDefUserAltered) {
 		this.arquivoInputColsDefUserAltered = arquivoInputColsDefUserAltered;
 	}
 
-	public ArquivoInputColsDef addArquivoInputColsDefUserAltered(
-			ArquivoInputColsDef arquivoInputColsDefUserAltered) {
+	public ArquivoInputColsDef addArquivoInputColsDefUserAltered(ArquivoInputColsDef arquivoInputColsDefUserAltered) {
 		getArquivoInputColsDefUserAltered().add(arquivoInputColsDefUserAltered);
 		arquivoInputColsDefUserAltered.setUserAltered(this);
 
 		return arquivoInputColsDefUserAltered;
 	}
 
-	public ArquivoInputColsDef removeArquivoInputColsDefUserAltered(
-			ArquivoInputColsDef arquivoInputColsDefUserAltered) {
-		getArquivoInputColsDefUserAltered()
-				.remove(arquivoInputColsDefUserAltered);
+	public ArquivoInputColsDef removeArquivoInputColsDefUserAltered(ArquivoInputColsDef arquivoInputColsDefUserAltered) {
+		getArquivoInputColsDefUserAltered().remove(arquivoInputColsDefUserAltered);
 		arquivoInputColsDefUserAltered.setUserAltered(null);
 
 		return arquivoInputColsDefUserAltered;
@@ -215,21 +199,18 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoOutputsUserCreated;
 	}
 
-	public void setArquivoOutputsUserCreated(
-			List<ArquivoOutput> arquivoOutputsUserCreated) {
+	public void setArquivoOutputsUserCreated(List<ArquivoOutput> arquivoOutputsUserCreated) {
 		this.arquivoOutputsUserCreated = arquivoOutputsUserCreated;
 	}
 
-	public ArquivoOutput addArquivoOutputsUserCreated(
-			ArquivoOutput arquivoOutputsUserCreated) {
+	public ArquivoOutput addArquivoOutputsUserCreated(ArquivoOutput arquivoOutputsUserCreated) {
 		getArquivoOutputsUserCreated().add(arquivoOutputsUserCreated);
 		arquivoOutputsUserCreated.setUserCreated(this);
 
 		return arquivoOutputsUserCreated;
 	}
 
-	public ArquivoOutput removeArquivoOutputsUserCreated(
-			ArquivoOutput arquivoOutputsUserCreated) {
+	public ArquivoOutput removeArquivoOutputsUserCreated(ArquivoOutput arquivoOutputsUserCreated) {
 		getArquivoOutputsUserCreated().remove(arquivoOutputsUserCreated);
 		arquivoOutputsUserCreated.setUserCreated(null);
 
@@ -240,21 +221,18 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoOutputsUserAltered;
 	}
 
-	public void setArquivoOutputsUserAltered(
-			List<ArquivoOutput> arquivoOutputsUserAltered) {
+	public void setArquivoOutputsUserAltered(List<ArquivoOutput> arquivoOutputsUserAltered) {
 		this.arquivoOutputsUserAltered = arquivoOutputsUserAltered;
 	}
 
-	public ArquivoOutput addArquivoOutputsUserAltered(
-			ArquivoOutput arquivoOutputsUserAltered) {
+	public ArquivoOutput addArquivoOutputsUserAltered(ArquivoOutput arquivoOutputsUserAltered) {
 		getArquivoOutputsUserAltered().add(arquivoOutputsUserAltered);
 		arquivoOutputsUserAltered.setUserAltered(this);
 
 		return arquivoOutputsUserAltered;
 	}
 
-	public ArquivoOutput removeArquivoOutputsUserAltered(
-			ArquivoOutput arquivoOutputsUserAltered) {
+	public ArquivoOutput removeArquivoOutputsUserAltered(ArquivoOutput arquivoOutputsUserAltered) {
 		getArquivoOutputsUserAltered().remove(arquivoOutputsUserAltered);
 		arquivoOutputsUserAltered.setUserAltered(null);
 
@@ -265,23 +243,19 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoOutputSheetsUserCreated;
 	}
 
-	public void setArquivoOutputSheetsUserCreated(
-			List<ArquivoOutputSheet> arquivoOutputSheetsUserCreated) {
+	public void setArquivoOutputSheetsUserCreated(List<ArquivoOutputSheet> arquivoOutputSheetsUserCreated) {
 		this.arquivoOutputSheetsUserCreated = arquivoOutputSheetsUserCreated;
 	}
 
-	public ArquivoOutputSheet addArquivoOutputSheetsUserCreated(
-			ArquivoOutputSheet arquivoOutputSheetsUserCreated) {
+	public ArquivoOutputSheet addArquivoOutputSheetsUserCreated(ArquivoOutputSheet arquivoOutputSheetsUserCreated) {
 		getArquivoOutputSheetsUserCreated().add(arquivoOutputSheetsUserCreated);
 		arquivoOutputSheetsUserCreated.setUserCreated(this);
 
 		return arquivoOutputSheetsUserCreated;
 	}
 
-	public ArquivoOutputSheet removeArquivoOutputSheetsUserCreated(
-			ArquivoOutputSheet arquivoOutputSheetsUserCreated) {
-		getArquivoOutputSheetsUserCreated()
-				.remove(arquivoOutputSheetsUserCreated);
+	public ArquivoOutputSheet removeArquivoOutputSheetsUserCreated(ArquivoOutputSheet arquivoOutputSheetsUserCreated) {
+		getArquivoOutputSheetsUserCreated().remove(arquivoOutputSheetsUserCreated);
 		arquivoOutputSheetsUserCreated.setUserCreated(null);
 
 		return arquivoOutputSheetsUserCreated;
@@ -291,80 +265,22 @@ public abstract class User extends AbstractDomain {
 		return this.arquivoOutputSheetsUserAltered;
 	}
 
-	public void setArquivoOutputSheetsUserAltered(
-			List<ArquivoOutputSheet> arquivoOutputSheetsUserAltered) {
+	public void setArquivoOutputSheetsUserAltered(List<ArquivoOutputSheet> arquivoOutputSheetsUserAltered) {
 		this.arquivoOutputSheetsUserAltered = arquivoOutputSheetsUserAltered;
 	}
 
-	public ArquivoOutputSheet addArquivoOutputSheetsUserAltered(
-			ArquivoOutputSheet arquivoOutputSheetsUserAltered) {
+	public ArquivoOutputSheet addArquivoOutputSheetsUserAltered(ArquivoOutputSheet arquivoOutputSheetsUserAltered) {
 		getArquivoOutputSheetsUserAltered().add(arquivoOutputSheetsUserAltered);
 		arquivoOutputSheetsUserAltered.setUserAltered(this);
 
 		return arquivoOutputSheetsUserAltered;
 	}
 
-	public ArquivoOutputSheet removeArquivoOutputSheetsUserAltered(
-			ArquivoOutputSheet arquivoOutputSheetsUserAltered) {
-		getArquivoOutputSheetsUserAltered()
-				.remove(arquivoOutputSheetsUserAltered);
+	public ArquivoOutputSheet removeArquivoOutputSheetsUserAltered(ArquivoOutputSheet arquivoOutputSheetsUserAltered) {
+		getArquivoOutputSheetsUserAltered().remove(arquivoOutputSheetsUserAltered);
 		arquivoOutputSheetsUserAltered.setUserAltered(null);
 
 		return arquivoOutputSheetsUserAltered;
-	}
-
-	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefUserCreated() {
-		return this.arquivoOutputSheetColsDefUserCreated;
-	}
-
-	public void setArquivoOutputSheetColsDefUserCreated(
-			List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefUserCreated) {
-		this.arquivoOutputSheetColsDefUserCreated = arquivoOutputSheetColsDefUserCreated;
-	}
-
-	public ArquivoOutputSheetColsDef addArquivoOutputSheetColsDefUserCreated(
-			ArquivoOutputSheetColsDef arquivoOutputSheetColsDefUserCreated) {
-		getArquivoOutputSheetColsDefUserCreated()
-				.add(arquivoOutputSheetColsDefUserCreated);
-		arquivoOutputSheetColsDefUserCreated.setUserCreated(this);
-
-		return arquivoOutputSheetColsDefUserCreated;
-	}
-
-	public ArquivoOutputSheetColsDef removeArquivoOutputSheetColsDefUserCreated(
-			ArquivoOutputSheetColsDef arquivoOutputSheetColsDefUserCreated) {
-		getArquivoOutputSheetColsDefUserCreated()
-				.remove(arquivoOutputSheetColsDefUserCreated);
-		arquivoOutputSheetColsDefUserCreated.setUserCreated(null);
-
-		return arquivoOutputSheetColsDefUserCreated;
-	}
-
-	public List<ArquivoOutputSheetColsDef> getArquivoOutputSheetColsDefUserAltered() {
-		return this.arquivoOutputSheetColsDefUserAltered;
-	}
-
-	public void setArquivoOutputSheetColsDefUserAltered(
-			List<ArquivoOutputSheetColsDef> arquivoOutputSheetColsDefUserAltered) {
-		this.arquivoOutputSheetColsDefUserAltered = arquivoOutputSheetColsDefUserAltered;
-	}
-
-	public ArquivoOutputSheetColsDef addArquivoOutputSheetColsDefUserAltered(
-			ArquivoOutputSheetColsDef arquivoOutputSheetColsDefUserAltered) {
-		getArquivoOutputSheetColsDefUserAltered()
-				.add(arquivoOutputSheetColsDefUserAltered);
-		arquivoOutputSheetColsDefUserAltered.setUserAltered(this);
-
-		return arquivoOutputSheetColsDefUserAltered;
-	}
-
-	public ArquivoOutputSheetColsDef removeArquivoOutputSheetColsDefUserAltered(
-			ArquivoOutputSheetColsDef arquivoOutputSheetColsDefUserAltered) {
-		getArquivoOutputSheetColsDefUserAltered()
-				.remove(arquivoOutputSheetColsDefUserAltered);
-		arquivoOutputSheetColsDefUserAltered.setUserAltered(null);
-
-		return arquivoOutputSheetColsDefUserAltered;
 	}
 
 	public List<Contrato> getContratosUserCreated() {
@@ -415,21 +331,18 @@ public abstract class User extends AbstractDomain {
 		return this.dependentesUserCreated;
 	}
 
-	public void setDependentesUserCreated(
-			List<Dependente> dependentesUserCreated) {
+	public void setDependentesUserCreated(List<Dependente> dependentesUserCreated) {
 		this.dependentesUserCreated = dependentesUserCreated;
 	}
 
-	public Dependente addDependentesUserCreated(
-			Dependente dependentesUserCreated) {
+	public Dependente addDependentesUserCreated(Dependente dependentesUserCreated) {
 		getDependentesUserCreated().add(dependentesUserCreated);
 		dependentesUserCreated.setUserCreated(this);
 
 		return dependentesUserCreated;
 	}
 
-	public Dependente removeDependentesUserCreated(
-			Dependente dependentesUserCreated) {
+	public Dependente removeDependentesUserCreated(Dependente dependentesUserCreated) {
 		getDependentesUserCreated().remove(dependentesUserCreated);
 		dependentesUserCreated.setUserCreated(null);
 
@@ -440,21 +353,18 @@ public abstract class User extends AbstractDomain {
 		return this.dependentesUserAltered;
 	}
 
-	public void setDependentesUserAltered(
-			List<Dependente> dependentesUserAltered) {
+	public void setDependentesUserAltered(List<Dependente> dependentesUserAltered) {
 		this.dependentesUserAltered = dependentesUserAltered;
 	}
 
-	public Dependente addDependentesUserAltered(
-			Dependente dependentesUserAltered) {
+	public Dependente addDependentesUserAltered(Dependente dependentesUserAltered) {
 		getDependentesUserAltered().add(dependentesUserAltered);
 		dependentesUserAltered.setUserAltered(this);
 
 		return dependentesUserAltered;
 	}
 
-	public Dependente removeDependentesUserAltered(
-			Dependente dependentesUserAltered) {
+	public Dependente removeDependentesUserAltered(Dependente dependentesUserAltered) {
 		getDependentesUserAltered().remove(dependentesUserAltered);
 		dependentesUserAltered.setUserAltered(null);
 
@@ -465,23 +375,19 @@ public abstract class User extends AbstractDomain {
 		return this.dependenteColsDefsUserCreated;
 	}
 
-	public void setDependenteColsDefsUserCreated(
-			List<DependenteColsDef> dependenteColsDefsUserCreated) {
+	public void setDependenteColsDefsUserCreated(List<DependenteColsDef> dependenteColsDefsUserCreated) {
 		this.dependenteColsDefsUserCreated = dependenteColsDefsUserCreated;
 	}
 
-	public DependenteColsDef addDependenteColsDefsUserCreated(
-			DependenteColsDef dependenteColsDefsUserCreated) {
+	public DependenteColsDef addDependenteColsDefsUserCreated(DependenteColsDef dependenteColsDefsUserCreated) {
 		getDependenteColsDefsUserCreated().add(dependenteColsDefsUserCreated);
 		dependenteColsDefsUserCreated.setUserCreated(this);
 
 		return dependenteColsDefsUserCreated;
 	}
 
-	public DependenteColsDef removeDependenteColsDefsUserCreated(
-			DependenteColsDef dependenteColsDefsUserCreated) {
-		getDependenteColsDefsUserCreated()
-				.remove(dependenteColsDefsUserCreated);
+	public DependenteColsDef removeDependenteColsDefsUserCreated(DependenteColsDef dependenteColsDefsUserCreated) {
+		getDependenteColsDefsUserCreated().remove(dependenteColsDefsUserCreated);
 		dependenteColsDefsUserCreated.setUserCreated(null);
 
 		return dependenteColsDefsUserCreated;
@@ -491,23 +397,19 @@ public abstract class User extends AbstractDomain {
 		return this.dependenteColsDefsUserAltered;
 	}
 
-	public void setDependenteColsDefsUserAltered(
-			List<DependenteColsDef> dependenteColsDefsUserAltered) {
+	public void setDependenteColsDefsUserAltered(List<DependenteColsDef> dependenteColsDefsUserAltered) {
 		this.dependenteColsDefsUserAltered = dependenteColsDefsUserAltered;
 	}
 
-	public DependenteColsDef addDependenteColsDefsUserAltered(
-			DependenteColsDef dependenteColsDefsUserAltered) {
+	public DependenteColsDef addDependenteColsDefsUserAltered(DependenteColsDef dependenteColsDefsUserAltered) {
 		getDependenteColsDefsUserAltered().add(dependenteColsDefsUserAltered);
 		dependenteColsDefsUserAltered.setUserAltered(this);
 
 		return dependenteColsDefsUserAltered;
 	}
 
-	public DependenteColsDef removeDependenteColsDefsUserAltered(
-			DependenteColsDef dependenteColsDefsUserAltered) {
-		getDependenteColsDefsUserAltered()
-				.remove(dependenteColsDefsUserAltered);
+	public DependenteColsDef removeDependenteColsDefsUserAltered(DependenteColsDef dependenteColsDefsUserAltered) {
+		getDependenteColsDefsUserAltered().remove(dependenteColsDefsUserAltered);
 		dependenteColsDefsUserAltered.setUserAltered(null);
 
 		return dependenteColsDefsUserAltered;
@@ -517,21 +419,18 @@ public abstract class User extends AbstractDomain {
 		return this.dependenteIsentosUserCreated;
 	}
 
-	public void setDependenteIsentosUserCreated(
-			List<DependenteIsento> dependenteIsentosUserCreated) {
+	public void setDependenteIsentosUserCreated(List<DependenteIsento> dependenteIsentosUserCreated) {
 		this.dependenteIsentosUserCreated = dependenteIsentosUserCreated;
 	}
 
-	public DependenteIsento addDependenteIsentosUserCreated(
-			DependenteIsento dependenteIsentosUserCreated) {
+	public DependenteIsento addDependenteIsentosUserCreated(DependenteIsento dependenteIsentosUserCreated) {
 		getDependenteIsentosUserCreated().add(dependenteIsentosUserCreated);
 		dependenteIsentosUserCreated.setUserCreated(this);
 
 		return dependenteIsentosUserCreated;
 	}
 
-	public DependenteIsento removeDependenteIsentosUserCreated(
-			DependenteIsento dependenteIsentosUserCreated) {
+	public DependenteIsento removeDependenteIsentosUserCreated(DependenteIsento dependenteIsentosUserCreated) {
 		getDependenteIsentosUserCreated().remove(dependenteIsentosUserCreated);
 		dependenteIsentosUserCreated.setUserCreated(null);
 
@@ -542,21 +441,18 @@ public abstract class User extends AbstractDomain {
 		return this.dependenteIsentosUserAltered;
 	}
 
-	public void setDependenteIsentosUserAltered(
-			List<DependenteIsento> dependenteIsentosUserAltered) {
+	public void setDependenteIsentosUserAltered(List<DependenteIsento> dependenteIsentosUserAltered) {
 		this.dependenteIsentosUserAltered = dependenteIsentosUserAltered;
 	}
 
-	public DependenteIsento addDependenteIsentosUserAltered(
-			DependenteIsento dependenteIsentosUserAltered) {
+	public DependenteIsento addDependenteIsentosUserAltered(DependenteIsento dependenteIsentosUserAltered) {
 		getDependenteIsentosUserAltered().add(dependenteIsentosUserAltered);
 		dependenteIsentosUserAltered.setUserAltered(this);
 
 		return dependenteIsentosUserAltered;
 	}
 
-	public DependenteIsento removeDependenteIsentosUserAltered(
-			DependenteIsento dependenteIsentosUserAltered) {
+	public DependenteIsento removeDependenteIsentosUserAltered(DependenteIsento dependenteIsentosUserAltered) {
 		getDependenteIsentosUserAltered().remove(dependenteIsentosUserAltered);
 		dependenteIsentosUserAltered.setUserAltered(null);
 
@@ -611,21 +507,18 @@ public abstract class User extends AbstractDomain {
 		return this.inputDependentesUserCreated;
 	}
 
-	public void setInputDependentesUserCreated(
-			List<InputDependente> inputDependentesUserCreated) {
+	public void setInputDependentesUserCreated(List<InputDependente> inputDependentesUserCreated) {
 		this.inputDependentesUserCreated = inputDependentesUserCreated;
 	}
 
-	public InputDependente addInputDependentesUserCreated(
-			InputDependente inputDependentesUserCreated) {
+	public InputDependente addInputDependentesUserCreated(InputDependente inputDependentesUserCreated) {
 		getInputDependentesUserCreated().add(inputDependentesUserCreated);
 		inputDependentesUserCreated.setUserCreated(this);
 
 		return inputDependentesUserCreated;
 	}
 
-	public InputDependente removeInputDependentesUserCreated(
-			InputDependente inputDependentesUserCreated) {
+	public InputDependente removeInputDependentesUserCreated(InputDependente inputDependentesUserCreated) {
 		getInputDependentesUserCreated().remove(inputDependentesUserCreated);
 		inputDependentesUserCreated.setUserCreated(null);
 
@@ -636,21 +529,18 @@ public abstract class User extends AbstractDomain {
 		return this.inputDependentesUserAltered;
 	}
 
-	public void setInputDependentesUserAltered(
-			List<InputDependente> inputDependentesUserAltered) {
+	public void setInputDependentesUserAltered(List<InputDependente> inputDependentesUserAltered) {
 		this.inputDependentesUserAltered = inputDependentesUserAltered;
 	}
 
-	public InputDependente addInputDependentesUserAltered(
-			InputDependente inputDependentesUserAltered) {
+	public InputDependente addInputDependentesUserAltered(InputDependente inputDependentesUserAltered) {
 		getInputDependentesUserAltered().add(inputDependentesUserAltered);
 		inputDependentesUserAltered.setUserAltered(this);
 
 		return inputDependentesUserAltered;
 	}
 
-	public InputDependente removeInputDependentesUserAltered(
-			InputDependente inputDependentesUserAltered) {
+	public InputDependente removeInputDependentesUserAltered(InputDependente inputDependentesUserAltered) {
 		getInputDependentesUserAltered().remove(inputDependentesUserAltered);
 		inputDependentesUserAltered.setUserAltered(null);
 
@@ -661,21 +551,18 @@ public abstract class User extends AbstractDomain {
 		return this.inputLancamentosUserCreated;
 	}
 
-	public void setInputLancamentosUserCreated(
-			List<InputLancamento> inputLancamentosUserCreated) {
+	public void setInputLancamentosUserCreated(List<InputLancamento> inputLancamentosUserCreated) {
 		this.inputLancamentosUserCreated = inputLancamentosUserCreated;
 	}
 
-	public InputLancamento addInputLancamentosUserCreated(
-			InputLancamento inputLancamentosUserCreated) {
+	public InputLancamento addInputLancamentosUserCreated(InputLancamento inputLancamentosUserCreated) {
 		getInputLancamentosUserCreated().add(inputLancamentosUserCreated);
 		inputLancamentosUserCreated.setUserCreated(this);
 
 		return inputLancamentosUserCreated;
 	}
 
-	public InputLancamento removeInputLancamentosUserCreated(
-			InputLancamento inputLancamentosUserCreated) {
+	public InputLancamento removeInputLancamentosUserCreated(InputLancamento inputLancamentosUserCreated) {
 		getInputLancamentosUserCreated().remove(inputLancamentosUserCreated);
 		inputLancamentosUserCreated.setUserCreated(null);
 
@@ -686,21 +573,18 @@ public abstract class User extends AbstractDomain {
 		return this.inputLancamentosUserAltered;
 	}
 
-	public void setInputLancamentosUserAltered(
-			List<InputLancamento> inputLancamentosUserAltered) {
+	public void setInputLancamentosUserAltered(List<InputLancamento> inputLancamentosUserAltered) {
 		this.inputLancamentosUserAltered = inputLancamentosUserAltered;
 	}
 
-	public InputLancamento addInputLancamentosUserAltered(
-			InputLancamento inputLancamentosUserAltered) {
+	public InputLancamento addInputLancamentosUserAltered(InputLancamento inputLancamentosUserAltered) {
 		getInputLancamentosUserAltered().add(inputLancamentosUserAltered);
 		inputLancamentosUserAltered.setUserAltered(this);
 
 		return inputLancamentosUserAltered;
 	}
 
-	public InputLancamento removeInputLancamentosUserAltered(
-			InputLancamento inputLancamentosUserAltered) {
+	public InputLancamento removeInputLancamentosUserAltered(InputLancamento inputLancamentosUserAltered) {
 		getInputLancamentosUserAltered().remove(inputLancamentosUserAltered);
 		inputLancamentosUserAltered.setUserAltered(null);
 
@@ -711,21 +595,18 @@ public abstract class User extends AbstractDomain {
 		return this.inputTitularsUserCreated;
 	}
 
-	public void setInputTitularsUserCreated(
-			List<InputTitular> inputTitularsUserCreated) {
+	public void setInputTitularsUserCreated(List<InputTitular> inputTitularsUserCreated) {
 		this.inputTitularsUserCreated = inputTitularsUserCreated;
 	}
 
-	public InputTitular addInputTitularsUserCreated(
-			InputTitular inputTitularsUserCreated) {
+	public InputTitular addInputTitularsUserCreated(InputTitular inputTitularsUserCreated) {
 		getInputTitularsUserCreated().add(inputTitularsUserCreated);
 		inputTitularsUserCreated.setUserCreated(this);
 
 		return inputTitularsUserCreated;
 	}
 
-	public InputTitular removeInputTitularsUserCreated(
-			InputTitular inputTitularsUserCreated) {
+	public InputTitular removeInputTitularsUserCreated(InputTitular inputTitularsUserCreated) {
 		getInputTitularsUserCreated().remove(inputTitularsUserCreated);
 		inputTitularsUserCreated.setUserCreated(null);
 
@@ -736,21 +617,18 @@ public abstract class User extends AbstractDomain {
 		return this.inputTitularsUserAltered;
 	}
 
-	public void setInputTitularsUserAltered(
-			List<InputTitular> inputTitularsUserAltered) {
+	public void setInputTitularsUserAltered(List<InputTitular> inputTitularsUserAltered) {
 		this.inputTitularsUserAltered = inputTitularsUserAltered;
 	}
 
-	public InputTitular addInputTitularsUserAltered(
-			InputTitular inputTitularsUserAltered) {
+	public InputTitular addInputTitularsUserAltered(InputTitular inputTitularsUserAltered) {
 		getInputTitularsUserAltered().add(inputTitularsUserAltered);
 		inputTitularsUserAltered.setUserAltered(this);
 
 		return inputTitularsUserAltered;
 	}
 
-	public InputTitular removeInputTitularsUserAltered(
-			InputTitular inputTitularsUserAltered) {
+	public InputTitular removeInputTitularsUserAltered(InputTitular inputTitularsUserAltered) {
 		getInputTitularsUserAltered().remove(inputTitularsUserAltered);
 		inputTitularsUserAltered.setUserAltered(null);
 
@@ -761,21 +639,18 @@ public abstract class User extends AbstractDomain {
 		return this.lancamentosUserCreated;
 	}
 
-	public void setLancamentosUserCreated(
-			List<Lancamento> lancamentosUserCreated) {
+	public void setLancamentosUserCreated(List<Lancamento> lancamentosUserCreated) {
 		this.lancamentosUserCreated = lancamentosUserCreated;
 	}
 
-	public Lancamento addLancamentosUserCreated(
-			Lancamento lancamentosUserCreated) {
+	public Lancamento addLancamentosUserCreated(Lancamento lancamentosUserCreated) {
 		getLancamentosUserCreated().add(lancamentosUserCreated);
 		lancamentosUserCreated.setUserCreated(this);
 
 		return lancamentosUserCreated;
 	}
 
-	public Lancamento removeLancamentosUserCreated(
-			Lancamento lancamentosUserCreated) {
+	public Lancamento removeLancamentosUserCreated(Lancamento lancamentosUserCreated) {
 		getLancamentosUserCreated().remove(lancamentosUserCreated);
 		lancamentosUserCreated.setUserCreated(null);
 
@@ -786,21 +661,18 @@ public abstract class User extends AbstractDomain {
 		return this.lancamentosUserAltered;
 	}
 
-	public void setLancamentosUserAltered(
-			List<Lancamento> lancamentosUserAltered) {
+	public void setLancamentosUserAltered(List<Lancamento> lancamentosUserAltered) {
 		this.lancamentosUserAltered = lancamentosUserAltered;
 	}
 
-	public Lancamento addLancamentosUserAltered(
-			Lancamento lancamentosUserAltered) {
+	public Lancamento addLancamentosUserAltered(Lancamento lancamentosUserAltered) {
 		getLancamentosUserAltered().add(lancamentosUserAltered);
 		lancamentosUserAltered.setUserAltered(this);
 
 		return lancamentosUserAltered;
 	}
 
-	public Lancamento removeLancamentosUserAltered(
-			Lancamento lancamentosUserAltered) {
+	public Lancamento removeLancamentosUserAltered(Lancamento lancamentosUserAltered) {
 		getLancamentosUserAltered().remove(lancamentosUserAltered);
 		lancamentosUserAltered.setUserAltered(null);
 
@@ -811,23 +683,19 @@ public abstract class User extends AbstractDomain {
 		return this.lancamentoColsDefsUserCreated;
 	}
 
-	public void setLancamentoColsDefsUserCreated(
-			List<LancamentoColsDef> lancamentoColsDefsUserCreated) {
+	public void setLancamentoColsDefsUserCreated(List<LancamentoColsDef> lancamentoColsDefsUserCreated) {
 		this.lancamentoColsDefsUserCreated = lancamentoColsDefsUserCreated;
 	}
 
-	public LancamentoColsDef addLancamentoColsDefsUserCreated(
-			LancamentoColsDef lancamentoColsDefsUserCreated) {
+	public LancamentoColsDef addLancamentoColsDefsUserCreated(LancamentoColsDef lancamentoColsDefsUserCreated) {
 		getLancamentoColsDefsUserCreated().add(lancamentoColsDefsUserCreated);
 		lancamentoColsDefsUserCreated.setUserCreated(this);
 
 		return lancamentoColsDefsUserCreated;
 	}
 
-	public LancamentoColsDef removeLancamentoColsDefsUserCreated(
-			LancamentoColsDef lancamentoColsDefsUserCreated) {
-		getLancamentoColsDefsUserCreated()
-				.remove(lancamentoColsDefsUserCreated);
+	public LancamentoColsDef removeLancamentoColsDefsUserCreated(LancamentoColsDef lancamentoColsDefsUserCreated) {
+		getLancamentoColsDefsUserCreated().remove(lancamentoColsDefsUserCreated);
 		lancamentoColsDefsUserCreated.setUserCreated(null);
 
 		return lancamentoColsDefsUserCreated;
@@ -837,23 +705,19 @@ public abstract class User extends AbstractDomain {
 		return this.lancamentoColsDefsUserAltered;
 	}
 
-	public void setLancamentoColsDefsUserAltered(
-			List<LancamentoColsDef> lancamentoColsDefsUserAltered) {
+	public void setLancamentoColsDefsUserAltered(List<LancamentoColsDef> lancamentoColsDefsUserAltered) {
 		this.lancamentoColsDefsUserAltered = lancamentoColsDefsUserAltered;
 	}
 
-	public LancamentoColsDef addLancamentoColsDefsUserAltered(
-			LancamentoColsDef lancamentoColsDefsUserAltered) {
+	public LancamentoColsDef addLancamentoColsDefsUserAltered(LancamentoColsDef lancamentoColsDefsUserAltered) {
 		getLancamentoColsDefsUserAltered().add(lancamentoColsDefsUserAltered);
 		lancamentoColsDefsUserAltered.setUserAltered(this);
 
 		return lancamentoColsDefsUserAltered;
 	}
 
-	public LancamentoColsDef removeLancamentoColsDefsUserAltered(
-			LancamentoColsDef lancamentoColsDefsUserAltered) {
-		getLancamentoColsDefsUserAltered()
-				.remove(lancamentoColsDefsUserAltered);
+	public LancamentoColsDef removeLancamentoColsDefsUserAltered(LancamentoColsDef lancamentoColsDefsUserAltered) {
+		getLancamentoColsDefsUserAltered().remove(lancamentoColsDefsUserAltered);
 		lancamentoColsDefsUserAltered.setUserAltered(null);
 
 		return lancamentoColsDefsUserAltered;
@@ -863,8 +727,7 @@ public abstract class User extends AbstractDomain {
 		return this.operadorasUserCreated;
 	}
 
-	public void setOperadorasUserCreated(
-			List<Operadora> operadorasUserCreated) {
+	public void setOperadorasUserCreated(List<Operadora> operadorasUserCreated) {
 		this.operadorasUserCreated = operadorasUserCreated;
 	}
 
@@ -875,8 +738,7 @@ public abstract class User extends AbstractDomain {
 		return operadorasUserCreated;
 	}
 
-	public Operadora removeOperadorasUserCreated(
-			Operadora operadorasUserCreated) {
+	public Operadora removeOperadorasUserCreated(Operadora operadorasUserCreated) {
 		getOperadorasUserCreated().remove(operadorasUserCreated);
 		operadorasUserCreated.setUserCreated(null);
 
@@ -887,8 +749,7 @@ public abstract class User extends AbstractDomain {
 		return this.operadorasUserAltered;
 	}
 
-	public void setOperadorasUserAltered(
-			List<Operadora> operadorasUserAltered) {
+	public void setOperadorasUserAltered(List<Operadora> operadorasUserAltered) {
 		this.operadorasUserAltered = operadorasUserAltered;
 	}
 
@@ -899,8 +760,7 @@ public abstract class User extends AbstractDomain {
 		return operadorasUserAltered;
 	}
 
-	public Operadora removeOperadorasUserAltered(
-			Operadora operadorasUserAltered) {
+	public Operadora removeOperadorasUserAltered(Operadora operadorasUserAltered) {
 		getOperadorasUserAltered().remove(operadorasUserAltered);
 		operadorasUserAltered.setUserAltered(null);
 
@@ -955,21 +815,18 @@ public abstract class User extends AbstractDomain {
 		return this.regraFieldsUserCreated;
 	}
 
-	public void setRegraFieldsUserCreated(
-			List<RegraField> regraFieldsUserCreated) {
+	public void setRegraFieldsUserCreated(List<RegraField> regraFieldsUserCreated) {
 		this.regraFieldsUserCreated = regraFieldsUserCreated;
 	}
 
-	public RegraField addRegraFieldsUserCreated(
-			RegraField regraFieldsUserCreated) {
+	public RegraField addRegraFieldsUserCreated(RegraField regraFieldsUserCreated) {
 		getRegraFieldsUserCreated().add(regraFieldsUserCreated);
 		regraFieldsUserCreated.setUserCreated(this);
 
 		return regraFieldsUserCreated;
 	}
 
-	public RegraField removeRegraFieldsUserCreated(
-			RegraField regraFieldsUserCreated) {
+	public RegraField removeRegraFieldsUserCreated(RegraField regraFieldsUserCreated) {
 		getRegraFieldsUserCreated().remove(regraFieldsUserCreated);
 		regraFieldsUserCreated.setUserCreated(null);
 
@@ -980,21 +837,18 @@ public abstract class User extends AbstractDomain {
 		return this.regraFieldsUserAltered;
 	}
 
-	public void setRegraFieldsUserAltered(
-			List<RegraField> regraFieldsUserAltered) {
+	public void setRegraFieldsUserAltered(List<RegraField> regraFieldsUserAltered) {
 		this.regraFieldsUserAltered = regraFieldsUserAltered;
 	}
 
-	public RegraField addRegraFieldsUserAltered(
-			RegraField regraFieldsUserAltered) {
+	public RegraField addRegraFieldsUserAltered(RegraField regraFieldsUserAltered) {
 		getRegraFieldsUserAltered().add(regraFieldsUserAltered);
 		regraFieldsUserAltered.setUserAltered(this);
 
 		return regraFieldsUserAltered;
 	}
 
-	public RegraField removeRegraFieldsUserAltered(
-			RegraField regraFieldsUserAltered) {
+	public RegraField removeRegraFieldsUserAltered(RegraField regraFieldsUserAltered) {
 		getRegraFieldsUserAltered().remove(regraFieldsUserAltered);
 		regraFieldsUserAltered.setUserAltered(null);
 
@@ -1005,21 +859,18 @@ public abstract class User extends AbstractDomain {
 		return this.regraOperationsUserCreated;
 	}
 
-	public void setRegraOperationsUserCreated(
-			List<RegraOperation> regraOperationsUserCreated) {
+	public void setRegraOperationsUserCreated(List<RegraOperation> regraOperationsUserCreated) {
 		this.regraOperationsUserCreated = regraOperationsUserCreated;
 	}
 
-	public RegraOperation addRegraOperationsUserCreated(
-			RegraOperation regraOperationsUserCreated) {
+	public RegraOperation addRegraOperationsUserCreated(RegraOperation regraOperationsUserCreated) {
 		getRegraOperationsUserCreated().add(regraOperationsUserCreated);
 		regraOperationsUserCreated.setUserCreated(this);
 
 		return regraOperationsUserCreated;
 	}
 
-	public RegraOperation removeRegraOperationsUserCreated(
-			RegraOperation regraOperationsUserCreated) {
+	public RegraOperation removeRegraOperationsUserCreated(RegraOperation regraOperationsUserCreated) {
 		getRegraOperationsUserCreated().remove(regraOperationsUserCreated);
 		regraOperationsUserCreated.setUserCreated(null);
 
@@ -1030,21 +881,18 @@ public abstract class User extends AbstractDomain {
 		return this.regraOperationsUserAltered;
 	}
 
-	public void setRegraOperationsUserAltered(
-			List<RegraOperation> regraOperationsUserAltered) {
+	public void setRegraOperationsUserAltered(List<RegraOperation> regraOperationsUserAltered) {
 		this.regraOperationsUserAltered = regraOperationsUserAltered;
 	}
 
-	public RegraOperation addRegraOperationsUserAltered(
-			RegraOperation regraOperationsUserAltered) {
+	public RegraOperation addRegraOperationsUserAltered(RegraOperation regraOperationsUserAltered) {
 		getRegraOperationsUserAltered().add(regraOperationsUserAltered);
 		regraOperationsUserAltered.setUserAltered(this);
 
 		return regraOperationsUserAltered;
 	}
 
-	public RegraOperation removeRegraOperationsUserAltered(
-			RegraOperation regraOperationsUserAltered) {
+	public RegraOperation removeRegraOperationsUserAltered(RegraOperation regraOperationsUserAltered) {
 		getRegraOperationsUserAltered().remove(regraOperationsUserAltered);
 		regraOperationsUserAltered.setUserAltered(null);
 
@@ -1055,21 +903,18 @@ public abstract class User extends AbstractDomain {
 		return this.regraValorsUserCreated;
 	}
 
-	public void setRegraValorsUserCreated(
-			List<RegraValor> regraValorsUserCreated) {
+	public void setRegraValorsUserCreated(List<RegraValor> regraValorsUserCreated) {
 		this.regraValorsUserCreated = regraValorsUserCreated;
 	}
 
-	public RegraValor addRegraValorsUserCreated(
-			RegraValor regraValorsUserCreated) {
+	public RegraValor addRegraValorsUserCreated(RegraValor regraValorsUserCreated) {
 		getRegraValorsUserCreated().add(regraValorsUserCreated);
 		regraValorsUserCreated.setUserCreated(this);
 
 		return regraValorsUserCreated;
 	}
 
-	public RegraValor removeRegraValorsUserCreated(
-			RegraValor regraValorsUserCreated) {
+	public RegraValor removeRegraValorsUserCreated(RegraValor regraValorsUserCreated) {
 		getRegraValorsUserCreated().remove(regraValorsUserCreated);
 		regraValorsUserCreated.setUserCreated(null);
 
@@ -1080,21 +925,18 @@ public abstract class User extends AbstractDomain {
 		return this.regraValorsUserAltered;
 	}
 
-	public void setRegraValorsUserAltered(
-			List<RegraValor> regraValorsUserAltered) {
+	public void setRegraValorsUserAltered(List<RegraValor> regraValorsUserAltered) {
 		this.regraValorsUserAltered = regraValorsUserAltered;
 	}
 
-	public RegraValor addRegraValorsUserAltered(
-			RegraValor regraValorsUserAltered) {
+	public RegraValor addRegraValorsUserAltered(RegraValor regraValorsUserAltered) {
 		getRegraValorsUserAltered().add(regraValorsUserAltered);
 		regraValorsUserAltered.setUserAltered(this);
 
 		return regraValorsUserAltered;
 	}
 
-	public RegraValor removeRegraValorsUserAltered(
-			RegraValor regraValorsUserAltered) {
+	public RegraValor removeRegraValorsUserAltered(RegraValor regraValorsUserAltered) {
 		getRegraValorsUserAltered().remove(regraValorsUserAltered);
 		regraValorsUserAltered.setUserAltered(null);
 
@@ -1149,21 +991,18 @@ public abstract class User extends AbstractDomain {
 		return this.titularColsDefsUserCreated;
 	}
 
-	public void setTitularColsDefsUserCreated(
-			List<TitularColsDef> titularColsDefsUserCreated) {
+	public void setTitularColsDefsUserCreated(List<TitularColsDef> titularColsDefsUserCreated) {
 		this.titularColsDefsUserCreated = titularColsDefsUserCreated;
 	}
 
-	public TitularColsDef addTitularColsDefsUserCreated(
-			TitularColsDef titularColsDefsUserCreated) {
+	public TitularColsDef addTitularColsDefsUserCreated(TitularColsDef titularColsDefsUserCreated) {
 		getTitularColsDefsUserCreated().add(titularColsDefsUserCreated);
 		titularColsDefsUserCreated.setUserCreated(this);
 
 		return titularColsDefsUserCreated;
 	}
 
-	public TitularColsDef removeTitularColsDefsUserCreated(
-			TitularColsDef titularColsDefsUserCreated) {
+	public TitularColsDef removeTitularColsDefsUserCreated(TitularColsDef titularColsDefsUserCreated) {
 		getTitularColsDefsUserCreated().remove(titularColsDefsUserCreated);
 		titularColsDefsUserCreated.setUserCreated(null);
 
@@ -1174,21 +1013,18 @@ public abstract class User extends AbstractDomain {
 		return this.titularColsDefsUserAltered;
 	}
 
-	public void setTitularColsDefsUserAltered(
-			List<TitularColsDef> titularColsDefsUserAltered) {
+	public void setTitularColsDefsUserAltered(List<TitularColsDef> titularColsDefsUserAltered) {
 		this.titularColsDefsUserAltered = titularColsDefsUserAltered;
 	}
 
-	public TitularColsDef addTitularColsDefsUserAltered(
-			TitularColsDef titularColsDefsUserAltered) {
+	public TitularColsDef addTitularColsDefsUserAltered(TitularColsDef titularColsDefsUserAltered) {
 		getTitularColsDefsUserAltered().add(titularColsDefsUserAltered);
 		titularColsDefsUserAltered.setUserAltered(this);
 
 		return titularColsDefsUserAltered;
 	}
 
-	public TitularColsDef removeTitularColsDefsUserAltered(
-			TitularColsDef titularColsDefsUserAltered) {
+	public TitularColsDef removeTitularColsDefsUserAltered(TitularColsDef titularColsDefsUserAltered) {
 		getTitularColsDefsUserAltered().remove(titularColsDefsUserAltered);
 		titularColsDefsUserAltered.setUserAltered(null);
 
@@ -1199,21 +1035,18 @@ public abstract class User extends AbstractDomain {
 		return this.titularIsentosUserCreated;
 	}
 
-	public void setTitularIsentosUserCreated(
-			List<TitularIsento> titularIsentosUserCreated) {
+	public void setTitularIsentosUserCreated(List<TitularIsento> titularIsentosUserCreated) {
 		this.titularIsentosUserCreated = titularIsentosUserCreated;
 	}
 
-	public TitularIsento addTitularIsentosUserCreated(
-			TitularIsento titularIsentosUserCreated) {
+	public TitularIsento addTitularIsentosUserCreated(TitularIsento titularIsentosUserCreated) {
 		getTitularIsentosUserCreated().add(titularIsentosUserCreated);
 		titularIsentosUserCreated.setUserCreated(this);
 
 		return titularIsentosUserCreated;
 	}
 
-	public TitularIsento removeTitularIsentosUserCreated(
-			TitularIsento titularIsentosUserCreated) {
+	public TitularIsento removeTitularIsentosUserCreated(TitularIsento titularIsentosUserCreated) {
 		getTitularIsentosUserCreated().remove(titularIsentosUserCreated);
 		titularIsentosUserCreated.setUserCreated(null);
 
@@ -1224,21 +1057,18 @@ public abstract class User extends AbstractDomain {
 		return this.titularIsentosUserAltered;
 	}
 
-	public void setTitularIsentosUserAltered(
-			List<TitularIsento> titularIsentosUserAltered) {
+	public void setTitularIsentosUserAltered(List<TitularIsento> titularIsentosUserAltered) {
 		this.titularIsentosUserAltered = titularIsentosUserAltered;
 	}
 
-	public TitularIsento addTitularIsentosUserAltered(
-			TitularIsento titularIsentosUserAltered) {
+	public TitularIsento addTitularIsentosUserAltered(TitularIsento titularIsentosUserAltered) {
 		getTitularIsentosUserAltered().add(titularIsentosUserAltered);
 		titularIsentosUserAltered.setUserAltered(this);
 
 		return titularIsentosUserAltered;
 	}
 
-	public TitularIsento removeTitularIsentosUserAltered(
-			TitularIsento titularIsentosUserAltered) {
+	public TitularIsento removeTitularIsentosUserAltered(TitularIsento titularIsentosUserAltered) {
 		getTitularIsentosUserAltered().remove(titularIsentosUserAltered);
 		titularIsentosUserAltered.setUserAltered(null);
 
@@ -1249,21 +1079,18 @@ public abstract class User extends AbstractDomain {
 		return this.viewDestinationsUserCreated;
 	}
 
-	public void setViewDestinationsUserCreated(
-			List<ViewDestination> viewDestinationsUserCreated) {
+	public void setViewDestinationsUserCreated(List<ViewDestination> viewDestinationsUserCreated) {
 		this.viewDestinationsUserCreated = viewDestinationsUserCreated;
 	}
 
-	public ViewDestination addViewDestinationsUserCreated(
-			ViewDestination viewDestinationsUserCreated) {
+	public ViewDestination addViewDestinationsUserCreated(ViewDestination viewDestinationsUserCreated) {
 		getViewDestinationsUserCreated().add(viewDestinationsUserCreated);
 		viewDestinationsUserCreated.setUserCreated(this);
 
 		return viewDestinationsUserCreated;
 	}
 
-	public ViewDestination removeViewDestinationsUserCreated(
-			ViewDestination viewDestinationsUserCreated) {
+	public ViewDestination removeViewDestinationsUserCreated(ViewDestination viewDestinationsUserCreated) {
 		getViewDestinationsUserCreated().remove(viewDestinationsUserCreated);
 		viewDestinationsUserCreated.setUserCreated(null);
 
@@ -1274,21 +1101,18 @@ public abstract class User extends AbstractDomain {
 		return this.viewDestinationsUserAltered;
 	}
 
-	public void setViewDestinationsUserAltered(
-			List<ViewDestination> viewDestinationsUserAltered) {
+	public void setViewDestinationsUserAltered(List<ViewDestination> viewDestinationsUserAltered) {
 		this.viewDestinationsUserAltered = viewDestinationsUserAltered;
 	}
 
-	public ViewDestination addViewDestinationsUserAltered(
-			ViewDestination viewDestinationsUserAltered) {
+	public ViewDestination addViewDestinationsUserAltered(ViewDestination viewDestinationsUserAltered) {
 		getViewDestinationsUserAltered().add(viewDestinationsUserAltered);
 		viewDestinationsUserAltered.setUserAltered(this);
 
 		return viewDestinationsUserAltered;
 	}
 
-	public ViewDestination removeViewDestinationsUserAltered(
-			ViewDestination viewDestinationsUserAltered) {
+	public ViewDestination removeViewDestinationsUserAltered(ViewDestination viewDestinationsUserAltered) {
 		getViewDestinationsUserAltered().remove(viewDestinationsUserAltered);
 		viewDestinationsUserAltered.setUserAltered(null);
 
@@ -1299,24 +1123,19 @@ public abstract class User extends AbstractDomain {
 		return this.viewDestinationColsDefsUserCreated;
 	}
 
-	public void setViewDestinationColsDefsUserCreated(
-			List<ViewDestinationColsDef> viewDestinationColsDefsUserCreated) {
+	public void setViewDestinationColsDefsUserCreated(List<ViewDestinationColsDef> viewDestinationColsDefsUserCreated) {
 		this.viewDestinationColsDefsUserCreated = viewDestinationColsDefsUserCreated;
 	}
 
-	public ViewDestinationColsDef addViewDestinationColsDefsUserCreated(
-			ViewDestinationColsDef viewDestinationColsDefsUserCreated) {
-		getViewDestinationColsDefsUserCreated()
-				.add(viewDestinationColsDefsUserCreated);
+	public ViewDestinationColsDef addViewDestinationColsDefsUserCreated(ViewDestinationColsDef viewDestinationColsDefsUserCreated) {
+		getViewDestinationColsDefsUserCreated().add(viewDestinationColsDefsUserCreated);
 		viewDestinationColsDefsUserCreated.setUserCreated(this);
 
 		return viewDestinationColsDefsUserCreated;
 	}
 
-	public ViewDestinationColsDef removeViewDestinationColsDefsUserCreated(
-			ViewDestinationColsDef viewDestinationColsDefsUserCreated) {
-		getViewDestinationColsDefsUserCreated()
-				.remove(viewDestinationColsDefsUserCreated);
+	public ViewDestinationColsDef removeViewDestinationColsDefsUserCreated(ViewDestinationColsDef viewDestinationColsDefsUserCreated) {
+		getViewDestinationColsDefsUserCreated().remove(viewDestinationColsDefsUserCreated);
 		viewDestinationColsDefsUserCreated.setUserCreated(null);
 
 		return viewDestinationColsDefsUserCreated;
@@ -1326,24 +1145,19 @@ public abstract class User extends AbstractDomain {
 		return this.viewDestinationColsDefsUserAltered;
 	}
 
-	public void setViewDestinationColsDefsUserAltered(
-			List<ViewDestinationColsDef> tbViewDestinationColsDefsUserAltered) {
+	public void setViewDestinationColsDefsUserAltered(List<ViewDestinationColsDef> tbViewDestinationColsDefsUserAltered) {
 		this.viewDestinationColsDefsUserAltered = tbViewDestinationColsDefsUserAltered;
 	}
 
-	public ViewDestinationColsDef addTbViewDestinationColsDefsUserAltered(
-			ViewDestinationColsDef tbViewDestinationColsDefsUserAltered) {
-		getViewDestinationColsDefsUserAltered()
-				.add(tbViewDestinationColsDefsUserAltered);
+	public ViewDestinationColsDef addTbViewDestinationColsDefsUserAltered(ViewDestinationColsDef tbViewDestinationColsDefsUserAltered) {
+		getViewDestinationColsDefsUserAltered().add(tbViewDestinationColsDefsUserAltered);
 		tbViewDestinationColsDefsUserAltered.setUserAltered(this);
 
 		return tbViewDestinationColsDefsUserAltered;
 	}
 
-	public ViewDestinationColsDef removeTbViewDestinationColsDefsUserAltered(
-			ViewDestinationColsDef tbViewDestinationColsDefsUserAltered) {
-		getViewDestinationColsDefsUserAltered()
-				.remove(tbViewDestinationColsDefsUserAltered);
+	public ViewDestinationColsDef removeTbViewDestinationColsDefsUserAltered(ViewDestinationColsDef tbViewDestinationColsDefsUserAltered) {
+		getViewDestinationColsDefsUserAltered().remove(tbViewDestinationColsDefsUserAltered);
 		tbViewDestinationColsDefsUserAltered.setUserAltered(null);
 
 		return tbViewDestinationColsDefsUserAltered;
@@ -1364,8 +1178,7 @@ public abstract class User extends AbstractDomain {
 		return userCreatedParameter;
 	}
 
-	public Parameter removeUserCreatedParameter(
-			Parameter userCreatedParameter) {
+	public Parameter removeUserCreatedParameter(Parameter userCreatedParameter) {
 		getUserCreatedParameter().remove(userCreatedParameter);
 		userCreatedParameter.setUserCreated(null);
 
@@ -1387,8 +1200,7 @@ public abstract class User extends AbstractDomain {
 		return userAlteredParameter;
 	}
 
-	public Parameter removeUserAlteredParameter(
-			Parameter userAlteredParameter) {
+	public Parameter removeUserAlteredParameter(Parameter userAlteredParameter) {
 		getUserAlteredParameter().remove(userAlteredParameter);
 		userAlteredParameter.setUserAltered(null);
 
@@ -1399,121 +1211,60 @@ public abstract class User extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoInputColsDefUserAltered == null) ? 0
-				: arquivoInputColsDefUserAltered.hashCode());
-		result = prime * result + ((arquivoInputColsDefUserCreated == null) ? 0
-				: arquivoInputColsDefUserCreated.hashCode());
-		result = prime * result + ((arquivoInputsUserAltered == null) ? 0
-				: arquivoInputsUserAltered.hashCode());
-		result = prime * result + ((arquivoInputsUserCreated == null) ? 0
-				: arquivoInputsUserCreated.hashCode());
-		result = prime * result
-				+ ((arquivoOutputSheetColsDefUserAltered == null) ? 0
-						: arquivoOutputSheetColsDefUserAltered.hashCode());
-		result = prime * result
-				+ ((arquivoOutputSheetColsDefUserCreated == null) ? 0
-						: arquivoOutputSheetColsDefUserCreated.hashCode());
-		result = prime * result + ((arquivoOutputSheetsUserAltered == null) ? 0
-				: arquivoOutputSheetsUserAltered.hashCode());
-		result = prime * result + ((arquivoOutputSheetsUserCreated == null) ? 0
-				: arquivoOutputSheetsUserCreated.hashCode());
-		result = prime * result + ((arquivoOutputsUserAltered == null) ? 0
-				: arquivoOutputsUserAltered.hashCode());
-		result = prime * result + ((arquivoOutputsUserCreated == null) ? 0
-				: arquivoOutputsUserCreated.hashCode());
-		result = prime * result + ((contratosUserAltered == null) ? 0
-				: contratosUserAltered.hashCode());
-		result = prime * result + ((contratosUserCreated == null) ? 0
-				: contratosUserCreated.hashCode());
-		result = prime * result + ((dependenteColsDefsUserAltered == null) ? 0
-				: dependenteColsDefsUserAltered.hashCode());
-		result = prime * result + ((dependenteColsDefsUserCreated == null) ? 0
-				: dependenteColsDefsUserCreated.hashCode());
-		result = prime * result + ((dependenteIsentosUserAltered == null) ? 0
-				: dependenteIsentosUserAltered.hashCode());
-		result = prime * result + ((dependenteIsentosUserCreated == null) ? 0
-				: dependenteIsentosUserCreated.hashCode());
-		result = prime * result + ((dependentesUserAltered == null) ? 0
-				: dependentesUserAltered.hashCode());
-		result = prime * result + ((dependentesUserCreated == null) ? 0
-				: dependentesUserCreated.hashCode());
-		result = prime * result
-				+ ((descrName == null) ? 0 : descrName.hashCode());
-		result = prime * result + ((empresasUserAltered == null) ? 0
-				: empresasUserAltered.hashCode());
-		result = prime * result + ((empresasUserCreated == null) ? 0
-				: empresasUserCreated.hashCode());
-		result = prime * result + ((inputDependentesUserAltered == null) ? 0
-				: inputDependentesUserAltered.hashCode());
-		result = prime * result + ((inputDependentesUserCreated == null) ? 0
-				: inputDependentesUserCreated.hashCode());
-		result = prime * result + ((inputLancamentosUserAltered == null) ? 0
-				: inputLancamentosUserAltered.hashCode());
-		result = prime * result + ((inputLancamentosUserCreated == null) ? 0
-				: inputLancamentosUserCreated.hashCode());
-		result = prime * result + ((inputTitularsUserAltered == null) ? 0
-				: inputTitularsUserAltered.hashCode());
-		result = prime * result + ((inputTitularsUserCreated == null) ? 0
-				: inputTitularsUserCreated.hashCode());
-		result = prime * result + ((lancamentoColsDefsUserAltered == null) ? 0
-				: lancamentoColsDefsUserAltered.hashCode());
-		result = prime * result + ((lancamentoColsDefsUserCreated == null) ? 0
-				: lancamentoColsDefsUserCreated.hashCode());
-		result = prime * result + ((lancamentosUserAltered == null) ? 0
-				: lancamentosUserAltered.hashCode());
-		result = prime * result + ((lancamentosUserCreated == null) ? 0
-				: lancamentosUserCreated.hashCode());
-		result = prime * result
-				+ ((nameLogin == null) ? 0 : nameLogin.hashCode());
-		result = prime * result + ((operadorasUserAltered == null) ? 0
-				: operadorasUserAltered.hashCode());
-		result = prime * result + ((operadorasUserCreated == null) ? 0
-				: operadorasUserCreated.hashCode());
+		result = prime * result + ((arquivoInputColsDefUserAltered == null) ? 0 : arquivoInputColsDefUserAltered.hashCode());
+		result = prime * result + ((arquivoInputColsDefUserCreated == null) ? 0 : arquivoInputColsDefUserCreated.hashCode());
+		result = prime * result + ((arquivoInputsUserAltered == null) ? 0 : arquivoInputsUserAltered.hashCode());
+		result = prime * result + ((arquivoInputsUserCreated == null) ? 0 : arquivoInputsUserCreated.hashCode());
+		result = prime * result + ((arquivoOutputSheetsUserAltered == null) ? 0 : arquivoOutputSheetsUserAltered.hashCode());
+		result = prime * result + ((arquivoOutputSheetsUserCreated == null) ? 0 : arquivoOutputSheetsUserCreated.hashCode());
+		result = prime * result + ((arquivoOutputsUserAltered == null) ? 0 : arquivoOutputsUserAltered.hashCode());
+		result = prime * result + ((arquivoOutputsUserCreated == null) ? 0 : arquivoOutputsUserCreated.hashCode());
+		result = prime * result + ((contratosUserAltered == null) ? 0 : contratosUserAltered.hashCode());
+		result = prime * result + ((contratosUserCreated == null) ? 0 : contratosUserCreated.hashCode());
+		result = prime * result + ((dependenteColsDefsUserAltered == null) ? 0 : dependenteColsDefsUserAltered.hashCode());
+		result = prime * result + ((dependenteColsDefsUserCreated == null) ? 0 : dependenteColsDefsUserCreated.hashCode());
+		result = prime * result + ((dependenteIsentosUserAltered == null) ? 0 : dependenteIsentosUserAltered.hashCode());
+		result = prime * result + ((dependenteIsentosUserCreated == null) ? 0 : dependenteIsentosUserCreated.hashCode());
+		result = prime * result + ((dependentesUserAltered == null) ? 0 : dependentesUserAltered.hashCode());
+		result = prime * result + ((dependentesUserCreated == null) ? 0 : dependentesUserCreated.hashCode());
+		result = prime * result + ((descrName == null) ? 0 : descrName.hashCode());
+		result = prime * result + ((empresasUserAltered == null) ? 0 : empresasUserAltered.hashCode());
+		result = prime * result + ((empresasUserCreated == null) ? 0 : empresasUserCreated.hashCode());
+		result = prime * result + ((inputDependentesUserAltered == null) ? 0 : inputDependentesUserAltered.hashCode());
+		result = prime * result + ((inputDependentesUserCreated == null) ? 0 : inputDependentesUserCreated.hashCode());
+		result = prime * result + ((inputLancamentosUserAltered == null) ? 0 : inputLancamentosUserAltered.hashCode());
+		result = prime * result + ((inputLancamentosUserCreated == null) ? 0 : inputLancamentosUserCreated.hashCode());
+		result = prime * result + ((inputTitularsUserAltered == null) ? 0 : inputTitularsUserAltered.hashCode());
+		result = prime * result + ((inputTitularsUserCreated == null) ? 0 : inputTitularsUserCreated.hashCode());
+		result = prime * result + ((lancamentoColsDefsUserAltered == null) ? 0 : lancamentoColsDefsUserAltered.hashCode());
+		result = prime * result + ((lancamentoColsDefsUserCreated == null) ? 0 : lancamentoColsDefsUserCreated.hashCode());
+		result = prime * result + ((lancamentosUserAltered == null) ? 0 : lancamentosUserAltered.hashCode());
+		result = prime * result + ((lancamentosUserCreated == null) ? 0 : lancamentosUserCreated.hashCode());
+		result = prime * result + ((nameLogin == null) ? 0 : nameLogin.hashCode());
+		result = prime * result + ((operadorasUserAltered == null) ? 0 : operadorasUserAltered.hashCode());
+		result = prime * result + ((operadorasUserCreated == null) ? 0 : operadorasUserCreated.hashCode());
 		result = prime * result + ((passwd == null) ? 0 : passwd.hashCode());
-		result = prime * result + ((regraFieldsUserAltered == null) ? 0
-				: regraFieldsUserAltered.hashCode());
-		result = prime * result + ((regraFieldsUserCreated == null) ? 0
-				: regraFieldsUserCreated.hashCode());
-		result = prime * result + ((regraOperationsUserAltered == null) ? 0
-				: regraOperationsUserAltered.hashCode());
-		result = prime * result + ((regraOperationsUserCreated == null) ? 0
-				: regraOperationsUserCreated.hashCode());
-		result = prime * result + ((regraValorsUserAltered == null) ? 0
-				: regraValorsUserAltered.hashCode());
-		result = prime * result + ((regraValorsUserCreated == null) ? 0
-				: regraValorsUserCreated.hashCode());
-		result = prime * result + ((regrasUserAltered == null) ? 0
-				: regrasUserAltered.hashCode());
-		result = prime * result + ((regrasUserCreated == null) ? 0
-				: regrasUserCreated.hashCode());
-		result = prime * result + ((titularColsDefsUserAltered == null) ? 0
-				: titularColsDefsUserAltered.hashCode());
-		result = prime * result + ((titularColsDefsUserCreated == null) ? 0
-				: titularColsDefsUserCreated.hashCode());
-		result = prime * result + ((titularIsentosUserAltered == null) ? 0
-				: titularIsentosUserAltered.hashCode());
-		result = prime * result + ((titularIsentosUserCreated == null) ? 0
-				: titularIsentosUserCreated.hashCode());
-		result = prime * result + ((titularsUserAltered == null) ? 0
-				: titularsUserAltered.hashCode());
-		result = prime * result + ((titularsUserCreated == null) ? 0
-				: titularsUserCreated.hashCode());
-		result = prime * result
-				+ ((tpStatus == null) ? 0 : tpStatus.hashCode());
-		result = prime * result + ((userAlteredParameter == null) ? 0
-				: userAlteredParameter.hashCode());
-		result = prime * result + ((userCreatedParameter == null) ? 0
-				: userCreatedParameter.hashCode());
-		result = prime * result
-				+ ((viewDestinationColsDefsUserAltered == null) ? 0
-						: viewDestinationColsDefsUserAltered.hashCode());
-		result = prime * result
-				+ ((viewDestinationColsDefsUserCreated == null) ? 0
-						: viewDestinationColsDefsUserCreated.hashCode());
-		result = prime * result + ((viewDestinationsUserAltered == null) ? 0
-				: viewDestinationsUserAltered.hashCode());
-		result = prime * result + ((viewDestinationsUserCreated == null) ? 0
-				: viewDestinationsUserCreated.hashCode());
+		result = prime * result + ((regraFieldsUserAltered == null) ? 0 : regraFieldsUserAltered.hashCode());
+		result = prime * result + ((regraFieldsUserCreated == null) ? 0 : regraFieldsUserCreated.hashCode());
+		result = prime * result + ((regraOperationsUserAltered == null) ? 0 : regraOperationsUserAltered.hashCode());
+		result = prime * result + ((regraOperationsUserCreated == null) ? 0 : regraOperationsUserCreated.hashCode());
+		result = prime * result + ((regraValorsUserAltered == null) ? 0 : regraValorsUserAltered.hashCode());
+		result = prime * result + ((regraValorsUserCreated == null) ? 0 : regraValorsUserCreated.hashCode());
+		result = prime * result + ((regrasUserAltered == null) ? 0 : regrasUserAltered.hashCode());
+		result = prime * result + ((regrasUserCreated == null) ? 0 : regrasUserCreated.hashCode());
+		result = prime * result + ((titularColsDefsUserAltered == null) ? 0 : titularColsDefsUserAltered.hashCode());
+		result = prime * result + ((titularColsDefsUserCreated == null) ? 0 : titularColsDefsUserCreated.hashCode());
+		result = prime * result + ((titularIsentosUserAltered == null) ? 0 : titularIsentosUserAltered.hashCode());
+		result = prime * result + ((titularIsentosUserCreated == null) ? 0 : titularIsentosUserCreated.hashCode());
+		result = prime * result + ((titularsUserAltered == null) ? 0 : titularsUserAltered.hashCode());
+		result = prime * result + ((titularsUserCreated == null) ? 0 : titularsUserCreated.hashCode());
+		result = prime * result + ((tpStatus == null) ? 0 : tpStatus.hashCode());
+		result = prime * result + ((userAlteredParameter == null) ? 0 : userAlteredParameter.hashCode());
+		result = prime * result + ((userCreatedParameter == null) ? 0 : userCreatedParameter.hashCode());
+		result = prime * result + ((viewDestinationColsDefsUserAltered == null) ? 0 : viewDestinationColsDefsUserAltered.hashCode());
+		result = prime * result + ((viewDestinationColsDefsUserCreated == null) ? 0 : viewDestinationColsDefsUserCreated.hashCode());
+		result = prime * result + ((viewDestinationsUserAltered == null) ? 0 : viewDestinationsUserAltered.hashCode());
+		result = prime * result + ((viewDestinationsUserCreated == null) ? 0 : viewDestinationsUserCreated.hashCode());
 		return result;
 	}
 
@@ -1529,62 +1280,42 @@ public abstract class User extends AbstractDomain {
 		if (arquivoInputColsDefUserAltered == null) {
 			if (other.arquivoInputColsDefUserAltered != null)
 				return false;
-		} else if (!arquivoInputColsDefUserAltered
-				.equals(other.arquivoInputColsDefUserAltered))
+		} else if (!arquivoInputColsDefUserAltered.equals(other.arquivoInputColsDefUserAltered))
 			return false;
 		if (arquivoInputColsDefUserCreated == null) {
 			if (other.arquivoInputColsDefUserCreated != null)
 				return false;
-		} else if (!arquivoInputColsDefUserCreated
-				.equals(other.arquivoInputColsDefUserCreated))
+		} else if (!arquivoInputColsDefUserCreated.equals(other.arquivoInputColsDefUserCreated))
 			return false;
 		if (arquivoInputsUserAltered == null) {
 			if (other.arquivoInputsUserAltered != null)
 				return false;
-		} else if (!arquivoInputsUserAltered
-				.equals(other.arquivoInputsUserAltered))
+		} else if (!arquivoInputsUserAltered.equals(other.arquivoInputsUserAltered))
 			return false;
 		if (arquivoInputsUserCreated == null) {
 			if (other.arquivoInputsUserCreated != null)
 				return false;
-		} else if (!arquivoInputsUserCreated
-				.equals(other.arquivoInputsUserCreated))
-			return false;
-		if (arquivoOutputSheetColsDefUserAltered == null) {
-			if (other.arquivoOutputSheetColsDefUserAltered != null)
-				return false;
-		} else if (!arquivoOutputSheetColsDefUserAltered
-				.equals(other.arquivoOutputSheetColsDefUserAltered))
-			return false;
-		if (arquivoOutputSheetColsDefUserCreated == null) {
-			if (other.arquivoOutputSheetColsDefUserCreated != null)
-				return false;
-		} else if (!arquivoOutputSheetColsDefUserCreated
-				.equals(other.arquivoOutputSheetColsDefUserCreated))
+		} else if (!arquivoInputsUserCreated.equals(other.arquivoInputsUserCreated))
 			return false;
 		if (arquivoOutputSheetsUserAltered == null) {
 			if (other.arquivoOutputSheetsUserAltered != null)
 				return false;
-		} else if (!arquivoOutputSheetsUserAltered
-				.equals(other.arquivoOutputSheetsUserAltered))
+		} else if (!arquivoOutputSheetsUserAltered.equals(other.arquivoOutputSheetsUserAltered))
 			return false;
 		if (arquivoOutputSheetsUserCreated == null) {
 			if (other.arquivoOutputSheetsUserCreated != null)
 				return false;
-		} else if (!arquivoOutputSheetsUserCreated
-				.equals(other.arquivoOutputSheetsUserCreated))
+		} else if (!arquivoOutputSheetsUserCreated.equals(other.arquivoOutputSheetsUserCreated))
 			return false;
 		if (arquivoOutputsUserAltered == null) {
 			if (other.arquivoOutputsUserAltered != null)
 				return false;
-		} else if (!arquivoOutputsUserAltered
-				.equals(other.arquivoOutputsUserAltered))
+		} else if (!arquivoOutputsUserAltered.equals(other.arquivoOutputsUserAltered))
 			return false;
 		if (arquivoOutputsUserCreated == null) {
 			if (other.arquivoOutputsUserCreated != null)
 				return false;
-		} else if (!arquivoOutputsUserCreated
-				.equals(other.arquivoOutputsUserCreated))
+		} else if (!arquivoOutputsUserCreated.equals(other.arquivoOutputsUserCreated))
 			return false;
 		if (contratosUserAltered == null) {
 			if (other.contratosUserAltered != null)
@@ -1599,26 +1330,22 @@ public abstract class User extends AbstractDomain {
 		if (dependenteColsDefsUserAltered == null) {
 			if (other.dependenteColsDefsUserAltered != null)
 				return false;
-		} else if (!dependenteColsDefsUserAltered
-				.equals(other.dependenteColsDefsUserAltered))
+		} else if (!dependenteColsDefsUserAltered.equals(other.dependenteColsDefsUserAltered))
 			return false;
 		if (dependenteColsDefsUserCreated == null) {
 			if (other.dependenteColsDefsUserCreated != null)
 				return false;
-		} else if (!dependenteColsDefsUserCreated
-				.equals(other.dependenteColsDefsUserCreated))
+		} else if (!dependenteColsDefsUserCreated.equals(other.dependenteColsDefsUserCreated))
 			return false;
 		if (dependenteIsentosUserAltered == null) {
 			if (other.dependenteIsentosUserAltered != null)
 				return false;
-		} else if (!dependenteIsentosUserAltered
-				.equals(other.dependenteIsentosUserAltered))
+		} else if (!dependenteIsentosUserAltered.equals(other.dependenteIsentosUserAltered))
 			return false;
 		if (dependenteIsentosUserCreated == null) {
 			if (other.dependenteIsentosUserCreated != null)
 				return false;
-		} else if (!dependenteIsentosUserCreated
-				.equals(other.dependenteIsentosUserCreated))
+		} else if (!dependenteIsentosUserCreated.equals(other.dependenteIsentosUserCreated))
 			return false;
 		if (dependentesUserAltered == null) {
 			if (other.dependentesUserAltered != null)
@@ -1648,50 +1375,42 @@ public abstract class User extends AbstractDomain {
 		if (inputDependentesUserAltered == null) {
 			if (other.inputDependentesUserAltered != null)
 				return false;
-		} else if (!inputDependentesUserAltered
-				.equals(other.inputDependentesUserAltered))
+		} else if (!inputDependentesUserAltered.equals(other.inputDependentesUserAltered))
 			return false;
 		if (inputDependentesUserCreated == null) {
 			if (other.inputDependentesUserCreated != null)
 				return false;
-		} else if (!inputDependentesUserCreated
-				.equals(other.inputDependentesUserCreated))
+		} else if (!inputDependentesUserCreated.equals(other.inputDependentesUserCreated))
 			return false;
 		if (inputLancamentosUserAltered == null) {
 			if (other.inputLancamentosUserAltered != null)
 				return false;
-		} else if (!inputLancamentosUserAltered
-				.equals(other.inputLancamentosUserAltered))
+		} else if (!inputLancamentosUserAltered.equals(other.inputLancamentosUserAltered))
 			return false;
 		if (inputLancamentosUserCreated == null) {
 			if (other.inputLancamentosUserCreated != null)
 				return false;
-		} else if (!inputLancamentosUserCreated
-				.equals(other.inputLancamentosUserCreated))
+		} else if (!inputLancamentosUserCreated.equals(other.inputLancamentosUserCreated))
 			return false;
 		if (inputTitularsUserAltered == null) {
 			if (other.inputTitularsUserAltered != null)
 				return false;
-		} else if (!inputTitularsUserAltered
-				.equals(other.inputTitularsUserAltered))
+		} else if (!inputTitularsUserAltered.equals(other.inputTitularsUserAltered))
 			return false;
 		if (inputTitularsUserCreated == null) {
 			if (other.inputTitularsUserCreated != null)
 				return false;
-		} else if (!inputTitularsUserCreated
-				.equals(other.inputTitularsUserCreated))
+		} else if (!inputTitularsUserCreated.equals(other.inputTitularsUserCreated))
 			return false;
 		if (lancamentoColsDefsUserAltered == null) {
 			if (other.lancamentoColsDefsUserAltered != null)
 				return false;
-		} else if (!lancamentoColsDefsUserAltered
-				.equals(other.lancamentoColsDefsUserAltered))
+		} else if (!lancamentoColsDefsUserAltered.equals(other.lancamentoColsDefsUserAltered))
 			return false;
 		if (lancamentoColsDefsUserCreated == null) {
 			if (other.lancamentoColsDefsUserCreated != null)
 				return false;
-		} else if (!lancamentoColsDefsUserCreated
-				.equals(other.lancamentoColsDefsUserCreated))
+		} else if (!lancamentoColsDefsUserCreated.equals(other.lancamentoColsDefsUserCreated))
 			return false;
 		if (lancamentosUserAltered == null) {
 			if (other.lancamentosUserAltered != null)
@@ -1736,14 +1455,12 @@ public abstract class User extends AbstractDomain {
 		if (regraOperationsUserAltered == null) {
 			if (other.regraOperationsUserAltered != null)
 				return false;
-		} else if (!regraOperationsUserAltered
-				.equals(other.regraOperationsUserAltered))
+		} else if (!regraOperationsUserAltered.equals(other.regraOperationsUserAltered))
 			return false;
 		if (regraOperationsUserCreated == null) {
 			if (other.regraOperationsUserCreated != null)
 				return false;
-		} else if (!regraOperationsUserCreated
-				.equals(other.regraOperationsUserCreated))
+		} else if (!regraOperationsUserCreated.equals(other.regraOperationsUserCreated))
 			return false;
 		if (regraValorsUserAltered == null) {
 			if (other.regraValorsUserAltered != null)
@@ -1768,26 +1485,22 @@ public abstract class User extends AbstractDomain {
 		if (titularColsDefsUserAltered == null) {
 			if (other.titularColsDefsUserAltered != null)
 				return false;
-		} else if (!titularColsDefsUserAltered
-				.equals(other.titularColsDefsUserAltered))
+		} else if (!titularColsDefsUserAltered.equals(other.titularColsDefsUserAltered))
 			return false;
 		if (titularColsDefsUserCreated == null) {
 			if (other.titularColsDefsUserCreated != null)
 				return false;
-		} else if (!titularColsDefsUserCreated
-				.equals(other.titularColsDefsUserCreated))
+		} else if (!titularColsDefsUserCreated.equals(other.titularColsDefsUserCreated))
 			return false;
 		if (titularIsentosUserAltered == null) {
 			if (other.titularIsentosUserAltered != null)
 				return false;
-		} else if (!titularIsentosUserAltered
-				.equals(other.titularIsentosUserAltered))
+		} else if (!titularIsentosUserAltered.equals(other.titularIsentosUserAltered))
 			return false;
 		if (titularIsentosUserCreated == null) {
 			if (other.titularIsentosUserCreated != null)
 				return false;
-		} else if (!titularIsentosUserCreated
-				.equals(other.titularIsentosUserCreated))
+		} else if (!titularIsentosUserCreated.equals(other.titularIsentosUserCreated))
 			return false;
 		if (titularsUserAltered == null) {
 			if (other.titularsUserAltered != null)
@@ -1814,26 +1527,22 @@ public abstract class User extends AbstractDomain {
 		if (viewDestinationColsDefsUserAltered == null) {
 			if (other.viewDestinationColsDefsUserAltered != null)
 				return false;
-		} else if (!viewDestinationColsDefsUserAltered
-				.equals(other.viewDestinationColsDefsUserAltered))
+		} else if (!viewDestinationColsDefsUserAltered.equals(other.viewDestinationColsDefsUserAltered))
 			return false;
 		if (viewDestinationColsDefsUserCreated == null) {
 			if (other.viewDestinationColsDefsUserCreated != null)
 				return false;
-		} else if (!viewDestinationColsDefsUserCreated
-				.equals(other.viewDestinationColsDefsUserCreated))
+		} else if (!viewDestinationColsDefsUserCreated.equals(other.viewDestinationColsDefsUserCreated))
 			return false;
 		if (viewDestinationsUserAltered == null) {
 			if (other.viewDestinationsUserAltered != null)
 				return false;
-		} else if (!viewDestinationsUserAltered
-				.equals(other.viewDestinationsUserAltered))
+		} else if (!viewDestinationsUserAltered.equals(other.viewDestinationsUserAltered))
 			return false;
 		if (viewDestinationsUserCreated == null) {
 			if (other.viewDestinationsUserCreated != null)
 				return false;
-		} else if (!viewDestinationsUserCreated
-				.equals(other.viewDestinationsUserCreated))
+		} else if (!viewDestinationsUserCreated.equals(other.viewDestinationsUserCreated))
 			return false;
 		return true;
 	}
