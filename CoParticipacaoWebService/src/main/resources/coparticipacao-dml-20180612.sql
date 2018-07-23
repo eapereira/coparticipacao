@@ -101,6 +101,32 @@ insert into TB_CONTRATO(
 	current_timestamp()
 );
 
+insert into TB_ARQUIVO_INPUT_LAYOUT(
+	NM_LAYOUT,
+	
+	USER_CREATED, 
+	DT_CREATED,
+	DT_ALTERED ) values (	
+	'FATUCOPA-MUITO-FACIL',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()
+);
+
+insert into TB_ARQUIVO_INPUT_LAYOUT(
+	NM_LAYOUT,
+	
+	USER_CREATED, 
+	DT_CREATED,
+	DT_ALTERED ) values (	
+	'MECSAS-MUITO-FACIL',
+	
+	1,
+	current_timestamp(),
+	current_timestamp()
+);
+
 insert into TB_ARQUIVO_INPUT(
 	ID_CONTRATO,
 	NM_ARQUIVO_REGEXP,
@@ -109,6 +135,7 @@ insert into TB_ARQUIVO_INPUT(
 	TP_USE,
 	NUM_SKIP_LINES,
 	NUM_DEFAULT_LINE_LENGTH,
+	ID_ARQUIVO_INPUT_LAYOUT,
 	
 	CD_REGEXP_CONTRATO,
 	CD_REGEXP_DIA,
@@ -125,6 +152,7 @@ insert into TB_ARQUIVO_INPUT(
 	1, /* FATUCOPA */
 	1,
 	182,
+	1,
 	
 	1, /* REGEXP_CONTRATO */
 	4, /* REGEXP_DIA */
@@ -599,6 +627,7 @@ insert into TB_ARQUIVO_INPUT(
 	CD_REGEXP_DIA,
 	CD_REGEXP_MES,
 	CD_REGEXP_ANO,
+	ID_ARQUIVO_INPUT_LAYOUT,
 	
 	USER_CREATED, 
 	DT_CREATED,
@@ -615,6 +644,7 @@ insert into TB_ARQUIVO_INPUT(
 	4, /* REGEXP_DIA */
 	3, /* REGEXP_MES */
 	2, /* REGEXP_ANO */
+	1,
 	
 	1,
 	current_timestamp(),
@@ -1082,6 +1112,7 @@ insert into TB_ARQUIVO_INPUT(
 	CD_REGEXP_CONTRATO,
 	CD_REGEXP_MES,
 	CD_REGEXP_ANO,
+	ID_ARQUIVO_INPUT_LAYOUT,
 	
 	USER_CREATED, 
 	DT_CREATED,
@@ -1097,6 +1128,7 @@ insert into TB_ARQUIVO_INPUT(
 	8, /* REGEXP_CONTRATO */
 	6, /* REGEXP_MES */
 	4, /* REGEXP_ANO */
+	2,
 	
 	1,
 	current_timestamp(),
@@ -3049,6 +3081,7 @@ insert into TB_TITULAR_ISENTO_COLS_DEF(
 	NM_COLUMN,
 	CD_TYPE,
 	VL_LENGTH,
+	
 	USER_CREATED,
 	DT_CREATED,
 	DT_ALTERED ) values (	
