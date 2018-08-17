@@ -15,7 +15,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 		componentModel = "spring",
 		uses = {
 				UserUiMapper.class,
-				TitularColsDefUiMapper.class,
 				ArquivoInputUiMapper.class,
 				ArquivoInputColsDefUiMapper.class })
 public abstract class BeneficiarioColsUiMapper

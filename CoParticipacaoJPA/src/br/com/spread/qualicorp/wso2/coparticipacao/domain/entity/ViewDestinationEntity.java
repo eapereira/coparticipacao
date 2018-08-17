@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
@@ -20,10 +19,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
  */
 @Entity
 @Table(name = "TB_VIEW_DESTINATION")
-@NamedQuery(
-		name = "ViewDestinationEntity.findAll",
-		query = "SELECT v FROM ViewDestinationEntity v")
-public class ViewDestinationEntity extends ViewDestination {
+@NamedQuery(name = "ViewDestinationEntity.findAll", query = "SELECT v FROM ViewDestinationEntity v")
+public class ViewDestinationEntity extends ViewDestination implements DomainEntity {
 
 	/**
 	 * 
@@ -43,19 +40,13 @@ public class ViewDestinationEntity extends ViewDestination {
 	}
 
 	// bi-directional many-to-one association to ArquivoOutputSheet
-	@OneToMany(
-			mappedBy = "viewDestination",
-			targetEntity = ArquivoOutputSheetEntity.class)
-	@OrderColumn(name="INDEX")
+	@OneToMany(mappedBy = "viewDestination", targetEntity = ArquivoOutputSheetEntity.class)
 	public List<ArquivoOutputSheet> getArquivoOutputSheets() {
 		return super.getArquivoOutputSheets();
 	}
 
 	// bi-directional many-to-one association to ViewDestinationColsDef
-	@OneToMany(
-			mappedBy = "viewDestination",
-			targetEntity = ViewDestinationColsDefEntity.class)
-	@OrderColumn(name="INDEX")
+	@OneToMany(mappedBy = "viewDestination", targetEntity = ViewDestinationColsDefEntity.class)
 	public List<ViewDestinationColsDef> getViewDestinationColsDefs() {
 		return super.getViewDestinationColsDefs();
 	}

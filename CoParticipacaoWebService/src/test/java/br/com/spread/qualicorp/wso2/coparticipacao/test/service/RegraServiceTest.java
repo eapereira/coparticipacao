@@ -81,7 +81,7 @@ public class RegraServiceTest {
 		addValue(lancamentoUi, VL_PRINCIPAL_01);
 		addValue(lancamentoUi, VL_PRINCIPAL_02);
 
-		regraService.applyRegras(lancamentoUi, coParticipacaoContext);
+		regraService.applyRegras(coParticipacaoContext, lancamentoUi);
 
 		Assert.assertEquals(4, lancamentoUi.getLancamentoDetails().size());
 

@@ -12,25 +12,33 @@ import br.com.spread.qualicorp.wso2.coparticipacao.dao.DesconhecidoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Desconhecido;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoColType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.DesconhecidoEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DesconhecidoUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputOutputDesconhecidoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputDesconhecidoSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputDesconhecidoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.DesconhecidoJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputOutputDesconhecidoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.DesconhecidoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoDetailService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationColsDefService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.DesconhecidoSpreadsheetListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetBuilder;
 
@@ -40,12 +48,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetBuilde
  *
  */
 @Service
-public class DesconhecidoServiceImpl extends
-		AbstractServiceImpl<DesconhecidoUi, DesconhecidoEntity, Desconhecido>
+public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi, DesconhecidoEntity, Desconhecido>
 		implements DesconhecidoService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(DesconhecidoServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(DesconhecidoServiceImpl.class);
 
 	@Autowired
 	private DesconhecidoUiMapper desconhecidoUiMapper;
@@ -57,10 +63,7 @@ public class DesconhecidoServiceImpl extends
 	private DesconhecidoDao desconhecidoDao;
 
 	@Autowired
-	private DesconhecidoDetailService desconhecidoDetailService;
-
-	@Autowired
-	private ArquivoInputOutputDesconhecidoService arquivoInputOutputDesconhecidoService;
+	private ArquivoOutputDesconhecidoSheetService arquivoOutputDesconhecidoSheetService;
 
 	@Autowired
 	private ArquivoOutputDesconhecidoService arquivoOutputDesconhecidoService;
@@ -70,6 +73,12 @@ public class DesconhecidoServiceImpl extends
 
 	@Autowired
 	private DesconhecidoJdbcDao desconhecidoJdbcDao;
+
+	@Autowired
+	private ViewDestinationService viewDestinationService;
+
+	@Autowired
+	private ViewDestinationColsDefService viewDestinationColsDefService;
 
 	public DesconhecidoServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -100,39 +109,8 @@ public class DesconhecidoServiceImpl extends
 		return desconhecidoEntityMapper;
 	}
 
-	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext)
+	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
 			throws ServiceException {
-		DesconhecidoUi desconhecidoUi;
-
-		try {
-			LOGGER.info("BEGIN");
-			LOGGER.info(
-					"Creating Desconhecido register for beneficiario at line [{}]:",
-					coParticipacaoContext.getCurrentLine());
-
-			desconhecidoUi = new DesconhecidoUi();
-			desconhecidoUi.setMes(coParticipacaoContext.getMes());
-			desconhecidoUi.setAno(coParticipacaoContext.getAno());
-			desconhecidoUi.setContrato(coParticipacaoContext.getContratoUi());
-			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
-			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());
-
-			desconhecidoDetailService.createDesconhecidoDetail(
-					desconhecidoUi,
-					coParticipacaoContext);
-
-			coParticipacaoContext.addDesconhecido(desconhecidoUi);
-
-			LOGGER.info("END");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	public void createDesconhecido(
-			CoParticipacaoContext coParticipacaoContext,
-			LancamentoUi lancamentoUi) throws ServiceException {
 		DesconhecidoUi desconhecidoUi;
 
 		try {
@@ -149,11 +127,11 @@ public class DesconhecidoServiceImpl extends
 			desconhecidoUi.setContrato(coParticipacaoContext.getContratoUi());
 			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
 			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());
+			desconhecidoUi.setValorPrincipal(lancamentoUi.getValorPrincipal());
 
-			desconhecidoDetailService.createDesconhecidoDetail(
-					desconhecidoUi,
-					coParticipacaoContext,
-					lancamentoUi);
+			if (coParticipacaoContext.getBeneficiarioUi() != null) {
+				createDesconhecido(desconhecidoUi, coParticipacaoContext.getBeneficiarioUi());
+			}
 
 			coParticipacaoContext.addDesconhecido(desconhecidoUi);
 
@@ -164,12 +142,26 @@ public class DesconhecidoServiceImpl extends
 		}
 	}
 
-	public void deleteByMesAndAno(ContratoUi contratoUi, int mes, int ano)
+	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext, TitularUi titularUi)
 			throws ServiceException {
+		DesconhecidoUi desconhecidoUi;
+
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Creating Desconhecido register for beneficiario at line [{}]:",
+					coParticipacaoContext.getCurrentLine());
 
-			desconhecidoDao.deleteByMesAndAno(contratoUi.getId(), mes, ano);
+			desconhecidoUi = new DesconhecidoUi();
+			desconhecidoUi.setMes(coParticipacaoContext.getMes());
+			desconhecidoUi.setAno(coParticipacaoContext.getAno());
+			desconhecidoUi.setContrato(coParticipacaoContext.getContratoUi());
+			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
+			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());
+
+			createDesconhecido(desconhecidoUi, titularUi);
+
+			coParticipacaoContext.addDesconhecido(desconhecidoUi);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -178,18 +170,110 @@ public class DesconhecidoServiceImpl extends
 		}
 	}
 
-	public List<DesconhecidoUi> listByMesAndAno(
-			ContratoUi contratoUi,
-			int mes,
-			int ano) throws ServiceException {
+	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext, DependenteUi dependenteUi)
+			throws ServiceException {
+		DesconhecidoUi desconhecidoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Creating Desconhecido register for beneficiario at line [{}]:",
+					coParticipacaoContext.getCurrentLine());
+
+			desconhecidoUi = new DesconhecidoUi();
+			desconhecidoUi.setMes(coParticipacaoContext.getMes());
+			desconhecidoUi.setAno(coParticipacaoContext.getAno());
+			desconhecidoUi.setContrato(coParticipacaoContext.getContratoUi());
+			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
+			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());
+
+			createDesconhecido(desconhecidoUi, dependenteUi);
+
+			coParticipacaoContext.addDesconhecido(desconhecidoUi);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void createDesconhecido(DesconhecidoUi desconhecidoUi, TitularUi titularUi) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoUi.setNameBeneficiario(titularUi.getNameTitular());
+			desconhecidoUi.setCpf(titularUi.getCpf());
+			desconhecidoUi.setMatricula(titularUi.getMatricula());
+			desconhecidoUi.setDtNascimento(titularUi.getDtNascimento());
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void createDesconhecido(DesconhecidoUi desconhecidoUi, DependenteUi dependenteUi) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoUi.setNameBeneficiario(dependenteUi.getNameDependente());
+			desconhecidoUi.setCpf(dependenteUi.getCpf());
+			desconhecidoUi.setMatricula(dependenteUi.getMatricula());
+			desconhecidoUi.setDtNascimento(dependenteUi.getDtNascimento());
+
+			if (dependenteUi.getTitular() != null) {
+				createDesconhecido(desconhecidoUi, (TitularUi) dependenteUi.getTitular());
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void createDesconhecido(DesconhecidoUi desconhecidoUi, BeneficiarioUi beneficiarioUi)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoUi.setNameBeneficiario(beneficiarioUi.getNameBeneficiario());
+			desconhecidoUi.setCpf(beneficiarioUi.getCpf());
+			desconhecidoUi.setMatricula(beneficiarioUi.getMatricula());
+			desconhecidoUi.setDtNascimento(beneficiarioUi.getDtNascimento());
+
+			desconhecidoUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
+			desconhecidoUi.setReferenceCode(beneficiarioUi.getReferenceCode());
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void deleteByMesAndAno(ContratoUi contratoUi, int mes, int ano) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoJdbcDao.deleteByMesAndAno(contratoUi.getId(), mes, ano);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<DesconhecidoUi> listByMesAndAno(ContratoUi contratoUi, int mes, int ano) throws ServiceException {
 		List<DesconhecidoUi> desconhecidoUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			desconhecidoUis = entityToUi(
-					desconhecidoDao
-							.listByMesAndAno(contratoUi.getId(), mes, ano));
+			desconhecidoUis = entityToUi(desconhecidoDao.listByContratoId(contratoUi.getId()));
 
 			LOGGER.info("END");
 			return desconhecidoUis;
@@ -199,66 +283,70 @@ public class DesconhecidoServiceImpl extends
 		}
 	}
 
-	public void writeDesconhecidosFile(
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
-		SpreadsheetBuilder<DesconhecidoUi> spreadsheetBuilder;
-		List<ArquivoInputOutputDesconhecidoUi> arquivoInputOutputDesconhecidoUis;
+	public void writeDesconhecidosFile(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		SpreadsheetBuilder<DynamicEntity> spreadsheetBuilder;
+		List<ArquivoOutputDesconhecidoSheetUi> arquivoOutputDesconhecidoSheetUis;
 		List<DesconhecidoUi> desconhecidoUis;
 		ArquivoOutputDesconhecidoUi arquivoOutputDesconhecidoUi;
 		String nameOutputFile = null;
+		ViewDestinationUi viewDestinationUi;
+		List<ViewDestinationColsDefUi> viewDestinationColsDefUis;
+		List<DynamicEntity> dynamicEntities;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			LOGGER.info(
 					"Using ArquivoInput [{}] to find ArquivoOutputDesconhecido need data:",
-					coParticipacaoContext.getArquivoInputUi()
-							.getDescrArquivo());
+					coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 
-			spreadsheetBuilder = new SpreadsheetBuilder<DesconhecidoUi>();
+			spreadsheetBuilder = new SpreadsheetBuilder<DynamicEntity>();
 
-			for (Contrato contrato : coParticipacaoContext.getEmpresaUi()
-					.getContratos()) {
+			arquivoOutputDesconhecidoUi = arquivoOutputDesconhecidoService
+					.findByContratoId(coParticipacaoContext.getContratoUi());
+			nameOutputFile = arquivoOutputDesconhecidoUi.getNameArquivoFormat();
 
-				LOGGER.info(
-						"Configuring sheet [{}] for Desconhecidos:",
-						contrato.getCdContrato());
+			if (arquivoOutputDesconhecidoUi != null) {
+				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
 
-				arquivoOutputDesconhecidoUi = arquivoOutputDesconhecidoService
-						.findByContratoId((ContratoUi) contrato);
+					LOGGER.info("Configuring sheet [{}] for Desconhecidos:", contrato.getCdContrato());
 
-				if (arquivoOutputDesconhecidoUi != null) {
-					arquivoInputOutputDesconhecidoUis = arquivoInputOutputDesconhecidoService
-							.listByContratoId((ContratoUi) contrato);
+					arquivoOutputDesconhecidoSheetUis = arquivoOutputDesconhecidoSheetService
+							.listByArquivoInputId((ArquivoInputUi) contrato.getArquivoInput());
 
-					nameOutputFile = arquivoOutputDesconhecidoUi
-							.getNameArquivoFormat();
+					if (!arquivoOutputDesconhecidoSheetUis.isEmpty()) {
+						for (ArquivoOutputDesconhecidoSheetUi arquivoOutputDesconhecidoSheetUi : arquivoOutputDesconhecidoSheetUis) {
 
-					desconhecidoUis = listByMesAndAno(
-							(ContratoUi) contrato,
-							coParticipacaoContext.getMes(),
-							coParticipacaoContext.getAno());
+							viewDestinationUi = (ViewDestinationUi) arquivoOutputDesconhecidoSheetUi
+									.getViewDestination();
+							viewDestinationColsDefUis = viewDestinationColsDefService
+									.listByViewDestinationId(viewDestinationUi);
 
-					if (!desconhecidoUis.isEmpty()) {
-						spreadsheetBuilder.addSpreadsheetListener(
-								new DesconhecidoSpreadsheetListener(
-										desconhecidoDetailService,
-										arquivoInputOutputDesconhecidoUis,
-										desconhecidoUis,
-										coParticipacaoContext));
+							LOGGER.info(
+									"Creating the report for the ViewDestination [{}]:",
+									viewDestinationUi.getNameView());
+							dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
+									viewDestinationUi,
+									(ContratoUi) contrato,
+									coParticipacaoContext.getMes(),
+									coParticipacaoContext.getAno());
+
+							spreadsheetBuilder.addSpreadsheetListener(
+									new DesconhecidoSpreadsheetListener(
+											viewDestinationColsDefUis,
+											dynamicEntities,
+											(ContratoUi) contrato,
+											coParticipacaoContext));
+						}
 					} else {
-						LOGGER.info(
-								"No registers Desconhecidos to write for Contrato [{}]",
-								contrato.getCdContrato());
+						LOGGER.info("Contrato [{}] doen't have a OutputFile mapped:", contrato.getCdContrato());
 					}
-				} else {
-					LOGGER.info(
-							"The ArquivoInput[{}] and Contrato [{}] does not have a ArquivoOutput defined to it:",
-							coParticipacaoContext.getArquivoInputUi()
-									.getDescrArquivo(),
-							contrato.getCdContrato());
 				}
+			} else {
+				LOGGER.info(
+						"The ArquivoInput[{}] and Contrato [{}] does not have a ArquivoOutput defined to it:",
+						coParticipacaoContext.getArquivoInputUi().getDescrArquivo(),
+						coParticipacaoContext.getContratoUi().getCdContrato());
 			}
 
 			LOGGER.info("Writing spreadsheet to filesystem:");
@@ -278,20 +366,41 @@ public class DesconhecidoServiceImpl extends
 	}
 
 	@Override
-	public void saveBatch(List<DesconhecidoUi> desconhecidoUis)
+	protected void logBatchInfo(DesconhecidoUi desconhecidoUi) throws ServiceException {
+		LOGGER.debug("ID:........................... [{}]", desconhecidoUi.getId());
+		LOGGER.debug("CD_CONTRATO:.................. [{}]", desconhecidoUi.getContrato().getCdContrato());
+		LOGGER.debug("CD_MES:....................... [{}]", desconhecidoUi.getMes());
+		LOGGER.debug("CD_ANO:....................... [{}]", desconhecidoUi.getAno());
+
+		LOGGER.debug("DESCONHECIDO.NR_CPF:.......... [{}]", desconhecidoUi.getCpf());
+		LOGGER.debug("DESCONHECIDO.NAME:............ [{}]", desconhecidoUi.getNameBeneficiario());
+		LOGGER.debug("DESCONHECIDO.DT_NASCIMENTO:... [{}]", desconhecidoUi.getDtNascimento());
+		LOGGER.debug("DESCONHECIDO.NR_MATRICULA:.... [{}]", desconhecidoUi.getMatricula());
+
+		LOGGER.debug("DESCONHECIDO.DT_ADMISSAO:..... [{}]", desconhecidoUi.getDtAdmissao());
+		LOGGER.debug("DESCONHECIDO.NR_CODE_REF:..... [{}]", desconhecidoUi.getReferenceCode());
+	}
+
+	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
 			throws ServiceException {
+		DesconhecidoUi desconhecidoUi;
+
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Creating Desconhecido register for beneficiario at line [{}]:",
+					coParticipacaoContext.getCurrentLine());
 
-			super.saveBatch(desconhecidoUis);
+			desconhecidoUi = new DesconhecidoUi();
+			desconhecidoUi.setMes(coParticipacaoContext.getMes());
+			desconhecidoUi.setAno(coParticipacaoContext.getAno());
+			desconhecidoUi.setContrato(coParticipacaoContext.getContratoUi());
+			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
+			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());
 
-			for (DesconhecidoUi desconhecidoUi : desconhecidoUis) {
-				for (DesconhecidoDetail desconhecidoDetail : desconhecidoUi
-						.getDesconhecidoDetails()) {
-					desconhecidoDetailService.saveBatch(
-							(DesconhecidoDetailUi) desconhecidoDetail);
-				}
-			}
+			createDesconhecido(desconhecidoUi, beneficiarioUi);
+
+			coParticipacaoContext.addDesconhecido(desconhecidoUi);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -300,20 +409,50 @@ public class DesconhecidoServiceImpl extends
 		}
 	}
 
-	@Override
-	protected void logBatchInfo(DesconhecidoUi desconhecidoUi)
+	public Object getValueFromField(DesconhecidoUi desconhecidoUi, DesconhecidoColType desconhecidoColType)
 			throws ServiceException {
-		LOGGER.debug(
-				"ID:......................... [{}]",
-				desconhecidoUi.getId());
-		LOGGER.debug(
-				"CD_CONTRATO:................ [{}]",
-				desconhecidoUi.getContrato().getCdContrato());
-		LOGGER.debug(
-				"CD_MES:..................... [{}]",
-				desconhecidoUi.getContrato().getCdContrato());
-		LOGGER.debug(
-				"CD_ANO:..................... [{}]",
-				desconhecidoUi.getContrato().getCdContrato());
+		Object value = null;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			if (DesconhecidoColType.NM_BENEFICIARIO.equals(desconhecidoColType)) {
+				value = desconhecidoUi.getNameBeneficiario();
+			} else if (DesconhecidoColType.NR_CPF.equals(desconhecidoColType)) {
+				value = desconhecidoUi.getCpf();
+			} else if (DesconhecidoColType.NR_MATRICULA.equals(desconhecidoColType)) {
+				value = desconhecidoUi.getMatricula();
+			} else if (DesconhecidoColType.DT_NASCIMENTO.equals(desconhecidoColType)) {
+				value = desconhecidoUi.getDtNascimento();
+			} else if (DesconhecidoColType.VL_PRINCIPAL.equals(desconhecidoColType)) {
+				value = desconhecidoUi.getValorPrincipal();
+			} else if (DesconhecidoColType.DT_ADMISSAO.equals(desconhecidoColType)) {
+				value = desconhecidoUi.getDtAdmissao();
+			} else if (DesconhecidoColType.NR_REF_CODE.equals(desconhecidoColType)) {
+				value = desconhecidoUi.getReferenceCode();
+			}
+
+			LOGGER.info("END");
+			return value;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<DesconhecidoUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException {
+		List<DesconhecidoUi> desconhecidoUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoUis = entityToUi(desconhecidoDao.listByEmpresaId(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return desconhecidoUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 }

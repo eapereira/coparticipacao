@@ -26,12 +26,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 public abstract class AbstractFileProcessorImpl implements ProcessorService {
-	private static final Logger LOGGER = LogManager
-			.getLogger(FixedLengthProcessorServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(FixedLengthProcessorServiceImpl.class);
 
-	public void readInputStream(
-			CoParticipacaoContext coParticipacaoContext,
-			ProcessorListener processorListener) throws ServiceException {
+	public void readInputStream(CoParticipacaoContext coParticipacaoContext, ProcessorListener processorListener)
+			throws ServiceException {
 		BufferedReader bufferedReader;
 		String line;
 		Map<String, Object> mapLine;
@@ -39,9 +37,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 
 		try {
 			LOGGER.info("BEGIN");
-			bufferedReader = new BufferedReader(
-					new InputStreamReader(
-							coParticipacaoContext.getFileInputStream()));
+			bufferedReader = new BufferedReader(new InputStreamReader(coParticipacaoContext.getFileInputStream()));
 
 			/*
 			 * Permite o processo fazer algumas operações antes de carregar os
@@ -52,8 +48,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			while ((line = bufferedReader.readLine()) != null) {
 				currentLine++;
 
-				if (currentLine <= coParticipacaoContext.getArquivoInputUi()
-						.getSkipLines()) {
+				if (currentLine <= coParticipacaoContext.getArquivoInputUi().getSkipLines()) {
 					LOGGER.debug("Skipping line [{}]:", currentLine);
 					continue;
 				}
@@ -62,18 +57,18 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 
 				coParticipacaoContext.setLine(line);
 
-				if (processorListener
-						.validateLine(line, coParticipacaoContext)) {
-					LOGGER.info("Transforming line into Map:");
-					mapLine = readLine(coParticipacaoContext);
+				if (processorListener.validateLine(line, coParticipacaoContext)) {
+					if (isLineAccepted(coParticipacaoContext)) {
+						LOGGER.info("Transforming line into Map:");
+						mapLine = readLine(coParticipacaoContext);
 
-					LOGGER.info(
-							"Sending line to be processed by ProcessorListener:");
+						LOGGER.info("Sending line to be processed by ProcessorListener:");
 
-					coParticipacaoContext.setMapLine(mapLine);
-					coParticipacaoContext.setCurrentLine(currentLine);
+						coParticipacaoContext.setMapLine(mapLine);
+						coParticipacaoContext.setCurrentLine(currentLine);
 
-					processorListener.processLine(coParticipacaoContext);
+						processorListener.processLine(coParticipacaoContext);
+					}
 				}
 			}
 
@@ -88,13 +83,15 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		}
 	}
 
-	protected abstract Map<String, Object> readLine(
-			CoParticipacaoContext coParticipacaoContext)
+	protected boolean isLineAccepted(CoParticipacaoContext coParticipacaoContext) {
+		return true;
+	}
+
+	protected abstract Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException;
 
-	protected Object stringToColumnValue(
-			ArquivoInputColsDefUi arquivoInputColsDefUi,
-			String columnValue) throws ServiceException {
+	protected Object stringToColumnValue(ArquivoInputColsDefUi arquivoInputColsDefUi, String columnValue)
+			throws ServiceException {
 		Object value = null;
 		String tmp;
 
@@ -106,17 +103,14 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		if (StringUtils.isNotBlank(tmp)) {
 			if (ColDefType.INT.equals(arquivoInputColsDefUi.getType())) {
 				value = Integer.parseInt(tmp);
-			} else if (ColDefType.LONG
-					.equals(arquivoInputColsDefUi.getType())) {
+			} else if (ColDefType.LONG.equals(arquivoInputColsDefUi.getType())) {
 				value = stringToLong(tmp, arquivoInputColsDefUi);
-			} else if (ColDefType.DOUBLE
-					.equals(arquivoInputColsDefUi.getType())) {
+			} else if (ColDefType.DOUBLE.equals(arquivoInputColsDefUi.getType())) {
 				value = stringToBigDecimal(tmp, arquivoInputColsDefUi);
-			} else if (ColDefType.DATE
-					.equals(arquivoInputColsDefUi.getType())) {
+			} else if (ColDefType.DATE.equals(arquivoInputColsDefUi.getType())) {
 				value = stringToDate(tmp, arquivoInputColsDefUi);
 			} else {
-				value = tmp;
+				value = tmp.trim();
 			}
 		}
 
@@ -124,10 +118,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		return value;
 	}
 
-	protected Long stringToLong(
-			String value,
-			ArquivoInputColsDefUi arquivoInputColsDefUi)
-			throws ServiceException {
+	protected Long stringToLong(String value, ArquivoInputColsDefUi arquivoInputColsDefUi) throws ServiceException {
 		Long longValue = null;
 		DecimalFormat decimalFormat;
 
@@ -135,8 +126,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			LOGGER.info("BEGIN");
 
 			if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
-				decimalFormat = new DecimalFormat(
-						arquivoInputColsDefUi.getFormat());
+				decimalFormat = new DecimalFormat(arquivoInputColsDefUi.getFormat());
 
 				longValue = decimalFormat.parse(value).longValue();
 			} else {
@@ -151,9 +141,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		}
 	}
 
-	protected BigDecimal stringToBigDecimal(
-			String value,
-			ArquivoInputColsDefUi arquivoInputColsDefUi)
+	protected BigDecimal stringToBigDecimal(String value, ArquivoInputColsDefUi arquivoInputColsDefUi)
 			throws ServiceException {
 		BigDecimal bdValue = null;
 		DecimalFormat decimalFormat;
@@ -165,10 +153,8 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			tmp = StringUtils.replaceAll(value, ",", ".");
 
 			if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
-				decimalFormat = new DecimalFormat(
-						arquivoInputColsDefUi.getFormat());
-				bdValue = BigDecimal
-						.valueOf(decimalFormat.parse(tmp).doubleValue());
+				decimalFormat = new DecimalFormat(arquivoInputColsDefUi.getFormat());
+				bdValue = BigDecimal.valueOf(decimalFormat.parse(tmp).doubleValue());
 			} else {
 				bdValue = new BigDecimal(tmp);
 			}
@@ -181,9 +167,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		}
 	}
 
-	protected LocalDate stringToDate(
-			String value,
-			ArquivoInputColsDefUi arquivoInputColsDefUi)
+	protected LocalDate stringToDate(String value, ArquivoInputColsDefUi arquivoInputColsDefUi)
 			throws ServiceException {
 		DateTimeFormatter dateTimeFormatter;
 		String formatPattern = "dd/MM/yyyy";

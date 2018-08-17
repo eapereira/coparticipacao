@@ -5,7 +5,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
@@ -19,9 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraFieldUi;
  */
 @Entity
 @Table(name = "TB_REGRA_FIELD")
-@NamedQuery(
-		name = "RegraFieldEntity.findAll",
-		query = "SELECT r FROM RegraFieldEntity r")
+@NamedQuery(name = "RegraFieldEntity.findAll", query = "SELECT r FROM RegraFieldEntity r")
 public class RegraFieldEntity extends RegraField implements DomainEntity {
 
 	/**
@@ -37,21 +34,15 @@ public class RegraFieldEntity extends RegraField implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to RegraOperation
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = RegraOperationEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegraOperationEntity.class)
 	@JoinColumn(name = "ID_REGRA_OPERATION")
-	@OrderColumn(name="INDEX")
 	public RegraOperation getRegraOperation() {
 		return super.getRegraOperation();
 	}
 
 	// bi-directional many-to-one association to RegraOperation
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
-	@OrderColumn(name="INDEX")
 	public ArquivoInputColsDef getArquivoInputColsDef() {
 		return super.getArquivoInputColsDef();
 	}

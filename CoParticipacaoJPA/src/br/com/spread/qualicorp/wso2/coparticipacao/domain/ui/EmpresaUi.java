@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.EmpresaEntity;
  * The persistent class for the tb_empresa database table.
  * 
  */
-public class EmpresaUi extends Empresa implements DomainUi {
+public class EmpresaUi extends Empresa {
 	private static final long serialVersionUID = 1L;
 
 	public EmpresaUi() {

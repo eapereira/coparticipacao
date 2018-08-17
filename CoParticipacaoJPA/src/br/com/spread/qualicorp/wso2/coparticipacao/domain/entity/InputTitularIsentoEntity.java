@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -24,7 +23,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsentoCols
 @Entity
 @Table(name = "TB_INPUT_TITULAR_ISENTO")
 @NamedQuery(name = "InputTitularIsentoEntity.findAll", query = "SELECT a FROM InputTitularIsentoEntity a")
-public class InputTitularIsentoEntity extends InputTitularIsento {
+public class InputTitularIsentoEntity extends InputTitularIsento implements DomainEntity {
 
 	/**
 	 * 
@@ -48,7 +47,6 @@ public class InputTitularIsentoEntity extends InputTitularIsento {
 			fetch = FetchType.LAZY,
 			mappedBy = "inputTitularIsento",
 			targetEntity = InputTitularIsentoColsEntity.class)
-	@OrderColumn(name="INDEX")
 	@Override
 	public List<InputTitularIsentoCols> getInputTitularIsentoCols() {
 		// TODO Auto-generated method stub

@@ -5,6 +5,7 @@
 			select viewDestinationColsDef from ViewDestinationColsDefEntity viewDestinationColsDef
 			join fetch viewDestinationColsDef.viewDestination viewDestination
 			where viewDestination.id = :viewDestinationId
+			order by viewDestinationColsDef.ordem
 		]]>
 	</query>
 

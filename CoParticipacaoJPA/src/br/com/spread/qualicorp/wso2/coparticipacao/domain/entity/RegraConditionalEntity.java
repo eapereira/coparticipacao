@@ -9,7 +9,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -24,10 +23,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalResult
  */
 @Entity
 @Table(name = "TB_REGRA_CONDITIONAL")
-@NamedQuery(
-		name = "RegraConditionalEntity.findAll",
-		query = "SELECT r FROM RegraConditionalEntity r")
-public class RegraConditionalEntity extends RegraConditional {
+@NamedQuery(name = "RegraConditionalEntity.findAll", query = "SELECT r FROM RegraConditionalEntity r")
+public class RegraConditionalEntity extends RegraConditional implements DomainEntity {
 
 	/**
 	 * 
@@ -59,16 +56,11 @@ public class RegraConditionalEntity extends RegraConditional {
 			fetch = FetchType.LAZY,
 			mappedBy = "regraConditional",
 			targetEntity = RegraConditionalOperationEntity.class)
-	@OrderColumn(name="INDEX")
 	public List<RegraConditionalOperation> getRegraConditionalOperations() {
 		return super.getRegraConditionalOperations();
 	}
 
-	@OneToMany(
-			fetch = FetchType.LAZY,
-			mappedBy = "regraConditional",
-			targetEntity = RegraConditionalResultEntity.class)
-	@OrderColumn(name="INDEX")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "regraConditional", targetEntity = RegraConditionalResultEntity.class)
 	@Override
 	public List<RegraConditionalResult> getRegraConditionalResults() {
 		return super.getRegraConditionalResults();

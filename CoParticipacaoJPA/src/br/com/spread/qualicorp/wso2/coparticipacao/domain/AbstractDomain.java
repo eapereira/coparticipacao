@@ -33,8 +33,6 @@ public abstract class AbstractDomain implements Serializable {
 	private Long id;
 	
 	private Long version;
-	
-	private Long index;
 
 	private LocalDateTime altered;
 
@@ -113,12 +111,59 @@ public abstract class AbstractDomain implements Serializable {
 		this.version = version;
 	}
 
-	@Column(name="INDEX")
-	public Long getIndex() {
-		return index;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((altered == null) ? 0 : altered.hashCode());
+		result = prime * result + ((created == null) ? 0 : created.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((userAltered == null) ? 0 : userAltered.hashCode());
+		result = prime * result + ((userCreated == null) ? 0 : userCreated.hashCode());
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
+		return result;
 	}
 
-	public void setIndex(Long index) {
-		this.index = index;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AbstractDomain other = (AbstractDomain) obj;
+		if (altered == null) {
+			if (other.altered != null)
+				return false;
+		} else if (!altered.equals(other.altered))
+			return false;
+		if (created == null) {
+			if (other.created != null)
+				return false;
+		} else if (!created.equals(other.created))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (userAltered == null) {
+			if (other.userAltered != null)
+				return false;
+		} else if (!userAltered.equals(other.userAltered))
+			return false;
+		if (userCreated == null) {
+			if (other.userCreated != null)
+				return false;
+		} else if (!userCreated.equals(other.userCreated))
+			return false;
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
+			return false;
+		return true;
 	}
+
 }

@@ -6,11 +6,13 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -19,11 +21,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
+@Transactional(transactionManager = AbstractService.JPA_TX)
 public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY extends AbstractDomain, INTERFACE extends AbstractDomain>
 		implements AbstractService<UI> {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(AbstractServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(AbstractServiceImpl.class);
 
 	public UI findById(Long id) throws ServiceException {
 		UI ui = null;
@@ -66,50 +68,87 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 		}
 	}
 
-	protected List<UI> entityToUi(List<ENTITY> entities) {
-		List<UI> uis = new ArrayList<UI>();
+	protected List<UI> entityToUi(List<ENTITY> entities) throws ServiceException {
+		List<UI> uis;
 
-		for (ENTITY entity : entities) {
-			uis.add(entityToUi(entity));
+		try {
+			LOGGER.info("BEGIN");
+
+			uis = new ArrayList<UI>();
+
+			for (ENTITY entity : entities) {
+				uis.add(entityToUi(entity));
+			}
+
+			LOGGER.info("END");
+			return uis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
 		}
-
-		return uis;
 	}
 
-	protected UI entityToUi(ENTITY entity) {
+	protected UI entityToUi(ENTITY entity) throws ServiceException {
 		UI ui = null;
 
-		if (entity != null) {
-			ui = createUi();
+		try {
+			LOGGER.info("BEGIN");
 
-			getUiMapper().copyProperties((INTERFACE) entity, ui);
+			if (entity != null) {
+				ui = createUi();
+
+				getUiMapper().copyProperties((INTERFACE) entity, ui);
+			}
+
+			LOGGER.info("END");
+			return ui;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
 		}
-
-		return ui;
 	}
 
-	protected List<ENTITY> uiToEntity(List<UI> uis) {
-		List<ENTITY> entities = new ArrayList<ENTITY>();
+	protected List<ENTITY> uiToEntity(List<UI> uis) throws ServiceException {
+		List<ENTITY> entities;
 
-		for (UI ui : uis) {
-			uiToEntity(ui);
+		try {
+			LOGGER.info("BEGIN");
+
+			entities = new ArrayList<ENTITY>();
+
+			for (UI ui : uis) {
+				entities.add(uiToEntity(ui));
+			}
+
+			LOGGER.info("END");
+			return entities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
 		}
-
-		return entities;
 	}
 
-	protected ENTITY uiToEntity(UI ui) {
+	protected ENTITY uiToEntity(UI ui) throws ServiceException {
 		ENTITY entity = null;
 
-		if (ui != null) {
-			entity = createEntity();
+		try {
+			LOGGER.info("BEGIN");
 
-			getEntityMapper().copyProperties((INTERFACE) ui, entity);
+			if (ui != null) {
+				entity = createEntity();
+
+				getEntityMapper().copyProperties((INTERFACE) ui, entity);
+			}
+
+			LOGGER.info("END");
+			return entity;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
 		}
-
-		return entity;
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void delete(UI ui) throws ServiceException {
 		ENTITY entity;
 
@@ -127,6 +166,7 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED)
 	public void save(UI ui) throws ServiceException {
 		ENTITY entity;
 
@@ -150,6 +190,7 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JPA_TX)
 	public void save(List<UI> uis) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
@@ -165,6 +206,7 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JDBC_TX)
 	public void saveBatch(List<UI> uis) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
@@ -180,6 +222,7 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JDBC_TX)
 	public void saveBatch(UI ui) throws ServiceException {
 		Long id;
 
@@ -196,10 +239,40 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 
 				ui.setId(id);
 			} else {
-				throw new ServiceException(
-						"There is no JdbcDao define to [{}]:",
-						getClass().getSimpleName());
+				LOGGER.error("There is no JdbcDao define to [{}]:", getClass().getSimpleName());
+				throw new ServiceException("There is no JdbcDao define to [%s]:", getClass().getSimpleName());
 			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JDBC_TX)
+	public void saveBatchBlock(List<UI> uis) throws ServiceException {
+		List<ENTITY> entitiesInsert;
+		List<ENTITY> entitiesUpdate;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			entitiesInsert = new ArrayList<ENTITY>();
+			entitiesUpdate = new ArrayList<ENTITY>();
+
+			for (UI ui : uis) {
+				logBatchInfo(ui);
+
+				if (ui.getId() == null) {
+					entitiesInsert.add(uiToEntity(ui));
+				} else {
+					entitiesUpdate.add(uiToEntity(ui));
+				}
+			}
+
+			getJdbcDao().insertBatch(entitiesInsert);
+			getJdbcDao().updateBatch(entitiesUpdate);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

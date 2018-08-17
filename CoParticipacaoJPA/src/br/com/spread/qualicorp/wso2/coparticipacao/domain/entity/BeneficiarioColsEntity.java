@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioCols;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.BeneficiarioColTypeConverter;
 
 /**
  * 
@@ -20,10 +21,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioCols;
  */
 @Entity
 @Table(name = "TB_BENEFICIARIO_COLS")
-@NamedQuery(
-		name = "BeneficiarioColsEntity.findAll",
-		query = "SELECT a FROM BeneficiarioColsEntity a")
-public class BeneficiarioColsEntity extends BeneficiarioCols {
+@NamedQuery(name = "BeneficiarioColsEntity.findAll", query = "SELECT a FROM BeneficiarioColsEntity a")
+public class BeneficiarioColsEntity extends BeneficiarioCols implements DomainEntity {
 
 	/**
 	 * 
@@ -43,9 +42,7 @@ public class BeneficiarioColsEntity extends BeneficiarioCols {
 		return super.getBeneficiarioColType();
 	}
 
-	@ManyToOne(
-			cascade = CascadeType.ALL,
-			targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
 	@Override
 	public ArquivoInputColsDef getArquivoInputColsDef() {

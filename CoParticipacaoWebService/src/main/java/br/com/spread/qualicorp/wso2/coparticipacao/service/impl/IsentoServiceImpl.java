@@ -1,32 +1,35 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsentoCols;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.SpreadsheetProcessorListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 
 /**
  * 
@@ -34,16 +37,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  *
  */
 @Service
-public class IsentoServiceImpl implements IsentoService {
+@Transactional(value = AbstractService.JDBC_TX)
+public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorListener {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(IsentoServiceImpl.class);
-
-	@Autowired
-	private TitularService titularService;
-
-	@Autowired
-	private DependenteService dependenteService;
+	private static final Logger LOGGER = LogManager.getLogger(IsentoServiceImpl.class);
 
 	@Autowired
 	private DependenteIsentoService dependenteIsentoService;
@@ -51,8 +48,7 @@ public class IsentoServiceImpl implements IsentoService {
 	@Autowired
 	private TitularIsentoService titularIsentoService;
 
-	public boolean hasIsento(CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	public boolean hasIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		ArquivoInputUi arquivoInputUi;
 
 		try {
@@ -60,8 +56,7 @@ public class IsentoServiceImpl implements IsentoService {
 
 			arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
 
-			if (arquivoInputUi.getInputTitularIsento() != null
-					|| arquivoInputUi.getInputDependenteIsento() != null) {
+			if (!arquivoInputUi.getIsentoInputSheets().isEmpty()) {
 				return true;
 			}
 
@@ -73,14 +68,11 @@ public class IsentoServiceImpl implements IsentoService {
 		}
 	}
 
-	public void processIsento(CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	public void processIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			processTitularesIsentos(coParticipacaoContext);
-
-			processDependentesIsentos(coParticipacaoContext);
+			processBeneficiarioIsentos(coParticipacaoContext);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -89,86 +81,80 @@ public class IsentoServiceImpl implements IsentoService {
 		}
 	}
 
-	private void processDependentesIsentos(
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
-		InputDependenteIsentoUi inputDependenteIsentoUi;
-		DependenteIsentoColType dependenteIsentoColType;
-		DependenteIsentoUi dependenteIsentoUi = null;
-		DependenteUi dependenteUi;
-		Integer tpIsento;
-		List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis;
-		Long cpf;
+	private void processBeneficiarioIsentos(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		TitularUi titularUi = null;
+		List<IsentoInputSheetUi> isentoInputSheetUis;
+		List<IsentoInputSheetCols> isentoInputSheetCols;
+		BeneficiarioIsentoUi beneficiarioIsentoUi = null;
+		DependenteUi dependenteUi = null;
+		IsentoType isentoType = null;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			inputDependenteIsentoUi = (InputDependenteIsentoUi) coParticipacaoContext
-					.getArquivoInputUi().getInputDependenteIsento();
+			isentoInputSheetUis = coParticipacaoContext.getIsentoInputSheetUis();
 
-			if (inputDependenteIsentoUi != null) {
+			for (IsentoInputSheetUi isentoInputSheetUi : isentoInputSheetUis) {
+				if (coParticipacaoContext.getCurrentSheet().equals(isentoInputSheetUi.getSheetId())) {
+					isentoInputSheetCols = isentoInputSheetUi.getIsentoInputSheetCols();
+					isentoType = isentoInputSheetUi.getIsentoType();
 
-				inputDependenteIsentoColsUis = coParticipacaoContext
-						.getInputDependenteIsentoColsUis();
+					beneficiarioIsentoUi = createBeneficiarioIsento(isentoInputSheetCols, coParticipacaoContext);
+					break;
+				}
+			}
 
-				for (InputDependenteIsentoColsUi inputDependenteIsentoColsUi : inputDependenteIsentoColsUis) {
+			if (beneficiarioIsentoUi != null) {
+				if (beneficiarioIsentoUi.getCpf() != null) {
+					titularUi = coParticipacaoContext
+							.findTitularByCpfAndName(beneficiarioIsentoUi.getCpf(), beneficiarioIsentoUi.getName());
+				}
 
-					dependenteIsentoColType = DependenteIsentoColType.parse(
-							inputDependenteIsentoColsUi
-									.getDependenteIsentoColsDef()
-									.getNameColumn());
+				if (titularUi == null) {
+					titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
+							beneficiarioIsentoUi.getMatricula(),
+							beneficiarioIsentoUi.getName());
+				}
 
-					if (DependenteIsentoColType.ID_DEPENDENTE
-							.equals(dependenteIsentoColType)) {
-						cpf = (Long) coParticipacaoContext.getColumnValue(
-								(ArquivoInputColsDefUi) inputDependenteIsentoColsUi
-										.getArquivoInputColsDef());
+				if (titularUi != null) {
+					createTitularIsento(titularUi, beneficiarioIsentoUi, isentoType, coParticipacaoContext);
+				} else {
+					LOGGER.info(
+							"BeneficiárioIsento [{}] user of CPF[{}] is not a titular:",
+							beneficiarioIsentoUi.getName(),
+							beneficiarioIsentoUi.getCpf());
 
-						dependenteUi = coParticipacaoContext
-								.findDependenteByCpf(cpf.toString());
+					if (beneficiarioIsentoUi.getCpf() != null) {
+						dependenteUi = coParticipacaoContext.findDependenteByCpfAndName(
+								beneficiarioIsentoUi.getCpf(),
+								beneficiarioIsentoUi.getName());
+					}
 
-						if (dependenteUi != null) {
-							dependenteIsentoUi = new DependenteIsentoUi();
-							dependenteIsentoUi.setDependente(dependenteUi);
-						} else {
-							LOGGER.info(
-									"Beneficiário user of CPF[{}] is not a Dependente:",
-									cpf);
-							break;
-						}
-					} else if (DependenteIsentoColType.TP_ISENTO
-							.equals(dependenteIsentoColType)) {
-						if (inputDependenteIsentoColsUi.getTpIsento() != null) {
-							tpIsento = inputDependenteIsentoColsUi
-									.getTpIsento();
+					if (dependenteUi == null) {
+						dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
+								beneficiarioIsentoUi.getMatricula(),
+								beneficiarioIsentoUi.getName());
 
-						} else {
-							tpIsento = (Integer) coParticipacaoContext
-									.getColumnValue(
-											(ArquivoInputColsDefUi) inputDependenteIsentoColsUi
-													.getArquivoInputColsDef());
-						}
-
-						if (dependenteIsentoUi != null) {
-							dependenteIsentoUi
-									.setMes(coParticipacaoContext.getMes());
-							dependenteIsentoUi
-									.setAno(coParticipacaoContext.getAno());
-							dependenteIsentoUi
-									.setIsentoType(IsentoType.parse(tpIsento));
-							dependenteIsentoUi.setUserCreated(
-									coParticipacaoContext.getUser());
-							dependenteIsentoUi.setUserAltered(
-									coParticipacaoContext.getUser());
-
-							coParticipacaoContext
-									.addDependenteIsento(dependenteIsentoUi);
-						} else {
-							throw new ServiceException(
-									"There's no InputDependenteIsentoColsDef mapped to ID_Dependente in InputDependenteIsento:");
+						if (dependenteUi == null) {
+							dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
+									beneficiarioIsentoUi.getMatriculaTitular(),
+									beneficiarioIsentoUi.getName());
 						}
 					}
+
+					if (dependenteUi != null) {
+						createDependenteIsento(dependenteUi, beneficiarioIsentoUi, isentoType, coParticipacaoContext);
+					} else {
+						LOGGER.info(
+								"BeneficiárioIsento [{}] user of CPF[{}] is not a Dependente:",
+								beneficiarioIsentoUi.getName(),
+								beneficiarioIsentoUi.getCpf());
+						LOGGER.info("Beneficiario not exists in database:");
+					}
 				}
+			} else {
+				LOGGER.info(
+						"Couldn't find a suitable BeneficiarioIsentoInputCols to convert row data into BeneficiarioIsento.");
 			}
 
 			LOGGER.info("END");
@@ -178,85 +164,31 @@ public class IsentoServiceImpl implements IsentoService {
 		}
 	}
 
-	private void processTitularesIsentos(
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
-		InputTitularIsentoUi inputTitularIsentoUi;
-		TitularIsentoColType titularIsentoColType;
-		TitularIsentoUi titularIsentoUi = null;
-		TitularUi titularUi;
-		Long cpf;
-		Integer tpIsento;
-		List<InputTitularIsentoColsUi> inputTitularIsentoColsUis;
+	private void createDependenteIsento(
+			DependenteUi dependenteUi,
+			BeneficiarioIsentoUi beneficiarioIsentoUi,
+			IsentoType isentoType,
+			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		DependenteIsentoUi dependenteIsentoUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			inputTitularIsentoUi = (InputTitularIsentoUi) coParticipacaoContext
-					.getArquivoInputUi().getInputTitularIsento();
+			dependenteIsentoUi = new DependenteIsentoUi();
+			dependenteIsentoUi.setDependente(dependenteUi);
 
-			if (inputTitularIsentoUi != null) {
-
-				inputTitularIsentoColsUis = coParticipacaoContext
-						.getInputTitularIsentoColsUis();
-
-				for (InputTitularIsentoCols inputTitularIsentoCols : inputTitularIsentoColsUis) {
-
-					titularIsentoColType = TitularIsentoColType.parse(
-							inputTitularIsentoCols.getTitularIsentoColsDef()
-									.getNameColumn());
-
-					if (TitularIsentoColType.ID_TITULAR
-							.equals(titularIsentoColType)) {
-						cpf = (Long) coParticipacaoContext.getColumnValue(
-								(ArquivoInputColsDefUi) inputTitularIsentoCols
-										.getArquivoInputColsDef());
-
-						titularUi = coParticipacaoContext
-								.findTitularByCpf(cpf.toString());
-
-						if (titularUi != null) {
-							titularIsentoUi = new TitularIsentoUi();
-							titularIsentoUi.setTitular(titularUi);
-						} else {
-							LOGGER.info(
-									"Beneficiário user of CPF[{}] is not a titular:",
-									cpf);
-							break;
-						}
-					} else if (TitularIsentoColType.TP_ISENTO
-							.equals(titularIsentoColType)) {
-						if (inputTitularIsentoCols.getTpIsento() != null) {
-							tpIsento = inputTitularIsentoCols.getTpIsento();
-
-						} else {
-							tpIsento = (Integer) coParticipacaoContext
-									.getColumnValue(
-											(ArquivoInputColsDefUi) inputTitularIsentoCols
-													.getArquivoInputColsDef());
-						}
-
-						if (titularIsentoUi != null) {
-							titularIsentoUi
-									.setMes(coParticipacaoContext.getMes());
-							titularIsentoUi
-									.setAno(coParticipacaoContext.getAno());
-							titularIsentoUi
-									.setIsentoType(IsentoType.parse(tpIsento));
-							titularIsentoUi.setUserCreated(
-									coParticipacaoContext.getUser());
-							titularIsentoUi.setUserAltered(
-									coParticipacaoContext.getUser());
-
-							coParticipacaoContext
-									.addTitularIsento(titularIsentoUi);
-						} else {
-							throw new ServiceException(
-									"There's no InputTitularIsentoColsDef mapped to ID_TITULAR in InputTitularIsento:");
-						}
-					}
-				}
+			if (isentoType != null) {
+				dependenteIsentoUi.setIsentoType(isentoType);
+			} else {
+				dependenteIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
 			}
+
+			dependenteIsentoUi.setMes(coParticipacaoContext.getMes());
+			dependenteIsentoUi.setAno(coParticipacaoContext.getAno());
+			dependenteIsentoUi.setUserCreated(coParticipacaoContext.getUser());
+			dependenteIsentoUi.setUserAltered(coParticipacaoContext.getUser());
+
+			coParticipacaoContext.addDependenteIsento(dependenteIsentoUi);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -265,24 +197,114 @@ public class IsentoServiceImpl implements IsentoService {
 		}
 	}
 
-	public void saveIsentos(CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	private void createTitularIsento(
+			TitularUi titularUi,
+			BeneficiarioIsentoUi beneficiarioIsentoUi,
+			IsentoType isentoType,
+			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		TitularIsentoUi titularIsentoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			titularIsentoUi = new TitularIsentoUi();
+
+			titularIsentoUi.setTitular(titularUi);
+
+			if (isentoType != null) {
+				titularIsentoUi.setIsentoType(isentoType);
+			} else {
+				titularIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
+			}
+
+			titularIsentoUi.setMes(coParticipacaoContext.getMes());
+			titularIsentoUi.setAno(coParticipacaoContext.getAno());
+			titularIsentoUi.setUserCreated(coParticipacaoContext.getUser());
+			titularIsentoUi.setUserAltered(coParticipacaoContext.getUser());
+
+			coParticipacaoContext.addTitularIsento(titularIsentoUi);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private BeneficiarioIsentoUi createBeneficiarioIsento(
+			List<IsentoInputSheetCols> isentoInputSheetCols,
+			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		BeneficiarioIsentoUi beneficiarioIsentoUi;
+		BeneficiarioIsentoColType beneficiarioIsentoColType;
+		Object value;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			beneficiarioIsentoUi = new BeneficiarioIsentoUi();
+
+			for (IsentoInputSheetCols beneficiarioIsentoInputCol : isentoInputSheetCols) {
+				beneficiarioIsentoColType = beneficiarioIsentoInputCol.getBeneficiarioIsentoColType();
+
+				if (beneficiarioIsentoColType != null) {
+					value = coParticipacaoContext.getColumnValue(
+							(ArquivoInputColsDefUi) beneficiarioIsentoInputCol.getArquivoInputColsDef());
+
+					LOGGER.info(
+							"Transfering value [{}] to BeneficiarioIsento [{}]:",
+							value,
+							beneficiarioIsentoColType.getDescription());
+
+					if (BeneficiarioIsentoColType.NR_MATRICULA.equals(beneficiarioIsentoColType)) {
+						beneficiarioIsentoUi.setMatricula((Long) value);
+					} else if (BeneficiarioIsentoColType.NR_CPF.equals(beneficiarioIsentoColType)) {
+						if (value instanceof String) {
+							if (StringUtils.isNotBlank((String) value)) {
+								value = StringUtils.replaceAll((String) value, "(\\.|\\-)", "");
+								beneficiarioIsentoUi.setCpf(Long.valueOf((String) value));
+							}
+						} else {
+							beneficiarioIsentoUi.setCpf((Long) value);
+						}
+					} else if (BeneficiarioIsentoColType.NM_BENEFICIARIO.equals(beneficiarioIsentoColType)) {
+						beneficiarioIsentoUi.setName((String) value);
+					} else if (BeneficiarioIsentoColType.DT_NASCIMENTO.equals(beneficiarioIsentoColType)) {
+						beneficiarioIsentoUi.setDtNascimento((LocalDate) value);
+					} else if (BeneficiarioIsentoColType.TP_ISENTO.equals(beneficiarioIsentoColType)) {
+						if (value instanceof String) {
+							beneficiarioIsentoUi.setIsentoType(IsentoType.parse((String) value));
+						} else {
+							beneficiarioIsentoUi.setIsentoType(IsentoType.parse((Integer) value));
+						}
+					} else if (BeneficiarioIsentoColType.NR_MATRICULA_TITULAR.equals(beneficiarioIsentoColType)) {
+						beneficiarioIsentoUi.setMatriculaTitular((Long) value);
+					} else if (BeneficiarioIsentoColType.NM_TITULAR.equals(beneficiarioIsentoColType)) {
+						beneficiarioIsentoUi.setNameTitular((String) value);
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return beneficiarioIsentoUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void saveIsentos(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
 			LOGGER.info(
 					"Saving [{}] registers of TitularIsento:",
-					coParticipacaoContext.getBunker().getTitularIsentoUis()
-							.size());
-			titularIsentoService.saveBatch(
-					coParticipacaoContext.getBunker().getTitularIsentoUis());
+					coParticipacaoContext.getBunker().getTitularIsentoUis().size());
+			titularIsentoService.saveBatch(coParticipacaoContext.getBunker().getTitularIsentoUis());
 
 			LOGGER.info(
 					"Saving [{}] registers of DependenteIsento:",
-					coParticipacaoContext.getBunker().getDependenteIsentoUis()
-							.size());
-			dependenteIsentoService.saveBatch(
-					coParticipacaoContext.getBunker().getDependenteIsentoUis());
+					coParticipacaoContext.getBunker().getDependenteIsentoUis().size());
+			dependenteIsentoService.saveBatch(coParticipacaoContext.getBunker().getDependenteIsentoUis());
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -292,8 +314,7 @@ public class IsentoServiceImpl implements IsentoService {
 
 	}
 
-	public void deleteByMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano)
-			throws ServiceException {
+	public void deleteByMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
@@ -302,6 +323,89 @@ public class IsentoServiceImpl implements IsentoService {
 			titularIsentoService.deleteByMesAndAno(empresaUi, mes, ano);
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+			LOGGER.info("Stating Isento processing:");
+			processIsento(coParticipacaoContext);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void beforeProcess(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			deleteByMesAndAno(
+					coParticipacaoContext.getEmpresaUi(),
+					coParticipacaoContext.getMes(),
+					coParticipacaoContext.getAno());
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	@Transactional(value = AbstractService.JDBC_TX, propagation = Propagation.REQUIRED)
+	public void afterProcess(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+			LOGGER.info("Process ending and sending data to database:");
+
+			LOGGER.info("Storing Isentos to database:");
+			saveIsentos(coParticipacaoContext);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public boolean validateLine(String line, CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		return true;
+	}
+
+	public boolean validateSheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		List<IsentoInputSheetUi> isentoInputSheetUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			/*
+			 * Deve ser usado apenas se todas as pastas da planilha forem
+			 * iguais, habilitando este valor o processo irá ler TODAS as pastas
+			 * existentes na planilha de Isentos:
+			 */
+			if (Boolean.TRUE.equals(coParticipacaoContext.getContratoUi().isSpreadsheetAllPages())) {
+				LOGGER.debug("Reading sheet [{}]:", coParticipacaoContext.getCurrentSheet());
+				return true;
+			} else {
+				isentoInputSheetUis = coParticipacaoContext.getIsentoInputSheetUis();
+
+				for (IsentoInputSheetUi isentoInputSheetUi : isentoInputSheetUis) {
+					if (isentoInputSheetUi.getSheetId().equals(coParticipacaoContext.getCurrentSheet())) {
+						LOGGER.debug("Reading sheet [{}]:", coParticipacaoContext.getCurrentSheet());
+						return true;
+					}
+				}
+			}
+
+			LOGGER.debug("Ignoring sheet [{}]:", coParticipacaoContext.getCurrentSheet());
+			LOGGER.info("END");
+			return false;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

@@ -8,5 +8,19 @@
 		]]>
 	</query>
 
+	<query id="findByName">
+		<![CDATA[
+			select empresa from EmpresaEntity empresa
+			where empresa.nameEmpresa = :nameEmpresa
+		]]>
+	</query>
+
+	<query id="findByCdEmpresa">
+		<![CDATA[
+			select empresa from EmpresaEntity empresa
+			where empresa.cdEmpresa = :cdEmpresa
+		]]>
+	</query>
+	
 </queries>
 	

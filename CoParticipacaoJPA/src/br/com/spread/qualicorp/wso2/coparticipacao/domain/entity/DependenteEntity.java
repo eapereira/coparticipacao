@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -11,11 +12,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
@@ -29,10 +30,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
  */
 @Entity
 @Table(name = "TB_DEPENDENTE")
-@NamedQuery(
-		name = "DependenteEntity.findAll",
-		query = "SELECT d FROM DependenteEntity d")
-public class DependenteEntity extends Dependente {
+@NamedQuery(name = "DependenteEntity.findAll", query = "SELECT d FROM DependenteEntity d")
+public class DependenteEntity extends Dependente implements DomainEntity {
 
 	/**
 	 * 
@@ -58,7 +57,7 @@ public class DependenteEntity extends Dependente {
 	}
 
 	@Column(name = "NR_CPF")
-	public String getCpf() {
+	public Long getCpf() {
 		return super.getCpf();
 	}
 
@@ -69,24 +68,20 @@ public class DependenteEntity extends Dependente {
 	}
 
 	// bi-directional many-to-one association to DependenteIsento
-	@OneToMany(
-			mappedBy = "dependente",
-			targetEntity = DependenteIsentoEntity.class)
-	@OrderColumn(name="INDEX")
+	@OneToMany(mappedBy = "dependente", targetEntity = DependenteIsentoEntity.class)
 	public List<DependenteIsento> getDependenteIsentos() {
 		return super.getDependenteIsentos();
 	}
 
 	// bi-directional many-to-one association to Lancamento
 	@OneToMany(mappedBy = "dependente", targetEntity = LancamentoEntity.class)
-	@OrderColumn(name="INDEX")
 	public List<Lancamento> getLancamentos() {
 		return super.getLancamentos();
 	}
 
 	// bi-directional many-to-one association to RegraOperation
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = TitularEntity.class)
-	@JoinColumn(name = "ID_TITULAR")	
+	@JoinColumn(name = "ID_TITULAR")
 	@Override
 	public Titular getTitular() {
 		return super.getTitular();
@@ -97,6 +92,38 @@ public class DependenteEntity extends Dependente {
 	public Long getMatricula() {
 		// TODO Auto-generated method stub
 		return super.getMatricula();
+	}
+
+	@Column(name = "NM_LABEL")
+	@Override
+	public String getLabel() {
+		// TODO Auto-generated method stub
+		return super.getLabel();
+	}
+
+	@Column(name = "NR_REF_CODE")
+	@Override
+	public Long getReferenceCode() {
+		// TODO Auto-generated method stub
+		return super.getReferenceCode();
+	}
+
+	@Column(name = "NR_MATRICULA_EMPRESA")
+	@Override
+	public Long getMatriculaEmpresa() {
+		// TODO Auto-generated method stub
+		return super.getMatriculaEmpresa();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "dependente",
+			targetEntity = DependenteDetailEntity.class)
+	@Override
+	public List<DependenteDetail> getDependenteDetails() {
+		// TODO Auto-generated method stub
+		return super.getDependenteDetails();
 	}
 
 }

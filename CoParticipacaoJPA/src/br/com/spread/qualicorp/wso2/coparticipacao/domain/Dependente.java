@@ -13,19 +13,38 @@ public abstract class Dependente extends AbstractDomain {
 
 	private LocalDate dtNascimento;
 	private String nameDependente;
-	private String cpf;
+	private Long cpf;
 	private BeneficiarioType tpDependente;
-	
+
+	/**
+	 * Código de matricula usado pela operadora, campo fornecido pelos arquivos
+	 * <code.MECSAS</code>
+	 */
 	private Long matricula;
-	
+
+	/**
+	 * Código de matricula da empresa cliente, nem todas utilizam este número.
+	 * Seu valor é carregado por arquivo chamados de <b>Base de Ativos</b> da
+	 * empresa, são um tipo de <code>MECSAS</code> que atualiza alguns campos do
+	 * {@link Titular} e do {@link Dependente}.
+	 */
+	private Long matriculaEmpresa;
+
+	private String label;
+
+	private Long referenceCode;
+
 	private Titular titular;
 
 	private List<DependenteIsento> dependenteIsentos;
 	private List<Lancamento> lancamentos;
 
+	private List<DependenteDetail> dependenteDetails;
+
 	public Dependente() {
-		dependenteIsentos=new ArrayList<>();
-		lancamentos=new ArrayList<>();
+		dependenteIsentos = new ArrayList<>();
+		lancamentos = new ArrayList<>();
+		dependenteDetails = new ArrayList<>();
 	}
 
 	public Dependente(Dependente entity) {
@@ -48,11 +67,11 @@ public abstract class Dependente extends AbstractDomain {
 		this.nameDependente = nameDependente;
 	}
 
-	public String getCpf() {
+	public Long getCpf() {
 		return this.cpf;
 	}
 
-	public void setCpf(String cpf) {
+	public void setCpf(Long cpf) {
 		this.cpf = cpf;
 	}
 
@@ -116,6 +135,10 @@ public abstract class Dependente extends AbstractDomain {
 		this.titular = titular;
 	}
 
+	/**
+	 * Código de matricula usado pela operadora, campo fornecido pelos arquivos
+	 * <code.MECSAS</code>
+	 */
 	public Long getMatricula() {
 		return matricula;
 	}
@@ -124,24 +147,70 @@ public abstract class Dependente extends AbstractDomain {
 		this.matricula = matricula;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public Long getReferenceCode() {
+		return referenceCode;
+	}
+
+	public void setReferenceCode(Long referenceCode) {
+		this.referenceCode = referenceCode;
+	}
+
+	/**
+	 * Código de matricula da empresa cliente, nem todas utilizam este número.
+	 * Seu valor é carregado por arquivo chamados de <b>Base de Ativos</b> da
+	 * empresa, são um tipo de <code>MECSAS</code> que atualiza alguns campos do
+	 * {@link Titular} e do {@link Dependente}.
+	 */
+	public Long getMatriculaEmpresa() {
+		return matriculaEmpresa;
+	}
+
+	public void setMatriculaEmpresa(Long matriculaEmpresa) {
+		this.matriculaEmpresa = matriculaEmpresa;
+	}
+
+	public List<DependenteDetail> getDependenteDetails() {
+		return dependenteDetails;
+	}
+
+	public void setDependenteDetails(List<DependenteDetail> dependenteDetails) {
+		this.dependenteDetails = dependenteDetails;
+	}
+
+	public void addDependenteDetail(DependenteDetail dependenteDetail) {
+		getDependenteDetails().add(dependenteDetail);
+		dependenteDetail.setDependente(this);
+	}
+
+	public void removeDependenteDetail(DependenteDetail dependenteDetail) {
+		getDependenteDetails().remove(dependenteDetail);
+		dependenteDetail.setDependente(null);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
-		result = prime * result + ((dependenteIsentos == null) ? 0
-				: dependenteIsentos.hashCode());
-		result = prime * result
-				+ ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
-		result = prime * result
-				+ ((lancamentos == null) ? 0 : lancamentos.hashCode());
-		result = prime * result
-				+ ((matricula == null) ? 0 : matricula.hashCode());
-		result = prime * result
-				+ ((nameDependente == null) ? 0 : nameDependente.hashCode());
+		result = prime * result + ((dependenteDetails == null) ? 0 : dependenteDetails.hashCode());
+		result = prime * result + ((dependenteIsentos == null) ? 0 : dependenteIsentos.hashCode());
+		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result + ((lancamentos == null) ? 0 : lancamentos.hashCode());
+		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
+		result = prime * result + ((nameDependente == null) ? 0 : nameDependente.hashCode());
+		result = prime * result + ((referenceCode == null) ? 0 : referenceCode.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
-		result = prime * result
-				+ ((tpDependente == null) ? 0 : tpDependente.hashCode());
+		result = prime * result + ((tpDependente == null) ? 0 : tpDependente.hashCode());
 		return result;
 	}
 
@@ -159,6 +228,11 @@ public abstract class Dependente extends AbstractDomain {
 				return false;
 		} else if (!cpf.equals(other.cpf))
 			return false;
+		if (dependenteDetails == null) {
+			if (other.dependenteDetails != null)
+				return false;
+		} else if (!dependenteDetails.equals(other.dependenteDetails))
+			return false;
 		if (dependenteIsentos == null) {
 			if (other.dependenteIsentos != null)
 				return false;
@@ -168,6 +242,11 @@ public abstract class Dependente extends AbstractDomain {
 			if (other.dtNascimento != null)
 				return false;
 		} else if (!dtNascimento.equals(other.dtNascimento))
+			return false;
+		if (label == null) {
+			if (other.label != null)
+				return false;
+		} else if (!label.equals(other.label))
 			return false;
 		if (lancamentos == null) {
 			if (other.lancamentos != null)
@@ -179,10 +258,20 @@ public abstract class Dependente extends AbstractDomain {
 				return false;
 		} else if (!matricula.equals(other.matricula))
 			return false;
+		if (matriculaEmpresa == null) {
+			if (other.matriculaEmpresa != null)
+				return false;
+		} else if (!matriculaEmpresa.equals(other.matriculaEmpresa))
+			return false;
 		if (nameDependente == null) {
 			if (other.nameDependente != null)
 				return false;
 		} else if (!nameDependente.equals(other.nameDependente))
+			return false;
+		if (referenceCode == null) {
+			if (other.referenceCode != null)
+				return false;
+		} else if (!referenceCode.equals(other.referenceCode))
 			return false;
 		if (titular == null) {
 			if (other.titular != null)

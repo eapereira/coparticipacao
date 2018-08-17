@@ -21,10 +21,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalValor;
  */
 @Entity
 @Table(name = "TB_REGRA_CONDITIONAL_VALOR")
-@NamedQuery(
-		name = "RegraConditionalValorEntity.findAll",
-		query = "SELECT r FROM RegraConditionalValorEntity r")
-public class RegraConditionalValorEntity extends RegraConditionalValor {
+@NamedQuery(name = "RegraConditionalValorEntity.findAll", query = "SELECT r FROM RegraConditionalValorEntity r")
+public class RegraConditionalValorEntity extends RegraConditionalValor implements DomainEntity {
 
 	/**
 	 * 
@@ -36,14 +34,12 @@ public class RegraConditionalValorEntity extends RegraConditionalValor {
 	}
 
 	// bi-directional many-to-one association to RegraConditionalOperation
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = RegraConditionalOperationEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegraConditionalOperationEntity.class)
 	@JoinColumn(name = "ID_REGRA_CONDITIONAL_OPERATION")
 	public RegraConditionalOperation getRegraConditionalOperation() {
 		return super.getRegraConditionalOperation();
 	}
-	
+
 	@Column(name = "VL_INT")
 	@Override
 	public Integer getIntValue() {
@@ -77,5 +73,5 @@ public class RegraConditionalValorEntity extends RegraConditionalValor {
 	public String getStringValue() {
 		// TODO Auto-generated method stub
 		return super.getStringValue();
-	}	
+	}
 }

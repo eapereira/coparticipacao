@@ -1,26 +1,32 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.TitularDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.TitularEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.TitularUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.AbstractJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.TitularJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.TitularJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 
 /**
@@ -29,12 +35,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  *
  */
 @Service
-public class TitularServiceImpl
-		extends AbstractServiceImpl<TitularUi, TitularEntity, Titular>
+public class TitularServiceImpl extends AbstractServiceImpl<TitularUi, TitularEntity, Titular>
 		implements TitularService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(TitularServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(TitularServiceImpl.class);
 
 	@Autowired
 	private TitularDao titularDao;
@@ -50,6 +54,9 @@ public class TitularServiceImpl
 
 	@Autowired
 	private TitularJdbcDao titularJdbcDao;
+
+	@Autowired
+	private TitularDetailService titularDetailService;
 
 	@Override
 	protected AbstractDao<TitularEntity> getDao() {
@@ -124,42 +131,48 @@ public class TitularServiceImpl
 	}
 
 	@Override
-	public void saveBatch(List<TitularUi> uis) throws ServiceException {
+	protected void logBatchInfo(TitularUi titularUi) throws ServiceException {
+		LOGGER.debug("ID_TITULAR:........................[{}]", titularUi.getId());
+		LOGGER.debug("NM_TITULAR:........................[{}]", titularUi.getNameTitular());
+		LOGGER.debug("NR_CPF:............................[{}]", titularUi.getCpf());
+		LOGGER.debug("NR_MATRICULA:......................[{}]", titularUi.getMatricula());
+		LOGGER.debug("NR_MATRICULA_EMPRESA:..............[{}]", titularUi.getMatriculaEmpresa());
+		LOGGER.debug("DT_NASCIMENTO:.....................[{}]", titularUi.getDtNascimento());
+		LOGGER.debug("DT_ADMISSAO:.......................[{}]", titularUi.getDtAdmissao());
+	}
+
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JDBC_TX)
+	@Override
+	public void saveBatch(List<TitularUi> titularUis) throws ServiceException {
+		List<TitularDetailUi> titularDetailUis;
+
 		try {
 			LOGGER.info("BEGIN");
 
-			super.saveBatch(uis);
+			titularDetailUis = new ArrayList<TitularDetailUi>();
 
-			for (Titular titular : uis) {
-				LOGGER.debug(
-						"ID_TITULAR:........................[{}]",
-						titular.getId());
-				LOGGER.debug(
-						"NM_TITULAR:........................[{}]",
-						titular.getNameTitular());
-				LOGGER.debug(
-						"NR_MATRICULA_TITULAR:..............[{}]",
-						titular.getMatricula());
+			super.saveBatch(titularUis);
 
-				for (Dependente dependente : titular.getDependentes()) {
-					LOGGER.debug(
-							"NM_DEPENDENTE:.....................[{}]",
-							dependente.getNameDependente());
-					LOGGER.debug(
-							"NR_MATRICULA:......................[{}]",
-							dependente.getMatricula());
-					LOGGER.debug(
-							"NR_CPF_DEPENDENTE:.................[{}]",
-							dependente.getCpf());
-					LOGGER.debug(
-							"DT_NASCIMENTO:.....................[{}]",
-							dependente.getDtNascimento());
-					LOGGER.debug(
-							"TP_DEPENDENTE:.....................[{}]",
-							dependente.getTpDependente().getDescription());
+			for (TitularUi titularUi : titularUis) {
+				logBatchInfo(titularUi);
 
-					dependenteService.saveBatch((DependenteUi) dependente);
+				for (TitularDetail titularDetail : titularUi.getTitularDetails()) {
+					LOGGER.debug(
+							"TitularDetailUi.[{}] with value [{}]",
+							titularDetail.getArquivoInputColsDef().getNameColumn(),
+							titularDetailService.getFieldValue((TitularDetailUi) titularDetail));
+
+					titularDetailUis.add((TitularDetailUi) titularDetail);
+
+					if (titularDetailUis.size() % AbstractJdbcDao.BATCH_SIZE == 0) {
+						titularDetailService.saveBatchBlock(titularDetailUis);
+						titularDetailUis.clear();
+					}
 				}
+			}
+
+			if (!titularDetailUis.isEmpty()) {
+				titularDetailService.saveBatchBlock(titularDetailUis);
 			}
 
 			LOGGER.info("END");
@@ -169,5 +182,4 @@ public class TitularServiceImpl
 		}
 
 	}
-
 }

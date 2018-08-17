@@ -9,34 +9,31 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.ws.config.annotation.EnableWs;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 
 @Configuration
 @ComponentScan(basePackages = { "br.com.spread.qualicorp" })
-@EnableWs
 @EnableAutoConfiguration
 @EnableTransactionManagement
+@Profile(value = "test")
 public class JdbcConfigurationTest {
-	private static final Logger LOGGER = LogManager
-			.getLogger(JdbcConfigurationTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(JdbcConfigurationTest.class);
 
-	@Bean
-	@Qualifier(value = "jdbcTransactionManager")
+	@Bean(name = "jdbcTransactionManager")
 	public DataSourceTransactionManager dataSourceTransactionManager(
-			DataSource dataSourceJdbc) throws CoParticipacaoException {
+			@Qualifier("jdbcDataSource") DataSource dataSourceJdbc) throws CoParticipacaoException {
 		DataSourceTransactionManager transactionManager;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			transactionManager = new DataSourceTransactionManager(
-					dataSourceJdbc);
+			transactionManager = new DataSourceTransactionManager(dataSourceJdbc);
 
 			LOGGER.info("END");
 			return transactionManager;
@@ -46,8 +43,7 @@ public class JdbcConfigurationTest {
 		}
 	}
 
-	@Bean
-	@Qualifier(value = "dataSourceJdbc")
+	@Bean(name = "jdbcDataSource")
 	public DataSource dataSourceJdbc() throws CoParticipacaoException {
 		try {
 			LOGGER.info("BEGIN");
@@ -67,7 +63,7 @@ public class JdbcConfigurationTest {
 	}
 
 	@Bean
-	public JdbcTemplate jdbcTemplate(DataSource dataSourceJdbc)
+	public JdbcTemplate jdbcTemplate(@Qualifier("jdbcDataSource") DataSource dataSourceJdbc)
 			throws CoParticipacaoException {
 		JdbcTemplate jdbcTemplate;
 

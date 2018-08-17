@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
@@ -26,10 +25,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
  */
 @Entity
 @Table(name = "TB_EMPRESA")
-@NamedQuery(
-		name = "EmpresaEntity.findAll",
-		query = "SELECT e FROM EmpresaEntity e")
-public class EmpresaEntity extends Empresa {
+@NamedQuery(name = "EmpresaEntity.findAll", query = "SELECT e FROM EmpresaEntity e")
+public class EmpresaEntity extends Empresa implements DomainEntity {
 
 	/**
 	 * 
@@ -50,21 +47,18 @@ public class EmpresaEntity extends Empresa {
 
 	// bi-directional many-to-one association to Contrato
 	@OneToMany(mappedBy = "empresa", targetEntity = ContratoEntity.class)
-	@OrderColumn(name="index")
 	public List<Contrato> getContratos() {
 		return super.getContratos();
 	}
 
 	// bi-directional many-to-one association to Parameter
 	@OneToMany(mappedBy = "empresa", targetEntity = ParameterEntity.class)
-	@OrderColumn(name="INDEX")
 	public List<Parameter> getParameters() {
 		return super.getParameters();
 	}
 
 	// bi-directional many-to-one association to Contrato
 	@OneToMany(mappedBy = "empresa", targetEntity = TitularEntity.class)
-	@OrderColumn(name="INDEX")
 	@Override
 	public List<Titular> getTitulars() {
 		// TODO Auto-generated method stub
@@ -72,15 +66,33 @@ public class EmpresaEntity extends Empresa {
 	}
 
 	// bi-directional many-to-one association to Contrato
-	@ManyToOne(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			targetEntity = OperadoraEntity.class)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = OperadoraEntity.class)
 	@JoinColumn(name = "ID_OPERADORA")
 	@Override
 	public Operadora getOperadora() {
 		// TODO Auto-generated method stub
 		return super.getOperadora();
+	}
+
+	@Column(name = "CD_AUTOMATIC_CREATE_BENEFICIARIO")
+	@Override
+	public boolean isAutomaticCreateBeneficiario() {
+		// TODO Auto-generated method stub
+		return super.isAutomaticCreateBeneficiario();
+	}
+
+	@Column(name = "CD_OUTPUT_REPORT_DIR")
+	@Override
+	public String getOutputReportDir() {
+		// TODO Auto-generated method stub
+		return super.getOutputReportDir();
+	}
+
+	@Column(name = "CD_EMPRESA")
+	@Override
+	public String getCdEmpresa() {
+		// TODO Auto-generated method stub
+		return super.getCdEmpresa();
 	}
 
 }

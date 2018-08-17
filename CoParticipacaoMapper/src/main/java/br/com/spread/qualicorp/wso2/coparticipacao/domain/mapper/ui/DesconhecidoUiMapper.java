@@ -16,8 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 		uses = {
 				UserUiMapper.class,
 				ContratoUiMapper.class,
-				ArquivoInputUiMapper.class,
-				DesconhecidoDetailUiMapper.class })
+				ArquivoInputUiMapper.class})
 public abstract class DesconhecidoUiMapper
 		extends AbstractMapper<Desconhecido, DesconhecidoUi> {
 

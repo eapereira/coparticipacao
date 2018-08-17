@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.DynamicDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.DynamicDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DynamicService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -21,27 +22,19 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 @Service
 public class DynamicServiceImpl implements DynamicService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(DynamicServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(DynamicServiceImpl.class);
 
 	@Autowired
 	private DynamicDao dynamicDao;
 
-	public List<DynamicEntity> listByEmpresaAndMesAndAno(
-			String sql,
-			EmpresaUi empresaUi,
-			int mes,
-			int ano) throws ServiceException {
+	public List<DynamicEntity> listByEmpresaAndMesAndAno(String sql, ContratoUi contratoUi, int mes, int ano)
+			throws ServiceException {
 		List<DynamicEntity> dynamicEntities;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			dynamicEntities = dynamicDao.listByEmpresaAndMesAndAno(
-					sql,
-					empresaUi.getId(),
-					mes,
-					ano);
+			dynamicEntities = dynamicDao.listByEmpresaAndMesAndAno(sql, contratoUi.getId(), mes, ano);
 
 			LOGGER.info("END");
 			return dynamicEntities;

@@ -6,6 +6,7 @@
 			where	desconhecido.contrato.id = :contratoId
 			and		desconhecido.mes	= :mes
 			and		desconhecido.ano	= :ano
+			order by desconhecido.nameBeneficiario
 		]]>
 	</query>
 
@@ -16,6 +17,26 @@
 			where	contrato.id			= :contratoId
 			and		desconhecido.mes	= :mes
 			and		desconhecido.ano	= :ano
+			order by desconhecido.nameBeneficiario
+		]]>
+	</query>
+
+	<query id="listByContratoId">
+		<![CDATA[
+			select desconhecido from DesconhecidoEntity desconhecido
+			join fetch desconhecido.contrato contrato
+			where	contrato.id			= :contratoId
+			order by desconhecido.nameBeneficiario
+		]]>
+	</query>
+
+	<query id="listByEmpresaId">
+		<![CDATA[
+			select desconhecido from DesconhecidoEntity desconhecido
+			join fetch desconhecido.contrato contrato
+			join fetch contrato.empresa empresa
+			where empresa.id = :empresaId
+			order by desconhecido.nameBeneficiario
 		]]>
 	</query>
 

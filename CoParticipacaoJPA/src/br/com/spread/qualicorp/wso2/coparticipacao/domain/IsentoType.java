@@ -7,7 +7,12 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
  */
 public enum IsentoType {
 						GRAVIDA(1, "Grávida"),
-						DIRETORIA(2, "Diretória");
+						GESTANTE(1, "Gestante"),
+						FILHOS_ATE_12_MESES(2, "Menores até 12 meses"),
+						ESTAGIARIO(3, "Estagiário"),
+						DIRETORIA(4, "Diretória"),
+						CRONICO(5, "Crônicos"),
+						CRONICO_INATIVO(6, "CRONICOS / INATIVO");
 
 	private Integer id;
 
@@ -29,6 +34,16 @@ public enum IsentoType {
 	public static IsentoType parse(Integer id) {
 		for (IsentoType isentoType : IsentoType.values()) {
 			if (isentoType.getId().equals(id)) {
+				return isentoType;
+			}
+		}
+
+		return null;
+	}
+
+	public static IsentoType parse(String description) {
+		for (IsentoType isentoType : IsentoType.values()) {
+			if (isentoType.getDescription().equalsIgnoreCase(description)) {
 				return isentoType;
 			}
 		}

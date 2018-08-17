@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
+import java.util.List;
+
 import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,18 +18,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntit
  *
  */
 @Repository
-public class LancamentoDaoImpl extends AbstractDaoImpl<LancamentoEntity>
-		implements LancamentoDao {
+public class LancamentoDaoImpl extends AbstractDaoImpl<LancamentoEntity> implements LancamentoDao {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(LancamentoDaoImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(LancamentoDaoImpl.class);
 
 	public LancamentoDaoImpl() throws DaoException {
 		super();
 	}
 
-	public void deleteByMesAndAno(Long contratoId, int mes, int ano)
-			throws DaoException {
+	public void deleteByMesAndAno(Long contratoId, int mes, int ano) throws DaoException {
 		Query query;
 
 		try {
@@ -46,6 +45,48 @@ public class LancamentoDaoImpl extends AbstractDaoImpl<LancamentoEntity>
 			throw new DaoException(e.getMessage(), e);
 		}
 
+	}
+
+	public List<LancamentoEntity> listByMesAndAno(Long contratoId, int mes, int ano) throws DaoException {
+		List<LancamentoEntity> lancamentoEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByMesAndAno");
+			query.setParameter("contratoId", contratoId);
+			query.setParameter("mes", mes);
+			query.setParameter("ano", ano);
+
+			lancamentoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return lancamentoEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<LancamentoEntity> listByEmpresaId(Long empresaId) throws DaoException {
+		List<LancamentoEntity> lancamentoEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByEmpresaId");
+			query.setParameter("empresaId", empresaId);
+
+			lancamentoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return lancamentoEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
 	}
 
 }

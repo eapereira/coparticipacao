@@ -1,6 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service;
 
 import br.com.spread.qualicorp.webservice.coparticipacao.CoParticipacaoInfo;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 
 /**
  * 
@@ -21,5 +22,7 @@ public interface CoParticipacaoService {
 	 *             Se ocorrer algum erro, notificaremos o usuário.
 	 */
 	CoParticipacaoInfo processFile(String fileName, String filePath) throws ServiceException;
+
+	void clearCoparticipacao(EmpresaUi empresaUi) throws ServiceException;
 
 }

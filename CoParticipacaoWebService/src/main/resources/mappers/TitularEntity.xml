@@ -9,11 +9,17 @@
 				NR_CPF,
 				DT_NASCIMENTO,
 				DT_ADMISSAO,
+				NM_LABEL,
+				NR_REF_CODE,
+				NR_MATRICULA_EMPRESA,
 				
 				USER_CREATED,
 				DT_ALTERED,
 				DT_CREATED
 			) VALUES (
+				?,
+				?,
+				?,
 				?,
 				?,
 				?,
@@ -32,15 +38,18 @@
 		<![CDATA[
 			UPDATE TB_TITULAR
 			SET
-				ID_EMPRESA 		= ?,
-				NR_MATRICULA	= ?,
-				NM_TITULAR 		= ?,
-				NR_CPF 			= ?,
-				DT_NASCIMENTO 	= ?,
-				DT_ADMISSAO 	= ?,
+				ID_EMPRESA 				= ?,
+				NR_MATRICULA			= ?,
+				NM_TITULAR 				= ?,
+				NR_CPF 					= ?,
+				DT_NASCIMENTO 			= ?,
+				DT_ADMISSAO 			= ?,
+				NM_LABEL				= ?,
+				NR_REF_CODE				= ?,
+				NR_MATRICULA_EMPRESA	= ?,
 
-				USER_ALTERED 	= ?,
-				DT_ALTERED 		= CURRENT_TIMESTAMP()
+				USER_ALTERED 			= ?,
+				DT_ALTERED 				= CURRENT_TIMESTAMP()
 			WHERE ID = ?
 		]]>
 	</query>

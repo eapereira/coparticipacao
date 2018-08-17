@@ -31,12 +31,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
  *
  */
 @Service
-public class ArquivoInputServiceImpl extends
-		AbstractServiceImpl<ArquivoInputUi, ArquivoInputEntity, ArquivoInput>
+public class ArquivoInputServiceImpl extends AbstractServiceImpl<ArquivoInputUi, ArquivoInputEntity, ArquivoInput>
 		implements ArquivoInputService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(ArquivoInputServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(ArquivoInputServiceImpl.class);
 
 	@Autowired
 	private ArquivoInputDao arquivoInputDao;
@@ -50,8 +48,7 @@ public class ArquivoInputServiceImpl extends
 	@Autowired
 	private ArquivoInputEntityMapper entityMapper;
 
-	public CoParticipacaoContext findByName(String fileName)
-			throws ServiceException {
+	public CoParticipacaoContext findByName(String fileName) throws ServiceException {
 		List<ArquivoInputUi> arquivoInputUis;
 		Pattern regexpFileName;
 		Matcher matcher;
@@ -68,31 +65,29 @@ public class ArquivoInputServiceImpl extends
 			mes = NumberUtils.INTEGER_ZERO;
 
 			for (ArquivoInputUi arquivoInputUi : arquivoInputUis) {
-				regexpFileName = Pattern
-						.compile(arquivoInputUi.getNameArquivoRegexp());
+				regexpFileName = Pattern.compile(arquivoInputUi.getNameArquivoRegexp());
 				matcher = regexpFileName.matcher(fileName);
 
 				if (matcher.find()) {
-					LOGGER.info(
-							"Found ArquivoInput for the file [{}]:",
-							fileName);
+					LOGGER.info("Found ArquivoInput for the file [{}]:", fileName);
 
 					if (arquivoInputUi.getRegexpDia() != null) {
-						dia = Integer.parseInt(
-								matcher.group(arquivoInputUi.getRegexpDia()));
+						dia = Integer.parseInt(matcher.group(arquivoInputUi.getRegexpDia()));
 					} else {
 						dia = DateUtils.now().getDayOfMonth();
 					}
 
 					if (arquivoInputUi.getRegexpMes() != null) {
-						mes = Integer.parseInt(
-								matcher.group(arquivoInputUi.getRegexpMes()));
+						mes = Integer.parseInt(matcher.group(arquivoInputUi.getRegexpMes()));
 					} else {
 						mes = DateUtils.now().getMonthValue();
 					}
 
-					ano = Integer.parseInt(
-							matcher.group(arquivoInputUi.getRegexpAno()));
+					if (arquivoInputUi.getRegexpAno() != null) {
+						ano = Integer.parseInt(matcher.group(arquivoInputUi.getRegexpAno()));
+					} else {
+						ano = DateUtils.now().getYear();
+					}
 
 					coParticipacaoContext = new CoParticipacaoContext();
 					coParticipacaoContext.setArquivoInputUi(arquivoInputUi);
@@ -117,14 +112,12 @@ public class ArquivoInputServiceImpl extends
 		return arquivoInputDao;
 	}
 
-	public ArquivoInputUi findByContrato(Long contratoId)
-			throws ServiceException {
+	public ArquivoInputUi findByContrato(Long contratoId) throws ServiceException {
 		ArquivoInputUi arquivoInputUi;
 
 		try {
 			LOGGER.info("BEGIN");
-			arquivoInputUi = entityToUi(
-					arquivoInputDao.findByContrato(contratoId));
+			arquivoInputUi = entityToUi(arquivoInputDao.findByContrato(contratoId));
 
 			LOGGER.info("END");
 			return arquivoInputUi;
@@ -134,8 +127,7 @@ public class ArquivoInputServiceImpl extends
 		}
 	}
 
-	public ArquivoInputUi findByContratoName(String contratoName)
-			throws ServiceException {
+	public ArquivoInputUi findByContratoName(String contratoName) throws ServiceException {
 		ArquivoInputUi arquivoInputUi;
 		ContratoUi contratoUi;
 
@@ -144,12 +136,9 @@ public class ArquivoInputServiceImpl extends
 			contratoUi = contratoService.findByCdContrato(contratoName);
 
 			if (contratoUi != null) {
-				arquivoInputUi = entityToUi(
-						arquivoInputDao.findByContrato(contratoUi.getId()));
+				arquivoInputUi = entityToUi(arquivoInputDao.findByContrato(contratoUi.getId()));
 			} else {
-				throw new ServiceException(
-						"Contrato [%s] não encontrado.",
-						contratoName);
+				throw new ServiceException("Contrato [%s] não encontrado.", contratoName);
 			}
 
 			LOGGER.info("END");

@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity;
  * The persistent class for the tb_titular database table.
  * 
  */
-public class TitularUi extends Titular implements DomainUi {
+public class TitularUi extends Titular {
 	private static final long serialVersionUID = 1L;
 
 	public TitularUi() {

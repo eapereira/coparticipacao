@@ -56,4 +56,17 @@
 		]]>
 	</query>
 	
+	<query id="deleteByContratoAndMesAndAno">
+		<![CDATA[	
+			delete detail from TB_DESCONHECIDO_DETAIL detail
+			where detail.ID_DESCONHECIDO in (
+				select  desconhecido.ID
+				from 	TB_DESCONHECIDO desconhecido
+				where	desconhecido.ID = detail.ID_DESCONHECIDO
+				and		desconhecido.ID_CONTRATO	= ?
+				and		desconhecido.CD_MES			= ?
+				and		desconhecido.CD_ANO			= ? )
+		]]>
+	</query>
+	
 </queries>

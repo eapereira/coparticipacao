@@ -10,12 +10,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecido;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecidoColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecidoSheet;
 
 /**
  * 
@@ -24,10 +23,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhec
  */
 @Entity
 @Table(name = "TB_ARQUIVO_OUTPUT_DESCONHECIDO")
-@NamedQuery(
-		name = "ArquivoOutputDesconhecidoEntity.findAll",
-		query = "SELECT a FROM ArquivoOutputDesconhecidoEntity a")
-public class ArquivoOutputDesconhecidoEntity extends ArquivoOutputDesconhecido {
+@NamedQuery(name = "ArquivoOutputDesconhecidoEntity.findAll", query = "SELECT a FROM ArquivoOutputDesconhecidoEntity a")
+public class ArquivoOutputDesconhecidoEntity extends ArquivoOutputDesconhecido implements DomainEntity {
 
 	/**
 	 * 
@@ -64,12 +61,10 @@ public class ArquivoOutputDesconhecidoEntity extends ArquivoOutputDesconhecido {
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY,
 			mappedBy = "arquivoOutputDesconhecido",
-			targetEntity = ArquivoOutputDesconhecidoColsDefEntity.class)
-	@OrderColumn(name="INDEX")
+			targetEntity = ArquivoOutputDesconhecidoSheetEntity.class)
 	@Override
-	public List<ArquivoOutputDesconhecidoColsDef> getArquivoOutputDesconhecidoColsDefs() {
+	public List<ArquivoOutputDesconhecidoSheet> getArquivoOutputDesconhecidoSheets() {
 		// TODO Auto-generated method stub
-		return super.getArquivoOutputDesconhecidoColsDefs();
+		return super.getArquivoOutputDesconhecidoSheets();
 	}
-
 }

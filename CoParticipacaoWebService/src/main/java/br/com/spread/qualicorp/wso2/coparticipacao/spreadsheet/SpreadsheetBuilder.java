@@ -32,6 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
  * 
@@ -40,8 +41,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  */
 public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(SpreadsheetBuilder.class);
+	private static final Logger LOGGER = LogManager.getLogger(SpreadsheetBuilder.class);
 
 	private List<SpreadsheetListener<UI>> spreadsheetListeners;
 
@@ -82,8 +82,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 		this.spreadsheetFileName = spreadsheetFileName;
 	}
 
-	public void writeSpreadsheet(CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	public void writeSpreadsheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Sheet sheet;
 		List<ColumnInfo> columnInfos;
 
@@ -97,8 +96,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			createCellStyles();
 
 			for (SpreadsheetListener<UI> spreadsheetListener : getSpreadsheetListeners()) {
-				sheet = workbook.createSheet(
-						spreadsheetListener.getSheetName(numSheets));
+				sheet = workbook.createSheet(spreadsheetListener.getSheetName(numSheets));
 
 				currentRow = NumberUtils.INTEGER_ZERO;
 
@@ -108,7 +106,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 				writeData(spreadsheetListener, sheet);
 
-				//createColumnFilters(sheet);
+				// createColumnFilters(sheet);
 				numSheets++;
 			}
 
@@ -121,9 +119,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 		}
 	}
 
-	private void writeData(
-			SpreadsheetListener<UI> spreadsheetListener,
-			Sheet sheet) throws ServiceException {
+	private void writeData(SpreadsheetListener<UI> spreadsheetListener, Sheet sheet) throws ServiceException {
 		List<UI> listData;
 		Row row;
 		Cell cell;
@@ -145,8 +141,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 					writeCellValue(cell, cellInfo.getValue());
 					col++;
-				} while (CellInfoStatus.KEEP_LINE
-						.equals(cellInfo.getCellInfoStatus()));
+				} while (CellInfoStatus.KEEP_LINE.equals(cellInfo.getCellInfoStatus()));
 
 				currentRow++;
 			}
@@ -158,8 +153,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 		}
 	}
 
-	private void writeCellValue(Cell cell, Object value)
-			throws ServiceException {
+	private void writeCellValue(Cell cell, Object value) throws ServiceException {
 		if (value != null) {
 			if (value instanceof Integer) {
 				cell.setCellType(CellType.NUMERIC);
@@ -201,9 +195,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 				cell.setCellStyle(cellStyleColumnTitle);
 				cell.setCellValue(columnInfo.getName());
 
-				sheet.setColumnWidth(
-						cell.getColumnIndex(),
-						DEFAULT_FONT_WIDTH * columnInfo.getWidth());
+				sheet.setColumnWidth(cell.getColumnIndex(), DEFAULT_FONT_WIDTH * columnInfo.getWidth());
 
 				numColumns++;
 			}
@@ -217,9 +209,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 		}
 	}
 
-	private void writeWorkbook(
-			CoParticipacaoContext coParticipacaoContext,
-			Workbook workbook) throws ServiceException {
+	private void writeWorkbook(CoParticipacaoContext coParticipacaoContext, Workbook workbook) throws ServiceException {
 		OutputStream outputStream;
 		String reportPath;
 		String spreadsheetFilePath;
@@ -231,38 +221,24 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 			arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
 
-			reportPath = coParticipacaoContext
-					.findParameterByName(ParameterName.OUTPUT_FILE_PATH)
-					.getValue();
+			reportPath = coParticipacaoContext.getEmpresaUi().getOutputReportDir();
 
-			spreadsheetFileName = StringUtils.replace(
-					spreadsheetFileName,
-					"{CC}",
-					arquivoInputUi.getContrato().getCdContrato());
-			spreadsheetFileName = StringUtils.replace(
-					spreadsheetFileName,
-					"{YYYY}",
-					String.valueOf(coParticipacaoContext.getAno()));
+			spreadsheetFileName = StringUtils
+					.replace(spreadsheetFileName, "{CC}", arquivoInputUi.getContrato().getCdContrato());
+			spreadsheetFileName = StringUtils
+					.replace(spreadsheetFileName, "{YYYY}", String.valueOf(DateUtils.now().getYear()));
 			spreadsheetFileName = StringUtils.replace(
 					spreadsheetFileName,
 					"{MM}",
-					StringUtils.leftPad(
-							String.valueOf(coParticipacaoContext.getMes()),
-							2,
-							"0"));
+					StringUtils.leftPad(String.valueOf(DateUtils.now().getMonthValue()), 2, "0"));
 			spreadsheetFileName = StringUtils.replace(
 					spreadsheetFileName,
 					"{DD}",
-					StringUtils.leftPad(
-							String.valueOf(coParticipacaoContext.getDia()),
-							2,
-							"0"));
+					StringUtils.leftPad(String.valueOf(DateUtils.now().getDayOfMonth()), 2, "0"));
 
 			spreadsheetFilePath = reportPath.concat(spreadsheetFileName);
 
-			LOGGER.info(
-					"Wrting spreadsheet file to [{}]:",
-					spreadsheetFilePath);
+			LOGGER.info("Wrting spreadsheet file to [{}]:", spreadsheetFilePath);
 
 			file = new File(reportPath);
 
@@ -290,13 +266,11 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 		return spreadsheetListeners;
 	}
 
-	public void setSpreadsheetListeners(
-			List<SpreadsheetListener<UI>> spreadsheetListeners) {
+	public void setSpreadsheetListeners(List<SpreadsheetListener<UI>> spreadsheetListeners) {
 		this.spreadsheetListeners = spreadsheetListeners;
 	}
 
-	public void addSpreadsheetListener(
-			SpreadsheetListener<UI> spreadsheetListener) {
+	public void addSpreadsheetListener(SpreadsheetListener<UI> spreadsheetListener) {
 		getSpreadsheetListeners().add(spreadsheetListener);
 	}
 
@@ -314,14 +288,11 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			fontTitle.setBold(true);
 
 			cellStyleColumnTitle = workbook.createCellStyle();
-			cellStyleColumnTitle
-					.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			cellStyleColumnTitle.setFillForegroundColor(
-					IndexedColors.GREY_25_PERCENT.getIndex());
+			cellStyleColumnTitle.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+			cellStyleColumnTitle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
 			cellStyleColumnTitle.setFont(fontTitle);
 			cellStyleColumnTitle.setAlignment(HorizontalAlignment.CENTER);
-			cellStyleColumnTitle
-					.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+			cellStyleColumnTitle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
 			fontNormal = (XSSFFont) workbook.createFont();
 			fontNormal.setFontName(DEFAULT_FONT);
@@ -329,39 +300,31 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 			fontNormal.setBold(false);
 
 			cellStyleColumnNormal = workbook.createCellStyle();
-			cellStyleColumnNormal
-					.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			cellStyleColumnNormal
-					.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+			cellStyleColumnNormal.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+			cellStyleColumnNormal.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 			cellStyleColumnNormal.setFont(fontNormal);
 
 			dataFormat = workbook.createDataFormat();
 
 			cellStyleNumericDouble = workbook.createCellStyle();
-			cellStyleNumericDouble
-					.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			cellStyleNumericDouble
-					.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+			cellStyleNumericDouble.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+			cellStyleNumericDouble.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 			cellStyleNumericDouble.setFont(fontNormal);
 			cellStyleNumericDouble.setDataFormat(dataFormat.getFormat("0.00"));
 
 			dataFormat = workbook.createDataFormat();
 
 			cellStyleNumericInt = workbook.createCellStyle();
-			cellStyleNumericInt
-					.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			cellStyleNumericInt
-					.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+			cellStyleNumericInt.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+			cellStyleNumericInt.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 			cellStyleNumericInt.setFont(fontNormal);
 			cellStyleNumericInt.setDataFormat(dataFormat.getFormat("0"));
 
 			dataFormat = workbook.createDataFormat();
 
 			cellStyleDate = workbook.createCellStyle();
-			cellStyleDate
-					.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
-			cellStyleDate
-					.setFillForegroundColor(IndexedColors.WHITE.getIndex());
+			cellStyleDate.setFillBackgroundColor(IndexedColors.BLACK.getIndex());
+			cellStyleDate.setFillForegroundColor(IndexedColors.WHITE.getIndex());
 			cellStyleDate.setFont(fontNormal);
 			cellStyleDate.setDataFormat(dataFormat.getFormat("dd/MM/yyyy"));
 
@@ -381,9 +344,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 		try {
 			LOGGER.info("BEGIN");
-			LOGGER.info(
-					"Creating filters for sheet [{}]:",
-					sheet.getSheetName());
+			LOGGER.info("Creating filters for sheet [{}]:", sheet.getSheetName());
 
 			numRows = sheet.getLastRowNum();
 

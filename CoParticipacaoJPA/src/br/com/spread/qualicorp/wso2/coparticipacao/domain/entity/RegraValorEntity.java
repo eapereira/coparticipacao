@@ -20,9 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraValorUi;
  */
 @Entity
 @Table(name = "TB_REGRA_VALOR")
-@NamedQuery(
-		name = "RegraValorEntity.findAll",
-		query = "SELECT r FROM RegraValorEntity r")
+@NamedQuery(name = "RegraValorEntity.findAll", query = "SELECT r FROM RegraValorEntity r")
 public class RegraValorEntity extends RegraValor implements DomainEntity {
 
 	/**
@@ -43,9 +41,7 @@ public class RegraValorEntity extends RegraValor implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to RegraOperation
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = RegraOperationEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegraOperationEntity.class)
 	@JoinColumn(name = "ID_REGRA_OPERATION")
 	public RegraOperation getRegraOperation() {
 		return super.getRegraOperation();

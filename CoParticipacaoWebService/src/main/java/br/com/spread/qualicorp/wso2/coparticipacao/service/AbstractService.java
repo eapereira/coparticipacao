@@ -10,6 +10,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
  *
  */
 public interface AbstractService<UI extends AbstractDomain> {
+	String JDBC_TX = "jdbcTransactionManager";
+	String JPA_TX = "jpaTransactionManager";
+
 	UI findById(Long id) throws ServiceException;
 
 	List<UI> listAll() throws ServiceException;
@@ -23,4 +26,6 @@ public interface AbstractService<UI extends AbstractDomain> {
 	void saveBatch(List<UI> uis) throws ServiceException;
 
 	void saveBatch(UI ui) throws ServiceException;
+
+	void saveBatchBlock(List<UI> uis) throws ServiceException;
 }

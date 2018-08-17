@@ -14,6 +14,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.Dependen
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DependenteIsentoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.DependenteIsentoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -38,6 +40,9 @@ public class DependenteIsentoServiceImpl extends
 
 	@Autowired
 	private DependenteIsentoEntityMapper entityMapper;
+	
+	@Autowired
+	private DependenteIsentoJdbcDao dependenteIsentoJdbcDao;
 
 	@Override
 	protected DependenteIsentoUi createUi() {
@@ -76,6 +81,11 @@ public class DependenteIsentoServiceImpl extends
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	protected AbstractJdbcDao<DependenteIsentoEntity> getJdbcDao() {
+		return dependenteIsentoJdbcDao;
 	}
 
 }

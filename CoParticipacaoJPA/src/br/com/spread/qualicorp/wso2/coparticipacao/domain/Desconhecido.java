@@ -1,14 +1,13 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public abstract class Desconhecido extends AbstractDomain {
+public abstract class Desconhecido extends Beneficiario {
 
 	/**
 	 * 
@@ -18,11 +17,10 @@ public abstract class Desconhecido extends AbstractDomain {
 	private Integer ano;
 
 	private Contrato contrato;
-
-	private List<DesconhecidoDetail> desconhecidoDetails;
+	
+	private BigDecimal valorPrincipal;
 
 	public Desconhecido() {
-		desconhecidoDetails = new ArrayList<>();
 	}
 
 	public Integer getMes() {
@@ -41,25 +39,6 @@ public abstract class Desconhecido extends AbstractDomain {
 		this.ano = ano;
 	}
 
-	public List<DesconhecidoDetail> getDesconhecidoDetails() {
-		return desconhecidoDetails;
-	}
-
-	public void setDesconhecidoDetails(
-			List<DesconhecidoDetail> desconhecidoDetails) {
-		this.desconhecidoDetails = desconhecidoDetails;
-	}
-
-	public void addDesconhecidoDetail(DesconhecidoDetail desconhecidoDetail) {
-		getDesconhecidoDetails().add(desconhecidoDetail);
-		desconhecidoDetail.setDesconhecido(this);
-	}
-
-	public void removeDesconhecido(DesconhecidoDetail desconhecidoDetail) {
-		getDesconhecidoDetails().remove(desconhecidoDetail);
-		desconhecidoDetail.setDesconhecido(null);
-	}
-
 	public Contrato getContrato() {
 		return contrato;
 	}
@@ -68,16 +47,22 @@ public abstract class Desconhecido extends AbstractDomain {
 		this.contrato = contrato;
 	}
 
+	public BigDecimal getValorPrincipal() {
+		return valorPrincipal;
+	}
+
+	public void setValorPrincipal(BigDecimal valorPrincipal) {
+		this.valorPrincipal = valorPrincipal;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((ano == null) ? 0 : ano.hashCode());
-		result = prime * result
-				+ ((contrato == null) ? 0 : contrato.hashCode());
-		result = prime * result + ((desconhecidoDetails == null) ? 0
-				: desconhecidoDetails.hashCode());
+		result = prime * result + ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
+		result = prime * result + ((valorPrincipal == null) ? 0 : valorPrincipal.hashCode());
 		return result;
 	}
 
@@ -85,7 +70,7 @@ public abstract class Desconhecido extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -100,15 +85,15 @@ public abstract class Desconhecido extends AbstractDomain {
 				return false;
 		} else if (!contrato.equals(other.contrato))
 			return false;
-		if (desconhecidoDetails == null) {
-			if (other.desconhecidoDetails != null)
-				return false;
-		} else if (!desconhecidoDetails.equals(other.desconhecidoDetails))
-			return false;
 		if (mes == null) {
 			if (other.mes != null)
 				return false;
 		} else if (!mes.equals(other.mes))
+			return false;
+		if (valorPrincipal == null) {
+			if (other.valorPrincipal != null)
+				return false;
+		} else if (!valorPrincipal.equals(other.valorPrincipal))
 			return false;
 		return true;
 	}

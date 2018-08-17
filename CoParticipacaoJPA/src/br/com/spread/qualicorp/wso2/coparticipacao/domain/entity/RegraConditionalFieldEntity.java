@@ -18,11 +18,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalOperat
  */
 @Entity
 @Table(name = "TB_REGRA_CONDITIONAL_FIELD")
-@NamedQuery(
-		name = "RegraConditionalFieldEntity.findAll",
-		query = "SELECT r FROM RegraConditionalFieldEntity r")
-public class RegraConditionalFieldEntity
-		extends RegraConditionalField {
+@NamedQuery(name = "RegraConditionalFieldEntity.findAll", query = "SELECT r FROM RegraConditionalFieldEntity r")
+public class RegraConditionalFieldEntity extends RegraConditionalField implements DomainEntity {
 
 	/**
 	 * 
@@ -34,18 +31,14 @@ public class RegraConditionalFieldEntity
 	}
 
 	// bi-directional many-to-one association to RegraConditionalOperation
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = RegraConditionalOperationEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegraConditionalOperationEntity.class)
 	@JoinColumn(name = "ID_REGRA_CONDITIONAL_OPERATION")
 	public RegraConditionalOperation getRegraConditionalOperation() {
 		return super.getRegraConditionalOperation();
 	}
 
 	// bi-directional many-to-one association to RegraConditionalOperation
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
 	public ArquivoInputColsDef getArquivoInputColsDef() {
 		return super.getArquivoInputColsDef();

@@ -19,11 +19,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity;
  *
  */
 @Repository
-public class TitularDaoImpl extends AbstractDaoImpl<TitularEntity>
-		implements TitularDao {
+public class TitularDaoImpl extends AbstractDaoImpl<TitularEntity> implements TitularDao {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(TitularDaoImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(TitularDaoImpl.class);
 
 	public TitularDaoImpl() throws DaoException {
 		super();
@@ -32,16 +30,10 @@ public class TitularDaoImpl extends AbstractDaoImpl<TitularEntity>
 	public TitularEntity findByCpf(String cpf) throws DaoException {
 		TitularEntity TitularEntity;
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
-			sb = new StringBuilder();
-			sb.append("select entity from TitularEntity entity ");
-			sb.append("join fetch entity.dependentes dependentes ");
-			sb.append("where entity.cpf = :cpf ");
-
-			query = createQueryOld(sb.toString());
+			query = createQuery("findByCpf");
 			query.setParameter("cpf", cpf);
 
 			TitularEntity = (TitularEntity) query.getSingleResult();
@@ -60,17 +52,12 @@ public class TitularDaoImpl extends AbstractDaoImpl<TitularEntity>
 	public List<TitularEntity> listByEmpresaId(Long id) throws DaoException {
 		List<TitularEntity> titularEntities;
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
-			sb = new StringBuilder();
-			sb.append("select titular from TitularEntity titular ");
-			sb.append("join fetch titular.empresa empresa ");
-			sb.append("where empresa.id = :idEmpresa ");
 
-			query = createQueryOld(sb.toString());
-			query.setParameter("idEmpresa", id);
+			query = createQuery("listByEmpresaId");
+			query.setParameter("empresaId", id);
 
 			titularEntities = query.getResultList();
 

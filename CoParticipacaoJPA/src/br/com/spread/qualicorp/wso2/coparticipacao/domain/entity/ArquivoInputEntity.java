@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -22,6 +21,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputDependenteIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsento;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ArquivoTypeConverter;
@@ -34,10 +34,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
  */
 @Entity
 @Table(name = "TB_ARQUIVO_INPUT")
-@NamedQuery(
-		name = "ArquivoInputEntity.findAll",
-		query = "SELECT a FROM ArquivoInputEntity a")
-public class ArquivoInputEntity extends ArquivoInput {
+@NamedQuery(name = "ArquivoInputEntity.findAll", query = "SELECT a FROM ArquivoInputEntity a")
+public class ArquivoInputEntity extends ArquivoInput implements DomainEntity {
 
 	/**
 	 * 
@@ -74,17 +72,13 @@ public class ArquivoInputEntity extends ArquivoInput {
 	}
 
 	// bi-directional many-to-one association to ArquivoInputColsDef
-	@OneToMany(
-			mappedBy = "arquivoInput",
-			targetEntity = ArquivoInputColsDefEntity.class)
-	@OrderColumn(name = "INDEX")
+	@OneToMany(mappedBy = "arquivoInput", targetEntity = ArquivoInputColsDefEntity.class)
 	public List<ArquivoInputColsDef> getArquivoInputColsDefs() {
 		return super.getArquivoInputColsDefs();
 	}
 
 	// bi-directional many-to-one association to Regra
 	@OneToMany(mappedBy = "arquivoInput", targetEntity = RegraEntity.class)
-	@OrderColumn(name = "INDEX")
 	public List<Regra> getRegras() {
 		return super.getRegras();
 	}
@@ -92,7 +86,6 @@ public class ArquivoInputEntity extends ArquivoInput {
 	// bi-directional many-to-one association to Empresa
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
 	@JoinColumn(name = "ID_CONTRATO")
-	@OrderColumn(name = "INDEX")
 	public Contrato getContrato() {
 		return super.getContrato();
 	}
@@ -143,10 +136,7 @@ public class ArquivoInputEntity extends ArquivoInput {
 	}
 
 	// bi-directional many-to-one association to Regra
-	@OneToOne(
-			mappedBy = "arquivoInput",
-			cascade = CascadeType.ALL,
-			targetEntity = ArquivoOutputEntity.class)
+	@OneToOne(mappedBy = "arquivoInput", cascade = CascadeType.ALL, targetEntity = ArquivoOutputEntity.class)
 	@Override
 	public ArquivoOutput getArquivoOutput() {
 		// TODO Auto-generated method stub
@@ -161,10 +151,7 @@ public class ArquivoInputEntity extends ArquivoInput {
 	}
 
 	// bi-directional many-to-one association to Empresa
-	@OneToOne(
-			fetch = FetchType.LAZY,
-			mappedBy = "arquivoInput",
-			targetEntity = InputTitularIsentoEntity.class)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "arquivoInput", targetEntity = InputTitularIsentoEntity.class)
 	@Override
 	public InputTitularIsento getInputTitularIsento() {
 		// TODO Auto-generated method stub
@@ -172,14 +159,22 @@ public class ArquivoInputEntity extends ArquivoInput {
 	}
 
 	// bi-directional many-to-one association to Empresa
-	@OneToOne(
-			fetch = FetchType.LAZY,
-			mappedBy = "arquivoInput",
-			targetEntity = InputDependenteIsentoEntity.class)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "arquivoInput", targetEntity = InputDependenteIsentoEntity.class)
 	@Override
 	public InputDependenteIsento getInputDependenteIsento() {
 		// TODO Auto-generated method stub
 		return super.getInputDependenteIsento();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInput",
+			targetEntity = IsentoInputSheetEntity.class)
+	@Override
+	public List<IsentoInputSheet> getIsentoInputSheets() {
+		// TODO Auto-generated method stub
+		return super.getIsentoInputSheets();
 	}
 
 }

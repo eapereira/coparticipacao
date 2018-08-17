@@ -26,16 +26,39 @@ public class EmpresaDaoImpl extends AbstractDaoImpl<EmpresaEntity> implements Em
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public EmpresaEntity findById(Long id) throws DaoException {
-		Query query;
+	public EmpresaEntity findByName(String nameEmpresa) throws DaoException {
 		EmpresaEntity empresaEntity;
+		Query query;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			query = createQuery("findById");
-			query.setParameter("id", id);
+			query = createQuery("findByName");
+			query.setParameter("nameEmpresa", nameEmpresa);
+
+			empresaEntity = (EmpresaEntity) query.getSingleResult();
+
+			LOGGER.info("END");
+			return empresaEntity;
+		} catch (NoResultException e) {
+			LOGGER.info(e.getMessage());
+			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+
+	}
+
+	public EmpresaEntity findByCdEmpresa(String cdEmpresa) throws DaoException {
+		EmpresaEntity empresaEntity;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("findByCdEmpresa");
+			query.setParameter("cdEmpresa", cdEmpresa);
 
 			empresaEntity = (EmpresaEntity) query.getSingleResult();
 

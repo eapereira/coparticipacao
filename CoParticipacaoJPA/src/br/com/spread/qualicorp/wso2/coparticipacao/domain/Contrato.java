@@ -23,8 +23,12 @@ public abstract class Contrato extends AbstractDomain {
 	private Empresa empresa;
 
 	private ArquivoInput arquivoInput;
+	
+	private UseType useType;
 
 	private List<Lancamento> lancamentos;
+	
+	private Boolean spreadsheetAllPages;
 
 	public Contrato() {
 		lancamentos = new ArrayList<>();
@@ -95,6 +99,81 @@ public abstract class Contrato extends AbstractDomain {
 
 	public void setArquivoInput(ArquivoInput arquivoInput) {
 		this.arquivoInput = arquivoInput;
+	}
+
+	public UseType getUseType() {
+		return useType;
+	}
+
+	public void setUseType(UseType useType) {
+		this.useType = useType;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public Boolean isSpreadsheetAllPages() {
+		return spreadsheetAllPages;
+	}
+
+	public void setSpreadsheetAllPages(Boolean spreadsheetAllPages) {
+		this.spreadsheetAllPages = spreadsheetAllPages;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+		result = prime * result + ((cdContrato == null) ? 0 : cdContrato.hashCode());
+		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
+		result = prime * result + ((lancamentos == null) ? 0 : lancamentos.hashCode());
+		result = prime * result + ((nameContrato == null) ? 0 : nameContrato.hashCode());
+		result = prime * result + (spreadsheetAllPages ? 1231 : 1237);
+		result = prime * result + ((useType == null) ? 0 : useType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Contrato other = (Contrato) obj;
+		if (arquivoInput == null) {
+			if (other.arquivoInput != null)
+				return false;
+		} else if (!arquivoInput.equals(other.arquivoInput))
+			return false;
+		if (cdContrato == null) {
+			if (other.cdContrato != null)
+				return false;
+		} else if (!cdContrato.equals(other.cdContrato))
+			return false;
+		if (empresa == null) {
+			if (other.empresa != null)
+				return false;
+		} else if (!empresa.equals(other.empresa))
+			return false;
+		if (lancamentos == null) {
+			if (other.lancamentos != null)
+				return false;
+		} else if (!lancamentos.equals(other.lancamentos))
+			return false;
+		if (nameContrato == null) {
+			if (other.nameContrato != null)
+				return false;
+		} else if (!nameContrato.equals(other.nameContrato))
+			return false;
+		if (spreadsheetAllPages != other.spreadsheetAllPages)
+			return false;
+		if (useType != other.useType)
+			return false;
+		return true;
 	}
 
 }

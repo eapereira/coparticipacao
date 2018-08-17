@@ -1,7 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.ui;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoDetailEntity;
 
 /**
  * 
@@ -17,11 +16,6 @@ public class LancamentoDetailUi extends LancamentoDetail implements DomainUi {
 
 	public LancamentoDetailUi() {
 		super();
-	}
-
-	public LancamentoDetailUi(LancamentoDetailEntity entity) {
-		super(entity);
-		// TODO Auto-generated constructor stub
 	}
 
 }

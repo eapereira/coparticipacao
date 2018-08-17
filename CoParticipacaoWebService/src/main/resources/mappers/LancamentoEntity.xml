@@ -8,6 +8,7 @@
 				ID_CONTRATO,
 				CD_MES,
 				CD_ANO,
+				VL_PRINCIPAL,
 				
 				USER_CREATED,
 				DT_ALTERED,
@@ -17,7 +18,8 @@
 				?,
 				?,
 				?,
-				?,				
+				?,			
+				?,	
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -35,6 +37,7 @@
 				ID_CONTRATO 	= ?,
 				CD_MES 			= ?,
 				CD_ANO 			= ?,
+				VL_PRINCIPAL	= ?,
 				
 				USER_ALTERED 	= ?,
 				DT_ALTERED = CURRENT_TIMESTAMP()
@@ -48,4 +51,15 @@
 			WHERE ID = ?
 		]]>
 	</query>
+	
+	
+	<query id="deleteByContratoAndMesAndAno">
+		<![CDATA[	
+			delete from TB_LANCAMENTO
+			where	ID_CONTRATO = ?
+			and		CD_MES		= ?
+			and		CD_ANO		= ?
+		]]>
+	</query>
+	
 </queries>

@@ -1,11 +1,14 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.exception;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Beneficiario;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
+
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class BeneficiarioNotFoundException extends CoParticipacaoException{
+public class BeneficiarioNotFoundException extends CoParticipacaoException {
 
 	/**
 	 * 
@@ -46,4 +49,11 @@ public class BeneficiarioNotFoundException extends CoParticipacaoException{
 		// TODO Auto-generated constructor stub
 	}
 
+	public BeneficiarioNotFoundException(BeneficiarioUi beneficiarioUi) {
+		super(
+				"The Beneficiário [%s] with Matricula [%s] and CPF [%s] wasn't found in database:",
+				beneficiarioUi.getNameBeneficiario(),
+				beneficiarioUi.getMatricula(),
+				beneficiarioUi.getCpf());
+	}
 }

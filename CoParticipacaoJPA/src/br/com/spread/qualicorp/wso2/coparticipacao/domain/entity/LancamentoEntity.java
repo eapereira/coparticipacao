@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
@@ -27,7 +27,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 @Entity
 @Table(name = "TB_LANCAMENTO")
 @NamedQuery(name = "LancamentoEntity.findAll", query = "SELECT l FROM LancamentoEntity l")
-public class LancamentoEntity extends Lancamento {
+public class LancamentoEntity extends Lancamento implements DomainEntity {
 
 	/**
 	 * 
@@ -72,12 +72,22 @@ public class LancamentoEntity extends Lancamento {
 		return super.getTitular();
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "lancamento", targetEntity = LancamentoDetailEntity.class)
-	@OrderColumn(name = "INDEX")
+	@OneToMany(
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL,
+			mappedBy = "lancamento",
+			targetEntity = LancamentoDetailEntity.class)
 	@Override
 	public List<LancamentoDetail> getLancamentoDetails() {
 		// TODO Auto-generated method stub
 		return super.getLancamentoDetails();
+	}
+
+	@Column(name = "VL_PRINCIPAL")
+	@Override
+	public BigDecimal getValorPrincipal() {
+		// TODO Auto-generated method stub
+		return super.getValorPrincipal();
 	}
 
 }

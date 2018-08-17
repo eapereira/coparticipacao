@@ -20,16 +20,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 @Service
-public class CsvProcessorServiceImpl extends AbstractFileProcessorImpl
-		implements CsvProcessorService {
+public class CsvProcessorServiceImpl extends AbstractFileProcessorImpl implements CsvProcessorService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(CsvProcessorServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(CsvProcessorServiceImpl.class);
 
 	@Override
-	protected Map<String, Object> readLine(
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
 		String columnValue;
 		String[] lineColumns;
@@ -42,23 +38,19 @@ public class CsvProcessorServiceImpl extends AbstractFileProcessorImpl
 
 			mapLine = new HashMap<String, Object>();
 
-			for (ArquivoInputColsDefUi arquivoInputColsDefUi : coParticipacaoContext
-					.getArquivoInputColsDefUis()) {
+			LOGGER.debug("Reading line [{}]:", coParticipacaoContext.getLine());
+
+			for (ArquivoInputColsDefUi arquivoInputColsDefUi : coParticipacaoContext.getArquivoInputColsDefUis()) {
 				if (currentCol < lineColumns.length) {
 					columnValue = lineColumns[currentCol];
 
-					if (StringUtils.isNotBlank(columnValue)) {
+					if (StringUtils.isNoneBlank(columnValue)) {
 
-						LOGGER.info(
-								"Column [{}] with value [{}]:",
-								arquivoInputColsDefUi.getNameColumn(),
-								columnValue);
+						LOGGER.info("Column [{}] with value [{}]:", arquivoInputColsDefUi.getNameColumn(), columnValue);
 
 						mapLine.put(
 								arquivoInputColsDefUi.getNameColumn(),
-								stringToColumnValue(
-										arquivoInputColsDefUi,
-										columnValue));
+								stringToColumnValue(arquivoInputColsDefUi, columnValue));
 					}
 				}
 
@@ -71,6 +63,16 @@ public class CsvProcessorServiceImpl extends AbstractFileProcessorImpl
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
+	}
 
+	@Override
+	protected boolean isLineAccepted(CoParticipacaoContext coParticipacaoContext) {
+		String tmp = coParticipacaoContext.getLine().replaceAll(";", StringUtils.EMPTY);
+
+		if (StringUtils.isNotBlank(tmp)) {
+			return true;
+		}
+
+		return false;
 	}
 }

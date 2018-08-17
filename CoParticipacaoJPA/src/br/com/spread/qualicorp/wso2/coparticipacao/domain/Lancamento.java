@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ public abstract class Lancamento extends AbstractDomain {
 	private Contrato contrato;
 	private Dependente dependente;
 	private Titular titular;
+	
+	private BigDecimal valorPrincipal;
 
 	private List<LancamentoDetail> lancamentoDetails;
 
@@ -140,6 +143,14 @@ public abstract class Lancamento extends AbstractDomain {
 		} else if (!titular.equals(other.titular))
 			return false;
 		return true;
+	}
+
+	public BigDecimal getValorPrincipal() {
+		return valorPrincipal;
+	}
+
+	public void setValorPrincipal(BigDecimal valorPrincipal) {
+		this.valorPrincipal = valorPrincipal;
 	}
 
 }

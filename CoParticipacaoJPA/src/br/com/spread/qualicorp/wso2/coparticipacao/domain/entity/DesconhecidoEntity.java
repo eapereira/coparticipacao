@@ -1,20 +1,20 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Desconhecido;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateConverter;
 
 /**
  * 
@@ -24,7 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
 @Entity
 @Table(name = "TB_DESCONHECIDO")
 @NamedQuery(name = "DesconhecidoEntity.findAll", query = "SELECT a FROM DesconhecidoEntity a")
-public class DesconhecidoEntity extends Desconhecido {
+public class DesconhecidoEntity extends Desconhecido implements DomainEntity {
 
 	/**
 	 * 
@@ -49,11 +49,32 @@ public class DesconhecidoEntity extends Desconhecido {
 		return super.getAno();
 	}
 
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "desconhecido", targetEntity = DesconhecidoDetailEntity.class)
+	@Column(name = "NM_BENEFICIARIO")
 	@Override
-	public List<DesconhecidoDetail> getDesconhecidoDetails() {
+	public String getNameBeneficiario() {
 		// TODO Auto-generated method stub
-		return super.getDesconhecidoDetails();
+		return super.getNameBeneficiario();
+	}
+
+	@Column(name = "NR_CPF")
+	@Override
+	public Long getCpf() {
+		// TODO Auto-generated method stub
+		return super.getCpf();
+	}
+
+	@Column(name = "NR_MATRICULA")
+	@Override
+	public Long getMatricula() {
+		// TODO Auto-generated method stub
+		return super.getMatricula();
+	}
+
+	@Column(name = "DT_NASCIMENTO")
+	@Override
+	public LocalDate getDtNascimento() {
+		// TODO Auto-generated method stub
+		return super.getDtNascimento();
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
@@ -62,6 +83,42 @@ public class DesconhecidoEntity extends Desconhecido {
 	public Contrato getContrato() {
 		// TODO Auto-generated method stub
 		return super.getContrato();
+	}
+
+	@Column(name = "VL_PRINCIPAL")
+	@Override
+	public BigDecimal getValorPrincipal() {
+		// TODO Auto-generated method stub
+		return super.getValorPrincipal();
+	}
+
+	@Column(name = "DT_ADMISSAO")
+	@Convert(converter = LocalDateConverter.class)
+	@Override
+	public LocalDate getDtAdmissao() {
+		// TODO Auto-generated method stub
+		return super.getDtAdmissao();
+	}
+
+	@Column(name = "NM_LABEL")
+	@Override
+	public String getLabel() {
+		// TODO Auto-generated method stub
+		return super.getLabel();
+	}
+
+	@Column(name = "NR_REF_CODE")
+	@Override
+	public Long getReferenceCode() {
+		// TODO Auto-generated method stub
+		return super.getReferenceCode();
+	}
+
+	@Column(name = "NR_MATRICULA_EMPRESA")
+	@Override
+	public Long getMatriculaEmpresa() {
+		// TODO Auto-generated method stub
+		return super.getMatriculaEmpresa();
 	}
 
 }

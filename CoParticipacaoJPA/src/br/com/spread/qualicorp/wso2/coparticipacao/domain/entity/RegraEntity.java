@@ -10,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -28,7 +27,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 @Entity
 @Table(name = "TB_REGRA")
 @NamedQuery(name = "RegraEntity.findAll", query = "SELECT r FROM RegraEntity r")
-public class RegraEntity extends Regra {
+public class RegraEntity extends Regra implements DomainEntity {
 
 	/**
 	 * 
@@ -65,19 +64,12 @@ public class RegraEntity extends Regra {
 		return super.getArquivoInput();
 	}
 
-	@OneToMany(
-			fetch = FetchType.LAZY,
-			mappedBy = "regra",
-			targetEntity = RegraOperationEntity.class)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "regra", targetEntity = RegraOperationEntity.class)
 	public List<RegraOperation> getRegraOperations() {
 		return super.getRegraOperations();
 	}
 
-	@OneToMany(
-			fetch = FetchType.LAZY,
-			mappedBy = "regra",
-			targetEntity = RegraResultEntity.class)
-	@OrderColumn(name="INDEX")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "regra", targetEntity = RegraResultEntity.class)
 	@Override
 	public List<RegraResult> getRegraResults() {
 		return super.getRegraResults();

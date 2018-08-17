@@ -9,20 +9,20 @@ import java.util.Map;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputLancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
@@ -37,8 +37,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
  *
  */
 public class CoParticipacaoContext {
-	private static final Logger LOGGER = LogManager
-			.getLogger(CoParticipacaoContext.class);
+	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoContext.class);
 
 	private UserUi user;
 
@@ -50,9 +49,7 @@ public class CoParticipacaoContext {
 
 	private List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 
-	private List<InputTitularUi> inputTitularUis;
-
-	private List<InputLancamentoUi> inputLancamentoUis;
+	private List<LancamentoInputColsUi> lancamentoInputColsUis;
 
 	private List<RegraUi> regraUis;
 
@@ -80,14 +77,23 @@ public class CoParticipacaoContext {
 
 	private Integer currentLine;
 
+	private Integer currentSheet;
+
+	List<IsentoInputSheetUi> isentoInputSheetUis;
+
+	private BeneficiarioUi beneficiarioUi;
+
+	private FormulaEvaluator formulaEvaluator;
+
+	private TitularUi titularUi;
+
 	private int dia;
 	private int mes;
 	private int ano;
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
-		inputTitularUis = new ArrayList<InputTitularUi>();
-		inputLancamentoUis = new ArrayList<InputLancamentoUi>();
+		lancamentoInputColsUis = new ArrayList<LancamentoInputColsUi>();
 		titularUis = new ArrayList<TitularUi>();
 		dependenteUis = new ArrayList<DependenteUi>();
 
@@ -99,6 +105,8 @@ public class CoParticipacaoContext {
 		inputDependenteIsentoColsUis = new ArrayList<InputDependenteIsentoColsUi>();
 
 		beneficiarioColsUis = new ArrayList<BeneficiarioColsUi>();
+
+		isentoInputSheetUis = new ArrayList<IsentoInputSheetUi>();
 
 		mapLine = new HashMap<String, Object>();
 
@@ -119,8 +127,7 @@ public class CoParticipacaoContext {
 		return arquivoInputColsDefUis;
 	}
 
-	public void setArquivoInputColsDefUis(
-			List<ArquivoInputColsDefUi> arquivoInputColsDefUis) {
+	public void setArquivoInputColsDefUis(List<ArquivoInputColsDefUi> arquivoInputColsDefUis) {
 		this.arquivoInputColsDefUis = arquivoInputColsDefUis;
 	}
 
@@ -164,14 +171,6 @@ public class CoParticipacaoContext {
 		this.arquivoInputUi = arquivoInputUi;
 	}
 
-	public List<InputTitularUi> getInputTitularUis() {
-		return inputTitularUis;
-	}
-
-	public void setInputTitularUis(List<InputTitularUi> inputTitularUis) {
-		this.inputTitularUis = inputTitularUis;
-	}
-
 	public List<TitularUi> getTitularUis() {
 		return titularUis;
 	}
@@ -188,44 +187,6 @@ public class CoParticipacaoContext {
 		this.dependenteUis = dependenteUis;
 	}
 
-	public TitularUi findTitularByCpf(String cpf) {
-		LOGGER.info("BEGIN");
-
-		for (TitularUi titularUi : getTitularUis()) {
-			if (titularUi.getCpf().equals(cpf)) {
-				LOGGER.info(
-						"Titular [{}] with CPF [{}] found:",
-						titularUi.getNameTitular(),
-						titularUi.getCpf());
-				LOGGER.info("END");
-				return titularUi;
-			}
-		}
-
-		LOGGER.info("END");
-		return null;
-	}
-
-	public DependenteUi findDependenteByCpf(String cpf) {
-		LOGGER.info("BEGIN");
-
-		for (DependenteUi dependenteUi : getDependenteUis()) {
-			if (dependenteUi.getCpf().equals(cpf)) {
-				LOGGER.info(
-						"Dependente [{}] with CPF [{}] found:",
-						dependenteUi.getNameDependente(),
-						dependenteUi.getCpf());
-
-				LOGGER.info("END");
-				return dependenteUi;
-			}
-		}
-
-		LOGGER.info("END");
-		return null;
-
-	}
-
 	public ContratoUi getContratoUi() {
 		return (ContratoUi) getArquivoInputUi().getContrato();
 	}
@@ -236,15 +197,6 @@ public class CoParticipacaoContext {
 
 	public void setBunker(Bunker bunker) {
 		this.bunker = bunker;
-	}
-
-	public List<InputLancamentoUi> getInputLancamentoUis() {
-		return inputLancamentoUis;
-	}
-
-	public void setInputLancamentoUis(
-			List<InputLancamentoUi> inputLancamentoUis) {
-		this.inputLancamentoUis = inputLancamentoUis;
 	}
 
 	public Integer getCurrentLine() {
@@ -261,6 +213,14 @@ public class CoParticipacaoContext {
 
 	public void addDependente(DependenteUi dependenteUi) {
 		getBunker().getDependenteUis().add(dependenteUi);
+	}
+
+	public void addDesconhecido(DesconhecidoUi desconhecidoUi) {
+		getBunker().getDesconhecidoUis().add(desconhecidoUi);
+	}
+
+	public void addLancamento(LancamentoUi lancamentoUi) {
+		getBunker().getLancamentoUis().add(lancamentoUi);
 	}
 
 	public EmpresaUi getEmpresaUi() {
@@ -299,27 +259,16 @@ public class CoParticipacaoContext {
 		return getMapLine().get(arquivoInputColsDefUi.getNameColumn());
 	}
 
-	public void setColumnValue(
-			ArquivoInputColsDef arquivoInputColsDef,
-			Object value) {
+	public void setColumnValue(ArquivoInputColsDef arquivoInputColsDef, Object value) {
 
 		getMapLine().put(arquivoInputColsDef.getNameColumn(), value);
-	}
-
-	public void addDesconhecido(DesconhecidoUi desconhecidoUi) {
-		getBunker().getDesconhecidoUis().add(desconhecidoUi);
-	}
-
-	public void addLancamento(LancamentoUi lancamentoUi) {
-		getBunker().getLancamentoUis().add(lancamentoUi);
 	}
 
 	public List<RegraConditionalUi> getRegraConditionalUis() {
 		return regraConditionalUis;
 	}
 
-	public void setRegraConditionalUis(
-			List<RegraConditionalUi> regraConditionalUis) {
+	public void setRegraConditionalUis(List<RegraConditionalUi> regraConditionalUis) {
 		this.regraConditionalUis = regraConditionalUis;
 	}
 
@@ -333,30 +282,11 @@ public class CoParticipacaoContext {
 
 	public ParameterUi findParameterByName(ParameterName parameterName) {
 		for (ParameterUi parameterUi : getParameterUis()) {
-			if (parameterUi.getNameParameter()
-					.equals(parameterName.getName())) {
+			if (parameterUi.getNameParameter().equals(parameterName.getName())) {
 				return parameterUi;
 			}
 		}
 
-		return null;
-	}
-
-	public TitularUi findTitularByName(String nameTitular) {
-		LOGGER.info("BEGIN");
-
-		for (TitularUi titularUi : getTitularUis()) {
-			if (titularUi.getNameTitular().equals(nameTitular)) {
-				LOGGER.info(
-						"Titular [{}] with CPF [{}] found:",
-						titularUi.getNameTitular(),
-						titularUi.getCpf());
-				LOGGER.info("END");
-				return titularUi;
-			}
-		}
-
-		LOGGER.info("END");
 		return null;
 	}
 
@@ -380,8 +310,7 @@ public class CoParticipacaoContext {
 		return inputTitularIsentoColsUis;
 	}
 
-	public void setInputTitularIsentoColsUis(
-			List<InputTitularIsentoColsUi> inputTitularIsentoColsUis) {
+	public void setInputTitularIsentoColsUis(List<InputTitularIsentoColsUi> inputTitularIsentoColsUis) {
 		this.inputTitularIsentoColsUis = inputTitularIsentoColsUis;
 	}
 
@@ -389,23 +318,153 @@ public class CoParticipacaoContext {
 		return inputDependenteIsentoColsUis;
 	}
 
-	public void setInputDependenteIsentoColsUis(
-			List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis) {
+	public void setInputDependenteIsentoColsUis(List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis) {
 		this.inputDependenteIsentoColsUis = inputDependenteIsentoColsUis;
 	}
 
-	public DependenteUi findDependenteByMatricula(Long matricula) {
+	public List<BeneficiarioColsUi> getBeneficiarioColsUis() {
+		return beneficiarioColsUis;
+	}
+
+	public void setBeneficiarioColsUis(List<BeneficiarioColsUi> beneficiarioColsUis) {
+		this.beneficiarioColsUis = beneficiarioColsUis;
+	}
+
+	public Integer getCurrentSheet() {
+		return currentSheet;
+	}
+
+	public void setCurrentSheet(Integer currentSheet) {
+		this.currentSheet = currentSheet;
+	}
+
+	public List<IsentoInputSheetUi> getIsentoInputSheetUis() {
+		return isentoInputSheetUis;
+	}
+
+	public void setIsentoInputSheetUis(List<IsentoInputSheetUi> isentoInputSheetUis) {
+		this.isentoInputSheetUis = isentoInputSheetUis;
+	}
+
+	public BeneficiarioUi getBeneficiarioUi() {
+		return beneficiarioUi;
+	}
+
+	public void setBeneficiarioUi(BeneficiarioUi beneficiarioUi) {
+		this.beneficiarioUi = beneficiarioUi;
+	}
+
+	public List<LancamentoInputColsUi> getLancamentoInputColsUis() {
+		return lancamentoInputColsUis;
+	}
+
+	public void setLancamentoInputColsUis(List<LancamentoInputColsUi> lancamentoInputColsUis) {
+		this.lancamentoInputColsUis = lancamentoInputColsUis;
+	}
+
+	public FormulaEvaluator getFormulaEvaluator() {
+		return formulaEvaluator;
+	}
+
+	public void setFormulaEvaluator(FormulaEvaluator formulaEvaluator) {
+		this.formulaEvaluator = formulaEvaluator;
+	}
+
+	public TitularUi getTitularUi() {
+		return titularUi;
+	}
+
+	public void setTitularUi(TitularUi titularUi) {
+		this.titularUi = titularUi;
+	}
+
+	public TitularUi findTitularByCpfAndName(Long cpf, String name) {
+		LOGGER.info("BEGIN");
+
+		for (TitularUi titularUi : getTitularUis()) {
+
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+
+			if (titularUi.getCpf().equals(cpf)) {
+				if (titularUi.getNameTitular().equals(name)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+					LOGGER.info("END");
+					return titularUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public TitularUi findTitularByMatriculaAndName(Long matricula, String name) {
+		LOGGER.info("BEGIN");
+
+		for (TitularUi titularUi : getTitularUis()) {
+
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+
+			if (titularUi.getMatricula().equals(matricula)) {
+				if (titularUi.getNameTitular().equals(name)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+					LOGGER.info("END");
+					return titularUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public DependenteUi findDependenteByCpfAndName(Long cpf, String nameDependente) {
 		LOGGER.info("BEGIN");
 
 		for (DependenteUi dependenteUi : getDependenteUis()) {
-			if (dependenteUi.getMatricula().equals(matricula)) {
-				LOGGER.info(
-						"Dependente [{}] with CPF [{}] found:",
+			if (dependenteUi.getCpf() != null) {
+				LOGGER.trace(
+						"Comparing with Dependente [{}] with Matricula [{}]:",
 						dependenteUi.getNameDependente(),
-						dependenteUi.getCpf());
+						dependenteUi.getMatricula());
 
-				LOGGER.info("END");
-				return dependenteUi;
+				if (dependenteUi.getCpf().equals(cpf)) {
+					if (dependenteUi.getNameDependente().equals(nameDependente)) {
+						LOGGER.info(
+								"Dependente [{}] with CPF [{}] found:",
+								dependenteUi.getNameDependente(),
+								dependenteUi.getCpf());
+
+						LOGGER.info("END");
+						return dependenteUi;
+					}
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public DependenteUi findDependenteByMatriculaAndName(Long matricula, String nameDependente) {
+		LOGGER.info("BEGIN");
+
+		for (DependenteUi dependenteUi : getDependenteUis()) {
+			LOGGER.trace(
+					"Comparing with Dependente [{}] with Matricula [{}]:",
+					dependenteUi.getNameDependente(),
+					dependenteUi.getMatricula());
+
+			if (dependenteUi.getMatricula().equals(matricula)) {
+				if (dependenteUi.getNameDependente().equals(nameDependente)) {
+					LOGGER.info(
+							"Dependente [{}] with CPF [{}] found:",
+							dependenteUi.getNameDependente(),
+							dependenteUi.getCpf());
+
+					LOGGER.info("END");
+					return dependenteUi;
+				}
 			}
 		}
 
@@ -416,15 +475,14 @@ public class CoParticipacaoContext {
 	public TitularUi findTitularByMatricula(Long matricula) {
 		LOGGER.info("BEGIN");
 
-		for (TitularUi TitularUi : getTitularUis()) {
-			if (TitularUi.getMatricula().equals(matricula)) {
-				LOGGER.info(
-						"Titular [{}] with CPF [{}] found:",
-						TitularUi.getNameTitular(),
-						TitularUi.getCpf());
+		for (TitularUi titularUi : getTitularUis()) {
 
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+
+			if (titularUi.getMatricula().equals(matricula)) {
+				LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
 				LOGGER.info("END");
-				return TitularUi;
+				return titularUi;
 			}
 		}
 
@@ -432,32 +490,21 @@ public class CoParticipacaoContext {
 		return null;
 	}
 
-	public DependenteUi findDependenteByName(String nameDependente) {
+	public TitularUi findTitularByCpf(Long cpf) {
 		LOGGER.info("BEGIN");
 
-		for (DependenteUi dependenteUi : getDependenteUis()) {
-			if (dependenteUi.getNameDependente().equals(nameDependente)) {
-				LOGGER.info(
-						"Dependente [{}] with CPF [{}] found:",
-						dependenteUi.getNameDependente(),
-						dependenteUi.getCpf());
+		for (TitularUi titularUi : getTitularUis()) {
 
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+
+			if (titularUi.getCpf().equals(cpf)) {
+				LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
 				LOGGER.info("END");
-				return dependenteUi;
+				return titularUi;
 			}
 		}
 
 		LOGGER.info("END");
 		return null;
 	}
-
-	public List<BeneficiarioColsUi> getBeneficiarioColsUis() {
-		return beneficiarioColsUis;
-	}
-
-	public void setBeneficiarioColsUis(
-			List<BeneficiarioColsUi> beneficiarioColsUis) {
-		this.beneficiarioColsUis = beneficiarioColsUis;
-	}
-
 }

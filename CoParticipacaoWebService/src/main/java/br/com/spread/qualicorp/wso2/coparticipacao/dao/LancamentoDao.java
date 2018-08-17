@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao;
 
+import java.util.List;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntity;
 
 /**
@@ -10,5 +12,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntit
 public interface LancamentoDao extends AbstractDao<LancamentoEntity> {
 
 	void deleteByMesAndAno(Long contratoId, int mes, int ano) throws DaoException;
+
+	List<LancamentoEntity> listByMesAndAno(Long id, int mes, int ano) throws DaoException;
+
+	List<LancamentoEntity> listByEmpresaId(Long empresaId) throws DaoException;
 
 }

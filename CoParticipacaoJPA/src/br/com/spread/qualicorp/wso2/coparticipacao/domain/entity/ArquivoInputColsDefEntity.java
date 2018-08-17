@@ -11,15 +11,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputDependente;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputLancamento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitular;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDefTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
@@ -30,10 +28,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDef
  */
 @Entity
 @Table(name = "TB_ARQUIVO_INPUT_COLS_DEF")
-@NamedQuery(
-		name = "ArquivoInputColsDefEntity.findAll",
-		query = "SELECT a FROM ArquivoInputColsDefEntity a")
-public class ArquivoInputColsDefEntity extends ArquivoInputColsDef {
+@NamedQuery(name = "ArquivoInputColsDefEntity.findAll", query = "SELECT a FROM ArquivoInputColsDefEntity a")
+public class ArquivoInputColsDefEntity extends ArquivoInputColsDef implements DomainEntity {
 
 	/**
 	 * 
@@ -82,46 +78,30 @@ public class ArquivoInputColsDefEntity extends ArquivoInputColsDef {
 		return super.getArquivoInput();
 	}
 
-	// bi-directional many-to-one association to InputDependente
-	@OneToMany(
-			mappedBy = "arquivoInputColsDef",
-			cascade = CascadeType.ALL,			
-			targetEntity = InputDependenteEntity.class)	
-	@OrderColumn(name="INDEX")
-	public List<InputDependente> getInputDependentes() {
-		return super.getInputDependentes();
-	}
-
-	// bi-directional many-to-one association to InputLancamento
-	@OneToMany(
-			mappedBy = "arquivoInputColsDef",
-			cascade = CascadeType.ALL,
-			targetEntity = InputLancamentoEntity.class)
-	@OrderColumn(name="INDEX")
-	public List<InputLancamento> getInputLancamentos() {
-		return super.getInputLancamentos();
-	}
-
 	// bi-directional many-to-one association to InputTitular
-	@OneToMany(
-			mappedBy = "arquivoInputColsDef",
-			cascade = CascadeType.ALL,
-			targetEntity = InputTitularEntity.class)
-	@OrderColumn(name="INDEX")
-	public List<InputTitular> getInputTitulars() {
-		return super.getInputTitulars();
-	}
-
-	// bi-directional many-to-one association to InputTitular
-	@OneToMany(
-			mappedBy = "arquivoInputColsDef",
-			cascade = CascadeType.ALL,
-			targetEntity = RegraResultEntity.class)
+	@OneToMany(mappedBy = "arquivoInputColsDef", cascade = CascadeType.ALL, targetEntity = RegraResultEntity.class)
 	@Override
-	@OrderColumn(name="INDEX")
 	public List<RegraResult> getRegraResults() {
 		// TODO Auto-generated method stub
 		return super.getRegraResults();
+	}
+
+	@Column(name = "CD_LOCALE_PATTERN")
+	@Override
+	public String getLocalePattern() {
+		// TODO Auto-generated method stub
+		return super.getLocalePattern();
+	}
+
+	@OneToOne(
+			cascade = CascadeType.ALL,
+			mappedBy = "arquivoInputColsDef",
+			fetch = FetchType.LAZY,
+			targetEntity = LancamentoInputColsEntity.class)
+	@Override
+	public LancamentoInputCols getLancamentoInputCols() {
+		// TODO Auto-generated method stub
+		return super.getLancamentoInputCols();
 	}
 
 }

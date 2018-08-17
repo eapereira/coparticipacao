@@ -24,7 +24,7 @@
 		]]>
 	</query>
 
-	<query id="TitularIsentoEntity.insert">
+	<query id="TitularIsentoEntity.update">
 		<![CDATA[
 			UPDATE TB_TITULAR_ISENTO
 			SET
@@ -39,7 +39,7 @@
 		]]>
 	</query>
 
-	<query id="TitularIsentoEntity.insert">
+	<query id="TitularIsentoEntity.delete">
 		<![CDATA[
 			DELETE FROM TB_TITULAR_ISENTO
 			WHERE  ID = ?

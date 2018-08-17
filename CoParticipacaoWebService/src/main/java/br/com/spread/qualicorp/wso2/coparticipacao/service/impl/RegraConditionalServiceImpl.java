@@ -302,10 +302,10 @@ public class RegraConditionalServiceImpl extends
 											.getArquivoInputColsDef());
 
 					regraService.applyRegra(
+							coParticipacaoContext,
 							(RegraUi) regraConditionalResult
 									.getRegraExecution(),
-							lancamentoDetailUi,
-							coParticipacaoContext);
+							lancamentoDetailUi);
 				}
 			}
 

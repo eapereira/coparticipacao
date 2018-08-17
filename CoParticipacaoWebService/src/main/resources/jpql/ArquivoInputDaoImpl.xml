@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="listByContratoId">
 		<![CDATA[
+			select arquivoInput from ArquivoInputEntity arquivoInput
+			join fetch arquivoInput.contrato contrato
+			where contrato.id = :contratoId
+		]]>
+	</query>
+	
+	<query id="listAll">
+		<![CDATA[
+			select arquivoInput from ArquivoInputEntity arquivoInput
+			join fetch arquivoInput.contrato contrato
+			join fetch contrato.empresa empresa
 		]]>
 	</query>
 

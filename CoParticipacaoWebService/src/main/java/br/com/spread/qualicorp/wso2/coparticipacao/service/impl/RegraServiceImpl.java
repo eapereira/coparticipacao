@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.RegraDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
@@ -39,12 +40,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 @Service
-public class RegraServiceImpl
-		extends AbstractServiceImpl<RegraUi, RegraEntity, Regra>
-		implements RegraService {
+public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, Regra> implements RegraService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(RegraServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(RegraServiceImpl.class);
 
 	@Autowired
 	private RegraDao regraDao;
@@ -86,32 +84,26 @@ public class RegraServiceImpl
 		return entityMapper;
 	}
 
-	public void applyRegras(
-			LancamentoUi lancamentoUi,
-			CoParticipacaoContext coParticipacaoContext)
+	public void applyRegras(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
 			throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			for (LancamentoDetail lancamentoDetail : lancamentoUi
-					.getLancamentoDetails()) {
+			for (LancamentoDetail lancamentoDetail : lancamentoUi.getLancamentoDetails()) {
 
 				for (RegraUi regraUi : coParticipacaoContext.getRegraUis()) {
 
 					LOGGER.info(
 							"Checking if we have a Regra for column [{}]:",
-							lancamentoDetail.getArquivoInputColsDef()
-									.getNameColumn());
+							lancamentoDetail.getArquivoInputColsDef().getNameColumn());
 
-					applyRegra(
-							regraUi,
-							lancamentoDetail,
-							coParticipacaoContext);
+					if (RegraType.SIMPLS.equals(regraUi.getTpRegra())) {
+						applyRegra(coParticipacaoContext, regraUi, lancamentoDetail);
+					}
 				}
 			}
 
-			regraConditionalService
-					.applyRegras(lancamentoUi, coParticipacaoContext);
+			regraConditionalService.applyRegras(lancamentoUi, coParticipacaoContext);
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
@@ -119,21 +111,18 @@ public class RegraServiceImpl
 		}
 	}
 
-	private boolean isLancamentoDetailAcceptable(
-			RegraUi regraUi,
-			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
+	private boolean isLancamentoDetailAcceptable(RegraUi regraUi, LancamentoDetailUi lancamentoDetailUi)
+			throws ServiceException {
 		ArquivoInputColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoDetailUi
-					.getArquivoInputColsDef();
+			arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoDetailUi.getArquivoInputColsDef();
 
 			for (RegraOperation regraOperation : regraUi.getRegraOperations()) {
 				for (RegraField regraField : regraOperation.getRegraFields()) {
-					if (regraField.getArquivoInputColsDef().getId()
-							.equals(arquivoInputColsDefUi.getId())) {
+					if (regraField.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
 						LOGGER.info("END");
 						LOGGER.info(
 								"This Regra can process that LancamentoDetail with field[{}]",
@@ -153,10 +142,9 @@ public class RegraServiceImpl
 	}
 
 	public void applyRegra(
+			CoParticipacaoContext coParticipacaoContext,
 			RegraUi regraUi,
-			LancamentoDetail lancamentoDetail,
-			CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+			LancamentoDetail lancamentoDetail) throws ServiceException {
 		List<RegraOperation> regraOperatios;
 		BigDecimal value;
 		BigDecimal result;
@@ -164,83 +152,72 @@ public class RegraServiceImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			if (RegraType.SIMPLS.equals(regraUi.getTpRegra())) {
+			if (isLancamentoDetailAcceptable(regraUi, (LancamentoDetailUi) lancamentoDetail)) {
 
-				if (isLancamentoDetailAcceptable(
-						regraUi,
-						(LancamentoDetailUi) lancamentoDetail)) {
+				result = BigDecimal.ZERO;
+				regraOperatios = regraUi.getRegraOperations();
 
-					result = BigDecimal.ZERO;
-					regraOperatios = regraUi.getRegraOperations();
+				LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
 
-					LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
+				for (RegraOperation regraOperation : regraOperatios) {
 
-					for (RegraOperation regraOperation : regraOperatios) {
-
-						for (RegraField regraField : regraOperation
-								.getRegraFields()) {
-
-							LOGGER.info(
-									"Applying regra [{}] to field [{}]:",
-									regraUi.getNameRegra(),
-									regraField.getArquivoInputColsDef()
-											.getNameColumn());
-
-							value = lancamentoDetailService
-									.getFieldValueAsBigDecimal(
-											regraField.getArquivoInputColsDef(),
-											lancamentoDetail);
-
-							LOGGER.info(
-									"Field [{}] has value [{}]:",
-									regraField.getArquivoInputColsDef()
-											.getNameColumn(),
-									value);
-
-							if (BigDecimal.ZERO.equals(result)) {
-								result = value;
-							} else {
-								result = executeOperation(
-										regraOperation.getTpOperation(),
-										value,
-										result);
-							}
-						}
-
-						LOGGER.info("Result value [{}]:", result);
-
-						for (RegraValor regraValor : regraOperation
-								.getRegraValors()) {
-							value = regraValor.getValor();
-
-							LOGGER.info(
-									"Field value for RegraValor has value [{}]:",
-									value);
-
-							result = executeOperation(
-									regraOperation.getTpOperation(),
-									value,
-									result);
-						}
-					}
-
-					LOGGER.info(
-							"Final result after all RegraOperations value is [{}]:",
-							result);
-
-					for (RegraResult regraResult : regraUi.getRegraResults()) {
+					for (RegraField regraField : regraOperation.getRegraFields()) {
 
 						LOGGER.info(
-								"Sending calculated value [{}] to lancamento field [{}]",
-								result,
-								regraResult.getArquivoInputColsDef()
-										.getNameColumn());
+								"Applying regra [{}] to field [{}]:",
+								regraUi.getNameRegra(),
+								regraField.getArquivoInputColsDef().getNameColumn());
 
+						value = lancamentoDetailService
+								.getFieldValueAsBigDecimal(regraField.getArquivoInputColsDef(), lancamentoDetail);
+
+						LOGGER.info(
+								"Field [{}] has value [{}]:",
+								regraField.getArquivoInputColsDef().getNameColumn(),
+								value);
+
+						if (!BigDecimal.ZERO.equals(value)) {
+							if (BigDecimal.ZERO.equals(result)) {
+								result = value;
+							}
+
+							LOGGER.info("Result value [{}]:", result);
+
+							for (RegraValor regraValor : regraOperation.getRegraValors()) {
+								value = regraValor.getValor();
+
+								LOGGER.info("Field value for RegraValor has value [{}]:", value);
+
+								result = executeOperation(regraOperation.getTpOperation(), value, result);
+							}
+						}
+					}
+				}
+
+				LOGGER.info("Final result after all RegraOperations value is [{}]:", result);
+
+				for (RegraResult regraResult : regraUi.getRegraResults()) {
+
+					LOGGER.info(
+							"Sending calculated value [{}] to lancamento field [{}]",
+							result,
+							regraResult.getArquivoInputColsDef().getNameColumn());
+
+					if (ColDefType.DOUBLE.equals(regraResult.getArquivoInputColsDef().getType())) {
 						lancamentoDetailService.updateLancamentoDetail(
 								(LancamentoDetailUi) lancamentoDetail,
-								(ArquivoInputColsDefUi) regraResult
-										.getArquivoInputColsDef(),
+								(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef(),
 								result);
+					} else if (ColDefType.LONG.equals(regraResult.getArquivoInputColsDef().getType())) {
+						lancamentoDetailService.updateLancamentoDetail(
+								(LancamentoDetailUi) lancamentoDetail,
+								(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef(),
+								result.longValue());
+					} else if (ColDefType.INT.equals(regraResult.getArquivoInputColsDef().getType())) {
+						lancamentoDetailService.updateLancamentoDetail(
+								(LancamentoDetailUi) lancamentoDetail,
+								(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef(),
+								result.intValue());
 					}
 				}
 			}
@@ -252,10 +229,8 @@ public class RegraServiceImpl
 		}
 	}
 
-	private BigDecimal executeOperation(
-			OperationType operationType,
-			BigDecimal value,
-			BigDecimal valueResult) throws ServiceException {
+	private BigDecimal executeOperation(OperationType operationType, BigDecimal value, BigDecimal valueResult)
+			throws ServiceException {
 
 		try {
 			LOGGER.info("BEGIN");
@@ -268,8 +243,7 @@ public class RegraServiceImpl
 				valueResult = valueResult.subtract(value);
 			} else if (OperationType.DIVISION.equals(operationType)) {
 				LOGGER.info("Executing [{}] / [{}]", valueResult, value);
-				valueResult = valueResult
-						.divide(value, 2, BigDecimal.ROUND_HALF_UP);
+				valueResult = valueResult.divide(value, 2, BigDecimal.ROUND_HALF_UP);
 			} else if (OperationType.MULTIPLY.equals(operationType)) {
 				LOGGER.info("Executing [{}] * [{}]", valueResult, value);
 				valueResult = valueResult.multiply(value);
@@ -284,8 +258,7 @@ public class RegraServiceImpl
 
 	}
 
-	public List<RegraUi> listRegrasByArquivoInputId(Long id)
-			throws ServiceException {
+	public List<RegraUi> listRegrasByArquivoInputId(Long id) throws ServiceException {
 		List<RegraUi> regraUis;
 
 		try {

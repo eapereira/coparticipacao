@@ -6,6 +6,7 @@
 			join fetch beneficiarioCols.arquivoInputColsDef arquivoInputColsDef
 			join fetch arquivoInputColsDef.arquivoInput arquivoInput
 			where arquivoInput.id = :arquivoInputId	
+			order by beneficiarioCols.id
 		]]>
 	</query>
 

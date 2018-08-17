@@ -21,9 +21,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
  */
 @Entity
 @Table(name = "TB_TITULAR_ISENTO")
-@NamedQuery(
-		name = "TitularIsentoEntity.findAll",
-		query = "SELECT t FROM TitularIsentoEntity t")
+@NamedQuery(name = "TitularIsentoEntity.findAll", query = "SELECT t FROM TitularIsentoEntity t")
 public class TitularIsentoEntity extends TitularIsento implements DomainEntity {
 
 	/**
@@ -53,18 +51,18 @@ public class TitularIsentoEntity extends TitularIsento implements DomainEntity {
 		return super.getIsentoType();
 	}
 
-	@Column(name="CD_MES")
+	@Column(name = "CD_MES")
 	@Override
 	public Integer getMes() {
 		// TODO Auto-generated method stub
 		return super.getMes();
 	}
 
-	@Column(name="CD_ANO")
+	@Column(name = "CD_ANO")
 	@Override
 	public Integer getAno() {
 		// TODO Auto-generated method stub
 		return super.getAno();
 	}
-	
+
 }

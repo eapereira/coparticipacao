@@ -17,7 +17,7 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 	private String nameArquivoFormat;
 	private String description;
 
-	private List<ArquivoOutputDesconhecidoColsDef> arquivoOutputDesconhecidoColsDefs;
+	private List<ArquivoOutputDesconhecidoSheet> arquivoOutputDesconhecidoSheets;
 
 	public ArquivoOutputDesconhecido() {
 
@@ -47,28 +47,34 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 		this.description = description;
 	}
 
-	public List<ArquivoOutputDesconhecidoColsDef> getArquivoOutputDesconhecidoColsDefs() {
-		return arquivoOutputDesconhecidoColsDefs;
+	public List<ArquivoOutputDesconhecidoSheet> getArquivoOutputDesconhecidoSheets() {
+		return arquivoOutputDesconhecidoSheets;
 	}
 
-	public void setArquivoOutputDesconhecidoColsDefs(
-			List<ArquivoOutputDesconhecidoColsDef> arquivoOutputDesconhecidoColsDefs) {
-		this.arquivoOutputDesconhecidoColsDefs = arquivoOutputDesconhecidoColsDefs;
+	public void setArquivoOutputDesconhecidoSheets(
+			List<ArquivoOutputDesconhecidoSheet> arquivoOutputDesconhecidoSheets) {
+		this.arquivoOutputDesconhecidoSheets = arquivoOutputDesconhecidoSheets;
+	}
+
+	public void addArquivoOutputDesconhecidoSheet(ArquivoOutputDesconhecidoSheet arquivoOutputDesconhecidoSheet) {
+		getArquivoOutputDesconhecidoSheets().add(arquivoOutputDesconhecidoSheet);
+		arquivoOutputDesconhecidoSheet.setArquivoOutputDesconhecido(this);
+	}
+
+	public void removeArquivoOutputDesconhecidoSheet(ArquivoOutputDesconhecidoSheet arquivoOutputDesconhecidoSheet) {
+		getArquivoOutputDesconhecidoSheets().remove(arquivoOutputDesconhecidoSheet);
+		arquivoOutputDesconhecidoSheet.setArquivoOutputDesconhecido(null);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
 		result = prime * result
-				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
-		result = prime * result
-				+ ((arquivoOutputDesconhecidoColsDefs == null) ? 0
-						: arquivoOutputDesconhecidoColsDefs.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((nameArquivoFormat == null) ? 0
-				: nameArquivoFormat.hashCode());
+				+ ((arquivoOutputDesconhecidoSheets == null) ? 0 : arquivoOutputDesconhecidoSheets.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((nameArquivoFormat == null) ? 0 : nameArquivoFormat.hashCode());
 		return result;
 	}
 
@@ -86,11 +92,10 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 				return false;
 		} else if (!arquivoInput.equals(other.arquivoInput))
 			return false;
-		if (arquivoOutputDesconhecidoColsDefs == null) {
-			if (other.arquivoOutputDesconhecidoColsDefs != null)
+		if (arquivoOutputDesconhecidoSheets == null) {
+			if (other.arquivoOutputDesconhecidoSheets != null)
 				return false;
-		} else if (!arquivoOutputDesconhecidoColsDefs
-				.equals(other.arquivoOutputDesconhecidoColsDefs))
+		} else if (!arquivoOutputDesconhecidoSheets.equals(other.arquivoOutputDesconhecidoSheets))
 			return false;
 		if (description == null) {
 			if (other.description != null)

@@ -18,10 +18,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraResult;
  */
 @Entity
 @Table(name = "TB_REGRA_RESULT")
-@NamedQuery(
-		name = "RegraResultEntity.findAll",
-		query = "SELECT r FROM RegraResultEntity r")
-public class RegraResultEntity extends RegraResult {
+@NamedQuery(name = "RegraResultEntity.findAll", query = "SELECT r FROM RegraResultEntity r")
+public class RegraResultEntity extends RegraResult implements DomainEntity {
 
 	/**
 	 * 
@@ -40,9 +38,7 @@ public class RegraResultEntity extends RegraResult {
 		return super.getRegra();
 	}
 
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
 	@Override
 	public ArquivoInputColsDef getArquivoInputColsDef() {

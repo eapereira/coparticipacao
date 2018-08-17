@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
@@ -24,10 +23,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDe
  */
 @Entity
 @Table(name = "TB_DEPENDENTE_ISENTO_COLS_DEF")
-@NamedQuery(
-		name = "DependenteIsentoColsDefEntity.findAll",
-		query = "SELECT a FROM DependenteIsentoColsDefEntity a")
-public class DependenteIsentoColsDefEntity extends DependenteIsentoColsDef {
+@NamedQuery(name = "DependenteIsentoColsDefEntity.findAll", query = "SELECT a FROM DependenteIsentoColsDefEntity a")
+public class DependenteIsentoColsDefEntity extends DependenteIsentoColsDef implements DomainEntity {
 
 	/**
 	 * 
@@ -37,13 +34,12 @@ public class DependenteIsentoColsDefEntity extends DependenteIsentoColsDef {
 	public DependenteIsentoColsDefEntity() {
 
 	}
-	
+
 	@OneToMany(
-			cascade=CascadeType.ALL,
-			mappedBy="dependenteIsentoColsDef",
+			cascade = CascadeType.ALL,
+			mappedBy = "dependenteIsentoColsDef",
 			fetch = FetchType.LAZY,
 			targetEntity = InputDependenteIsentoColsEntity.class)
-	@OrderColumn(name="INDEX")
 	@Override
 	public List<InputDependenteIsentoCols> getInputDependenteIsentoCols() {
 		// TODO Auto-generated method stub

@@ -14,6 +14,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.TitularI
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.TitularIsentoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.TitularIsentoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 
@@ -23,12 +26,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
  *
  */
 @Service
-public class TitularIsentoServiceImpl extends
-		AbstractServiceImpl<TitularIsentoUi, TitularIsentoEntity, TitularIsento>
+public class TitularIsentoServiceImpl extends AbstractServiceImpl<TitularIsentoUi, TitularIsentoEntity, TitularIsento>
 		implements TitularIsentoService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(TitularIsentoServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(TitularIsentoServiceImpl.class);
 
 	@Autowired
 	private TitularIsentoDao titularIsentoDao;
@@ -38,6 +39,9 @@ public class TitularIsentoServiceImpl extends
 
 	@Autowired
 	private TitularIsentoEntityMapper entityMapper;
+
+	@Autowired
+	private TitularIsentoJdbcDao titularIsentoJdbcDao;
 
 	@Override
 	protected TitularIsentoUi createUi() {
@@ -64,8 +68,7 @@ public class TitularIsentoServiceImpl extends
 		return entityMapper;
 	}
 
-	public void deleteByMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano)
-			throws ServiceException {
+	public void deleteByMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
@@ -76,6 +79,27 @@ public class TitularIsentoServiceImpl extends
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
+	}
+
+	@Override
+	protected AbstractJdbcDao<TitularIsentoEntity> getJdbcDao() {
+		return titularIsentoJdbcDao;
+	}
+
+	@Override
+	protected void logBatchInfo(TitularIsentoUi titularIsentoUi) throws ServiceException {
+		TitularUi titularUi = (TitularUi) titularIsentoUi.getTitular();
+
+		LOGGER.debug("TitularIsento.ID: ...................... [{}]", titularIsentoUi.getId());
+		LOGGER.debug("TitularIsento.MES: ..................... [{}]", titularIsentoUi.getMes());
+		LOGGER.debug("TitularIsento.ANO: ..................... [{}]", titularIsentoUi.getAno());
+		LOGGER.debug("TitularIsento.ISENTO_TYPE: ............. [{}]", titularIsentoUi.getIsentoType().getDescription());
+
+		LOGGER.debug("TitularIsento.Titular.ID: .............. [{}]", titularUi.getId());
+		LOGGER.debug("TitularIsento.Titular.NAME: ............ [{}]", titularUi.getNameTitular());
+		LOGGER.debug("TitularIsento.Titular.CPF: ............. [{}]", titularUi.getCpf());
+		LOGGER.debug("TitularIsento.Titular.MATRICULA: ....... [{}]", titularUi.getMatricula());
+		LOGGER.debug("TitularIsento.Titular.DT_NASCIMENTO: ... [{}]", titularUi.getDtNascimento());
 	}
 
 }

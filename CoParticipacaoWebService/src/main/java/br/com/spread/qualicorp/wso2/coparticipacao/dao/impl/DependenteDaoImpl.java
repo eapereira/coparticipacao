@@ -19,11 +19,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntit
  *
  */
 @Repository
-public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity>
-		implements DependenteDao {
+public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity> implements DependenteDao {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(DependenteDaoImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(DependenteDaoImpl.class);
 
 	public DependenteDaoImpl() throws DaoException {
 		super();
@@ -32,16 +30,11 @@ public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity>
 	public DependenteEntity findByCpf(String cpf) throws DaoException {
 		DependenteEntity dependenteEntity;
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
-			sb = new StringBuilder();
-			sb.append("select entity from DependenteEntity entity ");
-			sb.append("join fetch entity.titular titular ");
-			sb.append("where entity.cpf = :cpf ");
 
-			query = createQueryOld(sb.toString());
+			query = createQuery("findByCpf");
 			query.setParameter("cpf", cpf);
 
 			dependenteEntity = (DependenteEntity) query.getSingleResult();
@@ -60,18 +53,12 @@ public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity>
 	public List<DependenteEntity> listByEmpresaId(Long id) throws DaoException {
 		List<DependenteEntity> dependenteEntities;
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
-			sb = new StringBuilder();
-			sb.append("select dependente from DependenteEntity dependente ");
-			sb.append("join fetch dependente.titular titular ");
-			sb.append("join fetch titular.empresa empresa ");
-			sb.append("where empresa.id = :idEmpresa ");
 
-			query = createQueryOld(sb.toString());
-			query.setParameter("idEmpresa", id);
+			query = createQuery("listByEmpresaId");
+			query.setParameter("empresaId", id);
 
 			dependenteEntities = query.getResultList();
 

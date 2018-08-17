@@ -13,7 +13,10 @@ public interface DesconhecidoDao extends AbstractDao<DesconhecidoEntity> {
 
 	void deleteByMesAndAno(Long contratoId, int mes, int ano) throws DaoException;
 
-	List<DesconhecidoEntity> listByMesAndAno(Long contratoId, int mes, int ano)
-			throws DaoException;
+	List<DesconhecidoEntity> listByMesAndAno(Long contratoId, int mes, int ano) throws DaoException;
+
+	List<DesconhecidoEntity> listByContratoId(Long contratoId) throws DaoException;
+
+	List<DesconhecidoEntity> listByEmpresaId(Long id) throws DaoException;
 
 }

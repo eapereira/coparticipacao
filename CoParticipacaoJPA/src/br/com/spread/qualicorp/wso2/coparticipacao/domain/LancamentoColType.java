@@ -6,10 +6,11 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
  *
  */
 public enum LancamentoColType {
-								ID_BENEFICIARIO(1, "ID_TITULAR"),
+								ID_DEPENDENTE(1, "ID_DEPENDENTE"),
 								ID_CONTRATO(2, "ID_CONTRATO"),
 								CD_MES(3, "CD_MES"),
-								CD_ANO(4, "CD_ANO");
+								CD_ANO(4, "CD_ANO"),
+								VL_PRINCIPAL(5, "VL_PRINCIPAL");
 
 	private Integer id;
 

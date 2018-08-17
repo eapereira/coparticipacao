@@ -18,18 +18,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEnt
  *
  */
 @Repository
-public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
-		implements DesconhecidoDao {
+public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity> implements DesconhecidoDao {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(DesconhecidoDaoImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(DesconhecidoDaoImpl.class);
 
 	public DesconhecidoDaoImpl() throws DaoException {
 		super();
 	}
 
-	public void deleteByMesAndAno(Long arquivoInputId, int mes, int ano)
-			throws DaoException {
+	public void deleteByMesAndAno(Long arquivoInputId, int mes, int ano) throws DaoException {
 		Query query;
 
 		try {
@@ -50,10 +47,7 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
 
 	}
 
-	public List<DesconhecidoEntity> listByMesAndAno(
-			Long contratoId,
-			int mes,
-			int ano) throws DaoException {
+	public List<DesconhecidoEntity> listByMesAndAno(Long contratoId, int mes, int ano) throws DaoException {
 		Query query;
 		List<DesconhecidoEntity> desconhecidoEntities;
 
@@ -64,6 +58,46 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity>
 			query.setParameter("contratoId", contratoId);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
+
+			desconhecidoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return desconhecidoEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<DesconhecidoEntity> listByContratoId(Long contratoId) throws DaoException {
+		Query query;
+		List<DesconhecidoEntity> desconhecidoEntities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByContratoId");
+			query.setParameter("contratoId", contratoId);
+
+			desconhecidoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return desconhecidoEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<DesconhecidoEntity> listByEmpresaId(Long empresaId) throws DaoException {
+		Query query;
+		List<DesconhecidoEntity> desconhecidoEntities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByEmpresaId");
+			query.setParameter("empresaId", empresaId);
 
 			desconhecidoEntities = query.getResultList();
 

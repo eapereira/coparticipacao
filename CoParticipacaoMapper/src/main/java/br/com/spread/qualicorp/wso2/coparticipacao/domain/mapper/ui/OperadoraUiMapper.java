@@ -11,8 +11,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.OperadoraUi;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@Mapper(componentModel = "spring", uses = { UserUiMapper.class })
-public abstract class OperadoraUiMapper
-		extends AbstractMapper<Operadora, OperadoraUi> {
+@Mapper(componentModel = "spring", uses = { UserUiMapper.class, EmpresaUiMapper.class })
+public abstract class OperadoraUiMapper extends AbstractMapper<Operadora, OperadoraUi> {
 
 }

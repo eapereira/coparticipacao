@@ -8,15 +8,13 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -36,6 +34,8 @@ public class LancamentoSpreadsheetListener implements SpreadsheetListener<Dynami
 
 	private ArquivoOutputSheetUi arquivoOutputSheetUi;
 
+	private ContratoUi contratoUi;
+
 	private int columnIndex;
 
 	private int numColumns;
@@ -44,17 +44,19 @@ public class LancamentoSpreadsheetListener implements SpreadsheetListener<Dynami
 			CoParticipacaoContext coParticipacaoContext,
 			ArquivoOutputSheetUi arquivoOutputSheetUi,
 			List<ViewDestinationColsDefUi> viewDestinationColsDefUis,
-			List<DynamicEntity> dynamicEntities) {
+			List<DynamicEntity> dynamicEntities,
+			ContratoUi contratoUi) {
 		this.coParticipacaoContext = coParticipacaoContext;
 		this.dynamicEntities = dynamicEntities;
 		this.arquivoOutputSheetUi = arquivoOutputSheetUi;
 		this.viewDestinationColsDefUis = viewDestinationColsDefUis;
+		this.contratoUi = contratoUi;
 
 		numColumns = NumberUtils.INTEGER_ZERO;
 	}
 
 	public String getSheetName(int sheetId) throws ServiceException {
-		return arquivoOutputSheetUi.getViewDestination().getTitleLabel();
+		return String.format(arquivoOutputSheetUi.getNmSheet(), contratoUi.getNameContrato());
 	}
 
 	public List<ColumnInfo> createColumnTitles() throws ServiceException {
@@ -75,7 +77,10 @@ public class LancamentoSpreadsheetListener implements SpreadsheetListener<Dynami
 			columnInfo.setName(columnName);
 			columnInfo.setWidth(viewDestinationColsDef.getLength());
 
-			LOGGER.info("Defining spreadsheet columnName [{}] with length [{}]", columnName, viewDestinationColsDef.getLength());
+			LOGGER.info(
+					"Defining spreadsheet columnName [{}] with length [{}]",
+					columnName,
+					viewDestinationColsDef.getLength());
 
 			columnInfos.add(columnInfo);
 

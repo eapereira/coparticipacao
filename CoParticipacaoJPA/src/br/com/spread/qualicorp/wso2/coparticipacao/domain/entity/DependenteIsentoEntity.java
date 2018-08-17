@@ -7,7 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
@@ -22,11 +21,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
  */
 @Entity
 @Table(name = "TB_DEPENDENTE_ISENTO")
-@NamedQuery(
-		name = "DependenteIsentoEntity.findAll",
-		query = "SELECT d FROM DependenteIsentoEntity d")
-public class DependenteIsentoEntity extends DependenteIsento
-		implements DomainEntity {
+@NamedQuery(name = "DependenteIsentoEntity.findAll", query = "SELECT d FROM DependenteIsentoEntity d")
+public class DependenteIsentoEntity extends DependenteIsento implements DomainEntity {
 
 	/**
 	 * 
@@ -43,7 +39,6 @@ public class DependenteIsentoEntity extends DependenteIsento
 	// bi-directional many-to-one association to Dependente
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = DependenteEntity.class)
 	@JoinColumn(name = "ID_DEPENDENTE")
-	@OrderColumn(name="INDEX")
 	public Dependente getDependente() {
 		return super.getDependente();
 	}
@@ -56,14 +51,14 @@ public class DependenteIsentoEntity extends DependenteIsento
 		return super.getIsentoType();
 	}
 
-	@Column(name="CD_MES")
+	@Column(name = "CD_MES")
 	@Override
 	public Integer getMes() {
 		// TODO Auto-generated method stub
 		return super.getMes();
 	}
 
-	@Column(name="CD_ANO")
+	@Column(name = "CD_ANO")
 	@Override
 	public Integer getAno() {
 		// TODO Auto-generated method stub

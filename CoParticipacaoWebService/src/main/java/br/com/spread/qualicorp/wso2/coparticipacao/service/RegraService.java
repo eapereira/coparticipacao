@@ -15,14 +15,14 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 public interface RegraService extends AbstractService<RegraUi> {
 
 	void applyRegras(
-			LancamentoUi lancamentoUi,
-			CoParticipacaoContext coParticipacaoContext)
+			CoParticipacaoContext coParticipacaoContext,
+			LancamentoUi lancamentoUi)
 			throws ServiceException;
 
 	public void applyRegra(
+			CoParticipacaoContext coParticipacaoContext,
 			RegraUi regraUi,
-			LancamentoDetail lancamentoDetail,
-			CoParticipacaoContext coParticipacaoContext)
+			LancamentoDetail lancamentoDetail)
 			throws ServiceException;
 
 	List<RegraUi> listRegrasByArquivoInputId(Long arquivoInputFatucopaId)

@@ -16,19 +16,15 @@ public abstract class ArquivoInputColsDef extends AbstractDomain {
 	private String nameColumn;
 	private Integer length;
 	private String format;
+	private String localePattern;
 
 	private ArquivoInput arquivoInput;
 
-	private List<InputDependente> inputDependentes;
-	private List<InputLancamento> inputLancamentos;
-	private List<InputTitular> inputTitulars;
+	private LancamentoInputCols lancamentoInputCols;
 
 	private List<RegraResult> regraResults;
 
 	public ArquivoInputColsDef() {
-		inputDependentes = new ArrayList<>();
-		inputLancamentos = new ArrayList<>();
-		inputTitulars = new ArrayList<>();
 		regraResults = new ArrayList<>();
 	}
 
@@ -84,74 +80,6 @@ public abstract class ArquivoInputColsDef extends AbstractDomain {
 		this.arquivoInput = arquivoInput;
 	}
 
-	public List<InputDependente> getInputDependentes() {
-		return this.inputDependentes;
-	}
-
-	public void setInputDependentes(List<InputDependente> inputDependentes) {
-		this.inputDependentes = inputDependentes;
-	}
-
-	public InputDependente addInputDependente(InputDependente inputDependente) {
-		getInputDependentes().add(inputDependente);
-		inputDependente.setArquivoInputColsDef(this);
-
-		return inputDependente;
-	}
-
-	public InputDependente removeInputDependente(
-			InputDependente inputDependente) {
-		getInputDependentes().remove(inputDependente);
-		inputDependente.setArquivoInputColsDef(null);
-
-		return inputDependente;
-	}
-
-	public List<InputLancamento> getInputLancamentos() {
-		return this.inputLancamentos;
-	}
-
-	public void setInputLancamentos(List<InputLancamento> inputLancamentos) {
-		this.inputLancamentos = inputLancamentos;
-	}
-
-	public InputLancamento addInputLancamento(InputLancamento inputLancamento) {
-		getInputLancamentos().add(inputLancamento);
-		inputLancamento.setArquivoInputColsDef(this);
-
-		return inputLancamento;
-	}
-
-	public InputLancamento removeInputLancamento(
-			InputLancamento inputLancamento) {
-		getInputLancamentos().remove(inputLancamento);
-		inputLancamento.setArquivoInputColsDef(null);
-
-		return inputLancamento;
-	}
-
-	public List<InputTitular> getInputTitulars() {
-		return this.inputTitulars;
-	}
-
-	public void setInputTitulars(List<InputTitular> inputTitulars) {
-		this.inputTitulars = inputTitulars;
-	}
-
-	public InputTitular addInputTitular(InputTitular inputTitular) {
-		getInputTitulars().add(inputTitular);
-		inputTitular.setArquivoInputColsDef(this);
-
-		return inputTitular;
-	}
-
-	public InputTitular removeInputTitular(InputTitular inputTitular) {
-		getInputTitulars().remove(inputTitular);
-		inputTitular.setArquivoInputColsDef(null);
-
-		return inputTitular;
-	}
-
 	public List<RegraResult> getRegraResults() {
 		return regraResults;
 	}
@@ -174,25 +102,34 @@ public abstract class ArquivoInputColsDef extends AbstractDomain {
 		return RegraResult;
 	}
 
+	public String getLocalePattern() {
+		return localePattern;
+	}
+
+	public void setLocalePattern(String localePattern) {
+		this.localePattern = localePattern;
+	}
+
+	public LancamentoInputCols getLancamentoInputCols() {
+		return lancamentoInputCols;
+	}
+
+	public void setLancamentoInputCols(LancamentoInputCols lancamentoInputCols) {
+		this.lancamentoInputCols = lancamentoInputCols;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
-		result = prime * result + ((inputDependentes == null) ? 0
-				: inputDependentes.hashCode());
-		result = prime * result + ((inputLancamentos == null) ? 0
-				: inputLancamentos.hashCode());
-		result = prime * result
-				+ ((inputTitulars == null) ? 0 : inputTitulars.hashCode());
+		result = prime * result + ((lancamentoInputCols == null) ? 0 : lancamentoInputCols.hashCode());
 		result = prime * result + ((length == null) ? 0 : length.hashCode());
-		result = prime * result
-				+ ((nameColumn == null) ? 0 : nameColumn.hashCode());
+		result = prime * result + ((localePattern == null) ? 0 : localePattern.hashCode());
+		result = prime * result + ((nameColumn == null) ? 0 : nameColumn.hashCode());
 		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
-		result = prime * result
-				+ ((regraResults == null) ? 0 : regraResults.hashCode());
+		result = prime * result + ((regraResults == null) ? 0 : regraResults.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -216,25 +153,20 @@ public abstract class ArquivoInputColsDef extends AbstractDomain {
 				return false;
 		} else if (!format.equals(other.format))
 			return false;
-		if (inputDependentes == null) {
-			if (other.inputDependentes != null)
+		if (lancamentoInputCols == null) {
+			if (other.lancamentoInputCols != null)
 				return false;
-		} else if (!inputDependentes.equals(other.inputDependentes))
-			return false;
-		if (inputLancamentos == null) {
-			if (other.inputLancamentos != null)
-				return false;
-		} else if (!inputLancamentos.equals(other.inputLancamentos))
-			return false;
-		if (inputTitulars == null) {
-			if (other.inputTitulars != null)
-				return false;
-		} else if (!inputTitulars.equals(other.inputTitulars))
+		} else if (!lancamentoInputCols.equals(other.lancamentoInputCols))
 			return false;
 		if (length == null) {
 			if (other.length != null)
 				return false;
 		} else if (!length.equals(other.length))
+			return false;
+		if (localePattern == null) {
+			if (other.localePattern != null)
+				return false;
+		} else if (!localePattern.equals(other.localePattern))
 			return false;
 		if (nameColumn == null) {
 			if (other.nameColumn != null)

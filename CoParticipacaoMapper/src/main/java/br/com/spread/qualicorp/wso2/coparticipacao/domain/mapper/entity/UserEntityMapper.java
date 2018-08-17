@@ -20,14 +20,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				ArquivoOutputEntityMapper.class,
 				ArquivoOutputSheetEntityMapper.class,
 				ContratoEntityMapper.class,
-				DependenteColsDefEntityMapper.class,
 				DependenteIsentoEntityMapper.class,
 				DependenteEntityMapper.class,
 				EmpresaEntityMapper.class,
-				InputDependenteEntityMapper.class,
-				InputLancamentoEntityMapper.class,
-				InputTitularEntityMapper.class,
-				LancamentoColsDefEntityMapper.class,
+				LancamentoInputEntityMapper.class,
+				LancamentoInputColsEntityMapper.class,
 				LancamentoDetailEntityMapper.class,
 				LancamentoEntityMapper.class,
 				OperadoraEntityMapper.class,
@@ -36,14 +33,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				RegraEntityMapper.class,
 				RegraOperationEntityMapper.class,
 				RegraValorEntityMapper.class,
-				TitularColsDefEntityMapper.class,
 				TitularIsentoEntityMapper.class,
 				TitularEntityMapper.class,
 				ViewDestinationColsDefEntityMapper.class,
+				ArquivoOutputDesconhecidoEntityMapper.class,
 				ViewDestinationEntityMapper.class })
-public abstract class UserEntityMapper
-		extends AbstractMapper<User, UserEntity> {
-	public static final UserEntityMapper MAPPER = Mappers
-			.getMapper(UserEntityMapper.class);
+public abstract class UserEntityMapper extends AbstractMapper<User, UserEntity> {
+	public static final UserEntityMapper MAPPER = Mappers.getMapper(UserEntityMapper.class);
 
 }

@@ -1,13 +1,22 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper;
 
+import java.util.ArrayList;
 import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
 
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceUtil;
+
+import org.hibernate.collection.internal.PersistentBag;
+import org.hibernate.collection.internal.PersistentList;
 import org.mapstruct.BeforeMapping;
 import org.mapstruct.Context;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.TargetType;
 import org.springframework.stereotype.Component;
+
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DomainEntity;
 
 /**
  * A type to be used as {@link Context} parameter to track cycles in graphs.
@@ -24,16 +33,24 @@ public class CycleAvoidingMappingContext {
 	private Map<Object, Object> knownInstances = new IdentityHashMap<Object, Object>();
 
 	@BeforeMapping
-	public <T> T getMappedInstance(
-			Object source,
-			@TargetType Class<T> targetType) {
+	public <T> T getMappedInstance(Object source, @TargetType Class<T> targetType) throws Exception {
+		PersistenceUtil persistenceUtil = Persistence.getPersistenceUtil();
+
+		if (source instanceof PersistentBag || source instanceof PersistentList || source instanceof DomainEntity) {
+			if (!persistenceUtil.isLoaded(source)) {
+				if (source instanceof DomainEntity) {
+					return targetType.newInstance();
+				} else {
+					return (T) new ArrayList<T>();
+				}
+			}
+		}
+
 		return (T) knownInstances.get(source);
 	}
 
 	@BeforeMapping
-	public void storeMappedInstance(
-			Object source,
-			@MappingTarget Object target) {
+	public void storeMappedInstance(Object source, @MappingTarget Object target) {
 		knownInstances.put(source, target);
 	}
 

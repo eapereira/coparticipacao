@@ -18,21 +18,15 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
  */
 public enum BeneficiarioColType {
 									TP_BENEFICIARIO(1, "TP_BENEFICIARIO"),
-									NR_MATRICULA_TITULAR(
-											2,
-											"NR_MATRICULA_TITULAR"),
-									NR_MATRICULA_DEPENDENTE(
-											3,
-											"NR_MATRICULA_DEPENDENTE"),
-									NM_BENEFICARIO_TITULAR(
-											4,
-											"NM_BENEFICIARIO_TITULAR"),
-									NM_BENEFICIARIO_DEPENDENTE(
-											5,
-											"NM_BENEFICIARIO_DEPENDENTE"),
-									DT_NASCIMENTO(6, "DT_NASCIMENTO"),
-									NR_CPF_TITULAR(7, "NR_CPF_TITULAR"),
-									NR_CPF_DEPENDENTE(8, "NR_CPF_DEPENDENTE");
+									NR_MATRICULA(2, "NR_MATRICULA"),
+									NM_BENEFICIARIO(3, "NM_BENEFICIARIO"),
+									DT_NASCIMENTO(4, "DT_NASCIMENTO"),
+									NR_CPF(5, "NR_CPF"),
+									DT_ADMISSAO(6, "DT_ADMISSAO"),
+									NM_LABEL(7, "NM_LABEL"),
+									NR_REFERENCE_CODE(8, "NR_REFERENCE_CODE"),
+									NR_DIGITO_CPF(9, "NR_DIGITO_CPF"),
+									NR_MATRICULA_EMPRESA(10, "NR_MATRICULA_EMPRESA");
 
 	private Integer id;
 

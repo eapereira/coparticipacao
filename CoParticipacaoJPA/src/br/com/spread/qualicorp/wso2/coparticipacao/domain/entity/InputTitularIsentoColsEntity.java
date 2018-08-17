@@ -20,10 +20,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsentoColsDef;
  */
 @Entity
 @Table(name = "TB_INPUT_TITULAR_ISENTO_COLS")
-@NamedQuery(
-		name = "InputTitularIsentoColsEntity.findAll",
-		query = "SELECT a FROM InputTitularIsentoColsEntity a")
-public class InputTitularIsentoColsEntity extends InputTitularIsentoCols {
+@NamedQuery(name = "InputTitularIsentoColsEntity.findAll", query = "SELECT a FROM InputTitularIsentoColsEntity a")
+public class InputTitularIsentoColsEntity extends InputTitularIsentoCols implements DomainEntity {
 
 	/**
 	 * 
@@ -41,9 +39,7 @@ public class InputTitularIsentoColsEntity extends InputTitularIsentoCols {
 		return super.getTpIsento();
 	}
 
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = InputTitularIsentoEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = InputTitularIsentoEntity.class)
 	@JoinColumn(name = "ID_INPUT_TITULAR_ISENTO")
 	@Override
 	public InputTitularIsento getInputTitularIsento() {
@@ -51,9 +47,7 @@ public class InputTitularIsentoColsEntity extends InputTitularIsentoCols {
 		return super.getInputTitularIsento();
 	}
 
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = TitularIsentoColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = TitularIsentoColsDefEntity.class)
 	@JoinColumn(name = "ID_TITULAR_ISENTO_COLS_DEF")
 	@Override
 	public TitularIsentoColsDef getTitularIsentoColsDef() {
@@ -61,9 +55,7 @@ public class InputTitularIsentoColsEntity extends InputTitularIsentoCols {
 		return super.getTitularIsentoColsDef();
 	}
 
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
 	@Override
 	public ArquivoInputColsDef getArquivoInputColsDef() {

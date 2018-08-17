@@ -18,9 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
  */
 @Entity
 @Table(name = "TB_PARAMETER")
-@NamedQuery(
-		name = "ParameterEntity.findAll",
-		query = "SELECT p FROM ParameterEntity p")
+@NamedQuery(name = "ParameterEntity.findAll", query = "SELECT p FROM ParameterEntity p")
 public class ParameterEntity extends Parameter implements DomainEntity {
 
 	/**

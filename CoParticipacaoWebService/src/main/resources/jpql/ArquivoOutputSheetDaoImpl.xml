@@ -4,6 +4,7 @@
 		<![CDATA[
 			select arquivoOutputSheet from ArquivoOutputSheetEntity arquivoOutputSheet
 			join fetch arquivoOutputSheet.arquivoOutput arquivoOutput
+			join fetch arquivoOutputSheet.viewDestination viewDestination
 			where arquivoOutput.id = :arquivoOutputId
 		]]>
 	</query>

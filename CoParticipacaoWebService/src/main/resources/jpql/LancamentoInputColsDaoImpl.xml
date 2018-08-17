@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByLancamentoInputId">
+		<![CDATA[
+			select lancamentoInputCols from LancamentoInputColsEntity lancamentoInputCols
+				join fetch lancamentoInputCols.lancamentoInput lancamentoInput
+				join fetch lancamentoInputCols.arquivoInputColsDef arquivoInputColsDef 
+			where lancamentoInput.id = :lancamentoInputId
+		]]>
+	</query>
+
+	<query id="listByArquivoInputId">
+		<![CDATA[
+			select lancamentoInputCols from LancamentoInputColsEntity lancamentoInputCols
+				join fetch lancamentoInputCols.lancamentoInput lancamentoInput
+				join fetch lancamentoInputCols.arquivoInputColsDef arquivoInputColsDef
+				join fetch  arquivoInputColsDef.arquivoInput arquivoInput
+			where arquivoInput.id = :arquivoInputId
+		]]>
+	</query>
+
+</queries>
+	

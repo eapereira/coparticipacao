@@ -20,7 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetU
 @Entity
 @Table(name = "TB_ARQUIVO_OUTPUT_SHEET")
 @NamedQuery(name = "ArquivoOutputSheetEntity.findAll", query = "SELECT a FROM ArquivoOutputSheetEntity a")
-public class ArquivoOutputSheetEntity extends ArquivoOutputSheet {
+public class ArquivoOutputSheetEntity extends ArquivoOutputSheet implements DomainEntity {
 
 	/**
 	 * 

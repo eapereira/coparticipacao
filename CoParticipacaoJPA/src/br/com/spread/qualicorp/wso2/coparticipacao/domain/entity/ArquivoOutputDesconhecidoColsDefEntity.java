@@ -9,10 +9,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecido;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecidoColsDef;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDefTypeConverter;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoColType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.DesconhecidoColTypeConverter;
 
 /**
  * 
@@ -24,8 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDe
 @NamedQuery(
 		name = "ArquivoOutputDesconhecidoColsDefEntity.findAll",
 		query = "SELECT a FROM ArquivoOutputDesconhecidoColsDefEntity a")
-public class ArquivoOutputDesconhecidoColsDefEntity
-		extends ArquivoOutputDesconhecidoColsDef {
+public class ArquivoOutputDesconhecidoColsDefEntity extends ArquivoOutputDesconhecidoColsDef implements DomainEntity {
 
 	/**
 	 * 
@@ -36,42 +35,35 @@ public class ArquivoOutputDesconhecidoColsDefEntity
 		super();
 	}
 
+	// bi-directional many-to-one association to ArquivoInput
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
+	@Override
+	public ArquivoInputColsDef getArquivoInputColsDef() {
+		// TODO Auto-generated method stub
+		return super.getArquivoInputColsDef();
+	}
+
+	@Convert(converter = DesconhecidoColTypeConverter.class)
+	@Column(name = "CD_DESCONHECIDO_COLS_DEF")
+	@Override
+	public DesconhecidoColType getDesconhecidoColType() {
+		// TODO Auto-generated method stub
+		return super.getDesconhecidoColType();
+	}
+
 	@Column(name = "CD_ORDEM")
+	@Override
 	public Integer getOrdem() {
+		// TODO Auto-generated method stub
 		return super.getOrdem();
 	}
 
-	@Convert(converter = ColDefTypeConverter.class)
-	@Column(name = "CD_TYPE")
-	public ColDefType getType() {
-		return super.getType();
-	}
-
-	@Column(name = "NM_COLUMN")
-	public String getNameColumn() {
-		return super.getNameColumn();
-	}
-
-	@Column(name = "VL_LENGTH")
-	public Integer getLength() {
-		return super.getLength();
-	}
-
-	@Column(name = "CD_FORMAT")
+	@Column(name = "NM_LABEL")
 	@Override
-	public String getFormat() {
+	public String getLabel() {
 		// TODO Auto-generated method stub
-		return super.getFormat();
-	}
-
-	@ManyToOne(
-			fetch = FetchType.LAZY,
-			targetEntity = ArquivoOutputDesconhecidoEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_OUTPUT_DESCONHECIDO")
-	@Override
-	public ArquivoOutputDesconhecido getArquivoOutputDesconhecido() {
-		// TODO Auto-generated method stub
-		return super.getArquivoOutputDesconhecido();
+		return super.getLabel();
 	}
 
 }

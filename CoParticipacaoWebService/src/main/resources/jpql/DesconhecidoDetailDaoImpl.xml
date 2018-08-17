@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="listByContratoIdAndMesAndAno">
 		<![CDATA[
+			select desconhecidoDetail from DesconhecidoDetailEntity desconhecidoDetail
+			join fetch desconhecidoDetail.desconhecido desconhecido
+			join fetch desconhecido.contrato contrato
+			where 	contrato.id 		= :contratoId
+			and		desconhecido.mes	= :mes
+			and		desconhecido.ano	= :ano
 		]]>
 	</query>
 

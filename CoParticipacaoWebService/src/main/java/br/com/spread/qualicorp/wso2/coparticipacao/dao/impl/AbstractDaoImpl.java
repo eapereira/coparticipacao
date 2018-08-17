@@ -24,11 +24,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@Transactional(value="jpaTransactionManager")
-public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
-		implements AbstractDao<ENTITY> {
-	private static final Logger LOGGER = LogManager
-			.getLogger(AbstractDaoImpl.class);
+@Transactional(value = "jpaTransactionManager")
+public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements AbstractDao<ENTITY> {
+	private static final Logger LOGGER = LogManager.getLogger(AbstractDaoImpl.class);
 
 	@PersistenceContext
 	private EntityManager entityManager;
@@ -43,12 +41,10 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 		try {
 			LOGGER.info("BEGIN");
 
-			entityClass = (Class<ENTITY>) ((ParameterizedType) getClass()
-					.getGenericSuperclass()).getActualTypeArguments()[0];
+			entityClass = (Class<ENTITY>) ((ParameterizedType) getClass().getGenericSuperclass())
+					.getActualTypeArguments()[0];
 
-			queryUtils = new QueryUtils(
-					this.getClass().getSimpleName(),
-					"/jpql");
+			queryUtils = new QueryUtils(this.getClass().getSimpleName(), "/jpql");
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
@@ -97,6 +93,7 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 			sb.append(entityClass.getSimpleName());
 			sb.append(" e ");
 
+			LOGGER.debug("Executing JPQL query [{}]:", sb.toString());
 			query = entityManager.createQuery(sb.toString());
 
 			entities = query.getResultList();
@@ -138,7 +135,7 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain>
 			throw new DaoException(e);
 		}
 	}
-	
+
 	public void save(List<ENTITY> entities) throws DaoException {
 		try {
 			LOGGER.info("BEGIN");

@@ -7,6 +7,13 @@
 				CD_MES,
 				CD_ANO,
 				
+				NR_MATRICULA,
+				NM_BENEFICIARIO,
+				NR_CPF,
+				DT_NASCIMENTO,				
+				VL_PRINCIPAL,				
+				NR_MATRICULA_EMPRESA,
+								
 				USER_CREATED,
 				DT_CREATED,
 				DT_ALTERED
@@ -14,7 +21,14 @@
 				?,
 				?,
 				?,				
-				
+
+				?,
+				?,
+				?,
+				?,				
+				?,
+				?,
+								
 				?,
 				CURRENT_TIMESTAMP(),
 				CURRENT_TIMESTAMP()
@@ -26,13 +40,20 @@
 		<![CDATA[	
 			update TB_DESCONHECIDO
 			set
-				ID_CONTRATO		= ?,
-				CD_MES			= ?,
-				CD_ANO			= ?,
-				
-				USER_CREATED	= ?,
-				DT_CREATED		= ?,
-				DT_ALTERED		= ?
+				ID_CONTRATO						= ?,
+				CD_MES							= ?,
+				CD_ANO							= ?,
+
+				NR_MATRICULA					= ?,
+				NM_BENEFICIARIO					= ?,
+				NR_CPF							= ?,
+				DT_NASCIMENTO					= ?,				
+				VL_PRINCIPAL					= ?,				
+				NR_MATRICULA_EMPRESA			= ?,
+								
+				USER_CREATED					= ?,
+				DT_CREATED						= CURRENT_TIMESTAMP(),
+				DT_ALTERED						= CURRENT_TIMESTAMP()
 			where ID = ?
 		]]>
 	</query>
@@ -41,6 +62,15 @@
 		<![CDATA[	
 			delete from TB_DESCONHECIDO
 			where ID = ?
+		]]>
+	</query>
+
+	<query id="deleteByContratoAndMesAndAno">
+		<![CDATA[	
+			delete from TB_DESCONHECIDO
+			where		ID_CONTRATO	= ?
+			and			CD_MES		= ?
+			and			CD_ANO		= ?
 		]]>
 	</query>
 	

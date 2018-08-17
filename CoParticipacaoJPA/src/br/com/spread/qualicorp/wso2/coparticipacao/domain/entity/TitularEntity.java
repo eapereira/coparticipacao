@@ -19,6 +19,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -29,9 +30,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
  */
 @Entity
 @Table(name = "TB_TITULAR")
-@NamedQuery(
-		name = "TitularEntity.findAll",
-		query = "SELECT t FROM TitularEntity t")
+@NamedQuery(name = "TitularEntity.findAll", query = "SELECT t FROM TitularEntity t")
 public class TitularEntity extends Titular implements DomainEntity {
 
 	/**
@@ -64,7 +63,7 @@ public class TitularEntity extends Titular implements DomainEntity {
 	}
 
 	@Column(name = "NR_CPF")
-	public String getCpf() {
+	public Long getCpf() {
 		return super.getCpf();
 	}
 
@@ -74,31 +73,20 @@ public class TitularEntity extends Titular implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to Lancamento
-	@OneToMany(
-			mappedBy = "titular",
-			targetEntity = LancamentoEntity.class,
-			cascade = CascadeType.ALL)
-	@OrderColumn(name="INDEX")
+	@OneToMany(mappedBy = "titular", targetEntity = LancamentoEntity.class, cascade = CascadeType.ALL)
+	@OrderColumn(name = "INDEX")
 	public List<Lancamento> getLancamentos() {
 		return super.getLancamentos();
 	}
 
 	// bi-directional many-to-one association to TitularIsento
-	@OneToMany(
-			mappedBy = "titular",
-			targetEntity = TitularIsentoEntity.class,
-			cascade = CascadeType.ALL)
-	@OrderColumn(name="INDEX")
+	@OneToMany(mappedBy = "titular", targetEntity = TitularIsentoEntity.class, cascade = CascadeType.ALL)
 	public List<TitularIsento> getTitularIsentos() {
 		return super.getTitularIsentos();
 	}
 
 	// bi-directional many-to-one association to TitularIsento
-	@OneToMany(
-			mappedBy = "titular",
-			targetEntity = DependenteEntity.class,
-			cascade = CascadeType.ALL)
-	@OrderColumn(name="INDEX")
+	@OneToMany(mappedBy = "titular", targetEntity = DependenteEntity.class, cascade = CascadeType.ALL)
 	@Override
 	public List<Dependente> getDependentes() {
 		// TODO Auto-generated method stub
@@ -111,6 +99,38 @@ public class TitularEntity extends Titular implements DomainEntity {
 	public Empresa getEmpresa() {
 		// TODO Auto-generated method stub
 		return super.getEmpresa();
+	}
+
+	@Column(name = "NM_LABEL")
+	@Override
+	public String getLabel() {
+		// TODO Auto-generated method stub
+		return super.getLabel();
+	}
+
+	@Column(name = "NR_REF_CODE")
+	@Override
+	public Long getReferenceCode() {
+		// TODO Auto-generated method stub
+		return super.getReferenceCode();
+	}
+
+	@Column(name = "NR_MATRICULA_EMPRESA")
+	@Override
+	public Long getMatriculaEmpresa() {
+		// TODO Auto-generated method stub
+		return super.getMatriculaEmpresa();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			mappedBy = "titular",
+			fetch = FetchType.LAZY,
+			targetEntity = TitularDetailEntity.class)
+	@Override
+	public List<TitularDetail> getTitularDetails() {
+		// TODO Auto-generated method stub
+		return super.getTitularDetails();
 	}
 
 }

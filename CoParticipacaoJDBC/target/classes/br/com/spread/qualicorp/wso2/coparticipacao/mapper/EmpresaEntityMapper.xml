@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="br.com.spread.qualicorp.wso2.coparticipacao.mapper.EmpresaEntityMapper">
+	<resultMap id="recordResultMap" type="empresaEntity">
+		<result column="EMPRESA_ID" property="id" />
+		<result column="EMPRESA_NM_EMPRESA" property="nameEmpresa" />
+		
+		<result column="EMPRESA_VERSION" property="version" />
+		<result column="EMPRESA_USER_CREATED" property="userCreated" />
+		<result column="EMPRESA_USER_ALTERED" property="userAltered" />
+		<result column="EMPRESA_DT_CREATED" property="created" />
+		<result column="EMPRESA_DT_ALTERED" property="altered" />
+
+		<association property="operadora" javaType="OperadoraEntity">
+			<id column="OPERADORA_ID" property="id" />
+			<result column="OPERADORA_NM_OPERADORA" property="nameOperadora" />
+			
+			<result column="OPERADORA_VERSION" property="version" />
+			<result column="OPERADORA_USER_CREATED" property="userCreated" />
+			<result column="OPERADORA_USER_ALTERED" property="userAltered" />
+			<result column="OPERADORA_DT_CREATED" property="created" />
+			<result column="OPERADORA_DT_ALTERED" property="altered" />
+		</association>
+
+		<collection property="contratos" ofType="ContratoEntity">
+			<id column="CONTRATO_ID" property="id" />
+			<result column="CONTRATO_NM_CONTRATO" property="nameContrato" />
+			<result column="CONTRATO_CD_CONTRATO" property="cdContrato" />
+			<result column="CONTRATO_TP_USO" property="useType" />
+						
+			<result column="CONTRATO_VERSION" property="version" />
+			<result column="CONTRATO_USER_CREATED" property="userCreated" />
+			<result column="CONTRATO_USER_ALTERED" property="userAltered" />
+			<result column="CONTRATO_DT_CREATED" property="created" />
+			<result column="CONTRATO_DT_ALTERED" property="altered" />
+				
+			<association property="arquivoInput" javaType="ArquivoInputEntity">
+			<id column="ARQUIVO_INPUT_ID" property="id" />
+			<result column="ARQUIVO_INPUT_NM_ARQUIVO_REGEXP" property="nameArquivoRegexp" />
+			<result column="ARQUIVO_INPUT_DESCR_ARQUIVO" property="descrArquivo" />
+			<result column="ARQUIVO_INPUT_TP_ARQUIVO" property="arquivoType" />
+			<result column="ARQUIVO_INPUT_TP_USE" property="useType" />
+			<result column="ARQUIVO_INPUT_NUM_SKIP_LINES" property="skipLines" />
+			<result column="ARQUIVO_INPUT_NUM_DEFAULT_LINE_LENGTH" property="defaultLinesLength" />
+			<result column="ARQUIVO_INPUT_CD_REGEXP_CONTRATO" property="regexpContrato" />
+			<result column="ARQUIVO_INPUT_CD_REGEXP_DIA" property="regexpDia" />
+			<result column="ARQUIVO_INPUT_CD_REGEXP_MES" property="regexpMes" />
+			<result column="ARQUIVO_INPUT_CD_REGEXP_ANO" property="regexpAno" />			
+						
+			<result column="ARQUIVO_INPUT_VERSION" property="version" />
+			<result column="ARQUIVO_INPUT_USER_CREATED" property="userCreated" />
+			<result column="ARQUIVO_INPUT_USER_ALTERED" property="userAltered" />
+			<result column="ARQUIVO_INPUT_DT_CREATED" property="created" />
+			<result column="ARQUIVO_INPUT_DT_ALTERED" property="altered" />
+					
+			</association>
+		</collection>
+	</resultMap>
+
+	<select id="findById" resultMap="recordResultMap"
+		parameterType="Long">
+		<![CDATA[
+			SELECT 
+				empresa.ID 					EMPRESA_ID,
+			    empresa.NM_EMPRESA 			EMPRESA_NM_EMPRESA,
+			    empresa.VERSION 			EMPRESA_VERSION,
+			    empresa.USER_CREATED 		EMPRESA_USER_CREATED,
+			    empresa.USER_ALTERED 		EMPRESA_USER_ALTERED,
+			    empresa.DT_CREATED 			EMPRESA_DT_CREATED,
+			    empresa.DT_ALTERED 			EMPRESA_DT_ALTERED,
+				operadora.ID				OPERADORA_ID,
+			    operadora.NM_OPERADORA		OPERADORA_NM_OPERADORA,
+			    operadora.VERSION			OPERADORA_VERSION,
+			    operadora.USER_CREATED		OPERADORA_USER_CREATED,
+			    operadora.USER_ALTERED		OPERADORA_USER_ALTERED,
+			    operadora.DT_CREATED		OPERADORA_DT_CREATED,
+			    operadora.DT_ALTERED		OPERADORA_DT_CREATED,
+				contrato.ID 				CONTRATO_ID,
+			    contrato.ID_EMPRESA 		CONTRATO_ID_EMPRESA,
+			    contrato.CD_CONTRATO 		CONTRATO_CD_CONTRATO,
+			    contrato.NM_CONTRATO 		CONTRATO_NM_CONTRATO,
+			    contrato.TP_USO 			CONTRATO_TP_USO,
+			    contrato.VERSION 			CONTRATO_VERSION,
+			    contrato.USER_CREATED 		CONTRATO_USER_CREATED,
+			    contrato.USER_ALTERED 		CONTRATO_USER_ALTERED,
+			    contrato.DT_CREATED 		CONTRATO_DT_CREATED,
+			    contrato.DT_ALTERED 		CONTRATO_DT_ALTERED,
+				arquivoInput.ID							ARQUIVO_INPUT_ID,
+			    arquivoInput.ID_CONTRATO				ARQUIVO_INPUT_ID_CONTRATO,
+			    arquivoInput.NM_ARQUIVO_REGEXP			ARQUIVO_INPUT_NM_ARQUIVO_REGEXP,
+			    arquivoInput.DESCR_ARQUIVO				ARQUIVO_INPUT_DESCR_ARQUIVO,
+			    arquivoInput.TP_ARQUIVO					ARQUIVO_INPUT_TP_ARQUIVO,
+			    arquivoInput.NUM_SKIP_LINES				ARQUIVO_INPUT_NUM_SKIP_LINES,
+			    arquivoInput.NUM_DEFAULT_LINE_LENGTH	ARQUIVO_INPUT_NUM_DEFAULT_LINE_LENGTH,
+			    arquivoInput.ID_ARQUIVO_INPUT_LAYOUT	ARQUIVO_INPUT_ID_ARQUIVO_INPUT_LAYOUT,
+			    arquivoInput.CD_REGEXP_CONTRATO			ARQUIVO_INPUT_CD_REGEXP_CONTRATO,
+			    arquivoInput.CD_REGEXP_DIA				ARQUIVO_INPUT_CD_REGEXP_DIA,
+			    arquivoInput.CD_REGEXP_MES				ARQUIVO_INPUT_CD_REGEXP_MES,
+			    arquivoInput.CD_REGEXP_ANO				ARQUIVO_INPUT_CD_REGEXP_ANO,
+			    arquivoInput.VERSION					ARQUIVO_INPUT_VERSION,
+			    arquivoInput.USER_CREATED				ARQUIVO_INPUT_USER_CREATED,
+			    arquivoInput.USER_ALTERED				ARQUIVO_INPUT_USER_ALTERED,
+			    arquivoInput.DT_CREATED					ARQUIVO_INPUT_DT_CREATED,
+			    arquivoInput.DT_ALTERED					ARQUIVO_INPUT_DT_ALTERED
+			FROM	TB_EMPRESA empresa
+			join TB_CONTRATO contrato on
+				contrato.ID_EMPRESA = empresa.ID
+			join TB_ARQUIVO_INPUT arquivoInput on
+				arquivoInput.ID_CONTRATO = contrato.ID
+			join TB_OPERADORA operadora on
+				operadora.ID = empresa.ID_OPERADORA
+			where empresa.ID = #{id}
+		]]>
+	</select>
+</mapper>

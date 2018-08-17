@@ -5,6 +5,10 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 
@@ -46,8 +50,7 @@ public abstract class DateUtils {
 
 	public static LocalDate dateToLocalDate(java.util.Date date) {
 		if (date != null) {
-			return date.toInstant().atZone(ZoneId.systemDefault())
-					.toLocalDate();
+			return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		}
 
 		return null;
@@ -64,4 +67,31 @@ public abstract class DateUtils {
 
 		return null;
 	}
+
+	public static LocalDate stringToDate(String value, String format) {
+		DateTimeFormatter dateTimeFormatter;
+
+		if (StringUtils.isNotBlank(value)) {
+			dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+
+			return LocalDate.parse(value, dateTimeFormatter);
+		}
+
+		return null;
+	}
+
+	public static LocalDate stringToDate(String value, String format, String localePattern) {
+		DateTimeFormatter dateTimeFormatter;
+		Locale locale;
+
+		if (StringUtils.isNotBlank(value)) {
+			locale = new Locale(localePattern);
+			dateTimeFormatter = DateTimeFormatter.ofPattern(format, locale);
+
+			return LocalDate.parse(value, dateTimeFormatter);
+		}
+
+		return null;
+	}
+
 }

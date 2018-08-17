@@ -11,6 +11,9 @@ public abstract class Empresa extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
 	private String nameEmpresa;
+
+	private String cdEmpresa;
+
 	private List<Contrato> contratos;
 
 	private Operadora operadora;
@@ -19,9 +22,14 @@ public abstract class Empresa extends AbstractDomain {
 
 	private List<Titular> titulars;
 
+	private boolean automaticCreateBeneficiario;
+
+	private String outputReportDir;
+
 	public Empresa() {
 		parameters = new ArrayList<>();
 		titulars = new ArrayList<>();
+		contratos = new ArrayList<>();
 	}
 
 	public Empresa(Empresa empresa) {
@@ -103,20 +111,42 @@ public abstract class Empresa extends AbstractDomain {
 		this.operadora = operadora;
 	}
 
+	public boolean isAutomaticCreateBeneficiario() {
+		return automaticCreateBeneficiario;
+	}
+
+	public void setAutomaticCreateBeneficiario(boolean automaticCreateBeneficiario) {
+		this.automaticCreateBeneficiario = automaticCreateBeneficiario;
+	}
+
+	public String getOutputReportDir() {
+		return outputReportDir;
+	}
+
+	public void setOutputReportDir(String outputReportDir) {
+		this.outputReportDir = outputReportDir;
+	}
+
+	public String getCdEmpresa() {
+		return cdEmpresa;
+	}
+
+	public void setCdEmpresa(String cdEmpresa) {
+		this.cdEmpresa = cdEmpresa;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((contratos == null) ? 0 : contratos.hashCode());
-		result = prime * result
-				+ ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
-		result = prime * result
-				+ ((operadora == null) ? 0 : operadora.hashCode());
-		result = prime * result
-				+ ((parameters == null) ? 0 : parameters.hashCode());
-		result = prime * result
-				+ ((titulars == null) ? 0 : titulars.hashCode());
+		result = prime * result + (automaticCreateBeneficiario ? 1231 : 1237);
+		result = prime * result + ((cdEmpresa == null) ? 0 : cdEmpresa.hashCode());
+		result = prime * result + ((contratos == null) ? 0 : contratos.hashCode());
+		result = prime * result + ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
+		result = prime * result + ((operadora == null) ? 0 : operadora.hashCode());
+		result = prime * result + ((outputReportDir == null) ? 0 : outputReportDir.hashCode());
+		result = prime * result + ((parameters == null) ? 0 : parameters.hashCode());
+		result = prime * result + ((titulars == null) ? 0 : titulars.hashCode());
 		return result;
 	}
 
@@ -129,6 +159,13 @@ public abstract class Empresa extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		Empresa other = (Empresa) obj;
+		if (automaticCreateBeneficiario != other.automaticCreateBeneficiario)
+			return false;
+		if (cdEmpresa == null) {
+			if (other.cdEmpresa != null)
+				return false;
+		} else if (!cdEmpresa.equals(other.cdEmpresa))
+			return false;
 		if (contratos == null) {
 			if (other.contratos != null)
 				return false;
@@ -143,6 +180,11 @@ public abstract class Empresa extends AbstractDomain {
 			if (other.operadora != null)
 				return false;
 		} else if (!operadora.equals(other.operadora))
+			return false;
+		if (outputReportDir == null) {
+			if (other.outputReportDir != null)
+				return false;
+		} else if (!outputReportDir.equals(other.outputReportDir))
 			return false;
 		if (parameters == null) {
 			if (other.parameters != null)

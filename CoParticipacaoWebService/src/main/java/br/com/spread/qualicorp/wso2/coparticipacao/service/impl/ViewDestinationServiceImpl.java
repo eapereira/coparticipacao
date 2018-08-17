@@ -16,6 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestination
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ViewDestinationEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ViewDestinationUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
@@ -30,7 +31,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationServic
  *
  */
 @Service
-public class ViewDestinationServiceImpl extends AbstractServiceImpl<ViewDestinationUi, ViewDestinationEntity, ViewDestination>
+public class ViewDestinationServiceImpl
+		extends AbstractServiceImpl<ViewDestinationUi, ViewDestinationEntity, ViewDestination>
 		implements ViewDestinationService {
 
 	private static final Logger LOGGER = LogManager.getLogger(ViewDestinationServiceImpl.class);
@@ -89,6 +91,7 @@ public class ViewDestinationServiceImpl extends AbstractServiceImpl<ViewDestinat
 			sb.append("select ");
 
 			for (ViewDestinationColsDefUi viewDestinationColsDefUi : viewDestinationColsDefUis) {
+				sb.append("viewDestination.");
 				sb.append(viewDestinationColsDefUi.getNameColumn());
 				sb.append(", ");
 			}
@@ -97,7 +100,7 @@ public class ViewDestinationServiceImpl extends AbstractServiceImpl<ViewDestinat
 			sb.append(" from ");
 			sb.append(viewDestinationUi.getNameView());
 			sb.append(" viewDestination ");
-			sb.append("where	viewDestination.ID_EMPRESA	= ? ");
+			sb.append("where	viewDestination.ID_CONTRATO	= ? ");
 			sb.append("and		viewDestination.CD_MES 		= ? ");
 			sb.append("and 		viewDestination.CD_ANO 		= ? ");
 
@@ -111,7 +114,11 @@ public class ViewDestinationServiceImpl extends AbstractServiceImpl<ViewDestinat
 		}
 	}
 
-	public List<DynamicEntity> listByContratoAndMesAndAno(ViewDestinationUi ViewDestinationUi, EmpresaUi empresaUi, int mes, int ano) throws ServiceException {
+	public List<DynamicEntity> listByContratoAndMesAndAno(
+			ViewDestinationUi ViewDestinationUi,
+			ContratoUi contratoUi,
+			int mes,
+			int ano) throws ServiceException {
 		List<DynamicEntity> dynamicEntities;
 		String sql;
 		try {
@@ -119,7 +126,7 @@ public class ViewDestinationServiceImpl extends AbstractServiceImpl<ViewDestinat
 
 			sql = createSqlToViewDestination(ViewDestinationUi);
 
-			dynamicEntities = dynamicService.listByEmpresaAndMesAndAno(sql, empresaUi, mes, ano);
+			dynamicEntities = dynamicService.listByEmpresaAndMesAndAno(sql, contratoUi, mes, ano);
 
 			LOGGER.info("END");
 			return dynamicEntities;

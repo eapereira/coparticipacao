@@ -16,22 +16,24 @@ public abstract class Beneficiario extends AbstractDomain {
 
 	private LocalDate dtNascimento;
 
-	private String nameTitular;
-
-	private String nameDependente;
+	private String nameBeneficiario;
 
 	private Long cpf;
 
+	private Integer digitoCpf;
+
 	private Long matricula;
+
+	private Long matriculaEmpresa;
 
 	private BeneficiarioType type;
 
-	private Long matriculaTitular;
-
-	private Long cpfTitular;
-	
 	private LocalDate dtAdmissao;
-	
+
+	private String label;
+
+	private Long referenceCode;
+
 	public Beneficiario() {
 	}
 
@@ -43,20 +45,12 @@ public abstract class Beneficiario extends AbstractDomain {
 		this.dtNascimento = dtNascimento;
 	}
 
-	public String getNameTitular() {
-		return nameTitular;
+	public String getNameBeneficiario() {
+		return nameBeneficiario;
 	}
 
-	public void setNameTitular(String nameTitular) {
-		this.nameTitular = nameTitular;
-	}
-
-	public String getNameDependente() {
-		return nameDependente;
-	}
-
-	public void setNameDependente(String nameDependente) {
-		this.nameDependente = nameDependente;
+	public void setNameBeneficiario(String nameBeneficiario) {
+		this.nameBeneficiario = nameBeneficiario;
 	}
 
 	public Long getCpf() {
@@ -67,12 +61,28 @@ public abstract class Beneficiario extends AbstractDomain {
 		this.cpf = cpf;
 	}
 
+	public Integer getDigitoCpf() {
+		return digitoCpf;
+	}
+
+	public void setDigitoCpf(Integer digitoCpf) {
+		this.digitoCpf = digitoCpf;
+	}
+
 	public Long getMatricula() {
 		return matricula;
 	}
 
 	public void setMatricula(Long matricula) {
 		this.matricula = matricula;
+	}
+
+	public Long getMatriculaEmpresa() {
+		return matriculaEmpresa;
+	}
+
+	public void setMatriculaEmpresa(Long matriculaEmpresa) {
+		this.matriculaEmpresa = matriculaEmpresa;
 	}
 
 	public BeneficiarioType getType() {
@@ -83,22 +93,6 @@ public abstract class Beneficiario extends AbstractDomain {
 		this.type = type;
 	}
 
-	public Long getMatriculaTitular() {
-		return matriculaTitular;
-	}
-
-	public void setMatriculaTitular(Long matriculaTitular) {
-		this.matriculaTitular = matriculaTitular;
-	}
-
-	public Long getCpfTitular() {
-		return cpfTitular;
-	}
-
-	public void setCpfTitular(Long cpfTitular) {
-		this.cpfTitular = cpfTitular;
-	}
-
 	public LocalDate getDtAdmissao() {
 		return dtAdmissao;
 	}
@@ -107,25 +101,35 @@ public abstract class Beneficiario extends AbstractDomain {
 		this.dtAdmissao = dtAdmissao;
 	}
 
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
+	}
+
+	public Long getReferenceCode() {
+		return referenceCode;
+	}
+
+	public void setReferenceCode(Long referenceCode) {
+		this.referenceCode = referenceCode;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
-		result = prime * result
-				+ ((cpfTitular == null) ? 0 : cpfTitular.hashCode());
-		result = prime * result
-				+ ((dtAdmissao == null) ? 0 : dtAdmissao.hashCode());
-		result = prime * result
-				+ ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
-		result = prime * result
-				+ ((matricula == null) ? 0 : matricula.hashCode());
-		result = prime * result + ((matriculaTitular == null) ? 0
-				: matriculaTitular.hashCode());
-		result = prime * result
-				+ ((nameDependente == null) ? 0 : nameDependente.hashCode());
-		result = prime * result
-				+ ((nameTitular == null) ? 0 : nameTitular.hashCode());
+		result = prime * result + ((digitoCpf == null) ? 0 : digitoCpf.hashCode());
+		result = prime * result + ((dtAdmissao == null) ? 0 : dtAdmissao.hashCode());
+		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
+		result = prime * result + ((nameBeneficiario == null) ? 0 : nameBeneficiario.hashCode());
+		result = prime * result + ((referenceCode == null) ? 0 : referenceCode.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -144,10 +148,10 @@ public abstract class Beneficiario extends AbstractDomain {
 				return false;
 		} else if (!cpf.equals(other.cpf))
 			return false;
-		if (cpfTitular == null) {
-			if (other.cpfTitular != null)
+		if (digitoCpf == null) {
+			if (other.digitoCpf != null)
 				return false;
-		} else if (!cpfTitular.equals(other.cpfTitular))
+		} else if (!digitoCpf.equals(other.digitoCpf))
 			return false;
 		if (dtAdmissao == null) {
 			if (other.dtAdmissao != null)
@@ -159,25 +163,30 @@ public abstract class Beneficiario extends AbstractDomain {
 				return false;
 		} else if (!dtNascimento.equals(other.dtNascimento))
 			return false;
+		if (label == null) {
+			if (other.label != null)
+				return false;
+		} else if (!label.equals(other.label))
+			return false;
 		if (matricula == null) {
 			if (other.matricula != null)
 				return false;
 		} else if (!matricula.equals(other.matricula))
 			return false;
-		if (matriculaTitular == null) {
-			if (other.matriculaTitular != null)
+		if (matriculaEmpresa == null) {
+			if (other.matriculaEmpresa != null)
 				return false;
-		} else if (!matriculaTitular.equals(other.matriculaTitular))
+		} else if (!matriculaEmpresa.equals(other.matriculaEmpresa))
 			return false;
-		if (nameDependente == null) {
-			if (other.nameDependente != null)
+		if (nameBeneficiario == null) {
+			if (other.nameBeneficiario != null)
 				return false;
-		} else if (!nameDependente.equals(other.nameDependente))
+		} else if (!nameBeneficiario.equals(other.nameBeneficiario))
 			return false;
-		if (nameTitular == null) {
-			if (other.nameTitular != null)
+		if (referenceCode == null) {
+			if (other.referenceCode != null)
 				return false;
-		} else if (!nameTitular.equals(other.nameTitular))
+		} else if (!referenceCode.equals(other.referenceCode))
 			return false;
 		if (type != other.type)
 			return false;

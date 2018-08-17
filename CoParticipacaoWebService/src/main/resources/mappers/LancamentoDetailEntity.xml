@@ -54,4 +54,18 @@
 			WHERE ID = ?
 		]]>
 	</query>
+	
+	<query id="deleteByContratoAndMesAndAno">
+		<![CDATA[	
+			delete detail from TB_LANCAMENTO_DETAIL detail
+			where detail.ID_LANCAMENTO in (
+				select	lancamento.ID
+				from 	TB_LANCAMENTO lancamento
+				where	lancamento.ID = detail.ID_LANCAMENTO
+				and		lancamento.ID_CONTRATO	= ?
+				and		lancamento.CD_MES		= ?
+				and		lancamento.CD_ANO		= ? )
+		]]>
+	</query>
+	
 </queries>

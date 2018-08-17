@@ -16,22 +16,19 @@ public abstract class AbstractMapper<SOURCE extends AbstractDomain, TARGET exten
 
 	public AbstractMapper() {
 	}
-
-	public void copyProperties(SOURCE source, @MappingTarget TARGET target) {
+	
+	public void copyProperties(SOURCE source, @MappingTarget TARGET target) throws Exception {
 		mapProperties(source, target, new CycleAvoidingMappingContext());
 	}
 
-	public abstract List<SOURCE> mapProperties(
-			List<SOURCE> sources,
-			@Context CycleAvoidingMappingContext context);
+	public abstract List<SOURCE> mapProperties(List<SOURCE> sources, @Context CycleAvoidingMappingContext context)
+			throws Exception;
 
 	public abstract void mapProperties(
 			SOURCE sources,
 			@MappingTarget TARGET targets,
-			@Context CycleAvoidingMappingContext context);
+			@Context CycleAvoidingMappingContext context) throws Exception;
 
-	public abstract TARGET mapProperties(
-			SOURCE source,
-			@Context CycleAvoidingMappingContext context);
+	public abstract TARGET mapProperties(SOURCE source, @Context CycleAvoidingMappingContext context) throws Exception;
 
 }

@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
+import java.time.LocalDate;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
@@ -14,10 +16,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Beneficiario;
  */
 @Entity
 @Table(name = "TB_BENEFICIARIO")
-@NamedQuery(
-		name = "BeneficiarioEntity.findAll",
-		query = "SELECT a FROM BeneficiarioEntity a")
-public class BeneficiarioEntity extends Beneficiario {
+@NamedQuery(name = "BeneficiarioEntity.findAll", query = "SELECT a FROM BeneficiarioEntity a")
+public class BeneficiarioEntity extends Beneficiario implements DomainEntity {
 
 	/**
 	 * 
@@ -29,18 +29,11 @@ public class BeneficiarioEntity extends Beneficiario {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Column(name = "NM_TITULAR")
+	@Column(name = "NM_BENEFICIARIO")
 	@Override
-	public String getNameTitular() {
+	public String getNameBeneficiario() {
 		// TODO Auto-generated method stub
-		return super.getNameTitular();
-	}
-
-	@Column(name = "NM_DEPENDENTE")
-	@Override
-	public String getNameDependente() {
-		// TODO Auto-generated method stub
-		return super.getNameDependente();
+		return super.getNameBeneficiario();
 	}
 
 	@Column(name = "NM_NR_CPF")
@@ -55,6 +48,41 @@ public class BeneficiarioEntity extends Beneficiario {
 	public Long getMatricula() {
 		// TODO Auto-generated method stub
 		return super.getMatricula();
+	}
+
+	@Column(name = "NM_LABEL")
+	@Override
+	public String getLabel() {
+		// TODO Auto-generated method stub
+		return super.getLabel();
+	}
+
+	@Column(name = "NR_REF_CODE")
+	@Override
+	public Long getReferenceCode() {
+		// TODO Auto-generated method stub
+		return super.getReferenceCode();
+	}
+
+	@Column(name = "DT_NASCIMENTO")
+	@Override
+	public LocalDate getDtNascimento() {
+		// TODO Auto-generated method stub
+		return super.getDtNascimento();
+	}
+
+	@Column(name = "NR_DIGITO_CPF")
+	@Override
+	public Integer getDigitoCpf() {
+		// TODO Auto-generated method stub
+		return super.getDigitoCpf();
+	}
+
+	@Column(name = "NR_MATRICULA_EMPRESA")
+	@Override
+	public Long getMatriculaEmpresa() {
+		// TODO Auto-generated method stub
+		return super.getMatriculaEmpresa();
 	}
 
 }

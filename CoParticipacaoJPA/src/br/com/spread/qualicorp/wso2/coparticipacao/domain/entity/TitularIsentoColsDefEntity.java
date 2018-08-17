@@ -9,7 +9,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
@@ -24,10 +23,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDe
  */
 @Entity
 @Table(name = "TB_TITULAR_ISENTO_COLS_DEF")
-@NamedQuery(
-		name = "TitularIsentoColsDefEntity.findAll",
-		query = "SELECT a FROM TitularIsentoColsDefEntity a")
-public class TitularIsentoColsDefEntity extends TitularIsentoColsDef {
+@NamedQuery(name = "TitularIsentoColsDefEntity.findAll", query = "SELECT a FROM TitularIsentoColsDefEntity a")
+public class TitularIsentoColsDefEntity extends TitularIsentoColsDef implements DomainEntity {
 
 	/**
 	 * 
@@ -59,7 +56,6 @@ public class TitularIsentoColsDefEntity extends TitularIsentoColsDef {
 			mappedBy = "titularIsentoColsDef",
 			fetch = FetchType.LAZY,
 			targetEntity = InputTitularIsentoColsEntity.class)
-	@OrderColumn(name="INDEX")
 	@Override
 	public List<InputTitularIsentoCols> getInputTitularIsentoCols() {
 		// TODO Auto-generated method stub

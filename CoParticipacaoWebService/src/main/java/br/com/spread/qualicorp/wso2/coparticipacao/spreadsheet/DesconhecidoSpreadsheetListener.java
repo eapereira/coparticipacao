@@ -3,20 +3,16 @@ package br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecidoColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputOutputDesconhecidoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoDetailUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoDetailService;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -24,54 +20,39 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class DesconhecidoSpreadsheetListener
-		implements SpreadsheetListener<DesconhecidoUi> {
-	private static final Logger LOGGER = LogManager
-			.getLogger(DesconhecidoSpreadsheetListener.class);
+public class DesconhecidoSpreadsheetListener implements SpreadsheetListener<DynamicEntity> {
+	private static final Logger LOGGER = LogManager.getLogger(DesconhecidoSpreadsheetListener.class);
 
-	private List<DesconhecidoUi> desconhecidoUis;
+	private List<DynamicEntity> dynamicEntities;
 
 	private CoParticipacaoContext coParticipacaoContext;
 
-	private List<ArquivoInputOutputDesconhecidoUi> arquivoInputOutputDesconhecidoUis;
+	private List<ViewDestinationColsDefUi> viewDestinationColsDefUis;
 
-	private DesconhecidoDetailService desconhecidoDetailService;
+	private ContratoUi contratoUi;
 
 	private int columnIndex;
 
-	private int currentSheet;
-
 	public DesconhecidoSpreadsheetListener(
-			DesconhecidoDetailService desconhecidoDetailService,
-			List<ArquivoInputOutputDesconhecidoUi> arquivoInputOutputDesconhecidoUis,
-			List<DesconhecidoUi> desconhecidoUis,
+			List<ViewDestinationColsDefUi> viewDestinationColsDefUis,
+			List<DynamicEntity> dynamicEntities,
+			ContratoUi contratoUi,
 			CoParticipacaoContext coParticipacaoContext) {
-		this.desconhecidoDetailService = desconhecidoDetailService;
-		this.arquivoInputOutputDesconhecidoUis = arquivoInputOutputDesconhecidoUis;
-		this.desconhecidoUis = desconhecidoUis;
+		this.viewDestinationColsDefUis = viewDestinationColsDefUis;
+		this.dynamicEntities = dynamicEntities;
 		this.coParticipacaoContext = coParticipacaoContext;
+		this.contratoUi = contratoUi;
 
 		this.columnIndex = NumberUtils.INTEGER_ZERO;
-		currentSheet = NumberUtils.INTEGER_ZERO;
 	}
 
 	public String getSheetName(int sheetId) throws ServiceException {
-		for (Contrato contrato : coParticipacaoContext.getEmpresaUi()
-				.getContratos()) {
-			if (currentSheet >= sheetId) {
-				return contrato.getCdContrato();
-			}
-
-			currentSheet++;
-		}
-
-		return "Desconhecidos";
+		return contratoUi.getNameContrato();
 	}
 
 	public List<ColumnInfo> createColumnTitles() throws ServiceException {
 		List<ColumnInfo> columnInfos;
 		ColumnInfo columnInfo;
-		ArquivoOutputDesconhecidoColsDef arquivoOutputDesconhecidoColsDef;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -80,21 +61,18 @@ public class DesconhecidoSpreadsheetListener
 
 			LOGGER.info("Creating the columns for the spreadseet:");
 
-			for (ArquivoInputOutputDesconhecidoUi arquivoInputOutputDesconhecidoUi : arquivoInputOutputDesconhecidoUis) {
+			for (ViewDestinationColsDefUi viewDestinationColsDefUi : viewDestinationColsDefUis) {
 				columnInfo = new ColumnInfo();
 
-				arquivoOutputDesconhecidoColsDef = arquivoInputOutputDesconhecidoUi
-						.getArquivoOutputDesconhecidoColsDef();
+				if (StringUtils.isNotBlank(viewDestinationColsDefUi.getColumnTitleLabel())) {
+					columnInfo.setName(viewDestinationColsDefUi.getColumnTitleLabel());
+				} else {
+					columnInfo.setName(viewDestinationColsDefUi.getNameColumn());
+				}
 
-				columnInfo.setName(
-						arquivoOutputDesconhecidoColsDef.getNameColumn());
-				columnInfo
-						.setWidth(arquivoOutputDesconhecidoColsDef.getLength());
+				columnInfo.setWidth(viewDestinationColsDefUi.getLength());
 
-				LOGGER.info(
-						"Column name[{}] with width[]{}:",
-						columnInfo.getName(),
-						columnInfo.getWidth());
+				LOGGER.info("Column name[{}] with width[]{}:", columnInfo.getName(), columnInfo.getWidth());
 
 				columnInfos.add(columnInfo);
 			}
@@ -107,59 +85,42 @@ public class DesconhecidoSpreadsheetListener
 		}
 	}
 
-	public List<DesconhecidoUi> createData() throws ServiceException {
-		return desconhecidoUis;
+	public List<DynamicEntity> createData() throws ServiceException {
+		return dynamicEntities;
 	}
 
-	public CellInfo createCellContent(DesconhecidoUi desconhecidoUi, int column)
-			throws ServiceException {
+	public CellInfo createCellContent(DynamicEntity dynamicEntity, int column) throws ServiceException {
 		CellInfo cellInfo;
 		int col = NumberUtils.INTEGER_ZERO;
-		DesconhecidoDetailUi desconhecidoDetail;
-		ArquivoInputColsDef arquivoInputColsDef;
+		Object value;
 
 		try {
 			LOGGER.info("BEGIN");
 			cellInfo = new CellInfo();
 
-			if (columnIndex < desconhecidoUi.getDesconhecidoDetails().size()) {
+			for (ViewDestinationColsDefUi viewDestinationColsDefUi : viewDestinationColsDefUis) {
+				if (col >= columnIndex) {
+					LOGGER.info("Name for column [{}]:", viewDestinationColsDefUi.getNameColumn());
 
-				for (ArquivoInputOutputDesconhecidoUi arquivoInputOutputDesconhecidoUi : arquivoInputOutputDesconhecidoUis) {
-					arquivoInputColsDef = arquivoInputOutputDesconhecidoUi
-							.getArquivoInputColsDef();
+					value = dynamicEntity.getColumnValue(viewDestinationColsDefUi.getNameColumn());
 
-					if (col >= columnIndex) {
-						LOGGER.info(
-								"Value for column [{}]:",
-								arquivoInputColsDef.getNameColumn());
+					LOGGER.info(
+							"ViewDestination [{}] has column [{}] with value [{}]:",
+							viewDestinationColsDefUi.getViewDestination().getNameView(),
+							viewDestinationColsDefUi.getNameColumn(),
+							value);
 
-						desconhecidoDetail = findDesconhecidoDetail(
-								desconhecidoUi,
-								arquivoInputColsDef);
+					cellInfo.setValue(value);
 
-						if (desconhecidoDetail != null) {
-							cellInfo.setValue(
-									desconhecidoDetailService.getValue(
-											(DesconhecidoDetailUi) desconhecidoDetail));
-						} else {
-							LOGGER.info(
-									"No values found for Desconhecido's field [{}]",
-									arquivoInputColsDef.getNameColumn());
-						}
-
-						columnIndex++;
-						break;
-					}
-
-					col++;
+					columnIndex++;
+					break;
 				}
 
-				if (col < arquivoInputOutputDesconhecidoUis.size()) {
-					cellInfo.setCellInfoStatus(CellInfoStatus.KEEP_LINE);
-				} else {
-					this.columnIndex = NumberUtils.INTEGER_ZERO;
-					cellInfo.setCellInfoStatus(CellInfoStatus.END_LINE);
-				}
+				col++;
+			}
+
+			if (col < viewDestinationColsDefUis.size()) {
+				cellInfo.setCellInfoStatus(CellInfoStatus.KEEP_LINE);
 			} else {
 				this.columnIndex = NumberUtils.INTEGER_ZERO;
 				cellInfo.setCellInfoStatus(CellInfoStatus.END_LINE);
@@ -173,44 +134,8 @@ public class DesconhecidoSpreadsheetListener
 		}
 	}
 
-	private DesconhecidoDetailUi findDesconhecidoDetail(
-			DesconhecidoUi desconhecidoUi,
-			ArquivoInputColsDef arquivoInputColsDef) throws ServiceException {
-		try {
-			LOGGER.info("BEGIN");
-
-			for (DesconhecidoDetail desconhecidoDetail : desconhecidoUi
-					.getDesconhecidoDetails()) {
-				LOGGER.debug(
-						"Comparing ArquivoInput[{}] with DesconhecidoDetail[{}]",
-						arquivoInputColsDef.getNameColumn(),
-						desconhecidoDetail.getArquivoInputColsDef()
-								.getNameColumn());
-
-				if (arquivoInputColsDef.getId().equals(
-						desconhecidoDetail.getArquivoInputColsDef().getId())) {
-					LOGGER.info(
-							"Column [{}] found to to use with ArquivoOutputDesconhecido:",
-							arquivoInputColsDef.getNameColumn());
-					LOGGER.info("END");
-					return (DesconhecidoDetailUi) desconhecidoDetail;
-				}
-			}
-
-			LOGGER.info(
-					"There is no column defined for [{}] in ArquivoInputOutputDesconhecido:",
-					arquivoInputColsDef.getNameColumn());
-			LOGGER.info("END");
-			return null;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
 	public String getOutputFilePath() throws ServiceException {
-		return coParticipacaoContext
-				.findParameterByName(ParameterName.OUTPUT_FILE_PATH).getValue();
+		return coParticipacaoContext.findParameterByName(ParameterName.OUTPUT_FILE_PATH).getValue();
 	}
 
 }
