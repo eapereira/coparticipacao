@@ -45,7 +45,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 	private static final String MARJAN_MECSAS_201806 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/marjan/output/MARJAN INDUSTRIA E COMERCIO LTDA_MECSAS-1781-20180614-152849.csv";
 
-	private static final String MARJAN_MECSAS2_201806 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/marjan/output/Benefícios - Contratados_Dep Sulamérica Saúde_sulamerica - Copia.xlsx";
+	private static final String MARJAN_MECSAS2_201806 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/marjan/output/Benefícios - Contratados_Dep Sulamérica Saúde-201806.xlsx";
 	private static final String MARJAN_MECSAS2_201803 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/marjan/output/Benefícios - Contratados_Dep Sulamérica Saúde_032018_Para Qualicorp.xlsx";
 
 	private static final String MARJAN_LANCAMENTOS_8C5Z8_201806 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/marjan/output/8C5Z8FATUCOPA.201806001F.TXT";
@@ -64,17 +64,23 @@ public class MarjanTest extends CoParticipacaoTest {
 	private static final String MARJAN_LANCAMENTOS_8C5Z8_201807 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/marjan/output/8C5Z8FATUCOPA.201807001F.TXT";
 	private static final String MARJAN_LANCAMENTOS_8C7XX_201807 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/marjan/output/8C7XXFATUCOPA.201807001F.TXT";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 754;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 565;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 4;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 170;
-	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA = 3400;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 467;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201802 = 565;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 33;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201802 = 129;
+	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201802 = 2580;
+	
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 467;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 565;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806 = 8;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806 = 166;
+	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201806 = 3320;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 754;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 569;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 174;
-	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_AFTER_USER_RETURN = 3480;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806_AFTER_USER_RETURN = 473;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_RETURN = 567;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806_AFTER_USER_RETURN = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806_AFTER_USER_RETURN = 174;
+	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_201806_FATUCOPA_AFTER_USER_RETURN = 3480;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 467;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 565;
@@ -101,7 +107,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	private EmpresaService empresaService;
 
 	@Test
-	public void testCoparticipacao() throws Exception {
+	public void testCoparticipacao201806() throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -117,8 +123,8 @@ public class MarjanTest extends CoParticipacaoTest {
 		processFile(MARJAN_LANCAMENTOS_8C5Z8_201806);
 		processFile(MARJAN_LANCAMENTOS_8C7XX_201806);
 
-		titularUis = titularService.listByEmpresaId(empresaUi.getId());
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
 		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
@@ -129,15 +135,15 @@ public class MarjanTest extends CoParticipacaoTest {
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 		LOGGER.info("Total lançamentos details ..... [{}]:", lancamentoDetailUis.size());
 
-		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA, titularUis.size());
-		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA, lancamentoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA, lancamentoDetailUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201806, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201806, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201806, lancamentoDetailUis.size());
 	}
 
 	@Test
-	public void testCoparticipacaoWithUserReturn() throws Exception {
+	public void testCoparticipacao201806WithUserReturn() throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -145,15 +151,15 @@ public class MarjanTest extends CoParticipacaoTest {
 		List<LancamentoDetailUi> lancamentoDetailUis;
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 
-		testCoparticipacao();
+		testCoparticipacao201806();
 
 		processFile(MARJAN_NAO_LOCALIZADO_201806);
 
 		processFile(MARJAN_LANCAMENTOS_8C5Z8_201806);
 		processFile(MARJAN_LANCAMENTOS_8C7XX_201806);
 
-		titularUis = titularService.listByEmpresaId(empresaUi.getId());
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
 		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
@@ -166,11 +172,11 @@ public class MarjanTest extends CoParticipacaoTest {
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 		LOGGER.info("Total lançamentos details ..... [{}]:", lancamentoDetailUis.size());
 
-		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN, titularUis.size());
-		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN, desconhecidoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN, lancamentoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_AFTER_USER_RETURN, lancamentoDetailUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201806_AFTER_USER_RETURN, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_RETURN, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806_AFTER_USER_RETURN, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806_AFTER_USER_RETURN, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_201806_FATUCOPA_AFTER_USER_RETURN, lancamentoDetailUis.size());
 	}
 
 	@Test
@@ -191,8 +197,8 @@ public class MarjanTest extends CoParticipacaoTest {
 		processFile(MARJAN_LANCAMENTOS_8C5Z9_201802);
 		processFile(MARJAN_LANCAMENTOS_8C7XX_201802);
 
-		titularUis = titularService.listByEmpresaId(empresaUi.getId());
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
 		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
@@ -203,11 +209,11 @@ public class MarjanTest extends CoParticipacaoTest {
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 		LOGGER.info("Total lançamentos details ..... [{}]:", lancamentoDetailUis.size());
 
-		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA, titularUis.size());
-		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA, lancamentoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA, lancamentoDetailUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201802, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201802, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201802, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201802, lancamentoDetailUis.size());
 	}
 
 	@Test
@@ -227,8 +233,8 @@ public class MarjanTest extends CoParticipacaoTest {
 		processFile(MARJAN_LANCAMENTOS_8C5Z8_201807);
 		processFile(MARJAN_LANCAMENTOS_8C7XX_201807);
 
-		titularUis = titularService.listByEmpresaId(empresaUi.getId());
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
 		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);

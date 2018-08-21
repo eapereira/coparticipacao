@@ -28,23 +28,15 @@ public class RegraDaoImpl extends AbstractDaoImpl<RegraEntity>
 		super();
 	}
 
-	public List<RegraEntity> listRegrasByArquivoInput(Long id)
+	public List<RegraEntity> listByArquivoInputId(Long id)
 			throws DaoException {
 		List<RegraEntity> regraEntities;
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
-
-			sb = new StringBuilder();
-			sb.append("select regra from RegraEntity regra ");
-			sb.append("join fetch regra.arquivoInput arquivoInput ");
-			sb.append("where arquivoInput.id = :id ");
-			sb.append("order by regra.ordem ");
-
-			query = createQueryOld(sb.toString());
-			query.setParameter("id", id);
+			query = createQuery("listByArquivoInputId");
+			query.setParameter("arquivoInputId", id);
 
 			regraEntities = query.getResultList();
 

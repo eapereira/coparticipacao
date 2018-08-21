@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioColType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
@@ -37,6 +39,7 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 		String columnName = StringUtils.EMPTY;
 		Object value;
 		ArquivoInputColsDef arquivoInputColsDef;
+		BeneficiarioIsentoColType beneficiarioIsentoColType;
 		Cell cell;
 
 		try {
@@ -52,10 +55,9 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 					for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetUi.getIsentoInputSheetCols()) {
 						if (isentoInputSheetCols.getBeneficiarioIsentoColType() != null) {
 							arquivoInputColsDef = isentoInputSheetCols.getArquivoInputColsDef();
+							beneficiarioIsentoColType = isentoInputSheetCols.getBeneficiarioIsentoColType();
 
-							LOGGER.debug(
-									"Loading Isento column [{}]",
-									isentoInputSheetCols.getBeneficiarioIsentoColType().getDescription());
+							LOGGER.debug("Loading Isento column [{}]", arquivoInputColsDef.getNameColumn());
 
 							cell = row.getCell(isentoInputSheetCols.getOrdem());
 

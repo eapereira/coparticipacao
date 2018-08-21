@@ -51,9 +51,8 @@ BEGIN
 	declare VAR_COLUMN_01_NR_MATRICULA				bigint( 17 );
 	declare VAR_COLUMN_02_NR_CPF					bigint( 17 );
 	declare VAR_COLUMN_03_NM_DEPENDENTE				bigint( 17 );
-	declare VAR_COLUMN_04_NM_TITULAR				bigint( 17 );
-	declare VAR_COLUMN_05_DT_ADMISSAO				bigint( 17 );
-	declare VAR_COLUMN_06_NR_UPI					bigint( 17 );
+	declare VAR_COLUMN_04_DT_ADMISSAO				bigint( 17 );
+	declare VAR_COLUMN_05_NR_UPI					bigint( 17 );
 					
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_BENEFICIARIO				bigint( 17 ) default 1;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
@@ -220,31 +219,6 @@ BEGIN
 	
 	select max( ID ) into VAR_COLUMN_03_NM_DEPENDENTE from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 225');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_04_NM_TITULAR',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_COLUMN_04_NM_TITULAR from TB_ARQUIVO_INPUT_COLS_DEF;
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	call PROC_LOG_MESSAGE('LINHA - 249');
 	insert into TB_ARQUIVO_INPUT_COLS_DEF(
@@ -259,7 +233,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_05_DT_ADMISSAO',
+		'COLUMN_04_DT_ADMISSAO',
 		VAR_COL_DATE,
 		null,
 		'dd/MM/yyyy',
@@ -270,7 +244,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_05_DT_ADMISSAO from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_COLUMN_04_DT_ADMISSAO from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
 	call PROC_LOG_MESSAGE('LINHA - 273');
@@ -285,7 +259,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_06_NR_UPI',
+		'COLUMN_05_NR_UPI',
 		VAR_COL_LONG,
 		null,
 		VAR_CD_ORDEM,
@@ -295,7 +269,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_06_NR_UPI from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_COLUMN_05_NR_UPI from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	/*****************************************************************************************************************************************************/
@@ -358,7 +332,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO,
-		VAR_COLUMN_05_DT_ADMISSAO,
+		VAR_COLUMN_04_DT_ADMISSAO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -374,7 +348,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
-		VAR_COLUMN_06_NR_UPI,
+		VAR_COLUMN_05_NR_UPI,
 		
 		VAR_ID_USER,
 		current_timestamp(),

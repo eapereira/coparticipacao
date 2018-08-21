@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraValorEntit
  * The persistent class for the tb_regra_valor database table.
  * 
  */
-public class RegraValorUi extends RegraValor implements DomainUi {
+public class RegraValorUi extends RegraValor {
 
 	/**
 	 * 

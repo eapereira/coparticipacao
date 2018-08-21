@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestination
  * The persistent class for the tb_view_destination_cols_def database table.
  * 
  */
-public class ViewDestinationColsDefUi extends ViewDestinationColsDef implements DomainUi {
+public class ViewDestinationColsDefUi extends ViewDestinationColsDef {
 	private static final long serialVersionUID = 1L;
 
 	public ViewDestinationColsDefUi() {

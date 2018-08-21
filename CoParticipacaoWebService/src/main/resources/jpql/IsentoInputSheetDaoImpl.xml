@@ -5,6 +5,7 @@
 			select isentoInputSheet from IsentoInputSheetEntity isentoInputSheet
 			join fetch isentoInputSheet.arquivoInput arquivoInput
 			join fetch isentoInputSheet.isentoInputSheetCols isentoInputSheetCols
+			join fetch isentoInputSheetCols.arquivoInputColsDef arquivoInputColsDef
 			where arquivoInput.id = :arquivoInputId
 			order by isentoInputSheet.sheetId, isentoInputSheetCols.ordem
 		]]>

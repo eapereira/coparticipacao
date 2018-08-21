@@ -11,6 +11,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraEntity;
  */
 public interface RegraDao extends AbstractDao<RegraEntity> {
 
-	List<RegraEntity> listRegrasByArquivoInput(Long id) throws DaoException;
+	List<RegraEntity> listByArquivoInputId(Long id) throws DaoException;
 
 }

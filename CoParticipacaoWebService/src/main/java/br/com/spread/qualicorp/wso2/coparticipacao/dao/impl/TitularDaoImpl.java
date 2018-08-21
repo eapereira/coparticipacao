@@ -69,4 +69,44 @@ public class TitularDaoImpl extends AbstractDaoImpl<TitularEntity> implements Ti
 		}
 	}
 
+	public List<TitularEntity> listByEmpresaIdOrderByCpfAndName(Long empresaId) throws DaoException {
+		List<TitularEntity> titularEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByEmpresaIdOrderByCpfAndName");
+			query.setParameter("empresaId", empresaId);
+
+			titularEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return titularEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<TitularEntity> listByEmpresaIdOrderByMatriculaAndName(Long empresaId) throws DaoException {
+		List<TitularEntity> titularEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByEmpresaIdOrderByMatriculaAndName");
+			query.setParameter("empresaId", empresaId);
+
+			titularEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return titularEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+	
 }

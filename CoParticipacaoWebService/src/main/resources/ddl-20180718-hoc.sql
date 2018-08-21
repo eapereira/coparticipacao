@@ -46,7 +46,8 @@ select
     desconhecido.NM_BENEFICIARIO,
     FUNC_GET_CPF( desconhecido.NR_CPF ) NR_CPF,
     desconhecido.VL_PRINCIPAL
-from TB_DESCONHECIDO desconhecido;
+from TB_DESCONHECIDO desconhecido
+order by desconhecido.NM_BENEFICIARIO;
 	
 /**********************************************************************************************************************/
 create view VW_DEPENDENTE_RDP_HOC as
@@ -96,7 +97,7 @@ and lancamento.ID_DEPENDENTE is null;
 create view VW_LANCAMENTO_LEVEL01_HOC as
 select 
 	titular.ID ID_TITULAR,
-	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA ) COD_TITULAR,
+	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 0 ) COD_TITULAR,
 	empresa.ID ID_EMPRESA,
     lancamento.ID ID_LANCAMENTO,
     dependente.ID ID_DEPENDENTE,
@@ -124,7 +125,7 @@ where lancamento.VL_PRINCIPAL >= 0
 union all
 select 
 	titular.ID ID_TITULAR,
-	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA ) COD_TITULAR,
+	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 0 ) COD_TITULAR,
 	empresa.ID ID_EMPRESA,
     lancamento.ID ID_LANCAMENTO,
     titular.ID ID_DEPENDENTE,

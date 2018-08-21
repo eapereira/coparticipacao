@@ -10,7 +10,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntit
  * The persistent class for the tb_lancamento database table.
  * 
  */
-public class LancamentoUi extends Lancamento implements DomainUi {
+public class LancamentoUi extends Lancamento {
 	private static final long serialVersionUID = 1L;
 
 	public LancamentoUi() {

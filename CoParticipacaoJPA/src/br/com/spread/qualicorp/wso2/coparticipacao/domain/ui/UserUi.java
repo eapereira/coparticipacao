@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity;
  * The persistent class for the tb_user database table.
  * 
  */
-public class UserUi extends User implements DomainUi {
+public class UserUi extends User {
 	private static final long serialVersionUID = 1L;
 
 	public UserUi() {

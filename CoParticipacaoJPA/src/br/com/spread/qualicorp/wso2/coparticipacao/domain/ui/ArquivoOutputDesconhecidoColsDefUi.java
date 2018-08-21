@@ -7,8 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhec
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class ArquivoOutputDesconhecidoColsDefUi
-		extends ArquivoOutputDesconhecidoColsDef {
+public class ArquivoOutputDesconhecidoColsDefUi extends ArquivoOutputDesconhecidoColsDef {
 
 	/**
 	 * 

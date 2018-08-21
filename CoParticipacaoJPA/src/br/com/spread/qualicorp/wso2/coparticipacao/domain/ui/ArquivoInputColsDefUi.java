@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputCol
  * The persistent class for the tb_arquivo_input_cols_def database table.
  * 
  */
-public class ArquivoInputColsDefUi extends ArquivoInputColsDef implements DomainUi {
+public class ArquivoInputColsDefUi extends ArquivoInputColsDef {
 	private static final long serialVersionUID = 1L;
 
 	public ArquivoInputColsDefUi() {

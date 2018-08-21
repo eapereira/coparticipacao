@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoEn
  * The persistent class for the tb_titular_isento database table.
  * 
  */
-public class TitularIsentoUi extends TitularIsento implements DomainUi {
+public class TitularIsentoUi extends TitularIsento {
 	private static final long serialVersionUID = 1L;
 
 	public TitularIsentoUi() {

@@ -15,4 +15,7 @@ public interface DependenteDao extends AbstractDao<DependenteEntity> {
 
 	List<DependenteEntity> listByEmpresaId(Long id) throws DaoException;
 
+	List<DependenteEntity> listByEmpresaIdOrderByCpfAndName(Long empresaId) throws DaoException;
+	
+	List<DependenteEntity> listByEmpresaIdOrderByMatriculaAndName(Long empresaId) throws DaoException;
 }

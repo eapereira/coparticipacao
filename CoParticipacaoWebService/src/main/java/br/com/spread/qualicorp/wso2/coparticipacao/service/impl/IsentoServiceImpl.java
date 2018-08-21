@@ -69,19 +69,6 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 	}
 
 	public void processIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
-		try {
-			LOGGER.info("BEGIN");
-
-			processBeneficiarioIsentos(coParticipacaoContext);
-
-			LOGGER.info("END");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	private void processBeneficiarioIsentos(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		TitularUi titularUi = null;
 		List<IsentoInputSheetUi> isentoInputSheetUis;
 		List<IsentoInputSheetCols> isentoInputSheetCols;

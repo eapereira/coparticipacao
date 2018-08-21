@@ -5,6 +5,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.TitularIsentoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.TitularIsentoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
@@ -15,8 +17,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.TitularIsent
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.TitularIsentoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 

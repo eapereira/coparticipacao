@@ -1,6 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.exception;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Beneficiario;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 
 /**

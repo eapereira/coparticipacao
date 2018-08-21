@@ -111,8 +111,8 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 		lancamentoUis = lancamentoService.listAll();
 		lancamentoDetailUis = lancamentoDetailService.listAll();
 
-		titularUis = titularService.listByEmpresaId(empresaUi.getId());
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
 		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
@@ -139,8 +139,8 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 		processFile(MUITO_FACIL_8CH5Y_FATUCOPA__201807);
 		processFile(MUITO_FACIL_8CHE8_FATUCOPA__201807);
 
-		titularUis = titularService.listByEmpresaId(empresaUi.getId());
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
 		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
@@ -174,8 +174,8 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 		processFile(MUITO_FACIL_8CH5Y_FATUCOPA__201807);
 		processFile(MUITO_FACIL_8CHE8_FATUCOPA__201807);
 
-		titularUis = titularService.listByEmpresaId(empresaUi.getId());
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
 		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);

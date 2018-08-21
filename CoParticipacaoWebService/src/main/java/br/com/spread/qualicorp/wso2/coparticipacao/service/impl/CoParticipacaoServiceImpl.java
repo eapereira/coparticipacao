@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spread.qualicorp.webservice.coparticipacao.CoParticipacaoInfo;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.CoparticipacaoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
@@ -32,7 +33,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.io.FixedLengthProcessorServic
 import br.com.spread.qualicorp.wso2.coparticipacao.io.IsentoSpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.ProcessorListener;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.CoparticipacaoJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.search.DependenteByCpfAndNameMapKeyBuilder;
+import br.com.spread.qualicorp.wso2.coparticipacao.search.DependenteByMatriculaAndNameMapKeyBuilder;
+import br.com.spread.qualicorp.wso2.coparticipacao.search.PartitionMap;
+import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByCpfAndNameMapKeyBuilder;
+import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByMatriculaAndNameMapKeyBuilder;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputService;
@@ -285,6 +290,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		EmpresaUi empresaUi;
 		List<ParameterUi> parameterUis;
 		List<BeneficiarioColsUi> beneficiarioColsUis;
+		PartitionMap<TitularUi> mapTitularUi;
+		PartitionMap<DependenteUi> mapDependenteUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -296,10 +303,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			empresaUi = (EmpresaUi) coParticipacaoContext.getArquivoInputUi().getContrato().getEmpresa();
 			empresaUi = empresaService.findById(empresaUi.getId());
 
-			// Carregando todos os beneficiários existentes da empresa:
-			titularUis = titularService.listByEmpresaId(empresaUi.getId());
-			dependenteUis = dependenteService.listByEmpresaId(empresaUi.getId());
-
 			beneficiarioColsUis = beneficiarioColsService
 					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
 
@@ -307,6 +310,39 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				LOGGER.info(
 						"Didn't found mappings at BeneficiarioCols for ArquivoInput[{}]:",
 						coParticipacaoContext.getArquivoInputUi().getNameArquivoRegexp());
+			}
+
+			// Carregando todos os beneficiários existentes da empresa:
+			LOGGER.info("Loading Beneficiários data by CPF and Name:");
+			titularUis = titularService.listByEmpresaIdOrderByCpfAndName(empresaUi);
+			dependenteUis = dependenteService.listByEmpresaIdOrderByCpfAndName(empresaUi);
+
+			if (!titularUis.isEmpty()) {
+				mapTitularUi = new PartitionMap<TitularUi>(titularUis, new TitularByCpfAndNameMapKeyBuilder());
+				coParticipacaoContext.setMapTitularUiByCpf(mapTitularUi);
+			}
+
+			if (!dependenteUis.isEmpty()) {
+				mapDependenteUi = new PartitionMap<DependenteUi>(
+						dependenteUis,
+						new DependenteByCpfAndNameMapKeyBuilder());
+				coParticipacaoContext.setMapDependenteUiByCpf(mapDependenteUi);
+			}
+
+			LOGGER.info("Loading Beneficiários data by Matricula and Name:");
+			titularUis = titularService.listByEmpresaIdOrderByMatriculaAndName(empresaUi);
+			dependenteUis = dependenteService.listByEmpresaIdOrderByMatriculaAndName(empresaUi);
+
+			if (!titularUis.isEmpty()) {
+				mapTitularUi = new PartitionMap<TitularUi>(titularUis, new TitularByMatriculaAndNameMapKeyBuilder());
+				coParticipacaoContext.setMapTitularUiByMatricula(mapTitularUi);
+			}
+
+			if (!dependenteUis.isEmpty()) {
+				mapDependenteUi = new PartitionMap<DependenteUi>(
+						dependenteUis,
+						new DependenteByMatriculaAndNameMapKeyBuilder());
+				coParticipacaoContext.setMapDependenteUiByMatricula(mapDependenteUi);
 			}
 
 			coParticipacaoContext.setEmpresaUi(empresaUi);
@@ -369,9 +405,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext.getLancamentoInputColsUis().addAll(lancamentoInputColsUis);
 
 			// Caregando as regras para o arquivo:
-			regraUis = regraService.listRegrasByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
+			regraUis = regraService.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
 			regraConditionalUis = regraConditionalService
-					.listRegrasByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
+					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
 
 			LOGGER.info(
 					"Loading [{}] Regras to use with ArquivoInput [{}]:",

@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DependenteJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DependenteDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
@@ -20,8 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.Dependen
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DependenteUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.DependenteJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
@@ -73,12 +74,13 @@ public class DependenteServiceImpl extends AbstractServiceImpl<DependenteUi, Dep
 		}
 	}
 
-	public List<DependenteUi> listByEmpresaId(Long id) throws ServiceException {
+	public List<DependenteUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException {
 		List<DependenteUi> dependenteUis;
 
 		try {
 			LOGGER.info("BEGIN");
-			dependenteUis = entityToUi(dependenteDao.listByEmpresaId(id));
+
+			dependenteUis = entityToUi(dependenteDao.listByEmpresaId(empresaUi.getId()));
 
 			LOGGER.info("END");
 			return dependenteUis;
@@ -88,6 +90,38 @@ public class DependenteServiceImpl extends AbstractServiceImpl<DependenteUi, Dep
 		}
 	}
 
+	public List<DependenteUi> listByEmpresaIdOrderByCpfAndName(EmpresaUi empresaUi) throws ServiceException {
+		List<DependenteUi> dependenteUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			dependenteUis = entityToUi(dependenteDao.listByEmpresaIdOrderByCpfAndName(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return dependenteUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<DependenteUi> listByEmpresaIdOrderByMatriculaAndName(EmpresaUi empresaUi) throws ServiceException {
+		List<DependenteUi> dependenteUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			dependenteUis = entityToUi(dependenteDao.listByEmpresaIdOrderByMatriculaAndName(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return dependenteUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+	
 	@Override
 	protected DependenteUi createUi() {
 		return new DependenteUi();

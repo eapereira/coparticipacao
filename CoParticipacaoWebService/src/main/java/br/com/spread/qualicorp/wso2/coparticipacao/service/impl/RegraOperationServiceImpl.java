@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,14 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraOperationE
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraOperationEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraOperationUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraFieldUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraValorUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraFieldService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraOperationService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraValorService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -21,9 +30,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
  */
 @Service
 public class RegraOperationServiceImpl extends
-		AbstractServiceImpl<RegraOperationUi, RegraOperationEntity, RegraOperation> {
-	private static final Logger LOGGER = LogManager
-			.getLogger(RegraOperationServiceImpl.class);
+		AbstractServiceImpl<RegraOperationUi, RegraOperationEntity, RegraOperation> implements RegraOperationService {
+	private static final Logger LOGGER = LogManager.getLogger(RegraOperationServiceImpl.class);
 
 	@Autowired
 	private RegraOperationDao regraOperationDao;
@@ -33,6 +41,12 @@ public class RegraOperationServiceImpl extends
 
 	@Autowired
 	private RegraOperationEntityMapper entityMapper;
+
+	@Autowired
+	private RegraFieldService regraFieldService;
+
+	@Autowired
+	private RegraValorService regraValorService;
 
 	@Override
 	protected AbstractDao<RegraOperationEntity> getDao() {
@@ -57,6 +71,32 @@ public class RegraOperationServiceImpl extends
 	@Override
 	protected AbstractMapper<RegraOperation, RegraOperationEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<RegraOperationUi> listByRegraId(RegraUi regraUi) throws ServiceException {
+		List<RegraOperationUi> regraOperationUis;
+		List<RegraFieldUi> regraFieldUis;
+		List<RegraValorUi> regraValorUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			regraOperationUis = entityToUi(regraOperationDao.listByRegraId(regraUi.getId()));
+
+			for (RegraOperationUi regraOperationUi : regraOperationUis) {
+				regraFieldUis = regraFieldService.listByRegraOperationId(regraOperationUi);
+				regraValorUis = regraValorService.listByRegraOperationId(regraOperationUi);
+
+				regraOperationUi.getRegraFields().addAll(regraFieldUis);
+				regraOperationUi.getRegraValors().addAll(regraValorUis);
+			}
+
+			LOGGER.info("END");
+			return regraOperationUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

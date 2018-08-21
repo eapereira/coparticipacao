@@ -72,17 +72,15 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							beneficiarioUi.getCpf(),
 							beneficiarioUi.getMatricula());
 
-					if (validateBeneficiario(coParticipacaoContext, beneficiarioUi)) {
-						// Apenas o MECSAS tem o Tipo de Beneficiário:
-						if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
-							lancamentoUi.setTitular(createTitular(coParticipacaoContext, beneficiarioUi));
-						} else {
-							dependenteUi = createDependente(coParticipacaoContext, beneficiarioUi);
+					// Apenas o MECSAS tem o Tipo de Beneficiário:
+					if (isTitular(coParticipacaoContext, beneficiarioUi)) {
+						lancamentoUi.setTitular(createTitular(coParticipacaoContext, beneficiarioUi));
+					} else {
+						dependenteUi = createDependente(coParticipacaoContext, beneficiarioUi);
 
-							if (dependenteUi != null) {
-								lancamentoUi.setTitular(dependenteUi.getTitular());
-								lancamentoUi.setDependente(dependenteUi);
-							}
+						if (dependenteUi != null) {
+							lancamentoUi.setTitular(dependenteUi.getTitular());
+							lancamentoUi.setDependente(dependenteUi);
 						}
 					}
 				} else {
@@ -182,13 +180,19 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (NumberUtils.INTEGER_ZERO.equals(value)) {
+			if (value == null) {
+				return false;
+			} else if (value instanceof String) {
+				if (StringUtils.isBlank((String) value)) {
+					return false;
+				} else if ("0".equals(value) || "0.0".equals(value)) {
+					return false;
+				}
+			} else if (NumberUtils.INTEGER_ZERO.equals(value)) {
 				return false;
 			} else if (NumberUtils.LONG_ZERO.equals(value)) {
 				return false;
 			} else if (NumberUtils.DOUBLE_ZERO.equals(value)) {
-				return false;
-			} else if ("0".equals(value) || "0.0".equals(value)) {
 				return false;
 			}
 
@@ -272,6 +276,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 			}
 
+			LOGGER.info(
+					"Current Beneficiario [{}] with MATRICULA [{}] and CPF[{}]:",
+					beneficiarioUi.getNameBeneficiario(),
+					beneficiarioUi.getMatricula(),
+					beneficiarioUi.getCpf());
+
 			if (isTitular(coParticipacaoContext, beneficiarioUi)) {
 				LOGGER.info(
 						"Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Titular:",
@@ -313,10 +323,33 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			} else {
 				titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
 
-				// Se o beneficiario tiver um títular, então ele é dependente:
-				if (titularUi != null) {
-					LOGGER.info("END");
-					return true;
+				if (UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
+					if (titularUi == null) {
+						titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
+
+						/*
+						 * Se o Beneficiário não for um Titular e não existe no
+						 * banco de dados e também não possuir um Títular, então
+						 * ele próprio é um Títular, pois não foi encontrado
+						 * pelo processo MECSAS e FATUCOPA:
+						 */
+						if (titularUi == null) {
+							LOGGER.info("END");
+							return true;
+						}
+					} else {
+						LOGGER.info("END");
+						return true;
+					}
+				} else {
+					/*
+					 * Se o beneficiario tiver um títular, então ele é
+					 * dependente:
+					 */
+					if (titularUi != null) {
+						LOGGER.info("END");
+						return true;
+					}
 				}
 			}
 
@@ -340,44 +373,47 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			if (titularUi == null) {
 				if (empresaService.canAutomaticallyCreateBeneficiario(coParticipacaoContext)) {
-					/*
-					 * Vamos verificar se já não existe um títular com o mesmo
-					 * CPF:
-					 */
-					if (!isTitularCpfInUse(coParticipacaoContext, beneficiarioUi)) {
-						LOGGER.info(
-								"Titular [{}] with CPF [{}] and Matricula [{}] not found in database:",
-								beneficiarioUi.getNameBeneficiario(),
-								beneficiarioUi.getCpf(),
-								beneficiarioUi.getMatricula());
+					if (validateBeneficiario(coParticipacaoContext, beneficiarioUi)) {
+						/*
+						 * Vamos verificar se já não existe um títular com o
+						 * mesmo CPF:
+						 */
+						if (!isTitularCpfInUse(coParticipacaoContext, beneficiarioUi)) {
+							LOGGER.info(
+									"Titular [{}] with CPF [{}] and Matricula [{}] will be created:",
+									beneficiarioUi.getNameBeneficiario(),
+									beneficiarioUi.getCpf(),
+									beneficiarioUi.getMatricula());
 
-						titularUi = new TitularUi();
-						titularUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
+							titularUi = new TitularUi();
+							titularUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
 
-						if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
-							if (beneficiarioUi.getDigitoCpf() != null) {
-								titularUi.setCpf(concatTitularCpf(beneficiarioUi));
-							} else {
-								titularUi.setCpf(beneficiarioUi.getCpf());
+							if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+								if (beneficiarioUi.getDigitoCpf() != null) {
+									titularUi.setCpf(concatTitularCpf(beneficiarioUi));
+								} else {
+									titularUi.setCpf(beneficiarioUi.getCpf());
+								}
 							}
+
+							titularUi.setMatricula(beneficiarioUi.getMatricula());
+							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
+							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
+							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
+							titularUi.setEmpresa(coParticipacaoContext.getEmpresaUi());
+
+							titularUi.setUserAltered(coParticipacaoContext.getUser());
+							titularUi.setUserCreated(coParticipacaoContext.getUser());
+
+							coParticipacaoContext.getTitularUis().add(titularUi);
+							coParticipacaoContext.addTitular(titularUi);
 						}
-
-						titularUi.setMatricula(beneficiarioUi.getMatricula());
-						titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
-						titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
-						titularUi.setEmpresa(coParticipacaoContext.getEmpresaUi());
-
-						titularUi.setUserAltered(coParticipacaoContext.getUser());
-						titularUi.setUserCreated(coParticipacaoContext.getUser());
-
-						coParticipacaoContext.getTitularUis().add(titularUi);
-						coParticipacaoContext.addTitular(titularUi);
 					}
 				}
 			} else {
 				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					coParticipacaoContext.setTitularUi(titularUi);
-					
+
 					/*
 					 * Se estamos num processo MECSAS e encontramos o Titular,
 					 * então significa que ele esta duplicado no arquivo de
@@ -445,6 +481,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						}
 
 						if (titularUi != null) {
+							LOGGER.info(
+									"Using Titular [{}] with Matricula [{}] and CPF [{}]:",
+									titularUi.getNameTitular(),
+									titularUi.getMatricula(),
+									titularUi.getCpf());
+
 							LOGGER.info(
 									"Adding Dependente [{}] with CPF [{}] and Matricula [{}] not found in database:",
 									beneficiarioUi.getNameBeneficiario(),
@@ -573,7 +615,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 				if (beneficiarioUi.getDtAdmissao() != null) {
 					LOGGER.debug("Updating Titular field DT_ADMISSAO with value [{}]:", beneficiarioUi.getDtAdmissao());
-					titularUi.setDtNascimento(beneficiarioUi.getDtAdmissao());
+					titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
 				}
 
 				if (StringUtils.isNotBlank(beneficiarioUi.getLabel())) {

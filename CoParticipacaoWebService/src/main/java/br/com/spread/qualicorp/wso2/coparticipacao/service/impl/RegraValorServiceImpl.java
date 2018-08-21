@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraValorEntit
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraValorEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraValorUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraValorUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraValorService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -20,10 +25,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraValorUi;
  *
  */
 @Service
-public class RegraValorServiceImpl extends
-		AbstractServiceImpl<RegraValorUi, RegraValorEntity, RegraValor> {
-	private static final Logger LOGGER = LogManager
-			.getLogger(RegraValorServiceImpl.class);
+public class RegraValorServiceImpl extends AbstractServiceImpl<RegraValorUi, RegraValorEntity, RegraValor>
+		implements RegraValorService {
+	private static final Logger LOGGER = LogManager.getLogger(RegraValorServiceImpl.class);
 
 	@Autowired
 	private RegraValorDao regraValorDao;
@@ -57,6 +61,22 @@ public class RegraValorServiceImpl extends
 	@Override
 	protected AbstractMapper<RegraValor, RegraValorEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<RegraValorUi> listByRegraOperationId(RegraOperationUi regraOperationUi) throws ServiceException {
+		List<RegraValorUi> regraValorUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			regraValorUis = entityToUi(regraValorDao.listByRegraOperationId(regraOperationUi.getId()));
+
+			LOGGER.info("END");
+			return regraValorUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

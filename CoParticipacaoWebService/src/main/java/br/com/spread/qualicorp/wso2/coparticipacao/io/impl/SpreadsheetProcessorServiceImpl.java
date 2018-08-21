@@ -106,7 +106,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 								sheet.getPhysicalNumberOfRows());
 
 						coParticipacaoContext.setCurrentSheet(sheetIndex);
-						
+
 						for (Row row : sheet) {
 							if (row.getRowNum() < coParticipacaoContext.getArquivoInputUi().getSkipLines()) {
 								LOGGER.debug("Skipping line [{}]:", currentLine);
@@ -291,8 +291,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 					}
 				} else if (value instanceof Date) {
 					value = DateUtils.dateToLocalDate((Date) value);
-				} else {
-					value = null;
 				}
 			} else if (ColDefType.STRING.equals(arquivoInputColsDef.getType())) {
 				value = value.toString().trim().toUpperCase();

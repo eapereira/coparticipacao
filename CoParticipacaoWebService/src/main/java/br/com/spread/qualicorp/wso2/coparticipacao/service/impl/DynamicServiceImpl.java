@@ -7,10 +7,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DynamicDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.DynamicDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DynamicService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 

@@ -252,7 +252,7 @@ BEGIN
 		'naoLocalizados.HOC',
 	    'NAO-LOCALIZADO',
 	    VAR_FALSE,
-	    VAR_USE_TYPE_ISENTO,
+	    VAR_USE_TYPE_NAO_LOCALIZADO,
 	    
 		VAR_ID_USER,
 		current_timestamp(),

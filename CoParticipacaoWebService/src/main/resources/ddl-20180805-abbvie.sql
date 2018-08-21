@@ -9,6 +9,7 @@ drop view if exists VW_COPARTICIPACAO_ABBVIE;
 drop view if exists VW_COPARTICIPACAO_ABBVIE_LEVEL01;
 
 drop view if exists VW_DESCONHECIDO_ABBVIE;
+drop view if exists VW_DESCONHECIDO_LEVEL01_ABBVIE;
 drop view if exists VW_MENORES_12_MESES_ABBVIE;
 /*****************************************************************************************************************/
 
@@ -167,7 +168,7 @@ select
     copa.VL_PRINCIPAL
 from VW_COPARTICIPACAO_ABBVIE copa;
 
-create view VW_DESCONHECIDO_ABBVIE as
+create view VW_DESCONHECIDO_LEVEL01_ABBVIE as
 select
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
@@ -191,7 +192,8 @@ select
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
 	titular.ID = lancamento.ID_TITULAR
-where	titular.NR_MATRICULA_EMPRESA is null
+where	( titular.NR_MATRICULA_EMPRESA is null or
+		  titular.DT_ADMISSAO is null )
 and 	lancamento.ID_DEPENDENTE is null
 union all
 select
@@ -204,9 +206,21 @@ select
     null DT_ADMISSAO,
     dependente.NR_MATRICULA_EMPRESA
 from TB_LANCAMENTO lancamento
-	left join TB_DEPENDENTE dependente on
-		dependente.ID = lancamento.ID_DEPENDENTE
+	join TB_DEPENDENTE dependente on
+	dependente.ID = lancamento.ID_DEPENDENTE
 where dependente.NR_MATRICULA_EMPRESA is null;
 
+create view VW_DESCONHECIDO_ABBVIE as
+select
+	desconhecido.CD_MES,
+    desconhecido.CD_ANO,
+    desconhecido.ID_CONTRATO,
+    desconhecido.NR_MATRICULA,
+    desconhecido.NR_CPF,
+    desconhecido.NM_BENEFICIARIO,
+    desconhecido.DT_ADMISSAO,
+    desconhecido.NR_MATRICULA_EMPRESA
+from VW_DESCONHECIDO_LEVEL01_ABBVIE desconhecido
+order by desconhecido.NM_BENEFICIARIO;
 
 /*****************************************************************************************************************/

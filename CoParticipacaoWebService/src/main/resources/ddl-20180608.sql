@@ -1497,7 +1497,7 @@ BEGIN
 	declare VAR_RESULT 	varchar( 20 ) default '';
 	
 	if PARAM_NR_CPF is not null then
-		set VAR_RESULT = lpad(cast( VAR_NR_CPF as char ), 11, '0' );
+		set VAR_RESULT = lpad(cast( PARAM_NR_CPF as char ), 11, '0' );
 		
 		#Deve-se somar ao campo RDP do MECSAS:
 	end if;

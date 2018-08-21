@@ -15,7 +15,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ArquivoOutputEntityMapper;

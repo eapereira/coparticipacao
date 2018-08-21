@@ -3,18 +3,36 @@
 	<query id="findByCpf">	
 		<![CDATA[
 			select titular from TitularEntity titular
-			join fetch titular.titularDetails details
+			join fetch titular.empresa empresa
 			where titular.cpf = :cpf
 		]]>
 	</query>
 
 	<query id="listByEmpresaId">	
 		<![CDATA[
-			select distinct titular from TitularEntity titular
-			join fetch titular.titularDetails details
-			join titular.empresa empresa
+			select titular from TitularEntity titular
+			join fetch titular.empresa empresa
 			where empresa.id = :empresaId
 			order by titular.nameTitular
+		]]>
+	</query>
+
+	<query id="listByEmpresaIdOrderByCpfAndName">	
+		<![CDATA[
+			select titular from TitularEntity titular
+			join fetch titular.empresa empresa
+			where empresa.id = :empresaId
+			and titular.cpf is not null
+			order by titular.cpf, titular.nameTitular
+		]]>
+	</query>
+
+	<query id="listByEmpresaIdOrderByMatriculaAndName">	
+		<![CDATA[
+			select titular from TitularEntity titular
+			join fetch titular.empresa empresa
+			where empresa.id = :empresaId
+			order by titular.matricula, titular.nameTitular
 		]]>
 	</query>
 

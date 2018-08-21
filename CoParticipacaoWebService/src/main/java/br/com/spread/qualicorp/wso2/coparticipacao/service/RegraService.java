@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 
@@ -25,7 +26,7 @@ public interface RegraService extends AbstractService<RegraUi> {
 			LancamentoDetail lancamentoDetail)
 			throws ServiceException;
 
-	List<RegraUi> listRegrasByArquivoInputId(Long arquivoInputFatucopaId)
+	List<RegraUi> listByArquivoInputId(ArquivoInputUi arquivoInputUi)
 			throws ServiceException;
 
 }

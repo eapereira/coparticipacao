@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
@@ -22,19 +25,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicate
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.SpreadsheetProcessorListener;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.DependenteBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.DesconhecidoBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.TitularBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.TitularDetailBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteDetailService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularDetailService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 
 /**
  * 
@@ -49,29 +46,23 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 	private static final Logger LOGGER = LogManager.getLogger(MecsasServiceImpl.class);
 
 	@Autowired
-	private TitularService titularService;
-
-	@Autowired
 	private DesconhecidoService desconhecidoService;
 
 	@Autowired
 	private BeneficiarioService beneficiarioService;
 
 	@Autowired
-	private DependenteService dependenteService;
-
-	@Autowired
 	private TitularDetailService titularDetailService;
 
 	@Autowired
 	private DependenteDetailService dependenteDetailService;
-	
+
 	@Autowired
 	private TitularBatchService titularBatchService;
-	
+
 	@Autowired
 	private DependenteBatchService dependenteBatchService;
-	
+
 	@Autowired
 	private DesconhecidoBatchService desconhecidoBatchService;
 
@@ -156,20 +147,15 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 			LOGGER.info("BEGIN");
 			LOGGER.info("Process ending and sending data to database:");
 
-			LOGGER.info(
-					"Storing titular [{}] and dependentes data:",
-					coParticipacaoContext.getBunker().getTitularUis().size());
+			LOGGER.info("Storing Titulars: ...... [{}]", coParticipacaoContext.getBunker().getTitularUis().size());
+			LOGGER.info("Storing Dependetes: .... [{}]", coParticipacaoContext.getBunker().getDependenteUis().size());
 
-			//titularService.saveBatch(coParticipacaoContext.getBunker().getTitularUis());
-			//dependenteService.saveBatch(coParticipacaoContext.getBunker().getDependenteUis());
-			
 			titularBatchService.saveBatch(coParticipacaoContext.getBunker().getTitularUis());
 			dependenteBatchService.saveBatch(coParticipacaoContext.getBunker().getDependenteUis());
 
 			LOGGER.info(
 					"Storing desconhecidos [{}] data:",
 					coParticipacaoContext.getBunker().getDesconhecidoUis().size());
-			//desconhecidoService.saveBatch(coParticipacaoContext.getBunker().getDesconhecidoUis());
 			desconhecidoBatchService.saveBatch(coParticipacaoContext.getBunker().getDesconhecidoUis());
 
 			LOGGER.info("END");

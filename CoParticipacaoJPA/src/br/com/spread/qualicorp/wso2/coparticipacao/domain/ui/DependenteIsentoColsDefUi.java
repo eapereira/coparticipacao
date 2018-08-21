@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteIsentoColsDe
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public class DependenteIsentoColsDefUi extends DependenteIsentoColsDef{
+public class DependenteIsentoColsDefUi extends DependenteIsentoColsDef {
 
 	/**
 	 * 
@@ -15,6 +15,6 @@ public class DependenteIsentoColsDefUi extends DependenteIsentoColsDef{
 	private static final long serialVersionUID = 3111511501531525810L;
 
 	public DependenteIsentoColsDefUi() {
-		
+
 	}
 }

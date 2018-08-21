@@ -25,12 +25,16 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraResultUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraOperationService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraResultService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -58,6 +62,12 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 
 	@Autowired
 	private RegraConditionalService regraConditionalService;
+
+	@Autowired
+	private RegraOperationService regraOperationService;
+
+	@Autowired
+	private RegraResultService regraResultService;
 
 	@Override
 	protected AbstractDao<RegraEntity> getDao() {
@@ -258,13 +268,23 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 
 	}
 
-	public List<RegraUi> listRegrasByArquivoInputId(Long id) throws ServiceException {
+	public List<RegraUi> listByArquivoInputId(ArquivoInputUi arquivoInputUi) throws ServiceException {
 		List<RegraUi> regraUis;
+		List<RegraOperationUi> regraOperationUis;
+		List<RegraResultUi> regraResultUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			regraUis = entityToUi(regraDao.listRegrasByArquivoInput(id));
+			regraUis = entityToUi(regraDao.listByArquivoInputId(arquivoInputUi.getId()));
+
+			for (RegraUi regraUi : regraUis) {
+				regraOperationUis = regraOperationService.listByRegraId(regraUi);
+				regraResultUis = regraResultService.listByRegraId(regraUi);
+
+				regraUi.getRegraOperations().addAll(regraOperationUis);
+				regraUi.getRegraResults().addAll(regraResultUis);
+			}
 
 			LOGGER.info("END");
 			return regraUis;

@@ -25,6 +25,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraConditionalEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraConditionalUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
@@ -96,7 +97,7 @@ public class RegraConditionalServiceImpl extends
 		return entityMapper;
 	}
 
-	public List<RegraConditionalUi> listRegrasByArquivoInputId(Long id)
+	public List<RegraConditionalUi> listByArquivoInputId(ArquivoInputUi arquivoInputUi)
 			throws ServiceException {
 		List<RegraConditionalUi> regraConditionalUis;
 
@@ -104,7 +105,7 @@ public class RegraConditionalServiceImpl extends
 			LOGGER.info("BEGIN");
 
 			regraConditionalUis = entityToUi(
-					regraConditionalDao.listRegrasByArquivoInput(id));
+					regraConditionalDao.listByArquivoInput(arquivoInputUi.getId()));
 
 			LOGGER.info("END");
 			return regraConditionalUis;

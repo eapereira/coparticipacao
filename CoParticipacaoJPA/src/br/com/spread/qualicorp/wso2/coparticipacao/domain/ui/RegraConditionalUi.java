@@ -14,7 +14,7 @@ public class RegraConditionalUi extends RegraConditional {
 	 */
 	private static final long serialVersionUID = -8905412746429125355L;
 
-	public RegraConditionalUi(){
+	public RegraConditionalUi() {
 		super();
 	}
 }

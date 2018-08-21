@@ -1,6 +1,9 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service;
 
+import java.util.List;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraResultUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 
 /**
  * 
@@ -8,5 +11,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraResultUi;
  *
  */
 public interface RegraResultService extends AbstractService<RegraResultUi> {
+
+	List<RegraResultUi> listByRegraId(RegraUi regraUi) throws ServiceException;
 
 }

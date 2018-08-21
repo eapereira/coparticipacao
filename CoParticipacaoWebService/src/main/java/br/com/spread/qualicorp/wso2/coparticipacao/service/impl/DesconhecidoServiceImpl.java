@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DesconhecidoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DesconhecidoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
@@ -30,8 +32,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.DesconhecidoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
@@ -205,6 +205,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			desconhecidoUi.setNameBeneficiario(titularUi.getNameTitular());
 			desconhecidoUi.setCpf(titularUi.getCpf());
 			desconhecidoUi.setMatricula(titularUi.getMatricula());
+			desconhecidoUi.setMatriculaEmpresa(titularUi.getMatriculaEmpresa());
 			desconhecidoUi.setDtNascimento(titularUi.getDtNascimento());
 
 			LOGGER.info("END");
@@ -221,6 +222,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			desconhecidoUi.setNameBeneficiario(dependenteUi.getNameDependente());
 			desconhecidoUi.setCpf(dependenteUi.getCpf());
 			desconhecidoUi.setMatricula(dependenteUi.getMatricula());
+			desconhecidoUi.setMatriculaEmpresa(dependenteUi.getMatriculaEmpresa());
 			desconhecidoUi.setDtNascimento(dependenteUi.getDtNascimento());
 
 			if (dependenteUi.getTitular() != null) {
@@ -242,6 +244,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			desconhecidoUi.setNameBeneficiario(beneficiarioUi.getNameBeneficiario());
 			desconhecidoUi.setCpf(beneficiarioUi.getCpf());
 			desconhecidoUi.setMatricula(beneficiarioUi.getMatricula());
+			desconhecidoUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 			desconhecidoUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 
 			desconhecidoUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
@@ -367,18 +370,19 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 
 	@Override
 	protected void logBatchInfo(DesconhecidoUi desconhecidoUi) throws ServiceException {
-		LOGGER.debug("ID:........................... [{}]", desconhecidoUi.getId());
-		LOGGER.debug("CD_CONTRATO:.................. [{}]", desconhecidoUi.getContrato().getCdContrato());
-		LOGGER.debug("CD_MES:....................... [{}]", desconhecidoUi.getMes());
-		LOGGER.debug("CD_ANO:....................... [{}]", desconhecidoUi.getAno());
+		LOGGER.debug("ID:................................... [{}]", desconhecidoUi.getId());
+		LOGGER.debug("CD_CONTRATO:.......................... [{}]", desconhecidoUi.getContrato().getCdContrato());
+		LOGGER.debug("CD_MES:............................... [{}]", desconhecidoUi.getMes());
+		LOGGER.debug("CD_ANO:............................... [{}]", desconhecidoUi.getAno());
 
-		LOGGER.debug("DESCONHECIDO.NR_CPF:.......... [{}]", desconhecidoUi.getCpf());
-		LOGGER.debug("DESCONHECIDO.NAME:............ [{}]", desconhecidoUi.getNameBeneficiario());
-		LOGGER.debug("DESCONHECIDO.DT_NASCIMENTO:... [{}]", desconhecidoUi.getDtNascimento());
-		LOGGER.debug("DESCONHECIDO.NR_MATRICULA:.... [{}]", desconhecidoUi.getMatricula());
+		LOGGER.debug("DESCONHECIDO.NR_CPF:.................. [{}]", desconhecidoUi.getCpf());
+		LOGGER.debug("DESCONHECIDO.NAME:.................... [{}]", desconhecidoUi.getNameBeneficiario());
+		LOGGER.debug("DESCONHECIDO.DT_NASCIMENTO:........... [{}]", desconhecidoUi.getDtNascimento());
+		LOGGER.debug("DESCONHECIDO.NR_MATRICULA:............ [{}]", desconhecidoUi.getMatricula());
+		LOGGER.debug("DESCONHECIDO.NR_MATRICULA_EMPRESA:.... [{}]", desconhecidoUi.getMatriculaEmpresa());
 
-		LOGGER.debug("DESCONHECIDO.DT_ADMISSAO:..... [{}]", desconhecidoUi.getDtAdmissao());
-		LOGGER.debug("DESCONHECIDO.NR_CODE_REF:..... [{}]", desconhecidoUi.getReferenceCode());
+		LOGGER.debug("DESCONHECIDO.DT_ADMISSAO:............. [{}]", desconhecidoUi.getDtAdmissao());
+		LOGGER.debug("DESCONHECIDO.NR_CODE_REF:............. [{}]", desconhecidoUi.getReferenceCode());
 	}
 
 	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)

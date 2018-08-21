@@ -29,7 +29,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;

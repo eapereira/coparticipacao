@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.TitularJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.TitularDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
@@ -19,10 +21,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.TitularEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.TitularUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.TitularJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -89,13 +90,13 @@ public class TitularServiceImpl extends AbstractServiceImpl<TitularUi, TitularEn
 		}
 	}
 
-	public List<TitularUi> listByEmpresaId(Long id) throws ServiceException {
+	public List<TitularUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException {
 		List<TitularUi> titularUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			titularUis = entityToUi(titularDao.listByEmpresaId(id));
+			titularUis = entityToUi(titularDao.listByEmpresaId(empresaUi.getId()));
 
 			LOGGER.info("END");
 			return titularUis;
@@ -105,6 +106,38 @@ public class TitularServiceImpl extends AbstractServiceImpl<TitularUi, TitularEn
 		}
 	}
 
+	public List<TitularUi> listByEmpresaIdOrderByCpfAndName(EmpresaUi empresaUi) throws ServiceException {
+		List<TitularUi> titularUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			titularUis = entityToUi(titularDao.listByEmpresaIdOrderByCpfAndName(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return titularUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<TitularUi> listByEmpresaIdOrderByMatriculaAndName(EmpresaUi empresaUi) throws ServiceException {
+		List<TitularUi> titularUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			titularUis = entityToUi(titularDao.listByEmpresaIdOrderByMatriculaAndName(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return titularUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+	
 	@Override
 	protected TitularUi createUi() {
 		return new TitularUi();

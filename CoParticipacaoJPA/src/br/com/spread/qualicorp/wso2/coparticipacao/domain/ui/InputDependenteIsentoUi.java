@@ -15,6 +15,6 @@ public class InputDependenteIsentoUi extends InputDependenteIsento {
 	private static final long serialVersionUID = -6688053017410300779L;
 
 	public InputDependenteIsentoUi() {
-		
+
 	}
 }

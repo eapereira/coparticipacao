@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="listByRegraId">
 		<![CDATA[
+			select regraResult from RegraResultEntity regraResult
+			join fetch regraResult.regra regra
+			where regra.id = :regraId
 		]]>
 	</query>
 

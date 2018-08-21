@@ -11,6 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.LancamentoBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
@@ -21,21 +25,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.ProcessorListener;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.DependenteBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.DesconhecidoBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.LancamentoBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.FatucopaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 
 /**
  * 
@@ -67,12 +65,6 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 	private BeneficiarioService beneficiarioService;
 
 	@Autowired
-	private TitularService titularService;
-
-	@Autowired
-	private DependenteService dependenteService;
-
-	@Autowired
 	private TitularBatchService titularBatchService;
 
 	@Autowired
@@ -80,7 +72,7 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 
 	@Autowired
 	private LancamentoBatchService lancamentoBatchService;
-	
+
 	@Autowired
 	private DesconhecidoBatchService desconhecidoBatchService;
 
@@ -247,20 +239,15 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 				LOGGER.info("There is no valid lancamentos in this process:");
 			} else {
 				LOGGER.info("Creating Beneficiarios that we dont have at database:");
-				//titularService.saveBatch(coParticipacaoContext.getBunker().getTitularUis());
 
-				//dependenteService.saveBatch(coParticipacaoContext.getBunker().getDependenteUis());
-				
 				titularBatchService.saveBatch(coParticipacaoContext.getBunker().getTitularUis());
 				dependenteBatchService.saveBatch(coParticipacaoContext.getBunker().getDependenteUis());
 
 				LOGGER.info("Storing lancamentos data:");
-				// lancamentoService.saveBatch(coParticipacaoContext.getBunker().getLancamentoUis());
 				lancamentoBatchService.saveBatch(coParticipacaoContext.getBunker().getLancamentoUis());
 			}
 
 			LOGGER.info("Storing desconhecidos data:");
-			//desconhecidoService.saveBatch(coParticipacaoContext.getBunker().getDesconhecidoUis());
 			desconhecidoBatchService.saveBatch(coParticipacaoContext.getBunker().getDesconhecidoUis());
 
 			writeOutputFiles(coParticipacaoContext);

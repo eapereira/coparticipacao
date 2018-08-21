@@ -9,6 +9,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DependenteDetailJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DependenteDetailDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
@@ -21,8 +23,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DependenteDe
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.AbstractJdbcDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.dao.DependenteDetailJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 

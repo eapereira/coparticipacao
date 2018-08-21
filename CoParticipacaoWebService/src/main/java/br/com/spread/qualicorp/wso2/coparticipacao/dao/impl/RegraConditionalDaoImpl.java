@@ -28,24 +28,16 @@ public class RegraConditionalDaoImpl extends
 		super();
 	}
 
-	public List<RegraConditionalEntity> listRegrasByArquivoInput(Long id)
+	public List<RegraConditionalEntity> listByArquivoInput(Long id)
 			throws DaoException {
 		List<RegraConditionalEntity> regraConditionalEntities;
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			sb = new StringBuilder();
-			sb.append(
-					"select regraConditional from RegraConditionalEntity regraConditional ");
-			sb.append("join fetch regraConditional.arquivoInput arquivoInput ");
-			sb.append("where arquivoInput.id = :id ");
-			sb.append("order by regraConditional.ordem ");
-
-			query = createQueryOld(sb.toString());
-			query.setParameter("id", id);
+			query = createQuery("listByArquivoInputId");
+			query.setParameter("arquivoInputId", id);
 
 			regraConditionalEntities = query.getResultList();
 

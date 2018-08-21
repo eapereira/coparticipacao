@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteDetail;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class DependenteDetailUi extends DependenteDetail{
+public class DependenteDetailUi extends DependenteDetail {
 
 	/**
 	 * 

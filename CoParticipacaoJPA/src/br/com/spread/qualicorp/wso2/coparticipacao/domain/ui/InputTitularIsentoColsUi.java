@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsentoCols
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public class InputTitularIsentoColsUi extends InputTitularIsentoCols{
+public class InputTitularIsentoColsUi extends InputTitularIsentoCols {
 
 	/**
 	 * 

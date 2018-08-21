@@ -12,7 +12,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
 public interface RegraConditionalDao
 		extends AbstractDao<RegraConditionalEntity> {
 
-	List<RegraConditionalEntity> listRegrasByArquivoInput(Long id)
+	List<RegraConditionalEntity> listByArquivoInput(Long id)
 			throws DaoException;
 
 }

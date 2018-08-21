@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraFieldEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraFieldUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraFieldUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraFieldService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -20,11 +25,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraFieldUi;
  *
  */
 @Service
-public class RegraFieldServiceImpl extends
-		AbstractServiceImpl<RegraFieldUi, RegraFieldEntity, RegraField> {
+public class RegraFieldServiceImpl extends AbstractServiceImpl<RegraFieldUi, RegraFieldEntity, RegraField>
+		implements RegraFieldService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(RegraFieldServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(RegraFieldServiceImpl.class);
 
 	@Autowired
 	private RegraFieldDao regraFieldDao;
@@ -58,6 +62,22 @@ public class RegraFieldServiceImpl extends
 	@Override
 	protected AbstractMapper<RegraField, RegraFieldEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<RegraFieldUi> listByRegraOperationId(RegraOperationUi regraOperationUi) throws ServiceException {
+		List<RegraFieldUi> regraFieldUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			regraFieldUis = entityToUi(regraFieldDao.listByRegraOperationId(regraOperationUi.getId()));
+
+			LOGGER.info("END");
+			return regraFieldUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }
