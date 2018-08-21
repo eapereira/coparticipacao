@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
@@ -17,8 +15,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoExcep
  *
  */
 public class PartitionMap<T extends AbstractDomain> {
-
-	private static final Logger LOGGER = LogManager.getLogger(PartitionMap.class);
 
 	private static final int BRANCH_SIZE = 10;
 
@@ -53,10 +49,6 @@ public class PartitionMap<T extends AbstractDomain> {
 		MapKey mapKey = null;
 
 		try {
-			LOGGER.debug("BEGIN");
-			LOGGER.debug("Received List size[{}]:", data.size());
-			LOGGER.debug("Middle pivot to use [{}]:", middle);
-
 			children = new ArrayList<PartitionMap<T>>();
 			map = new TreeMap<MapKey, T>();
 
@@ -95,19 +87,12 @@ public class PartitionMap<T extends AbstractDomain> {
 			if (mapKey != null) {
 				setLastIndex(mapKey.getKey1());
 			}
-
-			LOGGER.debug("END");
 		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
 			throw new CoParticipacaoException(e);
 		}
 	}
 
 	public boolean contains(Long index) {
-		LOGGER.debug("Searching index: ... [{}]", index);
-		LOGGER.debug("FirstIndex: ........ [{}]", getFirstIndex());
-		LOGGER.debug("LastIndex: ......... [{}]", getLastIndex());
-
 		if (index != null) {
 			if (getFirstIndex() <= index && getLastIndex() >= index) {
 				return true;
