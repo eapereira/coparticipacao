@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.test.service;
 
+import java.io.File;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -22,6 +24,8 @@ public abstract class CoParticipacaoTest {
 	private CoParticipacaoService coParticipacaoService;
 
 	private StopWatchAdapter stopWatch;
+
+	public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
 
 	@Before
 	public void beforeTestClearCoparticipacao() throws Exception {
@@ -46,8 +50,14 @@ public abstract class CoParticipacaoTest {
 
 	protected void processFile(String filePath) throws Exception {
 		int pos = filePath.lastIndexOf("/") + 1;
+		String fileName = filePath.substring(pos);
+		StringBuilder sb = new StringBuilder();
 
-		coParticipacaoService.processFile(filePath.substring(pos), filePath);
+		sb.append(TEST_PATH);
+		sb.append(File.separator);
+		sb.append(filePath);
+
+		coParticipacaoService.processFile(fileName, sb.toString());
 	}
 
 }

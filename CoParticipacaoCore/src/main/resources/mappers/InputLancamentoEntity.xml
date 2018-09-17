@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="InputLancamentoEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_INPUT_LANCAMENTO(
+				ID_LANCAMENTO_COLS_DEF,
+				ID_ARQUIVO_INPUT_COLS_DEF,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="InputLancamentoEntity.update">
+		<![CDATA[	
+			UPDATE TB_INPUT_LANCAMENTO
+			SET
+				ID_LANCAMENTO_COLS_DEF 		= ?,
+				ID_ARQUIVO_INPUT_COLS_DEF 	= ?,
+				USER_ALTERED 				= ?,
+				DT_ALTERED 					= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="InputLancamentoEntity.delete">
+		<![CDATA[	
+			DELETE FROM TB_INPUT_LANCAMENTO
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

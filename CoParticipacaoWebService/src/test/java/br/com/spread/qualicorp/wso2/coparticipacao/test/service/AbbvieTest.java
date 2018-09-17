@@ -35,14 +35,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWeb
 public class AbbvieTest extends CoParticipacaoTest {
 	private static final Logger LOGGER = LogManager.getLogger(MarjanTest.class);
 
-	private static final String ABBVIE_ISENTOS_201808 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/abbvie/output/ISENTOS ABBVIE INTERFACE.xlsx";
-
-	private static final String ABBVIE_MECSAS_201808 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/abbvie/output/Ativos 8B1LR.XLS";
-	private static final String ABBVIE_MECSAS2_201808 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/abbvie/output/Ativos 02.2018.xlsx";
-
-	private static final String ABBVIE_LANCAMENTOS_8B1LR_201808 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/abbvie/output/8B1LRFATUCOPA.201802001F.TXT";
-
-	private static final String ABBVIE_NAO_LOCALIZADO_201808 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/abbvie/output/NAO-LOCALIZADO-ABBVIE-201808.xlsx";
+	private static final String MECSAS_201808 = "abbvie/output/ABBVIE.MECSAS.201802.001.xlsx";
+	private static final String MECSAS2_201808 = "abbvie/output/ABBVIE.MECSAS2.201802.002.xlsx";
+	private static final String ISENTOS_201808 = "abbvie/output/ABBVIE.ISENTO.201802.003.xlsx";
+	private static final String FATUCOPA_201808 = "abbvie/output/ABBVIE.8B1LR.201802.004.TXT";
+	private static final String NAO_LOCALIZADO_201808 = "abbvie/output/ABBVIE.NAO-LOCALIZADO.201802.004.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 449;
@@ -83,12 +80,12 @@ public class AbbvieTest extends CoParticipacaoTest {
 		List<LancamentoDetailUi> lancamentoDetailUis;
 		EmpresaUi empresaUi = empresaService.findByName("ABBVIE");
 
-		processFile(ABBVIE_MECSAS_201808);
-		processFile(ABBVIE_MECSAS2_201808);
+		processFile(MECSAS_201808);
+		processFile(MECSAS2_201808);
 
-		processFile(ABBVIE_ISENTOS_201808);
+		processFile(ISENTOS_201808);
 
-		processFile(ABBVIE_LANCAMENTOS_8B1LR_201808);
+		processFile(FATUCOPA_201808);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -120,8 +117,10 @@ public class AbbvieTest extends CoParticipacaoTest {
 
 		testCoparticipacao201808();
 
-		processFile(ABBVIE_NAO_LOCALIZADO_201808);
-		processFile(ABBVIE_LANCAMENTOS_8B1LR_201808);
+		processFile(NAO_LOCALIZADO_201808);
+		
+		processFile(ISENTOS_201808);
+		processFile(FATUCOPA_201808);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);

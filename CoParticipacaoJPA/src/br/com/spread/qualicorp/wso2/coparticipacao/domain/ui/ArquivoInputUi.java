@@ -13,8 +13,4 @@ public class ArquivoInputUi extends ArquivoInput {
 	public ArquivoInputUi() {
 	}
 
-	public ArquivoInputUi(ArquivoInputEntity entity) {
-		super(entity);
-	}
-
 }

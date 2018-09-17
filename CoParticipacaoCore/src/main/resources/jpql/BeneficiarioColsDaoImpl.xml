@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByArquivoInputId">
+		<![CDATA[
+			select beneficiarioCols from BeneficiarioColsEntity beneficiarioCols
+			join fetch beneficiarioCols.arquivoInputColsDef arquivoInputColsDef
+			join fetch arquivoInputColsDef.arquivoInput arquivoInput
+			where arquivoInput.id = :arquivoInputId	
+			order by beneficiarioCols.id
+		]]>
+	</query>
+
+</queries>

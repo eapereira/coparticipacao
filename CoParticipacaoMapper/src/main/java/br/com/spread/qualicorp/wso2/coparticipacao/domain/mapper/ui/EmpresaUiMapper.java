@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 				OperadoraUiMapper.class,
 				ContratoUiMapper.class,
 				ParameterUiMapper.class,
+				ExternalProcessUiMapper.class,
 				TitularUiMapper.class})
 public abstract class EmpresaUiMapper extends AbstractMapper<Empresa, EmpresaUi> {
 

@@ -16,6 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.CoparticipacaoJdbcD
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
@@ -39,6 +40,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.search.PartitionMap;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByCpfAndNameMapKeyBuilder;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByMatriculaAndNameMapKeyBuilder;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioColsService;
@@ -137,6 +139,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	@Autowired
 	private FatucopaService fatucopaService;
 
+	@Autowired
+	private ArquivoExecucaoService arquivoExecucaoService;
+
 	private static final Long USER_ADMIN_ID = 1l;
 
 	public CoParticipacaoInfo processFile(String fileName, String filePath) throws ServiceException {
@@ -149,7 +154,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Receiving file [{}] to process:", fileName);
 
-			// PAra marcar o tempo que levou para fazer a tarefa:
+			// Para marcar o tempo que levou para fazer a tarefa:
 			stopWatch = new StopWatchAdapter();
 			stopWatch.start();
 
@@ -208,7 +213,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	private void loadFileInputData(String filePath, CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
-		FileInputStream fileInputStream;
+		FileInputStream fileInputStream = null;
 		ArquivoInputUi arquivoInputUi;
 
 		try {
@@ -222,6 +227,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			loadDefaultDefinitions(coParticipacaoContext);
 
 			arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
+
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
 
 			if (UseType.FATUCOPA.equals(arquivoInputUi.getUseType())) {
 				changeThreadName(coParticipacaoContext, "FatuCopaService");
@@ -276,9 +283,32 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			changeThreadName(coParticipacaoContext, null);
 
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
+			coParticipacaoContext.getArquivoExecucaoUi().setErrorMessage(e.getMessage());
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.ERROR);
+
+			throw new ServiceException(e.getMessage(), e);
+		} finally {
+			close(fileInputStream);
+		}
+	}
+
+	private void close(FileInputStream fileInputStream) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			if (fileInputStream != null) {
+				fileInputStream.close();
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}

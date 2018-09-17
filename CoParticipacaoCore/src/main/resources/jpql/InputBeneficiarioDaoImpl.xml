@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="findByArquivoInputId">
+		<![CDATA[
+			select inputBeneficiario from InputBeneficiarioEntity inputBeneficiario
+			join fetch inputBeneficiario.arquivoInput arquivoInput
+			where arquivoInput.id = :arquivoInputId
+		]]>
+	</query>
+
+</queries>
+	

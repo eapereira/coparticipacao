@@ -10,10 +10,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExternalProcess;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Parameter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
@@ -93,6 +95,45 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	public String getCdEmpresa() {
 		// TODO Auto-generated method stub
 		return super.getCdEmpresa();
+	}
+
+	@Column(name = "CD_INPUT_DIR")
+	@Override
+	public String getInputDir() {
+		// TODO Auto-generated method stub
+		return super.getInputDir();
+	}
+
+	@Column(name = "TP_SAVE_MECSAS_DETAIL")
+	@Override
+	public boolean isSaveMecsasDetails() {
+		// TODO Auto-generated method stub
+		return super.isSaveMecsasDetails();
+	}
+
+	@Column(name = "TP_SAVE_BENEFICIARIO_DETAIL")
+	@Override
+	public boolean isSaveBeneficiarioDetails() {
+		// TODO Auto-generated method stub
+		return super.isSaveBeneficiarioDetails();
+	}
+
+	@Column(name = "TP_EXTERNAL_PROCESS")
+	@Override
+	public boolean isEnabledExternalProcess() {
+		// TODO Auto-generated method stub
+		return super.isEnabledExternalProcess();
+	}
+
+	@OneToOne(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "empresa",
+			targetEntity = ExternalProcessEntity.class)
+	@Override
+	public ExternalProcess getExternalProcess() {
+		// TODO Auto-generated method stub
+		return super.getExternalProcess();
 	}
 
 }

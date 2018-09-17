@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="UserEntity.insert">
+		<![CDATA[
+			INSERT INTO TB_USER(
+				NM_LOGIN,
+				DESCR_NAME,
+				DESCR_PASSWD,
+				TP_STATUS,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="UserEntity.update">
+		<![CDATA[
+			UPDATE TB_USER
+			SET
+				NM_LOGIN 		= ?,
+				DESCR_NAME 		= ?,
+				DESCR_PASSWD 	= ?,
+				TP_STATUS 		= ?,
+				USER_ALTERED 	= ?,
+				DT_ALTERED 		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+	
+	<query id="UserEntity.delete">
+		<![CDATA[
+			DELETE FROM TB_USER
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+

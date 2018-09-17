@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByEmpresaId">
+		<![CDATA[
+			select detail from LancamentoDetailEntity detail
+			join fetch detail.lancamento lancamento
+			join lancamento.contrato contrato
+			join contrato.empresa empresa
+			where empresa.id = :empresaId
+		]]>
+	</query>
+
+</queries>
+	

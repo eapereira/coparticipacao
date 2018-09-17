@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="InputTitularEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_INPUT_TITULAR(
+				ID_TITULAR_COLS_DEF,
+				ID_ARQUIVO_INPUT_COLS_DEF,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="InputTitularEntity.update">
+		<![CDATA[	
+			UPDATE TB_INPUT_TITULAR
+			SET
+				ID_TITULAR_COLS_DEF 		= ?,
+				ID_ARQUIVO_INPUT_COLS_DEF 	= ?,
+				USER_ALTERED 				= ?,
+				DT_ALTERED 					= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+	
+	<query id="InputTitularEntity.delete">
+		<![CDATA[							
+			DELETE FROM TB_INPUT_TITULAR
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

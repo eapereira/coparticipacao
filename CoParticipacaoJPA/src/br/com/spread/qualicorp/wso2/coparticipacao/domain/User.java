@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,10 +62,15 @@ public abstract class User extends AbstractDomain {
 	private List<ViewDestinationColsDef> viewDestinationColsDefsUserAltered;
 
 	private List<Parameter> userAlteredParameter;
-
 	private List<Parameter> userCreatedParameter;
 
+	private List<UserRole> userRoles;
+	
+	private List<ArquivoExecucao> arquivoExecucaoUserCreated;
+	private List<ArquivoExecucao> arquivoExecucaoUserAltered;
+
 	public User() {
+		userRoles = new ArrayList<>();
 	}
 
 	public User(User entity) {
@@ -1062,4 +1068,58 @@ public abstract class User extends AbstractDomain {
 		lancamentoInput.setUserAltered(null);
 	}
 
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public void addUserRole(UserRole userRole) {
+		getUserRoles().add(userRole);
+		userRole.setUser(this);
+	}
+
+	public void removeUserRole(UserRole userRole) {
+		getUserRoles().remove(userRole);
+		userRole.setUser(null);
+	}
+
+	public List<ArquivoExecucao> getArquivoExecucaoUserCreated() {
+		return arquivoExecucaoUserCreated;
+	}
+
+	public void setArquivoExecucaoUserCreated(List<ArquivoExecucao> arquivoExecucaoUserCreated) {
+		this.arquivoExecucaoUserCreated = arquivoExecucaoUserCreated;
+	}
+
+	public List<ArquivoExecucao> getArquivoExecucaoUserAltered() {
+		return arquivoExecucaoUserAltered;
+	}
+
+	public void setArquivoExecucaoUserAltered(List<ArquivoExecucao> arquivoExecucaoUserAltered) {
+		this.arquivoExecucaoUserAltered = arquivoExecucaoUserAltered;
+	}
+
+	public void addArquivoExecucaoUserCreated(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserCreated().add(arquivoExecucao);
+		arquivoExecucao.setUserCreated(this);
+	}
+	
+	public void removeArquivoExecucaoUserCreated(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserCreated().remove(arquivoExecucao);
+		arquivoExecucao.setUserCreated(null);
+	}
+
+	public void addArquivoExecucaoUserAltered(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserAltered().add(arquivoExecucao);
+		arquivoExecucao.setUserAltered(this);
+	}
+	
+	public void removeArquivoExecucaoUserAltered(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserAltered().remove(arquivoExecucao);
+		arquivoExecucao.setUserAltered(null);
+	}
+	
 }

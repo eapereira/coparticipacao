@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:copa="http://java.sun.com/jsf/composite/coparticipacao">
+
+<composite:interface>
+
+	<composite:attribute name="label" />
+	<composite:attribute name="value" required="true" />
+
+	<composite:attribute name="update" />
+
+	<composite:clientBehavior name="change" event="change"
+		targets="#{cc.clientId}:selectOneMenuEmpresa" />
+
+	<composite:attribute name="valueChangeListener"
+		method-signature="void valueChanged(javax.faces.event.ValueChangeEvent)"
+		targets="selectOneMenuEmpresa" />
+
+</composite:interface>
+
+<composite:implementation>
+
+	<div id="#{cc.clientId}">
+		<copa:selectOperadora id="selectOperadora"
+			update="#{cc.clientId}:selectOneMenuEmpresa"
+			valueChangeListener="#{empresaBean.onChangeOperadora}"
+			value="#{empresaBean.operadoraUi}" />
+
+		<h:panelGrid columns="3" id="pnSelectEmpresa">
+
+			<h:outputLabel value="#{msg['global.empresa']}" styleClass="ui-label"/>
+			<p:selectOneMenu id="selectOneMenuEmpresa"
+				disabled="#{empresaBean.disableSelectEmpresa}"
+				value="#{cc.attrs.value}" 
+				converter="#{empresaConverter}">
+				
+				<f:selectItem itemValue="0" itemLabel="" />
+				<f:selectItems value="#{empresaBean.empresaUis}" var="empresa"
+					itemLabel="#{empresa.nameEmpresa}" itemValue="#{empresa}" />
+
+					<p:ajax event="itemSelect" update="#{cc.attrs.update}" />
+
+				<composite:insertChildren />
+			</p:selectOneMenu>
+
+			<h:message for="selectOneMenuEmpresa" styleClass="errorMessage" />
+		</h:panelGrid>
+	</div>
+</composite:implementation>
+
+</html>

@@ -45,10 +45,6 @@ public class ArquivoInputEntity extends ArquivoInput implements DomainEntity {
 	public ArquivoInputEntity() {
 	}
 
-	public ArquivoInputEntity(ArquivoInputUi ui) {
-		super(ui);
-	}
-
 	@Column(name = "DESCR_ARQUIVO")
 	public String getDescrArquivo() {
 		return super.getDescrArquivo();
@@ -103,27 +99,6 @@ public class ArquivoInputEntity extends ArquivoInput implements DomainEntity {
 		return super.getDefaultLineLength();
 	}
 
-	@Column(name = "CD_REGEXP_CONTRATO")
-	@Override
-	public Integer getRegexpContrato() {
-		// TODO Auto-generated method stub
-		return super.getRegexpContrato();
-	}
-
-	@Column(name = "CD_REGEXP_MES")
-	@Override
-	public Integer getRegexpMes() {
-		// TODO Auto-generated method stub
-		return super.getRegexpMes();
-	}
-
-	@Column(name = "CD_REGEXP_ANO")
-	@Override
-	public Integer getRegexpAno() {
-		// TODO Auto-generated method stub
-		return super.getRegexpAno();
-	}
-
 	// bi-directional many-to-one association to Regra
 	@OneToOne(
 			mappedBy = "arquivoInput",
@@ -136,18 +111,15 @@ public class ArquivoInputEntity extends ArquivoInput implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to Regra
-	@OneToOne(mappedBy = "arquivoInput", cascade = CascadeType.ALL, targetEntity = ArquivoOutputEntity.class)
+	@OneToMany(
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInput",
+			cascade = CascadeType.ALL,
+			targetEntity = ArquivoOutputEntity.class)
 	@Override
-	public ArquivoOutput getArquivoOutput() {
+	public List<ArquivoOutput> getArquivoOutputs() {
 		// TODO Auto-generated method stub
-		return super.getArquivoOutput();
-	}
-
-	@Column(name = "CD_REGEXP_DIA")
-	@Override
-	public Integer getRegexpDia() {
-		// TODO Auto-generated method stub
-		return super.getRegexpDia();
+		return super.getArquivoOutputs();
 	}
 
 	// bi-directional many-to-one association to Empresa

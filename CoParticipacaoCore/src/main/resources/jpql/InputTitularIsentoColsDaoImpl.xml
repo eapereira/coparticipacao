@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByInputTitularIsentoId">
+		<![CDATA[
+			select inputTitularIsentoCols from InputTitularIsentoColsEntity inputTitularIsentoColsEntity
+			join fetch inputTitularIsentoCols.inputTitularIsento inputTitularIsento
+			join fetch inputTitularIsentoCols.arquivoInputColsDef arquivoInputColsDef
+			where inputTitularIsento.id = :id
+			order by arquivoInputColsDef.ordem
+		]]>
+	</query>
+
+	<query id="listByArquivoInputId">
+		<![CDATA[
+			select inputTitularIsentoCols from InputTitularIsentoColsEntity inputTitularIsentoCols
+			join fetch inputTitularIsentoCols.arquivoInputColsDef arquivoInputColsDef
+			join fetch arquivoInputColsDef.arquivoInput arquivoInput
+			where arquivoInput.id = :id
+			order by inputTitularIsentoCols.id
+		]]>
+	</query>
+
+</queries>
+	

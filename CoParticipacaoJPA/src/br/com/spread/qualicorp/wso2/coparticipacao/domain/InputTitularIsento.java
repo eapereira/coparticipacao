@@ -53,7 +53,6 @@ public abstract class InputTitularIsento extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
 		result = prime * result + ((inputTitularIsentoCols == null) ? 0 : inputTitularIsentoCols.hashCode());
 		return result;
 	}

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByEmpresaId">		
+		<![CDATA[
+			select contrato from ContratoEntity contrato
+			join fetch contrato.empresa empresa
+			where empresa.id = :empresaId
+		]]>
+	</query>
+
+	<query id="findByCdContrato">		
+		<![CDATA[
+			select contrato from ContratoEntity contrato
+			join fetch contrato.empresa empresa
+			where contrato.cdContrato = :cdContrato
+		]]>
+	</query>
+
+	<query id="findByCdEmpresaAndCdContrato">		
+		<![CDATA[
+			select contrato from ContratoEntity contrato
+			join fetch contrato.empresa empresa
+			where	empresa.cdEmpresa 	= :cdEmpresa 
+			and		contrato.cdContrato = :cdContrato
+		]]>
+	</query>
+
+</queries>
+	

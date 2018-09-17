@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByViewDestinationId">
+		<![CDATA[
+			select viewDestinationColsDef from ViewDestinationColsDefEntity viewDestinationColsDef
+			join fetch viewDestinationColsDef.viewDestination viewDestination
+			where viewDestination.id = :viewDestinationId
+			order by viewDestinationColsDef.ordem
+		]]>
+	</query>
+
+</queries>
+	

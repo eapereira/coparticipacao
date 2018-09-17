@@ -11,6 +11,8 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 	private ArquivoOutput arquivoOutput;
 
 	private ViewDestination viewDestination;
+	
+	private Integer ordem;
 
 	public ArquivoOutputSheet() {
 	}
@@ -43,13 +45,20 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 		this.viewDestination = viewDestination;
 	}
 
+	public Integer getOrdem() {
+		return ordem;
+	}
+
+	public void setOrdem(Integer ordem) {
+		this.ordem = ordem;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoOutput == null) ? 0 : arquivoOutput.hashCode());
+		int result = super.hashCode();
 		result = prime * result + ((nmSheet == null) ? 0 : nmSheet.hashCode());
-		result = prime * result + ((viewDestination == null) ? 0 : viewDestination.hashCode());
+		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
 		return result;
 	}
 
@@ -57,27 +66,23 @@ public abstract class ArquivoOutputSheet extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoOutputSheet other = (ArquivoOutputSheet) obj;
-		if (arquivoOutput == null) {
-			if (other.arquivoOutput != null)
-				return false;
-		} else if (!arquivoOutput.equals(other.arquivoOutput))
-			return false;
 		if (nmSheet == null) {
 			if (other.nmSheet != null)
 				return false;
 		} else if (!nmSheet.equals(other.nmSheet))
 			return false;
-		if (viewDestination == null) {
-			if (other.viewDestination != null)
+		if (ordem == null) {
+			if (other.ordem != null)
 				return false;
-		} else if (!viewDestination.equals(other.viewDestination))
+		} else if (!ordem.equals(other.ordem))
 			return false;
 		return true;
 	}
+
 
 }

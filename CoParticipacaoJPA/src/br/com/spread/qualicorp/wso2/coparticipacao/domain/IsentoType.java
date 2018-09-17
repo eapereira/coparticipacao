@@ -12,7 +12,9 @@ public enum IsentoType {
 						ESTAGIARIO(3, "Estagiário"),
 						DIRETORIA(4, "Diretória"),
 						CRONICO(5, "Crônicos"),
-						CRONICO_INATIVO(6, "CRONICOS / INATIVO");
+						CRONICO_INATIVO(6, "CRONICOS / INATIVO"),
+						VALOR(7, "VALOR"),
+						VALOR_CENTAVO(8, "VALOR CENTAVO");
 
 	private Integer id;
 

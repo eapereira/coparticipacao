@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="OperadoraEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_OPERADORA(
+				NM_OPERADORA,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="OperadoraEntity.insert">
+		<![CDATA[	
+			UPDATE TB_OPERADORA
+			SET
+				NM_OPERADORA = ?,
+				USER_CREATED = ?,
+				USER_ALTERED = ?,
+				DT_ALTERED = CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="OperadoraEntity.insert">
+		<![CDATA[	
+			DELETE FROM TB_OPERADORA
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

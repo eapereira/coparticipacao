@@ -5,7 +5,6 @@ import org.mapstruct.Mapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 
 /**
  * 
@@ -21,6 +20,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 				RegraUiMapper.class,
 				InputTitularIsentoUiMapper.class,
 				InputDependenteIsentoUiMapper.class,
+				ArquivoOutputUiMapper.class,
+				ArquivoOutputDesconhecidoUiMapper.class,
 				IsentoInputSheetUiMapper.class})
 public abstract class ArquivoInputUiMapper
 		extends AbstractMapper<ArquivoInput, ArquivoInputUi> {

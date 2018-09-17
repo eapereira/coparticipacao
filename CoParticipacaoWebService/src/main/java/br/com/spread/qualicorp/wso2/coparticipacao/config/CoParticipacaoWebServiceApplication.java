@@ -1,5 +1,8 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.config;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.SpringApplication;
@@ -13,22 +16,26 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  *
  */
 @SpringBootApplication
-public class CoParticipacaoWebServiceApplication
-		extends SpringBootServletInitializer {
-	private static final Logger LOGGER = LogManager
-			.getLogger(CoParticipacaoWebServiceApplication.class);
+public class CoParticipacaoWebServiceApplication extends SpringBootServletInitializer {
+	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoWebServiceApplication.class);
 
 	public static void main(String[] args) {
 		SpringApplication.run(CoParticipacaoWebServiceApplication.class, args);
 	}
 
 	@Override
-	protected SpringApplicationBuilder configure(
-			SpringApplicationBuilder application) {
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
 		LOGGER.info("BEGIN");
 		LOGGER.info("Starting application [ CoParticipacaoWebService ]:");
 		LOGGER.info("END");
 		return application.sources(CoParticipacaoWebServiceApplication.class);
+	}
+
+	@Override
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		servletContext.setInitParameter("spring.profiles.active", "desenv");
+
+		super.onStartup(servletContext);
 	}
 
 }

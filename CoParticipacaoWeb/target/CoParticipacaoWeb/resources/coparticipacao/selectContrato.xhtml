@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:copa="http://java.sun.com/jsf/composite/coparticipacao">
+
+<composite:interface>
+
+	<composite:attribute name="label" />
+	<composite:attribute name="value" required="true" />
+
+	<composite:attribute name="update" />
+	<composite:attribute name="mode" />
+	<composite:attribute name="empresa" />
+
+	<composite:clientBehavior name="change" event="change"
+		targets="#{cc.clientId}:selectOneMenuContrato" />
+
+	<composite:attribute name="valueChangeListener"
+		method-signature="void valueChanged(javax.faces.event.ValueChangeEvent)"
+		targets="selectOneMenuContrato" />
+
+</composite:interface>
+
+<composite:implementation>
+
+	<div id="#{cc.clientId}">
+		<c:if test="#{empty cc.attrs.mode}">
+			<copa:selectEmpresa id="selectEmpresa"
+				update="#{cc.clientId}:selectOneMenuContrato"
+				value="#{contratoBean.empresaUi}"
+				valueChangeListener="#{contratoBean.onChangeEmpresa}" />
+		</c:if>
+
+		<c:if test="#{cc.attrs.mode eq 'simple'}">
+			<c:set target="#{contratoBean}" property="empresaUi" scope="session"
+				value="#{cc.attrs.empresa}" />
+
+			<f:metadata>
+				<f:event type="preRenderView"
+					listener="#{contratoBean.updateContratoUis()}" />
+			</f:metadata>
+		</c:if>
+
+		<c:choose>
+			<c:when test="#{empty cc.attrs.mode}">
+				<h:panelGrid columns="3" id="pnSelectContrato">
+
+					<h:outputLabel value="#{msg['global.contrato']}" styleClass="ui-label" />
+					<p:selectOneMenu id="selectOneMenuContrato"
+						converter="#{contratoConverter}"
+						disabled="#{contratoBean.disabledContrato}"
+						value="#{cc.attrs.value}">
+
+						<f:selectItem itemValue="0" itemLabel="" />
+						<f:selectItems value="#{contratoBean.contratoUis}" var="contrato"
+							itemLabel="#{contrato.description} - #{contrato.nameContrato}"
+							itemValue="#{contrato}" />
+
+						<p:ajax event="itemSelect" update="#{cc.attrs.update}" />
+
+						<composite:insertChildren />
+					</p:selectOneMenu>
+
+					<h:message for="selectOneMenuContrato" styleClass="errorMessage" />
+				</h:panelGrid>
+			</c:when>
+			<c:when test="#{cc.attrs.mode eq 'simple'}">
+				<p:selectOneMenu id="selectOneMenuContrato"
+					converter="#{contratoConverter}"
+					disabled="#{contratoBean.disabledContrato}"
+					value="#{cc.attrs.value}">
+
+					<f:selectItem itemValue="0" itemLabel="" />
+					<f:selectItems value="#{contratoBean.contratoUis}" var="contrato"
+						itemLabel="#{contrato.description} - #{contrato.nameContrato}"
+						itemValue="#{contrato}" />
+
+					<p:ajax event="itemSelect" update="#{cc.attrs.update}" />
+
+					<composite:insertChildren />
+				</p:selectOneMenu>
+			</c:when>
+		</c:choose>
+	</div>
+
+</composite:implementation>
+
+</html>

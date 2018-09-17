@@ -13,6 +13,9 @@ public abstract class Regra extends AbstractDomain {
 	private Integer ordem;
 
 	private String nameRegra;
+	
+	private String description;
+	
 	private RegraType tpRegra;
 	private ArquivoInput arquivoInput;
 
@@ -101,19 +104,24 @@ public abstract class Regra extends AbstractDomain {
 		}
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
-		result = prime * result
-				+ ((nameRegra == null) ? 0 : nameRegra.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((nameRegra == null) ? 0 : nameRegra.hashCode());
 		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
-		result = prime * result
-				+ ((regraOperations == null) ? 0 : regraOperations.hashCode());
-		result = prime * result
-				+ ((regraResults == null) ? 0 : regraResults.hashCode());
+		result = prime * result + ((regraOperations == null) ? 0 : regraOperations.hashCode());
+		result = prime * result + ((regraResults == null) ? 0 : regraResults.hashCode());
+		result = prime * result + ((tpRegra == null) ? 0 : tpRegra.hashCode());
 		return result;
 	}
 
@@ -121,15 +129,15 @@ public abstract class Regra extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Regra other = (Regra) obj;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
+		if (description == null) {
+			if (other.description != null)
 				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
+		} else if (!description.equals(other.description))
 			return false;
 		if (nameRegra == null) {
 			if (other.nameRegra != null)
@@ -150,6 +158,8 @@ public abstract class Regra extends AbstractDomain {
 			if (other.regraResults != null)
 				return false;
 		} else if (!regraResults.equals(other.regraResults))
+			return false;
+		if (tpRegra != other.tpRegra)
 			return false;
 		return true;
 	}

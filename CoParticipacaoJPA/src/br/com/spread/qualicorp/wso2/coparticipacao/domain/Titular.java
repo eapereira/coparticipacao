@@ -12,6 +12,8 @@ public abstract class Titular extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
 	private LocalDate dtAdmissao;
+	
+	private LocalDate dtDemissao;
 
 	private LocalDate dtNascimento;
 	private String nameTitular;
@@ -223,15 +225,23 @@ public abstract class Titular extends AbstractDomain {
 		titularDetail.setTitular(null);
 	}
 
+	public LocalDate getDtDemissao() {
+		return dtDemissao;
+	}
+
+	public void setDtDemissao(LocalDate dtDemissao) {
+		this.dtDemissao = dtDemissao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((dependentes == null) ? 0 : dependentes.hashCode());
 		result = prime * result + ((dtAdmissao == null) ? 0 : dtAdmissao.hashCode());
+		result = prime * result + ((dtDemissao == null) ? 0 : dtDemissao.hashCode());
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((lancamentos == null) ? 0 : lancamentos.hashCode());
 		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
@@ -247,7 +257,7 @@ public abstract class Titular extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -267,15 +277,15 @@ public abstract class Titular extends AbstractDomain {
 				return false;
 		} else if (!dtAdmissao.equals(other.dtAdmissao))
 			return false;
+		if (dtDemissao == null) {
+			if (other.dtDemissao != null)
+				return false;
+		} else if (!dtDemissao.equals(other.dtDemissao))
+			return false;
 		if (dtNascimento == null) {
 			if (other.dtNascimento != null)
 				return false;
 		} else if (!dtNascimento.equals(other.dtNascimento))
-			return false;
-		if (empresa == null) {
-			if (other.empresa != null)
-				return false;
-		} else if (!empresa.equals(other.empresa))
 			return false;
 		if (label == null) {
 			if (other.label != null)
@@ -319,5 +329,6 @@ public abstract class Titular extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 
 }

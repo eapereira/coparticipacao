@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:copa="http://java.sun.com/jsf/composite/coparticipacao">
+
+<copa:body id="bodyCoparticipacao" title="#{msg['upload.title']} - #{uploadBean.empresaUi.nameEmpresa}">
+	<h:form id="uploadForm" enctype="multipart/form-data">
+		<p:fileUpload id="fileUpload" mode="advanced" fileLimit="50"
+			dragDropSupport="false"
+			update="messages :bodyCoparticipacao:formUpload:pnControlPanel"
+			multiple="true" allowTypes="/\.((txt|csv|xlsx)|(TXT|CSV|XLSX))$/"
+			fileUploadListener="#{uploadBean.fileUploadListener}"
+			sizeLimit="100000000" style="height: 5em;" />
+
+		<p:growl id="messages" showDetail="true" />
+	</h:form>
+
+	<h:form id="formUpload">
+
+		<p:panel id="pnControlPanel" style="top: 30em;">
+			<p:panel id="pnControlButtons" style="float: right;">
+				<p:commandButton id="btNext" value="#{msg['global.next']}"
+					action="#{uploadBean.showUploadDefinition}"
+					disabled="#{uploadBean.disabledButtonToDefinition}" />
+			</p:panel>
+		</p:panel>
+	</h:form>
+
+</copa:body>
+</html>

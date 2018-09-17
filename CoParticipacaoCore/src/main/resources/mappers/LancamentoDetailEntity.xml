@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="LancamentoDetailEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_LANCAMENTO_DETAIL(
+				ID_LANCAMENTO,
+				ID_ARQUIVO_INPUT_COLS_DEF,
+				VL_DOUBLE,
+				VL_INT,
+				VL_DATE,
+				VL_LONG,
+				VL_STRING,
+				
+				USER_CREATED,
+				DT_ALTERED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,				
+				?,
+				
+				?,
+				CURRENT_TIMESTAMP(),
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="LancamentoDetailEntity.update">
+		<![CDATA[	
+			UPDATE TB_LANCAMENTO_DETAIL
+			SET
+				ID_LANCAMENTO				= ?,
+				ID_ARQUIVO_INPUT_COLS_DEF	= ?,
+				VL_DOUBLE					= ?,
+				VL_INT						= ?,
+				VL_DATE						= ?,
+				VL_LONG						= ?,
+				VL_STRING					= ?,
+				
+				USER_ALTERED 				= ?,
+				DT_ALTERED 					= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="LancamentoDetailEntity.delete">
+		<![CDATA[	
+			DELETE FROM TB_LANCAMENTO_DETAIL
+			WHERE ID = ?
+		]]>
+	</query>
+	
+	<query id="deleteByContratoAndMesAndAno">
+		<![CDATA[	
+			delete detail from TB_LANCAMENTO_DETAIL detail
+			where detail.ID_LANCAMENTO in (
+				select	lancamento.ID
+				from 	TB_LANCAMENTO lancamento
+				where	lancamento.ID = detail.ID_LANCAMENTO
+				and		lancamento.ID_CONTRATO	= ?
+				and		lancamento.CD_MES		= ?
+				and		lancamento.CD_ANO		= ? )
+		]]>
+	</query>
+	
+</queries>

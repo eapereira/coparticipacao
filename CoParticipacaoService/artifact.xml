@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?><artifacts>
-    <artifact name="ReadFilesEndpoint" groupId="br.com.spread.qualicorp.wso2.coparticipacao.inbound-endpoint" version="1.0.0" type="synapse/inbound-endpoint" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/inbound-endpoints/ReadFilesEndpoint.xml</file>
+    <artifact name="ReadTextFilesEndpoint" groupId="br.com.spread.qualicorp.wso2.coparticipacao.inbound-endpoint" version="1.0.0" type="synapse/inbound-endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/inbound-endpoints/ReadTextFilesEndpoint.xml</file>
     </artifact>
     <artifact name="ProcessFilesSequence" groupId="br.com.spread.qualicorp.wso2.coparticipacao.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/ProcessFilesSequence.xml</file>
     </artifact>
     <artifact name="CoParticipacaoWebService" groupId="br.com.spread.qualicorp.wso2.coparticipacao.endpoint" version="1.0.0" type="synapse/endpoint" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/endpoints/CoParticipacaoWebService.xml</file>
+    </artifact>
+    <artifact name="LogSequence" groupId="br.com.spread.qualicorp.wso2.coparticipacao.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/sequences/LogSequence.xml</file>
+    </artifact>
+    <artifact name="ReadSpreadsheetFilesEndpoint" groupId="br.com.spread.qualicorp.wso2.coparticipacao.inbound-endpoint" version="1.0.0" type="synapse/inbound-endpoint" serverRole="EnterpriseServiceBus">
+        <file>src/main/synapse-config/inbound-endpoints/ReadSpreadsheetFilesEndpoint.xml</file>
     </artifact>
 </artifacts>

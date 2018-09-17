@@ -75,4 +75,11 @@ public class RegraEntity extends Regra implements DomainEntity {
 		return super.getRegraResults();
 	}
 
+	@Column(name = "DESCR_REGRA")
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return super.getDescription();
+	}
+
 }

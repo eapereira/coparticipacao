@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="findByContratoId">
+		<![CDATA[
+			select arquivoInput from ArquivoInputEntity arquivoInput
+			join fetch arquivoInput.contrato contrato
+			where contrato.id = :contratoId
+		]]>
+	</query>
+
+	<query id="findByCdContrato">
+		<![CDATA[
+			select arquivoInput from ArquivoInputEntity arquivoInput
+			join fetch arquivoInput.contrato contrato
+			where contrato.cdContrato = :cdContrato
+		]]>
+	</query>
+
+	<query id="findByEmpresaAndCdContrato">
+		<![CDATA[
+			select arquivoInput from ArquivoInputEntity arquivoInput
+			join fetch arquivoInput.contrato contrato
+			join contrato.empresa empresa
+			where contrato.cdContrato	= :cdContrato
+			and empresa.id 				= :empresaId
+		]]>
+	</query>
+	
+	<query id="listAll">
+		<![CDATA[
+			select arquivoInput from ArquivoInputEntity arquivoInput
+			join fetch arquivoInput.contrato contrato
+			join fetch contrato.empresa empresa
+		]]>
+	</query>
+
+	<query id="listByEmpresaId">
+		<![CDATA[
+			select arquivoInput from ArquivoInputEntity arquivoInput
+			join fetch arquivoInput.contrato contrato
+			join fetch contrato.empresa empresa
+			where empresa.id = :empresaId
+		]]>
+	</query>
+
+</queries>
+	

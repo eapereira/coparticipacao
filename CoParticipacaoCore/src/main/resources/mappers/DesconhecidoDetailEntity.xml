@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="DesconhecidoDetailEntity.insert">
+		<![CDATA[	
+			insert into TB_DESCONHECIDO_DETAIL(
+				ID_DESCONHECIDO,
+				ID_ARQUIVO_INPUT_COLS_DEF,
+				VL_DOUBLE,
+				VL_INT,
+				VL_DATE,
+				VL_LONG,
+				VL_STRING,
+				
+				USER_CREATED,
+				DT_CREATED,
+				DT_ALTERED
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				
+				
+				?,
+				CURRENT_TIMESTAMP(),
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="DesconhecidoDetailEntity.update">
+		<![CDATA[	
+			update TB_DESCONHECIDO_DETAIL
+			set
+				ID_DESCONHECIDO				= ?,
+				ID_ARQUIVO_INPUT_COLS_DEF	= ?,
+				VL_DOUBLE					= ?,
+				VL_INT						= ?,
+				VL_DATE						= ?,
+				VL_LONG						= ?,
+				VL_STRING					= ?
+				
+				USER_ALTERED				= ?,
+				DT_ALTERED					= CURRENT_TIMESTAMP()
+			where ID = ?
+		]]>
+	</query>
+
+	<query id="DesconhecidoDetailEntity.delete">
+		<![CDATA[	
+			delete from TB_DESCONHECIDO_DETAIL
+			where ID = ?
+		]]>
+	</query>
+	
+	<query id="deleteByContratoAndMesAndAno">
+		<![CDATA[	
+			delete detail from TB_DESCONHECIDO_DETAIL detail
+			where detail.ID_DESCONHECIDO in (
+				select  desconhecido.ID
+				from 	TB_DESCONHECIDO desconhecido
+				where	desconhecido.ID = detail.ID_DESCONHECIDO
+				and		desconhecido.ID_CONTRATO	= ?
+				and		desconhecido.CD_MES			= ?
+				and		desconhecido.CD_ANO			= ? )
+		]]>
+	</query>
+	
+</queries>

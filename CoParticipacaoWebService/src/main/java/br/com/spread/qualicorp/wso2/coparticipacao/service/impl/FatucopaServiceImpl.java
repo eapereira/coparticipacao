@@ -152,10 +152,21 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 
 				if (lancamentoUi.getMes() == null) {
 					lancamentoUi.setMes(coParticipacaoContext.getMes());
+				} else {
+					coParticipacaoContext.setMes(lancamentoUi.getMes());
 				}
 
 				if (lancamentoUi.getAno() == null) {
 					lancamentoUi.setAno(coParticipacaoContext.getAno());
+				} else {
+					coParticipacaoContext.setAno(lancamentoUi.getAno());
+				}
+
+				if (!coParticipacaoContext.isFirstLineProcecessed()) {
+					LOGGER.info("Doing tasks to be performed just after we had read the first line:");
+					coParticipacaoContext.setFirstLineProcecessed(true);
+
+					beforeProcess(coParticipacaoContext);
 				}
 
 				lancamentoUi.setUserAltered(coParticipacaoContext.getUser());
@@ -265,26 +276,28 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
+			if (coParticipacaoContext.isFirstLineProcecessed()) {
+				arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
 
-			LOGGER.info(
-					"Starting process [{}] to load benefiets from assets file:",
-					arquivoInputUi.getUseType().getDescription());
+				LOGGER.info(
+						"Starting process [{}] to load benefiets from assets file:",
+						arquivoInputUi.getUseType().getDescription());
 
-			LOGGER.info(
-					"Cleaning all previous data from year[{}] and month[{}]:",
-					coParticipacaoContext.getAno(),
-					coParticipacaoContext.getMes());
+				LOGGER.info(
+						"Cleaning all previous data from year[{}] and month[{}]:",
+						coParticipacaoContext.getAno(),
+						coParticipacaoContext.getMes());
 
-			lancamentoService.deleteByMesAndAno(
-					coParticipacaoContext.getContratoUi(),
-					coParticipacaoContext.getMes(),
-					coParticipacaoContext.getAno());
+				lancamentoService.deleteByMesAndAno(
+						coParticipacaoContext.getContratoUi(),
+						coParticipacaoContext.getMes(),
+						coParticipacaoContext.getAno());
 
-			desconhecidoService.deleteByMesAndAno(
-					coParticipacaoContext.getContratoUi(),
-					coParticipacaoContext.getMes(),
-					coParticipacaoContext.getAno());
+				desconhecidoService.deleteByMesAndAno(
+						coParticipacaoContext.getContratoUi(),
+						coParticipacaoContext.getMes(),
+						coParticipacaoContext.getAno());
+			}
 
 			LOGGER.info("END");
 		} catch (Exception e) {

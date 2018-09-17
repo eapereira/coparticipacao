@@ -11,7 +11,8 @@ public enum UseType {
 						MECSAS(2, "Arquivo de base de dados"),
 						ISENTO(3, "Relação de beneficiários isentos"),
 						MECSAS2(4, "Arquivo para atualizar base de dados"),
-						NAO_LOCALIZADO(5, "Arquivos de criticas corrigidos pelo usuário");
+						NAO_LOCALIZADO(5, "Arquivos de criticas corrigidos pelo usuário"),
+						EXTRA_FILE(6, "Arquivo adicional");
 
 	private Integer id;
 

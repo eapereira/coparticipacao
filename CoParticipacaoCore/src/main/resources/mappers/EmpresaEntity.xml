@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="EmpresaEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_EMPRESA(
+				NM_EMPRESA,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="EmpresaEntity.update">
+		<![CDATA[		
+			UPDATE TB_EMPRESA
+			SET
+				NM_EMPRESA		= ?,
+				USER_ALTERED	= ?,
+				DT_ALTERED		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+	
+	<query id="EmpresaEntity.delete">
+		<![CDATA[		
+			DELETE FROM TB_EMPRESA
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>

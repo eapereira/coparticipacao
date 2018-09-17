@@ -24,6 +24,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 
 /**
@@ -43,7 +46,7 @@ public class JpaConfiguration {
 	private static final String CO_PARTICIPACAO_DS = "jdbc/CoparticipacaoDS";
 
 	@Primary
-	@Bean(name = "jpaEntityManager")
+	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource)
 			throws CoParticipacaoException {
 		LocalContainerEntityManagerFactoryBean em;
@@ -70,7 +73,7 @@ public class JpaConfiguration {
 
 	@Primary
 	@Bean(name = "jpaTransactionManager")
-	public PlatformTransactionManager transactionManager(@Qualifier("jpaTransactionManager") EntityManagerFactory emf)
+	public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf)
 			throws CoParticipacaoException {
 		JpaTransactionManager transactionManager;
 
@@ -141,15 +144,23 @@ public class JpaConfiguration {
 	public DataSource dataSource() throws Exception {
 		JndiDataSourceLookup dataSourceLookup;
 		DataSource dataSource;
+		HikariDataSource hikariDataSource;
+		HikariConfig hikariConfig;
 
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Creating DataSource");
+
 			dataSourceLookup = new JndiDataSourceLookup();
+			dataSourceLookup.setResourceRef(true);
 			dataSource = dataSourceLookup.getDataSource(CO_PARTICIPACAO_DS);
 
+			hikariConfig = new HikariConfig();
+			hikariConfig.setDataSource(dataSource);
+			hikariDataSource = new HikariDataSource(hikariConfig);
+
 			LOGGER.info("END");
-			return dataSource;
+			return hikariDataSource;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new CoParticipacaoException(e);

@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -31,6 +32,8 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 	private Long matriculaTitular;
 	
 	private String nameTitular;
+	
+	private BigDecimal valorIsencao;
 	
 	public BeneficiarioIsento() {
 		
@@ -108,10 +111,18 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 		this.nameTitular = nameTitular;
 	}
 
+	public BigDecimal getValorIsencao() {
+		return valorIsencao;
+	}
+
+	public void setValorIsencao(BigDecimal valorIsencao) {
+		this.valorIsencao = valorIsencao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
@@ -121,6 +132,7 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((nameTitular == null) ? 0 : nameTitular.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
+		result = prime * result + ((valorIsencao == null) ? 0 : valorIsencao.hashCode());
 		return result;
 	}
 
@@ -128,7 +140,7 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -174,6 +186,11 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 			if (other.titular != null)
 				return false;
 		} else if (!titular.equals(other.titular))
+			return false;
+		if (valorIsencao == null) {
+			if (other.valorIsencao != null)
+				return false;
+		} else if (!valorIsencao.equals(other.valorIsencao))
 			return false;
 		return true;
 	}

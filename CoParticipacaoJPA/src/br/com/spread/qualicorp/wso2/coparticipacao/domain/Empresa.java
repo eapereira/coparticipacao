@@ -25,7 +25,17 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean automaticCreateBeneficiario;
 
 	private String outputReportDir;
+	
+	private String inputDir;
+	
+	private boolean saveMecsasDetails;
+	
+	private boolean saveBeneficiarioDetails;
 
+	private boolean enabledExternalProcess;
+	
+	private ExternalProcess externalProcess;
+	
 	public Empresa() {
 		parameters = new ArrayList<>();
 		titulars = new ArrayList<>();
@@ -135,17 +145,61 @@ public abstract class Empresa extends AbstractDomain {
 		this.cdEmpresa = cdEmpresa;
 	}
 
+	public String getInputDir() {
+		return inputDir;
+	}
+
+	public void setInputDir(String inputDir) {
+		this.inputDir = inputDir;
+	}
+
+	public boolean isSaveMecsasDetails() {
+		return saveMecsasDetails;
+	}
+
+	public void setSaveMecsasDetails(boolean saveMecsasDetails) {
+		this.saveMecsasDetails = saveMecsasDetails;
+	}
+
+	public boolean isSaveBeneficiarioDetails() {
+		return saveBeneficiarioDetails;
+	}
+
+	public void setSaveBeneficiarioDetails(boolean saveBeneficiarioDetails) {
+		this.saveBeneficiarioDetails = saveBeneficiarioDetails;
+	}
+
+	public boolean isEnabledExternalProcess() {
+		return enabledExternalProcess;
+	}
+
+	public void setEnabledExternalProcess(boolean enabledExternalProcess) {
+		this.enabledExternalProcess = enabledExternalProcess;
+	}
+
+	public ExternalProcess getExternalProcess() {
+		return externalProcess;
+	}
+
+	public void setExternalProcess(ExternalProcess externalProcess) {
+		this.externalProcess = externalProcess;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + (automaticCreateBeneficiario ? 1231 : 1237);
 		result = prime * result + ((cdEmpresa == null) ? 0 : cdEmpresa.hashCode());
 		result = prime * result + ((contratos == null) ? 0 : contratos.hashCode());
+		result = prime * result + (enabledExternalProcess ? 1231 : 1237);
+		result = prime * result + ((externalProcess == null) ? 0 : externalProcess.hashCode());
+		result = prime * result + ((inputDir == null) ? 0 : inputDir.hashCode());
 		result = prime * result + ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
-		result = prime * result + ((operadora == null) ? 0 : operadora.hashCode());
 		result = prime * result + ((outputReportDir == null) ? 0 : outputReportDir.hashCode());
 		result = prime * result + ((parameters == null) ? 0 : parameters.hashCode());
+		result = prime * result + (saveBeneficiarioDetails ? 1231 : 1237);
+		result = prime * result + (saveMecsasDetails ? 1231 : 1237);
 		result = prime * result + ((titulars == null) ? 0 : titulars.hashCode());
 		return result;
 	}
@@ -154,7 +208,7 @@ public abstract class Empresa extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -171,15 +225,22 @@ public abstract class Empresa extends AbstractDomain {
 				return false;
 		} else if (!contratos.equals(other.contratos))
 			return false;
+		if (enabledExternalProcess != other.enabledExternalProcess)
+			return false;
+		if (externalProcess == null) {
+			if (other.externalProcess != null)
+				return false;
+		} else if (!externalProcess.equals(other.externalProcess))
+			return false;
+		if (inputDir == null) {
+			if (other.inputDir != null)
+				return false;
+		} else if (!inputDir.equals(other.inputDir))
+			return false;
 		if (nameEmpresa == null) {
 			if (other.nameEmpresa != null)
 				return false;
 		} else if (!nameEmpresa.equals(other.nameEmpresa))
-			return false;
-		if (operadora == null) {
-			if (other.operadora != null)
-				return false;
-		} else if (!operadora.equals(other.operadora))
 			return false;
 		if (outputReportDir == null) {
 			if (other.outputReportDir != null)
@@ -191,6 +252,10 @@ public abstract class Empresa extends AbstractDomain {
 				return false;
 		} else if (!parameters.equals(other.parameters))
 			return false;
+		if (saveBeneficiarioDetails != other.saveBeneficiarioDetails)
+			return false;
+		if (saveMecsasDetails != other.saveMecsasDetails)
+			return false;
 		if (titulars == null) {
 			if (other.titulars != null)
 				return false;
@@ -198,5 +263,7 @@ public abstract class Empresa extends AbstractDomain {
 			return false;
 		return true;
 	}
+
+
 
 }

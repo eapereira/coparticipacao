@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="RegraOperationEntity.insert">
+		<![CDATA[
+			INSERT INTO TB_REGRA_OPERATION(
+				ID_REGRA,
+				TP_OPERATION,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="RegraOperationEntity.update">
+		<![CDATA[
+			UPDATE TB_REGRA_OPERATION
+			SET
+				ID_REGRA 		= ?,
+				TP_OPERATION 	= ?,
+				USER_CREATED 	= ?,
+				USER_ALTERED 	= ?,
+				DT_ALTERED 		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="RegraOperationEntity.delete">
+		<![CDATA[
+			DELETE FROM TB_REGRA_OPERATION
+			WHERE  ID = ?
+		]]>
+	</query>
+</queries>
+	

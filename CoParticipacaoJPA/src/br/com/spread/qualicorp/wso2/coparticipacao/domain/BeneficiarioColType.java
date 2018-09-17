@@ -26,7 +26,9 @@ public enum BeneficiarioColType {
 									NM_LABEL(7, "NM_LABEL"),
 									NR_REFERENCE_CODE(8, "NR_REFERENCE_CODE"),
 									NR_DIGITO_CPF(9, "NR_DIGITO_CPF"),
-									NR_MATRICULA_EMPRESA(10, "NR_MATRICULA_EMPRESA");
+									NR_MATRICULA_EMPRESA(10, "NR_MATRICULA_EMPRESA"),
+									DT_DEMISSAO(11, "DT_DEMISSAO"),
+									NM_TITULAR(12, "NM_TITULAR");
 
 	private Integer id;
 

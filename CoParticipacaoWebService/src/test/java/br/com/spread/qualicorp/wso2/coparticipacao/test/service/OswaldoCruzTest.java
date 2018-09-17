@@ -13,17 +13,21 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
 
@@ -36,13 +40,19 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 
 	private static final Logger LOGGER = LogManager.getLogger(OswaldoCruzTest.class);
 
-	private static final String OSWALDO_CRUZ_GESTANTES_201803 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/ISENTO-HOC-20180301.xlsx";
+	private static final String OSWALDO_CRUZ_MECSAS_201803 = "oswaldo-cruz/input/0444.MECSAS.201803.001.csv";
+	private static final String OSWALDO_CRUZ_GESTANTES_201803 = "oswaldo-cruz/input/0444.ISENTO.201803.002.xlsx";
+	private static final String OSWALDO_CRUZ_ISENTO_VALOR_CENTAVOS_201804 = "oswaldo-cruz/input/0444.ISENTO-VALOR-CENTAVOS.201804.003.xlsx";
+	private static final String OSWALDO_CRUZ_ISENTO_VALOR_201804 = "oswaldo-cruz/input/0444.ISENTO-VALOR.201804.004.xlsx";
+	private static final String OSWALDO_CRUZ_LANCAMENTOS_201803 = "oswaldo-cruz/input/0444.0444.201803.005.csv";
+	private static final String NAO_LOCALIZADOS_201808 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201808.005.xlsx";
 
-	private static final String OSWALDO_CRUZ_BENEFICIARIOS_201803 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/MECSAS-HOC-20180301.csv";
-
-	private static final String OSWALDO_CRUZ_LANCAMENTOS_201803 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/FATUCOPA-HOC-20180301.csv";
-
-	private static final String NAO_LOCALIZADOS_201808 = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/oswaldo-cruz/input/NAO-LOCALIZADO-HOC-201808.xlsx";
+	private static final String MECSAS_201807 = "oswaldo-cruz/input/0444.MECSAS.201807.001.csv";
+	private static final String GESTANTES_201807 = "oswaldo-cruz/input/0444.ISENTO.201807.002.xlsx";
+	private static final String ISENTO_VALOR_CENTAVOS_201807 = "oswaldo-cruz/input/0444.ISENTO-VALOR-CENTAVOS.201807.003.xlsx";
+	private static final String ISENTO_VALOR_INTEGRAL_201807 = "oswaldo-cruz/input/0444.ISENTO-VALOR.201807.004.xlsx";
+	private static final String FATUCOPA_201807 = "oswaldo-cruz/input/0444.0444.201807.005.csv";
+	private static final String NAO_LOCALIZADOS_201807 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201807.006.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 3005;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3861;
@@ -55,6 +65,14 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201803_AFTER_VALIDATION = 11;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201803_AFTER_VALIDATION = 2378;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201803_AFTER_VALIDATION = 35670;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 3005;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 3861;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 62;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807 = 2327;
+	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201807 = 34905;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808 = 19;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 18;
 
 	@Autowired
 	private TitularService titularService;
@@ -74,6 +92,12 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 	@Autowired
 	private EmpresaService empresaService;
 
+	@Autowired
+	private TitularIsentoService titularIsentoService;
+
+	@Autowired
+	private DependenteIsentoService dependenteIsentoService;
+
 	@Test
 	public void testCoparticipacao201803() throws Exception {
 		List<TitularUi> titularUis;
@@ -82,10 +106,12 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 		List<LancamentoUi> lancamentoUis;
 		List<LancamentoDetailUi> lancamentoDetailUis;
 
-		EmpresaUi empresaUi = empresaService.findByCdEmpresa("HOC");
+		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
 
-		processFile(OSWALDO_CRUZ_BENEFICIARIOS_201803);
+		processFile(OSWALDO_CRUZ_MECSAS_201803);
 		processFile(OSWALDO_CRUZ_GESTANTES_201803);
+		processFile(OSWALDO_CRUZ_ISENTO_VALOR_CENTAVOS_201804);
+		processFile(OSWALDO_CRUZ_ISENTO_VALOR_201804);
 
 		processFile(OSWALDO_CRUZ_LANCAMENTOS_201803);
 
@@ -107,9 +133,7 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201803, lancamentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201803, lancamentoDetailUis.size());
 
-		// List ............Test completed with [16.4412] min:
-		// TreeMap ........ Test completed with [14.8239] min:
-		// PartitionMap ... Test completed with [16.9364] min:
+		// PartitionMap ... Test completed with [16.6140] min:
 	}
 
 	@Test
@@ -120,7 +144,7 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 		List<LancamentoUi> lancamentoUis;
 		List<LancamentoDetailUi> lancamentoDetailUis;
 
-		EmpresaUi empresaUi = empresaService.findByCdEmpresa("HOC");
+		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
 
 		testCoparticipacao201803();
 
@@ -146,9 +170,53 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201803_AFTER_VALIDATION, lancamentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201803_AFTER_VALIDATION, lancamentoDetailUis.size());
 
-		// List ............Test completed with [16.4412] min:
-		// TreeMap ........ Test completed with [14.8239] min:
-		// PartitionMap ... Test completed with [16.9364] min:
+		// PartitionMap ... Test completed with [28.7855] min:
+	}
+
+	@Test
+	public void testCoparticipacao201807() throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		List<LancamentoDetailUi> lancamentoDetailUis;
+		List<TitularIsentoUi> titularIsentoUis;
+		List<DependenteIsentoUi> dependenteIsentoUis;
+
+		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
+
+		processFile(MECSAS_201807);
+		processFile(GESTANTES_201807);
+		processFile(ISENTO_VALOR_CENTAVOS_201807);
+		processFile(ISENTO_VALOR_INTEGRAL_201807);
+
+		processFile(FATUCOPA_201807);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
+		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
+		dependenteIsentoUis = dependenteIsentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+		LOGGER.info("Total lançamentos details ..... [{}]:", lancamentoDetailUis.size());
+		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
+		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201807, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201807, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201807, lancamentoDetailUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201808, titularIsentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201808, dependenteIsentoUis.size());
+
+		// PartitionMap ... Test completed with [16.6140] min:
 	}
 
 }

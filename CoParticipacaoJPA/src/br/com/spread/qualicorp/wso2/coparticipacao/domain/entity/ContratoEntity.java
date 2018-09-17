@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
@@ -60,13 +61,13 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to Lancamento
-	@OneToMany(mappedBy = "contrato", targetEntity = LancamentoEntity.class)
+	@OneToMany(mappedBy = "contrato", targetEntity = LancamentoEntity.class, fetch = FetchType.LAZY)
 	public List<Lancamento> getLancamentos() {
 		return super.getLancamentos();
 	}
 
 	// bi-directional many-to-one association to Lancamento
-	@OneToOne(mappedBy = "contrato", targetEntity = ArquivoInputEntity.class)
+	@OneToOne(mappedBy = "contrato", targetEntity = ArquivoInputEntity.class, fetch = FetchType.LAZY)
 	public ArquivoInput getArquivoInput() {
 		return super.getArquivoInput();
 	}
@@ -84,5 +85,19 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 	public Boolean isSpreadsheetAllPages() {
 		// TODO Auto-generated method stub
 		return super.isSpreadsheetAllPages();
+	}
+
+	@Column(name = "DESCR_CONTRATO")
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return super.getDescription();
+	}
+
+	@OneToMany(mappedBy = "contrato", targetEntity = ArquivoExecucaoEntity.class, fetch = FetchType.LAZY)
+	@Override
+	public List<ArquivoExecucao> getArquivoExecucaos() {
+		// TODO Auto-generated method stub
+		return super.getArquivoExecucaos();
 	}
 }

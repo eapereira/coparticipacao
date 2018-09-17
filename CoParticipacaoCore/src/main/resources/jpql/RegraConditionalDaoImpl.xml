@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByArquivoInputId">
+		<![CDATA[
+			select regraConditional from RegraConditionalEntity regraConditional
+			join fetch regraConditional.regraConditionalOperations regraConditionalOperations
+			join fetch regraConditional.arquivoInput arquivoInput
+			where arquivoInput.id = :arquivoInputId
+			order by regraConditional.ordem 
+		]]>
+	</query>
+
+</queries>
+	

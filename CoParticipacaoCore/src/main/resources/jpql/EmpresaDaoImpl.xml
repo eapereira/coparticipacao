@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="findById">
+		<![CDATA[
+			select empresa from EmpresaEntity empresa
+			join fetch empresa.contratos contratos
+			where empresa.id = :id
+		]]>
+	</query>
+
+	<query id="findByName">
+		<![CDATA[
+			select empresa from EmpresaEntity empresa
+			where empresa.nameEmpresa = :nameEmpresa
+		]]>
+	</query>
+
+	<query id="findByCdEmpresa">
+		<![CDATA[
+			select empresa from EmpresaEntity empresa
+			join fetch empresa.contratos contratos
+			where empresa.cdEmpresa = :cdEmpresa
+		]]>
+	</query>
+
+	<query id="listByOperadoraId">
+		<![CDATA[
+			select empresa from EmpresaEntity empresa
+			join fetch empresa.operadora operadora
+			where operadora.id = :operadoraId
+			order by empresa.nameEmpresa
+		]]>
+	</query>
+	
+</queries>
+	

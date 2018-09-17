@@ -6,7 +6,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
  *
  */
 public enum RegraType {
-	SIMPLS(1, "Simples"),
+	SIMPLES(1, "Simples"),
 	CONDICIONAL(2, "Condicional");
 
 	private Integer id;

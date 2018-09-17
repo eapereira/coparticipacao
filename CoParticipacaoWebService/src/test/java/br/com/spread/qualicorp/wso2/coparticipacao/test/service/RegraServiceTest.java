@@ -30,12 +30,17 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.UserService;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
 
+/**
+ * 
+ * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
+ *
+ */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ContextConfiguration(classes = { CoParticipacaoWebServiceConfigurationTest.class })
 @Transactional
 @ActiveProfiles("test")
-public class RegraServiceTest {
+public class RegraServiceTest extends CoParticipacaoTest{
 
 	private static final Logger LOGGER = LogManager.getLogger(RegraServiceTest.class);
 
@@ -76,7 +81,7 @@ public class RegraServiceTest {
 
 	@Test
 	public void testRegraSoma() throws Exception {
-		CoParticipacaoContext coParticipacaoContext = createCoParticipacaoContext();
+		CoParticipacaoContext coParticipacaoContext = createCoParticipacaoContext(ARQUIVO_INPUT_FATUCOPA_ID);
 		LancamentoUi lancamentoUi = new LancamentoUi();
 		int pos = 0;
 
@@ -98,12 +103,11 @@ public class RegraServiceTest {
 		}
 	}
 
-	private CoParticipacaoContext createCoParticipacaoContext() throws Exception {
+	protected CoParticipacaoContext createCoParticipacaoContext(Long arquivoInputId) throws Exception {
 		CoParticipacaoContext coParticipacaoContext = new CoParticipacaoContext();
-		ArquivoInputUi arquivoInputUi = arquivoInputService.findById(ARQUIVO_INPUT_FATUCOPA_ID);
+		ArquivoInputUi arquivoInputUi = arquivoInputService.findById(arquivoInputId);
 
 		coParticipacaoContext.setRegraUis(regraService.listByArquivoInputId(arquivoInputUi));
-
 		coParticipacaoContext.setRegraConditionalUis(regraConditionalService.listByArquivoInputId(arquivoInputUi));
 
 		return coParticipacaoContext;

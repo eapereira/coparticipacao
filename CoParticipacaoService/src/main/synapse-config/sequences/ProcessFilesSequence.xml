@@ -3,6 +3,7 @@
     <log description="inputLog" level="full"/>
     <property description="createFileNameProperties" expression="$trp:FILE_NAME" name="fileName" scope="default" type="STRING"/>
     <property description="createFilePathProperty" expression="$trp:FILE_PATH" name="filePath" scope="default" type="STRING"/>
+    <property name="CHARACTER_SET_ENCODING" scope="axis2" type="STRING" value="UTF-8"/>
     <log description="propertiesLog" level="custom">
         <property expression="fn:concat(&quot;File Name: &quot;, get-property(&quot;fileName&quot;))" name="message"/>
         <property expression="fn:concat(&quot;File Path: &quot;, get-property(&quot;filePath&quot;))" name="message"/>

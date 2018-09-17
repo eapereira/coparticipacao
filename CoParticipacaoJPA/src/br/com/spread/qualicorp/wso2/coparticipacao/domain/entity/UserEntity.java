@@ -2,13 +2,16 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
@@ -29,6 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraValor;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.User;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UserRole;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UserStatusType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestination;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
@@ -61,7 +65,7 @@ public class UserEntity extends User implements DomainEntity {
 		return super.getDescrName();
 	}
 
-	@Column(name = "DESCR_PASSWD")
+	@Column(name = "CD_PASSWD")
 	public String getPasswd() {
 		return super.getPasswd();
 	}
@@ -345,6 +349,39 @@ public class UserEntity extends User implements DomainEntity {
 	public List<LancamentoInputCols> getLancamentoInputColsUserAltered() {
 		// TODO Auto-generated method stub
 		return super.getLancamentoInputColsUserAltered();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "user",
+			targetEntity = UserRoleEntity.class)
+	@Override
+	public List<UserRole> getUserRoles() {
+		// TODO Auto-generated method stub
+		return super.getUserRoles();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userCreated",
+			targetEntity = ArquivoExecucaoEntity.class)
+	@Override
+	public List<ArquivoExecucao> getArquivoExecucaoUserCreated() {
+		// TODO Auto-generated method stub
+		return super.getArquivoExecucaoUserCreated();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userAltered",
+			targetEntity = ArquivoExecucaoEntity.class)
+	@Override
+	public List<ArquivoExecucao> getArquivoExecucaoUserAltered() {
+		// TODO Auto-generated method stub
+		return super.getArquivoExecucaoUserAltered();
 	}
 
 }

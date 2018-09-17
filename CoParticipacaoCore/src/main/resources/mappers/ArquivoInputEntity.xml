@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="ArquivoInputEntity.insert">
+		<![CDATA[
+			INSERT INTO TB_ARQUIVO_INPUT(
+				ID_EMPRESA,
+				NM_ARQUIVO_REGEXP,
+				DESCR_ARQUIVO,
+				TP_ARQUIVO,
+				TP_USE,
+				NUM_SKIP_LINES,
+				USER_CREATED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="ArquivoInputEntity.update">
+		<![CDATA[
+			UPDATE TB_ARQUIVO_INPUT
+			SET
+				ID_EMPRESA 			= ?,
+				NM_ARQUIVO_REGEXP 	= ?,
+				DESCR_ARQUIVO 		= ?,
+				TP_ARQUIVO 			= ?,
+				TP_USE				= ?,
+				NUM_SKIP_LINES		= ?,
+				USER_ALTERED 		= ?,
+				DT_ALTERED 			= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="ArquivoInputEntity.delete">
+		<![CDATA[
+			DELETE FROM TB_ARQUIVO_INPUT
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
