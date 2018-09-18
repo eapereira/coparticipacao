@@ -39,8 +39,7 @@ drop view if exists VW_TITULAR_RDP_HOC;
 
 /**********************************************************************************************************************/
 create view VW_DESCONHECIDO_HOC as
-select
-	desconhecido.ID ID_DESCONHECIDO,
+select distinct
 	desconhecido.CD_MES,
 	desconhecido.CD_ANO,
 	desconhecido.ID_CONTRATO,

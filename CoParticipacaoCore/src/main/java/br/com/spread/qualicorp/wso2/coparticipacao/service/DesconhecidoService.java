@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoColType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
@@ -39,5 +40,7 @@ public interface DesconhecidoService extends AbstractService<DesconhecidoUi> {
 			throws ServiceException;
 
 	List<DesconhecidoUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException;
+
+	List<DesconhecidoUi> listByEmpresaIdAndUseType(EmpresaUi empresaUi, UseType useType) throws ServiceException;
 
 }

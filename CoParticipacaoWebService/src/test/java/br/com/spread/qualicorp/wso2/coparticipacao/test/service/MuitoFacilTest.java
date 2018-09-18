@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
@@ -40,47 +41,44 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWeb
 public class MuitoFacilTest extends CoParticipacaoTest {
 	private static final Logger LOGGER = LogManager.getLogger(MuitoFacilTest.class);
 
-	// private static final String MUITO_FACIL_8CH5YFATUCOPA__201802001F
-	// ="/desenv/git-repo/coparticipacao/CoParticipacaoWebService/src/test/resources/muito-facil/input/8CH5YFATUCOPA.201802001F.TXT";
-	private static final String MUITO_FACIL_8CH5Y_FATUCOPA__201806001F = "muito-facil/input/MUITO-FACIL.8CH5Y.201806.TXT";
+	private static final String MECSAS_201802 = "muito-facil/input/MUITO-FACIL.MECSAS.201802.001.csv";
 
-	private static final String MECSAS_EXPORT_DADOS_1781_20180227_111813 = "muito-facil/input/MUITO-FACIL.MECSAS.201802.csv";
-	private static final String MECSAS_EXPORT_DADOS_1781_20180810_111813 = "muito-facil/input/MUITO-FACIL.MECSAS.201808.csv";
+	private static final String MECSAS_201808 = "muito-facil/input/MUITO-FACIL.MECSAS.201808.001.csv";
+	private static final String FATUCOPA_8CH5Y_201806 = "muito-facil/input/MUITO-FACIL.8CH5Y.201806.002.TXT";
+	private static final String FATUCOPA_8CHE8_201806 = "muito-facil/input/MUITO-FACIL.8CHE8.201806.002.TXT";
 
-	private static final String MUITO_FACIL_8CHE8_FATUCOPA__201806001F = "muito-facil/input/MUITO-FACIL.8CHE8.201806.TXT";
+	private static final String FATUCOPA_8CH5Y_201807 = "muito-facil/input/MUITO-FACIL.8CH5Y.201807.002.TXT";
+	private static final String FATUCOPA_8CHE8_201807 = "muito-facil/input/MUITO-FACIL.8CHE8.201807.002.TXT";
 
-	private static final String MUITO_FACIL_8CH5Y_FATUCOPA__201807 = "muito-facil/input/MUITO-FACIL.8CH5Y.201807.TXT";
-	private static final String MUITO_FACIL_8CHE8_FATUCOPA__201807 = "muito-facil/input/MUITO-FACIL.8CHE8.201807.TXT";
-
-	private static final String NAO_LOCALIZADO_201808 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201808.xlsx";
+	private static final String NAO_LOCALIZADO_201808 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201808.002.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 336;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 112;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 25;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807 = 93;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201807 = 2139;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807_USER_RETURN = 336;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807_USER_RETURN = 113;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807_USER_RETURN = 25;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807_USER_RETURN = 93;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201807_USER_RETURN = 2139;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 312;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 110;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 25;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806 = 98;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201806 = 2254;
 
-	private static final String MECSAS_201809 = "muito-facil/input/MUITO-FACIL.MECSAS.201809.csv";
+	private static final String MECSAS_201809 = "muito-facil/input/MUITO-FACIL.MECSAS.201809.001.csv";
 
-	private static final String FATUCOPA_8CHE8_201809 = "muito-facil/input/MUITO-FACIL.8CHE8.201809.TXT";
-	private static final String FATUCOPA_8CH5Y_201809 = "muito-facil/input/MUITO-FACIL.8CH5Y.201809.TXT";
+	private static final String FATUCOPA_8CHE8_201809 = "muito-facil/input/MUITO-FACIL.8CHE8.201809.002.TXT";
+	private static final String FATUCOPA_8CH5Y_201809 = "muito-facil/input/MUITO-FACIL.8CH5Y.201809.002.TXT";
 
-	private static final String NAO_LOCALIZADO_201809 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201809.xlsx";
+	private static final String NAO_LOCALIZADO_201809 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201809.002.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201809 = 263;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201809 = 82;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201809 = 16;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201809 = 1;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809 = 82;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201809 = 1886;
@@ -112,10 +110,10 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 		List<LancamentoDetailUi> lancamentoDetailUis;
 		EmpresaUi empresaUi = empresaService.findByName("MUITO-FACIL");
 
-		processFile(MECSAS_EXPORT_DADOS_1781_20180227_111813);
+		processFile(MECSAS_201802);
 
-		processFile(MUITO_FACIL_8CH5Y_FATUCOPA__201806001F);
-		processFile(MUITO_FACIL_8CHE8_FATUCOPA__201806001F);
+		processFile(FATUCOPA_8CH5Y_201806);
+		processFile(FATUCOPA_8CHE8_201806);
 
 		titularUis = titularService.listAll();
 		dependenteUis = dependenteService.listAll();
@@ -125,7 +123,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -134,7 +132,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 		LOGGER.info("Total lançamentos details ..... [{}]:", lancamentoDetailUis.size());
-		
+
 		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201806, titularUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201806, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806, desconhecidoUis.size());
@@ -151,15 +149,15 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 		List<LancamentoDetailUi> lancamentoDetailUis;
 		EmpresaUi empresaUi = empresaService.findByName("MUITO-FACIL");
 
-		processFile(MECSAS_EXPORT_DADOS_1781_20180227_111813);
-		processFile(MECSAS_EXPORT_DADOS_1781_20180810_111813);
+		processFile(MECSAS_201802);
+		processFile(MECSAS_201808);
 
-		processFile(MUITO_FACIL_8CH5Y_FATUCOPA__201807);
-		processFile(MUITO_FACIL_8CHE8_FATUCOPA__201807);
+		processFile(FATUCOPA_8CH5Y_201807);
+		processFile(FATUCOPA_8CHE8_201807);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -189,12 +187,12 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 
 		processFile(NAO_LOCALIZADO_201808);
 
-		processFile(MUITO_FACIL_8CH5Y_FATUCOPA__201807);
-		processFile(MUITO_FACIL_8CHE8_FATUCOPA__201807);
+		processFile(FATUCOPA_8CH5Y_201807);
+		processFile(FATUCOPA_8CHE8_201807);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -228,7 +226,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 

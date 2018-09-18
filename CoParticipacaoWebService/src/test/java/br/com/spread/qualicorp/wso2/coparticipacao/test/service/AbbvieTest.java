@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
@@ -43,13 +44,13 @@ public class AbbvieTest extends CoParticipacaoTest {
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 449;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 5;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 4;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 129;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA = 3096;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 306;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 449;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 1;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 133;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_AFTER_USER_RETURN = 3192;
 
@@ -89,7 +90,7 @@ public class AbbvieTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -124,7 +125,7 @@ public class AbbvieTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 

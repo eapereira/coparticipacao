@@ -386,7 +386,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			
+
 			coParticipacaoContext.getArquivoExecucaoUi().setErrorMessage(e.getMessage());
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.ERROR);
 
@@ -483,6 +483,23 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			LOGGER.info("BEGIN");
 
 			desconhecidoUis = entityToUi(desconhecidoDao.listByEmpresaId(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return desconhecidoUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<DesconhecidoUi> listByEmpresaIdAndUseType(EmpresaUi empresaUi, UseType useType)
+			throws ServiceException {
+		List<DesconhecidoUi> desconhecidoUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoUis = entityToUi(desconhecidoDao.listByEmpresaIdAndUseType(empresaUi.getId(), useType));
 
 			LOGGER.info("END");
 			return desconhecidoUis;

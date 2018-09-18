@@ -40,5 +40,16 @@
 		]]>
 	</query>
 
+	<query id="listByEmpresaIdAndUseType">
+		<![CDATA[
+			select desconhecido from DesconhecidoEntity desconhecido
+			join fetch desconhecido.contrato contrato
+			join fetch contrato.empresa empresa
+			where	empresa.id 			= :empresaId
+			and		contrato.useType	= :useType
+			order by desconhecido.nameBeneficiario
+		]]>
+	</query>
+
 </queries>
 	

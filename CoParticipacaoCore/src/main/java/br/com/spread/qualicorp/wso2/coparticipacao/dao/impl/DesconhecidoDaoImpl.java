@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DesconhecidoDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity;
 
 /**
@@ -98,6 +99,27 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity> imp
 
 			query = createQuery("listByEmpresaId");
 			query.setParameter("empresaId", empresaId);
+
+			desconhecidoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return desconhecidoEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<DesconhecidoEntity> listByEmpresaIdAndUseType(Long empresaId, UseType useType) throws DaoException {
+		Query query;
+		List<DesconhecidoEntity> desconhecidoEntities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByEmpresaIdAndUseType");
+			query.setParameter("empresaId", empresaId);
+			query.setParameter("useType", useType);
 
 			desconhecidoEntities = query.getResultList();
 

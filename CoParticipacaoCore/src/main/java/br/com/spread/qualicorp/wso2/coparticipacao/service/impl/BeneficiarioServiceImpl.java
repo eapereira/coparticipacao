@@ -417,12 +417,19 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
 							titularUi.setEmpresa(coParticipacaoContext.getEmpresaUi());
+							titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 
 							titularUi.setUserAltered(coParticipacaoContext.getUser());
 							titularUi.setUserCreated(coParticipacaoContext.getUser());
 
 							coParticipacaoContext.getTitularUis().add(titularUi);
 							coParticipacaoContext.addTitular(titularUi);
+						} else {
+							LOGGER.info(
+									"Titular [{}] with CPF [{}] and Matricula [{}] cannot be created because NR_CPF is already in use:",
+									beneficiarioUi.getNameBeneficiario(),
+									beneficiarioUi.getCpf(),
+									beneficiarioUi.getMatricula());
 						}
 					}
 				}
@@ -521,6 +528,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							dependenteUi.setTpDependente(beneficiarioUi.getType());
 							dependenteUi.setMatricula(beneficiarioUi.getMatricula());
 							dependenteUi.setDtNascimento(beneficiarioUi.getDtNascimento());
+							dependenteUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 
 							dependenteUi.setUserAltered(coParticipacaoContext.getUser());
 							dependenteUi.setUserCreated(coParticipacaoContext.getUser());

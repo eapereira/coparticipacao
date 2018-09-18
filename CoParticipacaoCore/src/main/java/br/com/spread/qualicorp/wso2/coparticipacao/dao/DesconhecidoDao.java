@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.dao;
 
 import java.util.List;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity;
 
 /**
@@ -18,5 +19,7 @@ public interface DesconhecidoDao extends AbstractDao<DesconhecidoEntity> {
 	List<DesconhecidoEntity> listByContratoId(Long contratoId) throws DaoException;
 
 	List<DesconhecidoEntity> listByEmpresaId(Long id) throws DaoException;
+
+	List<DesconhecidoEntity> listByEmpresaIdAndUseType(Long empresaId, UseType useType) throws DaoException;
 
 }

@@ -13,6 +13,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
@@ -78,7 +79,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 467;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201802 = 565;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 33;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 32;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201802 = 129;
 	private static final int NUM_TOTAL_LANCAMENTOS_DETAIL_FATUCOPA_201802 = 2580;
 
@@ -159,7 +160,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -194,7 +195,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -233,7 +234,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -269,7 +270,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 
@@ -308,7 +309,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
@@ -354,7 +355,7 @@ public class MarjanTest extends CoParticipacaoTest {
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		lancamentoDetailUis = lancamentoDetailService.listByEmpresaId(empresaUi);
 		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
