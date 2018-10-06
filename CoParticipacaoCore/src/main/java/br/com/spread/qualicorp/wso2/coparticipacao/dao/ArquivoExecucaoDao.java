@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.dao;
 
 import java.util.List;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoExecucaoEntity;
 
 /**
@@ -22,4 +23,7 @@ public interface ArquivoExecucaoDao extends AbstractDao<ArquivoExecucaoEntity> {
 	void deleteByContratoIdAndMesAndAno(Long contratoId, Integer mes, Integer ano) throws DaoException;
 
 	void deleteByEmpresaIdAndMesAndAno(Long empresaId, Integer mes, Integer ano) throws DaoException;
+
+	void deleteByEmpresaAndUseTypeAndMesAndAno(Long empresaId, UseType useType, Integer mes, Integer ano) throws DaoException;
+
 }

@@ -1,6 +1,8 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service;
 
 import br.com.spread.qualicorp.webservice.coparticipacao.CoParticipacaoInfo;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 
 /**
@@ -21,8 +23,14 @@ public interface CoParticipacaoService {
 	 * @throws ServiceException
 	 *             Se ocorrer algum erro, notificaremos o usuário.
 	 */
-	CoParticipacaoInfo processFile(String fileName, String filePath) throws ServiceException;
+	CoParticipacaoInfo processExecucaoId(Long execucaoId) throws ServiceException;
 
 	void clearCoparticipacao(EmpresaUi empresaUi) throws ServiceException;
+
+	void moveExecucaoToOutput(CoParticipacaoContext coParticipacaoContext, ArquivoExecucaoUi arquivoExecucaoUi)
+			throws ServiceException;
+
+	void moveExecucaoToFailure(CoParticipacaoContext coParticipacaoContext, ArquivoExecucaoUi arquivoExecucaoUi)
+			throws ServiceException;
 
 }

@@ -10,13 +10,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
  *
  */
 public interface AbstractDao<ENTITY extends AbstractDomain> {
+	String TRANSACTION_MANAGER = "jpaTransactionManager";
+
 	ENTITY findById(Long id) throws DaoException;
 
 	List<ENTITY> listAll() throws DaoException;
 
 	void delete(ENTITY entity) throws DaoException;
 
-	void save(ENTITY entity) throws DaoException;
+	ENTITY save(ENTITY entity) throws DaoException;
 
 	void save(List<ENTITY> entities) throws DaoException;
 }

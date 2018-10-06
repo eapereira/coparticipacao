@@ -11,7 +11,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-@Mapper(componentModel = "spring", uses = { UserUiMapper.class, ArquivoInputUiMapper.class, ContratoUiMapper.class })
+@Mapper(
+		componentModel = "spring",
+		uses = { UserUiMapper.class, ArquivoInputUiMapper.class, ContratoUiMapper.class, ExecucaoUiMapper.class })
 public abstract class ArquivoExecucaoUiMapper extends AbstractMapper<ArquivoExecucao, ArquivoExecucaoUi> {
 
 }

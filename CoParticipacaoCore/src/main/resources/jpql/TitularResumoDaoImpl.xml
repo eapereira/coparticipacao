@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByEmpresaId">
+		<![CDATA[
+			select titularResumo from TitularResumoEntity titularResumo
+			where titularResumo.idEmpresa = :empresaId
+		]]>
+	</query>
+</queries>

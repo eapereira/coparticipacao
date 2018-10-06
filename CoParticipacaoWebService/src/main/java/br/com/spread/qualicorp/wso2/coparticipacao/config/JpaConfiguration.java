@@ -120,9 +120,13 @@ public class JpaConfiguration {
 			// properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 			properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 			properties.setProperty("spring.jpa.properties.hibernate.jdbc.time_zone", "UTC");
-			properties.setProperty("spring.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver");
 			properties.setProperty("spring.jpa.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver");
-			properties.setProperty("spring.datasource.driver-class", "com.mysql.cj.jdbc.Driver");
+			properties.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
+
+			properties.setProperty("spring.datasource.hikari.driverClassName", "com.mysql.cj.jdbc.Driver");
+			properties.setProperty(
+					"spring.datasource.hikari.dataSourceClassName",
+					"com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
 
 			properties.setProperty("spring.jpa.show-sql", "true");
 			properties.setProperty("spring.jpa.hibernate.format_sql", "true");

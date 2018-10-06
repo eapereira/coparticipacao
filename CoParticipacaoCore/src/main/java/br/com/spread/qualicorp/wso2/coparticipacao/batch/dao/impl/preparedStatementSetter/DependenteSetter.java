@@ -6,6 +6,12 @@ import java.sql.Types;
 
 import org.apache.commons.lang3.StringUtils;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Rg;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
@@ -14,7 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public class DependenteSetter extends PreparedStatementSetterAdapter<DependenteEntity> {
+public class DependenteSetter extends BeneficiarioSetter<DependenteEntity> {
 
 	private static final int COL_ID_TITULAR = 1;
 	private static final int COL_TP_DEPENDENTE = 2;
@@ -26,10 +32,10 @@ public class DependenteSetter extends PreparedStatementSetterAdapter<DependenteE
 	private static final int COL_NR_REF_CODE = 8;
 	private static final int COL_NR_MATRICULA_EMPRESA = 9;
 
-	private static final int COL_USER_CREATED = 10;
-	private static final int COL_USER_ALTERED = 10;
+	private static final int COL_USER_CREATED = 101;
+	private static final int COL_USER_ALTERED = 101;
 
-	private static final int COL_ID = 11;
+	private static final int COL_ID = 102;
 
 	public DependenteSetter(SetterAdapterType setterAdapterType, DependenteEntity entity) {
 		super(setterAdapterType, entity);
@@ -81,6 +87,6 @@ public class DependenteSetter extends PreparedStatementSetterAdapter<DependenteE
 			ps.setNull(COL_NR_MATRICULA_EMPRESA, Types.BIGINT);
 		}
 
+		setBeneficiarioDetailValues(ps, getEntity().getBeneficiarioDetail());
 	}
-
 }

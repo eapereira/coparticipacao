@@ -21,7 +21,12 @@ select
     lancamento.VL_PRINCIPAL
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
-	titular.ID = lancamento.ID_TITULAR;
+	titular.ID = lancamento.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where empresa.CD_EMPRESA = 'MUITO-FACIL';
     
 create view VW_LANCAMENTO_MUITO_FACIL as
 select
@@ -53,6 +58,12 @@ select
     desconhecido.NM_BENEFICIARIO,
     desconhecido.NR_CPF,
     desconhecido.NM_TITULAR
-from TB_DESCONHECIDO desconhecido;		
+from TB_DESCONHECIDO desconhecido
+	join TB_CONTRATO contrato on
+		contrato.ID = desconhecido.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where empresa.CD_EMPRESA = 'MUITO-FACIL';
+
 		
 /*****************************************************************************************************************************************************/

@@ -3,6 +3,7 @@
 	<query id="ArquivoExecucaoEntity.insert">
 		<![CDATA[
 			insert into TB_ARQUIVO_EXECUCAO ( 
+				ID_EXECUCAO,
 				NM_ARQUIVO_INPUT, 
 				NM_ARQUIVO_OUTPUT, 
 				ID_CONTRATO, 
@@ -24,6 +25,7 @@
 				?,
 				?,
 				?,
+				?,
 				?,				
 				?,
 			
@@ -38,6 +40,7 @@
 		<![CDATA[
 			UPDATE TB_ARQUIVO_EXECUCAO
 			SET
+				ID_EXECUCAO			= ?,
 				NM_ARQUIVO_INPUT	= ?, 
 				NM_ARQUIVO_OUTPUT	= ?, 
 				ID_CONTRATO			= ?, 

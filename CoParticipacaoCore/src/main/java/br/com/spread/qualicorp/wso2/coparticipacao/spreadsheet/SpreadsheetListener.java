@@ -18,6 +18,4 @@ public interface SpreadsheetListener<UI extends AbstractDomain> {
 	List<UI> createData() throws ServiceException;
 
 	CellInfo createCellContent(UI data, int column) throws ServiceException;
-
-	String getOutputFilePath() throws ServiceException;
 }

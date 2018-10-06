@@ -32,8 +32,10 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 	private static final Logger LOGGER = LogManager.getLogger(IsentoSpreadsheetProcessorServiceImpl.class);
 
 	@Override
-	protected Map<String, Object> readLine(Row row, CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	protected Map<String, Object> readLine(
+			SpreadsheetContext spreadsheetContext,
+			Row row,
+			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
 		String columnName = StringUtils.EMPTY;
 		Object value;
@@ -64,7 +66,7 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 								columnName = arquivoInputColsDef.getNameColumn();
 
 								LOGGER.info("Retrieving cell value for column [{}]:", columnName);
-								value = getCellValue(cell, arquivoInputColsDef);
+								value = getCellValue(spreadsheetContext, cell, arquivoInputColsDef);
 
 								LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
 								mapLine.put(columnName, value);

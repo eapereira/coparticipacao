@@ -10,10 +10,11 @@ import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -56,6 +57,12 @@ public class LancamentoSpreadsheetListener implements SpreadsheetListener<Dynami
 	}
 
 	public String getSheetName(int sheetId) throws ServiceException {
+		EmpresaUi empresaUi = coParticipacaoContext.getEmpresaUi();
+
+		if (ReportQueryType.QUERY_BY_PERIODO_ONLY.equals(empresaUi.getReportQueryType())) {
+			return String.format(arquivoOutputSheetUi.getNmSheet(), empresaUi.getCdEmpresa());
+		}
+
 		return String.format(arquivoOutputSheetUi.getNmSheet(), contratoUi.getNameContrato());
 	}
 
@@ -146,7 +153,4 @@ public class LancamentoSpreadsheetListener implements SpreadsheetListener<Dynami
 		}
 	}
 
-	public String getOutputFilePath() throws ServiceException {
-		return coParticipacaoContext.findParameterByName(ParameterName.OUTPUT_FILE_PATH).getValue();
-	}
 }

@@ -56,7 +56,7 @@ public class LancamentoDetailSetter extends PreparedStatementSetterAdapter<Lanca
 		}
 
 		if (getEntity().getDateValue() != null) {
-			ps.setDate(COL_VL_DATE, DateUtils.localDateTimeToSqlDate(getEntity().getDateValue()));
+			ps.setDate(COL_VL_DATE, DateUtils.localDateToSqlDate(getEntity().getDateValue()));
 		} else {
 			ps.setNull(COL_VL_DATE, Types.DATE);
 		}

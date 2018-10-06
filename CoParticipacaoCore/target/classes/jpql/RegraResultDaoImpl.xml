@@ -3,6 +3,7 @@
 	<query id="listByRegraId">
 		<![CDATA[
 			select regraResult from RegraResultEntity regraResult
+			join fetch regraResult.arquivoInputColsDef arquivoInputColsDef
 			join fetch regraResult.regra regra
 			where regra.id = :regraId
 		]]>

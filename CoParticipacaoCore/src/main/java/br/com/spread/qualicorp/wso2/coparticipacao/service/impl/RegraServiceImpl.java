@@ -150,7 +150,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 				}
 			}
 
-			LOGGER.info("Using Regra refuised by LancamentoDetail:");
+			LOGGER.info("Using Regra refused by LancamentoDetail:");
 			LOGGER.info("END");
 			return false;
 		} catch (Exception e) {

@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Embedded;
+
 /**
  * The persistent class for the tb_titular database table.
  * 
@@ -12,7 +14,7 @@ public abstract class Titular extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
 	private LocalDate dtAdmissao;
-	
+
 	private LocalDate dtDemissao;
 
 	private LocalDate dtNascimento;
@@ -47,12 +49,16 @@ public abstract class Titular extends AbstractDomain {
 
 	private Empresa empresa;
 
+	private BeneficiarioDetail beneficiarioDetail;
+
 	public Titular() {
 		lancamentos = new ArrayList<>();
 		dependentes = new ArrayList<>();
 		titularIsentos = new ArrayList<>();
 
 		titularDetails = new ArrayList<>();
+
+		beneficiarioDetail = new BeneficiarioDetail();
 	}
 
 	public Titular(Titular entity) {
@@ -233,10 +239,20 @@ public abstract class Titular extends AbstractDomain {
 		this.dtDemissao = dtDemissao;
 	}
 
+	@Embedded
+	public BeneficiarioDetail getBeneficiarioDetail() {
+		return beneficiarioDetail;
+	}
+
+	public void setBeneficiarioDetail(BeneficiarioDetail beneficiarioDetail) {
+		this.beneficiarioDetail = beneficiarioDetail;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((beneficiarioDetail == null) ? 0 : beneficiarioDetail.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((dependentes == null) ? 0 : dependentes.hashCode());
 		result = prime * result + ((dtAdmissao == null) ? 0 : dtAdmissao.hashCode());
@@ -262,6 +278,11 @@ public abstract class Titular extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		Titular other = (Titular) obj;
+		if (beneficiarioDetail == null) {
+			if (other.beneficiarioDetail != null)
+				return false;
+		} else if (!beneficiarioDetail.equals(other.beneficiarioDetail))
+			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
@@ -329,6 +350,5 @@ public abstract class Titular extends AbstractDomain {
 			return false;
 		return true;
 	}
-
 
 }

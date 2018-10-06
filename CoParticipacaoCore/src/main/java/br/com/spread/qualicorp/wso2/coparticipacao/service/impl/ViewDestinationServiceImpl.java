@@ -75,7 +75,8 @@ public class ViewDestinationServiceImpl
 		return entityMapper;
 	}
 
-	public String createSqlToViewDestination(ViewDestinationUi viewDestinationUi) throws ServiceException {
+	public String createSqlToViewDestination(ViewDestinationUi viewDestinationUi, boolean useContrato)
+			throws ServiceException {
 		List<ViewDestinationColsDefUi> viewDestinationColsDefUis;
 		StringBuilder sb;
 
@@ -98,9 +99,14 @@ public class ViewDestinationServiceImpl
 			sb.append(" from ");
 			sb.append(viewDestinationUi.getNameView());
 			sb.append(" viewDestination ");
-			sb.append("where	viewDestination.ID_CONTRATO	= ? ");
+			sb.append("where	1 = 1 ");
+
 			sb.append("and		viewDestination.CD_MES 		= ? ");
 			sb.append("and 		viewDestination.CD_ANO 		= ? ");
+
+			if (useContrato) {
+				sb.append("and		viewDestination.ID_CONTRATO	= ? ");
+			}
 
 			LOGGER.info("Query to use with dynamic created view [{}]:", sb.toString());
 
@@ -113,7 +119,7 @@ public class ViewDestinationServiceImpl
 	}
 
 	public List<DynamicEntity> listByContratoAndMesAndAno(
-			ViewDestinationUi ViewDestinationUi,
+			ViewDestinationUi viewDestinationUii,
 			ContratoUi contratoUi,
 			int mes,
 			int ano) throws ServiceException {
@@ -122,9 +128,28 @@ public class ViewDestinationServiceImpl
 		try {
 			LOGGER.info("BEGIN");
 
-			sql = createSqlToViewDestination(ViewDestinationUi);
+			sql = createSqlToViewDestination(viewDestinationUii, true);
 
 			dynamicEntities = dynamicService.listByEmpresaAndMesAndAno(sql, contratoUi, mes, ano);
+
+			LOGGER.info("END");
+			return dynamicEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<DynamicEntity> listBydMesAndAno(ViewDestinationUi viewDestinationUi, int mes, int ano)
+			throws ServiceException {
+		List<DynamicEntity> dynamicEntities;
+		String sql;
+		try {
+			LOGGER.info("BEGIN");
+
+			sql = createSqlToViewDestination(viewDestinationUi, false);
+
+			dynamicEntities = dynamicService.listByMesAndAno(sql, mes, ano);
 
 			LOGGER.info("END");
 			return dynamicEntities;

@@ -11,6 +11,7 @@
 	<h:head>
 		<title><h:outputText value="#{msg['global.title']}" /></title>
 		<h:outputStylesheet library="css" name="main.css" />
+		<h:outputStylesheet library="js" name="main.js" />
 
 	</h:head>
 	<h:body>
@@ -30,7 +31,7 @@
 			<p:menubar id="menubarMain">
 				<p:submenu label="#{msg['submenu.coparticipacao']}">
 					<p:menuitem value="#{msg['menuitem.coparticipacao.upload']}"
-						action="#{uploadBean.showPage}" />
+						action="#{uploadBean.showPage}"/>
 					<p:menuitem value="#{msg['menuitem.coparticipacao.download']}"
 						action="#{downloadBean.showPage}" />
 

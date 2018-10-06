@@ -77,7 +77,7 @@ public class DesconhecidoSetter extends PreparedStatementSetterAdapter<Desconhec
 		}
 
 		if (getEntity().getDtNascimento() != null) {
-			ps.setDate(COL_DT_NASCIMENTO, DateUtils.localDateTimeToSqlDate(getEntity().getDtNascimento()));
+			ps.setDate(COL_DT_NASCIMENTO, DateUtils.localDateToSqlDate(getEntity().getDtNascimento()));
 		} else {
 			ps.setNull(COL_DT_NASCIMENTO, Types.DATE);
 		}

@@ -13,6 +13,7 @@ br/com/spread/qualicorp/coparticipacao/config/CoParticipacaoWebApplication.class
 br/com/spread/qualicorp/coparticipacao/exception/BeanException.class
 br/com/spread/qualicorp/coparticipacao/converter/EmpresaConverter.class
 br/com/spread/qualicorp/coparticipacao/bean/OperadoraBean.class
+br/com/spread/qualicorp/coparticipacao/config/JdbcConfiguration.class
 br/com/spread/qualicorp/coparticipacao/bean/ContratoBean.class
 br/com/spread/qualicorp/coparticipacao/config/JpaConfiguration.class
 br/com/spread/qualicorp/coparticipacao/util/FacesUtils.class

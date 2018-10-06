@@ -19,7 +19,9 @@ import org.springframework.web.context.annotation.SessionScope;
 import br.com.spread.qualicorp.coparticipacao.exception.BeanException;
 import br.com.spread.qualicorp.coparticipacao.util.FacesUtils;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 
@@ -42,6 +44,10 @@ public class DownloadBean extends AbstractBean {
 	private List<ArquivoExecucaoUi> arquivoExecucaoUis;
 
 	private ArquivoExecucaoUi selectedArquivoExecucaoUi;
+
+	private boolean stopPoll;
+
+	private boolean disabledDownloadButton;
 
 	@Override
 	public void initBean() throws BeanException {
@@ -100,7 +106,7 @@ public class DownloadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
@@ -119,6 +125,9 @@ public class DownloadBean extends AbstractBean {
 						getEmpresaUi(),
 						currentDate.getMonthValue(),
 						currentDate.getYear());
+
+				verifyToStopPoll();
+				verifyDisabledDownloadButton();
 			} else {
 				arquivoExecucaoUis = new ArrayList<>();
 			}
@@ -127,12 +136,69 @@ public class DownloadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
 
-	public boolean disabledDownloadButton(ArquivoExecucaoUi arquivoExecucaoUi) throws BeanException {
+	private void verifyToStopPoll() throws BeanException {
+		boolean canStopPoll = true;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (ArquivoExecucaoUi arquivoExecucaoUi : getArquivoExecucaoUis()) {
+				if (!(StatusExecucaoType.SUCCESS.equals(arquivoExecucaoUi.getStatusExecucaoType())
+						|| StatusExecucaoType.ERROR.equals(arquivoExecucaoUi.getStatusExecucaoType()))) {
+					canStopPoll = false;
+					break;
+				}
+			}
+
+			setStopPoll(canStopPoll);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			FacesUtils.addError(e.getMessage());
+
+			throw new BeanException(e);
+		}
+	}
+
+	private void verifyDisabledDownloadButton() throws BeanException {
+		boolean canDisabledDownloadButton = false;
+		ContratoUi contratoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (ArquivoExecucaoUi arquivoExecucaoUi : getArquivoExecucaoUis()) {
+				contratoUi = (ContratoUi) arquivoExecucaoUi.getContrato();
+
+				if (UseType.FATUCOPA.equals(contratoUi.getUseType())
+						|| UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())
+						|| UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
+					if (disabledDownloadButton(arquivoExecucaoUi)) {
+						canDisabledDownloadButton = true;
+						break;
+					}
+				}
+			}
+
+			setDisabledDownloadButton(canDisabledDownloadButton);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			FacesUtils.addError(e.getMessage());
+
+			throw new BeanException(e);
+		}
+
+	}
+
+	private boolean disabledDownloadButton(ArquivoExecucaoUi arquivoExecucaoUi) throws BeanException {
 		try {
 			LOGGER.info("BEGIN");
 
@@ -145,7 +211,7 @@ public class DownloadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
@@ -178,7 +244,7 @@ public class DownloadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
@@ -192,6 +258,46 @@ public class DownloadBean extends AbstractBean {
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
+			throw new BeanException(e);
+		}
+	}
+
+	public boolean isStopPoll() {
+		return stopPoll;
+	}
+
+	public void setStopPoll(boolean stopPoll) {
+		this.stopPoll = stopPoll;
+	}
+
+	public boolean isDisabledDownloadButton() {
+		return disabledDownloadButton;
+	}
+
+	public void setDisabledDownloadButton(boolean disabledDownloadButton) {
+		this.disabledDownloadButton = disabledDownloadButton;
+	}
+
+	public boolean renderedDownloadButton(ArquivoExecucaoUi arquivoExecucaoUi) throws BeanException {
+		ContratoUi contratoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			contratoUi = (ContratoUi) arquivoExecucaoUi.getContrato();
+
+			if (UseType.FATUCOPA.equals(contratoUi.getUseType()) || UseType.EXTRA_FILE.equals(contratoUi.getUseType())
+					|| UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
+				LOGGER.info("END");
+				return true;
+			}
+
+			LOGGER.info("END");
+			return false;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			FacesUtils.addError(e.getMessage());
+
 			throw new BeanException(e);
 		}
 	}

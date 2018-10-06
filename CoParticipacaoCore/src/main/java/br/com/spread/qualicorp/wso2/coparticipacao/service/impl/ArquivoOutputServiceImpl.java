@@ -17,6 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
@@ -105,6 +106,9 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 			arquivoOutputUis = listByEmpresaIdAndUseType(coParticipacaoContext.getEmpresaUi(), UseType.EXTRA_FILE);
 
 			for (ArquivoOutputUi arquivoOutputUi : arquivoOutputUis) {
+				LOGGER.info(
+						"Creating addictional output file for Contrato[{}]:",
+						arquivoOutputUi.getArquivoInput().getContrato().getCdContrato());
 				flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi, this);
 			}
 
@@ -170,11 +174,20 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 							LOGGER.info(
 									"Creating the report for the ViewDestination [{}]:",
 									viewDestinationUi.getNameView());
-							dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
-									viewDestinationUi,
-									(ContratoUi) contrato,
-									coParticipacaoContext.getMes(),
-									coParticipacaoContext.getAno());
+
+							if (ReportQueryType.QUERY_BY_CONTRATO_AND_PERIODO
+									.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
+								dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
+										viewDestinationUi,
+										(ContratoUi) contrato,
+										coParticipacaoContext.getMes(),
+										coParticipacaoContext.getAno());
+							} else {
+								dynamicEntities = viewDestinationService.listBydMesAndAno(
+										viewDestinationUi,
+										coParticipacaoContext.getMes(),
+										coParticipacaoContext.getAno());
+							}
 
 							// Criando um listener para cada pasta da planilha:
 							spreadsheetBuilder.addSpreadsheetListener(
@@ -185,6 +198,17 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 											dynamicEntities,
 											(ContratoUi) contrato));
 						}
+					}
+
+					/*
+					 * Se a Empresa estiver configurada para emitir os
+					 * relatórios apenas por período, não precisamos criar
+					 * multiplas pastas por contrato:
+					 */
+					if (ReportQueryType.QUERY_BY_PERIODO_ONLY
+							.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
+						LOGGER.info("Using EmpresaUi.QUERY_BY_PERIODO_ONLY to generate the OutputFiles:");
+						break;
 					}
 				}
 

@@ -10,7 +10,8 @@ public enum LancamentoColType {
 								ID_CONTRATO(2, "ID_CONTRATO"),
 								CD_MES(3, "CD_MES"),
 								CD_ANO(4, "CD_ANO"),
-								VL_PRINCIPAL(5, "VL_PRINCIPAL");
+								VL_PRINCIPAL(5, "VL_PRINCIPAL"),
+								DT_MOVIMENTO(6, "DT_MOVIMENTO");
 
 	private Integer id;
 

@@ -4,8 +4,14 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="CoParticipacaoJPA">
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Detail</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Isento</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Rg</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoExecucaoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputEntity</class>
@@ -22,8 +28,10 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteIsentoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteIsentoEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteResumoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.EmpresaEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExecucaoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExternalProcessEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependenteIsentoColsEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependenteIsentoEntity</class>
@@ -53,6 +61,7 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularResumoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserRoleEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestinationColsDefEntity</class>

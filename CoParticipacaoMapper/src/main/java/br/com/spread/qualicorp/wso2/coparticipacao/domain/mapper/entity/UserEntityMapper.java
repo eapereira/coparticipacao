@@ -4,6 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.User;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteResumoEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExecucaoEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularResumoEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 
@@ -60,7 +63,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				TitularIsentoEntityMapper.class,
 				UserRoleEntityMapper.class,
 				ViewDestinationColsDefEntityMapper.class,
-				ViewDestinationEntityMapper.class })
+				ViewDestinationEntityMapper.class,
+				TitularResumoEntityMapper.class,
+				DependenteResumoEntityMapper.class,
+				ExecucaoEntityMapper.class })
 public abstract class UserEntityMapper extends AbstractMapper<User, UserEntity> {
 	public static final UserEntityMapper MAPPER = Mappers.getMapper(UserEntityMapper.class);
 

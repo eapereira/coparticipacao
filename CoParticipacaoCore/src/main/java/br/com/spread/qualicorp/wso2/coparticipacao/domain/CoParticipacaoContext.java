@@ -21,6 +21,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
@@ -104,6 +105,8 @@ public class CoParticipacaoContext {
 	private ArquivoExecucaoUi arquivoExecucaoUi;
 
 	private boolean firstLineProcecessed;
+	
+	private ExecucaoUi execucaoUi;
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
@@ -617,6 +620,14 @@ public class CoParticipacaoContext {
 
 	public void setFirstLineProcecessed(boolean firstLineProcecessed) {
 		this.firstLineProcecessed = firstLineProcecessed;
+	}
+
+	public ExecucaoUi getExecucaoUi() {
+		return execucaoUi;
+	}
+
+	public void setExecucaoUi(ExecucaoUi execucaoUi) {
+		this.execucaoUi = execucaoUi;
 	}
 
 }

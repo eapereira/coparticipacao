@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.context.annotation.SessionScope;
 
 import br.com.spread.qualicorp.coparticipacao.exception.BeanException;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ContratoService;
@@ -58,11 +59,24 @@ public class ContratoBean extends AbstractBean {
 	}
 
 	public void updateContratoUis() throws BeanException {
+		List<ContratoUi> contratoUisTmp;
+
 		try {
 			LOGGER.info("BEGIN");
 
 			if (getEmpresaUi() != null) {
-				contratoUis = contratoService.listByEmpresaId(getEmpresaUi());
+				contratoUisTmp = contratoService.listByEmpresaId(getEmpresaUi());
+				contratoUis.clear();
+
+				for (ContratoUi contratoUi : contratoUisTmp) {
+					/*
+					 * Vamos deixar serem exibidos apenas os contratos que o
+					 * usuário pode selecionar:
+					 */
+					if (!UseType.EXTRA_FILE.equals(contratoUi.getUseType())) {
+						contratoUis.add(contratoUi);
+					}
+				}
 			} else {
 				contratoUis = new ArrayList<>();
 			}

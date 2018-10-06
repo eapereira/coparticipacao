@@ -4,6 +4,7 @@
 		<![CDATA[
 			select empresa from EmpresaEntity empresa
 			join fetch empresa.contratos contratos
+			join fetch empresa.operadora operadora
 			where empresa.id = :id
 		]]>
 	</query>
@@ -11,6 +12,8 @@
 	<query id="findByName">
 		<![CDATA[
 			select empresa from EmpresaEntity empresa
+			join fetch empresa.contratos contratos
+			join fetch empresa.operadora operadora
 			where empresa.nameEmpresa = :nameEmpresa
 		]]>
 	</query>
@@ -19,6 +22,7 @@
 		<![CDATA[
 			select empresa from EmpresaEntity empresa
 			join fetch empresa.contratos contratos
+			join fetch empresa.operadora operadora
 			where empresa.cdEmpresa = :cdEmpresa
 		]]>
 	</query>

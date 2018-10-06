@@ -50,7 +50,7 @@ public class JdbcConfigurationTest {
 			DriverManagerDataSource dataSource = new DriverManagerDataSource();
 			dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
 			dataSource.setUrl(
-					"jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC&useLegacyDatetimeCode=false");
+					"jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC&useLegacyDatetimeCode=false&generateSimpleParameterMetadata=true");
 			dataSource.setUsername("coparticipacao");
 			dataSource.setPassword("coparticipacao");
 

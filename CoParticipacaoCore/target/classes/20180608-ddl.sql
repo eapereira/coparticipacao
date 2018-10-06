@@ -62,6 +62,7 @@ drop table if exists TB_REGRA_OPERATION;
 drop table if exists TB_REGRA;
 
 drop table if exists TB_ARQUIVO_EXECUCAO;
+drop table if exists TB_EXECUCAO;
 drop table if exists TB_ARQUIVO_OUTPUT_SHEET_COLS_DEF;
 drop table if exists TB_ARQUIVO_OUTPUT_SHEET;
 drop table if exists TB_ARQUIVO_OUTPUT;
@@ -96,7 +97,7 @@ create table TB_USER(
 	TP_STATUS		int( 3 ) not null, /* 0 = ativo, 1 = bloqueado */
 	
 
-	VERSION		bigint( 17 ) null,
+	VERSION			bigint( 17 ) null,
  
 	USER_CREATED	bigint( 17 ),
 	USER_ALTERED 	bigint( 17 ),
@@ -173,8 +174,8 @@ create table TB_EMPRESA(
 	CD_EMPRESA			varchar( 200 ) not null,
 	
 	CD_AUTOMATIC_CREATE_BENEFICIARIO	int( 3 ) not null default 0,
-	CD_INPUT_DIR 						varchar( 4000 ) not null,
-	CD_OUTPUT_REPORT_DIR 				varchar( 4000 ) not null,
+	CD_INPUT_DIR 						varchar( 800 ) not null,
+	CD_OUTPUT_REPORT_DIR 				varchar( 800 ) not null,
 	
 	TP_SAVE_MECSAS_DETAIL				int( 1 ) not null,
 	TP_SAVE_BENEFICIARIO_DETAIL			int( 1 ) not null,

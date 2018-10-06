@@ -31,7 +31,7 @@ public abstract class AbstractDomain implements Serializable {
 	private static final long serialVersionUID = 7751554221237230488L;
 
 	private Long id;
-	
+
 	private Long version;
 
 	private LocalDateTime altered;
@@ -47,7 +47,7 @@ public abstract class AbstractDomain implements Serializable {
 	}
 
 	public AbstractDomain(AbstractDomain abstractDomain) {
-		
+
 	}
 
 	@Id
@@ -61,7 +61,7 @@ public abstract class AbstractDomain implements Serializable {
 	}
 
 	@Convert(converter = LocalDateTimeConverter.class)
-	@Column(name = "DT_ALTERED")
+	@Column(name = "DT_ALTERED", nullable = false)
 	public LocalDateTime getAltered() {
 		return altered;
 	}
@@ -71,7 +71,7 @@ public abstract class AbstractDomain implements Serializable {
 	}
 
 	@Convert(converter = LocalDateTimeConverter.class)
-	@Column(name = "DT_CREATED")
+	@Column(name = "DT_CREATED", nullable = false)
 	public LocalDateTime getCreated() {
 		return created;
 	}

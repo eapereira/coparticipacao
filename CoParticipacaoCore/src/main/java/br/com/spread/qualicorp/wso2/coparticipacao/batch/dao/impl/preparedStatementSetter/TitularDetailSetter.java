@@ -55,7 +55,7 @@ public class TitularDetailSetter extends PreparedStatementSetterAdapter<TitularD
 		}
 
 		if (getEntity().getDateValue() != null) {
-			ps.setDate(COL_VL_DATE, DateUtils.localDateTimeToSqlDate(getEntity().getDateValue()));
+			ps.setDate(COL_VL_DATE, DateUtils.localDateToSqlDate(getEntity().getDateValue()));
 		} else {
 			ps.setNull(COL_VL_DATE, Types.DATE);
 		}

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateTimeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.StatusExecucaoTypeConverter;
@@ -101,6 +102,14 @@ public class ArquivoExecucaoEntity extends ArquivoExecucao implements DomainEnti
 	public String getErrorMessage() {
 		// TODO Auto-generated method stub
 		return super.getErrorMessage();
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ExecucaoEntity.class)
+	@JoinColumn(name = "ID_EXECUCAO")
+	@Override
+	public Execucao getExecucao() {
+		// TODO Auto-generated method stub
+		return super.getExecucao();
 	}
 
 }

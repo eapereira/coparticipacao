@@ -301,11 +301,6 @@ public class LancamentoDetailServiceImpl
 		}
 	}
 
-	@Override
-	protected AbstractBatchDao<LancamentoDetailEntity> getJdbcDao() {
-		return lancamentoDetailJdbcDao;
-	}
-
 	public void deleteByMesAndAno(ContratoUi contratoUi, int mes, int ano) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");

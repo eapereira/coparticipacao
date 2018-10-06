@@ -65,12 +65,18 @@ public abstract class User extends AbstractDomain {
 	private List<Parameter> userCreatedParameter;
 
 	private List<UserRole> userRoles;
-	
+
 	private List<ArquivoExecucao> arquivoExecucaoUserCreated;
 	private List<ArquivoExecucao> arquivoExecucaoUserAltered;
 
+	private List<Execucao> execucaoUserCreated;
+	private List<Execucao> execucaoUserAltered;
+
 	public User() {
 		userRoles = new ArrayList<>();
+
+		execucaoUserAltered = new ArrayList<>();
+		execucaoUserCreated = new ArrayList<>();
 	}
 
 	public User(User entity) {
@@ -1106,7 +1112,7 @@ public abstract class User extends AbstractDomain {
 		getArquivoExecucaoUserCreated().add(arquivoExecucao);
 		arquivoExecucao.setUserCreated(this);
 	}
-	
+
 	public void removeArquivoExecucaoUserCreated(ArquivoExecucao arquivoExecucao) {
 		getArquivoExecucaoUserCreated().remove(arquivoExecucao);
 		arquivoExecucao.setUserCreated(null);
@@ -1116,10 +1122,46 @@ public abstract class User extends AbstractDomain {
 		getArquivoExecucaoUserAltered().add(arquivoExecucao);
 		arquivoExecucao.setUserAltered(this);
 	}
-	
+
 	public void removeArquivoExecucaoUserAltered(ArquivoExecucao arquivoExecucao) {
 		getArquivoExecucaoUserAltered().remove(arquivoExecucao);
 		arquivoExecucao.setUserAltered(null);
+	}
+
+	public List<Execucao> getExecucaoUserCreated() {
+		return execucaoUserCreated;
+	}
+
+	public void setExecucaoUserCreated(List<Execucao> execucaoUserCreated) {
+		this.execucaoUserCreated = execucaoUserCreated;
+	}
+
+	public List<Execucao> getExecucaoUserAltered() {
+		return execucaoUserAltered;
+	}
+
+	public void setExecucaoUserAltered(List<Execucao> execucaoUserAltered) {
+		this.execucaoUserAltered = execucaoUserAltered;
+	}
+
+	public void addExecucaoUserCreated(Execucao execucaoUserCreated) {
+		getExecucaoUserCreated().add(execucaoUserCreated);
+		execucaoUserCreated.setUserCreated(this);
+	}
+	
+	public void removeExecucaoUserCreated(Execucao execucaoUserCreated) {
+		getExecucaoUserCreated().remove(execucaoUserCreated);
+		execucaoUserCreated.setUserCreated(null);
+	}
+
+	public void addExecucaoUserAltered(Execucao execucaoUserAltered) {
+		getExecucaoUserAltered().add(execucaoUserAltered);
+		execucaoUserAltered.setUserAltered(this);
+	}
+	
+	public void removeExecucaoUserAltered(Execucao execucaoUserAltered) {
+		getExecucaoUserAltered().remove(execucaoUserAltered);
+		execucaoUserAltered.setUserAltered(null);
 	}
 	
 }

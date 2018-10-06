@@ -16,20 +16,21 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
  */
 public class ArquivoExecucaoSetter extends PreparedStatementSetterAdapter<ArquivoExecucaoEntity> {
 
-	private static final int COL_NM_ARQUIVO_INPUT = 1;
-	private static final int COL_NM_ARQUIVO_OUTPUT = 2;
-	private static final int COL_ID_CONTRATO = 3;
-	private static final int COL_CD_MES = 4;
-	private static final int COL_CD_ANO = 5;
-	private static final int COL_DT_STARTED = 6;
-	private static final int COL_DT_FINNISHED = 7;
-	private static final int COL_TP_STATUS = 8;
-	private static final int COL_DESCR_ERROR_MESSAGE = 9;
+	private static final int COL_ID_EXECUCAO = 1;
+	private static final int COL_NM_ARQUIVO_INPUT = 2;
+	private static final int COL_NM_ARQUIVO_OUTPUT = 3;
+	private static final int COL_ID_CONTRATO = 4;
+	private static final int COL_CD_MES = 5;
+	private static final int COL_CD_ANO = 6;
+	private static final int COL_DT_STARTED = 7;
+	private static final int COL_DT_FINNISHED = 8;
+	private static final int COL_TP_STATUS = 9;
+	private static final int COL_DESCR_ERROR_MESSAGE = 10;
 
-	private static final int COL_USER_CREATED = 10;
-	private static final int COL_USER_ALTERED = 10;
+	private static final int COL_USER_CREATED = 11;
+	private static final int COL_USER_ALTERED = 11;
 
-	private static final int COL_ID = 11;
+	private static final int COL_ID = 12;
 
 	public ArquivoExecucaoSetter(SetterAdapterType setterAdapterType, ArquivoExecucaoEntity entity) {
 		super(setterAdapterType, entity);
@@ -53,6 +54,8 @@ public class ArquivoExecucaoSetter extends PreparedStatementSetterAdapter<Arquiv
 
 	@Override
 	protected void setCommonValues(PreparedStatement ps) throws SQLException {
+		ps.setLong(COL_ID_EXECUCAO, getEntity().getExecucao().getId());
+
 		ps.setString(COL_NM_ARQUIVO_INPUT, getEntity().getNameArquivoInput());
 
 		if (StringUtils.isNotBlank(getEntity().getNameArquivoOutput())) {

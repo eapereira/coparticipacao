@@ -48,4 +48,10 @@ public interface ArquivoExecucaoService extends AbstractService<ArquivoExecucaoU
 
 	void renameToProcess(ArquivoExecucaoUi arquivoExecucaoUi) throws ServiceException;
 
+	void deleteByEmpresaAndUseTypeAndMesAndAno(EmpresaUi empresaUi, UseType useType, Integer mes, Integer ano)
+			throws ServiceException;
+
+	ArquivoExecucaoUi createArquivoExecucao(CoParticipacaoContext coParticipacaoContext, ContratoUi contratoUi)
+			throws ServiceException;
+
 }

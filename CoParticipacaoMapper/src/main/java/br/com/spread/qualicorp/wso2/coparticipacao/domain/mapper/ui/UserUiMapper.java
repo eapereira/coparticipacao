@@ -59,7 +59,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 				TitularUiMapper.class,
 				UserRoleUiMapper.class,
 				ViewDestinationColsDefUiMapper.class,
-				ViewDestinationUiMapper.class, })
+				ViewDestinationUiMapper.class,
+				TitularResumoUiMapper.class,
+				DependenteResumoUiMapper.class,
+				ExecucaoUiMapper.class })
 public abstract class UserUiMapper extends AbstractMapper<User, UserUi> {
 
 }

@@ -21,7 +21,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				ContratoEntityMapper.class,
 				ParameterEntityMapper.class,
 				ExternalProcessEntityMapper.class,
-				TitularEntityMapper.class })
+				TitularEntityMapper.class,
+				ExecucaoEntityMapper.class })
 public abstract class EmpresaEntityMapper extends AbstractMapper<Empresa, EmpresaEntity> {
 
 }

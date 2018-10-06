@@ -46,4 +46,15 @@
 		driverClassName="com.mysql.cj.jdbc.Driver"
 		url="jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&amp;characterEncoding=UTF-8&amp;useJDBCCompliantTimezoneShift=true&amp;serverTimezone=UTC&amp;useLegacyDatetimeCode=false" />
 
+	<Resource name="jdbc/CoparticipacaoJdbcDS" auth="Container"
+		type="javax.sql.DataSource"  
+		dataSource.implicitCachingEnabled="true" 
+		maxActive="50" 
+		maxIdle="30" 
+		maxWait="10000"
+		username="coparticipacao" 
+		password="coparticipacao" 
+		driverClassName="com.mysql.cj.jdbc.Driver"
+		url="jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&amp;characterEncoding=UTF-8&amp;useJDBCCompliantTimezoneShift=true&amp;serverTimezone=UTC&amp;useLegacyDatetimeCode=false" />
+
 </Context>

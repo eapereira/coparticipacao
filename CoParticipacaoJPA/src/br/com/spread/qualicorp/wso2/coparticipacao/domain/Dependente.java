@@ -40,11 +40,15 @@ public abstract class Dependente extends AbstractDomain {
 	private List<Lancamento> lancamentos;
 
 	private List<DependenteDetail> dependenteDetails;
+	
+	private BeneficiarioDetail beneficiarioDetail;
 
 	public Dependente() {
 		dependenteIsentos = new ArrayList<>();
 		lancamentos = new ArrayList<>();
 		dependenteDetails = new ArrayList<>();
+		
+		beneficiarioDetail=new BeneficiarioDetail();
 	}
 
 	public Dependente(Dependente entity) {
@@ -195,10 +199,19 @@ public abstract class Dependente extends AbstractDomain {
 		dependenteDetail.setDependente(null);
 	}
 
+	public BeneficiarioDetail getBeneficiarioDetail() {
+		return beneficiarioDetail;
+	}
+
+	public void setBeneficiarioDetail(BeneficiarioDetail beneficiarioDetail) {
+		this.beneficiarioDetail = beneficiarioDetail;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result + ((beneficiarioDetail == null) ? 0 : beneficiarioDetail.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((dependenteDetails == null) ? 0 : dependenteDetails.hashCode());
 		result = prime * result + ((dependenteIsentos == null) ? 0 : dependenteIsentos.hashCode());
@@ -209,7 +222,6 @@ public abstract class Dependente extends AbstractDomain {
 		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
 		result = prime * result + ((nameDependente == null) ? 0 : nameDependente.hashCode());
 		result = prime * result + ((referenceCode == null) ? 0 : referenceCode.hashCode());
-		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
 		result = prime * result + ((tpDependente == null) ? 0 : tpDependente.hashCode());
 		return result;
 	}
@@ -218,11 +230,16 @@ public abstract class Dependente extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Dependente other = (Dependente) obj;
+		if (beneficiarioDetail == null) {
+			if (other.beneficiarioDetail != null)
+				return false;
+		} else if (!beneficiarioDetail.equals(other.beneficiarioDetail))
+			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
@@ -273,14 +290,10 @@ public abstract class Dependente extends AbstractDomain {
 				return false;
 		} else if (!referenceCode.equals(other.referenceCode))
 			return false;
-		if (titular == null) {
-			if (other.titular != null)
-				return false;
-		} else if (!titular.equals(other.titular))
-			return false;
 		if (tpDependente != other.tpDependente)
 			return false;
 		return true;
 	}
+
 
 }

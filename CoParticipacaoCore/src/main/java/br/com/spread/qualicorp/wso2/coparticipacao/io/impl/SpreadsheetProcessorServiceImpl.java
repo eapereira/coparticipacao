@@ -29,6 +29,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
@@ -48,10 +50,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 	private static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
 
-	private DataFormat dataFormat;
-
-	private CellStyle cellStyleDate;
-
 	public void readInputStream(CoParticipacaoContext coParticipacaoContext, ProcessorListener processorListener)
 			throws ServiceException {
 		Map<String, Object> mapLine;
@@ -61,10 +59,14 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		FormulaEvaluator formulaEvaluator;
 		CreationHelper creationHelper;
 		int sheetIndex = NumberUtils.INTEGER_ZERO;
+		DataFormat dataFormat;
+		CellStyle cellStyleDate;
+		SpreadsheetContext spreadsheetContext;
 
 		try {
 			LOGGER.info("BEGIN");
 
+			spreadsheetContext = new SpreadsheetContext();
 			markProcessAsRunning(coParticipacaoContext);
 
 			if (coParticipacaoContext.getFileName().toLowerCase().endsWith(EXCEL_97)) {
@@ -86,6 +88,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				dataFormat = creationHelper.createDataFormat();
 				cellStyleDate = workbook.createCellStyle();
 				cellStyleDate.setDataFormat(dataFormat.getFormat(DEFAULT_DATE_FORMAT));
+
+				spreadsheetContext.setCellStyleDate(cellStyleDate);
+				spreadsheetContext.setDataFormat(dataFormat);
 
 				coParticipacaoContext.setFormulaEvaluator(formulaEvaluator);
 
@@ -119,7 +124,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 							}
 
 							LOGGER.info("Transforming line into Map:");
-							mapLine = readLine(row, coParticipacaoContext);
+							mapLine = readLine(spreadsheetContext, row, coParticipacaoContext);
 
 							LOGGER.info("Sending line to be processed by ProcessorListener:");
 
@@ -178,11 +183,13 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Map<String, Object> readLine(Row row, CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException {
+	protected Map<String, Object> readLine(
+			SpreadsheetContext spreadsheetContext,
+			Row row,
+			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
-		//int cellId = NumberUtils.INTEGER_ZERO;
+		// int cellId = NumberUtils.INTEGER_ZERO;
 		String columnName = StringUtils.EMPTY;
 		Object value;
 		ArquivoInputColsDef arquivoInputColsDef;
@@ -195,7 +202,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 			mapLine = new HashMap<String, Object>();
 
-			//cellId = NumberUtils.INTEGER_ZERO;
+			// cellId = NumberUtils.INTEGER_ZERO;
 
 			for (ArquivoInputColsDef colsDef : arquivoInputColsDefUis) {
 				arquivoInputColsDef = colsDef;
@@ -206,12 +213,12 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 					columnName = arquivoInputColsDef.getNameColumn();
 
 					LOGGER.info("Retrieving cell value for column [{}]:", columnName);
-					value = getCellValue(cell, arquivoInputColsDef);
+					value = getCellValue(spreadsheetContext, cell, arquivoInputColsDef);
 
 					LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
 					mapLine.put(columnName, value);
 
-					//cellId++;
+					// cellId++;
 				} else {
 					break;
 				}
@@ -225,7 +232,10 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Object getCellValue(Cell cell, ArquivoInputColsDef arquivoInputColsDef) throws ServiceException {
+	protected Object getCellValue(
+			SpreadsheetContext spreadsheetContext,
+			Cell cell,
+			ArquivoInputColsDef arquivoInputColsDef) throws ServiceException {
 		Object value;
 
 		try {
@@ -281,7 +291,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 					return BigDecimal.ZERO;
 				}
 			} else if (ColDefType.DATE.equals(arquivoInputColsDef.getType())) {
-				cell.setCellStyle(cellStyleDate);
+				cell.setCellStyle(spreadsheetContext.getCellStyleDate());
 
 				if (value instanceof String) {
 					if (StringUtils.isNotBlank(arquivoInputColsDef.getLocalePattern())) {

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteIsentoBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularIsentoBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
@@ -26,7 +28,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.SpreadsheetProcessorListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
@@ -40,7 +42,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
  *
  */
 @Service
-@Transactional(value = AbstractService.JDBC_TX)
 public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorListener {
 
 	private static final Logger LOGGER = LogManager.getLogger(IsentoServiceImpl.class);
@@ -50,6 +51,12 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 	@Autowired
 	private TitularIsentoService titularIsentoService;
+
+	@Autowired
+	private DependenteIsentoBatchService dependenteIsentoBatchService;
+
+	@Autowired
+	private TitularIsentoBatchService titularIsentoBatchService;
 
 	@Autowired
 	private RegraService regraService;
@@ -349,12 +356,12 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 			LOGGER.info(
 					"Saving [{}] registers of TitularIsento:",
 					coParticipacaoContext.getBunker().getTitularIsentoUis().size());
-			titularIsentoService.saveBatch(coParticipacaoContext.getBunker().getTitularIsentoUis());
+			titularIsentoBatchService.saveBatch(coParticipacaoContext.getBunker().getTitularIsentoUis());
 
 			LOGGER.info(
 					"Saving [{}] registers of DependenteIsento:",
 					coParticipacaoContext.getBunker().getDependenteIsentoUis().size());
-			dependenteIsentoService.saveBatch(coParticipacaoContext.getBunker().getDependenteIsentoUis());
+			dependenteIsentoBatchService.saveBatch(coParticipacaoContext.getBunker().getDependenteIsentoUis());
 
 			LOGGER.info("END");
 		} catch (Exception e) {

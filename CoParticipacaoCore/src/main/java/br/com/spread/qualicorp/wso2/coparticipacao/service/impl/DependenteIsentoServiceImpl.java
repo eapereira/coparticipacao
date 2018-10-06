@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DependenteIsentoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DependenteIsentoDao;
@@ -82,11 +81,6 @@ public class DependenteIsentoServiceImpl
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
-	}
-
-	@Override
-	protected AbstractBatchDao<DependenteIsentoEntity> getJdbcDao() {
-		return dependenteIsentoJdbcDao;
 	}
 
 	public List<DependenteIsentoUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException {

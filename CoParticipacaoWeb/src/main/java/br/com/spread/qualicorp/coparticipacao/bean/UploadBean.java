@@ -18,6 +18,7 @@ import br.com.spread.qualicorp.coparticipacao.util.FacesUtils;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 
 /**
  * 
@@ -34,6 +35,9 @@ public class UploadBean extends AbstractBean {
 	private ArquivoExecucaoService arquivoExecucaoService;
 
 	@Autowired
+	private ExecucaoService execucaoService;
+
+	@Autowired
 	private DownloadBean downloadBean;
 
 	private List<ArquivoExecucaoUi> arquivoExecucaoUis;
@@ -47,6 +51,11 @@ public class UploadBean extends AbstractBean {
 	private ArquivoExecucaoUi selectedArquivoExecucaoUi;
 
 	private EmpresaUi empresaUi;
+
+	/**
+	 * Descrição com o nome da Operadora e Empresa selecionados pelo usuário.
+	 */
+	private String nameUpload;
 
 	@Override
 	public void initBean() throws BeanException {
@@ -86,7 +95,7 @@ public class UploadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
@@ -119,7 +128,7 @@ public class UploadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
@@ -185,7 +194,7 @@ public class UploadBean extends AbstractBean {
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoExecucaoService.sendToProcess(getArquivoExecucaoUis());
+			execucaoService.sendToProcess(getArquivoExecucaoUis(), getEmpresaUi(), getUser());
 
 			/*
 			 * Para fazer a tela já mostrar os downloads da empresa que o
@@ -198,17 +207,27 @@ public class UploadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
 
 	public String confirmEmpresa() throws BeanException {
+		StringBuilder sb;
+
 		try {
 			LOGGER.info("BEGIN");
 
 			if (getEmpresaUi() != null) {
 				LOGGER.info("END");
+
+				sb = new StringBuilder();
+				sb.append(getEmpresaUi().getOperadora().getNameOperadora());
+				sb.append("::");
+				sb.append(getEmpresaUi().getNameEmpresa());
+
+				setNameUpload(sb.toString());
+
 				return "upload";
 			}
 
@@ -217,7 +236,7 @@ public class UploadBean extends AbstractBean {
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			FacesUtils.addError(e.getMessage());
-			
+
 			throw new BeanException(e);
 		}
 	}
@@ -240,6 +259,14 @@ public class UploadBean extends AbstractBean {
 		}
 
 		return true;
+	}
+
+	public String getNameUpload() {
+		return nameUpload;
+	}
+
+	public void setNameUpload(String nameUpload) {
+		this.nameUpload = nameUpload;
 	}
 
 }

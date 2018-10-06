@@ -85,11 +85,6 @@ public class TitularIsentoServiceImpl extends AbstractServiceImpl<TitularIsentoU
 	}
 
 	@Override
-	protected AbstractBatchDao<TitularIsentoEntity> getJdbcDao() {
-		return titularIsentoJdbcDao;
-	}
-
-	@Override
 	protected void logBatchInfo(TitularIsentoUi titularIsentoUi) throws ServiceException {
 		TitularUi titularUi = (TitularUi) titularIsentoUi.getTitular();
 

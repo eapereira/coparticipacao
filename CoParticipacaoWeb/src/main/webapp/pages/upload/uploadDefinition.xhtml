@@ -8,10 +8,11 @@
 	xmlns:sec="http://www.springframework.org/security/tags"
 	xmlns:copa="http://java.sun.com/jsf/composite/coparticipacao">
 
-<copa:body id="bodyCoparticipacao" title="#{msg['upload.title']} - #{uploadBean.empresaUi.nameEmpresa}">
+<copa:body id="bodyCoparticipacao"
+	title="#{msg['upload.title']} - #{uploadBean.nameUpload}">
 	<h:form id="formUpload">
 
-		<p:dataTable id="datatableArquivoExecucao" var="arquivoExecucao"
+		<p:dataTable id="datatableUploadDefinition" var="arquivoExecucao"
 			value="#{uploadBean.arquivoExecucaoUis}" paginator="true" rows="10">
 			<f:facet name="header">
 				<h:outputText value="#{msg['upload.table.title']}" />
@@ -45,6 +46,8 @@
 			</p:column>
 
 		</p:dataTable>
+
+		<br />
 
 		<p:commandButton id="btNext" value="#{msg['global.confirm']}"
 			disabled="#{uploadBean.disabledConfirmUploadDefinition}"

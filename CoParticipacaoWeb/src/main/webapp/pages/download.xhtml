@@ -27,7 +27,7 @@
 			value="#{downloadBean.empresaUi}" />
 
 		<p:poll interval="3" update="datatableArquivoExecucao"
-			listener="#{downloadBean.pollListener}" />
+			widgetVar="pollTimer" listener="#{downloadBean.pollListener}" stop="#{downloadBean.stopPoll}"/>
 
 		<p:dataTable id="datatableArquivoExecucao" var="arquivoExecucao"
 			value="#{downloadBean.arquivoExecucaoUis}" paginator="true" rows="10">
@@ -38,7 +38,8 @@
 			<p:column id="colTask">
 				<p:commandButton value="#{msg['global.download']}" ajax="false"
 					icon="ui-icon-arrowthick-1-s"
-					disabled="#{downloadBean.disabledDownloadButton(arquivoExecucao)}">
+					rendered="#{downloadBean.renderedDownloadButton(arquivoExecucao)}"
+					disabled="#{downloadBean.disabledDownloadButton}">
 
 					<f:setPropertyActionListener value="#{arquivoExecucao}"
 						target="#{downloadBean.selectedArquivoExecucaoUi}" />

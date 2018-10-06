@@ -1,20 +1,16 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.LancamentoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.LancamentoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.LancamentoEntityMapper;
@@ -22,10 +18,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.LancamentoUi
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -36,7 +30,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 @Service
-@Transactional(value = AbstractService.JDBC_TX)
 public class LancamentoServiceImpl extends AbstractServiceImpl<LancamentoUi, LancamentoEntity, Lancamento>
 		implements LancamentoService {
 
@@ -95,37 +88,6 @@ public class LancamentoServiceImpl extends AbstractServiceImpl<LancamentoUi, Lan
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
-	}
-
-	@Override
-	public void saveBatch(List<LancamentoUi> lancamentoUis) throws ServiceException {
-		List<LancamentoDetailUi> lancamentoDetailUis;
-
-		super.saveBatch(lancamentoUis);
-
-		lancamentoDetailUis = new ArrayList<LancamentoDetailUi>();
-
-		for (LancamentoUi lancamentoUi : lancamentoUis) {
-			logBatchInfo(lancamentoUi);
-
-			for (LancamentoDetail lancamentoDetail : lancamentoUi.getLancamentoDetails()) {
-				lancamentoDetailUis.add((LancamentoDetailUi) lancamentoDetail);
-
-				if (lancamentoDetailUis.size() % AbstractBatchDao.BATCH_SIZE == 0) {
-					lancamentoDetailService.saveBatchBlock(lancamentoDetailUis);
-					lancamentoDetailUis.clear();
-				}
-			}
-		}
-
-		if (!lancamentoDetailUis.isEmpty()) {
-			lancamentoDetailService.saveBatchBlock(lancamentoDetailUis);
-		}
-	}
-
-	@Override
-	protected AbstractBatchDao<LancamentoEntity> getJdbcDao() {
-		return lancamentoJdbcDao;
 	}
 
 	@Override

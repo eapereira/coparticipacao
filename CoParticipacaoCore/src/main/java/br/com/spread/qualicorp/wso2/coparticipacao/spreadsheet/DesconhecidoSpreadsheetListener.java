@@ -10,7 +10,6 @@ import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ParameterName;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -132,10 +131,6 @@ public class DesconhecidoSpreadsheetListener implements SpreadsheetListener<Dyna
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
-	}
-
-	public String getOutputFilePath() throws ServiceException {
-		return coParticipacaoContext.findParameterByName(ParameterName.OUTPUT_FILE_PATH).getValue();
 	}
 
 }

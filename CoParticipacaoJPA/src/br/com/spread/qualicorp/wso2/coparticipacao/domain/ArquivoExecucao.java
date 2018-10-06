@@ -34,6 +34,8 @@ public abstract class ArquivoExecucao extends AbstractDomain {
 	
 	private Integer ordem;
 
+	private Execucao execucao;
+	
 	public ArquivoExecucao() {
 		super();
 	}
@@ -186,6 +188,14 @@ public abstract class ArquivoExecucao extends AbstractDomain {
 		if (statusExecucaoType != other.statusExecucaoType)
 			return false;
 		return true;
+	}
+
+	public Execucao getExecucao() {
+		return execucao;
+	}
+
+	public void setExecucao(Execucao execucao) {
+		this.execucao = execucao;
 	}
 
 }

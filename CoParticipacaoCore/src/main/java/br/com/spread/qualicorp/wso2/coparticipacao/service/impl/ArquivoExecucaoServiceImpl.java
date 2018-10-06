@@ -127,6 +127,7 @@ public class ArquivoExecucaoServiceImpl
 
 				if (arquivoExecucaoUi == null) {
 					arquivoExecucaoUi = new ArquivoExecucaoUi();
+					arquivoExecucaoUi.setExecucao(coParticipacaoContext.getExecucaoUi());
 					arquivoExecucaoUi.setUserCreated(coParticipacaoContext.getUser());
 					arquivoExecucaoUi.setContrato(contratoUi);
 					arquivoExecucaoUi.setMes(currentDate.getMonthValue());
@@ -262,8 +263,9 @@ public class ArquivoExecucaoServiceImpl
 				}
 
 				arquivoExecucaoUi.setOrdem(ordem);
-
 				sendToProcess(arquivoExecucaoUi);
+
+				ordem++;
 			}
 
 			LOGGER.info("END");
@@ -429,13 +431,10 @@ public class ArquivoExecucaoServiceImpl
 	public ArquivoExecucaoUi createArquivoExecucao(CoParticipacaoContext coParticipacaoContext, UseType useType)
 			throws ServiceException {
 		ArquivoExecucaoUi arquivoExecucaoUi = null;
-		LocalDate currentDate;
 		ContratoUi contratoUi = null;
 
 		try {
 			LOGGER.info("BEGIN");
-
-			currentDate = LocalDate.now();
 
 			for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
 				if (contrato.getUseType().equals(useType)) {
@@ -445,16 +444,37 @@ public class ArquivoExecucaoServiceImpl
 			}
 
 			if (contratoUi != null) {
-				arquivoExecucaoUi = findByContratoIdAndMesAndAno(
-						contratoUi,
-						currentDate.getMonthValue(),
-						currentDate.getYear());
+				arquivoExecucaoUi = createArquivoExecucao(coParticipacaoContext, contratoUi);
 			} else {
 				throw new ServiceException("There is no ContratoUi for UseType.[%s]:", useType.getDescription());
 			}
 
+			LOGGER.info("END");
+			return arquivoExecucaoUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	public ArquivoExecucaoUi createArquivoExecucao(CoParticipacaoContext coParticipacaoContext, ContratoUi contratoUi)
+			throws ServiceException {
+		ArquivoExecucaoUi arquivoExecucaoUi = null;
+		LocalDate currentDate;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			currentDate = LocalDate.now();
+
+			arquivoExecucaoUi = findByContratoIdAndMesAndAno(
+					contratoUi,
+					currentDate.getMonthValue(),
+					currentDate.getYear());
+
 			if (arquivoExecucaoUi == null) {
 				arquivoExecucaoUi = new ArquivoExecucaoUi();
+				arquivoExecucaoUi.setExecucao(coParticipacaoContext.getExecucaoUi());
 			}
 
 			arquivoExecucaoUi.setContrato(contratoUi);
@@ -499,6 +519,7 @@ public class ArquivoExecucaoServiceImpl
 					}
 				} else {
 					if (UseType.FATUCOPA.equals(arquivoExecucaoUi.getContrato().getUseType())
+							|| UseType.EXTRA_FILE.equals(arquivoExecucaoUi.getContrato().getUseType())
 							|| UseType.NAO_LOCALIZADO.equals(arquivoExecucaoUi.getContrato().getUseType())) {
 						if (StatusExecucaoType.SUCCESS.equals(arquivoExecucaoUi.getStatusExecucaoType())) {
 							LOGGER.info(
@@ -513,6 +534,20 @@ public class ArquivoExecucaoServiceImpl
 
 			LOGGER.info("END");
 			return false;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	public void deleteByEmpresaAndUseTypeAndMesAndAno(EmpresaUi empresaUi, UseType useType, Integer mes, Integer ano)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoExecucaoDao.deleteByEmpresaAndUseTypeAndMesAndAno(empresaUi.getId(), useType, mes, ano);
+
+			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);

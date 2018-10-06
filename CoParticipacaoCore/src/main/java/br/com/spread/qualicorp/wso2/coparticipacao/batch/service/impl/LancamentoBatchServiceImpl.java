@@ -1,8 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.batch.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +8,13 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.LancamentoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.LancamentoBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.LancamentoDetailBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.LancamentoEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.LancamentoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -44,9 +38,6 @@ public class LancamentoBatchServiceImpl extends AbstractBatchServiceImpl<Lancame
 
 	@Autowired
 	private LancamentoJdbcDao lancamentoJdbcDao;
-
-	@Autowired
-	private LancamentoDetailBatchService lancamentoDetailBatchService;
 
 	@Override
 	protected LancamentoUi createUi() {
@@ -104,34 +95,6 @@ public class LancamentoBatchServiceImpl extends AbstractBatchServiceImpl<Lancame
 			LOGGER.debug("DT_NASC_DEPENDENTE ............... [{}]:", dependenteUi.getDtNascimento());
 		}
 
-	}
-
-	@Override
-	public void saveBatch(List<LancamentoUi> lancamentoUis) throws ServiceException {
-		List<LancamentoDetailUi> lancamentoDetailUis;
-
-		for (LancamentoUi lancamentoUi : lancamentoUis) {
-			super.saveBatch(lancamentoUi);
-		}
-
-		lancamentoDetailUis = new ArrayList<LancamentoDetailUi>();
-
-		for (LancamentoUi lancamentoUi : lancamentoUis) {
-			logBatchInfo(lancamentoUi);
-
-			for (LancamentoDetail lancamentoDetail : lancamentoUi.getLancamentoDetails()) {
-				lancamentoDetailUis.add((LancamentoDetailUi) lancamentoDetail);
-
-				if (lancamentoDetailUis.size() % AbstractBatchDao.BATCH_SIZE == 0) {
-					lancamentoDetailBatchService.saveBatch(lancamentoDetailUis);
-					lancamentoDetailUis.clear();
-				}
-			}
-		}
-
-		if (!lancamentoDetailUis.isEmpty()) {
-			lancamentoDetailBatchService.saveBatch(lancamentoDetailUis);
-		}
 	}
 
 }

@@ -10,11 +10,24 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity;
 public class TitularUi extends Titular {
 	private static final long serialVersionUID = 1L;
 
+	private boolean markedForUpdated;
+	
 	public TitularUi() {
+		super();
+		
+		this.markedForUpdated=false;
 	}
 
 	public TitularUi(TitularEntity entity) {
 		super(entity);
+	}
+
+	public boolean isMarkedForUpdated() {
+		return markedForUpdated;
+	}
+
+	public void setMarkedForUpdated(boolean markedForUpdated) {
+		this.markedForUpdated = markedForUpdated;
 	}
 
 }

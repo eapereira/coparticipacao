@@ -141,6 +141,7 @@ public class JpaConfiguration {
 		}
 	}
 
+	@Primary
 	@Bean
 	public DataSource dataSource() throws Exception {
 		JndiDataSourceLookup dataSourceLookup;

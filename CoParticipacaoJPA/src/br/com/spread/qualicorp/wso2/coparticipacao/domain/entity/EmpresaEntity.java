@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -15,10 +17,13 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExternalProcess;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Parameter;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportQueryTypeConverter;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.listener.EmpresaEntityListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 
 /**
@@ -28,6 +33,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 @Entity
 @Table(name = "TB_EMPRESA")
 @NamedQuery(name = "EmpresaEntity.findAll", query = "SELECT e FROM EmpresaEntity e")
+@EntityListeners(EmpresaEntityListener.class)
 public class EmpresaEntity extends Empresa implements DomainEntity {
 
 	/**
@@ -48,19 +54,21 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to Contrato
-	@OneToMany(mappedBy = "empresa", targetEntity = ContratoEntity.class)
+	@OneToMany(
+			mappedBy = "empresa",
+			targetEntity = ContratoEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
 	public List<Contrato> getContratos() {
 		return super.getContratos();
 	}
 
-	// bi-directional many-to-one association to Parameter
-	@OneToMany(mappedBy = "empresa", targetEntity = ParameterEntity.class)
-	public List<Parameter> getParameters() {
-		return super.getParameters();
-	}
-
 	// bi-directional many-to-one association to Contrato
-	@OneToMany(mappedBy = "empresa", targetEntity = TitularEntity.class)
+	@OneToMany(
+			mappedBy = "empresa",
+			targetEntity = TitularEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
 	@Override
 	public List<Titular> getTitulars() {
 		// TODO Auto-generated method stub
@@ -68,7 +76,7 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to Contrato
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = OperadoraEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = OperadoraEntity.class)
 	@JoinColumn(name = "ID_OPERADORA")
 	@Override
 	public Operadora getOperadora() {
@@ -134,6 +142,39 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	public ExternalProcess getExternalProcess() {
 		// TODO Auto-generated method stub
 		return super.getExternalProcess();
+	}
+
+	@OneToMany(
+			mappedBy = "empresa",
+			targetEntity = ExecucaoEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
+	@Override
+	public List<Execucao> getExecucaos() {
+		// TODO Auto-generated method stub
+		return super.getExecucaos();
+	}
+
+	@Column(name = "CD_OUTPUT_DIR")
+	@Override
+	public String getOutputDir() {
+		// TODO Auto-generated method stub
+		return super.getOutputDir();
+	}
+
+	@Column(name = "CD_FAILURE_DIR")
+	@Override
+	public String getFailureDir() {
+		// TODO Auto-generated method stub
+		return super.getFailureDir();
+	}
+
+	@Convert(converter = ReportQueryTypeConverter.class)
+	@Column(name = "TP_REPORT_QUERY")
+	@Override
+	public ReportQueryType getReportQueryType() {
+		// TODO Auto-generated method stub
+		return super.getReportQueryType();
 	}
 
 }

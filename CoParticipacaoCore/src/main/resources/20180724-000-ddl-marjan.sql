@@ -51,7 +51,8 @@ join TB_DEPENDENTE dependente on
 	dependente.ID = lancamento.ID_DEPENDENTE
 join TB_EMPRESA empresa on
 	empresa.ID = contrato.ID_EMPRESA
-where dependente.NR_MATRICULA_EMPRESA is not null;
+where 	dependente.NR_MATRICULA_EMPRESA is not null
+and		empresa.CD_EMPRESA	= 'MARJAN';
 	
 create view VW_LANCAMENTO_MARJAN as
 select
@@ -77,7 +78,8 @@ join TB_DEPENDENTE dependente on
 	dependente.ID = lancamento.ID_DEPENDENTE
 join TB_EMPRESA empresa on
 	empresa.ID = contrato.ID_EMPRESA
-where dependente.NR_MATRICULA_EMPRESA is not null
+where 	dependente.NR_MATRICULA_EMPRESA is not null
+and		empresa.CD_EMPRESA	= 'MARJAN'
 union all
 select
 	lancamento.ID ID_LANCAMENTO,
@@ -100,7 +102,8 @@ join TB_TITULAR titular on
 	titular.ID = lancamento.ID_TITULAR
 join TB_EMPRESA empresa on
 	empresa.ID = contrato.ID_EMPRESA
-where lancamento.ID_DEPENDENTE is null;
+where	lancamento.ID_DEPENDENTE is null
+and		empresa.CD_EMPRESA	= 'MARJAN';
 
 create view VW_ISENTOS_FILHOS_12_MESES_MARJAN as
 select
@@ -382,6 +385,11 @@ select
     marjan.NM_DEPENDENTE,
     marjan.DT_DEMISSAO
 from VW_DESCONHECIDO_MARJAN_LEVEL01 marjan
+	join TB_CONTRATO contrato on
+		contrato.ID = marjan.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where empresa.CD_EMPRESA = 'MARJAN'
 order by marjan.NM_TITULAR, marjan.NM_DEPENDENTE;
 
 /*********************************************************************************************************************/

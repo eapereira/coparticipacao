@@ -7,11 +7,11 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
  */
 public enum UseType {
 
-						FATUCOPA(1, "Arquivo de lançamentos"),
-						MECSAS(2, "Arquivo de base de dados"),
-						ISENTO(3, "Relação de beneficiários isentos"),
-						MECSAS2(4, "Arquivo para atualizar base de dados"),
-						NAO_LOCALIZADO(5, "Arquivos de criticas corrigidos pelo usuário"),
+						MECSAS(1, "Arquivo de base de dados"),
+						MECSAS2(2, "Arquivo para atualizar base de dados"),
+						NAO_LOCALIZADO(3, "Arquivos de criticas corrigidos pelo usuário"),
+						ISENTO(4, "Relação de beneficiários isentos"),
+						FATUCOPA(5, "Arquivo de lançamentos"),
 						EXTRA_FILE(6, "Arquivo adicional");
 
 	private Integer id;

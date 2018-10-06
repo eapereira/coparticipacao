@@ -121,6 +121,8 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_LABEL						bigint( 17 ) default 7;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_REF_CODE						bigint( 17 ) default 8;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA			bigint( 17 ) default 10;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR						bigint( 17 ) default 12;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_TITULAR			bigint( 17 ) default 13;
 	
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;

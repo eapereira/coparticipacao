@@ -1,14 +1,18 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.util;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
+
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 
 /**
  * 
@@ -60,7 +64,7 @@ public abstract class DateUtils {
 		return LocalDate.now();
 	}
 
-	public static Date localDateTimeToSqlDate(LocalDate localDate) {
+	public static Date localDateToSqlDate(LocalDate localDate) {
 		if (localDate != null) {
 			return Date.valueOf(localDate);
 		}
@@ -94,4 +98,23 @@ public abstract class DateUtils {
 		return null;
 	}
 
+	public static Time localTimeToTime(LocalTime localTime) {
+		if (localTime != null) {
+			return Time.valueOf(localTime);
+		}
+
+		return null;
+	}
+
+	public static String dateToString(LocalDate date, String format) throws CoParticipacaoException {
+		DateTimeFormatter dateTimeFormatter;
+
+		if (date != null) {
+			dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+
+			return dateTimeFormatter.format(date);
+		}
+
+		return null;
+	}
 }

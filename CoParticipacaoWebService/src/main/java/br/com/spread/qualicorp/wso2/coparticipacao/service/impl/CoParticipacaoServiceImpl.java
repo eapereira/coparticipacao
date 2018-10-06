@@ -1,30 +1,33 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spread.qualicorp.webservice.coparticipacao.CoParticipacaoInfo;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.CoparticipacaoJdbcDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -32,14 +35,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.CsvProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FixedLengthProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.IsentoSpreadsheetProcessorService;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
-import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.DependenteByCpfAndNameMapKeyBuilder;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.DependenteByMatriculaAndNameMapKeyBuilder;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.PartitionMap;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByCpfAndNameMapKeyBuilder;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByMatriculaAndNameMapKeyBuilder;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputService;
@@ -47,13 +49,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioColsServi
 import br.com.spread.qualicorp.wso2.coparticipacao.service.CoParticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.FatucopaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputColsService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.NaoLocalizadoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ParameterService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -67,7 +69,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.StopWatchAdapter;
  *
  */
 @Service
-@Transactional(transactionManager = AbstractService.JDBC_TX)
 public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoServiceImpl.class);
@@ -114,9 +115,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	private RegraConditionalService regraConditionalService;
 
 	@Autowired
-	private ParameterService parameterService;
-
-	@Autowired
 	private IsentoService isentoService;
 
 	@Autowired
@@ -142,35 +140,170 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	@Autowired
 	private ArquivoExecucaoService arquivoExecucaoService;
 
+	@Autowired
+	private ExecucaoService execucaoService;
+
 	private static final Long USER_ADMIN_ID = 1l;
 
-	public CoParticipacaoInfo processFile(String fileName, String filePath) throws ServiceException {
+	public CoParticipacaoInfo processExecucaoId(Long execucaoId) throws ServiceException {
 		CoParticipacaoInfo coParticipacaoInfo;
-		CoParticipacaoContext coParticipacaoContext;
-		String tmp;
+		ExecucaoUi execucaoUi = null;
+		String fileName;
+		File file;
 		StopWatchAdapter stopWatch;
 
 		try {
 			LOGGER.info("BEGIN");
-			LOGGER.info("Receiving file [{}] to process:", fileName);
 
 			// Para marcar o tempo que levou para fazer a tarefa:
 			stopWatch = new StopWatchAdapter();
 			stopWatch.start();
 
 			coParticipacaoInfo = new CoParticipacaoInfo();
-			coParticipacaoInfo.setFileName(fileName);
-			coParticipacaoInfo.setFilePath(filePath);
 
-			coParticipacaoContext = createCoParticipacaoContext(fileName);
+			if (execucaoId != null) {
+				execucaoUi = execucaoService.findById(execucaoId);
+			}
+
+			if (execucaoUi != null && ExecucaoType.OPEN.equals(execucaoUi.getExecucaoType())) {
+				for (ArquivoExecucao arquivoExecucao : execucaoUi.getArquivoExecucaos()) {
+					fileName = arquivoExecucao.getNameArquivoInput();
+					file = new File(fileName);
+
+					if (file.exists()) {
+						LOGGER.info("Receiving file [{}] to process:", fileName);
+
+						coParticipacaoInfo = processFile((ArquivoExecucaoUi) arquivoExecucao);
+					} else {
+						throw new ServiceException("File [%s] not found:", fileName);
+					}
+				}
+			} else {
+				throw new ServiceException("Invalid Execucao.ID[%s] received:", execucaoId);
+			}
+
+			execucaoUi.setExecucaoType(ExecucaoType.CLOSED);
+			execucaoService.save(execucaoUi);
+
+			stopWatch.stop();
+
+			LOGGER.info(
+					"CoParticipacao task ExecucaoUi[{}] completed with [{}] min:",
+					execucaoUi.getId(),
+					stopWatch.getTotalTimeMinutes());
+			LOGGER.info("END");
+			return coParticipacaoInfo;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void moveExecucaoToOutput(CoParticipacaoContext coParticipacaoContext, ArquivoExecucaoUi arquivoExecucaoUi)
+			throws ServiceException {
+		EmpresaUi empresaUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			empresaUi = coParticipacaoContext.getEmpresaUi();
+
+			moveExecucaoToDirectory(coParticipacaoContext, arquivoExecucaoUi, empresaUi.getOutputDir());
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void moveExecucaoToFailure(CoParticipacaoContext coParticipacaoContext, ArquivoExecucaoUi arquivoExecucaoUi)
+			throws ServiceException {
+		EmpresaUi empresaUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			if (coParticipacaoContext != null) {
+				empresaUi = coParticipacaoContext.getEmpresaUi();
+
+				moveExecucaoToDirectory(coParticipacaoContext, arquivoExecucaoUi, empresaUi.getFailureDir());
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	protected void moveExecucaoToDirectory(
+			CoParticipacaoContext coParticipacaoContext,
+			ArquivoExecucaoUi arquivoExecucaoUi,
+			String destPathDir) throws ServiceException {
+		File file;
+		File destFile;
+		EmpresaUi empresaUi;
+		StringBuilder sb;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			empresaUi = coParticipacaoContext.getEmpresaUi();
+
+			LOGGER.info(
+					"Moving file[{}] to [{}]:",
+					arquivoExecucaoUi.getSimpleNameArquivoInput(),
+					empresaUi.getOutputDir());
+
+			sb = new StringBuilder();
+			sb.append(destPathDir);
+			sb.append(File.separator);
+			sb.append(arquivoExecucaoUi.getSimpleNameArquivoInput());
+
+			file = new File(arquivoExecucaoUi.getNameArquivoInput());
+			destFile = new File(sb.toString());
+
+			if (destFile.exists()) {
+				destFile.delete();
+			}
+
+			FileUtils.moveFile(file, destFile);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private CoParticipacaoInfo processFile(ArquivoExecucaoUi arquivoExecucaoUi) throws ServiceException {
+		CoParticipacaoInfo coParticipacaoInfo;
+		CoParticipacaoContext coParticipacaoContext = null;
+		StopWatchAdapter stopWatch;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			// Para marcar o tempo que levou para fazer a tarefa:
+			stopWatch = new StopWatchAdapter();
+			stopWatch.start();
+
+			coParticipacaoInfo = new CoParticipacaoInfo();
+
+			coParticipacaoContext = createCoParticipacaoContext(arquivoExecucaoUi.getSimpleNameArquivoInput());
+			coParticipacaoContext.setExecucaoUi((ExecucaoUi) arquivoExecucaoUi.getExecucao());
+			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
 
 			if (!coParticipacaoContext.getArquivoInputColsDefUis().isEmpty()) {
-				tmp = StringUtils.replaceAll(filePath, "input", "output");
-
-				loadFileInputData(tmp, coParticipacaoContext);
+				loadFileInputData(arquivoExecucaoUi, coParticipacaoContext);
 			} else {
-				throw new ServiceException("O arquivo [%s] não possui colunas definidas.", fileName);
+				throw new ServiceException(
+						"O arquivo [%s] não possui colunas definidas.",
+						arquivoExecucaoUi.getSimpleNameArquivoInput());
 			}
+
+			moveExecucaoToOutput(coParticipacaoContext, arquivoExecucaoUi);
 
 			stopWatch.stop();
 
@@ -178,6 +311,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.info("END");
 			return coParticipacaoInfo;
 		} catch (Exception e) {
+			moveExecucaoToFailure(coParticipacaoContext, arquivoExecucaoUi);
+
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
@@ -211,22 +346,25 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		}
 	}
 
-	private void loadFileInputData(String filePath, CoParticipacaoContext coParticipacaoContext)
+	private void loadFileInputData(ArquivoExecucaoUi arquivoExecucaoUi, CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
 		FileInputStream fileInputStream = null;
 		ArquivoInputUi arquivoInputUi;
 
 		try {
 			LOGGER.info("BEGIN");
-			LOGGER.info("Loading file [{}]:", filePath);
+			LOGGER.info("Loading file [{}]:", arquivoExecucaoUi.getSimpleNameArquivoInput());
 
-			fileInputStream = new FileInputStream(filePath);
+			fileInputStream = new FileInputStream(arquivoExecucaoUi.getNameArquivoInput());
 
 			coParticipacaoContext.setFileInputStream(fileInputStream);
 
 			loadDefaultDefinitions(coParticipacaoContext);
 
 			arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
+
+			arquivoExecucaoUi.getExecucao().setUserCreated(coParticipacaoContext.getUser());
+			arquivoExecucaoUi.getExecucao().setUserAltered(coParticipacaoContext.getUser());
 
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
 
@@ -318,7 +456,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		EmpresaUi empresaUi;
-		List<ParameterUi> parameterUis;
 		List<BeneficiarioColsUi> beneficiarioColsUis;
 		PartitionMap<TitularUi> mapTitularUi;
 		PartitionMap<DependenteUi> mapDependenteUi;
@@ -379,9 +516,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);
 			coParticipacaoContext.setBeneficiarioColsUis(beneficiarioColsUis);
-
-			parameterUis = parameterService.listByEmpresaId(empresaUi.getId());
-			coParticipacaoContext.getParameterUis().addAll(parameterUis);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

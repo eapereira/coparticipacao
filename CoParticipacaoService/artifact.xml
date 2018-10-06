@@ -11,7 +11,4 @@
     <artifact name="LogSequence" groupId="br.com.spread.qualicorp.wso2.coparticipacao.sequence" version="1.0.0" type="synapse/sequence" serverRole="EnterpriseServiceBus">
         <file>src/main/synapse-config/sequences/LogSequence.xml</file>
     </artifact>
-    <artifact name="ReadSpreadsheetFilesEndpoint" groupId="br.com.spread.qualicorp.wso2.coparticipacao.inbound-endpoint" version="1.0.0" type="synapse/inbound-endpoint" serverRole="EnterpriseServiceBus">
-        <file>src/main/synapse-config/inbound-endpoints/ReadSpreadsheetFilesEndpoint.xml</file>
-    </artifact>
 </artifacts>

@@ -13,6 +13,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.AbstractBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -22,7 +23,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-@Transactional(transactionManager = AbstractService.JDBC_TX)
 public abstract class AbstractBatchServiceImpl<UI extends AbstractDomain, ENTITY extends AbstractDomain, INTERFACE extends AbstractDomain>
 		/* extends AbstractServiceImpl<UI, ENTITY, INTERFACE> */ implements AbstractBatchService<UI> {
 
@@ -118,7 +118,7 @@ public abstract class AbstractBatchServiceImpl<UI extends AbstractDomain, ENTITY
 		}
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED,transactionManager = AbstractService.JDBC_TX)
 	public void saveBatch(UI ui) throws ServiceException {
 		Long id;
 
@@ -146,7 +146,7 @@ public abstract class AbstractBatchServiceImpl<UI extends AbstractDomain, ENTITY
 		}
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED,transactionManager = AbstractService.JDBC_TX)
 	public void saveBatch(List<UI> uis) throws ServiceException {
 		List<ENTITY> entitiesInsert;
 		List<ENTITY> entitiesUpdate;
@@ -191,4 +191,5 @@ public abstract class AbstractBatchServiceImpl<UI extends AbstractDomain, ENTITY
 	protected void logBatchInfo(UI ui) throws ServiceException {
 		// TODO
 	}
+		
 }

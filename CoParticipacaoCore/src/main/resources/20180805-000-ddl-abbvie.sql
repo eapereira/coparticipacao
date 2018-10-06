@@ -31,7 +31,12 @@ select
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
 	titular.ID = lancamento.ID_TITULAR
-where lancamento.ID_DEPENDENTE is null
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where	lancamento.ID_DEPENDENTE is null
+and		empresa.CD_EMPRESA = 'ABBVIE'
 union all
 select
 	lancamento.CD_MES,
@@ -48,12 +53,17 @@ select
     titular.NR_MATRICULA_EMPRESA NR_UPI,
     lancamento.VL_PRINCIPAL
 from TB_LANCAMENTO lancamento
-join TB_TITULAR titular on
-	titular.ID = lancamento.ID_TITULAR
-join TB_DEPENDENTE dependente on
-	dependente.ID = lancamento.ID_DEPENDENTE
-where lancamento.ID_DEPENDENTE is not null
-and titular.NR_MATRICULA_EMPRESA is not null;
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+	join TB_DEPENDENTE dependente on
+		dependente.ID = lancamento.ID_DEPENDENTE
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where	lancamento.ID_DEPENDENTE is not null
+and 	titular.NR_MATRICULA_EMPRESA is not null
+and		empresa.CD_EMPRESA = 'ABBVIE';
 
 create view VW_MENORES_12_MESES_ABBVIE as
 select
@@ -191,10 +201,15 @@ select
     titular.NR_MATRICULA_EMPRESA
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
-	titular.ID = lancamento.ID_TITULAR
+		titular.ID = lancamento.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA	
 where	( titular.NR_MATRICULA_EMPRESA is null or
 		  titular.DT_ADMISSAO is null )
 and 	lancamento.ID_DEPENDENTE is null
+and		empresa.CD_EMPRESA = 'ABBVIE'
 union all
 select
 	lancamento.CD_MES,
@@ -208,7 +223,12 @@ select
 from TB_LANCAMENTO lancamento
 	join TB_DEPENDENTE dependente on
 	dependente.ID = lancamento.ID_DEPENDENTE
-where dependente.NR_MATRICULA_EMPRESA is null;
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where	dependente.NR_MATRICULA_EMPRESA is null
+and		empresa.CD_EMPRESA = 'ABBVIE';	
 
 create view VW_DESCONHECIDO_ABBVIE as
 select

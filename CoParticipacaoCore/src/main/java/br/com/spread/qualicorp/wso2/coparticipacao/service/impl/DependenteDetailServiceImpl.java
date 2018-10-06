@@ -9,8 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DependenteDetailJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DependenteDetailDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
@@ -47,9 +45,6 @@ public class DependenteDetailServiceImpl
 	@Autowired
 	private DependenteDetailEntityMapper entityMapper;
 
-	@Autowired
-	private DependenteDetailJdbcDao dependenteDetailJdbcDao;
-
 	@Override
 	protected DependenteDetailUi createUi() {
 		return new DependenteDetailUi();
@@ -73,11 +68,6 @@ public class DependenteDetailServiceImpl
 	@Override
 	protected AbstractMapper<DependenteDetail, DependenteDetailEntity> getEntityMapper() {
 		return entityMapper;
-	}
-
-	@Override
-	protected AbstractBatchDao<DependenteDetailEntity> getJdbcDao() {
-		return dependenteDetailJdbcDao;
 	}
 
 	public Object getFieldValue(DependenteDetailUi dependenteDetailUi) throws ServiceException {

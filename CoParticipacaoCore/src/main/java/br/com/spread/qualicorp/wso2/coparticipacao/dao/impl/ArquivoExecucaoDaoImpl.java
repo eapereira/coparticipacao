@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.ArquivoExecucaoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoExecucaoEntity;
 
 /**
@@ -131,6 +132,28 @@ public class ArquivoExecucaoDaoImpl extends AbstractDaoImpl<ArquivoExecucaoEntit
 
 			query = createQuery("deleteByEmpresaIdAndMesAndAno");
 			query.setParameter("empresaId", empresaId);
+			query.setParameter("mes", mes);
+			query.setParameter("ano", ano);
+
+			query.executeUpdate();
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
+	public void deleteByEmpresaAndUseTypeAndMesAndAno(Long empresaId, UseType useType, Integer mes, Integer ano)
+			throws DaoException {
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("deleteByEmpresaIdAndUseTypeAndMesAndAno");
+			query.setParameter("empresaId", empresaId);
+			query.setParameter("useType", useType);
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
 

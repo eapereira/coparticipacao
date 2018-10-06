@@ -12,7 +12,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
  */
 public interface DynamicDao extends AbstractBatchDao<DynamicEntity> {
 
-	List<DynamicEntity> listByEmpresaAndMesAndAno(String sql, Long empresaId, int mes, int ano)
-			throws DaoException;
+	List<DynamicEntity> listByEmpresaAndMesAndAno(String sql, Long empresaId, int mes, int ano) throws DaoException;
+
+	List<DynamicEntity> listByMesAndAno(String sql, int mes, int ano) throws DaoException;
 
 }

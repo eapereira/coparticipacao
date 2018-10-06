@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,8 +12,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioColType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.EnderecoType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.GrauEscolaridadeType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Rg;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.SexoType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UFType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
@@ -81,6 +92,15 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						if (dependenteUi != null) {
 							lancamentoUi.setTitular(dependenteUi.getTitular());
 							lancamentoUi.setDependente(dependenteUi);
+						} else {
+							/*
+							 * Fazemos mais uma tentativa, caso a Empresa seja
+							 * configurada para criar Beneficiários
+							 * atuomaticamente:
+							 */
+							if (isTitular(coParticipacaoContext, beneficiarioUi)) {
+								lancamentoUi.setTitular(createTitular(coParticipacaoContext, beneficiarioUi));
+							}
 						}
 					}
 				} else {
@@ -242,7 +262,232 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.setDigitoCpf((Integer) value);
 				} else if (BeneficiarioColType.NR_MATRICULA_EMPRESA.equals(beneficiarioColType)) {
 					beneficiarioUi.setMatriculaEmpresa((Long) value);
+				} else {
+					defineBeneficiarioDetails(beneficiarioUi, beneficiarioColType, value);
 				}
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void defineBeneficiarioDetails(
+			BeneficiarioUi beneficiarioUi,
+			BeneficiarioColType beneficiarioColType,
+			Object value) throws ServiceException {
+		BeneficiarioDetail beneficiarioDetail = null;
+		Telefone telefone;
+		Endereco endereco;
+		Rg rg;
+		DadosBancarios dadosBancarios;
+		Transferencia transferencia;
+
+		try {
+			LOGGER.info("BEGIN");
+			LOGGER.info("BeneficiarioDetail.[{}] with value [{}]:", beneficiarioColType.getDescription(), value);
+
+			if (beneficiarioUi.getBeneficiarioDetail() == null) {
+				beneficiarioDetail = new BeneficiarioDetail();
+				beneficiarioUi.setBeneficiarioDetail(beneficiarioDetail);
+			} else {
+				beneficiarioDetail = beneficiarioUi.getBeneficiarioDetail();
+			}
+
+			telefone = beneficiarioDetail.getTelefone();
+			rg = beneficiarioDetail.getRg();
+			dadosBancarios = beneficiarioDetail.getDadosBancarios();
+			transferencia = beneficiarioDetail.getTransferencia();
+			endereco = beneficiarioDetail.getEndereco();
+
+			if (BeneficiarioColType.DF.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDf((Integer) value);
+			} else if (BeneficiarioColType.RDP.equals(beneficiarioColType)) {
+				beneficiarioDetail.setRdp((Integer) value);
+			} else if (BeneficiarioColType.NR_LOCAL.equals(beneficiarioColType)) {
+				beneficiarioDetail.setLocal((Integer) value);
+			} else if (BeneficiarioColType.CD_CATEGORIA.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCategoria((Integer) value);
+			} else if (BeneficiarioColType.SETOR.equals(beneficiarioColType)) {
+				beneficiarioDetail.setSetor((String) value);
+			} else if (BeneficiarioColType.ES.equals(beneficiarioColType)) {
+				beneficiarioDetail.setEs((String) value);
+			} else if (BeneficiarioColType.CD_PLANO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setPlano((Integer) value);
+			} else if (BeneficiarioColType.DT_INCLUSAO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDtInclusao((LocalDate) value);
+			} else if (BeneficiarioColType.SEXO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setSexo(SexoType.parse((String) value));
+			} else if (BeneficiarioColType.PERMANENCIA.equals(beneficiarioColType)) {
+				beneficiarioDetail.setPermanencia((String) value);
+			} else if (BeneficiarioColType.DT_REF.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDtReferencia((LocalDate) value);
+			} else if (BeneficiarioColType.BANCO.equals(beneficiarioColType)) {
+				dadosBancarios.setBanco((Integer) value);
+			} else if (BeneficiarioColType.AGENCIA.equals(beneficiarioColType)) {
+				dadosBancarios.setAgencia((String) value);
+			} else if (BeneficiarioColType.AGENCIA_DG.equals(beneficiarioColType)) {
+				dadosBancarios.setAgenciaDg((String) value);
+			} else if (BeneficiarioColType.CONTA_CORRENTE.equals(beneficiarioColType)) {
+				dadosBancarios.setContaCorrente((String) value);
+			} else if (BeneficiarioColType.CPF_CC.equals(beneficiarioColType)) {
+				dadosBancarios.setCpf((Long) value);
+			} else if (BeneficiarioColType.NM_TITULAR_CC.equals(beneficiarioColType)) {
+				dadosBancarios.setNameTitular((String) value);
+			} else if (BeneficiarioColType.CD_CARDIRF.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCardif((String) value);
+			} else if (BeneficiarioColType.NR_CEP.equals(beneficiarioColType)) {
+				endereco.setCep((Integer) value);
+			} else if (BeneficiarioColType.TP_LOGRADOURO.equals(beneficiarioColType)) {
+				endereco.setType(EnderecoType.parse((String) value));
+			} else if (BeneficiarioColType.NM_LOGRADOURO.equals(beneficiarioColType)) {
+				endereco.setLogradouro((String) value);
+			} else if (BeneficiarioColType.NUM.equals(beneficiarioColType)) {
+				endereco.setNumero((Integer) value);
+			} else if (BeneficiarioColType.COMPL.equals(beneficiarioColType)) {
+				endereco.setComplemento((String) value);
+			} else if (BeneficiarioColType.BAIRRO.equals(beneficiarioColType)) {
+				endereco.setBairro((String) value);
+			} else if (BeneficiarioColType.MUNICIPIO.equals(beneficiarioColType)) {
+				endereco.setMunicipio((String) value);
+			} else if (BeneficiarioColType.UF.equals(beneficiarioColType)) {
+				endereco.setUf(UFType.parse((String) value));
+			} else if (BeneficiarioColType.TEL_RESIDENCIAL.equals(beneficiarioColType)) {
+				telefone.setResidencial((Long) value);
+			} else if (BeneficiarioColType.TEL_COMERCIAL.equals(beneficiarioColType)) {
+				telefone.setComercial((Long) value);
+			} else if (BeneficiarioColType.TEL_CELULAR.equals(beneficiarioColType)) {
+				telefone.setCelular((Long) value);
+			} else if (BeneficiarioColType.NM_MAE.equals(beneficiarioColType)) {
+				rg.setMae((String) value);
+			} else if (BeneficiarioColType.NR_RG.equals(beneficiarioColType)) {
+				rg.setNumero((String) value);
+			} else if (BeneficiarioColType.ORGAO_EMISSOR_RG.equals(beneficiarioColType)) {
+				rg.setOrgaoEmissao((String) value);
+			} else if (BeneficiarioColType.PAIS_RG.equals(beneficiarioColType)) {
+				rg.setPais((String) value);
+			} else if (BeneficiarioColType.DT_EMISSAO_RG.equals(beneficiarioColType)) {
+				rg.setDtEmissao((LocalDate) value);
+			} else if (BeneficiarioColType.UF_RG.equals(beneficiarioColType)) {
+				rg.setUf(UFType.parse((String) value));
+			} else if (BeneficiarioColType.PIS.equals(beneficiarioColType)) {
+				beneficiarioDetail.setPis((String) value);
+			} else if (BeneficiarioColType.CNS.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCns((String) value);
+			} else if (BeneficiarioColType.EMAIL.equals(beneficiarioColType)) {
+				beneficiarioDetail.setEmail((String) value);
+			} else if (BeneficiarioColType.GRAU_ESCOLARIDADE.equals(beneficiarioColType)) {
+				beneficiarioDetail.setGrauEscolaridade(GrauEscolaridadeType.parse((Integer) value));
+			} else if (BeneficiarioColType.RENDA_FAMILIAR.equals(beneficiarioColType)) {
+				beneficiarioDetail.setRendaFamiliar((BigDecimal) value);
+			} else if (BeneficiarioColType.CD_PROFISSAO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdProfissao((Integer) value);
+			} else if (BeneficiarioColType.CD_PAIS_ORIGEM.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdPaisOrigem((Integer) value);
+			} else if (BeneficiarioColType.DT_EXCLUSAO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDtExclusao((LocalDate) value);
+			} else if (BeneficiarioColType.CD_MOTIVO_EXCLUSAO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdMotivoExclusao((Integer) value);
+			} else if (BeneficiarioColType.CD_OPERACAO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdOperacao((Integer) value);
+			} else if (BeneficiarioColType.CD_EMPRESA_TRANSF.equals(beneficiarioColType)) {
+				transferencia.setCdEmpresaTransferencia((Integer) value);
+			} else if (BeneficiarioColType.NR_MATRICULA_TRANSF.equals(beneficiarioColType)) {
+				transferencia.setCdMatriculaTransferencia((Long) value);
+			} else if (BeneficiarioColType.NR_LOCAL_TRANSF.equals(beneficiarioColType)) {
+				transferencia.setLocalTransferecia((Integer) value);
+			} else if (BeneficiarioColType.NR_CATEGORIA_TRANSF.equals(beneficiarioColType)) {
+				transferencia.setCategoriaTransferencia((Integer) value);
+			} else if (BeneficiarioColType.CD_PLANO_TRANSF.equals(beneficiarioColType)) {
+				transferencia.setPlanoTransferecia((String) value);
+			} else if (BeneficiarioColType.MOTIVO_REMISSAO.equals(beneficiarioColType)) {
+				transferencia.setMotivoRemissao((String) value);
+			} else if (BeneficiarioColType.NR_CPF_NOVO_TITULAR.equals(beneficiarioColType)) {
+				transferencia.setCpfNovoTitular((Long) value);
+			} else if (BeneficiarioColType.QTDE_PERM_MESES.equals(beneficiarioColType)) {
+				transferencia.setQtdePermanenciaMeses((Integer) value);
+			} else if (BeneficiarioColType.RDP_NOVO_TITULAR.equals(beneficiarioColType)) {
+				transferencia.setRdpNovoTitular((Integer) value);
+			} else if (BeneficiarioColType.DT_INICIO_TRANSF.equals(beneficiarioColType)) {
+				transferencia.setDtInicioTransferencia((LocalDate) value);
+			} else if (BeneficiarioColType.CD_STATUS.equals(beneficiarioColType)) {
+				transferencia.setCdStatus((String) value);
+			} else if (BeneficiarioColType.CD_ERROR.equals(beneficiarioColType)) {
+				transferencia.setCdError((String) value);
+			} else if (BeneficiarioColType.CD_DV.equals(beneficiarioColType)) {
+				transferencia.setCdDv((Integer) value);
+			} else if (BeneficiarioColType.BLOQ_EMPRESA_INADIMPLENCIA.equals(beneficiarioColType)) {
+				if ("S".equals((String) value)) {
+					beneficiarioDetail.setBloqEmpresaInadimplencia(Boolean.TRUE);
+				} else {
+					beneficiarioDetail.setBloqEmpresaInadimplencia(Boolean.FALSE);
+				}
+			} else if (BeneficiarioColType.CPT.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdProduto((String) value);
+			} else if (BeneficiarioColType.CD_EMPRESA_TITULAR.equals(beneficiarioColType)) {
+				transferencia.setCdEmpresaTitular((Integer) value);
+			} else if (BeneficiarioColType.DIF_MATRICULA_TITULAR.equals(beneficiarioColType)) {
+				transferencia.setDiferenciadorMatriculaTitular((String) value);
+			} else if (BeneficiarioColType.NR_TITULO_ELEITOR.equals(beneficiarioColType)) {
+				beneficiarioDetail.setTituloEleitor((String) value);
+			} else if (BeneficiarioColType.NR_RIC.equals(beneficiarioColType)) {
+				beneficiarioDetail.setRic((String) value);
+			} else if (BeneficiarioColType.NR_CERTIDAO_NASCIMENTO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCertidaoNascimento((String) value);
+			} else if (BeneficiarioColType.NR_CARTEIRA_IDENT.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCarteiraIdentificacao((String) value);
+			} else if (BeneficiarioColType.IND_SEGURADO_CONTRIBUTARIO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorSeguradoContributario((String) value);
+			} else if (BeneficiarioColType.IND_COND_EX_EMPREGADO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorExEmpregado((String) value);
+			} else if (BeneficiarioColType.IND_PERM_PLANO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorPermanenciaPlano((String) value);
+			} else if (BeneficiarioColType.QTDE_MESES_CONTRIB.equals(beneficiarioColType)) {
+				beneficiarioDetail.setQtdeMesesContribuicao((Integer) value);
+			} else if (BeneficiarioColType.NM_BENEFICIARIO_COMPLETO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setNameCompletoBeneficiario((String) value);
+			} else if (BeneficiarioColType.IND_TITULAR_REMIDO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorTitularRemido((String) value);
+			} else if (BeneficiarioColType.EMAIL_SEGURADORA.equals(beneficiarioColType)) {
+				beneficiarioDetail.setEmailSeguradora((String) value);
+			} else if (BeneficiarioColType.IND_PORTABILIDADE_01.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorPoretabilidade1((String) value);
+			} else if (BeneficiarioColType.IND_PORTABILIDADE_02.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorPoretabilidade2((String) value);
+			} else if (BeneficiarioColType.IND_CARENCIA.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorCarencia((String) value);
+			} else if (BeneficiarioColType.CD_PRODUTO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdProduto((String) value);
+			} else if (BeneficiarioColType.CD_IND_PRODUTO_ANTERIOR_SAS.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdPlanoAnteriorSas((String) value);
+			} else if (BeneficiarioColType.CID01.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid01((String) value);
+			} else if (BeneficiarioColType.CID02.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid02((String) value);
+			} else if (BeneficiarioColType.CID03.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid03((String) value);
+			} else if (BeneficiarioColType.CID04.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid04((String) value);
+			} else if (BeneficiarioColType.CID05.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid05((String) value);
+			} else if (BeneficiarioColType.CID06.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid06((String) value);
+			} else if (BeneficiarioColType.CID07.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid07((String) value);
+			} else if (BeneficiarioColType.CID08.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid08((String) value);
+			} else if (BeneficiarioColType.CID09.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid09((String) value);
+			} else if (BeneficiarioColType.CID10.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCid10((String) value);
+			} else if (BeneficiarioColType.IBGE.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIbge((String) value);
+			} else if (BeneficiarioColType.CBO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCbo((String) value);
+			} else if (BeneficiarioColType.DIF_TRANSF.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDifTransferencia((String) value);
 			}
 
 			LOGGER.info("END");
@@ -418,6 +663,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
 							titularUi.setEmpresa(coParticipacaoContext.getEmpresaUi());
 							titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
+							titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
 
 							titularUi.setUserAltered(coParticipacaoContext.getUser());
 							titularUi.setUserCreated(coParticipacaoContext.getUser());
@@ -442,10 +688,14 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					 * então significa que ele esta duplicado no arquivo de
 					 * entrada e já foi processado:
 					 */
-					throw new TitularDuplicated(beneficiarioUi);
+					if (!titularUi.isMarkedForUpdated() && titularUi.getId() != null) {
+						titularUi.setMarkedForUpdated(true);
+						updateTitular(coParticipacaoContext, titularUi, beneficiarioUi);
+						coParticipacaoContext.addTitular(titularUi);
+					} else {
+						throw new TitularDuplicated(beneficiarioUi);
+					}
 				}
-
-				updateTitular(coParticipacaoContext, titularUi, beneficiarioUi);
 			}
 
 			LOGGER.info("END");
@@ -500,7 +750,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 							titularUi = coParticipacaoContext.getTitularUi();
 						} else {
-							titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
+							if (beneficiarioUi.getMatriculaTitular() != null) {
+								titularUi = coParticipacaoContext
+										.findTitularByMatricula(beneficiarioUi.getMatriculaTitular());
+							} else {
+								titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
+							}
 						}
 
 						if (titularUi != null) {
@@ -529,6 +784,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							dependenteUi.setMatricula(beneficiarioUi.getMatricula());
 							dependenteUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							dependenteUi.setReferenceCode(beneficiarioUi.getReferenceCode());
+							dependenteUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
 
 							dependenteUi.setUserAltered(coParticipacaoContext.getUser());
 							dependenteUi.setUserCreated(coParticipacaoContext.getUser());
@@ -536,6 +792,21 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.addDependente(dependenteUi);
 							coParticipacaoContext.getDependenteUis().add(dependenteUi);
 							coParticipacaoContext.addDependente(dependenteUi);
+						} else {
+							/*
+							 * Como este Beneficiário não existe no banco e
+							 * também não possui Títular, mas a Empresa esta
+							 * configurada para criar os Beneficiários
+							 * automaticamente, vamos transformá-lo em Titular:
+							 */
+							LOGGER.info(
+									"BeneficiarioUi [{}] with CPF [{}] and Matricula [{}] will be created as a TitularUi:",
+									beneficiarioUi.getNameBeneficiario(),
+									beneficiarioUi.getCpf(),
+									beneficiarioUi.getMatricula());
+
+							beneficiarioUi.setType(BeneficiarioType.TITULAR);
+							titularUi = createTitular(coParticipacaoContext, beneficiarioUi);
 						}
 					}
 				} else {
@@ -548,14 +819,18 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					 * Dependente, então significa que ele esta duplicado no
 					 * arquivo de entrada e já foi processado:
 					 */
-					throw new DependenteDuplicated(beneficiarioUi);
+					if (!dependenteUi.isMarkedForUpdated() && dependenteUi.getId() != null) {
+						dependenteUi.setMarkedForUpdated(true);
+						updateDependente(coParticipacaoContext, dependenteUi, beneficiarioUi);
+						coParticipacaoContext.addDependente(dependenteUi);
+					} else {
+						throw new DependenteDuplicated(beneficiarioUi);
+					}
 				}
 			}
 
 			if (dependenteUi == null) {
 				LOGGER.info("Dependente [{}] does not have any Titular:", beneficiarioUi.getNameBeneficiario());
-			} else {
-				updateDependente(coParticipacaoContext, dependenteUi, beneficiarioUi);
 			}
 
 			LOGGER.info("END");
@@ -623,11 +898,14 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
+			if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
+					|| UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
 					|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 				if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
-					LOGGER.debug("Updating Titular field CPF with value [{}]:", beneficiarioUi.getCpf());
-					titularUi.setCpf(beneficiarioUi.getCpf());
+					if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+						LOGGER.debug("Updating Titular field CPF with value [{}]:", beneficiarioUi.getCpf());
+						titularUi.setCpf(beneficiarioUi.getCpf());
+					}
 				}
 
 				if (beneficiarioUi.getDtNascimento() != null) {
@@ -666,6 +944,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 					coParticipacaoContext.addTitular(titularUi);
 				}
+
+				titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
+				titularUi.setUserAltered(coParticipacaoContext.getUser());
 			}
 
 			LOGGER.info("END");
@@ -682,7 +963,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
+			if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
+					|| UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
 					|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 				if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 					LOGGER.debug("Updating Dependente field CPF with value [{}]:", beneficiarioUi.getCpf());
@@ -720,6 +1002,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 					coParticipacaoContext.addDependente(dependenteUi);
 				}
+
+				dependenteUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
+				dependenteUi.setUserAltered(coParticipacaoContext.getUser());
 			}
 
 			LOGGER.info("END");

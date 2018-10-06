@@ -42,4 +42,20 @@ public class DynamicServiceImpl implements DynamicService {
 			throw new ServiceException(e);
 		}
 	}
+
+	public List<DynamicEntity> listByMesAndAno(String sql, int mes, int ano) throws ServiceException {
+		List<DynamicEntity> dynamicEntities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			dynamicEntities = dynamicDao.listByMesAndAno(sql, mes, ano);
+
+			LOGGER.info("END");
+			return dynamicEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
 }

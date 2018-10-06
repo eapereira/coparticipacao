@@ -19,13 +19,7 @@ public interface AbstractService<UI extends AbstractDomain> {
 
 	void delete(UI ui) throws ServiceException;
 
-	void save(UI ui) throws ServiceException;
+	UI save(UI ui) throws ServiceException;
 
 	void save(List<UI> ui) throws ServiceException;
-
-	void saveBatch(List<UI> uis) throws ServiceException;
-
-	void saveBatch(UI ui) throws ServiceException;
-
-	void saveBatchBlock(List<UI> uis) throws ServiceException;
 }

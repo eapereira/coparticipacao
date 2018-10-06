@@ -1,6 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -8,8 +9,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBatchService;
@@ -24,8 +23,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
-import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.ProcessorListener;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
@@ -41,7 +39,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 @Service
-@Transactional(value = AbstractService.JDBC_TX)
 public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 
 	private static final Logger LOGGER = LogManager.getLogger(FatucopaServiceImpl.class);
@@ -196,23 +193,30 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (lancamentoColType != null) {
-				LOGGER.debug(
-						"Reading Lancamento field [{}] with value [{}]:",
-						lancamentoColType.getDescription(),
-						value);
+			if (value != null) {
+				if (lancamentoColType != null) {
+					LOGGER.debug(
+							"Reading Lancamento field [{}] with value [{}]:",
+							lancamentoColType.getDescription(),
+							value);
 
-				if (LancamentoColType.ID_DEPENDENTE.equals(lancamentoColType)) {
-					// findBeneficiario(lancamentoUi, (Long) value,
-					// coParticipacaoContext);
-				} else if (LancamentoColType.ID_CONTRATO.equals(lancamentoColType)) {
-					lancamentoUi.setContrato(coParticipacaoContext.getContratoUi());
-				} else if (LancamentoColType.CD_MES.equals(lancamentoColType)) {
-					lancamentoUi.setMes((Integer) value);
-				} else if (LancamentoColType.CD_ANO.equals(lancamentoColType)) {
-					lancamentoUi.setAno((Integer) value);
-				} else if (LancamentoColType.VL_PRINCIPAL.equals(lancamentoColType)) {
-					lancamentoUi.setValorPrincipal((BigDecimal) value);
+					if (LancamentoColType.ID_DEPENDENTE.equals(lancamentoColType)) {
+						// findBeneficiario(lancamentoUi, (Long) value,
+						// coParticipacaoContext);
+					} else if (LancamentoColType.ID_CONTRATO.equals(lancamentoColType)) {
+						lancamentoUi.setContrato(coParticipacaoContext.getContratoUi());
+					} else if (LancamentoColType.CD_MES.equals(lancamentoColType)) {
+						lancamentoUi.setMes((Integer) value);
+					} else if (LancamentoColType.CD_ANO.equals(lancamentoColType)) {
+						lancamentoUi.setAno((Integer) value);
+					} else if (LancamentoColType.VL_PRINCIPAL.equals(lancamentoColType)) {
+						lancamentoUi.setValorPrincipal((BigDecimal) value);
+					} else if (LancamentoColType.DT_MOVIMENTO.equals(lancamentoColType)) {
+						lancamentoUi.setDtMovimento((LocalDate) value);
+
+						lancamentoUi.setMes(lancamentoUi.getDtMovimento().getMonthValue());
+						lancamentoUi.setAno(lancamentoUi.getDtMovimento().getYear());
+					}
 				}
 			}
 
@@ -240,7 +244,6 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		return false;
 	}
 
-	@Transactional(value = AbstractService.JDBC_TX, propagation = Propagation.REQUIRED)
 	public void afterProcess(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
@@ -251,8 +254,9 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			} else {
 				LOGGER.info("Creating Beneficiarios that we dont have at database:");
 
-				titularBatchService.saveBatch(coParticipacaoContext.getBunker().getTitularUis());
-				dependenteBatchService.saveBatch(coParticipacaoContext.getBunker().getDependenteUis());
+				titularBatchService.saveBatch(coParticipacaoContext, coParticipacaoContext.getBunker().getTitularUis());
+				dependenteBatchService
+						.saveBatch(coParticipacaoContext, coParticipacaoContext.getBunker().getDependenteUis());
 
 				LOGGER.info("Storing lancamentos data:");
 				lancamentoBatchService.saveBatch(coParticipacaoContext.getBunker().getLancamentoUis());

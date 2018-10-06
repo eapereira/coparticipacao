@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -14,6 +15,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteDetail;
@@ -124,6 +126,13 @@ public class DependenteEntity extends Dependente implements DomainEntity {
 	public List<DependenteDetail> getDependenteDetails() {
 		// TODO Auto-generated method stub
 		return super.getDependenteDetails();
+	}
+
+	@Embedded
+	@Override
+	public BeneficiarioDetail getBeneficiarioDetail() {
+		// TODO Auto-generated method stub
+		return super.getBeneficiarioDetail();
 	}
 
 }

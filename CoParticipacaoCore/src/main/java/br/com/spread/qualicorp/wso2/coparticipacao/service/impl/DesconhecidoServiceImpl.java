@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DesconhecidoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DesconhecidoDao;
@@ -336,35 +335,41 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
 						LOGGER.info("Configuring sheet [{}] for Desconhecidos:", contrato.getCdContrato());
 
-						arquivoOutputDesconhecidoSheetUis = arquivoOutputDesconhecidoSheetService
-								.listByArquivoInputId((ArquivoInputUi) contrato.getArquivoInput());
+						if (contrato.getArquivoInput() != null) {
+							arquivoOutputDesconhecidoSheetUis = arquivoOutputDesconhecidoSheetService
+									.listByArquivoInputId((ArquivoInputUi) contrato.getArquivoInput());
 
-						if (!arquivoOutputDesconhecidoSheetUis.isEmpty()) {
-							for (ArquivoOutputDesconhecidoSheetUi arquivoOutputDesconhecidoSheetUi : arquivoOutputDesconhecidoSheetUis) {
+							if (!arquivoOutputDesconhecidoSheetUis.isEmpty()) {
+								for (ArquivoOutputDesconhecidoSheetUi arquivoOutputDesconhecidoSheetUi : arquivoOutputDesconhecidoSheetUis) {
 
-								viewDestinationUi = (ViewDestinationUi) arquivoOutputDesconhecidoSheetUi
-										.getViewDestination();
-								viewDestinationColsDefUis = viewDestinationColsDefService
-										.listByViewDestinationId(viewDestinationUi);
+									viewDestinationUi = (ViewDestinationUi) arquivoOutputDesconhecidoSheetUi
+											.getViewDestination();
+									viewDestinationColsDefUis = viewDestinationColsDefService
+											.listByViewDestinationId(viewDestinationUi);
 
+									LOGGER.info(
+											"Creating the report for the ViewDestination [{}]:",
+											viewDestinationUi.getNameView());
+									dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
+											viewDestinationUi,
+											(ContratoUi) contrato,
+											coParticipacaoContext.getMes(),
+											coParticipacaoContext.getAno());
+
+									spreadsheetBuilder.addSpreadsheetListener(
+											new DesconhecidoSpreadsheetListener(
+													viewDestinationColsDefUis,
+													dynamicEntities,
+													(ContratoUi) contrato,
+													coParticipacaoContext));
+								}
+							} else {
 								LOGGER.info(
-										"Creating the report for the ViewDestination [{}]:",
-										viewDestinationUi.getNameView());
-								dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
-										viewDestinationUi,
-										(ContratoUi) contrato,
-										coParticipacaoContext.getMes(),
-										coParticipacaoContext.getAno());
-
-								spreadsheetBuilder.addSpreadsheetListener(
-										new DesconhecidoSpreadsheetListener(
-												viewDestinationColsDefUis,
-												dynamicEntities,
-												(ContratoUi) contrato,
-												coParticipacaoContext));
+										"Contrato [{}] doesn't have an OutputFile mapped:",
+										contrato.getCdContrato());
 							}
 						} else {
-							LOGGER.info("Contrato [{}] doen't have a OutputFile mapped:", contrato.getCdContrato());
+							LOGGER.info("Contrato [{}] doesn't have an ArquivoInput mapped:", contrato.getCdContrato());
 						}
 					}
 				}
@@ -392,11 +397,6 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 
 			throw new ServiceException(e.getMessage(), e);
 		}
-	}
-
-	@Override
-	protected AbstractBatchDao<DesconhecidoEntity> getJdbcDao() {
-		return desconhecidoJdbcDao;
 	}
 
 	@Override

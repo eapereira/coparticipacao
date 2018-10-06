@@ -14,7 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-public class TitularSetter extends PreparedStatementSetterAdapter<TitularEntity> {
+public class TitularSetter extends BeneficiarioSetter<TitularEntity> {
 
 	private static final int COL_ID_EMPRESA = 1;
 	private static final int COL_NR_MATRICULA = 2;
@@ -25,12 +25,13 @@ public class TitularSetter extends PreparedStatementSetterAdapter<TitularEntity>
 	private static final int COL_NM_LABEL = 7;
 	private static final int COL_NR_REF_CODE = 8;
 	private static final int COL_NR_MATRICULA_EMPRESA = 9;
-	private static final int COL_DT_DEMISSAO = 10;
 
-	private static final int COL_USER_CREATED = 11;
-	private static final int COL_USER_ALTERED = 11;
+	private static final int COL_DT_DEMISSAO = 101;
 
-	private static final int COL_ID = 12;
+	private static final int COL_USER_CREATED = 102;
+	private static final int COL_USER_ALTERED = 102;
+
+	private static final int COL_ID = 103;
 
 	public TitularSetter(SetterAdapterType setterAdapterType, TitularEntity entity) {
 		super(setterAdapterType, entity);
@@ -78,6 +79,8 @@ public class TitularSetter extends PreparedStatementSetterAdapter<TitularEntity>
 		} else {
 			ps.setNull(COL_NR_MATRICULA_EMPRESA, Types.BIGINT);
 		}
+
+		setBeneficiarioDetailValues(ps, getEntity().getBeneficiarioDetail());
 
 		if (getEntity().getDtDemissao() != null) {
 			ps.setDate(COL_DT_DEMISSAO, DateUtils.dateToSqlDate(getEntity().getDtDemissao()));

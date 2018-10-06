@@ -5,6 +5,7 @@
 			select arquivoExecucao from ArquivoExecucaoEntity arquivoExecucao
 			join fetch arquivoExecucao.contrato contrato
 			join fetch contrato.arquivoInput arquivoInput
+			join fetch arquivoExecucao.execucao execucao
 			where	arquivoInput.id 	= :arquivoInputId
 			and		arquivoExecucao.mes	= :mes
 			and		arquivoExecucao.ano	= :ano
@@ -16,6 +17,7 @@
 			select arquivoExecucao from ArquivoExecucaoEntity arquivoExecucao
 			join fetch arquivoExecucao.contrato contrato
 			join fetch contrato.empresa empresa
+			join fetch arquivoExecucao.execucao execucao
 			where	empresa.id 			= :empresaId
 			and		arquivoExecucao.mes	= :mes
 			and		arquivoExecucao.ano	= :ano
@@ -26,6 +28,7 @@
 		<![CDATA[
 			select arquivoExecucao from ArquivoExecucaoEntity arquivoExecucao
 			join fetch arquivoExecucao.contrato contrato
+			join fetch arquivoExecucao.execucao execucao
 			where	contrato.id 		= :contratoId
 			and		arquivoExecucao.mes	= :mes
 			and		arquivoExecucao.ano	= :ano
@@ -51,6 +54,20 @@
 				where	empresa.id = :empresaId )			
 			and		arquivoExecucao.mes					= :mes
 			and		arquivoExecucao.ano					= :ano
+		]]>
+	</query>
+
+	<query id="deleteByEmpresaIdAndUseTypeAndMesAndAno">
+		<![CDATA[
+			delete from ArquivoExecucaoEntity arquivoExecucao
+			where	arquivoExecucao.contrato.id in (
+				select 	contrato.id
+				from 	ContratoEntity contrato
+				join 	contrato.empresa empresa
+				where	empresa.id 			= :empresaId 
+				and		contrato.useType 	= :useType )			
+			and		arquivoExecucao.mes					= :mes
+			and		arquivoExecucao.ano					= :ano		
 		]]>
 	</query>
 

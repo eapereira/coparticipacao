@@ -10,11 +10,24 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntit
 public class DependenteUi extends Dependente {
 	private static final long serialVersionUID = 1L;
 
+	private boolean markedForUpdated;
+
 	public DependenteUi() {
+		super();
+
+		this.markedForUpdated = false;
 	}
 
 	public DependenteUi(DependenteEntity entity) {
 		super(entity);
+	}
+
+	public boolean isMarkedForUpdated() {
+		return markedForUpdated;
+	}
+
+	public void setMarkedForUpdated(boolean markedForUpdated) {
+		this.markedForUpdated = markedForUpdated;
 	}
 
 }

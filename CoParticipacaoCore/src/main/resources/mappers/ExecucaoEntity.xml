@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="ExecucaoEntity.insert">
+		<![CDATA[	
+			INSERT INTO TB_EXECUCAO(
+				ID_EMPRESA,
+				TP_STATUS,
+								
+				USER_CREATED,
+				DT_CREATED,
+				DT_ALTERED
+			) VALUES (
+				?,
+				?,
+				
+				?,
+				CURRENT_TIMESTAMP(),
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+	
+	<query id="ExecucaoEntity.update">
+		<![CDATA[		
+			UPDATE TB_EXECUCAO
+			SET
+				ID_EMPRESA		= ?,
+				TP_STATUS		= ?,
+				
+				USER_ALTERED	= ?,
+				DT_ALTERED		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+	
+	<query id="ExecucaoEntity.delete">
+		<![CDATA[		
+			DELETE FROM TB_EXECUCAO
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>

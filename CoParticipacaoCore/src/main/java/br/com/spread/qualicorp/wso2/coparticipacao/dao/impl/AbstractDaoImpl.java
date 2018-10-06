@@ -1,7 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
 import java.lang.reflect.ParameterizedType;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -24,7 +23,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@Transactional(value = "jpaTransactionManager")
+@Transactional(transactionManager = AbstractDao.TRANSACTION_MANAGER)
 public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements AbstractDao<ENTITY> {
 	private static final Logger LOGGER = LogManager.getLogger(AbstractDaoImpl.class);
 
@@ -122,7 +121,7 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements 
 		}
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = TRANSACTION_MANAGER)
 	public void delete(ENTITY entity) throws DaoException {
 		try {
 			LOGGER.info("BEGIN");
@@ -136,6 +135,7 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements 
 		}
 	}
 
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = TRANSACTION_MANAGER)
 	public void save(List<ENTITY> entities) throws DaoException {
 		try {
 			LOGGER.info("BEGIN");
@@ -151,19 +151,19 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements 
 		}
 	}
 
-	public void save(ENTITY entity) throws DaoException {
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = TRANSACTION_MANAGER)
+	public ENTITY save(ENTITY entity) throws DaoException {
 		try {
 			LOGGER.info("BEGIN");
 
 			if (entity.getId() != null) {
-				entity.setCreated(LocalDateTime.now());
+				entity = merge(entity);
 			}
 
-			entity.setAltered(LocalDateTime.now());
-
-			entity = entityManager.merge(entity);
 			entityManager.persist(entity);
+
 			LOGGER.info("END");
+			return entity;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e);
@@ -189,5 +189,34 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements 
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e);
 		}
+	}
+
+	protected <T extends AbstractDomain> T merge(T entity) throws DaoException {
+		T entityNew;
+		try {
+			LOGGER.info("BEGIN");
+
+			entityNew = entityManager.merge(entity);
+
+			LOGGER.info("END");
+			return entityNew;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
+	protected <T extends AbstractDomain> void reflesh(T entity) throws DaoException {
+		try {
+			LOGGER.info("BEGIN");
+
+			entityManager.refresh(entity);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+
 	}
 }

@@ -1,6 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.batch.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,18 +10,17 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.TitularJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularDetailBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularResumoBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.TitularEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.TitularUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularResumoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularDetailService;
 
 /**
  * 
@@ -42,13 +40,10 @@ public class TitularBatchServiceImpl extends AbstractBatchServiceImpl<TitularUi,
 	private TitularUiMapper uiMapper;
 
 	@Autowired
-	private TitularDetailService titularDetailService;
-
-	@Autowired
 	private TitularEntityMapper entityMapper;
 
 	@Autowired
-	private TitularDetailBatchService titularDetailBatchService;
+	private TitularResumoBatchService titularResumoBatchService;
 
 	@Override
 	protected TitularUi createUi() {
@@ -98,41 +93,36 @@ public class TitularBatchServiceImpl extends AbstractBatchServiceImpl<TitularUi,
 		return null;
 	}
 
-	@Override
-	public void saveBatch(List<TitularUi> titularUis) throws ServiceException {
-		List<TitularDetailUi> titularDetailUis;
+	public void saveBatch(CoParticipacaoContext coParticipacaoContext, List<TitularUi> titularUis)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			saveBatch(titularUis);
+			updateTitularId(coParticipacaoContext, titularUis);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void updateTitularId(CoParticipacaoContext coParticipacaoContext, List<TitularUi> titularUis)
+			throws ServiceException {
+		List<TitularResumoUi> titularResumoUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			titularDetailUis = new ArrayList<TitularDetailUi>();
+			titularResumoUis = titularResumoBatchService.listByEmpresa(coParticipacaoContext.getEmpresaUi());
 
 			for (TitularUi titularUi : titularUis) {
-				super.saveBatch(titularUi);
-			}
-
-			for (TitularUi titularUi : titularUis) {
-				logBatchInfo(titularUi);
-
-				for (TitularDetail titularDetail : titularUi.getTitularDetails()) {
-					/*
-					 * LOGGER.debug( "TitularDetailUi.[{}] with value [{}]",
-					 * titularDetail.getArquivoInputColsDef().getNameColumn(),
-					 * titularDetailService.getFieldValue((TitularDetailUi)
-					 * titularDetail));
-					 */
-
-					titularDetailUis.add((TitularDetailUi) titularDetail);
-
-					if (titularDetailUis.size() % AbstractBatchDao.BATCH_SIZE == 0) {
-						titularDetailBatchService.saveBatch(titularDetailUis);
-						titularDetailUis.clear();
+				for (TitularResumoUi titularResumoUi : titularResumoUis) {
+					if (titularUi.getCpf().equals(titularResumoUi.getCpf())) {
+						titularUi.setId(titularResumoUi.getId());
 					}
 				}
-			}
-
-			if (!titularDetailUis.isEmpty()) {
-				titularDetailBatchService.saveBatch(titularDetailUis);
 			}
 
 			LOGGER.info("END");
@@ -140,7 +130,6 @@ public class TitularBatchServiceImpl extends AbstractBatchServiceImpl<TitularUi,
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
-
 	}
 
 }

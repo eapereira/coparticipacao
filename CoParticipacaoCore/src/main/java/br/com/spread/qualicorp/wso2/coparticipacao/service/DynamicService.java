@@ -14,4 +14,6 @@ public interface DynamicService {
 	List<DynamicEntity> listByEmpresaAndMesAndAno(String sql, ContratoUi contratoUi, int mes, int ano)
 			throws ServiceException;
 
+	List<DynamicEntity> listByMesAndAno(String sql, int mes, int ano) throws ServiceException;
+
 }

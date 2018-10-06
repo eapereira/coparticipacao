@@ -18,28 +18,34 @@ public abstract class Empresa extends AbstractDomain {
 
 	private Operadora operadora;
 
-	private List<Parameter> parameters;
-
 	private List<Titular> titulars;
 
 	private boolean automaticCreateBeneficiario;
 
 	private String outputReportDir;
-	
+
 	private String inputDir;
 	
-	private boolean saveMecsasDetails;
+	private String outputDir;
 	
+	private String failureDir;
+
+	private boolean saveMecsasDetails;
+
 	private boolean saveBeneficiarioDetails;
 
 	private boolean enabledExternalProcess;
-	
+
 	private ExternalProcess externalProcess;
+
+	private List<Execucao> execucaos;
 	
+	private ReportQueryType reportQueryType;
+
 	public Empresa() {
-		parameters = new ArrayList<>();
 		titulars = new ArrayList<>();
 		contratos = new ArrayList<>();
+		execucaos = new ArrayList<>();
 	}
 
 	public Empresa(Empresa empresa) {
@@ -74,21 +80,6 @@ public abstract class Empresa extends AbstractDomain {
 		contrato.setEmpresa(null);
 
 		return contrato;
-	}
-
-	public Parameter addParameter(Parameter parameter) {
-		getParameters().add(parameter);
-		parameter.setEmpresa(this);
-
-		return parameter;
-	}
-
-	public List<Parameter> getParameters() {
-		return this.parameters;
-	}
-
-	public void setParameters(List<Parameter> parameters) {
-		this.parameters = parameters;
 	}
 
 	public List<Titular> getTitulars() {
@@ -185,6 +176,48 @@ public abstract class Empresa extends AbstractDomain {
 		this.externalProcess = externalProcess;
 	}
 
+	public List<Execucao> getExecucaos() {
+		return execucaos;
+	}
+
+	public void setExecucaos(List<Execucao> execucaos) {
+		this.execucaos = execucaos;
+	}
+
+	public void addExecucao(Execucao execucao) {
+		getExecucaos().add(execucao);
+		execucao.setEmpresa(this);
+	}
+
+	public void removeExecucao(Execucao execucao) {
+		getExecucaos().remove(execucao);
+		execucao.setEmpresa(null);
+	}
+
+	public String getOutputDir() {
+		return outputDir;
+	}
+
+	public void setOutputDir(String outputDir) {
+		this.outputDir = outputDir;
+	}
+
+	public String getFailureDir() {
+		return failureDir;
+	}
+
+	public void setFailureDir(String failureDir) {
+		this.failureDir = failureDir;
+	}
+
+	public ReportQueryType getReportQueryType() {
+		return reportQueryType;
+	}
+
+	public void setReportQueryType(ReportQueryType reportQueryType) {
+		this.reportQueryType = reportQueryType;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -193,11 +226,14 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + ((cdEmpresa == null) ? 0 : cdEmpresa.hashCode());
 		result = prime * result + ((contratos == null) ? 0 : contratos.hashCode());
 		result = prime * result + (enabledExternalProcess ? 1231 : 1237);
+		result = prime * result + ((execucaos == null) ? 0 : execucaos.hashCode());
 		result = prime * result + ((externalProcess == null) ? 0 : externalProcess.hashCode());
+		result = prime * result + ((failureDir == null) ? 0 : failureDir.hashCode());
 		result = prime * result + ((inputDir == null) ? 0 : inputDir.hashCode());
 		result = prime * result + ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
+		result = prime * result + ((outputDir == null) ? 0 : outputDir.hashCode());
 		result = prime * result + ((outputReportDir == null) ? 0 : outputReportDir.hashCode());
-		result = prime * result + ((parameters == null) ? 0 : parameters.hashCode());
+		result = prime * result + ((reportQueryType == null) ? 0 : reportQueryType.hashCode());
 		result = prime * result + (saveBeneficiarioDetails ? 1231 : 1237);
 		result = prime * result + (saveMecsasDetails ? 1231 : 1237);
 		result = prime * result + ((titulars == null) ? 0 : titulars.hashCode());
@@ -227,10 +263,20 @@ public abstract class Empresa extends AbstractDomain {
 			return false;
 		if (enabledExternalProcess != other.enabledExternalProcess)
 			return false;
+		if (execucaos == null) {
+			if (other.execucaos != null)
+				return false;
+		} else if (!execucaos.equals(other.execucaos))
+			return false;
 		if (externalProcess == null) {
 			if (other.externalProcess != null)
 				return false;
 		} else if (!externalProcess.equals(other.externalProcess))
+			return false;
+		if (failureDir == null) {
+			if (other.failureDir != null)
+				return false;
+		} else if (!failureDir.equals(other.failureDir))
 			return false;
 		if (inputDir == null) {
 			if (other.inputDir != null)
@@ -242,15 +288,17 @@ public abstract class Empresa extends AbstractDomain {
 				return false;
 		} else if (!nameEmpresa.equals(other.nameEmpresa))
 			return false;
+		if (outputDir == null) {
+			if (other.outputDir != null)
+				return false;
+		} else if (!outputDir.equals(other.outputDir))
+			return false;
 		if (outputReportDir == null) {
 			if (other.outputReportDir != null)
 				return false;
 		} else if (!outputReportDir.equals(other.outputReportDir))
 			return false;
-		if (parameters == null) {
-			if (other.parameters != null)
-				return false;
-		} else if (!parameters.equals(other.parameters))
+		if (reportQueryType != other.reportQueryType)
 			return false;
 		if (saveBeneficiarioDetails != other.saveBeneficiarioDetails)
 			return false;
@@ -263,7 +311,5 @@ public abstract class Empresa extends AbstractDomain {
 			return false;
 		return true;
 	}
-
-
 
 }

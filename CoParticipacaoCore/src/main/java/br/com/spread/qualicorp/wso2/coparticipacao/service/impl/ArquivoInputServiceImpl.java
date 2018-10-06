@@ -53,7 +53,7 @@ public class ArquivoInputServiceImpl extends AbstractServiceImpl<ArquivoInputUi,
 	private ArquivoInputEntityMapper entityMapper;
 
 	private static final Pattern REGEXP_INPUT_FILE = Pattern
-			.compile("^(.+)\\.(.+)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.((txt|csv|xlsx)|(TXT|CSV|XLSX))$");
+			.compile("^(.+)\\.(.+)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.((txt|csv|xlsx|xls)|(TXT|CSV|XLSX|XLS))$");
 
 	private static final int GROUP_EMPRESA = 1;
 	private static final int GROUP_CONTRATO = 2;
@@ -85,10 +85,16 @@ public class ArquivoInputServiceImpl extends AbstractServiceImpl<ArquivoInputUi,
 						if (contrato.getCdContrato().equals(cdContrato)) {
 							LOGGER.info("Found ArquivoInput for the file [{}]:", fileName);
 
-							coParticipacaoContext = new CoParticipacaoContext();
-							coParticipacaoContext.setArquivoInputUi((ArquivoInputUi) contrato.getArquivoInput());
-							coParticipacaoContext.setAno(ano);
-							coParticipacaoContext.setMes(mes);
+							if (contrato.getArquivoInput() == null) {
+								throw new ServiceException(
+										"ContratoUi[%s] has no ArquivoInputUi defined:",
+										contrato.getCdContrato());
+							} else {
+								coParticipacaoContext = new CoParticipacaoContext();
+								coParticipacaoContext.setArquivoInputUi((ArquivoInputUi) contrato.getArquivoInput());
+								coParticipacaoContext.setAno(ano);
+								coParticipacaoContext.setMes(mes);
+							}
 
 							break;
 						}

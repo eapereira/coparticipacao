@@ -22,4 +22,5 @@
 /home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWeb/src/main/java/br/com/spread/qualicorp/coparticipacao/security/UserDetailsServiceImpl.java
 /home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWeb/src/main/java/br/com/spread/qualicorp/coparticipacao/config/CoParticipacaoWebConfig.java
 /home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWeb/src/main/java/br/com/spread/qualicorp/coparticipacao/bean/LancamentoBean.java
+/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWeb/src/main/java/br/com/spread/qualicorp/coparticipacao/config/JdbcConfiguration.java
 /home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWeb/src/main/java/br/com/spread/qualicorp/coparticipacao/security/UserDetailsImpl.java

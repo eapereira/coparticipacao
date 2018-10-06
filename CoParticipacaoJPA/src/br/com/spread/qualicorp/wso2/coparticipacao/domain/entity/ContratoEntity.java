@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -61,18 +62,26 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to Lancamento
-	@OneToMany(mappedBy = "contrato", targetEntity = LancamentoEntity.class, fetch = FetchType.LAZY)
+	@OneToMany(
+			mappedBy = "contrato",
+			targetEntity = LancamentoEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
 	public List<Lancamento> getLancamentos() {
 		return super.getLancamentos();
 	}
 
 	// bi-directional many-to-one association to Lancamento
-	@OneToOne(mappedBy = "contrato", targetEntity = ArquivoInputEntity.class, fetch = FetchType.LAZY)
+	@OneToOne(
+			mappedBy = "contrato",
+			targetEntity = ArquivoInputEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
 	public ArquivoInput getArquivoInput() {
 		return super.getArquivoInput();
 	}
 
-	@Column(name = "TP_USO")
+	@Column(name = "TP_USE")
 	@Convert(converter = UseTypeConverter.class)
 	@Override
 	public UseType getUseType() {
@@ -94,7 +103,11 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 		return super.getDescription();
 	}
 
-	@OneToMany(mappedBy = "contrato", targetEntity = ArquivoExecucaoEntity.class, fetch = FetchType.LAZY)
+	@OneToMany(
+			mappedBy = "contrato",
+			targetEntity = ArquivoExecucaoEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
 	@Override
 	public List<ArquivoExecucao> getArquivoExecucaos() {
 		// TODO Auto-generated method stub

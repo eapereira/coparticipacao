@@ -61,4 +61,27 @@ public class DynamicDaoImpl extends AbstractBatchDaoImpl<DynamicEntity> implemen
 		}
 	}
 
+	public List<DynamicEntity> listByMesAndAno(String sql, int mes, int ano) throws DaoException {
+		List<DynamicEntity> dynamicEntities;
+		DynamicEntity dynamicEntity;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			dynamicEntity = new DynamicEntity();
+			dynamicEntity.addColumn("CD_MES", mes);
+			dynamicEntity.addColumn("CD_ANO", ano);
+
+			LOGGER.debug("Executing dynamic query for DynamicEntity [{}]:", sql);
+
+			dynamicEntities = querySql(sql, dynamicEntity, new DynamicEntityRowMapper());
+
+			LOGGER.info("END");
+			return dynamicEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
 }

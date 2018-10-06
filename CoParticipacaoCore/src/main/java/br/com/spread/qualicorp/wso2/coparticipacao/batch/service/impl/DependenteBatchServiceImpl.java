@@ -1,6 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.batch.service.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,17 +10,17 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.DependenteJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteDetailBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteResumoBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.DependenteEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DependenteUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteResumoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteDetailService;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -45,10 +44,7 @@ public class DependenteBatchServiceImpl extends AbstractBatchServiceImpl<Depende
 	private DependenteJdbcDao dependenteJdbcDao;
 
 	@Autowired
-	private DependenteDetailBatchService dependenteDetailBatchService;
-
-	@Autowired
-	private DependenteDetailService dependenteDetailService;
+	private DependenteResumoBatchService dependenteResumoBatchService;
 
 	@Override
 	protected AbstractDao<DependenteEntity> getDao() {
@@ -82,6 +78,8 @@ public class DependenteBatchServiceImpl extends AbstractBatchServiceImpl<Depende
 
 	@Override
 	protected void logBatchInfo(DependenteUi dependenteUi) throws ServiceException {
+		TitularUi titularUi = (TitularUi) dependenteUi.getTitular();
+
 		LOGGER.debug("ID_DEPENDENTE:.....................[{}]", dependenteUi.getId());
 		LOGGER.debug("NM_DEPENDENTE:.....................[{}]", dependenteUi.getNameDependente());
 		LOGGER.debug("NR_MATRICULA:......................[{}]", dependenteUi.getMatricula());
@@ -89,39 +87,27 @@ public class DependenteBatchServiceImpl extends AbstractBatchServiceImpl<Depende
 		LOGGER.debug("NR_CPF:............................[{}]", dependenteUi.getCpf());
 		LOGGER.debug("DT_NASCIMENTO:.....................[{}]", dependenteUi.getDtNascimento());
 		LOGGER.debug("TP_DEPENDENTE:.....................[{}]", dependenteUi.getTpDependente().getDescription());
+		LOGGER.debug("ID_TITULAR:........................[{}]", titularUi.getId());
+		LOGGER.debug("NM_TITULAR:........................[{}]", titularUi.getNameTitular());
 	}
 
-	@Override
-	public void saveBatch(List<DependenteUi> dependenteUis) throws ServiceException {
-		List<DependenteDetailUi> dependenteDetailUis;
+	private void updateDependenteId(CoParticipacaoContext coParticipacaoContext, List<DependenteUi> dependenteUis)
+			throws ServiceException {
+		List<DependenteResumoUi> dependenteResumoUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			dependenteDetailUis = new ArrayList<DependenteDetailUi>();
+			dependenteResumoUis = dependenteResumoBatchService.listByEmpresa(coParticipacaoContext.getEmpresaUi());
 
 			for (DependenteUi dependenteUi : dependenteUis) {
-				super.saveBatch(dependenteUi);
-			}
-
-			for (DependenteUi titularUi : dependenteUis) {
-				for (DependenteDetail dependenteDetail : titularUi.getDependenteDetails()) {
-					/*LOGGER.debug(
-							"DependenteDetailUi.[{}] with value [{}]",
-							dependenteDetail.getArquivoInputColsDef().getNameColumn(),
-							dependenteDetailService.getFieldValue((DependenteDetailUi) dependenteDetail));*/
-
-					dependenteDetailUis.add((DependenteDetailUi) dependenteDetail);
-
-					if (dependenteDetailUis.size() % AbstractBatchDao.BATCH_SIZE == 0) {
-						dependenteDetailBatchService.saveBatch(dependenteDetailUis);
-						dependenteDetailUis.clear();
+				for (DependenteResumoUi dependenteResumoUi : dependenteResumoUis) {
+					if (dependenteUi.getMatricula().equals(dependenteResumoUi.getMatricula())) {
+						if (dependenteUi.getNameDependente().equals(dependenteResumoUi.getNameBeneficiario())) {
+							dependenteUi.setId(dependenteResumoUi.getId());
+						}
 					}
 				}
-			}
-
-			if (!dependenteDetailUis.isEmpty()) {
-				dependenteDetailBatchService.saveBatch(dependenteDetailUis);
 			}
 
 			LOGGER.info("END");
@@ -129,6 +115,20 @@ public class DependenteBatchServiceImpl extends AbstractBatchServiceImpl<Depende
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
+	}
 
+	public void saveBatch(CoParticipacaoContext coParticipacaoContext, List<DependenteUi> dependenteUis)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			saveBatch(dependenteUis);
+			updateDependenteId(coParticipacaoContext, dependenteUis);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 }

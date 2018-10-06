@@ -18,6 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -38,7 +39,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			LOGGER.info("BEGIN");
 
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
-			
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
@@ -193,6 +194,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		DateTimeFormatter dateTimeFormatter;
 		String formatPattern = "dd/MM/yyyy";
 		LocalDate localDate;
+		String tmp;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -201,8 +203,14 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 				formatPattern = arquivoInputColsDefUi.getFormat();
 			}
 
+			/*
+			 * Removendo caracteres estranhos que são deixados junto com a data
+			 * em alguns clientes:
+			 */
+			tmp = StringUtils.replaceAll(value, "(\\|)|(I)", StringUtils.EMPTY);
+
 			dateTimeFormatter = DateTimeFormatter.ofPattern(formatPattern);
-			localDate = LocalDate.parse(value, dateTimeFormatter);
+			localDate = LocalDate.parse(tmp, dateTimeFormatter);
 
 			LOGGER.info("END");
 			return localDate;

@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.TitularDetailJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.TitularDetailDao;
@@ -46,9 +45,6 @@ public class TitularDetailServiceImpl extends AbstractServiceImpl<TitularDetailU
 	@Autowired
 	private TitularDetailEntityMapper entityMapper;
 
-	@Autowired
-	private TitularDetailJdbcDao titularDetailJdbcDao;
-
 	@Override
 	protected TitularDetailUi createUi() {
 		return new TitularDetailUi();
@@ -72,11 +68,6 @@ public class TitularDetailServiceImpl extends AbstractServiceImpl<TitularDetailU
 	@Override
 	protected AbstractMapper<TitularDetail, TitularDetailEntity> getEntityMapper() {
 		return entityMapper;
-	}
-
-	@Override
-	protected AbstractBatchDao<TitularDetailEntity> getJdbcDao() {
-		return titularDetailJdbcDao;
 	}
 
 	public Object getFieldValue(TitularDetailUi titularDetailUi) throws ServiceException {

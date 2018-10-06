@@ -63,14 +63,16 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 		EmpresaUi empresaUi;
 		ArquivoExecucaoUi arquivoExecucaoUi;
 		ArquivoExecucaoUi arquivoExecucaoUiTmp;
+		ContratoUi contratoUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			LOGGER.info("Creating ArquivoExecucaoUi for FlatFile data:");
 			arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
-			arquivoExecucaoUi = arquivoExecucaoService.createArquivoExecucao(coParticipacaoContext, UseType.EXTRA_FILE);
-			arquivoExecucaoUi.setContrato(arquivoOutputUi.getArquivoInput().getContrato());
+			contratoUi = (ContratoUi) arquivoOutputUi.getArquivoInput().getContrato();
+
+			arquivoExecucaoUi = arquivoExecucaoService.createArquivoExecucao(coParticipacaoContext, contratoUi);
 
 			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
@@ -78,6 +80,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 
 			empresaUi = coParticipacaoContext.getEmpresaUi();
 
+			// Gerando os arquivos de todos os contratos FATUCOPA da empresa:
 			for (Contrato contrato : empresaUi.getContratos()) {
 				if (UseType.FATUCOPA.equals(contrato.getUseType())) {
 					arquivoOutputSheetUis = arquivoOutputSheetService.listByArquivoOutputId(arquivoOutputUi);

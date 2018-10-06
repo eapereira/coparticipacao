@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
@@ -382,6 +383,28 @@ public class UserEntity extends User implements DomainEntity {
 	public List<ArquivoExecucao> getArquivoExecucaoUserAltered() {
 		// TODO Auto-generated method stub
 		return super.getArquivoExecucaoUserAltered();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userCreated",
+			targetEntity = ExecucaoEntity.class)
+	@Override
+	public List<Execucao> getExecucaoUserCreated() {
+		// TODO Auto-generated method stub
+		return super.getExecucaoUserCreated();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userAltered",
+			targetEntity = ExecucaoEntity.class)
+	@Override
+	public List<Execucao> getExecucaoUserAltered() {
+		// TODO Auto-generated method stub
+		return super.getExecucaoUserAltered();
 	}
 
 }

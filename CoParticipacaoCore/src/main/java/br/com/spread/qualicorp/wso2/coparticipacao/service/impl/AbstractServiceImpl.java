@@ -9,7 +9,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.AbstractBatchDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
@@ -21,7 +20,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@Transactional(transactionManager = AbstractService.JPA_TX)
 public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY extends AbstractDomain, INTERFACE extends AbstractDomain>
 		implements AbstractService<UI> {
 
@@ -148,7 +146,7 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 		}
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
+	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JPA_TX)
 	public void delete(UI ui) throws ServiceException {
 		ENTITY entity;
 
@@ -167,8 +165,9 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 	}
 
 	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JPA_TX)
-	public void save(UI ui) throws ServiceException {
+	public UI save(UI ui) throws ServiceException {
 		ENTITY entity;
+		UI uiNew;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -182,10 +181,12 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 			ui.setAltered(LocalDateTime.now());
 
 			entity = uiToEntity(ui);
+			entity = getDao().save(entity);
 
-			getDao().save(entity);
+			uiNew = entityToUi(entity);
 
 			LOGGER.info("END");
+			return uiNew;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
@@ -206,85 +207,6 @@ public abstract class AbstractServiceImpl<UI extends AbstractDomain, ENTITY exte
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
-	}
-
-	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JDBC_TX)
-	public void saveBatch(List<UI> uis) throws ServiceException {
-		try {
-			LOGGER.info("BEGIN");
-
-			for (UI ui : uis) {
-				saveBatch(ui);
-			}
-
-			LOGGER.info("END");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
-		}
-	}
-
-	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JDBC_TX)
-	public void saveBatch(UI ui) throws ServiceException {
-		Long id;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			ui.setAltered(LocalDateTime.now());
-			ui.setCreated(LocalDateTime.now());
-
-			logBatchInfo(ui);
-
-			if (getJdbcDao() != null) {
-				id = getJdbcDao().save(uiToEntity((UI) ui));
-
-				ui.setId(id);
-			} else {
-				LOGGER.error("There is no JdbcDao define to [{}]:", getClass().getSimpleName());
-				throw new ServiceException("There is no JdbcDao define to [%s]:", getClass().getSimpleName());
-			}
-
-			LOGGER.info("END");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
-		}
-	}
-
-	@Transactional(propagation = Propagation.REQUIRED, transactionManager = AbstractService.JDBC_TX)
-	public void saveBatchBlock(List<UI> uis) throws ServiceException {
-		List<ENTITY> entitiesInsert;
-		List<ENTITY> entitiesUpdate;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			entitiesInsert = new ArrayList<ENTITY>();
-			entitiesUpdate = new ArrayList<ENTITY>();
-
-			for (UI ui : uis) {
-				logBatchInfo(ui);
-
-				if (ui.getId() == null) {
-					entitiesInsert.add(uiToEntity(ui));
-				} else {
-					entitiesUpdate.add(uiToEntity(ui));
-				}
-			}
-
-			getJdbcDao().insertBatch(entitiesInsert);
-			getJdbcDao().updateBatch(entitiesUpdate);
-
-			LOGGER.info("END");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
-		}
-	}
-
-	protected AbstractBatchDao<ENTITY> getJdbcDao() {
-		return null;
 	}
 
 	/**
