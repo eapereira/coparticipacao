@@ -13,7 +13,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBat
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
@@ -24,11 +23,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularDetailService;
 
 /**
  * 
@@ -46,12 +43,6 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 
 	@Autowired
 	private BeneficiarioService beneficiarioService;
-
-	@Autowired
-	private TitularDetailService titularDetailService;
-
-	@Autowired
-	private DependenteDetailService dependenteDetailService;
 
 	@Autowired
 	private TitularBatchService titularBatchService;

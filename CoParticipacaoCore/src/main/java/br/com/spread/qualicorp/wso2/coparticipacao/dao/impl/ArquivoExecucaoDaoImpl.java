@@ -7,12 +7,19 @@ import javax.persistence.Query;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.ArquivoExecucaoDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.ContratoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.ExecucaoDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.UserDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoExecucaoEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ContratoEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExecucaoEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity;
 
 /**
  * 
@@ -23,6 +30,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoExecucao
 public class ArquivoExecucaoDaoImpl extends AbstractDaoImpl<ArquivoExecucaoEntity> implements ArquivoExecucaoDao {
 
 	private static final Logger LOGGER = LogManager.getLogger(ArquivoExecucaoDaoImpl.class);
+
+	@Autowired
+	private UserDao userDao;
+
+	@Autowired
+	private ContratoDao contratoDao;
+
+	@Autowired
+	private ExecucaoDao execucaoDao;
 
 	public ArquivoExecucaoDaoImpl() throws DaoException {
 		super();
@@ -160,6 +176,57 @@ public class ArquivoExecucaoDaoImpl extends AbstractDaoImpl<ArquivoExecucaoEntit
 			query.executeUpdate();
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
+	@Override
+	public ArquivoExecucaoEntity save(ArquivoExecucaoEntity arquivoExecucaoEntity) throws DaoException {
+		UserEntity userEntity;
+		ContratoEntity contratoEntity;
+		ArquivoExecucaoEntity arquivoExecucaoEntityDb;
+		ExecucaoEntity execucaoEntity;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			execucaoEntity = execucaoDao.findById(arquivoExecucaoEntity.getExecucao().getId());
+
+			if (arquivoExecucaoEntity.getId() != null) {
+				arquivoExecucaoEntityDb = findById(arquivoExecucaoEntity.getId());
+			} else {
+				arquivoExecucaoEntityDb = arquivoExecucaoEntity;
+
+				contratoEntity = contratoDao.findById(arquivoExecucaoEntity.getContrato().getId());
+				arquivoExecucaoEntityDb.setContrato(contratoEntity);
+
+				userEntity = userDao.findById(arquivoExecucaoEntity.getUserCreated().getId());
+				arquivoExecucaoEntityDb.setUserCreated(userEntity);
+			}
+
+			if (arquivoExecucaoEntity.getUserAltered() != null) {
+				userEntity = userDao.findById(arquivoExecucaoEntity.getUserCreated().getId());
+				arquivoExecucaoEntityDb.setUserAltered(userEntity);
+			}
+
+			arquivoExecucaoEntityDb.setMes(arquivoExecucaoEntity.getMes());
+			arquivoExecucaoEntityDb.setAno(arquivoExecucaoEntity.getAno());
+			arquivoExecucaoEntityDb.setErrorMessage(arquivoExecucaoEntity.getErrorMessage());
+			arquivoExecucaoEntityDb.setStarted(arquivoExecucaoEntity.getStarted());
+			arquivoExecucaoEntityDb.setFinnished(arquivoExecucaoEntity.getFinnished());
+			arquivoExecucaoEntityDb.setNameArquivoInput(arquivoExecucaoEntity.getNameArquivoInput());
+			arquivoExecucaoEntityDb.setNameArquivoOutput(arquivoExecucaoEntity.getNameArquivoOutput());
+			arquivoExecucaoEntityDb.setOrdem(arquivoExecucaoEntity.getOrdem());
+			arquivoExecucaoEntityDb.setStatusExecucaoType(arquivoExecucaoEntity.getStatusExecucaoType());
+
+			arquivoExecucaoEntityDb.setExecucao(execucaoEntity);
+
+			arquivoExecucaoEntityDb = super.save(arquivoExecucaoEntityDb);
+
+			LOGGER.info("END");
+			return arquivoExecucaoEntityDb;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e);

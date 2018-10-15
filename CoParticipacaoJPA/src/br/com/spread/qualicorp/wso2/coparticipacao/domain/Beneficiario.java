@@ -33,17 +33,17 @@ public abstract class Beneficiario extends AbstractDomain {
 	private String label;
 
 	private Long referenceCode;
-	
+
 	private LocalDate dtDemissao;
-	
+
 	private String nameTitular;
-	
+
 	private Long matriculaTitular;
 
 	private BeneficiarioDetail beneficiarioDetail;
-	
+
 	public Beneficiario() {
-		
+		beneficiarioDetail = new BeneficiarioDetail();
 	}
 
 	public LocalDate getDtNascimento() {
@@ -257,7 +257,5 @@ public abstract class Beneficiario extends AbstractDomain {
 			return false;
 		return true;
 	}
-
-
 
 }

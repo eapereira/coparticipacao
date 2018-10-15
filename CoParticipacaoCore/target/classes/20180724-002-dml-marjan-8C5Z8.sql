@@ -59,12 +59,12 @@ BEGIN
 	declare VAR_ID_COLUMN_10_MES					bigint( 17 );
 	declare VAR_ID_COLUMN_11						bigint( 17 );
 	declare VAR_ID_COLUMN_12_ANO					bigint( 17 );
-	declare VAR_ID_COLUMN_13_POSITIVO_NEGATIVO	bigint( 17 );
+	declare VAR_ID_COLUMN_13_POSITIVO_NEGATIVO		bigint( 17 );
 	declare VAR_ID_COLUMN_14_VL_PRINCIPAL			bigint( 17 );
 	declare VAR_ID_COLUMN_15_CONTRATO				bigint( 17 );
-	declare VAR_ID_COLUMN_16_DT_NASCIMENTO		bigint( 17 );
+	declare VAR_ID_COLUMN_16_DT_NASCIMENTO			bigint( 17 );
 	declare VAR_ID_COLUMN_17						bigint( 17 );
-	declare VAR_ID_COLUMN_18_NM_TITULAR			bigint( 17 );
+	declare VAR_ID_COLUMN_18_NM_TITULAR				bigint( 17 );
 	declare VAR_ID_COLUMN_19_NR_MATRICULA			bigint( 17 );
 	declare VAR_ID_COLUMN_20						bigint( 17 );
 

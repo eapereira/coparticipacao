@@ -18,32 +18,23 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputCol
  *
  */
 @Repository
-public class ArquivoInputColsDefDaoImpl
-		extends AbstractDaoImpl<ArquivoInputColsDefEntity>
+public class ArquivoInputColsDefDaoImpl extends AbstractDaoImpl<ArquivoInputColsDefEntity>
 		implements ArquivoInputColsDefDao {
-	private static final Logger LOGGER = LogManager
-			.getLogger(ArquivoInputColsDefDaoImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(ArquivoInputColsDefDaoImpl.class);
 
 	public ArquivoInputColsDefDaoImpl() throws DaoException {
 		super();
 	}
 
-	public List<ArquivoInputColsDefEntity> listByArquivoInput(Long id)
-			throws DaoException {
+	public List<ArquivoInputColsDefEntity> listByArquivoInput(Long arquivoInputId) throws DaoException {
 		List<ArquivoInputColsDefEntity> arquivoInputColsDefEntities;
 		Query query;
-		StringBuilder sb;
 
 		try {
 			LOGGER.info("BEGIN");
-			sb = new StringBuilder();
-			sb.append("select entity from ArquivoInputColsDefEntity entity ");
-			sb.append("join fetch entity.arquivoInput arquivoInput ");
-			sb.append("where entity.arquivoInput.id = :arquivoInputId ");
-			sb.append("order by entity.ordem ");
 
-			query = createQueryOld(sb.toString());
-			query.setParameter("arquivoInputId", id);
+			query = createQuery("listByArquivoInputId");
+			query.setParameter("arquivoInputId", arquivoInputId);
 
 			arquivoInputColsDefEntities = query.getResultList();
 

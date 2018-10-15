@@ -30,7 +30,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
@@ -56,60 +56,43 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 	@Autowired
 	private EmpresaService empresaService;
 
-	public boolean validateBeneficiario(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
-			throws ServiceException {
+	public boolean validateBeneficiario(
+			CoParticipacaoContext coParticipacaoContext,
+			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
-		List<BeneficiarioColsUi> beneficiarioColsUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			beneficiarioColsUis = coParticipacaoContext.getBeneficiarioColsUis();
+			if (lancamentoDetailUi.getTitularUi() == null) {
+				beneficiarioUi = createBeneficiario(coParticipacaoContext, lancamentoDetailUi);
 
-			if (lancamentoUi.getTitular() == null) {
-				if (!beneficiarioColsUis.isEmpty()) {
-					beneficiarioUi = createBeneficiario(beneficiarioColsUis, lancamentoUi);
+				/*
+				 * Guardando para caso seja inválidado, criar um Desconhecido:
+				 */
+				coParticipacaoContext.setBeneficiarioUi(beneficiarioUi);
 
-					/*
-					 * Guardando para caso seja inválidado, criar um
-					 * Desconhecido:
-					 */
-					coParticipacaoContext.setBeneficiarioUi(beneficiarioUi);
+				LOGGER.info(
+						"Validating Dependente[{}] with NR_CPF[{}] and using NR_MATRICULA[{}]:",
+						beneficiarioUi.getNameBeneficiario(),
+						beneficiarioUi.getCpf(),
+						beneficiarioUi.getMatricula());
 
-					LOGGER.info(
-							"Validating Dependente[{}] with NR_CPF[{}] and using NR_MATRICULA[{}]:",
-							beneficiarioUi.getNameBeneficiario(),
-							beneficiarioUi.getCpf(),
-							beneficiarioUi.getMatricula());
-
-					// Apenas o MECSAS tem o Tipo de Beneficiário:
-					if (isTitular(coParticipacaoContext, beneficiarioUi)) {
-						lancamentoUi.setTitular(createTitular(coParticipacaoContext, beneficiarioUi));
-					} else {
-						dependenteUi = createDependente(coParticipacaoContext, beneficiarioUi);
-
-						if (dependenteUi != null) {
-							lancamentoUi.setTitular(dependenteUi.getTitular());
-							lancamentoUi.setDependente(dependenteUi);
-						} else {
-							/*
-							 * Fazemos mais uma tentativa, caso a Empresa seja
-							 * configurada para criar Beneficiários
-							 * atuomaticamente:
-							 */
-							if (isTitular(coParticipacaoContext, beneficiarioUi)) {
-								lancamentoUi.setTitular(createTitular(coParticipacaoContext, beneficiarioUi));
-							}
-						}
-					}
+				// Apenas o MECSAS tem o Tipo de Beneficiário:
+				if (isTitular(coParticipacaoContext, beneficiarioUi)) {
+					lancamentoDetailUi.setTitularUi(createTitular(coParticipacaoContext, beneficiarioUi));
 				} else {
-					LOGGER.info(
-							"BeneficiarioCols must be mapped to this ArquivoInput, otherwise we cannot read Beneficiario data:");
+					dependenteUi = createDependente(coParticipacaoContext, beneficiarioUi);
+
+					if (dependenteUi != null) {
+						lancamentoDetailUi.setTitularUi((TitularUi) dependenteUi.getTitular());
+						lancamentoDetailUi.setDependenteUi(dependenteUi);
+					}
 				}
 			}
 
-			if (lancamentoUi.getTitular() != null) {
+			if (lancamentoDetailUi.getTitularUi() != null) {
 				LOGGER.info("END");
 				return true;
 			} else {
@@ -143,9 +126,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			}
 
 			if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
-				if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario()) && beneficiarioUi.getCpf() != null
+				if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular()) && beneficiarioUi.getCpf() != null
 						&& beneficiarioUi.getMatricula() != null) {
-					return true;
+					if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+						return true;
+					}
 				}
 			} else {
 				if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())
@@ -162,31 +147,21 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private BeneficiarioUi createBeneficiario(List<BeneficiarioColsUi> beneficiarioColsUis, LancamentoUi lancamentoUi)
-			throws ServiceException {
+	private BeneficiarioUi createBeneficiario(
+			CoParticipacaoContext coParticipacaoContext,
+			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
-		Object value;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			beneficiarioUi = new BeneficiarioUi();
-
-			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
-				value = lancamentoDetailService
-						.getFieldValue(beneficiarioColsUi.getArquivoInputColsDef(), lancamentoUi);
-
-				LOGGER.debug(
-						"Building Beneficiario from Lancamento field [{}] with value [{}]:",
-						beneficiarioColsUi.getArquivoInputColsDef().getNameColumn(),
-						value);
-
-				if (value != null) {
-					if (isNotZero(value)) {
-						setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
-					}
-				}
-			}
+			beneficiarioUi.setCpf(lancamentoDetailUi.getCpf());
+			beneficiarioUi.setMatricula(lancamentoDetailUi.getMatriculaDependente());
+			beneficiarioUi.setMatriculaTitular(lancamentoDetailUi.getMatriculaTitular());
+			beneficiarioUi.setNameBeneficiario(lancamentoDetailUi.getNameBeneficiario());
+			beneficiarioUi.setNameTitular(lancamentoDetailUi.getNameTitular());
+			beneficiarioUi.setDtNascimento(lancamentoDetailUi.getDtNascimento());
 
 			LOGGER.info("END");
 			return beneficiarioUi;
@@ -242,6 +217,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.setType(beneficiarioType);
 				} else if (BeneficiarioColType.NR_MATRICULA.equals(beneficiarioColType)) {
 					beneficiarioUi.setMatricula((Long) value);
+					beneficiarioUi.setMatriculaTitular((Long) value);
 				} else if (BeneficiarioColType.NR_CPF.equals(beneficiarioColType)) {
 					beneficiarioUi.setCpf((Long) value);
 				} else if (BeneficiarioColType.NM_BENEFICIARIO.equals(beneficiarioColType)) {
@@ -539,6 +515,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						beneficiarioUi.getCpf());
 
 				beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+					beneficiarioUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
+				}
 			} else {
 				if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					beneficiarioUi.setType(BeneficiarioType.OUTROS);
@@ -583,12 +563,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						 * pelo processo MECSAS e FATUCOPA:
 						 */
 						if (titularUi == null) {
+							if (beneficiarioUi.getNameBeneficiario().equals(beneficiarioUi.getNameTitular())) {
+								LOGGER.info("END");
+								return true;
+							}
+						}
+					} else {
+						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
 							LOGGER.info("END");
 							return true;
 						}
-					} else {
-						LOGGER.info("END");
-						return true;
 					}
 				} else if (UseType.FATUCOPA.equals(contratoUi.getUseType())) {
 					if (titularUi == null) {
@@ -599,8 +583,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							}
 						}
 					} else {
-						LOGGER.info("END");
-						return true;
+						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+							LOGGER.info("END");
+							return true;
+						}
 					}
 				} else {
 					/*
@@ -642,12 +628,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						if (!isTitularCpfInUse(coParticipacaoContext, beneficiarioUi)) {
 							LOGGER.info(
 									"Titular [{}] with CPF [{}] and Matricula [{}] will be created:",
-									beneficiarioUi.getNameBeneficiario(),
+									beneficiarioUi.getNameTitular(),
 									beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
 
 							titularUi = new TitularUi();
-							titularUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
+							titularUi.setNameTitular(beneficiarioUi.getNameTitular());
 
 							if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 								if (beneficiarioUi.getDigitoCpf() != null) {
@@ -673,14 +659,15 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						} else {
 							LOGGER.info(
 									"Titular [{}] with CPF [{}] and Matricula [{}] cannot be created because NR_CPF is already in use:",
-									beneficiarioUi.getNameBeneficiario(),
+									beneficiarioUi.getNameTitular(),
 									beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
 						}
 					}
 				}
 			} else {
-				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
+						|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					coParticipacaoContext.setTitularUi(titularUi);
 
 					/*
@@ -738,6 +725,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throws ServiceException, BeneficiarioNotFoundException, DependenteDuplicated {
 		DependenteUi dependenteUi = null;
 		TitularUi titularUi = null;
+		BeneficiarioUi beneficiarioTitular;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -753,6 +741,19 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							if (beneficiarioUi.getMatriculaTitular() != null) {
 								titularUi = coParticipacaoContext
 										.findTitularByMatricula(beneficiarioUi.getMatriculaTitular());
+
+								if (titularUi == null) {
+									beneficiarioTitular = new BeneficiarioUi(beneficiarioUi);
+									beneficiarioTitular.setType(BeneficiarioType.TITULAR);
+
+									if (StringUtils.isBlank(beneficiarioTitular.getNameTitular())) {
+										beneficiarioTitular.setNameTitular(beneficiarioUi.getNameBeneficiario());
+									}
+
+									titularUi = createTitular(coParticipacaoContext, beneficiarioTitular);
+
+									coParticipacaoContext.setTitularUi(titularUi);
+								}
 							} else {
 								titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
 							}
@@ -782,6 +783,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 							dependenteUi.setTpDependente(beneficiarioUi.getType());
 							dependenteUi.setMatricula(beneficiarioUi.getMatricula());
+							dependenteUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 							dependenteUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							dependenteUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 							dependenteUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
@@ -800,20 +802,23 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							 * automaticamente, vamos transformá-lo em Titular:
 							 */
 							LOGGER.info(
-									"BeneficiarioUi [{}] with CPF [{}] and Matricula [{}] will be created as a TitularUi:",
+									"BeneficiarioUi [{}] with CPF [{}] and Matricula [{}] cannot be created as a DependenteUi:",
 									beneficiarioUi.getNameBeneficiario(),
 									beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
-
-							beneficiarioUi.setType(BeneficiarioType.TITULAR);
-							titularUi = createTitular(coParticipacaoContext, beneficiarioUi);
+							throw new BeneficiarioNotFoundException(
+									"BeneficiarioUi [%s] with CPF [%s] and Matricula [%s] cannot be created as a DependenteUi:",
+									beneficiarioUi.getNameBeneficiario(),
+									beneficiarioUi.getCpf(),
+									beneficiarioUi.getMatricula());
 						}
 					}
 				} else {
 					throw new BeneficiarioNotFoundException(beneficiarioUi);
 				}
 			} else {
-				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
+						|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					/*
 					 * Se estamos num processo MECSAS e encontramos o
 					 * Dependente, então significa que ele esta duplicado no
@@ -1021,13 +1026,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			titularUi = coParticipacaoContext
-					.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
+			titularUi = coParticipacaoContext.findTitularByCpf(beneficiarioUi.getCpf());
 
 			if (titularUi == null) {
-				titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
-						beneficiarioUi.getMatricula(),
-						beneficiarioUi.getNameBeneficiario());
+				titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
 			}
 
 			LOGGER.info("END");

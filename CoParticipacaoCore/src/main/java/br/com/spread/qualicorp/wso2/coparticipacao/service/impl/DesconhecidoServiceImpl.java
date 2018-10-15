@@ -30,7 +30,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
@@ -119,7 +119,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 		return desconhecidoEntityMapper;
 	}
 
-	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
+	public void createDesconhecido(CoParticipacaoContext coParticipacaoContext, LancamentoDetailUi lancamentoDetailUi)
 			throws ServiceException {
 		DesconhecidoUi desconhecidoUi;
 
@@ -129,7 +129,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 					"Creating Desconhecido register for beneficiario at line [{}]:",
 					coParticipacaoContext.getCurrentLine());
 
-			lancamentoDetailService.showLancamentoDetailInfo(lancamentoUi);
+			lancamentoDetailService.showLancamentoDetailInfo(lancamentoDetailUi);
 
 			desconhecidoUi = new DesconhecidoUi();
 			desconhecidoUi.setMes(coParticipacaoContext.getMes());
@@ -137,7 +137,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			desconhecidoUi.setContrato(coParticipacaoContext.getContratoUi());
 			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
 			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());
-			desconhecidoUi.setValorPrincipal(lancamentoUi.getValorPrincipal());
+			desconhecidoUi.setValorPrincipal(lancamentoDetailUi.getValorPrincipal());
 
 			if (coParticipacaoContext.getBeneficiarioUi() != null) {
 				createDesconhecido(desconhecidoUi, coParticipacaoContext.getBeneficiarioUi());
@@ -503,6 +503,19 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 
 			LOGGER.info("END");
 			return desconhecidoUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void deleteByContrato(ContratoUi contratoUi) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			desconhecidoDao.deleteByContrato(contratoUi.getId());
+
+			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

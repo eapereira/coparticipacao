@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
@@ -93,13 +92,13 @@ public class ArquivoInputColsDefEntity extends ArquivoInputColsDef implements Do
 		return super.getLocalePattern();
 	}
 
-	@OneToOne(
+	@OneToMany(
 			cascade = CascadeType.ALL,
 			mappedBy = "arquivoInputColsDef",
 			fetch = FetchType.LAZY,
 			targetEntity = LancamentoInputColsEntity.class)
 	@Override
-	public LancamentoInputCols getLancamentoInputCols() {
+	public List<LancamentoInputCols> getLancamentoInputCols() {
 		// TODO Auto-generated method stub
 		return super.getLancamentoInputCols();
 	}

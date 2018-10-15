@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExternalProcess;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Report;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportQueryTypeConverter;
@@ -175,6 +176,17 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	public ReportQueryType getReportQueryType() {
 		// TODO Auto-generated method stub
 		return super.getReportQueryType();
+	}
+
+	@OneToMany(
+			mappedBy = "empresa",
+			targetEntity = ReportEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
+	@Override
+	public List<Report> getReports() {
+		// TODO Auto-generated method stub
+		return super.getReports();
 	}
 
 }

@@ -1,4 +1,3 @@
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/TitularDetailJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/EmpresaJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/UserServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/io/IsentoSpreadsheetProcessorService.class
@@ -10,7 +9,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSett
 br/com/spread/qualicorp/wso2/coparticipacao/dao/RegraConditionalResultDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/search/TitularByCpfAndNameMapKeyBuilder.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/DynamicService.class
-br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/TitularDetailDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/ArquivoExecucaoDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/ArquivoOutputDesconhecidoDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/LancamentoServiceImpl.class
@@ -24,7 +22,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/service/ArquivoOutputSheetService.cl
 br/com/spread/qualicorp/wso2/coparticipacao/exception/CoParticipacaoException.class
 br/com/spread/qualicorp/wso2/coparticipacao/exception/DependenteDuplicated.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/RegraConditionalOperationServiceImpl.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/service/LancamentoDetailBatchService.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/UserJdbcDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/RegraResultDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/DependenteSetter.class
@@ -41,7 +38,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/IsentoInputSheetDaoImpl.cla
 br/com/spread/qualicorp/wso2/coparticipacao/batch/service/TitularBatchService.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/DynamicDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/ExternalProcessService.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/service/impl/LancamentoDetailBatchServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/ContratoDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/DependenteIsentoColsDefDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/ParameterSetter.class
@@ -53,7 +49,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/service/impl/RegraServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/RegraFieldServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/RegraOperationDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/ArquivoOutputJdbcDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/service/impl/TitularDetailServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/EmpresaSetter.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/ArquivoExecucaoServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/DesconhecidoService.class
@@ -102,7 +97,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/io/SpreadsheetProcessorListener.clas
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/ViewDestinationColsDefJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/ContratoService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/DesconhecidoDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/dao/DependenteDetailDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/ArquivoOutputSheetDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/LancamentoDetailServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/RegraConditionalValorDao.class
@@ -154,7 +148,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/InputDependenteIsentoDaoImp
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/ArquivoOutputSheetJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/DependenteServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/IsentoInputSheetDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/LancamentoDetailJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/UserService.class
 br/com/spread/qualicorp/wso2/coparticipacao/xml/QueriesXml.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/rowmapper/DynamicEntityRowMapper.class
@@ -163,7 +156,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSett
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/ArquivoOutputJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/TitularDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/RegraDaoImpl.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/DependenteDetailJdbcDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/RegraConditionalResultServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/DaoException.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/DependenteIsentoSetter.class
@@ -177,8 +169,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSett
 br/com/spread/qualicorp/wso2/coparticipacao/exception/BeneficiarioNotFoundException.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/service/impl/DesconhecidoBatchServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/ViewDestinationSetter.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/service/DependenteDetailBatchService.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/service/TitularDetailBatchService.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/RegraConditionalValorServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/DependenteIsentoDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/UserRoleService.class
@@ -186,7 +176,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/RegraValorDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/AbstractService.class
 br/com/spread/qualicorp/wso2/coparticipacao/spreadsheet/CellInfo.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/RegraConditionalValorService.class
-br/com/spread/qualicorp/wso2/coparticipacao/dao/TitularDetailDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/search/PartitionMap.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/AbstractBatchDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/io/impl/FixedLengthProcessorServiceImpl.class
@@ -196,7 +185,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/dao/DependenteResumoDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/ViewDestinationColsDefService.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/ParameterServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/InputDependenteIsentoServiceImpl.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/TitularDetailSetter.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/RegraConditionalResultDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/util/DateUtils.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/DependenteDao.class
@@ -215,7 +203,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/service/impl/ArquivoInputServiceImpl
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/ArquivoOutputDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/TitularResumoService.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/ServiceException.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/service/impl/DependenteDetailBatchServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/exception/TitularDuplicated.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/EmpresaServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/ArquivoExecucaoSetter.class
@@ -225,7 +212,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/io/CsvProcessorService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/TitularIsentoColsDefDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/batchPreparedStatementSetter/BatchPreparedStatementSetterAdapter.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/RegraDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/service/impl/TitularDetailBatchServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/LancamentoInputDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/service/ExecucaoBatchService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/UserDaoImpl.class
@@ -242,7 +228,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/dao/ArquivoOutputDesconhecidoDao.cla
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/DependenteIsentoJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/RoleDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/ArquivoInputColsDefJdbcDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/DependenteDetailDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/RegraFieldDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/InputTitularIsentoColsService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/TitularIsentoDao.class
@@ -256,7 +241,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/service/dependenteIsentoColsDefServi
 br/com/spread/qualicorp/wso2/coparticipacao/exception/TitularNotFoundException.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/ArquivoExecucaoJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/ArquivoOutputSheetServiceImpl.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/DependenteDetailJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/service/DependenteIsentoBatchService.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/DesconhecidoJdbcDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/spreadsheet/NumberUtils.class
@@ -267,7 +251,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/LancamentoDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/service/TitularIsentoBatchService.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/RegraValorJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/LancamentoInputJdbcDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/dao/LancamentoDetailDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/domain/Bunker.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/InputTitularIsentoServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/io/SpreadsheetProcessorService.class
@@ -279,7 +262,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/RegraConditionalOperationDa
 br/com/spread/qualicorp/wso2/coparticipacao/service/ArquivoExecucaoService.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/LancamentoInputColsServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/ArquivoOutputSheetJdbcDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/LancamentoDetailDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/BeneficiarioService.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/RegraValorJdbcDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/ArquivoInputDaoImpl.class
@@ -287,12 +269,10 @@ br/com/spread/qualicorp/wso2/coparticipacao/exception/DependenteNotFoundExceptio
 br/com/spread/qualicorp/wso2/coparticipacao/batch/service/impl/LancamentoBatchServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/ArquivoInputColsDefService.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/RegraConditionalResultService.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/LancamentoDetailSetter.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/ContratoJdbcDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/LancamentoJdbcDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/LancamentoSetter.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/ViewDestinationService.class
-br/com/spread/qualicorp/wso2/coparticipacao/service/TitularDetailService.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/SetterAdapterType.class
 br/com/spread/qualicorp/wso2/coparticipacao/io/impl/CsvProcessorServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/ArquivoOutputSetter.class
@@ -314,13 +294,10 @@ br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/DependenteResumoBatch
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/InputTitularIsentoColsServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/InputDependenteIsentoColsService.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/service/DependenteBatchService.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/TitularDetailJdbcDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/io/ProcessorListener.class
-br/com/spread/qualicorp/wso2/coparticipacao/service/impl/DependenteDetailServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/ArquivoInputColsDefSetter.class
 br/com/spread/qualicorp/wso2/coparticipacao/io/FixedLengthProcessorService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/UserDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/service/DependenteDetailService.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/ArquivoInputService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/ExecucaoDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/RegraFieldJdbcDaoImpl.class
@@ -351,7 +328,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/spreadsheet/CellInfoStatus.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/TitularIsentoColType.class
 br/com/spread/qualicorp/wso2/coparticipacao/spreadsheet/DesconhecidoSpreadsheetListener.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/RegraOperationJdbcDao.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/DependenteDetailSetter.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/LancamentoService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/impl/DependenteResumoDaoImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/OperadoraSetter.class
@@ -372,7 +348,6 @@ br/com/spread/qualicorp/wso2/coparticipacao/service/RegraService.class
 br/com/spread/qualicorp/wso2/coparticipacao/dao/InputDependenteIsentoColsDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/impl/preparedStatementSetter/TitularSetter.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/RegraConditionalService.class
-br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/LancamentoDetailJdbcDao.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/LancamentoInputService.class
 br/com/spread/qualicorp/wso2/coparticipacao/service/impl/ContratoServiceImpl.class
 br/com/spread/qualicorp/wso2/coparticipacao/batch/dao/LancamentoJdbcDao.class

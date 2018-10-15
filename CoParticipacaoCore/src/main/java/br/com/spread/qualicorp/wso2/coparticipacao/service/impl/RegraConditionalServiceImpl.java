@@ -14,7 +14,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColT
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditional;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalField;
@@ -31,7 +32,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalValorUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
@@ -120,20 +120,22 @@ public class RegraConditionalServiceImpl
 		}
 	}
 
-	public void applyRegras(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
+	public void applyRegras(CoParticipacaoContext coParticipacaoContext, LancamentoDetailUi lancamentoDetailUi)
 			throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			for (LancamentoDetail lancamentoDetail : lancamentoUi.getLancamentoDetails()) {
-
-				LOGGER.info(
-						"Verifying RegraConditions for column [{}]:",
-						lancamentoDetail.getArquivoInputColsDef().getNameColumn());
-
+			for (LancamentoInputCols lancamentoInputCols : coParticipacaoContext.getLancamentoInputColsUis()) {
 				for (RegraConditionalUi regraConditionalUi : coParticipacaoContext.getRegraConditionalUis()) {
+					LOGGER.info(
+							"Verifying RegraConditions for column [{}]:",
+							lancamentoInputCols.getArquivoInputColsDef().getNameColumn());
 
-					applyRegra(coParticipacaoContext, regraConditionalUi, lancamentoDetail);
+					applyRegra(
+							coParticipacaoContext,
+							regraConditionalUi,
+							lancamentoDetailUi,
+							(LancamentoInputColsUi) lancamentoInputCols);
 				}
 			}
 
@@ -147,7 +149,8 @@ public class RegraConditionalServiceImpl
 	private void applyRegra(
 			CoParticipacaoContext coParticipacaoContext,
 			RegraConditionalUi regraConditionalUi,
-			LancamentoDetail lancamentoDetail) throws ServiceException {
+			LancamentoDetailUi lancamentoDetailUi,
+			LancamentoInputColsUi lancamentoInputColsUi) throws ServiceException {
 		List<RegraConditionalOperation> regraConditionalOperations;
 		Object value;
 		Object latestedValue;
@@ -162,7 +165,7 @@ public class RegraConditionalServiceImpl
 			result = false;
 			regraConditionalOperations = regraConditionalUi.getRegraConditionalOperations();
 			latestedValue = null;
-			colDefType = lancamentoDetail.getArquivoInputColsDef().getType();
+			colDefType = lancamentoInputColsUi.getArquivoInputColsDef().getType();
 
 			LOGGER.info("Using Regra [{}]:", regraConditionalUi.getNameRegra());
 
@@ -178,7 +181,7 @@ public class RegraConditionalServiceImpl
 						.getRegraConditionalFields()) {
 
 					if (regraConditionalField.getArquivoInputColsDef().getId()
-							.equals(lancamentoDetail.getArquivoInputColsDef().getId())) {
+							.equals(lancamentoInputColsUi.getArquivoInputColsDef().getId())) {
 						LOGGER.info(
 								"Applying regra [{}] to field [{}]:",
 								regraConditionalUi.getNameRegra(),
@@ -186,8 +189,7 @@ public class RegraConditionalServiceImpl
 
 						regraConditionalFieldFound = true;
 
-						value = lancamentoDetailService
-								.getFieldValue(regraConditionalField.getArquivoInputColsDef(), lancamentoDetail);
+						value = lancamentoDetailService.getFieldValue(lancamentoDetailUi, lancamentoInputColsUi);
 
 						LOGGER.info(
 								"Field [{}] has value [{}]:",
@@ -232,10 +234,7 @@ public class RegraConditionalServiceImpl
 
 					LOGGER.info("Executing Regra [{}]:", regraConditionalResult.getRegraExecution().getNameRegra());
 
-					executeRegraResult(
-							coParticipacaoContext,
-							regraConditionalUi,
-							(LancamentoUi) lancamentoDetail.getLancamento());
+					executeRegraResult(coParticipacaoContext, regraConditionalUi, lancamentoDetailUi);
 
 				}
 			}
@@ -250,8 +249,8 @@ public class RegraConditionalServiceImpl
 	private void executeRegraResult(
 			CoParticipacaoContext coParticipacaoContext,
 			RegraConditionalUi regraConditionalUi,
-			LancamentoUi lancamentoUi) throws ServiceException {
-		LancamentoDetailUi lancamentoDetailUi;
+			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
+		LancamentoInputColsUi lancamentoInputColsUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -261,14 +260,15 @@ public class RegraConditionalServiceImpl
 				LOGGER.info("Executing Regra [{}]:", regraConditionalResult.getRegraExecution().getNameRegra());
 
 				for (RegraResult regraResult : regraConditionalResult.getRegraExecution().getRegraResults()) {
-					lancamentoDetailUi = lancamentoDetailService.findByArquivoInputColsDefId(
-							lancamentoUi,
+					lancamentoInputColsUi = lancamentoDetailService.findByArquivoInputColsDefId(
+							coParticipacaoContext,
 							(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef());
 
 					regraService.applyRegra(
 							coParticipacaoContext,
 							(RegraUi) regraConditionalResult.getRegraExecution(),
-							lancamentoDetailUi);
+							lancamentoDetailUi,
+							lancamentoInputColsUi);
 				}
 			}
 

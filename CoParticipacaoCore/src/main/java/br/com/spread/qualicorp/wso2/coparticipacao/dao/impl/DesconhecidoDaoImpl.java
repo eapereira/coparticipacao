@@ -131,4 +131,22 @@ public class DesconhecidoDaoImpl extends AbstractDaoImpl<DesconhecidoEntity> imp
 		}
 	}
 
+	public void deleteByContrato(Long contratoId) throws DaoException {
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("deleteByContrato");
+			query.setParameter("contratoId", contratoId);
+
+			query.executeUpdate();
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
 }

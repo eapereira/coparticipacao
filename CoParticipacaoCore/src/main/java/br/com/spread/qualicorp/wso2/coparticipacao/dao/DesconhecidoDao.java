@@ -22,4 +22,6 @@ public interface DesconhecidoDao extends AbstractDao<DesconhecidoEntity> {
 
 	List<DesconhecidoEntity> listByEmpresaIdAndUseType(Long empresaId, UseType useType) throws DaoException;
 
+	void deleteByContrato(Long contratoId) throws DaoException;
+
 }

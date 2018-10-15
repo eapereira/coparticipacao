@@ -25,5 +25,14 @@
 		]]>
 	</query>
 
+	<query id="findParentByChildId">		
+		<![CDATA[
+			select contrato from ContratoEntity contrato
+			join fetch contrato.empresa empresa
+			join fetch contrato.children children
+			where children.id = :childId
+		]]>
+	</query>
+
 </queries>
 	

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,9 +86,13 @@ public class ExecucaoServiceImpl extends AbstractServiceImpl<ExecucaoUi, Execuca
 	public void sendToProcess(List<ArquivoExecucaoUi> arquivoExecucaoUis, EmpresaUi empresaUi, UserUi userUi)
 			throws ServiceException {
 		ExecucaoUi execucaoUi;
+		LocalDate currentDate;
+		int ordem = NumberUtils.INTEGER_ZERO;
 
 		try {
 			LOGGER.info("BEGIN");
+
+			currentDate = LocalDate.now();
 
 			execucaoUi = new ExecucaoUi();
 			execucaoUi.setUserCreated(userUi);
@@ -95,12 +100,24 @@ public class ExecucaoServiceImpl extends AbstractServiceImpl<ExecucaoUi, Execuca
 			execucaoUi.setExecucaoType(ExecucaoType.OPEN);
 
 			for (ArquivoExecucaoUi arquivoExecucaoUi : arquivoExecucaoUis) {
+				arquivoExecucaoUi.setMes(currentDate.getMonthValue());
+				arquivoExecucaoUi.setAno(currentDate.getYear());
+				arquivoExecucaoUi.setOrdem(ordem);
+
+				arquivoExecucaoUi.setUserCreated(userUi);
+
 				execucaoUi.addArquivoExecucao(arquivoExecucaoUi);
+
+				ordem++;
 			}
 
-			// save(execucaoUi);
-			execucaoBatchService.saveBatch(execucaoUi);
-			arquivoExecucaoService.sendToProcess(arquivoExecucaoUis);
+			arquivoExecucaoService
+					.deleteByEmpresaIdAndMesAndAno(empresaUi, currentDate.getMonthValue(), currentDate.getYear());
+
+			execucaoUi = save(execucaoUi);
+
+			// execucaoBatchService.saveBatch(execucaoUi);
+			arquivoExecucaoService.sendToProcess(execucaoUi.getArquivoExecucaos());
 
 			/*
 			 * Agora devemos criar o arquivo XML com o número do processo

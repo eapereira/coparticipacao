@@ -25,9 +25,9 @@ public abstract class Empresa extends AbstractDomain {
 	private String outputReportDir;
 
 	private String inputDir;
-	
+
 	private String outputDir;
-	
+
 	private String failureDir;
 
 	private boolean saveMecsasDetails;
@@ -39,13 +39,16 @@ public abstract class Empresa extends AbstractDomain {
 	private ExternalProcess externalProcess;
 
 	private List<Execucao> execucaos;
-	
+
 	private ReportQueryType reportQueryType;
+
+	private List<Report> reports;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
 		contratos = new ArrayList<>();
 		execucaos = new ArrayList<>();
+		reports = new ArrayList<>();
 	}
 
 	public Empresa(Empresa empresa) {
@@ -218,6 +221,24 @@ public abstract class Empresa extends AbstractDomain {
 		this.reportQueryType = reportQueryType;
 	}
 
+	public List<Report> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
+	}
+
+	public void addReport(Report report) {
+		getReports().add(report);
+		report.setEmpresa(this);
+	}
+
+	public void removeReport(Report report) {
+		getReports().remove(report);
+		report.setEmpresa(null);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -234,6 +255,7 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + ((outputDir == null) ? 0 : outputDir.hashCode());
 		result = prime * result + ((outputReportDir == null) ? 0 : outputReportDir.hashCode());
 		result = prime * result + ((reportQueryType == null) ? 0 : reportQueryType.hashCode());
+		result = prime * result + ((reports == null) ? 0 : reports.hashCode());
 		result = prime * result + (saveBeneficiarioDetails ? 1231 : 1237);
 		result = prime * result + (saveMecsasDetails ? 1231 : 1237);
 		result = prime * result + ((titulars == null) ? 0 : titulars.hashCode());
@@ -299,6 +321,11 @@ public abstract class Empresa extends AbstractDomain {
 		} else if (!outputReportDir.equals(other.outputReportDir))
 			return false;
 		if (reportQueryType != other.reportQueryType)
+			return false;
+		if (reports == null) {
+			if (other.reports != null)
+				return false;
+		} else if (!reports.equals(other.reports))
 			return false;
 		if (saveBeneficiarioDetails != other.saveBeneficiarioDetails)
 			return false;

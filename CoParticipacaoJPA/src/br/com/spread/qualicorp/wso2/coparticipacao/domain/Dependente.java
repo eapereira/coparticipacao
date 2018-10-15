@@ -38,15 +38,12 @@ public abstract class Dependente extends AbstractDomain {
 
 	private List<DependenteIsento> dependenteIsentos;
 	private List<Lancamento> lancamentos;
-
-	private List<DependenteDetail> dependenteDetails;
 	
 	private BeneficiarioDetail beneficiarioDetail;
 
 	public Dependente() {
 		dependenteIsentos = new ArrayList<>();
 		lancamentos = new ArrayList<>();
-		dependenteDetails = new ArrayList<>();
 		
 		beneficiarioDetail=new BeneficiarioDetail();
 	}
@@ -181,24 +178,6 @@ public abstract class Dependente extends AbstractDomain {
 		this.matriculaEmpresa = matriculaEmpresa;
 	}
 
-	public List<DependenteDetail> getDependenteDetails() {
-		return dependenteDetails;
-	}
-
-	public void setDependenteDetails(List<DependenteDetail> dependenteDetails) {
-		this.dependenteDetails = dependenteDetails;
-	}
-
-	public void addDependenteDetail(DependenteDetail dependenteDetail) {
-		getDependenteDetails().add(dependenteDetail);
-		dependenteDetail.setDependente(this);
-	}
-
-	public void removeDependenteDetail(DependenteDetail dependenteDetail) {
-		getDependenteDetails().remove(dependenteDetail);
-		dependenteDetail.setDependente(null);
-	}
-
 	public BeneficiarioDetail getBeneficiarioDetail() {
 		return beneficiarioDetail;
 	}
@@ -213,7 +192,6 @@ public abstract class Dependente extends AbstractDomain {
 		int result = super.hashCode();
 		result = prime * result + ((beneficiarioDetail == null) ? 0 : beneficiarioDetail.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
-		result = prime * result + ((dependenteDetails == null) ? 0 : dependenteDetails.hashCode());
 		result = prime * result + ((dependenteIsentos == null) ? 0 : dependenteIsentos.hashCode());
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
@@ -244,11 +222,6 @@ public abstract class Dependente extends AbstractDomain {
 			if (other.cpf != null)
 				return false;
 		} else if (!cpf.equals(other.cpf))
-			return false;
-		if (dependenteDetails == null) {
-			if (other.dependenteDetails != null)
-				return false;
-		} else if (!dependenteDetails.equals(other.dependenteDetails))
 			return false;
 		if (dependenteIsentos == null) {
 			if (other.dependenteIsentos != null)
@@ -294,6 +267,7 @@ public abstract class Dependente extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 
 
 }

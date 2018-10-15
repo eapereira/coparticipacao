@@ -52,7 +52,6 @@ BEGIN
 	declare VAR_TP_REGRA_OPERATION_EQUALS			int( 3 )  default 5;
 	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS		int( 3 )  default 6;
 	
-	
 	declare VAR_ID_ARQUIVO_INPUT					bigint( 17 );
 	
 	declare VAR_ID_ARQUIVO_INPUT_MECSAS 			bigint( 17 );

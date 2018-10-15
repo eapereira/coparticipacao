@@ -21,7 +21,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -124,22 +123,11 @@ public class TitularEntity extends Titular implements DomainEntity {
 		return super.getMatriculaEmpresa();
 	}
 
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			mappedBy = "titular",
-			fetch = FetchType.LAZY,
-			targetEntity = TitularDetailEntity.class)
-	@Override
-	public List<TitularDetail> getTitularDetails() {
-		// TODO Auto-generated method stub
-		return super.getTitularDetails();
-	}
-
 	@Embedded
 	@Override
 	public BeneficiarioDetail getBeneficiarioDetail() {
 		// TODO Auto-generated method stub
 		return super.getBeneficiarioDetail();
 	}
-	
+
 }

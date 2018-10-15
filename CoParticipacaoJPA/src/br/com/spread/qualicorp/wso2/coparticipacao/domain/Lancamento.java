@@ -1,8 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The persistent class for the tb_lancamento database table.
@@ -20,10 +18,8 @@ public abstract class Lancamento extends AbstractDomain {
 	
 	private BigDecimal valorPrincipal;
 
-	private List<LancamentoDetail> lancamentoDetails;
-
 	public Lancamento() {
-		lancamentoDetails = new ArrayList<>();
+		super();
 	}
 
 	public Lancamento(Lancamento entity) {
@@ -54,26 +50,6 @@ public abstract class Lancamento extends AbstractDomain {
 		this.titular = titular;
 	}
 
-	public List<LancamentoDetail> getLancamentoDetails() {
-		return lancamentoDetails;
-	}
-
-	public void setLancamentoDetails(List<LancamentoDetail> lancamentoDetails) {
-		this.lancamentoDetails = lancamentoDetails;
-	}
-
-	public void addLancamentoDetail(LancamentoDetail lancamentoDetail) {
-		getLancamentoDetails().add(lancamentoDetail);
-		lancamentoDetail.setLancamento(this);
-	}
-
-	public void removeLAncamentoDetail(LancamentoDetail lancamentoDetail) {
-		if (getLancamentoDetails().contains(lancamentoDetail)) {
-			getLancamentoDetails().remove(lancamentoDetail);
-			lancamentoDetail.setLancamento(null);
-		}
-	}
-
 	public Integer getAno() {
 		return ano;
 	}
@@ -90,16 +66,23 @@ public abstract class Lancamento extends AbstractDomain {
 		this.mes = mes;
 	}
 
+	public BigDecimal getValorPrincipal() {
+		return valorPrincipal;
+	}
+
+	public void setValorPrincipal(BigDecimal valorPrincipal) {
+		this.valorPrincipal = valorPrincipal;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((ano == null) ? 0 : ano.hashCode());
-		result = prime * result + ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
-		result = prime * result + ((lancamentoDetails == null) ? 0 : lancamentoDetails.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
+		result = prime * result + ((valorPrincipal == null) ? 0 : valorPrincipal.hashCode());
 		return result;
 	}
 
@@ -107,7 +90,7 @@ public abstract class Lancamento extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -117,20 +100,10 @@ public abstract class Lancamento extends AbstractDomain {
 				return false;
 		} else if (!ano.equals(other.ano))
 			return false;
-		if (contrato == null) {
-			if (other.contrato != null)
-				return false;
-		} else if (!contrato.equals(other.contrato))
-			return false;
 		if (dependente == null) {
 			if (other.dependente != null)
 				return false;
 		} else if (!dependente.equals(other.dependente))
-			return false;
-		if (lancamentoDetails == null) {
-			if (other.lancamentoDetails != null)
-				return false;
-		} else if (!lancamentoDetails.equals(other.lancamentoDetails))
 			return false;
 		if (mes == null) {
 			if (other.mes != null)
@@ -142,15 +115,12 @@ public abstract class Lancamento extends AbstractDomain {
 				return false;
 		} else if (!titular.equals(other.titular))
 			return false;
+		if (valorPrincipal == null) {
+			if (other.valorPrincipal != null)
+				return false;
+		} else if (!valorPrincipal.equals(other.valorPrincipal))
+			return false;
 		return true;
-	}
-
-	public BigDecimal getValorPrincipal() {
-		return valorPrincipal;
-	}
-
-	public void setValorPrincipal(BigDecimal valorPrincipal) {
-		this.valorPrincipal = valorPrincipal;
 	}
 
 }

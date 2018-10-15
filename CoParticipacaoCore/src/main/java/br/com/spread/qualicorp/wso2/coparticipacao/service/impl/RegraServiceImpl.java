@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +11,11 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.RegraDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraField;
@@ -22,6 +23,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraOperation;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraValor;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ValorType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraEntityMapper;
@@ -31,7 +33,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraResultUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
@@ -102,26 +103,38 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 		return entityMapper;
 	}
 
-	public void applyRegras(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
+	public void applyRegras(CoParticipacaoContext coParticipacaoContext, LancamentoDetailUi lancamentoDetailUi)
 			throws ServiceException {
+		BigDecimal valorPrincipal;
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
+
 		try {
 			LOGGER.info("BEGIN");
 
-			for (LancamentoDetail lancamentoDetail : lancamentoUi.getLancamentoDetails()) {
+			if (lancamentoDetailUi.getValorType() != null) {
+				if (ValorType.NEGATIVO.equals(lancamentoDetailUi.getValorType())) {
+					valorPrincipal = lancamentoDetailUi.getValorPrincipal()
+							.multiply(BigDecimal.valueOf(NumberUtils.INTEGER_MINUS_ONE));
+					lancamentoDetailUi.setValorPrincipal(valorPrincipal);
+				}
+			}
+
+			for (LancamentoInputColsUi lancamentoInputColsUi : coParticipacaoContext.getLancamentoInputColsUis()) {
+				arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
 
 				for (RegraUi regraUi : coParticipacaoContext.getRegraUis()) {
 
-					LOGGER.info(
-							"Checking if we have a Regra for column [{}]:",
-							lancamentoDetail.getArquivoInputColsDef().getNameColumn());
+					LOGGER.info("Checking if we have a Regra for column [{}]:", arquivoInputColsDefUi.getNameColumn());
 
 					if (RegraType.SIMPLES.equals(regraUi.getTpRegra())) {
-						applyRegra(coParticipacaoContext, regraUi, lancamentoDetail);
+						if (isLancamentoDetailAcceptable(regraUi, lancamentoInputColsUi)) {
+							applyRegra(coParticipacaoContext, regraUi, lancamentoDetailUi, lancamentoInputColsUi);
+						}
 					}
 				}
 			}
 
-			regraConditionalService.applyRegras(coParticipacaoContext, lancamentoUi);
+			regraConditionalService.applyRegras(coParticipacaoContext, lancamentoDetailUi);
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
@@ -129,14 +142,14 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 		}
 	}
 
-	private boolean isLancamentoDetailAcceptable(RegraUi regraUi, LancamentoDetailUi lancamentoDetailUi)
+	private boolean isLancamentoDetailAcceptable(RegraUi regraUi, LancamentoInputColsUi lancamentoInputColsUi)
 			throws ServiceException {
 		ArquivoInputColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoDetailUi.getArquivoInputColsDef();
+			arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
 
 			for (RegraOperation regraOperation : regraUi.getRegraOperations()) {
 				for (RegraField regraField : regraOperation.getRegraFields()) {
@@ -162,80 +175,87 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 	public void applyRegra(
 			CoParticipacaoContext coParticipacaoContext,
 			RegraUi regraUi,
-			LancamentoDetail lancamentoDetail) throws ServiceException {
+			LancamentoDetailUi lancamentoDetailUi,
+			LancamentoInputColsUi lancamentoInputColsUi) throws ServiceException {
 		List<RegraOperation> regraOperatios;
 		BigDecimal value;
 		BigDecimal result;
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			if (isLancamentoDetailAcceptable(regraUi, (LancamentoDetailUi) lancamentoDetail)) {
+			result = BigDecimal.ZERO;
+			regraOperatios = regraUi.getRegraOperations();
 
-				result = BigDecimal.ZERO;
-				regraOperatios = regraUi.getRegraOperations();
+			LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
 
-				LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
+			for (RegraOperation regraOperation : regraOperatios) {
 
-				for (RegraOperation regraOperation : regraOperatios) {
+				for (RegraField regraField : regraOperation.getRegraFields()) {
 
-					for (RegraField regraField : regraOperation.getRegraFields()) {
+					LOGGER.info(
+							"Applying regra [{}] to field [{}]:",
+							regraUi.getNameRegra(),
+							regraField.getArquivoInputColsDef().getNameColumn());
 
-						LOGGER.info(
-								"Applying regra [{}] to field [{}]:",
-								regraUi.getNameRegra(),
-								regraField.getArquivoInputColsDef().getNameColumn());
+					value = lancamentoDetailService
+							.getFieldValueAsBigDecimal(lancamentoInputColsUi, lancamentoDetailUi);
 
-						value = lancamentoDetailService
-								.getFieldValueAsBigDecimal(regraField.getArquivoInputColsDef(), lancamentoDetail);
+					LOGGER.info(
+							"Field [{}] has value [{}]:",
+							regraField.getArquivoInputColsDef().getNameColumn(),
+							value);
 
-						LOGGER.info(
-								"Field [{}] has value [{}]:",
-								regraField.getArquivoInputColsDef().getNameColumn(),
-								value);
+					if (!BigDecimal.ZERO.equals(value)) {
+						if (BigDecimal.ZERO.equals(result)) {
+							result = value;
+						}
 
-						if (!BigDecimal.ZERO.equals(value)) {
-							if (BigDecimal.ZERO.equals(result)) {
-								result = value;
-							}
+						LOGGER.info("Result value [{}]:", result);
 
-							LOGGER.info("Result value [{}]:", result);
+						for (RegraValor regraValor : regraOperation.getRegraValors()) {
+							value = regraValor.getValor();
 
-							for (RegraValor regraValor : regraOperation.getRegraValors()) {
-								value = regraValor.getValor();
+							LOGGER.info("Field value for RegraValor has value [{}]:", value);
 
-								LOGGER.info("Field value for RegraValor has value [{}]:", value);
-
-								result = executeOperation(regraOperation.getTpOperation(), value, result);
-							}
+							result = executeOperation(regraOperation.getTpOperation(), value, result);
 						}
 					}
 				}
+			}
 
-				LOGGER.info("Final result after all RegraOperations value is [{}]:", result);
+			LOGGER.info("Final result after all RegraOperations value is [{}]:", result);
 
-				for (RegraResult regraResult : regraUi.getRegraResults()) {
+			for (RegraResult regraResult : regraUi.getRegraResults()) {
+				arquivoInputColsDefUi = (ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef();
 
-					LOGGER.info(
-							"Sending calculated value [{}] to lancamento field [{}]",
-							result,
-							regraResult.getArquivoInputColsDef().getNameColumn());
+				for (LancamentoInputCols lancamentoInputCols : coParticipacaoContext.getLancamentoInputColsUis()) {
 
-					if (ColDefType.DOUBLE.equals(regraResult.getArquivoInputColsDef().getType())) {
-						lancamentoDetailService.updateLancamentoDetail(
-								(LancamentoDetailUi) lancamentoDetail,
-								(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef(),
-								result);
-					} else if (ColDefType.LONG.equals(regraResult.getArquivoInputColsDef().getType())) {
-						lancamentoDetailService.updateLancamentoDetail(
-								(LancamentoDetailUi) lancamentoDetail,
-								(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef(),
-								result.longValue());
-					} else if (ColDefType.INT.equals(regraResult.getArquivoInputColsDef().getType())) {
-						lancamentoDetailService.updateLancamentoDetail(
-								(LancamentoDetailUi) lancamentoDetail,
-								(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef(),
-								result.intValue());
+					if (lancamentoInputCols.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+						LOGGER.info(
+								"Sending calculated value [{}] to lancamento field [{}]",
+								result,
+								regraResult.getArquivoInputColsDef().getNameColumn());
+
+						if (ColDefType.DOUBLE.equals(regraResult.getArquivoInputColsDef().getType())) {
+							lancamentoDetailService.setFieldValue(
+									lancamentoDetailUi,
+									(LancamentoInputColsUi) lancamentoInputCols,
+									result);
+						} else if (ColDefType.LONG.equals(regraResult.getArquivoInputColsDef().getType())) {
+							lancamentoDetailService.setFieldValue(
+									lancamentoDetailUi,
+									(LancamentoInputColsUi) lancamentoInputCols,
+									result.longValue());
+						} else if (ColDefType.INT.equals(regraResult.getArquivoInputColsDef().getType())) {
+							lancamentoDetailService.setFieldValue(
+									lancamentoDetailUi,
+									(LancamentoInputColsUi) lancamentoInputCols,
+									result.intValue());
+						}
+
+						break;
 					}
 				}
 			}
@@ -377,7 +397,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 									result = executeOperation(regraOperation.getTpOperation(), value, result);
 								}
 							}
-							
+
 							break;
 						}
 					}
@@ -401,7 +421,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 								isentoInputSheetCols.getBeneficiarioIsentoColType(),
 								beneficiarioIsentoUi,
 								result);
-						
+
 						break;
 					}
 				}
@@ -496,5 +516,4 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}
-
 }

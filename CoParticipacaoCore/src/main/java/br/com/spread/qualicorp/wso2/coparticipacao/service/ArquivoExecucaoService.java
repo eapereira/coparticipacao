@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service;
 import java.io.InputStream;
 import java.util.List;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
@@ -30,12 +31,12 @@ public interface ArquivoExecucaoService extends AbstractService<ArquivoExecucaoU
 
 	ArquivoExecucaoUi sendToProcess(ArquivoExecucaoUi arquivoExecucaoUi) throws ServiceException;
 
+	void sendToProcess(List<ArquivoExecucao> arquivoExecucaos) throws ServiceException;
+
 	ArquivoExecucaoUi saveFile(UserUi userUi, InputStream inputstream, String fileName) throws ServiceException;
 
 	ArquivoExecucaoUi findByContratoIdAndMesAndAno(ContratoUi contratoUi, Integer mes, Integer ano)
 			throws ServiceException;
-
-	List<ArquivoExecucaoUi> sendToProcess(List<ArquivoExecucaoUi> arquivoExecucaoUis) throws ServiceException;
 
 	ArquivoExecucaoUi createArquivoExecucao(CoParticipacaoContext coParticipacaoContext, UseType useType)
 			throws ServiceException;

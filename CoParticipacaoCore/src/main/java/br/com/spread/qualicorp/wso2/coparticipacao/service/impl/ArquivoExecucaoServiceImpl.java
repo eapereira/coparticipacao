@@ -147,8 +147,8 @@ public class ArquivoExecucaoServiceImpl
 			arquivoExecucaoUi.setStatusExecucaoType(statusExecucaoType);
 			arquivoExecucaoUi.setUserAltered(coParticipacaoContext.getUser());
 
-			arquivoExecucaoBatchService.saveBatch(arquivoExecucaoUi);
-			// save(arquivoExecucaoUi);
+			// arquivoExecucaoBatchService.saveBatch(arquivoExecucaoUi);
+			arquivoExecucaoUi = save(arquivoExecucaoUi);
 
 			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
 
@@ -240,41 +240,19 @@ public class ArquivoExecucaoServiceImpl
 		}
 	}
 
-	public List<ArquivoExecucaoUi> sendToProcess(List<ArquivoExecucaoUi> arquivoExecucaoUis) throws ServiceException {
-		LocalDate currentDate;
-		EmpresaUi empresaUi = null;
-		int ordem = NumberUtils.INTEGER_ONE;
-
+	public void sendToProcess(List<ArquivoExecucao> arquivoExecucaos) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			currentDate = LocalDate.now();
-
-			for (ArquivoExecucaoUi arquivoExecucaoUi : arquivoExecucaoUis) {
-				if (empresaUi == null) {
-					empresaUi = (EmpresaUi) arquivoExecucaoUi.getContrato().getEmpresa();
-
-					LOGGER.info(
-							"Cleaning all ArquivoExecucaoUis for EmpresaUi.NM_EMPRESA[{}] at Mes[{}] and Ano[{}]:",
-							empresaUi.getNameEmpresa(),
-							currentDate.getMonthValue(),
-							currentDate.getYear());
-					deleteByEmpresaIdAndMesAndAno(empresaUi, currentDate.getMonthValue(), currentDate.getYear());
-				}
-
-				arquivoExecucaoUi.setOrdem(ordem);
-				sendToProcess(arquivoExecucaoUi);
-
-				ordem++;
+			for (ArquivoExecucao arquivoExecucao : arquivoExecucaos) {
+				sendToProcess((ArquivoExecucaoUi) arquivoExecucao);
 			}
 
 			LOGGER.info("END");
-			return arquivoExecucaoUis;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
-
 	}
 
 	public ArquivoExecucaoUi sendToProcess(ArquivoExecucaoUi arquivoExecucaoUi) throws ServiceException {
@@ -293,8 +271,6 @@ public class ArquivoExecucaoServiceImpl
 
 			if (inputFile.exists()) {
 				currentDate = LocalDate.now();
-
-				deleteByContratoIdAndMesAndAno(contratoUi, currentDate.getMonthValue(), currentDate.getYear());
 
 				renameToProcess(arquivoExecucaoUi);
 
@@ -318,8 +294,8 @@ public class ArquivoExecucaoServiceImpl
 				arquivoExecucaoUi.setStatusExecucaoType(StatusExecucaoType.STARTED);
 				arquivoExecucaoUi.setStarted(LocalDateTime.now());
 
-				arquivoExecucaoBatchService.saveBatch(arquivoExecucaoUi);
-				// save(arquivoExecucaoUi);
+				// arquivoExecucaoBatchService.saveBatch(arquivoExecucaoUi);
+				save(arquivoExecucaoUi);
 			} else {
 				throw new ServiceException("File [%s] does not exists.", inputFile.getAbsolutePath());
 			}
@@ -389,6 +365,12 @@ public class ArquivoExecucaoServiceImpl
 	public void deleteByEmpresaIdAndMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
+
+			LOGGER.info(
+					"Cleaning all ArquivoExecucaoUis for EmpresaUi.NM_EMPRESA[{}] at Mes[{}] and Ano[{}]:",
+					empresaUi.getNameEmpresa(),
+					mes,
+					ano);
 
 			arquivoExecucaoDao.deleteByEmpresaIdAndMesAndAno(empresaUi.getId(), mes, ano);
 
@@ -510,8 +492,8 @@ public class ArquivoExecucaoServiceImpl
 							arquivoExecucaoUi.setFinnished(LocalDateTime.now());
 							arquivoExecucaoUi.setUserAltered(userUi);
 
-							arquivoExecucaoBatchService.saveBatch(arquivoExecucaoUi);
-							// save(arquivoExecucaoUi);
+							// arquivoExecucaoBatchService.saveBatch(arquivoExecucaoUi);
+							save(arquivoExecucaoUi);
 						}
 
 						LOGGER.info("END");
@@ -553,5 +535,4 @@ public class ArquivoExecucaoServiceImpl
 			throw new ServiceException(e);
 		}
 	}
-
 }

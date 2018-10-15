@@ -26,6 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.io.FlatFileWriterService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputSheetService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ContratoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
@@ -52,6 +53,9 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 	@Autowired
 	private ArquivoExecucaoService arquivoExecucaoService;
 
+	@Autowired
+	private ContratoService contratoService;
+
 	public void write(
 			CoParticipacaoContext coParticipacaoContext,
 			ArquivoOutputUi arquivoOutputUi,
@@ -64,50 +68,69 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 		ArquivoExecucaoUi arquivoExecucaoUi;
 		ArquivoExecucaoUi arquivoExecucaoUiTmp;
 		ContratoUi contratoUi;
+		ContratoUi parent;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			LOGGER.info("Creating ArquivoExecucaoUi for FlatFile data:");
-			arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
 			contratoUi = (ContratoUi) arquivoOutputUi.getArquivoInput().getContrato();
+			parent = contratoService.findParentByChildId(contratoUi);
 
-			arquivoExecucaoUi = arquivoExecucaoService.createArquivoExecucao(coParticipacaoContext, contratoUi);
+			if (parent != null) {
+				arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
+				LOGGER.info("Creating ArquivoExecucaoUi for FlatFile data[{}]:", contratoUi.getCdContrato());
 
-			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
-			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
-			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
+				arquivoExecucaoUi = arquivoExecucaoService.createArquivoExecucao(coParticipacaoContext, contratoUi);
 
-			empresaUi = coParticipacaoContext.getEmpresaUi();
+				coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
+				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
+				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
 
-			// Gerando os arquivos de todos os contratos FATUCOPA da empresa:
-			for (Contrato contrato : empresaUi.getContratos()) {
-				if (UseType.FATUCOPA.equals(contrato.getUseType())) {
-					arquivoOutputSheetUis = arquivoOutputSheetService.listByArquivoOutputId(arquivoOutputUi);
+				empresaUi = coParticipacaoContext.getEmpresaUi();
 
-					for (ArquivoOutputSheetUi arquivoOutputSheetUi : arquivoOutputSheetUis) {
-						viewDestinationUi = (ViewDestinationUi) arquivoOutputSheetUi.getViewDestination();
-						viewDestinationColsDefUis = viewDestinationColsDefService
-								.listByViewDestinationId(viewDestinationUi);
+				/*
+				 * Gerando os arquivos de todos os contratos FATUCOPA da
+				 * empresa:
+				 */
+				for (Contrato contrato : empresaUi.getContratos()) {
+					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
+						if (parent.getId().equals(contrato.getId())) {
+							LOGGER.info("Creating FlatFile for ContratoUi[{}]:", contrato.getCdContrato());
 
-						LOGGER.info(
-								"Creating the report for the ViewDestination [{}]:",
-								viewDestinationUi.getNameView());
-						dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
-								viewDestinationUi,
-								(ContratoUi) contrato,
-								coParticipacaoContext.getMes(),
-								coParticipacaoContext.getAno());
+							arquivoOutputSheetUis = arquivoOutputSheetService.listByArquivoOutputId(arquivoOutputUi);
 
-						writeToFile(
-								coParticipacaoContext,
-								arquivoOutputUi,
-								(ContratoUi) contrato,
-								viewDestinationColsDefUis,
-								dynamicEntities,
-								arquivoOutputService);
+							for (ArquivoOutputSheetUi arquivoOutputSheetUi : arquivoOutputSheetUis) {
+								viewDestinationUi = (ViewDestinationUi) arquivoOutputSheetUi.getViewDestination();
+								viewDestinationColsDefUis = viewDestinationColsDefService
+										.listByViewDestinationId(viewDestinationUi);
+
+								LOGGER.info(
+										"Creating the report for the ViewDestination [{}]:",
+										viewDestinationUi.getNameView());
+								dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
+										viewDestinationUi,
+										(ContratoUi) contrato,
+										coParticipacaoContext.getMes(),
+										coParticipacaoContext.getAno());
+
+								writeToFile(
+										coParticipacaoContext,
+										arquivoOutputUi,
+										(ContratoUi) contrato,
+										viewDestinationColsDefUis,
+										dynamicEntities,
+										arquivoOutputService);
+
+							}
+
+							break;
+						}
 					}
 				}
+			} else {
+				throw new ServiceException(
+						"ContratoUi[%s] must has a parent to bind a ConstratoUi's FATUCOPA",
+						contratoUi.getCdContrato());
 			}
 
 			LOGGER.info("Updating ArquivoExecucaoUi with SUCCESS information:");
@@ -212,6 +235,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 
 			fileWriter = new FileWriter(file);
 
+			LOGGER.info("OutputFileName[{}] for report:", file.getAbsolutePath());
 			coParticipacaoContext.getArquivoExecucaoUi().setNameArquivoOutput(file.getAbsolutePath());
 
 			LOGGER.info("END");

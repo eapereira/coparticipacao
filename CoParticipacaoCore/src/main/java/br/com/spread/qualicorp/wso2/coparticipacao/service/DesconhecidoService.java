@@ -10,7 +10,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 
 /**
@@ -19,7 +19,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
  *
  */
 public interface DesconhecidoService extends AbstractService<DesconhecidoUi> {
-	void createDesconhecido(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
+	void createDesconhecido(CoParticipacaoContext coParticipacaoContext, LancamentoDetailUi lancamentoDetailUi)
 			throws ServiceException;
 
 	void createDesconhecido(CoParticipacaoContext coParticipacaoContext, TitularUi titularUi) throws ServiceException;
@@ -42,5 +42,7 @@ public interface DesconhecidoService extends AbstractService<DesconhecidoUi> {
 	List<DesconhecidoUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException;
 
 	List<DesconhecidoUi> listByEmpresaIdAndUseType(EmpresaUi empresaUi, UseType useType) throws ServiceException;
+
+	void deleteByContrato(ContratoUi contratoUi) throws ServiceException;
 
 }

@@ -3,10 +3,16 @@
 	<query id="deleteByMesAndAno">
 		<![CDATA[
 			delete from DesconhecidoEntity desconhecido
+			where	desconhecido.contrato.id 	= :contratoId
+			and		desconhecido.mes			= :mes
+			and		desconhecido.ano			= :ano
+		]]>
+	</query>
+
+	<query id="deleteByContrato">
+		<![CDATA[
+			delete from DesconhecidoEntity desconhecido
 			where	desconhecido.contrato.id = :contratoId
-			and		desconhecido.mes	= :mes
-			and		desconhecido.ano	= :ano
-			order by desconhecido.nameBeneficiario
 		]]>
 	</query>
 

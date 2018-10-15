@@ -77,7 +77,7 @@ public class MarjanBean extends CoparticipacaoBean {
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201806 = 166;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806_AFTER_USER_RETURN = 473;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_RETURN = 567;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_RETURN = 569;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201806_AFTER_USER_RETURN = 174;
 
@@ -94,7 +94,7 @@ public class MarjanBean extends CoparticipacaoBean {
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 18;
 
 	private static final int NUM_TOTAL_TITULARES_201808_AFTER_USER_RETURN = 513;
-	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 619;
+	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 621;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201808_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_201808_AFTER_USER_RETURN = 167;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808_AFTER_USER_RETURN = 19;

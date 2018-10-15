@@ -113,4 +113,24 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 		// TODO Auto-generated method stub
 		return super.getArquivoExecucaos();
 	}
+
+	@ManyToOne(targetEntity = ContratoEntity.class, fetch = FetchType.LAZY)
+	@JoinColumn(name = "ID_CONTRATO_PARENT")
+	@Override
+	public Contrato getParent() {
+		// TODO Auto-generated method stub
+		return super.getParent();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "parent",
+			targetEntity = ContratoEntity.class)
+	@Override
+	public List<Contrato> getChildren() {
+		// TODO Auto-generated method stub
+		return super.getChildren();
+	}
+
 }

@@ -20,7 +20,7 @@ public abstract class ArquivoInputColsDef extends AbstractDomain {
 
 	private ArquivoInput arquivoInput;
 
-	private LancamentoInputCols lancamentoInputCols;
+	private List<LancamentoInputCols> lancamentoInputCols;
 
 	private List<RegraResult> regraResults;
 
@@ -110,19 +110,28 @@ public abstract class ArquivoInputColsDef extends AbstractDomain {
 		this.localePattern = localePattern;
 	}
 
-	public LancamentoInputCols getLancamentoInputCols() {
+	public List<LancamentoInputCols> getLancamentoInputCols() {
 		return lancamentoInputCols;
 	}
 
-	public void setLancamentoInputCols(LancamentoInputCols lancamentoInputCols) {
+	public void setLancamentoInputCols(List<LancamentoInputCols> lancamentoInputCols) {
 		this.lancamentoInputCols = lancamentoInputCols;
+	}
+
+	public void addLancamentoInputCols(LancamentoInputCols lancamentoInputCols) {
+		getLancamentoInputCols().add(lancamentoInputCols);
+		lancamentoInputCols.setArquivoInputColsDef(this);
+	}
+
+	public void removeLancamentoInputCols(LancamentoInputCols lancamentoInputCols) {
+		getLancamentoInputCols().remove(lancamentoInputCols);
+		lancamentoInputCols.setArquivoInputColsDef(null);
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+		int result = super.hashCode();
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
 		result = prime * result + ((lancamentoInputCols == null) ? 0 : lancamentoInputCols.hashCode());
 		result = prime * result + ((length == null) ? 0 : length.hashCode());
@@ -138,16 +147,11 @@ public abstract class ArquivoInputColsDef extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoInputColsDef other = (ArquivoInputColsDef) obj;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
-				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
-			return false;
 		if (format == null) {
 			if (other.format != null)
 				return false;

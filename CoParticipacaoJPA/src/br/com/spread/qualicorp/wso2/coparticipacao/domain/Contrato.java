@@ -15,7 +15,11 @@ import javax.persistence.OneToOne;
  * 
  */
 public abstract class Contrato extends AbstractDomain {
-	private static final long serialVersionUID = 1L;
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3625459088418269840L;
 
 	private String cdContrato;
 
@@ -39,11 +43,16 @@ public abstract class Contrato extends AbstractDomain {
 
 	private List<DependenteIsento> dependenteIsentos;
 
+	private Contrato parent;
+
+	private List<Contrato> children;
+
 	public Contrato() {
 		lancamentos = new ArrayList<>();
 		arquivoExecucaos = new ArrayList<>();
 		titularIsentos = new ArrayList<>();
 		dependenteIsentos = new ArrayList<>();
+		children = new ArrayList<>();
 
 		spreadsheetAllPages = Boolean.FALSE;
 	}
@@ -277,4 +286,29 @@ public abstract class Contrato extends AbstractDomain {
 		this.dependenteIsentos = dependenteIsentos;
 	}
 
+	public Contrato getParent() {
+		return parent;
+	}
+
+	public void setParent(Contrato parent) {
+		this.parent = parent;
+	}
+
+	public List<Contrato> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Contrato> children) {
+		this.children = children;
+	}
+
+	public void addChildren(Contrato contrato) {
+		getChildren().add(contrato);
+		contrato.setParent(this);
+	}
+
+	public void removeChildren(Contrato contrato) {
+		getChildren().remove(contrato);
+		contrato.setParent(null);
+	}
 }

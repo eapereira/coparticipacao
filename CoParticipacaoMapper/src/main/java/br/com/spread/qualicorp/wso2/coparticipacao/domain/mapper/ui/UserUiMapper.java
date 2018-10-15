@@ -23,7 +23,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 				ArquivoOutputUiMapper.class,
 				BeneficiarioColsUiMapper.class,
 				ContratoUiMapper.class,
-				DependenteDetailUiMapper.class,
 				DependenteIsentoColsDefUiMapper.class,
 				DependenteIsentoUiMapper.class,
 				DependenteUiMapper.class,
@@ -36,7 +35,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 				InputTitularIsentoUiMapper.class,
 				IsentoInputSheetColsUiMapper.class,
 				IsentoInputSheetUiMapper.class,
-				LancamentoDetailUiMapper.class,
 				LancamentoInputColsUiMapper.class,
 				LancamentoInputUiMapper.class,
 				LancamentoUiMapper.class,
@@ -53,7 +51,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 				RegraUiMapper.class,
 				RegraValorUiMapper.class,
 				RoleUiMapper.class,
-				TitularDetailUiMapper.class,
 				TitularIsentoColsDefUiMapper.class,
 				TitularIsentoUiMapper.class,
 				TitularUiMapper.class,
@@ -62,6 +59,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 				ViewDestinationUiMapper.class,
 				TitularResumoUiMapper.class,
 				DependenteResumoUiMapper.class,
+				ReportUiMapper.class,
 				ExecucaoUiMapper.class })
 public abstract class UserUiMapper extends AbstractMapper<User, UserUi> {
 

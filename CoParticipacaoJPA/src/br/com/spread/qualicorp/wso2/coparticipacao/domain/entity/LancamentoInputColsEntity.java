@@ -43,7 +43,7 @@ public class LancamentoInputColsEntity extends LancamentoInputCols implements Do
 		return super.getLancamentoInput();
 	}
 
-	@OneToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
 	@Override
 	public ArquivoInputColsDef getArquivoInputColsDef() {

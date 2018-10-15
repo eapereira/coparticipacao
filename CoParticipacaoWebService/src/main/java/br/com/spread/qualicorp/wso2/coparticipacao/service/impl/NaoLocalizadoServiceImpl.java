@@ -66,9 +66,11 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 						beneficiarioUi.getNameBeneficiario(),
 						beneficiarioUi.getMatricula());
 
+				coParticipacaoContext.setTitularUi(null);
+				
 				dependenteUi = beneficiarioService.createDependente(coParticipacaoContext, beneficiarioUi);
 
-				if (dependenteUi == null) {
+				if (dependenteUi == null && coParticipacaoContext.getTitularUi() == null) {
 					desconhecidoService.createDesconhecido(coParticipacaoContext, beneficiarioUi);
 				}
 			}
@@ -83,6 +85,22 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 	@Override
 	public boolean validateSheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		return true;
+	}
+
+	@Override
+	public void afterProcess(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			super.afterProcess(coParticipacaoContext);
+
+			// desconhecidoService.writeDesconhecidosFile(coParticipacaoContext);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

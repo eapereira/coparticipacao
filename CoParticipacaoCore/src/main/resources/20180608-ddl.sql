@@ -4,6 +4,10 @@
  * Edson - 08/06/2018
  */
 
+drop table if exists TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+drop table if exists TB_ARQUIVO_INPUT_SHEET;
+drop table if exists TB_REPORT;
+
 drop table if exists TB_SCRIPT;
 drop table if exists TB_LOG;
 
@@ -1408,45 +1412,25 @@ COMMENT 'Procedure para apagar todos os registros de uma Empresa no CoparticipaÃ
 BEGIN
 	START TRANSACTION;
 	
-	IF param_id_empresa IS NULL then
-		delete from TB_LANCAMENTO_DETAIL
-		WHERE ID > 0;
-		
+	IF param_id_empresa IS NULL then		
 		delete from TB_LANCAMENTO
 		WHERE ID > 0;
 		
 		delete from TB_DEPENDENTE_ISENTO
 		WHERE ID > 0;
-		
-		delete from TB_DEPENDENTE_DETAIL
-		WHERE ID > 0;
-		
+				
 		delete from TB_DEPENDENTE
 		WHERE ID > 0;
 				
 		delete from TB_TITULAR_ISENTO
 		WHERE ID > 0;
-
-		delete from TB_TITULAR_DETAIL
-		where ID > 0;
 		
 		delete from TB_TITULAR
 		where ID > 0;
 		
 		delete from TB_DESCONHECIDO
 		WHERE ID > 0;
-	else
-		delete detail from TB_LANCAMENTO_DETAIL detail
-		WHERE detail.ID_LANCAMENTO in (
-			select lancamento.ID
-			from 	TB_LANCAMENTO lancamento
-			where 	lancamento.ID = detail.ID_LANCAMENTO
-			and		lancamento.ID_CONTRATO in (
-				select contrato.ID
-				from TB_CONTRATO contrato
-				where	contrato.ID_EMPRESA = PARAM_ID_EMPRESA
-				and		contrato.ID = lancamento.ID_CONTRATO ));
-		
+	else		
 		delete lancamento from TB_LANCAMENTO lancamento
 		WHERE lancamento.ID_CONTRATO in (
 			select contrato.ID
@@ -1474,20 +1458,7 @@ BEGIN
 			where 	titular.ID = isento.ID_TITULAR
 			and		titular.ID_EMPRESA = PARAM_ID_EMPRESA			
 		);
-		
-		delete detail from TB_DEPENDENTE_DETAIL detail
-		where detail.ID_DEPENDENTE in (
-			select	dependente.ID
-			from 	TB_DEPENDENTE dependente
-			where	dependente.ID =  detail.ID_DEPENDENTE
-			and		dependente.ID_TITULAR in (
-				select	titular.ID
-				from 	TB_TITULAR titular
-				where 	titular.ID = dependente.ID_TITULAR
-				and		titular.ID_EMPRESA = PARAM_ID_EMPRESA
-			)
-		);
-		
+				
 		delete dependente from TB_DEPENDENTE dependente
 		where dependente.ID_TITULAR in (
 			select	titular.ID
@@ -1495,15 +1466,7 @@ BEGIN
 			where 	titular.ID = dependente.ID_TITULAR
 			and		titular.ID_EMPRESA = PARAM_ID_EMPRESA					
 		);
-		
-		delete detail from TB_TITULAR_DETAIL detail
-		where detail.ID_TITULAR in (
-			select	titular.ID
-			from 	TB_TITULAR titular
-			where 	titular.ID = detail.ID_TITULAR
-			and		titular.ID_EMPRESA = PARAM_ID_EMPRESA			
-		);
-		
+				
 		delete titular from TB_TITULAR titular
 		where titular.ID_EMPRESA = PARAM_ID_EMPRESA;
 				

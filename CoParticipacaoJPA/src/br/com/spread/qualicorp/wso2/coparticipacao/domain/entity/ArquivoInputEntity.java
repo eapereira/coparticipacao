@@ -26,7 +26,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ArquivoTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.UseTypeConverter;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 
 /**
  * The persistent class for the tb_arquivo_input database table.

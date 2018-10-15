@@ -17,6 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDef
 				UserUiMapper.class,
 				ArquivoInputUiMapper.class,
 				LancamentoInputUiMapper.class,
+				LancamentoInputColsUiMapper.class,
 				RegraResultUiMapper.class,
 				BeneficiarioColsUiMapper.class,
 				DesconhecidoUiMapper.class})

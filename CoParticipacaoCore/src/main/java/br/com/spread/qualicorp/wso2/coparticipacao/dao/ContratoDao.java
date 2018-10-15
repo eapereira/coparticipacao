@@ -17,4 +17,6 @@ public interface ContratoDao extends AbstractDao<ContratoEntity> {
 
 	ContratoEntity findByCdEmpresaAndCdContrato(String cdEmpresa, String cdContrato) throws DaoException;
 
+	ContratoEntity findParentByChildId(Long childId) throws DaoException;
+
 }

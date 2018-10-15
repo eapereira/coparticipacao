@@ -8,6 +8,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.transaction.annotation.Propagation;
@@ -158,6 +159,8 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements 
 
 			if (entity.getId() != null) {
 				entity = merge(entity);
+			} else {
+				entity.setVersion(NumberUtils.LONG_ZERO);
 			}
 
 			entityManager.persist(entity);

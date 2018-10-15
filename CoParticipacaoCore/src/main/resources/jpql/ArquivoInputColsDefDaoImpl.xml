@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="listByArquivoInputId">
 		<![CDATA[
+			select entity from ArquivoInputColsDefEntity entity
+			join fetch entity.arquivoInput arquivoInput
+			where arquivoInput.id = :arquivoInputId
+			order by entity.ordem
 		]]>
 	</query>
 

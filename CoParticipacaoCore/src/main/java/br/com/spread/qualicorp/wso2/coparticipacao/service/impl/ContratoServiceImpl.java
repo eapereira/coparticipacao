@@ -111,4 +111,20 @@ public class ContratoServiceImpl extends AbstractServiceImpl<ContratoUi, Contrat
 		}
 	}
 
+	public ContratoUi findParentByChildId(ContratoUi child) throws ServiceException {
+		ContratoUi parent;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			parent = entityToUi(contratoDao.findParentByChildId(child.getId()));
+
+			LOGGER.info("END");
+			return parent;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
 }

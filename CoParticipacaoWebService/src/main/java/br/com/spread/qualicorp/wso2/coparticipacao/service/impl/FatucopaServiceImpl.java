@@ -1,7 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -15,14 +13,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBat
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.LancamentoBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
@@ -76,10 +73,11 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Object value;
 		List<LancamentoInputColsUi> lancamentoInputColsUis;
-		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 		LancamentoUi lancamentoUi;
 		TitularUi titularUi;
 		DependenteUi dependenteUi;
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		LancamentoDetailUi lancamentoDetailUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -87,34 +85,23 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			lancamentoUi = new LancamentoUi();
 
 			lancamentoInputColsUis = coParticipacaoContext.getLancamentoInputColsUis();
-			arquivoInputColsDefUis = coParticipacaoContext.getArquivoInputColsDefUis();
 
 			if (!lancamentoInputColsUis.isEmpty()) {
+				lancamentoDetailUi = new LancamentoDetailUi();
 
 				// Processando uma linha do arquivo:
-				for (ArquivoInputColsDefUi arquivoInputColsDefUi : arquivoInputColsDefUis) {
+				for (LancamentoInputColsUi lancamentoInputColsUi : lancamentoInputColsUis) {
+					LOGGER.info(
+							"Using LancamentoInputCols[{}]",
+							lancamentoInputColsUi.getLancamentoColType().getDescription());
+
+					arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
+
 					value = coParticipacaoContext.getMapLine().get(arquivoInputColsDefUi.getNameColumn());
 
 					LOGGER.debug("Column [{}] with value [{}]:", arquivoInputColsDefUi.getNameColumn(), value);
 
-					for (LancamentoInputColsUi lancamentoInputColsUi : lancamentoInputColsUis) {
-						if (lancamentoInputColsUi.getArquivoInputColsDef().getId()
-								.equals(arquivoInputColsDefUi.getId())) {
-							storeInputValue(
-									coParticipacaoContext,
-									lancamentoUi,
-									lancamentoInputColsUi.getLancamentoColType(),
-									value);
-
-							break;
-						}
-					}
-
-					lancamentoDetailService.storeLancamentoDetail(
-							lancamentoUi,
-							arquivoInputColsDefUi,
-							value,
-							coParticipacaoContext.getUser());
+					lancamentoDetailService.setFieldValue(lancamentoDetailUi, lancamentoInputColsUi, value);
 				}
 			} else {
 				LOGGER.info(
@@ -125,9 +112,11 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			}
 
 			// Aplicamdo regras do arquivo se existirem:
-			regraService.applyRegras(coParticipacaoContext, lancamentoUi);
+			regraService.applyRegras(coParticipacaoContext, lancamentoDetailUi);
 
-			if (beneficiarioService.validateBeneficiario(coParticipacaoContext, lancamentoUi)) {
+			if (beneficiarioService.validateBeneficiario(coParticipacaoContext, lancamentoDetailUi)) {
+				lancamentoUi = createLancamento(coParticipacaoContext, lancamentoDetailUi);
+
 				if (lancamentoUi.getTitular() != null) {
 					titularUi = (TitularUi) lancamentoUi.getTitular();
 					LOGGER.info(
@@ -147,18 +136,6 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 							dependenteUi.getCpf());
 				}
 
-				if (lancamentoUi.getMes() == null) {
-					lancamentoUi.setMes(coParticipacaoContext.getMes());
-				} else {
-					coParticipacaoContext.setMes(lancamentoUi.getMes());
-				}
-
-				if (lancamentoUi.getAno() == null) {
-					lancamentoUi.setAno(coParticipacaoContext.getAno());
-				} else {
-					coParticipacaoContext.setAno(lancamentoUi.getAno());
-				}
-
 				if (!coParticipacaoContext.isFirstLineProcecessed()) {
 					LOGGER.info("Doing tasks to be performed just after we had read the first line:");
 					coParticipacaoContext.setFirstLineProcecessed(true);
@@ -171,11 +148,9 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 				lancamentoUi.setAltered(LocalDateTime.now());
 				lancamentoUi.setCreated(LocalDateTime.now());
 
-				lancamentoDetailService.showLancamentoDetailInfo(lancamentoUi);
-
 				coParticipacaoContext.addLancamento(lancamentoUi);
 			} else {
-				desconhecidoService.createDesconhecido(coParticipacaoContext, lancamentoUi);
+				desconhecidoService.createDesconhecido(coParticipacaoContext, lancamentoDetailUi);
 			}
 
 			LOGGER.info("END");
@@ -185,42 +160,36 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		}
 	}
 
-	private void storeInputValue(
+	private LancamentoUi createLancamento(
 			CoParticipacaoContext coParticipacaoContext,
-			LancamentoUi lancamentoUi,
-			LancamentoColType lancamentoColType,
-			Object value) throws ServiceException, BeneficiarioNotFoundException {
+			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
+		LancamentoUi lancamentoUi;
 		try {
 			LOGGER.info("BEGIN");
 
-			if (value != null) {
-				if (lancamentoColType != null) {
-					LOGGER.debug(
-							"Reading Lancamento field [{}] with value [{}]:",
-							lancamentoColType.getDescription(),
-							value);
+			lancamentoUi = new LancamentoUi();
+			lancamentoUi.setMes(lancamentoDetailUi.getMes());
+			lancamentoUi.setAno(lancamentoDetailUi.getAno());
+			lancamentoUi.setContrato(coParticipacaoContext.getContratoUi());
+			lancamentoUi.setDependente(lancamentoDetailUi.getDependenteUi());
+			lancamentoUi.setTitular(lancamentoDetailUi.getTitularUi());
+			lancamentoUi.setValorPrincipal(lancamentoDetailUi.getValorPrincipal());
+			lancamentoUi.setUserCreated(coParticipacaoContext.getUser());
 
-					if (LancamentoColType.ID_DEPENDENTE.equals(lancamentoColType)) {
-						// findBeneficiario(lancamentoUi, (Long) value,
-						// coParticipacaoContext);
-					} else if (LancamentoColType.ID_CONTRATO.equals(lancamentoColType)) {
-						lancamentoUi.setContrato(coParticipacaoContext.getContratoUi());
-					} else if (LancamentoColType.CD_MES.equals(lancamentoColType)) {
-						lancamentoUi.setMes((Integer) value);
-					} else if (LancamentoColType.CD_ANO.equals(lancamentoColType)) {
-						lancamentoUi.setAno((Integer) value);
-					} else if (LancamentoColType.VL_PRINCIPAL.equals(lancamentoColType)) {
-						lancamentoUi.setValorPrincipal((BigDecimal) value);
-					} else if (LancamentoColType.DT_MOVIMENTO.equals(lancamentoColType)) {
-						lancamentoUi.setDtMovimento((LocalDate) value);
+			if (lancamentoUi.getMes() == null) {
+				lancamentoUi.setMes(coParticipacaoContext.getMes());
+			} else {
+				coParticipacaoContext.setMes(lancamentoUi.getMes());
+			}
 
-						lancamentoUi.setMes(lancamentoUi.getDtMovimento().getMonthValue());
-						lancamentoUi.setAno(lancamentoUi.getDtMovimento().getYear());
-					}
-				}
+			if (lancamentoUi.getAno() == null) {
+				lancamentoUi.setAno(coParticipacaoContext.getAno());
+			} else {
+				coParticipacaoContext.setAno(lancamentoUi.getAno());
 			}
 
 			LOGGER.info("END");
+			return lancamentoUi;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -297,10 +266,7 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 						coParticipacaoContext.getMes(),
 						coParticipacaoContext.getAno());
 
-				desconhecidoService.deleteByMesAndAno(
-						coParticipacaoContext.getContratoUi(),
-						coParticipacaoContext.getMes(),
-						coParticipacaoContext.getAno());
+				desconhecidoService.deleteByContrato(coParticipacaoContext.getContratoUi());
 			}
 
 			LOGGER.info("END");

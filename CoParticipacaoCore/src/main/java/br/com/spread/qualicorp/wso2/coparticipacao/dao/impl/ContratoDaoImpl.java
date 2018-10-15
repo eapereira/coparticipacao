@@ -49,7 +49,7 @@ public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity> implements 
 			throw new DaoException(e.getMessage(), e);
 		}
 	}
-	
+
 	public ContratoEntity findByCdEmpresaAndCdContrato(String cdEmpresa, String cdContrato) throws DaoException {
 		ContratoEntity contratoEntity;
 		Query query;
@@ -96,6 +96,29 @@ public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity> implements 
 			throw new DaoException(e.getMessage(), e);
 		}
 
+	}
+
+	public ContratoEntity findParentByChildId(Long childId) throws DaoException {
+		ContratoEntity contratoEntity;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("findParentByChildId");
+			query.setParameter("childId", childId);
+
+			contratoEntity = (ContratoEntity) query.getSingleResult();
+
+			LOGGER.info("END");
+			return contratoEntity;
+		} catch (NoResultException e) {
+			LOGGER.info(e.getMessage());
+			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
 	}
 
 }

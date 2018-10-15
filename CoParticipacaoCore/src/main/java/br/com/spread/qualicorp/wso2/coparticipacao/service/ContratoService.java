@@ -16,4 +16,6 @@ public interface ContratoService extends AbstractService<ContratoUi> {
 	List<ContratoUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException;
 
 	ContratoUi findByCdEmpresaAndCdContrato(String cdEmpresa, String cdContrato) throws ServiceException;
+
+	ContratoUi findParentByChildId(ContratoUi child) throws ServiceException;
 }

@@ -164,6 +164,13 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 							"Validating Contrato [{}] if is a FATUCOPA to generate reports:",
 							contrato.getCdContrato());
 
+					if (ReportQueryType.QUERY_BY_SINGLE_CONTRATO
+							.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
+						if (!coParticipacaoContext.getArquivoInputUi().getContrato().getId().equals(contrato.getId())) {
+							continue;
+						}
+					}
+
 					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
 						for (ArquivoOutputSheet arquivoOutputSheet : arquivoOutputSheetUis) {
 
@@ -176,7 +183,9 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 									viewDestinationUi.getNameView());
 
 							if (ReportQueryType.QUERY_BY_CONTRATO_AND_PERIODO
-									.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
+									.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())
+									|| ReportQueryType.QUERY_BY_SINGLE_CONTRATO
+											.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
 								dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
 										viewDestinationUi,
 										(ContratoUi) contrato,
@@ -206,7 +215,9 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 					 * multiplas pastas por contrato:
 					 */
 					if (ReportQueryType.QUERY_BY_PERIODO_ONLY
-							.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
+							.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())
+							|| ReportQueryType.QUERY_BY_SINGLE_CONTRATO
+									.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
 						LOGGER.info("Using EmpresaUi.QUERY_BY_PERIODO_ONLY to generate the OutputFiles:");
 						break;
 					}

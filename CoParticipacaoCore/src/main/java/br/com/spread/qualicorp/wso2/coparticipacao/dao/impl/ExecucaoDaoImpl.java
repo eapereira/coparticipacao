@@ -74,35 +74,45 @@ public class ExecucaoDaoImpl extends AbstractDaoImpl<ExecucaoEntity> implements 
 		UserEntity userEntity;
 		ArquivoExecucaoEntity arquivoExecucaoEntity;
 		ContratoEntity contratoEntity;
+		ExecucaoEntity execucaoEntityDb;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			empresaEntity = empresaDao.findById(execucaoEntity.getEmpresa().getId());
 			userEntity = userDao.findById(execucaoEntity.getUserCreated().getId());
 
-			execucaoEntity.setEmpresa(empresaEntity);
-			execucaoEntity.setUserCreated(userEntity);
+			if (execucaoEntity.getId() == null) {
+				empresaEntity = empresaDao.findById(execucaoEntity.getEmpresa().getId());
 
-			if (execucaoEntity.getUserAltered() != null) {
-				userEntity = userDao.findById(execucaoEntity.getUserAltered().getId());
-				execucaoEntity.setUserAltered(userEntity);
-			}
+				execucaoEntity.setEmpresa(empresaEntity);
+				execucaoEntity.setUserCreated(userEntity);
 
-			for (ArquivoExecucao arquivoExecucao : execucaoEntity.getArquivoExecucaos()) {
-				arquivoExecucaoEntity = (ArquivoExecucaoEntity) arquivoExecucao;
-				contratoEntity = contratoDao.findById(arquivoExecucaoEntity.getContrato().getId());
-
-				arquivoExecucaoEntity.setContrato(contratoEntity);
-				arquivoExecucaoEntity.setUserCreated(userEntity);
-
-				if (arquivoExecucaoEntity.getUserAltered() != null) {
-					userEntity = userDao.findById(arquivoExecucaoEntity.getUserAltered().getId());
-					arquivoExecucaoEntity.setUserAltered(userEntity);
+				if (execucaoEntity.getUserAltered() != null) {
+					userEntity = userDao.findById(execucaoEntity.getUserAltered().getId());
+					execucaoEntity.setUserAltered(userEntity);
 				}
+
+				for (ArquivoExecucao arquivoExecucao : execucaoEntity.getArquivoExecucaos()) {
+					arquivoExecucaoEntity = (ArquivoExecucaoEntity) arquivoExecucao;
+					contratoEntity = contratoDao.findById(arquivoExecucaoEntity.getContrato().getId());
+
+					arquivoExecucaoEntity.setContrato(contratoEntity);
+					arquivoExecucaoEntity.setUserCreated(userEntity);
+
+					if (arquivoExecucaoEntity.getUserAltered() != null) {
+						userEntity = userDao.findById(arquivoExecucaoEntity.getUserAltered().getId());
+						arquivoExecucaoEntity.setUserAltered(userEntity);
+					}
+				}
+
+				execucaoEntityDb = execucaoEntity;
+			} else {
+				execucaoEntityDb = findById(execucaoEntity.getId());
+				execucaoEntityDb.setExecucaoType(execucaoEntity.getExecucaoType());
+				execucaoEntityDb.setUserAltered(userEntity);
 			}
 
-			execucaoEntity = super.save(execucaoEntity);
+			execucaoEntity = super.save(execucaoEntityDb);
 
 			LOGGER.info("END");
 			return execucaoEntity;

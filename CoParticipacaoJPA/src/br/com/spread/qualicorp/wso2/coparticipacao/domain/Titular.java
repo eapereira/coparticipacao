@@ -21,8 +21,6 @@ public abstract class Titular extends AbstractDomain {
 	private String nameTitular;
 	private Long cpf;
 
-	private List<TitularDetail> titularDetails;
-
 	/**
 	 * Código de matricula usado pela operadora, campo fornecido pelos arquivos
 	 * <code.MECSAS</code>
@@ -55,8 +53,6 @@ public abstract class Titular extends AbstractDomain {
 		lancamentos = new ArrayList<>();
 		dependentes = new ArrayList<>();
 		titularIsentos = new ArrayList<>();
-
-		titularDetails = new ArrayList<>();
 
 		beneficiarioDetail = new BeneficiarioDetail();
 	}
@@ -213,24 +209,6 @@ public abstract class Titular extends AbstractDomain {
 		this.matriculaEmpresa = matriculaEmpresa;
 	}
 
-	public List<TitularDetail> getTitularDetails() {
-		return titularDetails;
-	}
-
-	public void setTitularDetails(List<TitularDetail> titularDetails) {
-		this.titularDetails = titularDetails;
-	}
-
-	public void addTitularDetail(TitularDetail titularDetail) {
-		getTitularDetails().add(titularDetail);
-		titularDetail.setTitular(this);
-	}
-
-	public void removeTitularDetail(TitularDetail titularDetail) {
-		getTitularDetails().remove(titularDetail);
-		titularDetail.setTitular(null);
-	}
-
 	public LocalDate getDtDemissao() {
 		return dtDemissao;
 	}
@@ -264,7 +242,6 @@ public abstract class Titular extends AbstractDomain {
 		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
 		result = prime * result + ((nameTitular == null) ? 0 : nameTitular.hashCode());
 		result = prime * result + ((referenceCode == null) ? 0 : referenceCode.hashCode());
-		result = prime * result + ((titularDetails == null) ? 0 : titularDetails.hashCode());
 		result = prime * result + ((titularIsentos == null) ? 0 : titularIsentos.hashCode());
 		return result;
 	}
@@ -337,11 +314,6 @@ public abstract class Titular extends AbstractDomain {
 			if (other.referenceCode != null)
 				return false;
 		} else if (!referenceCode.equals(other.referenceCode))
-			return false;
-		if (titularDetails == null) {
-			if (other.titularDetails != null)
-				return false;
-		} else if (!titularDetails.equals(other.titularDetails))
 			return false;
 		if (titularIsentos == null) {
 			if (other.titularIsentos != null)

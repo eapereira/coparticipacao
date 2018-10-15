@@ -45,6 +45,6 @@ public class TitularDuplicated extends CoParticipacaoException {
 	}
 
 	public TitularDuplicated(BeneficiarioUi beneficiarioUi) {
-		super(String.format("There's already a Titular in database with NR_CPF[{}]:", beneficiarioUi.getCpf()));
+		super(String.format("There's already a Titular in database with NR_CPF[%s]:", beneficiarioUi.getCpf()));
 	}
 }

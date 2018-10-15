@@ -79,8 +79,6 @@ public class LancamentoServiceImpl extends AbstractServiceImpl<LancamentoUi, Lan
 		try {
 			LOGGER.info("BEGIN");
 
-			lancamentoDetailService.deleteByMesAndAno(contratoUi, mes, ano);
-
 			lancamentoJdbcDao.deleteByMesAndAno(contratoUi.getId(), mes, ano);
 
 			LOGGER.info("END");

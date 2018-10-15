@@ -105,7 +105,7 @@ public class CoParticipacaoContext {
 	private ArquivoExecucaoUi arquivoExecucaoUi;
 
 	private boolean firstLineProcecessed;
-	
+
 	private ExecucaoUi execucaoUi;
 
 	public CoParticipacaoContext() {

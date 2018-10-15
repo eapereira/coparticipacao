@@ -38,11 +38,11 @@ public class AbbvieBean extends CoparticipacaoBean {
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 449;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 4;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 129;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 19;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 114;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 306;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 449;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 321;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 465;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 133;
 

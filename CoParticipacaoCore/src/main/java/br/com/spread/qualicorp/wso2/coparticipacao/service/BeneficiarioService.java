@@ -3,7 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
@@ -15,7 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
  *
  */
 public interface BeneficiarioService {
-	boolean validateBeneficiario(CoParticipacaoContext coParticipacaoContext, LancamentoUi lancamentoUi)
+	boolean validateBeneficiario(CoParticipacaoContext coParticipacaoContext, LancamentoDetailUi lancamentoDetailUi)
 			throws ServiceException;
 
 	BeneficiarioUi createBeneficiarioFromMecsas(CoParticipacaoContext coParticipacaoContext) throws ServiceException;

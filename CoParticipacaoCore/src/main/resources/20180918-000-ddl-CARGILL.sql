@@ -38,6 +38,7 @@ create view VW_DESCONHECIDO_CARGILL as
 		contrato.ID = desconhecido.ID_CONTRATO
 	    join TB_EMPRESA empresa on
 	    empresa.ID = contrato.ID_EMPRESA
+	where	empresa.CD_EMPRESA	= 'CARGILL'	    
 	union all
 	select distinct
 		empresa.CD_EMPRESA,
