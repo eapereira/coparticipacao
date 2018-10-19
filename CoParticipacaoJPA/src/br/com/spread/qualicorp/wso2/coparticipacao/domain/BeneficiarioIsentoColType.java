@@ -21,7 +21,8 @@ public enum BeneficiarioIsentoColType {
 										NR_CPF(5, "NR_CPF_DEPENDENTE"),
 										NR_MATRICULA_TITULAR(6, "NR_MATRICULA_TITULAR"),
 										NM_TITULAR(7, "NM_TITULAR"),
-										VALOR_ISENCAO(8, "VALOR_ISENCAO");
+										VALOR_ISENCAO(8, "VALOR_ISENCAO"),
+										NR_MATRICULA_EMPRESA(9, "NR_MATRICULA_EMPRESA");
 
 	private Integer id;
 

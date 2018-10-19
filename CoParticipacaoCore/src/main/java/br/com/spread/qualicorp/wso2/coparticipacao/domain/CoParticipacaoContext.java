@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
@@ -25,10 +27,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ReportUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
@@ -108,6 +112,12 @@ public class CoParticipacaoContext {
 
 	private ExecucaoUi execucaoUi;
 
+	private List<ArquivoInputSheetUi> arquivoInputSheetUis;
+
+	private List<ReportUi> reportUis;
+	
+	private LancamentoDetailUi lancamentoDetailUi;
+
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
 		lancamentoInputColsUis = new ArrayList<LancamentoInputColsUi>();
@@ -124,6 +134,10 @@ public class CoParticipacaoContext {
 		beneficiarioColsUis = new ArrayList<BeneficiarioColsUi>();
 
 		isentoInputSheetUis = new ArrayList<IsentoInputSheetUi>();
+
+		arquivoInputSheetUis = new ArrayList<ArquivoInputSheetUi>();
+
+		reportUis = new ArrayList<ReportUi>();
 
 		mapLine = new HashMap<String, Object>();
 
@@ -280,6 +294,10 @@ public class CoParticipacaoContext {
 
 	public Object getColumnValue(ArquivoInputColsDefUi arquivoInputColsDefUi) {
 		return getMapLine().get(arquivoInputColsDefUi.getNameColumn());
+	}
+
+	public Object getColumnValue(ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi) {
+		return getMapLine().get(arquivoInputSheetColsDefUi.getNameColumn());
 	}
 
 	public void setColumnValue(ArquivoInputColsDef arquivoInputColsDef, Object value) {
@@ -628,6 +646,30 @@ public class CoParticipacaoContext {
 
 	public void setExecucaoUi(ExecucaoUi execucaoUi) {
 		this.execucaoUi = execucaoUi;
+	}
+
+	public List<ArquivoInputSheetUi> getArquivoInputSheetUis() {
+		return arquivoInputSheetUis;
+	}
+
+	public void setArquivoInputSheetUis(List<ArquivoInputSheetUi> arquivoInputSheetUis) {
+		this.arquivoInputSheetUis = arquivoInputSheetUis;
+	}
+
+	public List<ReportUi> getReportUis() {
+		return reportUis;
+	}
+
+	public void setReportUis(List<ReportUi> reportUis) {
+		this.reportUis = reportUis;
+	}
+
+	public LancamentoDetailUi getLancamentoDetailUi() {
+		return lancamentoDetailUi;
+	}
+
+	public void setLancamentoDetailUi(LancamentoDetailUi lancamentoDetailUi) {
+		this.lancamentoDetailUi = lancamentoDetailUi;
 	}
 
 }

@@ -26,6 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UFType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
@@ -37,7 +38,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicate
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -49,9 +49,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioServiceImpl.class);
-
-	@Autowired
-	private LancamentoDetailService lancamentoDetailService;
 
 	@Autowired
 	private EmpresaService empresaService;
@@ -464,6 +461,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				beneficiarioDetail.setCbo((String) value);
 			} else if (BeneficiarioColType.DIF_TRANSF.equals(beneficiarioColType)) {
 				beneficiarioDetail.setDifTransferencia((String) value);
+			} else if (BeneficiarioColType.DESCR_PROFISSAO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDifTransferencia((String) value);
+			} else if (BeneficiarioColType.NR_MATRICULA_ESPECIAL.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDifTransferencia((String) value);
+			} else if (BeneficiarioColType.VL_FATOR_MODERADOR.equals(beneficiarioColType)) {
+				beneficiarioDetail.setDifTransferencia((String) value);
 			}
 
 			LOGGER.info("END");
@@ -488,8 +491,17 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi = new BeneficiarioUi();
 
 			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
-				value = coParticipacaoContext
-						.getColumnValue((ArquivoInputColsDefUi) beneficiarioColsUi.getArquivoInputColsDef());
+				if (beneficiarioColsUi.getArquivoInputSheetColsDef() != null) {
+					value = coParticipacaoContext.getColumnValue(
+							(ArquivoInputSheetColsDefUi) beneficiarioColsUi.getArquivoInputSheetColsDef());
+				} else if (beneficiarioColsUi.getArquivoInputColsDef() != null) {
+					value = coParticipacaoContext
+							.getColumnValue((ArquivoInputColsDefUi) beneficiarioColsUi.getArquivoInputColsDef());
+				} else {
+					throw new ServiceException(
+							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputColsDefUi or ArquivoInputSheetColsDefUi mapped:",
+							beneficiarioColsUi.getBeneficiarioColType().getDescription());
+				}
 
 				LOGGER.info(
 						"Retrieving value [{}] from column [{}]",
@@ -594,8 +606,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					 * dependente:
 					 */
 					if (titularUi != null) {
-						LOGGER.info("END");
-						return true;
+						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+							LOGGER.info("END");
+							return true;
+						}
 					}
 				}
 			}
@@ -818,6 +832,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 			} else {
 				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
+						|| UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
 						|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					/*
 					 * Se estamos num processo MECSAS e encontramos o

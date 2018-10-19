@@ -35,6 +35,8 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 	
 	private BigDecimal valorIsencao;
 	
+	private Long matriculaEmpresa;
+	
 	public BeneficiarioIsento() {
 		
 	}
@@ -193,5 +195,13 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 		} else if (!valorIsencao.equals(other.valorIsencao))
 			return false;
 		return true;
+	}
+
+	public Long getMatriculaEmpresa() {
+		return matriculaEmpresa;
+	}
+
+	public void setMatriculaEmpresa(Long matriculaEmpresa) {
+		this.matriculaEmpresa = matriculaEmpresa;
 	}
 }

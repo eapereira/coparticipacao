@@ -119,7 +119,10 @@ public enum BeneficiarioColType {
 									CID10(100, "CID10"),
 									IBGE(101, "IBGE"),
 									CBO(102, "CBO"),
-									DIF_TRANSF(103, "DIF_TRANSF");
+									DIF_TRANSF(103, "DIF_TRANSF"),
+									DESCR_PROFISSAO(104, "DESCR_PROFISSAO"),
+									NR_MATRICULA_ESPECIAL(105, "NR_MATRICULA_ESPECIAL"),
+									VL_FATOR_MODERADOR(106, "VL_FATOR_MODERADOR");
 
 	private Integer id;
 

@@ -66,6 +66,10 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 				lancamentoDetailUi.setNameTitular((String) value);
 			} else if (LancamentoColType.DT_NASCIMENTO.equals(lancamentoColType)) {
 				lancamentoDetailUi.setDtNascimento((LocalDate) value);
+			} else if (LancamentoColType.VL_REEMBOLSO.equals(lancamentoColType)) {
+				lancamentoDetailUi.setValorReembolso((BigDecimal) value);
+			} else if (LancamentoColType.VL_PARTICIPACAO.equals(lancamentoColType)) {
+				lancamentoDetailUi.setValorParticipacao((BigDecimal) value);
 			} else {
 				throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 			}
@@ -112,6 +116,10 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 				value = lancamentoDetailUi.getNameTitular();
 			} else if (LancamentoColType.DT_NASCIMENTO.equals(lancamentoColType)) {
 				value = lancamentoDetailUi.getDtNascimento();
+			} else if (LancamentoColType.VL_REEMBOLSO.equals(lancamentoColType)) {
+				value = lancamentoDetailUi.getValorReembolso();
+			} else if (LancamentoColType.VL_PARTICIPACAO.equals(lancamentoColType)) {
+				value = lancamentoDetailUi.getValorParticipacao();
 			} else {
 				throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 			}

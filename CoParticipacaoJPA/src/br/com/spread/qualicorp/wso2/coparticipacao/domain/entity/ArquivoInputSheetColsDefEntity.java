@@ -76,4 +76,11 @@ public class ArquivoInputSheetColsDefEntity extends ArquivoInputSheetColsDef {
 		// TODO Auto-generated method stub
 		return super.getArquivoInputSheet();
 	}
+
+	@Column(name = "CD_RESTRICTED_VALUE")
+	@Override
+	public String getRestrictedValue() {
+		// TODO Auto-generated method stub
+		return super.getRestrictedValue();
+	}
 }

@@ -76,4 +76,18 @@ public class LancamentoEntity extends Lancamento implements DomainEntity {
 		return super.getValorPrincipal();
 	}
 
+	@Column(name = "VL_REEMBOLSO")
+	@Override
+	public BigDecimal getValorRembolso() {
+		// TODO Auto-generated method stub
+		return super.getValorRembolso();
+	}
+
+	@Column(name = "VL_PARTICIPACAO")
+	@Override
+	public BigDecimal getValorParticipacao() {
+		// TODO Auto-generated method stub
+		return super.getValorParticipacao();
+	}
+
 }

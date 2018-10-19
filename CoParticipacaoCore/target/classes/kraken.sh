@@ -5,7 +5,9 @@
 ############################################################################################################################
 #!/bin/bash
 
-SCRIPTS_HOME="/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoCore/src/main/resources"
+#SCRIPTS_HOME="/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoCore/src/main/resources"
+
+SCRIPTS_HOME=`pwd`
 
 SQL_FILES=`ls ${SCRIPTS_HOME}/*.sql | sort`
 

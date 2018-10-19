@@ -22,6 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 				InputDependenteIsentoUiMapper.class,
 				ArquivoOutputUiMapper.class,
 				ArquivoOutputDesconhecidoUiMapper.class,
+				ArquivoInputSheetUiMapper.class,
 				IsentoInputSheetUiMapper.class})
 public abstract class ArquivoInputUiMapper
 		extends AbstractMapper<ArquivoInput, ArquivoInputUi> {

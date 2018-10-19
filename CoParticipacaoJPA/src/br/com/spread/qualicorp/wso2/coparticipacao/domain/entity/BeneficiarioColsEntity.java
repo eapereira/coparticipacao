@@ -10,6 +10,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.BeneficiarioColTypeConverter;
@@ -48,6 +49,14 @@ public class BeneficiarioColsEntity extends BeneficiarioCols implements DomainEn
 	public ArquivoInputColsDef getArquivoInputColsDef() {
 		// TODO Auto-generated method stub
 		return super.getArquivoInputColsDef();
+	}
+
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = ArquivoInputSheetColsDefEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
+	@Override
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		// TODO Auto-generated method stub
+		return super.getArquivoInputSheetColsDef();
 	}
 
 }

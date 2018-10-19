@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByArquivoInputId">
+		<![CDATA[
+			select arquivoInputSheet from ArquivoInputSheetEntity arquivoInputSheet
+			join fetch arquivoInputSheet.arquivoInput arquivoInput
+			join fetch arquivoInputSheet.arquivoInputSheetColsDefs arquivoInputSheetColsDefs
+			where	arquivoInput.id	= :arquivoInputId
+		]]>
+	</query>
+
+</queries>
+	

@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,7 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 
 			if (!lancamentoInputColsUis.isEmpty()) {
 				lancamentoDetailUi = new LancamentoDetailUi();
+				coParticipacaoContext.setLancamentoDetailUi(lancamentoDetailUi);
 
 				// Processando uma linha do arquivo:
 				for (LancamentoInputColsUi lancamentoInputColsUi : lancamentoInputColsUis) {
@@ -109,6 +111,13 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 
 				throw new ServiceException(
 						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");
+			}
+
+			if (!coParticipacaoContext.isFirstLineProcecessed()) {
+				LOGGER.info("Doing tasks to be performed just after we had read the first line:");
+				coParticipacaoContext.setFirstLineProcecessed(true);
+
+				beforeProcess(coParticipacaoContext);
 			}
 
 			// Aplicamdo regras do arquivo se existirem:
@@ -134,13 +143,6 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 							dependenteUi.getNameDependente(),
 							dependenteUi.getMatricula(),
 							dependenteUi.getCpf());
-				}
-
-				if (!coParticipacaoContext.isFirstLineProcecessed()) {
-					LOGGER.info("Doing tasks to be performed just after we had read the first line:");
-					coParticipacaoContext.setFirstLineProcecessed(true);
-
-					beforeProcess(coParticipacaoContext);
 				}
 
 				lancamentoUi.setUserAltered(coParticipacaoContext.getUser());
@@ -245,6 +247,8 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 
 	public void beforeProcess(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		ArquivoInputUi arquivoInputUi;
+		int mes = NumberUtils.INTEGER_ZERO;
+		int ano = NumberUtils.INTEGER_ZERO;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -252,19 +256,21 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			if (coParticipacaoContext.isFirstLineProcecessed()) {
 				arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
 
+				if (coParticipacaoContext.getLancamentoDetailUi() != null) {
+					mes = coParticipacaoContext.getLancamentoDetailUi().getMes();
+					ano = coParticipacaoContext.getLancamentoDetailUi().getAno();
+				} else {
+					ano = coParticipacaoContext.getAno();
+					mes = coParticipacaoContext.getMes();
+				}
+
 				LOGGER.info(
 						"Starting process [{}] to load benefiets from assets file:",
 						arquivoInputUi.getUseType().getDescription());
 
-				LOGGER.info(
-						"Cleaning all previous data from year[{}] and month[{}]:",
-						coParticipacaoContext.getAno(),
-						coParticipacaoContext.getMes());
+				LOGGER.info("Cleaning all previous data from year[{}] and month[{}]:", ano, mes);
 
-				lancamentoService.deleteByMesAndAno(
-						coParticipacaoContext.getContratoUi(),
-						coParticipacaoContext.getMes(),
-						coParticipacaoContext.getAno());
+				lancamentoService.deleteByMesAndAno(coParticipacaoContext.getContratoUi(), mes, ano);
 
 				desconhecidoService.deleteByContrato(coParticipacaoContext.getContratoUi());
 			}

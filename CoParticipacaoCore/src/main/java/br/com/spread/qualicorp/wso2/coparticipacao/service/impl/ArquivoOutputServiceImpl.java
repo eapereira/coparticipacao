@@ -32,6 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FlatFileWriterService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputSheetService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ReportService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
@@ -70,6 +71,9 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 	@Autowired
 	private FlatFileWriterService flatFileWriterService;
 
+	@Autowired
+	private ReportService reportService;
+
 	@Override
 	protected ArquivoOutputUi createUi() {
 		return new ArquivoOutputUi();
@@ -101,15 +105,20 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 		try {
 			LOGGER.info("BEGIN");
 
-			writeCoparticipacaoOutputFile(coParticipacaoContext);
+			if (reportService.hasReports(coParticipacaoContext.getEmpresaUi())) {
+				LOGGER.info("EmpresaUi[{}] has especial reports configured to JasperReports:",
+						coParticipacaoContext.getEmpresaUi().getNameEmpresa());
+				reportService.writeReport(coParticipacaoContext);
+			} else {
+				writeCoparticipacaoOutputFile(coParticipacaoContext);
 
-			arquivoOutputUis = listByEmpresaIdAndUseType(coParticipacaoContext.getEmpresaUi(), UseType.EXTRA_FILE);
+				arquivoOutputUis = listByEmpresaIdAndUseType(coParticipacaoContext.getEmpresaUi(), UseType.EXTRA_FILE);
 
-			for (ArquivoOutputUi arquivoOutputUi : arquivoOutputUis) {
-				LOGGER.info(
-						"Creating addictional output file for Contrato[{}]:",
-						arquivoOutputUi.getArquivoInput().getContrato().getCdContrato());
-				flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi, this);
+				for (ArquivoOutputUi arquivoOutputUi : arquivoOutputUis) {
+					LOGGER.info("Creating addictional output file for Contrato[{}]:",
+							arquivoOutputUi.getArquivoInput().getContrato().getCdContrato());
+					flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi, this);
+				}
 			}
 
 			LOGGER.info("END");
@@ -147,10 +156,8 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoOutputUi = entityToUi(
-					arquivoOutputDao.findByArquivoInputId(
-							coParticipacaoContext.getArquivoInputUi().getId(),
-							ArquivoType.SPREADSHEET));
+			arquivoOutputUi = entityToUi(arquivoOutputDao
+					.findByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId(), ArquivoType.SPREADSHEET));
 
 			if (arquivoOutputUi != null) {
 				LOGGER.info("Exists an ArquivoOutput configured to use as [{}]:", arquivoOutputUi.getDescrArquivo());
@@ -160,8 +167,7 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 				arquivoOutputSheetUis = arquivoOutputSheetService.listByArquivoOutputId(arquivoOutputUi);
 
 				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
-					LOGGER.info(
-							"Validating Contrato [{}] if is a FATUCOPA to generate reports:",
+					LOGGER.info("Validating Contrato [{}] if is a FATUCOPA to generate reports:",
 							contrato.getCdContrato());
 
 					if (ReportQueryType.QUERY_BY_SINGLE_CONTRATO
@@ -178,41 +184,31 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 							viewDestinationColsDefUis = viewDestinationColsDefService
 									.listByViewDestinationId(viewDestinationUi);
 
-							LOGGER.info(
-									"Creating the report for the ViewDestination [{}]:",
+							LOGGER.info("Creating the report for the ViewDestination [{}]:",
 									viewDestinationUi.getNameView());
 
 							if (ReportQueryType.QUERY_BY_CONTRATO_AND_PERIODO
 									.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())
 									|| ReportQueryType.QUERY_BY_SINGLE_CONTRATO
 											.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
-								dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
-										viewDestinationUi,
-										(ContratoUi) contrato,
-										coParticipacaoContext.getMes(),
+								dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(viewDestinationUi,
+										(ContratoUi) contrato, coParticipacaoContext.getMes(),
 										coParticipacaoContext.getAno());
 							} else {
-								dynamicEntities = viewDestinationService.listBydMesAndAno(
-										viewDestinationUi,
-										coParticipacaoContext.getMes(),
-										coParticipacaoContext.getAno());
+								dynamicEntities = viewDestinationService.listBydMesAndAno(viewDestinationUi,
+										coParticipacaoContext.getMes(), coParticipacaoContext.getAno());
 							}
 
 							// Criando um listener para cada pasta da planilha:
-							spreadsheetBuilder.addSpreadsheetListener(
-									new LancamentoSpreadsheetListener(
-											coParticipacaoContext,
-											(ArquivoOutputSheetUi) arquivoOutputSheet,
-											viewDestinationColsDefUis,
-											dynamicEntities,
-											(ContratoUi) contrato));
+							spreadsheetBuilder.addSpreadsheetListener(new LancamentoSpreadsheetListener(
+									coParticipacaoContext, (ArquivoOutputSheetUi) arquivoOutputSheet,
+									viewDestinationColsDefUis, dynamicEntities, (ContratoUi) contrato));
 						}
 					}
 
 					/*
-					 * Se a Empresa estiver configurada para emitir os
-					 * relatórios apenas por período, não precisamos criar
-					 * multiplas pastas por contrato:
+					 * Se a Empresa estiver configurada para emitir os relatórios apenas por
+					 * período, não precisamos criar multiplas pastas por contrato:
 					 */
 					if (ReportQueryType.QUERY_BY_PERIODO_ONLY
 							.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())
@@ -226,8 +222,7 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 				// Escrevendo a planilha:
 				spreadsheetBuilder.writeSpreadsheet(coParticipacaoContext, this);
 			} else {
-				LOGGER.info(
-						"No ArquivoOutput defined for ArquivoInput [{}]:",
+				LOGGER.info("No ArquivoOutput defined for ArquivoInput [{}]:",
 						coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 			}
 
@@ -238,9 +233,7 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 		}
 	}
 
-	public String createFileName(
-			CoParticipacaoContext coParticipacaoContext,
-			ArquivoOutputUi arquivoOutputUi,
+	public String createFileName(CoParticipacaoContext coParticipacaoContext, ArquivoOutputUi arquivoOutputUi,
 			ContratoUi contratoUi) throws ServiceException {
 		String fileNameFormat;
 		LocalDate currentDate;
@@ -254,13 +247,9 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 
 			fileNameFormat = StringUtils.replace(fileNameFormat, "{CC}", contratoUi.getCdContrato());
 			fileNameFormat = StringUtils.replace(fileNameFormat, "{YYYY}", String.valueOf(currentDate.getYear()));
-			fileNameFormat = StringUtils.replace(
-					fileNameFormat,
-					"{MM}",
+			fileNameFormat = StringUtils.replace(fileNameFormat, "{MM}",
 					StringUtils.leftPad(String.valueOf(currentDate.getMonthValue()), 2, "0"));
-			fileNameFormat = StringUtils.replace(
-					fileNameFormat,
-					"{DD}",
+			fileNameFormat = StringUtils.replace(fileNameFormat, "{DD}",
 					StringUtils.leftPad(String.valueOf(currentDate.getDayOfMonth()), 2, "0"));
 
 			LOGGER.info("Using ArquivoOutput's name [{}]:", fileNameFormat);

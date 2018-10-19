@@ -131,6 +131,10 @@ public class BeneficiarioDetail implements Serializable {
 
 	private String difTransferencia;
 
+	private String profissao;
+	private Long matriculaEspecial;
+	private BigDecimal fatorModerador;
+
 	public BeneficiarioDetail() {
 		super();
 
@@ -654,5 +658,406 @@ public class BeneficiarioDetail implements Serializable {
 
 	public void setDifTransferencia(String difTransferencia) {
 		this.difTransferencia = difTransferencia;
+	}
+
+	@Column(name = "DESCR_PROFISSAO")
+	public String getProfissao() {
+		return profissao;
+	}
+
+	public void setProfissao(String profissao) {
+		this.profissao = profissao;
+	}
+
+	@Column(name = "NR_MATRICULA_ESPECIAL")
+	public Long getMatriculaEspecial() {
+		return matriculaEspecial;
+	}
+
+	public void setMatriculaEspecial(Long matriculaEspecial) {
+		this.matriculaEspecial = matriculaEspecial;
+	}
+
+	@Column(name = "VL_FATOR_MODERADOR")
+	public BigDecimal getFatorModerador() {
+		return fatorModerador;
+	}
+
+	public void setFatorModerador(BigDecimal fatorModerador) {
+		this.fatorModerador = fatorModerador;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bloqEmpresaInadimplencia == null) ? 0 : bloqEmpresaInadimplencia.hashCode());
+		result = prime * result + ((cardif == null) ? 0 : cardif.hashCode());
+		result = prime * result + ((carteiraIdentificacao == null) ? 0 : carteiraIdentificacao.hashCode());
+		result = prime * result + ((categoria == null) ? 0 : categoria.hashCode());
+		result = prime * result + ((cbo == null) ? 0 : cbo.hashCode());
+		result = prime * result + ((cdMotivoExclusao == null) ? 0 : cdMotivoExclusao.hashCode());
+		result = prime * result + ((cdOperacao == null) ? 0 : cdOperacao.hashCode());
+		result = prime * result + ((cdPaisOrigem == null) ? 0 : cdPaisOrigem.hashCode());
+		result = prime * result + ((cdPlanoAnteriorSas == null) ? 0 : cdPlanoAnteriorSas.hashCode());
+		result = prime * result + ((cdProduto == null) ? 0 : cdProduto.hashCode());
+		result = prime * result + ((cdProfissao == null) ? 0 : cdProfissao.hashCode());
+		result = prime * result + ((certidaoNascimento == null) ? 0 : certidaoNascimento.hashCode());
+		result = prime * result + ((cid01 == null) ? 0 : cid01.hashCode());
+		result = prime * result + ((cid02 == null) ? 0 : cid02.hashCode());
+		result = prime * result + ((cid03 == null) ? 0 : cid03.hashCode());
+		result = prime * result + ((cid04 == null) ? 0 : cid04.hashCode());
+		result = prime * result + ((cid05 == null) ? 0 : cid05.hashCode());
+		result = prime * result + ((cid06 == null) ? 0 : cid06.hashCode());
+		result = prime * result + ((cid07 == null) ? 0 : cid07.hashCode());
+		result = prime * result + ((cid08 == null) ? 0 : cid08.hashCode());
+		result = prime * result + ((cid09 == null) ? 0 : cid09.hashCode());
+		result = prime * result + ((cid10 == null) ? 0 : cid10.hashCode());
+		result = prime * result + ((cns == null) ? 0 : cns.hashCode());
+		result = prime * result + ((dadosBancarios == null) ? 0 : dadosBancarios.hashCode());
+		result = prime * result + ((df == null) ? 0 : df.hashCode());
+		result = prime * result + ((difTransferencia == null) ? 0 : difTransferencia.hashCode());
+		result = prime * result + ((dtExclusao == null) ? 0 : dtExclusao.hashCode());
+		result = prime * result + ((dtInclusao == null) ? 0 : dtInclusao.hashCode());
+		result = prime * result + ((dtReferencia == null) ? 0 : dtReferencia.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
+		result = prime * result + ((emailSeguradora == null) ? 0 : emailSeguradora.hashCode());
+		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
+		result = prime * result + ((es == null) ? 0 : es.hashCode());
+		result = prime * result + ((fatorModerador == null) ? 0 : fatorModerador.hashCode());
+		result = prime * result + ((grauEscolaridade == null) ? 0 : grauEscolaridade.hashCode());
+		result = prime * result + ((ibge == null) ? 0 : ibge.hashCode());
+		result = prime * result + ((indicadorCarencia == null) ? 0 : indicadorCarencia.hashCode());
+		result = prime * result + ((indicadorExEmpregado == null) ? 0 : indicadorExEmpregado.hashCode());
+		result = prime * result + ((indicadorPermanenciaPlano == null) ? 0 : indicadorPermanenciaPlano.hashCode());
+		result = prime * result + ((indicadorPoretabilidade1 == null) ? 0 : indicadorPoretabilidade1.hashCode());
+		result = prime * result + ((indicadorPoretabilidade2 == null) ? 0 : indicadorPoretabilidade2.hashCode());
+		result = prime * result
+				+ ((indicadorSeguradoContributario == null) ? 0 : indicadorSeguradoContributario.hashCode());
+		result = prime * result + ((indicadorTitularRemido == null) ? 0 : indicadorTitularRemido.hashCode());
+		result = prime * result + ((local == null) ? 0 : local.hashCode());
+		result = prime * result + ((matriculaEspecial == null) ? 0 : matriculaEspecial.hashCode());
+		result = prime * result + ((nameCompletoBeneficiario == null) ? 0 : nameCompletoBeneficiario.hashCode());
+		result = prime * result + ((permanencia == null) ? 0 : permanencia.hashCode());
+		result = prime * result + ((pis == null) ? 0 : pis.hashCode());
+		result = prime * result + ((plano == null) ? 0 : plano.hashCode());
+		result = prime * result + ((profissao == null) ? 0 : profissao.hashCode());
+		result = prime * result + ((qtdeMesesContribuicao == null) ? 0 : qtdeMesesContribuicao.hashCode());
+		result = prime * result + ((rdp == null) ? 0 : rdp.hashCode());
+		result = prime * result + ((rendaFamiliar == null) ? 0 : rendaFamiliar.hashCode());
+		result = prime * result + ((rg == null) ? 0 : rg.hashCode());
+		result = prime * result + ((ric == null) ? 0 : ric.hashCode());
+		result = prime * result + ((setor == null) ? 0 : setor.hashCode());
+		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
+		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
+		result = prime * result + ((tituloEleitor == null) ? 0 : tituloEleitor.hashCode());
+		result = prime * result + ((transferencia == null) ? 0 : transferencia.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BeneficiarioDetail other = (BeneficiarioDetail) obj;
+		if (bloqEmpresaInadimplencia == null) {
+			if (other.bloqEmpresaInadimplencia != null)
+				return false;
+		} else if (!bloqEmpresaInadimplencia.equals(other.bloqEmpresaInadimplencia))
+			return false;
+		if (cardif == null) {
+			if (other.cardif != null)
+				return false;
+		} else if (!cardif.equals(other.cardif))
+			return false;
+		if (carteiraIdentificacao == null) {
+			if (other.carteiraIdentificacao != null)
+				return false;
+		} else if (!carteiraIdentificacao.equals(other.carteiraIdentificacao))
+			return false;
+		if (categoria == null) {
+			if (other.categoria != null)
+				return false;
+		} else if (!categoria.equals(other.categoria))
+			return false;
+		if (cbo == null) {
+			if (other.cbo != null)
+				return false;
+		} else if (!cbo.equals(other.cbo))
+			return false;
+		if (cdMotivoExclusao == null) {
+			if (other.cdMotivoExclusao != null)
+				return false;
+		} else if (!cdMotivoExclusao.equals(other.cdMotivoExclusao))
+			return false;
+		if (cdOperacao == null) {
+			if (other.cdOperacao != null)
+				return false;
+		} else if (!cdOperacao.equals(other.cdOperacao))
+			return false;
+		if (cdPaisOrigem == null) {
+			if (other.cdPaisOrigem != null)
+				return false;
+		} else if (!cdPaisOrigem.equals(other.cdPaisOrigem))
+			return false;
+		if (cdPlanoAnteriorSas == null) {
+			if (other.cdPlanoAnteriorSas != null)
+				return false;
+		} else if (!cdPlanoAnteriorSas.equals(other.cdPlanoAnteriorSas))
+			return false;
+		if (cdProduto == null) {
+			if (other.cdProduto != null)
+				return false;
+		} else if (!cdProduto.equals(other.cdProduto))
+			return false;
+		if (cdProfissao == null) {
+			if (other.cdProfissao != null)
+				return false;
+		} else if (!cdProfissao.equals(other.cdProfissao))
+			return false;
+		if (certidaoNascimento == null) {
+			if (other.certidaoNascimento != null)
+				return false;
+		} else if (!certidaoNascimento.equals(other.certidaoNascimento))
+			return false;
+		if (cid01 == null) {
+			if (other.cid01 != null)
+				return false;
+		} else if (!cid01.equals(other.cid01))
+			return false;
+		if (cid02 == null) {
+			if (other.cid02 != null)
+				return false;
+		} else if (!cid02.equals(other.cid02))
+			return false;
+		if (cid03 == null) {
+			if (other.cid03 != null)
+				return false;
+		} else if (!cid03.equals(other.cid03))
+			return false;
+		if (cid04 == null) {
+			if (other.cid04 != null)
+				return false;
+		} else if (!cid04.equals(other.cid04))
+			return false;
+		if (cid05 == null) {
+			if (other.cid05 != null)
+				return false;
+		} else if (!cid05.equals(other.cid05))
+			return false;
+		if (cid06 == null) {
+			if (other.cid06 != null)
+				return false;
+		} else if (!cid06.equals(other.cid06))
+			return false;
+		if (cid07 == null) {
+			if (other.cid07 != null)
+				return false;
+		} else if (!cid07.equals(other.cid07))
+			return false;
+		if (cid08 == null) {
+			if (other.cid08 != null)
+				return false;
+		} else if (!cid08.equals(other.cid08))
+			return false;
+		if (cid09 == null) {
+			if (other.cid09 != null)
+				return false;
+		} else if (!cid09.equals(other.cid09))
+			return false;
+		if (cid10 == null) {
+			if (other.cid10 != null)
+				return false;
+		} else if (!cid10.equals(other.cid10))
+			return false;
+		if (cns == null) {
+			if (other.cns != null)
+				return false;
+		} else if (!cns.equals(other.cns))
+			return false;
+		if (dadosBancarios == null) {
+			if (other.dadosBancarios != null)
+				return false;
+		} else if (!dadosBancarios.equals(other.dadosBancarios))
+			return false;
+		if (df == null) {
+			if (other.df != null)
+				return false;
+		} else if (!df.equals(other.df))
+			return false;
+		if (difTransferencia == null) {
+			if (other.difTransferencia != null)
+				return false;
+		} else if (!difTransferencia.equals(other.difTransferencia))
+			return false;
+		if (dtExclusao == null) {
+			if (other.dtExclusao != null)
+				return false;
+		} else if (!dtExclusao.equals(other.dtExclusao))
+			return false;
+		if (dtInclusao == null) {
+			if (other.dtInclusao != null)
+				return false;
+		} else if (!dtInclusao.equals(other.dtInclusao))
+			return false;
+		if (dtReferencia == null) {
+			if (other.dtReferencia != null)
+				return false;
+		} else if (!dtReferencia.equals(other.dtReferencia))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
+			return false;
+		if (emailSeguradora == null) {
+			if (other.emailSeguradora != null)
+				return false;
+		} else if (!emailSeguradora.equals(other.emailSeguradora))
+			return false;
+		if (endereco == null) {
+			if (other.endereco != null)
+				return false;
+		} else if (!endereco.equals(other.endereco))
+			return false;
+		if (es == null) {
+			if (other.es != null)
+				return false;
+		} else if (!es.equals(other.es))
+			return false;
+		if (fatorModerador == null) {
+			if (other.fatorModerador != null)
+				return false;
+		} else if (!fatorModerador.equals(other.fatorModerador))
+			return false;
+		if (grauEscolaridade != other.grauEscolaridade)
+			return false;
+		if (ibge == null) {
+			if (other.ibge != null)
+				return false;
+		} else if (!ibge.equals(other.ibge))
+			return false;
+		if (indicadorCarencia == null) {
+			if (other.indicadorCarencia != null)
+				return false;
+		} else if (!indicadorCarencia.equals(other.indicadorCarencia))
+			return false;
+		if (indicadorExEmpregado == null) {
+			if (other.indicadorExEmpregado != null)
+				return false;
+		} else if (!indicadorExEmpregado.equals(other.indicadorExEmpregado))
+			return false;
+		if (indicadorPermanenciaPlano == null) {
+			if (other.indicadorPermanenciaPlano != null)
+				return false;
+		} else if (!indicadorPermanenciaPlano.equals(other.indicadorPermanenciaPlano))
+			return false;
+		if (indicadorPoretabilidade1 == null) {
+			if (other.indicadorPoretabilidade1 != null)
+				return false;
+		} else if (!indicadorPoretabilidade1.equals(other.indicadorPoretabilidade1))
+			return false;
+		if (indicadorPoretabilidade2 == null) {
+			if (other.indicadorPoretabilidade2 != null)
+				return false;
+		} else if (!indicadorPoretabilidade2.equals(other.indicadorPoretabilidade2))
+			return false;
+		if (indicadorSeguradoContributario == null) {
+			if (other.indicadorSeguradoContributario != null)
+				return false;
+		} else if (!indicadorSeguradoContributario.equals(other.indicadorSeguradoContributario))
+			return false;
+		if (indicadorTitularRemido == null) {
+			if (other.indicadorTitularRemido != null)
+				return false;
+		} else if (!indicadorTitularRemido.equals(other.indicadorTitularRemido))
+			return false;
+		if (local == null) {
+			if (other.local != null)
+				return false;
+		} else if (!local.equals(other.local))
+			return false;
+		if (matriculaEspecial == null) {
+			if (other.matriculaEspecial != null)
+				return false;
+		} else if (!matriculaEspecial.equals(other.matriculaEspecial))
+			return false;
+		if (nameCompletoBeneficiario == null) {
+			if (other.nameCompletoBeneficiario != null)
+				return false;
+		} else if (!nameCompletoBeneficiario.equals(other.nameCompletoBeneficiario))
+			return false;
+		if (permanencia == null) {
+			if (other.permanencia != null)
+				return false;
+		} else if (!permanencia.equals(other.permanencia))
+			return false;
+		if (pis == null) {
+			if (other.pis != null)
+				return false;
+		} else if (!pis.equals(other.pis))
+			return false;
+		if (plano == null) {
+			if (other.plano != null)
+				return false;
+		} else if (!plano.equals(other.plano))
+			return false;
+		if (profissao == null) {
+			if (other.profissao != null)
+				return false;
+		} else if (!profissao.equals(other.profissao))
+			return false;
+		if (qtdeMesesContribuicao == null) {
+			if (other.qtdeMesesContribuicao != null)
+				return false;
+		} else if (!qtdeMesesContribuicao.equals(other.qtdeMesesContribuicao))
+			return false;
+		if (rdp == null) {
+			if (other.rdp != null)
+				return false;
+		} else if (!rdp.equals(other.rdp))
+			return false;
+		if (rendaFamiliar == null) {
+			if (other.rendaFamiliar != null)
+				return false;
+		} else if (!rendaFamiliar.equals(other.rendaFamiliar))
+			return false;
+		if (rg == null) {
+			if (other.rg != null)
+				return false;
+		} else if (!rg.equals(other.rg))
+			return false;
+		if (ric == null) {
+			if (other.ric != null)
+				return false;
+		} else if (!ric.equals(other.ric))
+			return false;
+		if (setor == null) {
+			if (other.setor != null)
+				return false;
+		} else if (!setor.equals(other.setor))
+			return false;
+		if (sexo != other.sexo)
+			return false;
+		if (telefone == null) {
+			if (other.telefone != null)
+				return false;
+		} else if (!telefone.equals(other.telefone))
+			return false;
+		if (tituloEleitor == null) {
+			if (other.tituloEleitor != null)
+				return false;
+		} else if (!tituloEleitor.equals(other.tituloEleitor))
+			return false;
+		if (transferencia == null) {
+			if (other.transferencia != null)
+				return false;
+		} else if (!transferencia.equals(other.transferencia))
+			return false;
+		return true;
 	}
 }

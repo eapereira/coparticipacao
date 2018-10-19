@@ -17,7 +17,9 @@ public enum LancamentoColType {
 								NR_CPF(9, "NR_CPF"),
 								NM_BENEFICIARIO(10, "NM_BENEFICIARIO"),
 								NM_TITULAR(11, "NM_TITULAR"),
-								DT_NASCIMENTO(12,"DT_NASCIMENTO");
+								DT_NASCIMENTO(12, "DT_NASCIMENTO"),
+								VL_REEMBOLSO(13, "VL_REEMBOLSO"),
+								VL_PARTICIPACAO(14, "VL_PARTICIPACAO");
 
 	private Integer id;
 

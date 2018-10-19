@@ -85,11 +85,10 @@ public abstract class XmlUtils {
 		}
 	}
 
-	public static <T> T readFile(String filePath, Class<T> subClass) throws CoParticipacaoException {
+	public static <T> T readFile(File file, Class<T> subClass) throws CoParticipacaoException {
 		JAXBContext jaxbContext;
 		Unmarshaller jaxbUnmarshaller;
 		FileInputStream fileInputStream = null;
-		File file;
 		T xml = null;
 
 		try {
@@ -98,10 +97,8 @@ public abstract class XmlUtils {
 			jaxbContext = JAXBContext.newInstance(subClass);
 			jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
-			file = new File(filePath);
-
 			if (file.exists()) {
-				LOGGER.info("Unmarshalling XML file[{}]:", filePath);
+				LOGGER.info("Unmarshalling XML file[{}]:", file.getName());
 
 				fileInputStream = new FileInputStream(file);
 
@@ -117,6 +114,22 @@ public abstract class XmlUtils {
 			throw new DaoException(e);
 		} finally {
 			close(fileInputStream);
+		}
+	}
+
+	public static <T> T readFile(String filePath, Class<T> subClass) throws CoParticipacaoException {
+		T data;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			data = readFile(new File(filePath), subClass);
+
+			LOGGER.info("END");
+			return data;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
 		}
 	}
 }

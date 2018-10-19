@@ -948,32 +948,7 @@ BEGIN
     );
 
     set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-    
-    insert into TB_VIEW_DESTINATION_COLS_DEF(
-        ID_VIEW_DESTINATION	,
-        NM_COLUMN,
-        CD_TYPE,
-        VL_LENGTH,
-        CD_ORDEM,
-        NM_COL_TITLE_LABEL,
         
-        USER_CREATED,
-        DT_CREATED,
-        DT_ALTERED ) values (
-        VAR_ID_VIEW_DESTINATION,
-        'NM_TITULAR',
-        VAR_COL_VARCHAR,
-        VAR_COL_VIEW_LENGTH_NM_TITULAR,
-        VAR_CD_ORDEM,
-        'NOME TITULAR',
-        
-        VAR_ID_USER,
-        current_timestamp(),
-        current_timestamp()		
-    );
-    
-    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-    
     insert into TB_VIEW_DESTINATION_COLS_DEF(
         ID_VIEW_DESTINATION	,
         NM_COLUMN,

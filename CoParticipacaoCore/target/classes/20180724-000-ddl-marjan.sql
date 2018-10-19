@@ -21,6 +21,7 @@ drop view if exists VW_DEMITIDO_MARJAN;
 drop view if exists VW_ISENTOS_DIRETORIA_MARJAN;
 
 drop view if exists VW_ISENTO_MARJAN;
+drop view if exists VW_COPARTICIPACAO_LEVEL01_MARJAN;
 drop view if exists VW_COPARTICIPACAO_TELA_MARJAN;
 
 drop view if exists VW_DESCONHECIDO_MARJAN_LEVEL01;
@@ -311,7 +312,7 @@ order by marjan.NM_TITULAR, marjan.NM_DEPENDENTE;
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/
 
-create view VW_COPARTICIPACAO_TELA_MARJAN as
+create view VW_COPARTICIPACAO_LEVEL01_MARJAN as
 select 
 	marjan.CD_MES,
 	marjan.CD_ANO,
@@ -326,19 +327,61 @@ select
 	marjan.NM_DEPENDENTE,
 	marjan.VL_PRINCIPAL
 from VW_COPARTICIPACAO_MARJAN marjan
-where ( marjan.ID_TITULAR not in ( 
-	select 	isento.ID_TITULAR
-	from 	TB_TITULAR_ISENTO isento
-	where	isento.ID_TITULAR = marjan.ID_TITULAR )
-and marjan.ID_DEPENDENTE not in ( 
-	select 	isento.ID_DEPENDENTE
-	from 	TB_DEPENDENTE_ISENTO isento
-	where	isento.ID_DEPENDENTE = marjan.ID_DEPENDENTE )) or
-marjan.ID_TITULAR not in (
+where marjan.ID_TITULAR not in (
 	select
 		demitido.ID_TITULAR
 	from VW_TITULAR_DEMITIDO_MARJAN demitido
     where	demitido.ID_TITULAR = marjan.ID_TITULAR )
+and marjan.ID_DEPENDENTE is null
+and marjan.ID_TITULAR not in ( 
+	select 	isento.ID_TITULAR
+	from 	TB_TITULAR_ISENTO isento
+	where	isento.ID_TITULAR = marjan.ID_TITULAR )
+union all
+select 
+	marjan.CD_MES,
+	marjan.CD_ANO,
+	marjan.ID_CONTRATO,
+	marjan.CD_CONTRATO,
+	marjan.ID_EMPRESA,
+	marjan.NR_MATRICULA_TITULAR,
+	marjan.ID_TITULAR,
+	marjan.NM_TITULAR,
+	marjan.NR_MATRICULA_DEPENDENTE,
+	marjan.ID_DEPENDENTE,
+	marjan.NM_DEPENDENTE,
+	marjan.VL_PRINCIPAL
+from VW_COPARTICIPACAO_MARJAN marjan
+where marjan.ID_DEPENDENTE is not null
+and marjan.ID_TITULAR not in ( 
+	select 	isento.ID_TITULAR
+	from 	TB_TITULAR_ISENTO isento
+	where	isento.ID_TITULAR = marjan.ID_TITULAR ) and
+marjan.ID_DEPENDENTE not in ( 
+	select 	isento.ID_DEPENDENTE
+	from 	TB_DEPENDENTE_ISENTO isento
+	where	isento.ID_DEPENDENTE = marjan.ID_DEPENDENTE ) and
+marjan.ID_TITULAR not in (
+	select
+		demitido.ID_TITULAR
+	from VW_TITULAR_DEMITIDO_MARJAN demitido
+    where	demitido.ID_TITULAR = marjan.ID_TITULAR );
+
+create view VW_COPARTICIPACAO_TELA_MARJAN as
+select 
+	marjan.CD_MES,
+	marjan.CD_ANO,
+	marjan.ID_CONTRATO,
+	marjan.CD_CONTRATO,
+	marjan.ID_EMPRESA,
+	marjan.NR_MATRICULA_TITULAR,
+	marjan.ID_TITULAR,
+	marjan.NM_TITULAR,
+	marjan.NR_MATRICULA_DEPENDENTE,
+	marjan.ID_DEPENDENTE,
+	marjan.NM_DEPENDENTE,
+	marjan.VL_PRINCIPAL
+from VW_COPARTICIPACAO_LEVEL01_MARJAN marjan
 order by marjan.NM_TITULAR, marjan.NM_DEPENDENTE;
 
 /*********************************************************************************************************************/
@@ -390,7 +433,7 @@ from VW_DESCONHECIDO_MARJAN_LEVEL01 marjan
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
 where empresa.CD_EMPRESA = 'MARJAN'
-order by marjan.NM_TITULAR, marjan.NM_DEPENDENTE;
+order by marjan.NM_DEPENDENTE;
 
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/

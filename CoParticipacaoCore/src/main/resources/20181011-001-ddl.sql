@@ -3,15 +3,14 @@
  */
 
 create table TB_REPORT(
-	ID 					bigint( 17 ) auto_increment,
+	ID 					bigint( 17 ) auto_increment,	
 	NM_REPORT			varchar( 60 ) not null,
 	DESCR_REPORT		varchar( 200 ) not null,
 	NM_OUTPUT_FORMAT	varchar( 200 ) not null,
 	
 	ID_EMPRESA			bigint( 17 ) not null,
         
-	VERSION				bigint( 17 ) null,
-	 
+	VERSION				bigint( 17 ) null,	 
 	USER_CREATED		bigint( 17 ) not null,
 	USER_ALTERED 		bigint( 17 ),
 	DT_CREATED			timestamp not null,
@@ -32,14 +31,10 @@ create table TB_REPORT(
 create table TB_ARQUIVO_INPUT_SHEET(
 	ID 							bigint( 17 ) auto_increment,
 	
-	ID_ARQUIVO_INPUT			bigint( 17 ) not null,	
-	TP_ARQUIVO					int( 3 ) null,
-	
+	ID_ARQUIVO_INPUT			bigint( 17 ) not null,		
 	CD_SHEET					int( 3 ) not null,
-	CD_DIFF_LINE 				int( 3 ) null,
 	
 	VERSION						bigint( 17 ) null,
- 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
@@ -47,7 +42,7 @@ create table TB_ARQUIVO_INPUT_SHEET(
 	
 	constraint PK_ARQUIVO_INPUT_SHEET primary key( ID ),
 	
-	constraint UN_ARQUIVO_INPUT_SHEET_01 unique key( ID_ARQUIVO_INPUT, TP_ARQUIVO, CD_SHEET ),
+	constraint UN_ARQUIVO_INPUT_SHEET_01 unique key( ID_ARQUIVO_INPUT, CD_SHEET ),
 	
 	constraint FK_ARQUIVO_INPUT_SHEET_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_INPUT_SHEET_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
@@ -55,22 +50,23 @@ create table TB_ARQUIVO_INPUT_SHEET(
 );
 
 create table TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
-	ID 						bigint( 17 ) auto_increment,
-	ID_ARQUIVO_INPUT_SHEET	bigint( 17 ) not null,
+	ID 							bigint( 17 ) auto_increment,
+	ID_ARQUIVO_INPUT_SHEET		bigint( 17 ) not null,
 	
-	NM_COLUMN				varchar( 60 ) not null,
-	CD_TYPE					int( 3 ) not null, 	/* 0 = INT, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
-	VL_LENGTH				int( 5 ) null, 		/* arquivos CSV nao precisa de tamanho de coluna */
-	CD_ORDEM				int( 3 ) not null,
-	CD_FORMAT				varchar( 200 ) null, /* Para usar com datas e números */
-	CD_LOCALE_PATTERN		varchar( 200 ) null, /* Para usar com datas e números */
+	NM_COLUMN					varchar( 60 ) not null,
+	CD_TYPE						int( 3 ) not null, 	/* 0 = INT, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	VL_LENGTH					int( 5 ) null, 		/* arquivos CSV nao precisa de tamanho de coluna */
+	CD_ORDEM					int( 3 ) not null,
+	CD_FORMAT					varchar( 200 ) null, /* Para usar com datas e números */
+	CD_LOCALE_PATTERN			varchar( 200 ) null, /* Para usar com datas e números */
+	CD_RESTRICTED_VALUE			varchar( 40 ) null,
 	
-	VERSION					bigint( 17 ) null,
+	VERSION						bigint( 17 ) null,
 	 
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,
+	USER_CREATED				bigint( 17 ) not null,
+	USER_ALTERED 				bigint( 17 ),
+	DT_CREATED					timestamp not null,
+	DT_ALTERED					timestamp not null,
 	
 	constraint PK_ARQUIVO_INPUT_SHEET_COLS_DEF primary key( ID ),
 	

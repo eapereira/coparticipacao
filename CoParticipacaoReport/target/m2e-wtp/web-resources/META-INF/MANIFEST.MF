@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-Built-By: eapereira
-Build-Jdk: 1.8.0_131
+Built-By: edson.apereira
+Build-Jdk: 1.8.0_181
 Created-By: Maven Integration for Eclipse
 

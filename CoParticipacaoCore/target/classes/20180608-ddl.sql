@@ -4,14 +4,15 @@
  * Edson - 08/06/2018
  */
 
-drop table if exists TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
-drop table if exists TB_ARQUIVO_INPUT_SHEET;
 drop table if exists TB_REPORT;
 
 drop table if exists TB_SCRIPT;
 drop table if exists TB_LOG;
 
 drop table if exists TB_BENEFICIARIO_COLS;
+
+drop table if exists TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+drop table if exists TB_ARQUIVO_INPUT_SHEET;
 
 drop table if exists TB_ISENTO_INPUT_SHEET_COLS;
 drop table if exists TB_ISENTO_INPUT_SHEET;

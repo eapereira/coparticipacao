@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByEmpresaId">
+		<![CDATA[
+			select report from ReportEntity report
+			join fetch report.empresa empresa
+			where empresa.id = :empresaId
+		]]>
+	</query>
+
+</queries>
+	

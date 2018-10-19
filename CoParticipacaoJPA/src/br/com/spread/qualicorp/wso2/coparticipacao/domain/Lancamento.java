@@ -7,8 +7,13 @@ import java.math.BigDecimal;
  * 
  */
 public abstract class Lancamento extends AbstractDomain {
-	private static final long serialVersionUID = 1L;
 
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5172981778962698969L;
+	
 	private Integer ano;
 	private Integer mes;
 
@@ -17,6 +22,9 @@ public abstract class Lancamento extends AbstractDomain {
 	private Titular titular;
 	
 	private BigDecimal valorPrincipal;
+	
+	private BigDecimal valorRembolso;
+	private BigDecimal valorParticipacao;
 
 	public Lancamento() {
 		super();
@@ -74,6 +82,22 @@ public abstract class Lancamento extends AbstractDomain {
 		this.valorPrincipal = valorPrincipal;
 	}
 
+	public BigDecimal getValorRembolso() {
+		return valorRembolso;
+	}
+
+	public void setValorRembolso(BigDecimal valorRembolso) {
+		this.valorRembolso = valorRembolso;
+	}
+
+	public BigDecimal getValorParticipacao() {
+		return valorParticipacao;
+	}
+
+	public void setValorParticipacao(BigDecimal valorParticipacao) {
+		this.valorParticipacao = valorParticipacao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -82,7 +106,9 @@ public abstract class Lancamento extends AbstractDomain {
 		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
+		result = prime * result + ((valorParticipacao == null) ? 0 : valorParticipacao.hashCode());
 		result = prime * result + ((valorPrincipal == null) ? 0 : valorPrincipal.hashCode());
+		result = prime * result + ((valorRembolso == null) ? 0 : valorRembolso.hashCode());
 		return result;
 	}
 
@@ -115,10 +141,20 @@ public abstract class Lancamento extends AbstractDomain {
 				return false;
 		} else if (!titular.equals(other.titular))
 			return false;
+		if (valorParticipacao == null) {
+			if (other.valorParticipacao != null)
+				return false;
+		} else if (!valorParticipacao.equals(other.valorParticipacao))
+			return false;
 		if (valorPrincipal == null) {
 			if (other.valorPrincipal != null)
 				return false;
 		} else if (!valorPrincipal.equals(other.valorPrincipal))
+			return false;
+		if (valorRembolso == null) {
+			if (other.valorRembolso != null)
+				return false;
+		} else if (!valorRembolso.equals(other.valorRembolso))
 			return false;
 		return true;
 	}

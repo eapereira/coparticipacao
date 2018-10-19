@@ -34,6 +34,9 @@ public class LancamentoDetailUi implements Serializable {
 	private DependenteUi dependenteUi;
 	
 	private String nameTitular;
+	
+	private BigDecimal valorReembolso;
+	private BigDecimal valorParticipacao;
 
 	public LancamentoDetailUi() {
 		super();
@@ -149,6 +152,22 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setDtNascimento(LocalDate dtNascimento) {
 		this.dtNascimento = dtNascimento;
+	}
+
+	public BigDecimal getValorReembolso() {
+		return valorReembolso;
+	}
+
+	public void setValorReembolso(BigDecimal valorReembolso) {
+		this.valorReembolso = valorReembolso;
+	}
+
+	public BigDecimal getValorParticipacao() {
+		return valorParticipacao;
+	}
+
+	public void setValorParticipacao(BigDecimal valorParticipacao) {
+		this.valorParticipacao = valorParticipacao;
 	}
 
 }

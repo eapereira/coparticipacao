@@ -81,8 +81,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
 
 				/*
-				 * Se aparecer uma célula com data, vamos alterar o seu formato
-				 * para um que seja fácil para convertermos:
+				 * Se aparecer uma célula com data, vamos alterar o seu formato para um que seja
+				 * fácil para convertermos:
 				 */
 				creationHelper = workbook.getCreationHelper();
 				dataFormat = creationHelper.createDataFormat();
@@ -108,12 +108,11 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 						}
 
 						LOGGER.info("Processing sheet [{}]:", sheet.getSheetName());
-						LOGGER.info(
-								"Sheet [{}] has a total number of Rows[{}]:",
-								sheet.getSheetName(),
+						LOGGER.info("Sheet [{}] has a total number of Rows[{}]:", sheet.getSheetName(),
 								sheet.getPhysicalNumberOfRows());
 
 						coParticipacaoContext.setCurrentSheet(sheetIndex);
+						spreadsheetContext.setSheetName(sheet.getSheetName());
 
 						for (Row row : sheet) {
 							if (row.getRowNum() < coParticipacaoContext.getArquivoInputUi().getSkipLines()) {
@@ -144,8 +143,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				processorListener.afterProcess(coParticipacaoContext);
 			} else {
-				LOGGER.info(
-						"Is required at least one sheet to be loaded is the file [{}]:",
+				LOGGER.info("Is required at least one sheet to be loaded is the file [{}]:",
 						coParticipacaoContext.getFileName());
 			}
 
@@ -183,9 +181,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Map<String, Object> readLine(
-			SpreadsheetContext spreadsheetContext,
-			Row row,
+	protected Map<String, Object> readLine(SpreadsheetContext spreadsheetContext, Row row,
 			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
@@ -232,9 +228,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Object getCellValue(
-			SpreadsheetContext spreadsheetContext,
-			Cell cell,
+	protected Object getCellValue(SpreadsheetContext spreadsheetContext, Cell cell,
 			ArquivoInputColsDef arquivoInputColsDef) throws ServiceException {
 		Object value;
 
@@ -295,9 +289,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				if (value instanceof String) {
 					if (StringUtils.isNotBlank(arquivoInputColsDef.getLocalePattern())) {
-						value = DateUtils.stringToDate(
-								(String) value,
-								arquivoInputColsDef.getFormat(),
+						value = DateUtils.stringToDate((String) value, arquivoInputColsDef.getFormat(),
 								arquivoInputColsDef.getLocalePattern());
 					} else {
 						value = DateUtils.stringToDate((String) value, arquivoInputColsDef.getFormat());
@@ -317,7 +309,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	private Long clearMask(Object value) {
+	protected Long clearMask(Object value) {
 		String strValue;
 
 		if (value instanceof String) {

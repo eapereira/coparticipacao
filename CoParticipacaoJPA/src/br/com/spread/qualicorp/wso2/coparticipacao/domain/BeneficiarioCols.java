@@ -14,6 +14,8 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 
 	private ArquivoInputColsDef arquivoInputColsDef;
 
+	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
+
 	private BeneficiarioColType beneficiarioColType;
 
 	public BeneficiarioCols() {
@@ -40,10 +42,8 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0
-				: arquivoInputColsDef.hashCode());
-		result = prime * result + ((beneficiarioColType == null) ? 0
-				: beneficiarioColType.hashCode());
+		result = prime * result + ((arquivoInputColsDef == null) ? 0 : arquivoInputColsDef.hashCode());
+		result = prime * result + ((beneficiarioColType == null) ? 0 : beneficiarioColType.hashCode());
 		return result;
 	}
 
@@ -66,6 +66,12 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 		return true;
 	}
 
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return arquivoInputSheetColsDef;
+	}
 
+	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
+		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
+	}
 
 }

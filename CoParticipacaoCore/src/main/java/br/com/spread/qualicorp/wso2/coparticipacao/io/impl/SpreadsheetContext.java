@@ -14,6 +14,8 @@ public class SpreadsheetContext {
 
 	private CellStyle cellStyleDate;
 	
+	private String sheetName;
+	
 	public SpreadsheetContext() {
 		
 	}
@@ -32,5 +34,13 @@ public class SpreadsheetContext {
 
 	public void setCellStyleDate(CellStyle cellStyleDate) {
 		this.cellStyleDate = cellStyleDate;
+	}
+
+	public String getSheetName() {
+		return sheetName;
+	}
+
+	public void setSheetName(String sheetName) {
+		this.sheetName = sheetName;
 	}
 }

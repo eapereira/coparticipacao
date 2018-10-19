@@ -132,8 +132,8 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			lancamentoDetailService.showLancamentoDetailInfo(lancamentoDetailUi);
 
 			desconhecidoUi = new DesconhecidoUi();
-			desconhecidoUi.setMes(coParticipacaoContext.getMes());
-			desconhecidoUi.setAno(coParticipacaoContext.getAno());
+			desconhecidoUi.setMes(lancamentoDetailUi.getMes());
+			desconhecidoUi.setAno(lancamentoDetailUi.getAno());
 			desconhecidoUi.setContrato(coParticipacaoContext.getContratoUi());
 			desconhecidoUi.setUserCreated(coParticipacaoContext.getUser());
 			desconhecidoUi.setUserAltered(coParticipacaoContext.getUser());

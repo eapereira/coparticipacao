@@ -19,6 +19,7 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 	private Integer length;
 	private String format;
 	private String localePattern;
+	private String restrictedValue;
 
 	private ArquivoInputSheet arquivoInputSheet;
 
@@ -82,6 +83,14 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 		this.arquivoInputSheet = arquivoInputSheet;
 	}
 
+	public String getRestrictedValue() {
+		return restrictedValue;
+	}
+
+	public void setRestrictedValue(String restrictedValue) {
+		this.restrictedValue = restrictedValue;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -91,6 +100,7 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 		result = prime * result + ((localePattern == null) ? 0 : localePattern.hashCode());
 		result = prime * result + ((nameColumn == null) ? 0 : nameColumn.hashCode());
 		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
+		result = prime * result + ((restrictedValue == null) ? 0 : restrictedValue.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
@@ -128,6 +138,11 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 			if (other.ordem != null)
 				return false;
 		} else if (!ordem.equals(other.ordem))
+			return false;
+		if (restrictedValue == null) {
+			if (other.restrictedValue != null)
+				return false;
+		} else if (!restrictedValue.equals(other.restrictedValue))
 			return false;
 		if (type != other.type)
 			return false;
