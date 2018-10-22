@@ -1,0 +1,9 @@
+eclipse.preferences.version=1
+encoding//src/main/java=utf-8
+encoding//src/main/java/br/com/spread/qualicorp/wso2/coparticipacao/scheduler/client/CoParticipacaoInfo.java=UTF-8
+encoding//src/main/java/br/com/spread/qualicorp/wso2/coparticipacao/scheduler/client/CoParticipacaoPort.java=UTF-8
+encoding//src/main/java/br/com/spread/qualicorp/wso2/coparticipacao/scheduler/client/CoParticipacaoPortService.java=UTF-8
+encoding//src/main/java/br/com/spread/qualicorp/wso2/coparticipacao/scheduler/client/CoParticipacaoPortServiceLocator.java=UTF-8
+encoding//src/main/java/br/com/spread/qualicorp/wso2/coparticipacao/scheduler/client/CoParticipacaoPortSoap11Stub.java=UTF-8
+encoding//src/main/java/br/com/spread/qualicorp/wso2/coparticipacao/scheduler/client/CoParticipacaoRequest.java=UTF-8
+encoding//src/main/java/br/com/spread/qualicorp/wso2/coparticipacao/scheduler/client/CoParticipacaoResponse.java=UTF-8
