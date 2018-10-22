@@ -125,7 +125,7 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_REF_CODE						bigint( 17 ) default 8;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA			bigint( 17 ) default 10;
 	
-	declare VAR_NR_MATRICULA_BASE										bigint( 17 ) default 19200000000000;
+	declare VAR_NR_MATRICULA_BASE										bigint( 17 ) default 19700000000000;
 	
 	declare VAR_NM_CONTRATO_PRN											varchar( 400 ) default 'Arquivo PRN';
 	
@@ -671,7 +671,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		'CARGIL.00197.TITULAR',
-		'Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 19200000000000',
+		'Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 19700000000000',
 		VAR_TP_REGRA_SIMPLES,
 		0,
 		VAR_ID_ARQUIVO_INPUT,

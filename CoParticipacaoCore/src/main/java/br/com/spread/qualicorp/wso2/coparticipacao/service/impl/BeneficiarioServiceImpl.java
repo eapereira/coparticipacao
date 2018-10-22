@@ -38,6 +38,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicate
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -49,6 +50,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioServiceImpl.class);
+
+	@Autowired
+	private LancamentoDetailService lancamentoDetailService;
 
 	@Autowired
 	private EmpresaService empresaService;
@@ -566,21 +570,30 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 				if (UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
 					if (titularUi == null) {
-						titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
-
 						/*
 						 * Se o Beneficiário não for um Titular e não existe no
 						 * banco de dados e também não possuir um Títular, então
 						 * ele próprio é um Títular, pois não foi encontrado
 						 * pelo processo MECSAS e FATUCOPA:
 						 */
-						if (titularUi == null) {
-							if (beneficiarioUi.getNameBeneficiario().equals(beneficiarioUi.getNameTitular())) {
-								LOGGER.info("END");
-								return true;
-							}
+						if (beneficiarioUi.getNameBeneficiario().equals(beneficiarioUi.getNameTitular())) {
+							LOGGER.info("END");
+							return true;
 						}
 					} else {
+						if (beneficiarioUi.getCpf() == null) {
+							beneficiarioUi.setCpf(titularUi.getCpf());
+						}
+
+						if (beneficiarioUi.getMatricula() == null) {
+							beneficiarioUi.setMatricula(titularUi.getMatricula());
+							beneficiarioUi.setMatriculaTitular(titularUi.getMatricula());
+						}
+
+						if (StringUtils.isBlank(beneficiarioUi.getNameTitular())) {
+							beneficiarioUi.setNameTitular(titularUi.getNameTitular());
+						}
+
 						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
 							LOGGER.info("END");
 							return true;

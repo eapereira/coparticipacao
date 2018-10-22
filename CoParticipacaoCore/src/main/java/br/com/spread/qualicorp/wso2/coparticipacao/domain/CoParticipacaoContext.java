@@ -490,20 +490,58 @@ public class CoParticipacaoContext {
 		DependenteUi dependenteUiTmp = null;
 		LOGGER.info("BEGIN");
 
-		if (getMapDependenteUiByCpf() != null) {
-			LOGGER.info("END");
-			dependenteUiTmp = getMapDependenteUiByCpf().get(new MapKey(cpf, nameDependente));
+		if (cpf != null) {
+			if (getMapDependenteUiByCpf() != null) {
+				LOGGER.info("END");
+				dependenteUiTmp = getMapDependenteUiByCpf().get(new MapKey(cpf, nameDependente));
+			}
+
+			if (dependenteUiTmp == null) {
+				for (DependenteUi dependenteUi : getDependenteUis()) {
+					if (dependenteUi.getCpf() != null) {
+						LOGGER.trace(
+								"Comparing with Dependente [{}] with Matricula [{}]:",
+								dependenteUi.getNameDependente(),
+								dependenteUi.getMatricula());
+
+						if (dependenteUi.getCpf().equals(cpf)) {
+							if (dependenteUi.getNameDependente().equals(nameDependente)) {
+								LOGGER.info(
+										"Dependente [{}] with CPF [{}] found:",
+										dependenteUi.getNameDependente(),
+										dependenteUi.getCpf());
+
+								dependenteUiTmp = dependenteUi;
+								break;
+							}
+						}
+					}
+				}
+			}
 		}
 
-		if (dependenteUiTmp == null) {
-			for (DependenteUi dependenteUi : getDependenteUis()) {
-				if (dependenteUi.getCpf() != null) {
+		LOGGER.info("END");
+		return dependenteUiTmp;
+	}
+
+	public DependenteUi findDependenteByMatriculaAndName(Long matricula, String nameDependente) {
+		DependenteUi dependenteUiTmp = null;
+
+		LOGGER.info("BEGIN");
+
+		if (matricula != null) {
+			if (getMapDependenteUiByMatricula() != null) {
+				dependenteUiTmp = getMapDependenteUiByMatricula().get(new MapKey(matricula, nameDependente));
+			}
+
+			if (dependenteUiTmp == null) {
+				for (DependenteUi dependenteUi : getDependenteUis()) {
 					LOGGER.trace(
 							"Comparing with Dependente [{}] with Matricula [{}]:",
 							dependenteUi.getNameDependente(),
 							dependenteUi.getMatricula());
 
-					if (dependenteUi.getCpf().equals(cpf)) {
+					if (dependenteUi.getMatricula().equals(matricula)) {
 						if (dependenteUi.getNameDependente().equals(nameDependente)) {
 							LOGGER.info(
 									"Dependente [{}] with CPF [{}] found:",
@@ -522,51 +560,22 @@ public class CoParticipacaoContext {
 		return dependenteUiTmp;
 	}
 
-	public DependenteUi findDependenteByMatriculaAndName(Long matricula, String nameDependente) {
-		DependenteUi dependenteUiTmp = null;
-
-		LOGGER.info("BEGIN");
-
-		if (getMapDependenteUiByMatricula() != null) {
-			dependenteUiTmp = getMapDependenteUiByMatricula().get(new MapKey(matricula, nameDependente));
-		}
-
-		if (dependenteUiTmp == null) {
-			for (DependenteUi dependenteUi : getDependenteUis()) {
-				LOGGER.trace(
-						"Comparing with Dependente [{}] with Matricula [{}]:",
-						dependenteUi.getNameDependente(),
-						dependenteUi.getMatricula());
-
-				if (dependenteUi.getMatricula().equals(matricula)) {
-					if (dependenteUi.getNameDependente().equals(nameDependente)) {
-						LOGGER.info(
-								"Dependente [{}] with CPF [{}] found:",
-								dependenteUi.getNameDependente(),
-								dependenteUi.getCpf());
-
-						dependenteUiTmp = dependenteUi;
-						break;
-					}
-				}
-			}
-		}
-
-		LOGGER.info("END");
-		return dependenteUiTmp;
-	}
-
 	public TitularUi findTitularByMatricula(Long matricula) {
 		LOGGER.info("BEGIN");
 
-		for (TitularUi titularUi : getTitularUis()) {
+		if (matricula != null) {
+			for (TitularUi titularUi : getTitularUis()) {
 
-			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+				LOGGER.trace(
+						"Comparing with Titular [{}] with CPF [{}]:",
+						titularUi.getNameTitular(),
+						titularUi.getCpf());
 
-			if (titularUi.getMatricula().equals(matricula)) {
-				LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
-				LOGGER.info("END");
-				return titularUi;
+				if (titularUi.getMatricula().equals(matricula)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+					LOGGER.info("END");
+					return titularUi;
+				}
 			}
 		}
 
@@ -577,14 +586,19 @@ public class CoParticipacaoContext {
 	public TitularUi findTitularByCpf(Long cpf) {
 		LOGGER.info("BEGIN");
 
-		for (TitularUi titularUi : getTitularUis()) {
+		if (cpf != null) {
+			for (TitularUi titularUi : getTitularUis()) {
 
-			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+				LOGGER.trace(
+						"Comparing with Titular [{}] with CPF [{}]:",
+						titularUi.getNameTitular(),
+						titularUi.getCpf());
 
-			if (titularUi.getCpf().equals(cpf)) {
-				LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
-				LOGGER.info("END");
-				return titularUi;
+				if (titularUi.getCpf().equals(cpf)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+					LOGGER.info("END");
+					return titularUi;
+				}
 			}
 		}
 

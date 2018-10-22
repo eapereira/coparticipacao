@@ -13,10 +13,58 @@ drop view if exists VW_COPARTICIPACAO_LEVEL02_CARGILL;
 
 drop view if exists VW_COPARTICIPACAO_CARGILL;
 drop view if exists VW_PRN_CARGILL;
+drop view if exists VW_DESCONHECIDO_CARGILL;
 
 /**************************************************************************************************************************/
 /**************************************************************************************************************************/
+create view VW_DESCONHECIDO_CARGILL as
+	select
+		empresa.CD_EMPRESA,
+		desconhecido.CD_MES,
+		desconhecido.CD_ANO,
+		desconhecido.ID_CONTRATO,
+		contrato.CD_CONTRATO,
+	    desconhecido.NR_MATRICULA,
+	    desconhecido.NR_MATRICULA_EMPRESA,
+	    desconhecido.NM_TITULAR,
+	    desconhecido.NR_CPF,
+	    desconhecido.NM_BENEFICIARIO,
+	    'CP32' CD_VERBA,
+	    desconhecido.DT_ADMISSAO,
+	    desconhecido.NR_REF_CODE CD_PLANO
+	from TB_DESCONHECIDO desconhecido
+		join TB_CONTRATO contrato on
+		contrato.ID = desconhecido.ID_CONTRATO
+	    join TB_EMPRESA empresa on
+	    empresa.ID = contrato.ID_EMPRESA
+	where	empresa.CD_EMPRESA	= 'CARGILL'	    
+	union all
+	select distinct
+		empresa.CD_EMPRESA,
+		lancamento.CD_MES,
+		lancamento.CD_ANO,
+		lancamento.ID_CONTRATO,
+		contrato.CD_CONTRATO,
+	    titular.NR_MATRICULA,
+	    titular.NR_MATRICULA_EMPRESA,
+	    titular.NM_TITULAR,
+	    titular.NR_CPF,
+	    titular.NM_TITULAR NM_BENEFICIARIO,
+	    'CP32' CD_VERBA,
+	    titular.DT_ADMISSAO,
+	    titular.NR_REF_CODE CD_PLANO
+	from TB_TITULAR titular
+	    join TB_EMPRESA empresa on
+	    empresa.ID = titular.ID_EMPRESA
+	    join TB_LANCAMENTO lancamento on
+	    lancamento.ID_TITULAR = titular.ID
+	    join TB_CONTRATO contrato on
+	    contrato.ID = lancamento.ID_CONTRATO	    
+	where	empresa.CD_EMPRESA	= 'CARGILL'
+	and		titular.DT_ADMISSAO is null;
 
+/**************************************************************************************************************************/
+	
 create view VW_COPARTICIPACAO_LEVEL01_CARGILL as
 select
 		empresa.CD_EMPRESA,
