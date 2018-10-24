@@ -44,8 +44,8 @@ public class CargillBean extends CoparticipacaoBean {
 
 	private static final int NUM_TOTAL_TITULARES_201807 = 975;
 	private static final int NUM_TOTAL_DEPENDENTES_201807 = 1182;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201807 = 5;
-	private static final int NUM_TOTAL_LANCAMENTOS_201807 = 105;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201807 = 3;
+	private static final int NUM_TOTAL_LANCAMENTOS_201807 = 107;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807 = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201807 = 0;
 

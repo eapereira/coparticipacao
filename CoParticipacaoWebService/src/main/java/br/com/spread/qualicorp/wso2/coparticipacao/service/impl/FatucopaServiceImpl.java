@@ -113,6 +113,18 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");
 			}
 
+			if (lancamentoDetailUi.getMes() == null) {
+				lancamentoDetailUi.setMes(coParticipacaoContext.getMes());
+			} else {
+				coParticipacaoContext.setMes(lancamentoUi.getMes());
+			}
+
+			if (lancamentoDetailUi.getAno() == null) {
+				lancamentoDetailUi.setAno(coParticipacaoContext.getAno());
+			} else {
+				coParticipacaoContext.setAno(lancamentoUi.getAno());
+			}
+
 			if (!coParticipacaoContext.isFirstLineProcecessed()) {
 				LOGGER.info("Doing tasks to be performed just after we had read the first line:");
 				coParticipacaoContext.setFirstLineProcecessed(true);
@@ -183,18 +195,6 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			lancamentoUi.setValorPrincipal(lancamentoDetailUi.getValorPrincipal());
 			lancamentoUi.setUserCreated(coParticipacaoContext.getUser());
 
-			if (lancamentoUi.getMes() == null) {
-				lancamentoUi.setMes(coParticipacaoContext.getMes());
-			} else {
-				coParticipacaoContext.setMes(lancamentoUi.getMes());
-			}
-
-			if (lancamentoUi.getAno() == null) {
-				lancamentoUi.setAno(coParticipacaoContext.getAno());
-			} else {
-				coParticipacaoContext.setAno(lancamentoUi.getAno());
-			}
-
 			LOGGER.info("END");
 			return lancamentoUi;
 		} catch (Exception e) {
@@ -254,6 +254,7 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		ArquivoInputUi arquivoInputUi;
 		int mes = NumberUtils.INTEGER_ZERO;
 		int ano = NumberUtils.INTEGER_ZERO;
+		LancamentoDetailUi lancamentoDetailUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -261,13 +262,10 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			if (coParticipacaoContext.isFirstLineProcecessed()) {
 				arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
 
-				if (coParticipacaoContext.getLancamentoDetailUi() != null) {
-					mes = coParticipacaoContext.getLancamentoDetailUi().getMes();
-					ano = coParticipacaoContext.getLancamentoDetailUi().getAno();
-				} else {
-					ano = coParticipacaoContext.getAno();
-					mes = coParticipacaoContext.getMes();
-				}
+				lancamentoDetailUi = coParticipacaoContext.getLancamentoDetailUi();
+
+				ano = lancamentoDetailUi.getAno();
+				mes = lancamentoDetailUi.getMes();
 
 				LOGGER.info(
 						"Starting process [{}] to load benefiets from assets file:",

@@ -26,7 +26,8 @@
 		<![CDATA[
 			select titularIsento from TitularIsentoEntity titularIsento
 			join fetch titularIsento.titular titular
-			join titular.empresa empresa
+			join titular.contrato contrato
+			join contrato.empresa empresa
 			where empresa.id = :empresaId			
 		]]>
 	</query>

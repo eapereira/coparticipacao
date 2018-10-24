@@ -12,8 +12,7 @@ public enum UseType {
 						NAO_LOCALIZADO(3, "Arquivos de criticas corrigidos pelo usuário"),
 						ISENTO(4, "Relação de beneficiários isentos"),
 						FATUCOPA(5, "Arquivo de lançamentos"),
-						EXTRA_FILE(6, "Arquivo adicional"),
-						FATUCOPA2(7, "Arquivo de lançamentos que podem incluir dependetes e títulares ao mesmo tempo");
+						EXTRA_FILE(6, "Arquivo adicional");
 
 	private Integer id;
 

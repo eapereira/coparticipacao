@@ -54,12 +54,12 @@ create view VW_DESCONHECIDO_CARGILL as
 	    titular.DT_ADMISSAO,
 	    titular.NR_REF_CODE CD_PLANO
 	from TB_TITULAR titular
-	    join TB_EMPRESA empresa on
-	    empresa.ID = titular.ID_EMPRESA
 	    join TB_LANCAMENTO lancamento on
-	    lancamento.ID_TITULAR = titular.ID
+			lancamento.ID_TITULAR = titular.ID
 	    join TB_CONTRATO contrato on
-	    contrato.ID = lancamento.ID_CONTRATO	    
+			contrato.ID = lancamento.ID_CONTRATO	    
+	    join TB_EMPRESA empresa on
+			empresa.ID = contrato.ID_EMPRESA            
 	where	empresa.CD_EMPRESA	= 'CARGILL'
 	and		titular.DT_ADMISSAO is null;
 
@@ -116,11 +116,11 @@ select
 	   	end VL_DESCONTO
 	from TB_LANCAMENTO lancamento
 		join TB_TITULAR titular on
-	    titular.ID = lancamento.ID_TITULAR
-	    join TB_EMPRESA empresa on
-	    empresa.ID = titular.ID_EMPRESA
+			titular.ID = lancamento.ID_TITULAR
 	    join TB_CONTRATO contrato on
-	    contrato.ID = lancamento.ID_CONTRATO
+			contrato.ID = lancamento.ID_CONTRATO
+	    join TB_EMPRESA empresa on
+			empresa.ID = contrato.ID_EMPRESA        
 	where	empresa.CD_EMPRESA	= 'CARGILL' 
 	and		titular.NR_MATRICULA not in (
 		select desconhecido.NR_MATRICULA

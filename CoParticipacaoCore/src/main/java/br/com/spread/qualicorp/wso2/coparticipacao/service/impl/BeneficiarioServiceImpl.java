@@ -32,7 +32,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
@@ -541,6 +540,44 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 			}
 
+			LOGGER.debug(
+					"BeneficiarioUi[{}] with CD_CONTRATO[{}]:",
+					beneficiarioUi.getNameBeneficiario(),
+					beneficiarioUi.getCdContrato());
+
+			if (StringUtils.isNotBlank(beneficiarioUi.getCdContrato())) {
+				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
+					if (contrato.getCdContrato().equals(beneficiarioUi.getCdContrato())) {
+						beneficiarioUi.setContrato(contrato);
+						break;
+					}
+				}
+
+				//Momentâneo:
+				if (beneficiarioUi.getContrato() == null) {
+					for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
+						if (UseType.FATUCOPA.equals(contrato.getUseType())) {
+							beneficiarioUi.setContrato(contrato);
+							break;
+						}
+					}
+				}
+			}
+
+			if (beneficiarioUi.getContrato() != null) {
+				LOGGER.debug(
+						"Using ContratoUi[{}] for Beneficiario[{}] with NR_MATRICULA[{}] and NR_CPF[{}]:",
+						beneficiarioUi.getContrato().getCdContrato(),
+						beneficiarioUi.getNameBeneficiario(),
+						beneficiarioUi.getMatricula(),
+						beneficiarioUi.getCpf());
+			} else {
+				throw new BeneficiarioNotFoundException(
+						"BeneficiarioUi[%s] has no ContratoUi defined for CD_CONTRATO[%s]",
+						beneficiarioUi.getNameBeneficiario(),
+						beneficiarioUi.getCdContrato());
+			}
+
 			LOGGER.info("END");
 			return beneficiarioUi;
 		} catch (Exception e) {
@@ -652,7 +689,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						 * Vamos verificar se já não existe um títular com o
 						 * mesmo CPF:
 						 */
-						if (!isTitularCpfInUse(coParticipacaoContext, beneficiarioUi)) {
+						if (!isTitularCpfInUse(coParticipacaoContext, beneficiarioUi)
+								&& !isMatriculaInUse(coParticipacaoContext, beneficiarioUi)) {
 							LOGGER.info(
 									"Titular [{}] with CPF [{}] and Matricula [{}] will be created:",
 									beneficiarioUi.getNameTitular(),
@@ -674,10 +712,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
-							titularUi.setContrato(
-									findContratoByCdContrato(
-											coParticipacaoContext.getEmpresaUi(),
-											beneficiarioUi.getCdContrato()));
+							titularUi.setContrato(beneficiarioUi.getContrato());
 							titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 							titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
 
@@ -726,21 +761,27 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private ContratoUi findContratoByCdContrato(EmpresaUi empresaUi, String cdContrato) throws ServiceException {
-		ContratoUi contratoUi = null;
+	private boolean isMatriculaInUse(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
+			throws ServiceException {
+		TitularUi titularUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			for (Contrato contrato : empresaUi.getContratos()) {
-				if (contrato.getCdContrato().equals(cdContrato)) {
-					contratoUi = (ContratoUi) contrato;
-					break;
+			titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
+
+			if (titularUi != null) {
+				if (titularUi.getContrato().getId().equals(beneficiarioUi.getContrato().getId())) {
+					LOGGER.info(
+							"There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:",
+							titularUi.getCpf(),
+							titularUi.getMatricula());
+					return true;
 				}
 			}
 
 			LOGGER.info("END");
-			return contratoUi;
+			return false;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

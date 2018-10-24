@@ -321,7 +321,7 @@ BEGIN
 	select 	ID into VAR_ID_COLUMN_02_EMPRESA
 	from 	TB_ARQUIVO_INPUT_COLS_DEF
 	where	ID_ARQUIVO_INPUT 	= VAR_ID_ARQUIVO_INPUT
-	and		NM_COLUMN			= 'COLUMN_01_PREFIXO_EMPRESA';
+	and		NM_COLUMN			= 'COLUMN_02_EMPRESA';
 	
 	call PROC_LOG_MESSAGE('LINHA - 1458');
 	/*********************************************************************************************************************************************/

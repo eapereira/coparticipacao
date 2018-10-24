@@ -41,6 +41,8 @@ public abstract class Beneficiario extends AbstractDomain {
 	private Long matriculaTitular;
 	
 	private String cdContrato;
+	
+	private Contrato contrato;
 
 	private BeneficiarioDetail beneficiarioDetail;
 
@@ -266,6 +268,14 @@ public abstract class Beneficiario extends AbstractDomain {
 
 	public void setCdContrato(String cdContrato) {
 		this.cdContrato = cdContrato;
+	}
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 }
