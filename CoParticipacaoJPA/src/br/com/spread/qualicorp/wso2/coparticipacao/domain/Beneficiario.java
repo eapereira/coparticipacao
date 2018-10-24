@@ -39,6 +39,8 @@ public abstract class Beneficiario extends AbstractDomain {
 	private String nameTitular;
 
 	private Long matriculaTitular;
+	
+	private String cdContrato;
 
 	private BeneficiarioDetail beneficiarioDetail;
 
@@ -256,6 +258,14 @@ public abstract class Beneficiario extends AbstractDomain {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+
+	public String getCdContrato() {
+		return cdContrato;
+	}
+
+	public void setCdContrato(String cdContrato) {
+		this.cdContrato = cdContrato;
 	}
 
 }

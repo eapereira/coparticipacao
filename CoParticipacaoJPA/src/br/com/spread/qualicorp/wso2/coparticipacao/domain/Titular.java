@@ -45,7 +45,7 @@ public abstract class Titular extends AbstractDomain {
 
 	private List<TitularIsento> titularIsentos;
 
-	private Empresa empresa;
+	private Contrato contrato;
 
 	private BeneficiarioDetail beneficiarioDetail;
 
@@ -169,14 +169,6 @@ public abstract class Titular extends AbstractDomain {
 		dependente.setTitular(null);
 
 		return dependente;
-	}
-
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
 	}
 
 	public String getLabel() {
@@ -321,6 +313,14 @@ public abstract class Titular extends AbstractDomain {
 		} else if (!titularIsentos.equals(other.titularIsentos))
 			return false;
 		return true;
+	}
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 }

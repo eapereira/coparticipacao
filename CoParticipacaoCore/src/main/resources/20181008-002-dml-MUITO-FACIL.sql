@@ -379,7 +379,20 @@ BEGIN
     		ID_ARQUIVO_INPUT_COLS_DEF	= VAR_ID_COLUMN_22_NR_MATRICULA
     where 	ID_LANCAMENTO_INPUT			= VAR_ID_LANCAMENTO_INPUT
     and		CD_LANCAMENTO_COLS_DEF		= VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE;
+
+    call PROC_LOG_MESSAGE('LINHA - 351');
+    update TB_LANCAMENTO_INPUT_COLS
+    set
+    		CD_LANCAMENTO_COLS_DEF		= VAR_COL_LANCAMENTO_NM_BENEFICIARIO
+    where 	ID_LANCAMENTO_INPUT			= VAR_ID_LANCAMENTO_INPUT
+    and		ID_ARQUIVO_INPUT_COLS_DEF	= VAR_ID_COLUMN_07_NM_BENEFICIARIO;
     
+	call PROC_LOG_MESSAGE('LINHA - 351');
+    delete from TB_LANCAMENTO_INPUT_COLS
+    where 	ID_LANCAMENTO_INPUT			= VAR_ID_LANCAMENTO_INPUT
+    and		CD_LANCAMENTO_COLS_DEF		= VAR_COL_LANCAMENTO_NM_BENEFICIARIO
+    and		ID_ARQUIVO_INPUT_COLS_DEF	= VAR_ID_COLUMN_22_NR_MATRICULA;
+ 
   	call PROC_LOG_MESSAGE('LINHA - 358');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/
@@ -496,6 +509,19 @@ BEGIN
     		ID_ARQUIVO_INPUT_COLS_DEF	= VAR_ID_COLUMN_22_NR_MATRICULA
     where 	ID_LANCAMENTO_INPUT			= VAR_ID_LANCAMENTO_INPUT
     and		CD_LANCAMENTO_COLS_DEF		= VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE;
+
+    call PROC_LOG_MESSAGE('LINHA - 351');
+    update TB_LANCAMENTO_INPUT_COLS
+    set
+    		CD_LANCAMENTO_COLS_DEF		= VAR_COL_LANCAMENTO_NM_BENEFICIARIO
+    where 	ID_LANCAMENTO_INPUT			= VAR_ID_LANCAMENTO_INPUT
+    and		ID_ARQUIVO_INPUT_COLS_DEF	= VAR_ID_COLUMN_07_NM_BENEFICIARIO;
+    
+	call PROC_LOG_MESSAGE('LINHA - 351');
+    delete from TB_LANCAMENTO_INPUT_COLS
+    where 	ID_LANCAMENTO_INPUT			= VAR_ID_LANCAMENTO_INPUT
+    and		CD_LANCAMENTO_COLS_DEF		= VAR_COL_LANCAMENTO_NM_BENEFICIARIO
+    and		ID_ARQUIVO_INPUT_COLS_DEF	= VAR_ID_COLUMN_22_NR_MATRICULA;
     
 	call PROC_LOG_MESSAGE('LINHA - 451');
 	/*********************************************************************************************************************************************/

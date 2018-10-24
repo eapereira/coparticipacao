@@ -93,20 +93,6 @@ public abstract class Empresa extends AbstractDomain {
 		this.titulars = titulars;
 	}
 
-	public Titular removeTitular(Titular titular) {
-		getTitulars().remove(titular);
-		titular.setEmpresa(null);
-
-		return titular;
-	}
-
-	public Titular addTitular(Titular titular) {
-		getTitulars().add(titular);
-		titular.setEmpresa(this);
-
-		return titular;
-	}
-
 	public Operadora getOperadora() {
 		return operadora;
 	}

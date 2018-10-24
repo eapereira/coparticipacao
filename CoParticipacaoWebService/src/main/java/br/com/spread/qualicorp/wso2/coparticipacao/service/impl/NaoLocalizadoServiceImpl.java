@@ -11,6 +11,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
@@ -41,11 +42,19 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
 		TitularUi titularUi;
+		DesconhecidoUi desconhecidoUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			beneficiarioUi = beneficiarioService.createBeneficiarioFromMecsas(coParticipacaoContext);
+
+			desconhecidoUi = coParticipacaoContext.findDesconhecidoByBeneficiario(beneficiarioUi);
+
+			if (desconhecidoUi != null) {
+				beneficiarioUi.setNameTitular(desconhecidoUi.getNameTitular());
+				beneficiarioUi.setCdContrato(desconhecidoUi.getContrato().getCdContrato());
+			}
 
 			if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
 				LOGGER.info("Processing titular:");
@@ -58,6 +67,10 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 
 				if (titularUi == null) {
 					desconhecidoService.createDesconhecido(coParticipacaoContext, beneficiarioUi);
+				} else {
+					if (desconhecidoUi != null) {
+						titularUi.setContrato(desconhecidoUi.getContrato());
+					}
 				}
 			} else {
 				LOGGER.info("Processing beneficiario:");
@@ -67,11 +80,13 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 						beneficiarioUi.getMatricula());
 
 				coParticipacaoContext.setTitularUi(null);
-				
+
 				dependenteUi = beneficiarioService.createDependente(coParticipacaoContext, beneficiarioUi);
 
 				if (dependenteUi == null && coParticipacaoContext.getTitularUi() == null) {
 					desconhecidoService.createDesconhecido(coParticipacaoContext, beneficiarioUi);
+				} else if (coParticipacaoContext.getTitularUi() != null) {
+					coParticipacaoContext.getTitularUi().setContrato(desconhecidoUi.getContrato());
 				}
 			}
 

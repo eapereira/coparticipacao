@@ -12,7 +12,8 @@
 		<![CDATA[
 			select dependente from DependenteEntity dependente
 			join fetch dependente.titular titular
-			join fetch titular.empresa empresa
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa
 			where empresa.id = :empresaId
 			order by dependente.nameDependente
 		]]>
@@ -22,7 +23,8 @@
 		<![CDATA[
 			select dependente from DependenteEntity dependente
 			join fetch dependente.titular titular
-			join fetch titular.empresa empresa
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa
 			where empresa.id = :empresaId
 			and dependente.cpf is not null
 			order by dependente.cpf, dependente.nameDependente
@@ -33,7 +35,8 @@
 		<![CDATA[
 			select dependente from DependenteEntity dependente
 			join fetch dependente.titular titular
-			join fetch titular.empresa empresa
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa			
 			where empresa.id = :empresaId
 			order by dependente.matricula, dependente.nameDependente
 		]]>

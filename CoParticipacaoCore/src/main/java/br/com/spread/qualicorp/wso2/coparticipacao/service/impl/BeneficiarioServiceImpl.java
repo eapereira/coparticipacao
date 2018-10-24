@@ -15,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.EnderecoType;
@@ -31,6 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
@@ -38,7 +40,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicate
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -50,9 +51,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioServiceImpl.class);
-
-	@Autowired
-	private LancamentoDetailService lancamentoDetailService;
 
 	@Autowired
 	private EmpresaService empresaService;
@@ -239,6 +237,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.setDigitoCpf((Integer) value);
 				} else if (BeneficiarioColType.NR_MATRICULA_EMPRESA.equals(beneficiarioColType)) {
 					beneficiarioUi.setMatriculaEmpresa((Long) value);
+				} else if (BeneficiarioColType.CD_CONTRATO.equals(beneficiarioColType)) {
+					beneficiarioUi.setCdContrato((String) value);
 				} else {
 					defineBeneficiarioDetails(beneficiarioUi, beneficiarioColType, value);
 				}
@@ -674,7 +674,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
-							titularUi.setEmpresa(coParticipacaoContext.getEmpresaUi());
+							titularUi.setContrato(
+									findContratoByCdContrato(
+											coParticipacaoContext.getEmpresaUi(),
+											beneficiarioUi.getCdContrato()));
 							titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 							titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
 
@@ -717,6 +720,27 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		} catch (TitularDuplicated e) {
 			LOGGER.info(e.getMessage());
 			throw e;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private ContratoUi findContratoByCdContrato(EmpresaUi empresaUi, String cdContrato) throws ServiceException {
+		ContratoUi contratoUi = null;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (Contrato contrato : empresaUi.getContratos()) {
+				if (contrato.getCdContrato().equals(cdContrato)) {
+					contratoUi = (ContratoUi) contrato;
+					break;
+				}
+			}
+
+			LOGGER.info("END");
+			return contratoUi;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -1057,7 +1081,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			titularUi = coParticipacaoContext.findTitularByCpf(beneficiarioUi.getCpf());
 
 			if (titularUi == null) {
-				titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
+				titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
+						beneficiarioUi.getMatricula(),
+						beneficiarioUi.getNameBeneficiario());
 			}
 
 			LOGGER.info("END");

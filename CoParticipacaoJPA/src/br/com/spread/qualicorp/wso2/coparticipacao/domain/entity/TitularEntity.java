@@ -17,8 +17,8 @@ import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
@@ -94,12 +94,12 @@ public class TitularEntity extends Titular implements DomainEntity {
 		return super.getDependentes();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = EmpresaEntity.class)
-	@JoinColumn(name = "ID_EMPRESA")
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
+	@JoinColumn(name = "ID_CONTRATO")
 	@Override
-	public Empresa getEmpresa() {
+	public Contrato getContrato() {
 		// TODO Auto-generated method stub
-		return super.getEmpresa();
+		return super.getContrato();
 	}
 
 	@Column(name = "NM_LABEL")

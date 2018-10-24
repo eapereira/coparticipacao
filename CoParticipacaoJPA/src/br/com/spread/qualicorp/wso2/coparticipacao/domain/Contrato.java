@@ -47,12 +47,15 @@ public abstract class Contrato extends AbstractDomain {
 
 	private List<Contrato> children;
 
+	private List<Titular> titulars;
+
 	public Contrato() {
 		lancamentos = new ArrayList<>();
 		arquivoExecucaos = new ArrayList<>();
 		titularIsentos = new ArrayList<>();
 		dependenteIsentos = new ArrayList<>();
 		children = new ArrayList<>();
+		titulars = new ArrayList<>();
 
 		spreadsheetAllPages = Boolean.FALSE;
 	}
@@ -311,4 +314,23 @@ public abstract class Contrato extends AbstractDomain {
 		getChildren().remove(contrato);
 		contrato.setParent(null);
 	}
+
+	public List<Titular> getTitulars() {
+		return titulars;
+	}
+
+	public void setTitulars(List<Titular> titulars) {
+		this.titulars = titulars;
+	}
+
+	public void addTitular(Titular titular) {
+		getTitulars().add(titular);
+		titular.setContrato(this);
+	}
+
+	public void removeTitular(Titular titular) {
+		getTitulars().remove(titular);
+		titular.setContrato(null);
+	}
+
 }

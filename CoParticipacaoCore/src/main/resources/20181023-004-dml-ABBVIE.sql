@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181013-001-dml-MUITO-FACIL.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181013-002-dml-MUITO-FACIL.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181023-003-dml-MARJAN.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181023-004-dml-ABBVIE.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -35,6 +35,7 @@ BEGIN
 	declare VAR_COL_DOUBLE					int( 3 ) default 2;
 	
 	declare VAR_CD_ORDEM					int( 3 ) default 0;
+	declare VAR_DT_FORMAT					varchar( 40 ) default 'dd/MM/yy';
 	
 	declare VAR_ARQUIVO_TYPE_FLATFILE		int( 3 ) default 1;
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
@@ -45,18 +46,84 @@ BEGIN
 	DECLARE VAR_ID_EMPRESA 							bigint( 17 );
 	DECLARE VAR_ID_CONTRATO 						bigint( 17 );
 	
-	declare VAR_ID_ARQUIVO_INPUT					bigint( 17 );
-	
-	declare VAR_ID_ARQUIVO_INPUT_MECSAS 			bigint( 17 );
+	declare VAR_ID_ARQUIVO_INPUT					bigint( 17 );	
+    declare VAR_ID_ARQUIVO_INPUT_SHEET				bigint( 17 );	
 	declare VAR_ID_ARQUIVO_INPUT_ISENTOS			bigint( 17 );
 	declare VAR_ARQUIVO_INPUT_LAYOUT				bigint( 17 );
 
-	declare VAR_COLUMN_01_NR_MATRICULA				bigint( 17 );
-	declare VAR_COLUMN_02_NM_BENEFICIARIO			bigint( 17 );
-	declare VAR_COLUMN_03_NR_CPF					bigint( 17 );
-	declare VAR_COLUMN_04_NM_TITULAR				bigint( 17 );
-	
-	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
+	declare VAR_ID_COLUMN_01_CD_CONTRATO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_02_NR_MATRICULA 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_03_DV 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_04_RDP 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_05_DC 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_06_LOCAL 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_07_CAT_FUNCIONAL 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_08_SETOR 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_09_ESTADO_CIVIL 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_10_CD_PLANO 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_11_CD_PLANO_AGREG 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_12_DT_INCLUSAO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_13_CD_PLANO_COMPL 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_14_NR_CPF 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_15_DG_CPF 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_16_BANCO 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_17_AGENCIA 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_18_DG_AGENCIA 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_19_CONTA 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_20 						bigint( 17 ); 
+	declare VAR_ID_COLUMN_21_NM_BENEFICIARIO 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_22_DT_NASCIMENTO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_23_SEXO 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_24_PERMANENCIA 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_25_GP 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_26_AGREGADO 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_27_DT_EXCLUSAO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_28_CARENCIA 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_29 						bigint( 17 ); 
+	declare VAR_ID_COLUMN_30_DT_REF 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_31_CD_ORGAO_LOTACAO 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_32_NM_ORGAO_LOTACAO 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_33 						bigint( 17 ); 
+	declare VAR_ID_COLUMN_34_CD_MOTIVO_EXCLUSAO 	bigint( 17 ); 
+	declare VAR_ID_COLUMN_35_CEP 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_36_TP_LOGRADOURO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_37_LOGRADOURO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_38_NUMERO 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_39_COMPL 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_40_BAIRRO 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_41_MUNICIPIO 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_42_UF 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_43_DDD_TEL_RES 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_44_TEL_RES 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_45_DDD_TEL_COM 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_46_TEL_COM 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_47_DDD_TEL_CEL	 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_48_TEL_CEL 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_49_NM_MAE 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_50_RG 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_51_CD_ORGAO_EMISSOR 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_52_CD_PAIS 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_53_DT_EMISSAO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_54_UF_EMISSAO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_55_NR_PIS 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_56_NR_CNS 				bigint( 17 ); 
+	declare VAR_ID_COLUMN_57_EMAIL 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_58_CD_ESCOLARIDADE 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_59_CD_RENDA_FAMILIAR 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_60_CD_PROFISSAO_TIT 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_61_CD_PAIS_ORIGEM 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_62_CD_IDENTIFICACAO 		bigint( 17 ); 
+	declare VAR_ID_COLUMN_63_CD_OPERACAO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_64_CRITICAS_01 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_65_CRITICAS_02 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_66_CRITICAS_03 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_67_CRITICAS_04 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_68_CRITICAS_05 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_69_CRITICAS_06 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_70_CRITICAS_07 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_71_CRITICAS_08 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_72_CRITICAS_09 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_73_CRITICAS_10 			bigint( 17 ); 	
 		
 	declare VAR_ID_REGRA												bigint( 17 );
 	declare VAR_ID_REGRA_OPERATION										bigint( 17 );
@@ -68,7 +135,6 @@ BEGIN
 	
 	declare VAR_ID_ARQUIVO_OUTPUT										bigint( 17 );
     declare VAR_ID_VIEW_DESTINATION										bigint( 17 );
-    
 	declare VAR_VIEW_DESTINATION_RESUMO_HOC 							bigint( 17 );
 	declare VAR_VIEW_DESTINATION_ORIGINAL_HOC 							bigint( 17 );
 	declare VAR_VIEW_DESTINATION_ISENCAO_GESTANTES_HOC 					bigint( 17 );
@@ -85,44 +151,24 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NM_DEPENDENTE							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
 
-	declare VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE					bigint( 17 ) default 1;
+	declare VAR_COL_LANCAMENTO_ID_DEPENDENTE							bigint( 17 ) default 1;
 	declare VAR_COL_LANCAMENTO_ID_CONTRATO								bigint( 17 ) default 2;
 	declare VAR_COL_LANCAMENTO_CD_MES									bigint( 17 ) default 3;
 	declare VAR_COL_LANCAMENTO_CD_ANO									bigint( 17 ) default 4;
 	declare VAR_COL_LANCAMENTO_VL_PRINCIPAL								bigint( 17 ) default 5;
-	declare VAR_COL_LANCAMENTO_DT_MOVIMENTO								bigint( 17 ) default 6;
-	declare VAR_COL_LANCAMENTO_TP_VALOR									bigint( 17 ) default 7;
-	declare VAR_COL_LANCAMENTO_NR_MATRICULA_TITULAR						bigint( 17 ) default 8;
-	declare VAR_COL_LANCAMENTO_NR_CPF									bigint( 17 ) default 9;	
-	declare VAR_COL_LANCAMENTO_NM_BENEFICIARIO							bigint( 17 ) default 10;
-	declare VAR_COL_LANCAMENTO_NM_TITULAR								bigint( 17 ) default 11;
-	declare VAR_COL_LANCAMENTO_DT_NASCIMENTO							bigint( 17 ) default 12;	
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
     
-	declare VAR_CD_ISENTO_COLS_DEF_TP_ISENTO							bigint( 17 ) default 1;
-	declare VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA							bigint( 17 ) default 2;
-	declare VAR_CD_ISENTO_COLS_DEF_NM_BENEFICIARIO						bigint( 17 ) default 3;
-	declare VAR_CD_ISENTO_COLS_DEF_DT_NASCIMENTO						bigint( 17 ) default 4;
-	declare VAR_CD_ISENTO_COLS_DEF_NR_CPF								bigint( 17 ) default 5;
-	declare VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_TITULAR					bigint( 17 ) default 6;
-	declare VAR_CD_ISENTO_COLS_DEF_NM_TITULAR							bigint( 17 ) default 7;
-	declare VAR_CD_ISENTO_COLS_DEF_VL_ISENCAO							bigint( 17 ) default 8;
-	
-	declare VAR_TP_REGRA_SIMPLES										int( 3 )  default 1;
-	declare VAR_TP_REGRA_CONDITIONAL									int( 3 )  default 2;
-	
-	declare VAR_TP_REGRA_OPERATION_ADD									int( 3 )  default 1;
-	declare VAR_TP_REGRA_OPERATION_SUBSTRACT							int( 3 )  default 2;
-	declare VAR_TP_REGRA_OPERATION_DIVIDE								int( 3 )  default 3;
-	declare VAR_TP_REGRA_OPERATION_MULTIPLY								int( 3 )  default 4;
-	declare VAR_TP_REGRA_OPERATION_EQUALS								int( 3 )  default 5;
-	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS							int( 3 )  default 6;
-		
-	declare VAR_TP_ISENTO_GRAVIDA										int( 3 ) default 1;
-	declare VAR_TP_ISENTO_VALOR											int( 3 ) default 7;
-	declare VAR_TP_ISENTO_VALOR_CENTAVO									int( 3 ) default 8;
-	
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NM_DEPENDENTE					bigint( 17 ) default 4;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NM_TITULAR						bigint( 17 ) default 3;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CPF_DEPENDENTE				bigint( 17 ) default 8;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CPF_TITULAR					bigint( 17 ) default 7;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA_TITULAR			bigint( 17 ) default 1;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_VL_PRINCIPAL					bigint( 17 ) default 9;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_DT_ADMISSAO					bigint( 17 ) default 10;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CODE_REF					bigint( 17 ) default 11;
+
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_BENEFICIARIO				bigint( 17 ) default 1;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO				bigint( 17 ) default 3;
@@ -225,11 +271,26 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_IBGE                         	bigint( 17 ) default 101;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_CBO                          	bigint( 17 ) default 102;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_DIF_TRANSF                    	bigint( 17 ) default 103;		
-	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO                    	bigint( 17 ) default 107;
+	declare VAR_CD_BENEFICIARIO_COLS_DESCR_PROFISSAO                 	bigint( 17 ) default 104;
+	declare VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL           	bigint( 17 ) default 105;
+	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR              	bigint( 17 ) default 106;
+	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO     		         	bigint( 17 ) default 107;
 	
-	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção por valor';
-	declare VAR_NR_MATRICULA_BASE										bigint( 17 ) default 44400000000000;
+	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
+	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;
 	
+	declare VAR_TP_REGRA_OPERATION_ADD										int( 3 )  default 1;
+	declare VAR_TP_REGRA_OPERATION_SUBSTRACT								int( 3 )  default 2;
+	declare VAR_TP_REGRA_OPERATION_DIVIDE									int( 3 )  default 3;
+	declare VAR_TP_REGRA_OPERATION_MULTIPLY									int( 3 )  default 4;
+	declare VAR_TP_REGRA_OPERATION_EQUALS									int( 3 )  default 5;
+	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS								int( 3 )  default 6;
+	
+	declare VAR_CD_FORMAT_DDMMYY											varchar( 15 ) default 'dd/MMM/yy';
+	declare VAR_CD_FORMAT_DDMMYYYY											varchar( 15 ) default 'dd/MMM/yyyy';
+	
+	declare CD_SHEET_TITULAR												int( 3 ) default 0;
+	declare CD_SHEET_DEPENDENTE												int( 3 ) default 4;
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -248,38 +309,41 @@ BEGIN
 	START TRANSACTION;
 	
 	call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
-	/***********************************************************************************************************************/
-	/***********************************************************************************************************************/		
-	/* BENEFICIÁRIO */	
-    
-    call PROC_LOG_MESSAGE('LINHA - 333');
-	set VAR_ID_ARQUIVO_INPUT = FUNC_FIND_ARQUIVO_INPUT( 'MUITO-FACIL','NAO-LOCALIZADO');
-
-	call PROC_LOG_MESSAGE('LINHA - 257');
-	select	ID into VAR_COLUMN_04_NM_TITULAR
-	from 	TB_ARQUIVO_INPUT_COLS_DEF
-	where 	ID_ARQUIVO_INPUT	= VAR_ID_ARQUIVO_INPUT
-	and		NM_COLUMN			= 'COLUMN_04_NM_TITULAR';	
-	
-	call PROC_LOG_MESSAGE('LINHA - 264');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR,
-		VAR_COLUMN_04_NM_TITULAR,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 280');
 	/*********************************************************************************************************************************************/
-	/*********************************************************************************************************************************************/		
+	/*********************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 254');
+	set VAR_ID_ARQUIVO_INPUT = FUNC_FIND_ARQUIVO_INPUT( 'ABBVIE','MECSAS');
+	
+	call PROC_LOG_MESSAGE('LINHA - 257');
+	select 	ID into VAR_ID_COLUMN_01_CD_CONTRATO
+	from 	TB_ARQUIVO_INPUT_COLS_DEF
+	where	ID_ARQUIVO_INPUT 	= VAR_ID_ARQUIVO_INPUT
+	and		NM_COLUMN			= 'COLUMN_01_CD_CONTRATO';
+	
+	call PROC_LOG_MESSAGE('LINHA - 1458');
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/	
+	/* BENEFICIÁRIO TITULAR */
+	
+    call PROC_LOG_MESSAGE( 'LINHA - 2527' );
+    insert into TB_BENEFICIARIO_COLS(
+        CD_BENEFICIARIO_COLS_DEF,
+        ID_ARQUIVO_INPUT_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO,
+        VAR_ID_COLUMN_01_CD_CONTRATO,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+	
+	call PROC_LOG_MESSAGE('LINHA - 1559');
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/	
 	call PROC_UPDATE_SCRIPT( VAR_NM_SCRIPT );
 	
 	COMMIT;
@@ -290,4 +354,3 @@ END
 $$
 
 call PROC_CREATE_HOC(); 
-

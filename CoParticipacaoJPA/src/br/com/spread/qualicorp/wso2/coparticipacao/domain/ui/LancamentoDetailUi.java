@@ -28,6 +28,8 @@ public class LancamentoDetailUi implements Serializable {
 	private LocalDate dtMovimento;
 	private ValorType valorType;
 	private LocalDate dtNascimento;
+	
+	private String cdContrato;
 
 	private ContratoUi contratoUi;
 	private TitularUi titularUi;
@@ -168,6 +170,14 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setValorParticipacao(BigDecimal valorParticipacao) {
 		this.valorParticipacao = valorParticipacao;
+	}
+
+	public String getCdContrato() {
+		return cdContrato;
+	}
+
+	public void setCdContrato(String cdContrato) {
+		this.cdContrato = cdContrato;
 	}
 
 }

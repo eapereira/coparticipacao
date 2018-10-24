@@ -19,6 +19,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.UseTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
@@ -131,6 +132,18 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 	public List<Contrato> getChildren() {
 		// TODO Auto-generated method stub
 		return super.getChildren();
+	}
+
+	// bi-directional many-to-one association to Contrato
+	@OneToMany(
+			mappedBy = "contrato",
+			targetEntity = TitularEntity.class,
+			fetch = FetchType.LAZY,
+			cascade = CascadeType.ALL)
+	@Override
+	public List<Titular> getTitulars() {
+		// TODO Auto-generated method stub
+		return super.getTitulars();
 	}
 
 }

@@ -28,7 +28,8 @@
 			select dependenteIsento from DependenteIsentoEntity dependenteIsento
 			join fetch dependenteIsento.dependente dependente
 			join dependente.titular titular
-			join titular.empresa empresa
+			join titular.contrato contrato
+			join contrato.empresa empresa
 			where empresa.id = :empresaId
 		]]>
 	</query>

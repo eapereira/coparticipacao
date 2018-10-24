@@ -115,8 +115,10 @@ public class CoParticipacaoContext {
 	private List<ArquivoInputSheetUi> arquivoInputSheetUis;
 
 	private List<ReportUi> reportUis;
-	
+
 	private LancamentoDetailUi lancamentoDetailUi;
+
+	private List<DesconhecidoUi> desconhecidoUis;
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
@@ -136,11 +138,10 @@ public class CoParticipacaoContext {
 		isentoInputSheetUis = new ArrayList<IsentoInputSheetUi>();
 
 		arquivoInputSheetUis = new ArrayList<ArquivoInputSheetUi>();
+		desconhecidoUis = new ArrayList<DesconhecidoUi>();
 
 		reportUis = new ArrayList<ReportUi>();
-
 		mapLine = new HashMap<String, Object>();
-
 		bunker = new Bunker();
 
 		currentLine = NumberUtils.INTEGER_ONE;
@@ -684,6 +685,27 @@ public class CoParticipacaoContext {
 
 	public void setLancamentoDetailUi(LancamentoDetailUi lancamentoDetailUi) {
 		this.lancamentoDetailUi = lancamentoDetailUi;
+	}
+
+	public List<DesconhecidoUi> getDesconhecidoUis() {
+		return desconhecidoUis;
+	}
+
+	public void setDesconhecidoUis(List<DesconhecidoUi> desconhecidoUis) {
+		this.desconhecidoUis = desconhecidoUis;
+	}
+
+	public DesconhecidoUi findDesconhecidoByBeneficiario(BeneficiarioUi beneficiarioUi) {
+		LOGGER.info("BEGIN");
+
+		for (DesconhecidoUi desconhecidoUi : getDesconhecidoUis()) {
+			if (desconhecidoUi.getNameBeneficiario().equals(beneficiarioUi.getNameBeneficiario())) {
+				return desconhecidoUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
 	}
 
 }

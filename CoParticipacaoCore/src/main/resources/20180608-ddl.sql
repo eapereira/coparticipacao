@@ -4,6 +4,9 @@
  * Edson - 08/06/2018
  */
 
+drop table if exists TB_LANCAMENTO_INPUT_SHEET_COLS;
+drop table if exists TB_LANCAMENTO_INPUT_SHEET;
+ 
 drop table if exists TB_REPORT;
 
 drop table if exists TB_SCRIPT;
@@ -665,7 +668,7 @@ create table TB_TITULAR(
 	NM_LABEL				varchar( 400 ) null,
 	NR_REF_CODE				bigint( 17 ) null,
 	
-	VERSION		bigint( 17 ) null,
+	VERSION					bigint( 17 ) null,
 	 
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
@@ -692,7 +695,7 @@ create table TB_TITULAR_DETAIL(
 	VL_LONG						bigint( 17 ) null,
 	VL_STRING					varchar( 500 ),
 	
-	VERSION		bigint( 17 ) null,
+	VERSION						bigint( 17 ) null,
 	 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),

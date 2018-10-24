@@ -26,6 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
@@ -52,6 +53,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputSheetServ
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioColsService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.CoParticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.FatucopaService;
@@ -158,6 +160,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	@Autowired
 	private ReportService reportService;
 
+	@Autowired
+	private DesconhecidoService desconhecidoService;
+
 	private static final Long USER_ADMIN_ID = 1l;
 
 	public CoParticipacaoInfo processExecucaoId(Long execucaoId) throws ServiceException {
@@ -202,7 +207,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			stopWatch.stop();
 
-			LOGGER.info("CoParticipacao task ExecucaoUi[{}] completed with [{}] min:", execucaoUi.getId(),
+			LOGGER.info(
+					"CoParticipacao task ExecucaoUi[{}] completed with [{}] min:",
+					execucaoUi.getId(),
 					stopWatch.getTotalTimeMinutes());
 			LOGGER.info("END");
 			return coParticipacaoInfo;
@@ -250,8 +257,10 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		}
 	}
 
-	protected void moveExecucaoToDirectory(CoParticipacaoContext coParticipacaoContext,
-			ArquivoExecucaoUi arquivoExecucaoUi, String destPathDir) throws ServiceException {
+	protected void moveExecucaoToDirectory(
+			CoParticipacaoContext coParticipacaoContext,
+			ArquivoExecucaoUi arquivoExecucaoUi,
+			String destPathDir) throws ServiceException {
 		File file;
 		File destFile;
 		EmpresaUi empresaUi;
@@ -262,7 +271,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			empresaUi = coParticipacaoContext.getEmpresaUi();
 
-			LOGGER.info("Moving file[{}] to [{}]:", arquivoExecucaoUi.getSimpleNameArquivoInput(),
+			LOGGER.info(
+					"Moving file[{}] to [{}]:",
+					arquivoExecucaoUi.getSimpleNameArquivoInput(),
 					empresaUi.getOutputDir());
 
 			sb = new StringBuilder();
@@ -307,7 +318,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			if (!coParticipacaoContext.getArquivoInputColsDefUis().isEmpty()) {
 				loadFileInputData(arquivoExecucaoUi, coParticipacaoContext);
 			} else {
-				throw new ServiceException("O arquivo [%s] não possui colunas definidas.",
+				throw new ServiceException(
+						"O arquivo [%s] não possui colunas definidas.",
 						arquivoExecucaoUi.getSimpleNameArquivoInput());
 			}
 
@@ -382,17 +394,17 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				loadLancamentoDefinitions(coParticipacaoContext);
 
 				if (ArquivoType.FIXED_LENGTH.equals(arquivoInputUi.getArquivoType())) {
-					fixedLengthProcessorService.readInputStream(coParticipacaoContext,
-							(ProcessorListener) fatucopaService);
+					fixedLengthProcessorService
+							.readInputStream(coParticipacaoContext, (ProcessorListener) fatucopaService);
 				} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 					csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) fatucopaService);
 				} else if (ArquivoType.SPREADSHEET.equals(arquivoInputUi.getArquivoType())) {
 					if (!coParticipacaoContext.getArquivoInputSheetUis().isEmpty()) {
-						spreadsheetMultiSheetProcessorService.readInputStream(coParticipacaoContext,
-								(ProcessorListener) fatucopaService);
+						spreadsheetMultiSheetProcessorService
+								.readInputStream(coParticipacaoContext, (ProcessorListener) fatucopaService);
 					} else {
-						spreadsheetProcessorService.readInputStream(coParticipacaoContext,
-								(ProcessorListener) fatucopaService);
+						spreadsheetProcessorService
+								.readInputStream(coParticipacaoContext, (ProcessorListener) fatucopaService);
 					}
 				}
 
@@ -403,17 +415,17 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				loadMecsasDefinitions(coParticipacaoContext);
 
 				if (ArquivoType.FIXED_LENGTH.equals(arquivoInputUi.getArquivoType())) {
-					fixedLengthProcessorService.readInputStream(coParticipacaoContext,
-							(ProcessorListener) mecsasService);
+					fixedLengthProcessorService
+							.readInputStream(coParticipacaoContext, (ProcessorListener) mecsasService);
 				} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 					csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) mecsasService);
 				} else if (ArquivoType.SPREADSHEET.equals(arquivoInputUi.getArquivoType())) {
 					if (!coParticipacaoContext.getArquivoInputSheetUis().isEmpty()) {
-						spreadsheetMultiSheetProcessorService.readInputStream(coParticipacaoContext,
-								(ProcessorListener) mecsasService);
+						spreadsheetMultiSheetProcessorService
+								.readInputStream(coParticipacaoContext, (ProcessorListener) mecsasService);
 					} else {
-						spreadsheetProcessorService.readInputStream(coParticipacaoContext,
-								(ProcessorListener) mecsasService);
+						spreadsheetProcessorService
+								.readInputStream(coParticipacaoContext, (ProcessorListener) mecsasService);
 					}
 				}
 			} else if (UseType.ISENTO.equals(arquivoInputUi.getUseType())) {
@@ -422,19 +434,19 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				loadIsentoDefinitions(coParticipacaoContext);
 
 				if (ArquivoType.FIXED_LENGTH.equals(arquivoInputUi.getArquivoType())) {
-					fixedLengthProcessorService.readInputStream(coParticipacaoContext,
-							(ProcessorListener) isentoService);
+					fixedLengthProcessorService
+							.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
 				} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 					csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
 				} else if (ArquivoType.SPREADSHEET.equals(arquivoInputUi.getArquivoType())) {
-					isentoSpreadsheetProcessorService.readInputStream(coParticipacaoContext,
-							(ProcessorListener) isentoService);
+					isentoSpreadsheetProcessorService
+							.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
 				}
 			} else if (UseType.NAO_LOCALIZADO.equals(arquivoInputUi.getUseType())) {
 				changeThreadName(coParticipacaoContext, "NaoLocalizadoService");
 
-				spreadsheetProcessorService.readInputStream(coParticipacaoContext,
-						(ProcessorListener) naoLocalizadoService);
+				spreadsheetProcessorService
+						.readInputStream(coParticipacaoContext, (ProcessorListener) naoLocalizadoService);
 			}
 
 			changeThreadName(coParticipacaoContext, null);
@@ -478,6 +490,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		PartitionMap<DependenteUi> mapDependenteUi;
 		List<ArquivoInputSheetUi> arquivoInputSheetUis;
 		List<ReportUi> reportUis;
+		List<DesconhecidoUi> desconhecidoUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -493,11 +506,13 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
 
 			if (beneficiarioColsUis.isEmpty()) {
-				LOGGER.info("Didn't found mappings at BeneficiarioCols for ArquivoInput[{}]:",
+				LOGGER.info(
+						"Didn't found mappings at BeneficiarioCols for ArquivoInput[{}]:",
 						coParticipacaoContext.getArquivoInputUi().getNameArquivoRegexp());
 			}
 
-			LOGGER.info("Loading ArquivoInputSheetUi information if the current ArquivoInputUi[{}] use it:",
+			LOGGER.info(
+					"Loading ArquivoInputSheetUi information if the current ArquivoInputUi[{}] use it:",
 					coParticipacaoContext.getContratoUi().getCdContrato());
 			arquivoInputSheetUis = arquivoInputSheetService
 					.listByArquivoInput(coParticipacaoContext.getArquivoInputUi());
@@ -514,10 +529,13 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			}
 
 			if (!dependenteUis.isEmpty()) {
-				mapDependenteUi = new PartitionMap<DependenteUi>(dependenteUis,
+				mapDependenteUi = new PartitionMap<DependenteUi>(
+						dependenteUis,
 						new DependenteByCpfAndNameMapKeyBuilder());
 				coParticipacaoContext.setMapDependenteUiByCpf(mapDependenteUi);
 			}
+
+			desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
 
 			LOGGER.info("Loading Beneficiários data by Matricula and Name:");
 			titularUis = titularService.listByEmpresaIdOrderByMatriculaAndName(empresaUi);
@@ -529,7 +547,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			}
 
 			if (!dependenteUis.isEmpty()) {
-				mapDependenteUi = new PartitionMap<DependenteUi>(dependenteUis,
+				mapDependenteUi = new PartitionMap<DependenteUi>(
+						dependenteUis,
 						new DependenteByMatriculaAndNameMapKeyBuilder());
 				coParticipacaoContext.setMapDependenteUiByMatricula(mapDependenteUi);
 			}
@@ -541,6 +560,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);
 			coParticipacaoContext.setBeneficiarioColsUis(beneficiarioColsUis);
+			coParticipacaoContext.setDesconhecidoUis(desconhecidoUis);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -598,9 +618,13 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			regraConditionalUis = regraConditionalService
 					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
 
-			LOGGER.info("Loading [{}] Regras to use with ArquivoInput [{}]:", regraUis.size(),
+			LOGGER.info(
+					"Loading [{}] Regras to use with ArquivoInput [{}]:",
+					regraUis.size(),
 					coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
-			LOGGER.info("Loading [{}] RegraCondicionais to use with ArquivoInput [{}]:", regraConditionalUis.size(),
+			LOGGER.info(
+					"Loading [{}] RegraCondicionais to use with ArquivoInput [{}]:",
+					regraConditionalUis.size(),
 					coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 
 			coParticipacaoContext.getRegraUis().addAll(regraUis);
@@ -623,8 +647,12 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			thread = Thread.currentThread();
 
 			if (threadName != null) {
-				thread.setName(String.format("%s::%s.%s", thread.getName(), threadName,
-						coParticipacaoContext.getContratoUi().getCdContrato()));
+				thread.setName(
+						String.format(
+								"%s::%s.%s",
+								thread.getName(),
+								threadName,
+								coParticipacaoContext.getContratoUi().getCdContrato()));
 			} else {
 				thread.setName("main");
 			}

@@ -16,7 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
  */
 public class TitularSetter extends BeneficiarioSetter<TitularEntity> {
 
-	private static final int COL_ID_EMPRESA = 1;
+	private static final int COL_ID_CONTRATO = 1;
 	private static final int COL_NR_MATRICULA = 2;
 	private static final int COL_NM_TITULAR = 3;
 	private static final int COL_NR_CPF = 4;
@@ -55,7 +55,7 @@ public class TitularSetter extends BeneficiarioSetter<TitularEntity> {
 	}
 
 	protected void setCommonValues(PreparedStatement ps) throws SQLException {
-		ps.setLong(COL_ID_EMPRESA, getEntity().getEmpresa().getId());
+		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
 		ps.setLong(COL_NR_MATRICULA, getEntity().getMatricula());
 		ps.setString(COL_NM_TITULAR, getEntity().getNameTitular());
 		ps.setLong(COL_NR_CPF, getEntity().getCpf());

@@ -216,6 +216,30 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+
+	call PROC_LOG_MESSAGE('LINHA - 262');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+        TP_USO,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'00195',
+	    '00195',
+	    VAR_NM_CONTRATO_COPARTICIPACAO,
+	    VAR_USE_TYPE_FATUCOPA,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
 	
 	call PROC_LOG_MESSAGE('LINHA - 262');
 	insert into TB_CONTRATO(
@@ -231,6 +255,30 @@ BEGIN
 	    VAR_ID_EMPRESA,
 		'00197',
 	    '00197',
+	    VAR_NM_CONTRATO_COPARTICIPACAO,
+	    VAR_USE_TYPE_FATUCOPA,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+
+	call PROC_LOG_MESSAGE('LINHA - 262');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+        TP_USO,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'00297',
+	    '00297',
 	    VAR_NM_CONTRATO_COPARTICIPACAO,
 	    VAR_USE_TYPE_FATUCOPA,
 	    

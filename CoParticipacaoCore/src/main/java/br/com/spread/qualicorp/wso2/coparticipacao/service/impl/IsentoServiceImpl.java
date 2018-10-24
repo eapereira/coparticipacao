@@ -105,13 +105,13 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 				}
 			}
 
-			LOGGER.info(
-					"Validating BeneficiarioIsentoUi with NM_BENEFICIARIO[{}], NR_MATRICULA[{}] and NR_CPF[{}]:",
-					beneficiarioIsentoUi.getName(),
-					beneficiarioIsentoUi.getMatricula(),
-					beneficiarioIsentoUi.getCpf());
-
 			if (beneficiarioIsentoUi != null) {
+				LOGGER.info(
+						"Validating BeneficiarioIsentoUi with NM_BENEFICIARIO[{}], NR_MATRICULA[{}] and NR_CPF[{}]:",
+						beneficiarioIsentoUi.getName(),
+						beneficiarioIsentoUi.getMatricula(),
+						beneficiarioIsentoUi.getCpf());
+
 				if (beneficiarioIsentoUi.getCpf() != null) {
 					titularUi = coParticipacaoContext
 							.findTitularByCpfAndName(beneficiarioIsentoUi.getCpf(), beneficiarioIsentoUi.getName());

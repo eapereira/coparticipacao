@@ -214,6 +214,7 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DESCR_PROFISSAO                 	bigint( 17 ) default 104;
 	declare VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL           	bigint( 17 ) default 105;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR              	bigint( 17 ) default 106;
+	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO     		         	bigint( 17 ) default 107;
 	
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;

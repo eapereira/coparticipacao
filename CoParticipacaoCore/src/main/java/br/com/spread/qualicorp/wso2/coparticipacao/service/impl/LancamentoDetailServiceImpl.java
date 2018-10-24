@@ -36,42 +36,44 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 		try {
 			LOGGER.info("BEGIN");
 
-			lancamentoColType = lancamentoInputColsUi.getLancamentoColType();
+			if (value != null) {
+				lancamentoColType = lancamentoInputColsUi.getLancamentoColType();
 
-			if (LancamentoColType.CD_MES.equals(lancamentoColType)) {
-				lancamentoDetailUi.setMes((Integer) value);
-			} else if (LancamentoColType.CD_ANO.equals(lancamentoColType)) {
-				lancamentoDetailUi.setAno((Integer) value);
-			} else if (LancamentoColType.DT_MOVIMENTO.equals(lancamentoColType)) {
-				dtMovimento = (LocalDate) value;
+				if (LancamentoColType.CD_MES.equals(lancamentoColType)) {
+					lancamentoDetailUi.setMes((Integer) value);
+				} else if (LancamentoColType.CD_ANO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setAno((Integer) value);
+				} else if (LancamentoColType.DT_MOVIMENTO.equals(lancamentoColType)) {
+					dtMovimento = (LocalDate) value;
 
-				lancamentoDetailUi.setDtMovimento(dtMovimento);
-				lancamentoDetailUi.setMes(dtMovimento.getMonthValue());
-				lancamentoDetailUi.setAno(dtMovimento.getYear());
-			} else if (LancamentoColType.ID_CONTRATO.equals(lancamentoColType)) {
-				// lancamentoDetailUi.setContratoUi((ContratoUi) value);
-			} else if (LancamentoColType.NR_CPF.equals(lancamentoColType)) {
-				lancamentoDetailUi.setCpf((Long) value);
-			} else if (LancamentoColType.NR_MATRICULA_DEPENDENTE.equals(lancamentoColType)) {
-				lancamentoDetailUi.setMatriculaDependente((Long) value);
-			} else if (LancamentoColType.NR_MATRICULA_TITULAR.equals(lancamentoColType)) {
-				lancamentoDetailUi.setMatriculaTitular((Long) value);
-			} else if (LancamentoColType.VL_PRINCIPAL.equals(lancamentoColType)) {
-				lancamentoDetailUi.setValorPrincipal((BigDecimal) value);
-			} else if (LancamentoColType.TP_VALOR.equals(lancamentoColType)) {
-				lancamentoDetailUi.setValorType(ValorType.parse((String) value));
-			} else if (LancamentoColType.NM_BENEFICIARIO.equals(lancamentoColType)) {
-				lancamentoDetailUi.setNameBeneficiario((String) value);
-			} else if (LancamentoColType.NM_TITULAR.equals(lancamentoColType)) {
-				lancamentoDetailUi.setNameTitular((String) value);
-			} else if (LancamentoColType.DT_NASCIMENTO.equals(lancamentoColType)) {
-				lancamentoDetailUi.setDtNascimento((LocalDate) value);
-			} else if (LancamentoColType.VL_REEMBOLSO.equals(lancamentoColType)) {
-				lancamentoDetailUi.setValorReembolso((BigDecimal) value);
-			} else if (LancamentoColType.VL_PARTICIPACAO.equals(lancamentoColType)) {
-				lancamentoDetailUi.setValorParticipacao((BigDecimal) value);
-			} else {
-				throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
+					lancamentoDetailUi.setDtMovimento(dtMovimento);
+					lancamentoDetailUi.setMes(dtMovimento.getMonthValue());
+					lancamentoDetailUi.setAno(dtMovimento.getYear());
+				} else if (LancamentoColType.ID_CONTRATO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setCdContrato((String) value);
+				} else if (LancamentoColType.NR_CPF.equals(lancamentoColType)) {
+					lancamentoDetailUi.setCpf((Long) value);
+				} else if (LancamentoColType.NR_MATRICULA_DEPENDENTE.equals(lancamentoColType)) {
+					lancamentoDetailUi.setMatriculaDependente((Long) value);
+				} else if (LancamentoColType.NR_MATRICULA_TITULAR.equals(lancamentoColType)) {
+					lancamentoDetailUi.setMatriculaTitular((Long) value);
+				} else if (LancamentoColType.VL_PRINCIPAL.equals(lancamentoColType)) {
+					lancamentoDetailUi.setValorPrincipal((BigDecimal) value);
+				} else if (LancamentoColType.TP_VALOR.equals(lancamentoColType)) {
+					lancamentoDetailUi.setValorType(ValorType.parse((String) value));
+				} else if (LancamentoColType.NM_BENEFICIARIO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setNameBeneficiario((String) value);
+				} else if (LancamentoColType.NM_TITULAR.equals(lancamentoColType)) {
+					lancamentoDetailUi.setNameTitular((String) value);
+				} else if (LancamentoColType.DT_NASCIMENTO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setDtNascimento((LocalDate) value);
+				} else if (LancamentoColType.VL_REEMBOLSO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setValorReembolso((BigDecimal) value);
+				} else if (LancamentoColType.VL_PARTICIPACAO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setValorParticipacao((BigDecimal) value);
+				} else {
+					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
+				}
 			}
 
 			LOGGER.info("END");

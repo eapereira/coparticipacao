@@ -3,7 +3,8 @@
 	<query id="findByCpf">	
 		<![CDATA[
 			select titular from TitularEntity titular
-			join fetch titular.empresa empresa
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa
 			where titular.cpf = :cpf
 		]]>
 	</query>
@@ -11,7 +12,8 @@
 	<query id="listByEmpresaId">	
 		<![CDATA[
 			select titular from TitularEntity titular
-			join fetch titular.empresa empresa
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa
 			where empresa.id = :empresaId
 			order by titular.nameTitular
 		]]>
@@ -20,7 +22,8 @@
 	<query id="listByEmpresaIdOrderByCpfAndName">	
 		<![CDATA[
 			select titular from TitularEntity titular
-			join fetch titular.empresa empresa
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa
 			where empresa.id = :empresaId
 			and titular.cpf is not null
 			order by titular.cpf, titular.nameTitular
@@ -30,7 +33,8 @@
 	<query id="listByEmpresaIdOrderByMatriculaAndName">	
 		<![CDATA[
 			select titular from TitularEntity titular
-			join fetch titular.empresa empresa
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa
 			where empresa.id = :empresaId
 			order by titular.matricula, titular.nameTitular
 		]]>

@@ -114,6 +114,7 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_VL_PARTICIPACAO							bigint( 17 ) default 14;
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
+	declare VAR_ID_LANCAMENTO_INPUT_SHEET								bigint( 17 );
     
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NM_DEPENDENTE					bigint( 17 ) default 4;
@@ -779,7 +780,7 @@ BEGIN
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 302');
+	call PROC_LOG_MESSAGE('LINHA - 783');
 	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
 		ID_ARQUIVO_INPUT_SHEET,
 		NM_COLUMN,
@@ -805,38 +806,39 @@ BEGIN
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 1458');
+	call PROC_LOG_MESSAGE('LINHA - 809');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	/* LANCAMENTO */
 	
-    call PROC_LOG_MESSAGE('LINHA - 800');
-    insert into TB_LANCAMENTO_INPUT (
-        ID_ARQUIVO_INPUT,
+    call PROC_LOG_MESSAGE('LINHA - 814');
+    insert into TB_LANCAMENTO_INPUT_SHEET (
+        ID_ARQUIVO_INPUT_SHEET,
         
         USER_CREATED,
         DT_CREATED,
         DT_ALTERED ) values (
-        VAR_ID_ARQUIVO_INPUT,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
         
         VAR_ID_USER,
         current_timestamp(),
         current_timestamp()	
     );
     
-    select max( ID ) into VAR_ID_LANCAMENTO_INPUT from TB_LANCAMENTO_INPUT;
+    select max( ID ) into VAR_ID_LANCAMENTO_INPUT_SHEET 
+    from TB_LANCAMENTO_INPUT_SHEET;
 	
-	call PROC_LOG_MESSAGE('LINHA - 816');
-	insert into TB_LANCAMENTO_INPUT_COLS (
-		ID_LANCAMENTO_INPUT,
+	call PROC_LOG_MESSAGE('LINHA - 831');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED 
 	) values (
-		VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE,
 		VAR_ID_SHEET01_COLUMN_016_NR_CERTIFICADO,		
 		
@@ -845,16 +847,16 @@ BEGIN
 		current_timestamp()	
 	);
 			
-	call PROC_LOG_MESSAGE('LINHA - 853');
-	insert into TB_LANCAMENTO_INPUT_COLS (
-		ID_LANCAMENTO_INPUT,
+	call PROC_LOG_MESSAGE('LINHA - 850');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_VL_PRINCIPAL,
 		VAR_ID_SHEET01_COLUMN_010_VL_ORIGINAL,
 		
@@ -863,16 +865,16 @@ BEGIN
 		current_timestamp()	
 	);	
 
-	call PROC_LOG_MESSAGE('LINHA - 889');
-	insert into TB_LANCAMENTO_INPUT_COLS (
-		ID_LANCAMENTO_INPUT,
+	call PROC_LOG_MESSAGE('LINHA - 868');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_DT_MOVIMENTO,
 		VAR_ID_SHEET01_COLUMN_002_DT_UTILIZACAO,
 		
@@ -881,16 +883,16 @@ BEGIN
 		current_timestamp()	
 	);	
 
-	call PROC_LOG_MESSAGE('LINHA - 943');
-	insert into TB_LANCAMENTO_INPUT_COLS (
-		ID_LANCAMENTO_INPUT,
+	call PROC_LOG_MESSAGE('LINHA - 886');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_NM_BENEFICIARIO,
 		VAR_ID_SHEET01_COLUMN_004_NM_BENEFICIARIO,
 		
@@ -899,16 +901,16 @@ BEGIN
 		current_timestamp()	
 	);	
 	
-	call PROC_LOG_MESSAGE('LINHA - 961');
-	insert into TB_LANCAMENTO_INPUT_COLS (
-		ID_LANCAMENTO_INPUT,
+	call PROC_LOG_MESSAGE('LINHA - 904');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_NR_MATRICULA_TITULAR,
 		VAR_ID_SHEET01_COLUMN_016_NR_CERTIFICADO,
 		
@@ -917,16 +919,16 @@ BEGIN
 		current_timestamp()	
 	);	
 
-	call PROC_LOG_MESSAGE('LINHA - 1013');
-	insert into TB_LANCAMENTO_INPUT_COLS (
-		ID_LANCAMENTO_INPUT,
+	call PROC_LOG_MESSAGE('LINHA - 922');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_VL_REEMBOLSO,
 		VAR_ID_SHEET01_COLUMN_011_VL_REEMBOLSO,
 		
@@ -935,16 +937,16 @@ BEGIN
 		current_timestamp()	
 	);	
 
-	call PROC_LOG_MESSAGE('LINHA - 944');
-	insert into TB_LANCAMENTO_INPUT_COLS (
-		ID_LANCAMENTO_INPUT,
+	call PROC_LOG_MESSAGE('LINHA - 940');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_VL_PARTICIPACAO,
 		VAR_ID_SHEET01_COLUMN_012_VL_PARTICIPACAO,
 		
@@ -953,12 +955,12 @@ BEGIN
 		current_timestamp()	
 	);	
 	
-	call PROC_LOG_MESSAGE('LINHA - 962');	
+	call PROC_LOG_MESSAGE('LINHA - 958');	
 	/*****************************************************************************************************************/
 	/*****************************************************************************************************************/
     /* ARQUIVO_OUTPUT */
 	
-	call PROC_LOG_MESSAGE('LINHA - 975');
+	call PROC_LOG_MESSAGE('LINHA - 963');
 	insert into TB_ARQUIVO_OUTPUT(
 		ID_ARQUIVO_INPUT,
 		NM_ARQUIVO_FORMAT,
@@ -981,12 +983,12 @@ BEGIN
 	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT from TB_ARQUIVO_OUTPUT;
 	
 	/*****************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 967');
+	call PROC_LOG_MESSAGE('LINHA - 986');
 	select 	ID into VAR_ID_VIEW_DESTINATION
 	from 	TB_VIEW_DESTINATION
     where 	NM_VIEW = 'VW_COPARTICIPACAO_AUTOMIND';
 
-    call PROC_LOG_MESSAGE('LINHA - 997');
+    call PROC_LOG_MESSAGE('LINHA - 991');
 	insert into TB_ARQUIVO_OUTPUT_SHEET(
 		ID_ARQUIVO_OUTPUT,
 		ID_VIEW_DESTINATION,
@@ -1004,9 +1006,9 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 1015');
+	call PROC_LOG_MESSAGE('LINHA - 1009');
 	/*****************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 967');
+	call PROC_LOG_MESSAGE('LINHA - 1011');
 	select 	ID into VAR_ID_VIEW_DESTINATION
 	from 	TB_VIEW_DESTINATION
     where 	NM_VIEW = 'VW_COPARTICIPACAO_RESUMO_AUTOMIND';

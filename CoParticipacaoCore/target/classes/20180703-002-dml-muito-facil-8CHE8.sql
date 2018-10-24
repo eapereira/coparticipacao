@@ -61,7 +61,7 @@ BEGIN
 	declare VAR_ID_COLUMN_17						bigint( 17 );	
 	declare VAR_ID_COLUMN_18						bigint( 17 );
 	declare VAR_ID_COLUMN_19						bigint( 17 );
-	declare VAR_ID_COLUMN_20						bigint( 17 );
+	declare VAR_ID_COLUMN_20_DT_MOVTO						bigint( 17 );
 	declare VAR_ID_COLUMN_21_NM_TITULAR				bigint( 17 );
 	declare VAR_ID_COLUMN_22_NR_MATRICULA			bigint( 17 );
 	declare VAR_ID_COLUMN_23						bigint( 17 );
@@ -121,6 +121,7 @@ BEGIN
 	declare VAR_NM_CONTRATO_MECSAS										varchar( 400 ) default 'Base de Ativos da Operadora';
 	declare VAR_NM_CONTRATO_MECSAS2										varchar( 400 ) default 'Base de Ativos do Cliente';
 	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção';
+	declare VAR_CD_FORMAT												varchar( 15 ) default 'yyyy-MM-dd';
 	
 	/***********************************************************************************************************************/
 	
@@ -641,14 +642,17 @@ BEGIN
         NM_COLUMN,
         CD_TYPE,
         VL_LENGTH,
+        CD_FORMAT,
         CD_ORDEM,
+        
         USER_CREATED, 
         DT_CREATED,
         DT_ALTERED ) values (	
         VAR_ID_ARQUIVO_INPUT,
         'COLUMN_20',
-        VAR_COL_VARCHAR,
+        VAR_COL_DATE,
         1,
+        VAR_CD_FORMAT,
         20,
         
         VAR_ID_USER,
@@ -656,7 +660,7 @@ BEGIN
         current_timestamp()
     );
 
-    select max( ID ) into VAR_ID_COLUMN_20 from TB_ARQUIVO_INPUT_COLS_DEF;
+    select max( ID ) into VAR_ID_COLUMN_20_DT_MOVTO from TB_ARQUIVO_INPUT_COLS_DEF;
     
     insert into TB_ARQUIVO_INPUT_COLS_DEF(
         ID_ARQUIVO_INPUT,

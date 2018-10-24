@@ -22,7 +22,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExternalProcess;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Report;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportQueryTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.listener.EmpresaEntityListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
@@ -62,18 +61,6 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 			cascade = CascadeType.ALL)
 	public List<Contrato> getContratos() {
 		return super.getContratos();
-	}
-
-	// bi-directional many-to-one association to Contrato
-	@OneToMany(
-			mappedBy = "empresa",
-			targetEntity = TitularEntity.class,
-			fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL)
-	@Override
-	public List<Titular> getTitulars() {
-		// TODO Auto-generated method stub
-		return super.getTitulars();
 	}
 
 	// bi-directional many-to-one association to Contrato

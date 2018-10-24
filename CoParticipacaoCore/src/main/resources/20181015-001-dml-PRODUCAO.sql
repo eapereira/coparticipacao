@@ -240,13 +240,13 @@ BEGIN
 	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção por valor';
 	declare VAR_NR_MATRICULA_BASE										bigint( 17 ) default 44400000000000;
 	
-	declare VAR_CD_INPUT_DIR											varchar( 200 ) default '/coparticipacao/input/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_MUITO_FACIL						varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/muito-facil/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_MARJAN								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/marjan/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_ABBVIE								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/abbvie/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_HOC								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/hoc/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_CARGILL							varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/cargill/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_INTERVALOR							varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/intervalor/';
+	declare VAR_CD_INPUT_DIR											varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/input/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_MUITO_FACIL						varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/muito-facil/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_MARJAN								varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/marjan/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_ABBVIE								varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/abbvie/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_HOC								varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/hoc/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_CARGILL							varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/cargill/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_INTERVALOR							varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/intervalor/';
 	
 	/***********************************************************************************************************************/
 	
@@ -268,54 +268,55 @@ BEGIN
 	call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/	
-	call PROC_LOG_MESSAGE('LINHA - 263');
+	call PROC_LOG_MESSAGE('LINHA - 271');
 	update TB_EMPRESA
 	set 
 			CD_INPUT_DIR 			= VAR_CD_INPUT_DIR,
 			CD_OUTPUT_REPORT_DIR 	= VAR_CD_OUTPUT_REPORT_DIR_MUITO_FACIL
 	where 	CD_EMPRESA 				= 'MUITO-FACIL';
 	
-	call PROC_LOG_MESSAGE('LINHA - 263');
+	call PROC_LOG_MESSAGE('LINHA - 278');
 	update TB_EMPRESA
 	set 
 			CD_INPUT_DIR 			= VAR_CD_INPUT_DIR,
 			CD_OUTPUT_REPORT_DIR 	= VAR_CD_OUTPUT_REPORT_DIR_MARJAN
 	where 	CD_EMPRESA 				= 'MARJAN';
 	
-	call PROC_LOG_MESSAGE('LINHA - 263');
+	call PROC_LOG_MESSAGE('LINHA - 285');
 	update TB_EMPRESA
 	set 
 			CD_INPUT_DIR 			= VAR_CD_INPUT_DIR,
 			CD_OUTPUT_REPORT_DIR 	= VAR_CD_OUTPUT_REPORT_DIR_ABBVIE
 	where	CD_EMPRESA 				= 'ABBVIE';
 	
-	call PROC_LOG_MESSAGE('LINHA - 263');
+	call PROC_LOG_MESSAGE('LINHA - 292');
 	update TB_EMPRESA
 	set 
 			CD_INPUT_DIR 			= VAR_CD_INPUT_DIR,
 			CD_OUTPUT_REPORT_DIR 	= VAR_CD_OUTPUT_REPORT_DIR_HOC
 	where 	CD_EMPRESA 				= '0444';
 	
-	call PROC_LOG_MESSAGE('LINHA - 263');
-	update tb_empresa
+	call PROC_LOG_MESSAGE('LINHA - 299');
+	update TB_EMPRESA
 	set 
 			CD_INPUT_DIR 			= VAR_CD_INPUT_DIR,
 			CD_OUTPUT_REPORT_DIR 	= VAR_CD_OUTPUT_REPORT_DIR_CARGILL
 	where 	CD_EMPRESA 				= 'CARGILL';
 	
+	call PROC_LOG_MESSAGE('LINHA - 306');
 	update TB_EMPRESA
 	set 
 			CD_INPUT_DIR 			= VAR_CD_INPUT_DIR,
 			CD_OUTPUT_REPORT_DIR 	= VAR_CD_OUTPUT_REPORT_DIR_INTERVALOR
 	where 	CD_EMPRESA 				= 'INTERVALOR';
 	
-	call PROC_LOG_MESSAGE('LINHA - 263');
+	call PROC_LOG_MESSAGE('LINHA - 313');
 	update TB_CONTRATO
 	set 
 			DESCR_CONTRATO 	= 'Retorno de Não Localizados'
 	where 	CD_CONTRATO 	= 'NAO-LOCALIZADO';
 
-	call PROC_LOG_MESSAGE('LINHA - 285');
+	call PROC_LOG_MESSAGE('LINHA - 319');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/			
 	call PROC_UPDATE_SCRIPT( VAR_NM_SCRIPT );

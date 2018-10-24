@@ -3,7 +3,7 @@
 	<query id="TitularEntity.insert">
 		<![CDATA[
 			INSERT INTO TB_TITULAR(
-				ID_EMPRESA,
+				ID_CONTRATO,
 				NR_MATRICULA,
 				NM_TITULAR,
 				NR_CPF,
@@ -226,7 +226,7 @@
 		<![CDATA[
 			UPDATE TB_TITULAR
 			SET
-				ID_EMPRESA 				= ?,
+				ID_CONTRATO 			= ?,
 				NR_MATRICULA			= ?,
 				NM_TITULAR 				= ?,
 				NR_CPF 					= ?,
