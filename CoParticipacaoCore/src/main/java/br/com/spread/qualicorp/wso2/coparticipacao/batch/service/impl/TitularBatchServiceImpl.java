@@ -73,11 +73,11 @@ public class TitularBatchServiceImpl extends AbstractBatchServiceImpl<TitularUi,
 	@Override
 	protected void logBatchInfo(TitularUi titularUi) throws ServiceException {
 		LOGGER.debug("ID_TITULAR:........................[{}]", titularUi.getId());
-		LOGGER.debug("CD_CONTRATO:.......................[{}]", titularUi.getContrato().getCdContrato());
 		LOGGER.debug("NM_TITULAR:........................[{}]", titularUi.getNameTitular());
 		LOGGER.debug("NR_CPF:............................[{}]", titularUi.getCpf());
 		LOGGER.debug("NR_MATRICULA:......................[{}]", titularUi.getMatricula());
 		LOGGER.debug("NR_MATRICULA_EMPRESA:..............[{}]", titularUi.getMatriculaEmpresa());
+		LOGGER.debug("CD_CONTRATO:.......................[{}]", titularUi.getContrato().getCdContrato());
 		LOGGER.debug("DT_NASCIMENTO:.....................[{}]", titularUi.getDtNascimento());
 		LOGGER.debug("DT_ADMISSAO:.......................[{}]", titularUi.getDtAdmissao());
 		LOGGER.debug("DT_DEMISSAO:.......................[{}]", titularUi.getDtDemissao());

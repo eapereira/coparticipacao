@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.test.bean;
 import java.io.File;
 import java.time.LocalDate;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.mockito.ArgumentMatchers;
@@ -46,15 +47,19 @@ public abstract class CoparticipacaoBean {
 	@Autowired
 	private ArquivoExecucaoService arquivoExecucaoService;
 
-	public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
-	//public static final String TEST_PATH = "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";	
+	//public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	public static final String TEST_PATH =
+	 "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
 
 	private static final Long ADMIN_USER_ID = 1l;
+
+	private static final String LINUX_SEPARATOR = "/";
 
 	protected void processFile(ExecucaoUi execucaoUi) throws Exception {
 		StringBuilder sb;
 		UserUi userUi = getTestUser();
 		LocalDate currentDate = LocalDate.now();
+		String tmp;
 
 		LOGGER.info("BEGIN");
 
@@ -78,7 +83,9 @@ public abstract class CoparticipacaoBean {
 			sb.append(File.separator);
 			sb.append(arquivoExecucao.getNameArquivoInput());
 
-			arquivoExecucao.setNameArquivoInput(sb.toString());
+			tmp = StringUtils.replaceAll(sb.toString(), LINUX_SEPARATOR, "\\\\");
+
+			arquivoExecucao.setNameArquivoInput(tmp);
 		}
 
 		execucaoUi.getEmpresa().setUserCreated(userUi);

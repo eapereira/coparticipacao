@@ -51,7 +51,7 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 
 		LOGGER.info("END");
 	}
-
+ 
 	@Test
 	public void testCoparticipacao201807AfterUserValidation() throws Exception {
 		LOGGER.info("BEGIN");

@@ -228,6 +228,7 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_IBGE                         	bigint( 17 ) default 101;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_CBO                          	bigint( 17 ) default 102;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_DIF_TRANSF                    	bigint( 17 ) default 103;		
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_CONTRATO                   	bigint( 17 ) default 107;
 	
 	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção por valor';
 	declare VAR_NR_MATRICULA_BASE										bigint( 17 ) default 44400000000000;
@@ -271,7 +272,13 @@ BEGIN
 	from 	TB_ARQUIVO_INPUT_COLS_DEF
 	where 	ID_ARQUIVO_INPUT	= VAR_ID_ARQUIVO_INPUT
 	and		NM_COLUMN			= 'COLUMN_07_DT_ADMISSAO';
-		
+
+	call PROC_LOG_MESSAGE('LINHA - 282');
+	select	ID into VAR_COLUMN_01_CD_CONTRATO
+	from 	TB_ARQUIVO_INPUT_COLS_DEF
+	where 	ID_ARQUIVO_INPUT	= VAR_ID_ARQUIVO_INPUT
+	and		NM_COLUMN			= 'COLUMN_01_CD_CONTRATO';
+	
 	call PROC_LOG_MESSAGE('LINHA - 258');
 	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 258');
@@ -293,7 +300,25 @@ BEGIN
     set
     		CD_BENEFICIARIO_COLS_DEF	= VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO
 	where	ID_ARQUIVO_INPUT_COLS_DEF	= VAR_COLUMN_07_DT_ADMISSAO;
-            
+    
+	call PROC_LOG_MESSAGE('LINHA - 424');
+	/*********************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 424');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_CONTRATO,
+		VAR_COLUMN_01_CD_CONTRATO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
 	call PROC_LOG_MESSAGE('LINHA - 451');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/		

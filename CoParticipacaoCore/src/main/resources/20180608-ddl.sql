@@ -1459,23 +1459,32 @@ BEGIN
 		where isento.ID_TITULAR in (
 			select	titular.ID
 			from 	TB_TITULAR titular
-			where 	titular.ID = isento.ID_TITULAR
-			and		titular.ID_EMPRESA = PARAM_ID_EMPRESA			
+			where 	titular.ID 			= isento.ID_TITULAR
+			and		titular.ID_EMPRESA 	= PARAM_ID_EMPRESA			
 		);
 				
 		delete dependente from TB_DEPENDENTE dependente
 		where dependente.ID_TITULAR in (
 			select	titular.ID
-			from 	TB_TITULAR titular
-			where 	titular.ID = dependente.ID_TITULAR
-			and		titular.ID_EMPRESA = PARAM_ID_EMPRESA					
+			from 	TB_TITULAR titular 
+				join TB_CONTRATO contrato on
+					contrato.ID = titular.ID_CONTRATO
+			where 	titular.ID 			= dependente.ID_TITULAR
+			and		contrato.ID_EMPRESA = PARAM_ID_EMPRESA					
 		);
 				
-		delete titular from TB_TITULAR titular
-		where titular.ID_EMPRESA = PARAM_ID_EMPRESA;
+		delete 	titular 
+		from	TB_TITULAR titular
+		where 	titular.ID_CONTRATO in (
+			select	contrato.ID
+			from 	TB_CONTRATO contrato
+			where	contrato.ID 		= titular.ID_CONTRATO
+			and		contrato.ID_EMPRESA = PARAM_ID_EMPRESA					
+		);		
 				
-		delete desconhecido from TB_DESCONHECIDO desconhecido
-		where desconhecido.ID > 0;	
+		delete 	desconhecido 
+		from 	TB_DESCONHECIDO desconhecido
+		where 	desconhecido.ID > 0;	
 	end if;
 	
 	commit;

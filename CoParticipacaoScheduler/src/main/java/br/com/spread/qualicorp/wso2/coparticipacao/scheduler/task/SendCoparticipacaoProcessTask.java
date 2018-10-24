@@ -28,11 +28,11 @@ public class SendCoparticipacaoProcessTask {
 
 	private static final Logger LOGGER = LogManager.getLogger(SendCoparticipacaoProcessTask.class);
 
-	private static final String INPUT_DIR = "/home/eapereira/desenv/work/coparticipacao/input";
+	private static final String INPUT_DIR = "/coparticipacao/input";
 
-	private static final String OUTPUT_DIR = "/home/eapereira/desenv/work/coparticipacao/output";
+	private static final String OUTPUT_DIR = "/coparticipacao/output";
 
-	private static final String FAILURE_DIR = "/home/eapereira/desenv/work/coparticipacao/failure";
+	private static final String FAILURE_DIR = "/coparticipacao/failure";
 
 	@Scheduled(fixedRate = 3000)
 	public void searchCoparticipacao() throws CoParticipacaoException {

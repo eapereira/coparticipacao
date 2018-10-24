@@ -553,7 +553,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					}
 				}
 
-				//Momentâneo:
+				// Momentâneo:
 				if (beneficiarioUi.getContrato() == null) {
 					for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
 						if (UseType.FATUCOPA.equals(contrato.getUseType())) {
@@ -572,10 +572,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						beneficiarioUi.getMatricula(),
 						beneficiarioUi.getCpf());
 			} else {
-				throw new BeneficiarioNotFoundException(
-						"BeneficiarioUi[%s] has no ContratoUi defined for CD_CONTRATO[%s]",
-						beneficiarioUi.getNameBeneficiario(),
-						beneficiarioUi.getCdContrato());
+				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+					throw new BeneficiarioNotFoundException(
+							"BeneficiarioUi[%s] has no ContratoUi defined for CD_CONTRATO[%s]",
+							beneficiarioUi.getNameBeneficiario(),
+							beneficiarioUi.getCdContrato());
+				}
 			}
 
 			LOGGER.info("END");
