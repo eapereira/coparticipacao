@@ -116,13 +116,13 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			if (lancamentoDetailUi.getMes() == null) {
 				lancamentoDetailUi.setMes(coParticipacaoContext.getMes());
 			} else {
-				coParticipacaoContext.setMes(lancamentoUi.getMes());
+				coParticipacaoContext.setMes(lancamentoDetailUi.getMes());
 			}
 
 			if (lancamentoDetailUi.getAno() == null) {
 				lancamentoDetailUi.setAno(coParticipacaoContext.getAno());
 			} else {
-				coParticipacaoContext.setAno(lancamentoUi.getAno());
+				coParticipacaoContext.setAno(lancamentoDetailUi.getAno());
 			}
 
 			if (!coParticipacaoContext.isFirstLineProcecessed()) {

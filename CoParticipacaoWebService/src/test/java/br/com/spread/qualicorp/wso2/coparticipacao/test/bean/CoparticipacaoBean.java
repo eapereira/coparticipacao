@@ -47,9 +47,9 @@ public abstract class CoparticipacaoBean {
 	@Autowired
 	private ArquivoExecucaoService arquivoExecucaoService;
 
-	//public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
-	public static final String TEST_PATH =
-	 "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	//public static final String TEST_PATH =
+	 //"/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
 
 	private static final Long ADMIN_USER_ID = 1l;
 
@@ -83,7 +83,7 @@ public abstract class CoparticipacaoBean {
 			sb.append(File.separator);
 			sb.append(arquivoExecucao.getNameArquivoInput());
 
-			tmp = StringUtils.replaceAll(sb.toString(), LINUX_SEPARATOR, "\\\\");
+			tmp = StringUtils.replaceAll(sb.toString(), LINUX_SEPARATOR, File.separator);
 
 			arquivoExecucao.setNameArquivoInput(tmp);
 		}
