@@ -700,7 +700,9 @@ public class CoParticipacaoContext {
 
 		for (DesconhecidoUi desconhecidoUi : getDesconhecidoUis()) {
 			if (desconhecidoUi.getNameBeneficiario().equals(beneficiarioUi.getNameBeneficiario())) {
-				return desconhecidoUi;
+				if (UseType.FATUCOPA.equals(desconhecidoUi.getContrato().getUseType())) {
+					return desconhecidoUi;
+				}
 			}
 		}
 

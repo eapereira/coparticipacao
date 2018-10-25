@@ -47,13 +47,15 @@ public abstract class CoparticipacaoBean {
 	@Autowired
 	private ArquivoExecucaoService arquivoExecucaoService;
 
-	public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
-	//public static final String TEST_PATH =
-	 //"/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	// public static final String TEST_PATH =
+	// "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	public static final String TEST_PATH = "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
 
 	private static final Long ADMIN_USER_ID = 1l;
 
 	private static final String LINUX_SEPARATOR = "/";
+
+	private static final String WINDOWS_SEPARATOR = "\\\\";
 
 	protected void processFile(ExecucaoUi execucaoUi) throws Exception {
 		StringBuilder sb;
@@ -83,7 +85,11 @@ public abstract class CoparticipacaoBean {
 			sb.append(File.separator);
 			sb.append(arquivoExecucao.getNameArquivoInput());
 
-			tmp = StringUtils.replaceAll(sb.toString(), LINUX_SEPARATOR, File.separator);
+			if (File.separator.equals("\\")) {
+				tmp = StringUtils.replaceAll(sb.toString(), LINUX_SEPARATOR, WINDOWS_SEPARATOR);
+			} else {
+				tmp = sb.toString();
+			}
 
 			arquivoExecucao.setNameArquivoInput(tmp);
 		}

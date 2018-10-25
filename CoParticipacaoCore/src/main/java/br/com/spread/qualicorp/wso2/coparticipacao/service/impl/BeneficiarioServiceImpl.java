@@ -124,8 +124,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			}
 
 			if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
-				if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular()) && beneficiarioUi.getCpf() != null
-						&& beneficiarioUi.getMatricula() != null) {
+				if ((StringUtils.isNotBlank(beneficiarioUi.getNameTitular())
+						|| StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario()))
+						&& beneficiarioUi.getCpf() != null && beneficiarioUi.getMatricula() != null) {
 					if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 						return true;
 					}
@@ -700,7 +701,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 									beneficiarioUi.getMatricula());
 
 							titularUi = new TitularUi();
-							titularUi.setNameTitular(beneficiarioUi.getNameTitular());
+
+							if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+								titularUi.setNameTitular(beneficiarioUi.getNameTitular());
+							} else {
+								titularUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
+							}
 
 							if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 								if (beneficiarioUi.getDigitoCpf() != null) {
@@ -723,6 +729,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 							coParticipacaoContext.getTitularUis().add(titularUi);
 							coParticipacaoContext.addTitular(titularUi);
+
+							LOGGER.info(
+									"Titular [{}] with CPF [{}] and Matricula [{}] created:",
+									titularUi.getNameTitular(),
+									titularUi.getCpf(),
+									titularUi.getMatricula());
 						} else {
 							LOGGER.info(
 									"Titular [{}] with CPF [{}] and Matricula [{}] cannot be created because NR_CPF is already in use:",

@@ -53,6 +53,8 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 
 			if (desconhecidoUi != null) {
 				beneficiarioUi.setNameTitular(desconhecidoUi.getNameTitular());
+				beneficiarioUi.setMatricula(desconhecidoUi.getMatricula());
+				beneficiarioUi.setContrato(desconhecidoUi.getContrato());
 				beneficiarioUi.setCdContrato(desconhecidoUi.getContrato().getCdContrato());
 			}
 
