@@ -782,16 +782,15 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
+			titularUi = coParticipacaoContext
+					.findTitularByMatriculaAndCdContrato(beneficiarioUi.getMatricula(), beneficiarioUi.getCdContrato());
 
 			if (titularUi != null) {
-				if (titularUi.getContrato().getId().equals(beneficiarioUi.getContrato().getId())) {
-					LOGGER.info(
-							"There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:",
-							titularUi.getCpf(),
-							titularUi.getMatricula());
-					return true;
-				}
+				LOGGER.info(
+						"There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:",
+						titularUi.getCpf(),
+						titularUi.getMatricula());
+				return true;
 			}
 
 			LOGGER.info("END");
@@ -1136,9 +1135,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			titularUi = coParticipacaoContext.findTitularByCpf(beneficiarioUi.getCpf());
 
 			if (titularUi == null) {
-				titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
+				titularUi = coParticipacaoContext.findTitularByMatriculaAndCdContrato(
 						beneficiarioUi.getMatricula(),
-						beneficiarioUi.getNameBeneficiario());
+						beneficiarioUi.getCdContrato());
 			}
 
 			LOGGER.info("END");

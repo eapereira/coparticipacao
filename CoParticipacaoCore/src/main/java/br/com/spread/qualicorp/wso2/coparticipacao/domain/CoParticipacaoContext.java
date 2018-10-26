@@ -710,4 +710,28 @@ public class CoParticipacaoContext {
 		return null;
 	}
 
+	public TitularUi findTitularByMatriculaAndCdContrato(Long matricula, String cdContrato) {
+		LOGGER.info("BEGIN");
+
+		if (matricula != null) {
+			for (TitularUi titularUi : getTitularUis()) {
+
+				LOGGER.trace(
+						"Comparing with Titular [{}] with CPF [{}]:",
+						titularUi.getNameTitular(),
+						titularUi.getCpf());
+
+				if (titularUi.getMatricula().equals(matricula)
+						&& titularUi.getContrato().getCdContrato().equals(cdContrato)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+					LOGGER.info("END");
+					return titularUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
 }
