@@ -1,4 +1,4 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.test.service;
+package br.com.spread.qualicorp.wso2.coparticipacao.test.service.sulamerica;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,8 +10,9 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.test.bean.IntervalorBean;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.bean.MuitoFacilBean;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -23,46 +24,55 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWeb
 @ContextConfiguration(classes = { CoParticipacaoWebServiceConfigurationTest.class })
 // @Transactional
 @ActiveProfiles("test")
-public class IntervalorTest extends CoParticipacaoTest {
-	private static final Logger LOGGER = LogManager.getLogger(IntervalorTest.class);
+public class MuitoFacilTest extends CoParticipacaoTest {
+	private static final Logger LOGGER = LogManager.getLogger(MuitoFacilTest.class);
 
 	@Autowired
-	private IntervalorBean intervalorBean;
+	private MuitoFacilBean muitoFacilBean;
 
 	@Test
 	public void testCoparticipacao201806() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201806();
+		muitoFacilBean.testCoparticipacao201806();
 
 		LOGGER.info("END");
 	}
 
 	@Test
-	public void testCoparticipacao201806AfterUserValidation() throws Exception {
+	public void testCoparticipacao201807() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201806AfterUserValidation();
+		muitoFacilBean.testCoparticipacao201807();
 
 		LOGGER.info("END");
 	}
 
 	@Test
-	public void testCoparticipacao201808() throws Exception {
+	public void testCoparticipacao201807WithUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201808();
+		muitoFacilBean.testCoparticipacao201807WithUserReturn();
 
 		LOGGER.info("END");
 	}
 
 	@Test
-	public void testCoparticipacao201808AfterUserValidation() throws Exception {
+	public void testCoparticipacao201809() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201886AfterUserValidation();
+		muitoFacilBean.testCoparticipacao201809();
 
 		LOGGER.info("END");
 	}
-	
+
+	@Test
+	public void testCoparticipacao201809AfterUserValidation() throws Exception {
+		LOGGER.info("BEGIN");
+
+		muitoFacilBean.testCoparticipacao201809AfterUserValidation();
+
+		LOGGER.info("END");
+	}
+
 }

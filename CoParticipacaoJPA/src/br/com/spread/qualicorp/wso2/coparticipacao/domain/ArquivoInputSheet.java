@@ -18,6 +18,12 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 
 	private Integer sheetId;
 
+	/**
+	 * Se não existir o CD_CONTRATO dentro do arquivo, podesse chumbar um padrão
+	 * para todos os registros
+	 */
+	private Contrato contrato;
+
 	private List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefs;
 
 	public ArquivoInputSheet() {
@@ -87,6 +93,21 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 		} else if (!sheetId.equals(other.sheetId))
 			return false;
 		return true;
+	}
+
+	/**
+	 * Se não existir o CD_CONTRATO dentro do arquivo, podesse chumbar um padrão
+	 * para todos os registros
+	 * 
+	 * @return O {@link Contrato} que deve ser usado como padrão se não existir
+	 *         nhuma coluna no arquivo com o <b>CD_CONTRATO</b>.
+	 */
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 }

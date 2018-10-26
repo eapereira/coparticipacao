@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 
 /**
  * 
@@ -59,5 +60,13 @@ public class ArquivoInputSheetEntity extends ArquivoInputSheet {
 	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefs() {
 		// TODO Auto-generated method stub
 		return super.getArquivoInputSheetColsDefs();
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
+	@JoinColumn(name = "ID_CONTRATO")
+	@Override
+	public Contrato getContrato() {
+		// TODO Auto-generated method stub
+		return super.getContrato();
 	}
 }

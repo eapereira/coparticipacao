@@ -1,4 +1,4 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.test.service;
+package br.com.spread.qualicorp.wso2.coparticipacao.test.service.sulamerica;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.test.bean.MarjanBean;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 

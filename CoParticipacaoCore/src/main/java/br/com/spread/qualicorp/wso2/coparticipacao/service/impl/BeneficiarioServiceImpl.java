@@ -523,6 +523,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.getMatricula(),
 					beneficiarioUi.getCpf());
 
+			if (coParticipacaoContext.getContratoSheetRegisters() != null) {
+				beneficiarioUi.setContrato(coParticipacaoContext.getContratoSheetRegisters());
+				beneficiarioUi.setCdContrato(coParticipacaoContext.getContratoSheetRegisters().getCdContrato());
+			}
+
 			if (isTitular(coParticipacaoContext, beneficiarioUi)) {
 				LOGGER.info(
 						"Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Titular:",

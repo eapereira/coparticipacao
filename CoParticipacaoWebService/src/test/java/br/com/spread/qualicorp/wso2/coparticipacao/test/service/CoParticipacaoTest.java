@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.test.service;
 import java.io.File;
 import java.time.LocalDate;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -55,6 +56,10 @@ public abstract class CoParticipacaoTest {
 	public static final String TEST_PATH = "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
 
 	private static final Long ADMIN_USER_ID = 1l;
+	
+	private static final String LINUX_SEPARATOR = "/";
+
+	private static final String WINDOWS_SEPARATOR = "\\\\";
 
 	@Before
 	public void beforeTestClearCoparticipacao() throws Exception {
@@ -81,6 +86,7 @@ public abstract class CoParticipacaoTest {
 		StringBuilder sb;
 		UserUi userUi = getTestUser();
 		LocalDate currentDate = LocalDate.now();
+		String tmp;
 
 		/*
 		 * Vamos criar um Spy do serviço, para evitar que ele mova os arquivos
@@ -102,7 +108,13 @@ public abstract class CoParticipacaoTest {
 			sb.append(File.separator);
 			sb.append(arquivoExecucao.getNameArquivoInput());
 
-			arquivoExecucao.setNameArquivoInput(sb.toString());
+			if (File.separator.equals("\\")) {
+				tmp = StringUtils.replaceAll(sb.toString(), LINUX_SEPARATOR, WINDOWS_SEPARATOR);
+			} else {
+				tmp = sb.toString();
+			}
+
+			arquivoExecucao.setNameArquivoInput(tmp);
 		}
 
 		execucaoUi.getEmpresa().setUserCreated(userUi);

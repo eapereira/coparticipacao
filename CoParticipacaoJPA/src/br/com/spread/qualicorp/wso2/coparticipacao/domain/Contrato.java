@@ -49,6 +49,8 @@ public abstract class Contrato extends AbstractDomain {
 
 	private List<Titular> titulars;
 
+	private List<ArquivoInputSheet> arquivoInputSheets;
+
 	public Contrato() {
 		lancamentos = new ArrayList<>();
 		arquivoExecucaos = new ArrayList<>();
@@ -56,6 +58,7 @@ public abstract class Contrato extends AbstractDomain {
 		dependenteIsentos = new ArrayList<>();
 		children = new ArrayList<>();
 		titulars = new ArrayList<>();
+		arquivoInputSheets = new ArrayList<>();
 
 		spreadsheetAllPages = Boolean.FALSE;
 	}
@@ -331,6 +334,24 @@ public abstract class Contrato extends AbstractDomain {
 	public void removeTitular(Titular titular) {
 		getTitulars().remove(titular);
 		titular.setContrato(null);
+	}
+
+	public List<ArquivoInputSheet> getArquivoInputSheets() {
+		return arquivoInputSheets;
+	}
+
+	public void setArquivoInputSheets(List<ArquivoInputSheet> arquivoInputSheets) {
+		this.arquivoInputSheets = arquivoInputSheets;
+	}
+
+	public void addArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		getArquivoInputSheets().add(arquivoInputSheet);
+		arquivoInputSheet.setContrato(this);
+	}
+
+	public void removeArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		getArquivoInputSheets().remove(arquivoInputSheet);
+		arquivoInputSheet.setContrato(null);
 	}
 
 }

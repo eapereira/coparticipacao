@@ -19,6 +19,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDef
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
@@ -79,6 +80,7 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		DependenteUi dependenteUi;
 		ArquivoInputColsDefUi arquivoInputColsDefUi;
 		LancamentoDetailUi lancamentoDetailUi;
+		List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis;
 
 		try {
 			LOGGER.info("BEGIN");

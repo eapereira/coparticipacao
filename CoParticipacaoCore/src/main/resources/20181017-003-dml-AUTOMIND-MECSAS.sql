@@ -45,6 +45,7 @@ BEGIN
 	DECLARE VAR_ID_USER 							bigint( 17 ) default 1;
 	DECLARE VAR_ID_EMPRESA 							bigint( 17 );
 	DECLARE VAR_ID_CONTRATO 						bigint( 17 );
+	DECLARE VAR_ID_CONTRATO_FATUCOPA 				bigint( 17 );
 	
 	declare VAR_ID_ARQUIVO_INPUT					bigint( 17 );	
     declare VAR_ID_ARQUIVO_INPUT_SHEET				bigint( 17 );	
@@ -281,20 +282,26 @@ BEGIN
 	call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 238');
+	call PROC_LOG_MESSAGE('LINHA - 285');
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
     where CD_EMPRESA = 'AUTOMIND';
 	
-    call PROC_LOG_MESSAGE('LINHA - 242');
+    call PROC_LOG_MESSAGE('LINHA - 289');
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
 	and 	CD_CONTRATO = 'MECSAS'; 
 
+    call PROC_LOG_MESSAGE('LINHA - 294');
+	select 	ID into VAR_ID_CONTRATO_FATUCOPA 
+	from 	TB_CONTRATO
+	where	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '074210'; 
+	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
 	/* MECSAS */
 	
-	call PROC_LOG_MESSAGE('LINHA - 293');
+	call PROC_LOG_MESSAGE('LINHA - 304');
 	insert into TB_ARQUIVO_INPUT(
 		ID_CONTRATO,
 		NM_ARQUIVO_REGEXP,
@@ -326,6 +333,7 @@ BEGIN
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
 		CD_SHEET,
+		ID_CONTRATO,
 
 		USER_CREATED, 
 		DT_CREATED,
@@ -333,6 +341,7 @@ BEGIN
 	) values (
 		VAR_ID_ARQUIVO_INPUT,		
 		CD_SHEET_TITULAR,
+		VAR_ID_CONTRATO_FATUCOPA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -908,6 +917,7 @@ BEGIN
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
 		CD_SHEET,
+		ID_CONTRATO,
 
 		USER_CREATED, 
 		DT_CREATED,
@@ -915,6 +925,7 @@ BEGIN
 	) values (
 		VAR_ID_ARQUIVO_INPUT,		
 		CD_SHEET_DEPENDENTE,
+		VAR_ID_CONTRATO_FATUCOPA,
 		
 		VAR_ID_USER,
 		current_timestamp(),

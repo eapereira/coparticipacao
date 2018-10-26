@@ -4,6 +4,7 @@
 		<![CDATA[
 			select arquivoInputSheet from ArquivoInputSheetEntity arquivoInputSheet
 			join fetch arquivoInputSheet.arquivoInput arquivoInput
+			left outer join fetch arquivoInputSheet.contrato contrato
 			join fetch arquivoInputSheet.arquivoInputSheetColsDefs arquivoInputSheetColsDefs
 			where	arquivoInput.id	= :arquivoInputId
 		]]>

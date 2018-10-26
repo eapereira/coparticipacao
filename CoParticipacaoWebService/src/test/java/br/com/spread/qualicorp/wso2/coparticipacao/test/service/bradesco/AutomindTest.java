@@ -44,8 +44,8 @@ public class AutomindTest extends CoParticipacaoTest {
 
 	private static final String MECSAS_201810 = "automind/input/AUTOMIND.MECSAS.201810.001.xlsx";
 	private static final String MECSAS2_201810 = "automind/input/AUTOMIND.MECSAS2.201810.002.xlsx";
-	private static final String FATUCOPA_201810 = "automind/input/AUTOMIND.074210.201810.004.TXT";
-	private static final String NAO_LOCALIZADO_201808 = "automind/input/AUTOMIND.NAO-LOCALIZADO.201810.004.xlsx";
+	private static final String FATUCOPA_201810 = "automind/input/AUTOMIND.074210.201810.004.xlsx";
+	private static final String NAO_LOCALIZADO_201808 = "automind/input/AUTOMIND.NAO-LOCALIZADO.201810.003.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 449;
@@ -85,7 +85,7 @@ public class AutomindTest extends CoParticipacaoTest {
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
 		List<LancamentoUi> lancamentoUis;
-		EmpresaUi empresaUi = empresaService.findByName("ABBVIE");
+		EmpresaUi empresaUi = empresaService.findByName("AUTOMIND");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);

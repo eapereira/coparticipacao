@@ -11,8 +11,14 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@Mapper(componentModel = "spring", uses = { UserEntityMapper.class, ArquivoInputEntityMapper.class,
-		ArquivoInputSheetColsDefEntityMapper.class })
+@Mapper(
+		componentModel = "spring",
+		uses = {
+				UserEntityMapper.class,
+				ArquivoInputEntityMapper.class,
+				ContratoEntityMapper.class,
+				LancamentoInputSheetEntityMapper.class,
+				ArquivoInputSheetColsDefEntityMapper.class })
 public abstract class ArquivoInputSheetEntityMapper extends AbstractMapper<ArquivoInputSheet, ArquivoInputSheetEntity> {
 
 }

@@ -315,7 +315,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext.setExecucaoUi((ExecucaoUi) arquivoExecucaoUi.getExecucao());
 			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
 
-			if (!coParticipacaoContext.getArquivoInputColsDefUis().isEmpty()) {
+			if (!coParticipacaoContext.getArquivoInputColsDefUis().isEmpty()
+					|| !coParticipacaoContext.getArquivoInputSheetUis().isEmpty()) {
 				loadFileInputData(arquivoExecucaoUi, coParticipacaoContext);
 			} else {
 				throw new ServiceException(
@@ -341,6 +342,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	private CoParticipacaoContext createCoParticipacaoContext(String fileName) throws ServiceException {
 		CoParticipacaoContext coParticipacaoContext = null;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
+		List<ArquivoInputSheetUi> arquivoInputSheetUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -355,6 +357,10 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				arquivoInputColsDefUis = arquivoInputColsDefService
 						.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi().getId());
 
+				arquivoInputSheetUis = arquivoInputSheetService
+						.listByArquivoInput(coParticipacaoContext.getArquivoInputUi());
+
+				coParticipacaoContext.setArquivoInputSheetUis(arquivoInputSheetUis);
 				coParticipacaoContext.setArquivoInputColsDefUis(arquivoInputColsDefUis);
 			}
 
@@ -488,7 +494,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<BeneficiarioColsUi> beneficiarioColsUis;
 		PartitionMap<TitularUi> mapTitularUi;
 		PartitionMap<DependenteUi> mapDependenteUi;
-		List<ArquivoInputSheetUi> arquivoInputSheetUis;
 		List<ReportUi> reportUis;
 		List<DesconhecidoUi> desconhecidoUis;
 
@@ -514,8 +519,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.info(
 					"Loading ArquivoInputSheetUi information if the current ArquivoInputUi[{}] use it:",
 					coParticipacaoContext.getContratoUi().getCdContrato());
-			arquivoInputSheetUis = arquivoInputSheetService
-					.listByArquivoInput(coParticipacaoContext.getArquivoInputUi());
 			reportUis = reportService.listByEmpresa(empresaUi);
 
 			// Carregando todos os beneficiários existentes da empresa:
@@ -554,8 +557,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			}
 
 			coParticipacaoContext.setReportUis(reportUis);
-			coParticipacaoContext.setArquivoInputSheetUis(arquivoInputSheetUis);
-
 			coParticipacaoContext.setEmpresaUi(empresaUi);
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);

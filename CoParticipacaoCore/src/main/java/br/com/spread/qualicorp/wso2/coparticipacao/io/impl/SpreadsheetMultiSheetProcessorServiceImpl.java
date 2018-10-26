@@ -21,6 +21,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetMultiSheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -38,7 +39,9 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 
 	private static final Logger LOGGER = LogManager.getLogger(SpreadsheetMultiSheetProcessorServiceImpl.class);
 
-	protected Map<String, Object> readLine(SpreadsheetContext spreadsheetContext, Row row,
+	protected Map<String, Object> readLine(
+			SpreadsheetContext spreadsheetContext,
+			Row row,
 			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
 		List<ArquivoInputSheetUi> arquivoInputSheetUis;
@@ -47,6 +50,7 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 		Object value;
 		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
 		Cell cell;
+		ContratoUi contratoUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -61,6 +65,15 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 				if (arquivoInputSheetUi.getSheetId().equals(coParticipacaoContext.getCurrentSheet())) {
 
 					LOGGER.info("Processing sheet[{}] columns:", spreadsheetContext.getSheetName());
+
+					contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
+
+					if (contratoUi != null) {
+						LOGGER.info(
+								"Using default ContratoUi[{}] for all registers in this ArquivoInputSheet:",
+								contratoUi.getCdContrato());
+						coParticipacaoContext.setContratoSheetRegisters(contratoUi);
+					}
 
 					for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi
 							.getArquivoInputSheetColsDefs()) {
@@ -98,7 +111,9 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 		}
 	}
 
-	protected Object getExtendedCellValue(SpreadsheetContext spreadsheetContext, Cell cell,
+	protected Object getExtendedCellValue(
+			SpreadsheetContext spreadsheetContext,
+			Cell cell,
 			ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi) throws ServiceException {
 		Object value;
 
@@ -133,8 +148,10 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 			}
 
 			if (validateRestrictedValue(arquivoInputSheetColsDefUi, value)) {
-				throw new RestrictedValueException("Ignoring line for restricted acceptable value[%s] at column[%s]:",
-						value, arquivoInputSheetColsDefUi.getNameColumn());
+				throw new RestrictedValueException(
+						"Ignoring line for restricted acceptable value[%s] at column[%s]:",
+						value,
+						arquivoInputSheetColsDefUi.getNameColumn());
 			}
 
 			if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
@@ -164,7 +181,9 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 
 				if (value instanceof String) {
 					if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getLocalePattern())) {
-						value = DateUtils.stringToDate((String) value, arquivoInputSheetColsDefUi.getFormat(),
+						value = DateUtils.stringToDate(
+								(String) value,
+								arquivoInputSheetColsDefUi.getFormat(),
 								arquivoInputSheetColsDefUi.getLocalePattern());
 					} else {
 						value = DateUtils.stringToDate((String) value, arquivoInputSheetColsDefUi.getFormat());
@@ -194,7 +213,9 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 
 			if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getRestrictedValue())) {
 				if (arquivoInputSheetColsDefUi.getRestrictedValue().equals(value.toString())) {
-					LOGGER.info("Ignoring line for restricted acceptable value[{}] at column[{}]:", value,
+					LOGGER.info(
+							"Ignoring line for restricted acceptable value[{}] at column[{}]:",
+							value,
 							arquivoInputSheetColsDefUi.getNameColumn());
 					return false;
 				}

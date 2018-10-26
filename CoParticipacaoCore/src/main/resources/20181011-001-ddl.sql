@@ -33,6 +33,7 @@ create table TB_ARQUIVO_INPUT_SHEET(
 	
 	ID_ARQUIVO_INPUT			bigint( 17 ) not null,		
 	CD_SHEET					int( 3 ) not null,
+	ID_CONTRATO					bigint( 17 ) null, /* Se não existir o CD_CONTRATO dentro do arquivo, podesse chumbar um padrão para todos os registros */
 	
 	VERSION						bigint( 17 ) null,
 	USER_CREATED				bigint( 17 ) not null,
@@ -46,7 +47,8 @@ create table TB_ARQUIVO_INPUT_SHEET(
 	
 	constraint FK_ARQUIVO_INPUT_SHEET_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_INPUT_SHEET_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_INPUT_SHEET_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )			
+	constraint FK_ARQUIVO_INPUT_SHEET_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID ),
+	constraint FK_ARQUIVO_INPUT_SHEET_04 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID )
 );
 
 create table TB_ARQUIVO_INPUT_SHEET_COLS_DEF(

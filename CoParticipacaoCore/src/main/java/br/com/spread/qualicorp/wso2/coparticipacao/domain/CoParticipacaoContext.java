@@ -119,6 +119,8 @@ public class CoParticipacaoContext {
 	private LancamentoDetailUi lancamentoDetailUi;
 
 	private List<DesconhecidoUi> desconhecidoUis;
+	
+	private ContratoUi contratoSheetRegisters;
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
@@ -732,6 +734,14 @@ public class CoParticipacaoContext {
 
 		LOGGER.info("END");
 		return null;
+	}
+
+	public ContratoUi getContratoSheetRegisters() {
+		return contratoSheetRegisters;
+	}
+
+	public void setContratoSheetRegisters(ContratoUi contratoSheetRegisters) {
+		this.contratoSheetRegisters = contratoSheetRegisters;
 	}
 
 }

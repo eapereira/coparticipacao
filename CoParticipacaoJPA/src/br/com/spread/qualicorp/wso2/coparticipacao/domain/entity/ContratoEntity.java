@@ -16,6 +16,7 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
@@ -144,6 +145,17 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 	public List<Titular> getTitulars() {
 		// TODO Auto-generated method stub
 		return super.getTitulars();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "contrato",
+			targetEntity = ArquivoInputSheetEntity.class)
+	@Override
+	public List<ArquivoInputSheet> getArquivoInputSheets() {
+		// TODO Auto-generated method stub
+		return super.getArquivoInputSheets();
 	}
 
 }
