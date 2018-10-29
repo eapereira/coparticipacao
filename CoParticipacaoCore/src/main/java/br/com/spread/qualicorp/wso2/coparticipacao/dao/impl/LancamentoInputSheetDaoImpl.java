@@ -1,5 +1,9 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl;
 
+import java.util.List;
+
+import javax.persistence.Query;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
@@ -22,6 +26,26 @@ public class LancamentoInputSheetDaoImpl extends AbstractDaoImpl<LancamentoInput
 	public LancamentoInputSheetDaoImpl() throws DaoException {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+
+	public List<LancamentoInputSheetEntity> listByArquivoInputId(Long arquivoInputId) throws DaoException {
+		List<LancamentoInputSheetEntity> lancamentoInputSheetEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByArquivoInputId");
+			query.setParameter("arquivoInputId", arquivoInputId);
+
+			lancamentoInputSheetEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return lancamentoInputSheetEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
 	}
 
 }

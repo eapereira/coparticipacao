@@ -189,7 +189,8 @@ public class RegraConditionalServiceImpl
 
 						regraConditionalFieldFound = true;
 
-						value = lancamentoDetailService.getFieldValue(lancamentoDetailUi, lancamentoInputColsUi);
+						value = lancamentoDetailService
+								.getFieldValue(lancamentoDetailUi, lancamentoInputColsUi.getLancamentoColType());
 
 						LOGGER.info(
 								"Field [{}] has value [{}]:",

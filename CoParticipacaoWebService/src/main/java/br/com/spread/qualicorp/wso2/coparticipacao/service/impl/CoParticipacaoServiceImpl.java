@@ -30,6 +30,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ReportUi;
@@ -60,6 +61,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.FatucopaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputColsService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.NaoLocalizadoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalService;
@@ -162,6 +164,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private DesconhecidoService desconhecidoService;
+
+	@Autowired
+	private LancamentoInputSheetService lancamentoInputSheetService;
 
 	private static final Long USER_ADMIN_ID = 1l;
 
@@ -606,6 +611,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<LancamentoInputColsUi> lancamentoInputColsUis;
 		List<RegraUi> regraUis;
 		List<RegraConditionalUi> regraConditionalUis;
+		List<LancamentoInputSheetUi> lancamentoInputSheetUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -628,8 +634,12 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 					regraConditionalUis.size(),
 					coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 
+			lancamentoInputSheetUis = lancamentoInputSheetService
+					.listByArquivoInput(coParticipacaoContext.getArquivoInputUi());
+
 			coParticipacaoContext.getRegraUis().addAll(regraUis);
 			coParticipacaoContext.getRegraConditionalUis().addAll(regraConditionalUis);
+			coParticipacaoContext.setLancamentoInputSheetUis(lancamentoInputSheetUis);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

@@ -28,6 +28,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsen
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
@@ -119,8 +120,10 @@ public class CoParticipacaoContext {
 	private LancamentoDetailUi lancamentoDetailUi;
 
 	private List<DesconhecidoUi> desconhecidoUis;
-	
+
 	private ContratoUi contratoSheetRegisters;
+
+	private List<LancamentoInputSheetUi> lancamentoInputSheetUis;
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
@@ -141,6 +144,7 @@ public class CoParticipacaoContext {
 
 		arquivoInputSheetUis = new ArrayList<ArquivoInputSheetUi>();
 		desconhecidoUis = new ArrayList<DesconhecidoUi>();
+		lancamentoInputSheetUis = new ArrayList<LancamentoInputSheetUi>();
 
 		reportUis = new ArrayList<ReportUi>();
 		mapLine = new HashMap<String, Object>();
@@ -742,6 +746,14 @@ public class CoParticipacaoContext {
 
 	public void setContratoSheetRegisters(ContratoUi contratoSheetRegisters) {
 		this.contratoSheetRegisters = contratoSheetRegisters;
+	}
+
+	public List<LancamentoInputSheetUi> getLancamentoInputSheetUis() {
+		return lancamentoInputSheetUis;
+	}
+
+	public void setLancamentoInputSheetUis(List<LancamentoInputSheetUi> lancamentoInputSheetUis) {
+		this.lancamentoInputSheetUis = lancamentoInputSheetUis;
 	}
 
 }

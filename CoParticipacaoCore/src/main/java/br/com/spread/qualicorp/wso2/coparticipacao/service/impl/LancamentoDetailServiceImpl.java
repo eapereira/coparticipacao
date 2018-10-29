@@ -2,6 +2,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,9 +11,13 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ValorType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -26,19 +31,14 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 
 	private static final Logger LOGGER = LogManager.getLogger(LancamentoDetailServiceImpl.class);
 
-	public void setFieldValue(
-			LancamentoDetailUi lancamentoDetailUi,
-			LancamentoInputColsUi lancamentoInputColsUi,
-			Object value) throws ServiceException {
-		LancamentoColType lancamentoColType;
+	public void setFieldValue(LancamentoDetailUi lancamentoDetailUi, LancamentoColType lancamentoColType, Object value)
+			throws ServiceException {
 		LocalDate dtMovimento;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			if (value != null) {
-				lancamentoColType = lancamentoInputColsUi.getLancamentoColType();
-
 				if (LancamentoColType.CD_MES.equals(lancamentoColType)) {
 					lancamentoDetailUi.setMes((Integer) value);
 				} else if (LancamentoColType.CD_ANO.equals(lancamentoColType)) {
@@ -83,16 +83,14 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 		}
 	}
 
-	public Object getFieldValue(LancamentoDetailUi lancamentoDetailUi, LancamentoInputColsUi lancamentoInputColsUi)
+	public Object getFieldValue(LancamentoDetailUi lancamentoDetailUi, LancamentoColType lancamentoColType)
 			throws ServiceException {
 		Object value;
-		LancamentoColType lancamentoColType;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			value = null;
-			lancamentoColType = lancamentoInputColsUi.getLancamentoColType();
 
 			if (LancamentoColType.CD_MES.equals(lancamentoColType)) {
 				value = lancamentoDetailUi.getMes();
@@ -147,9 +145,10 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 
 			if (LancamentoColType.NR_MATRICULA_DEPENDENTE.equals(lancamentoColType)
 					|| LancamentoColType.NR_MATRICULA_TITULAR.equals(lancamentoColType)) {
-				value = BigDecimal.valueOf((Long) getFieldValue(lancamentoDetailUi, lancamentoInputColsUi));
+				value = BigDecimal.valueOf(
+						(Long) getFieldValue(lancamentoDetailUi, lancamentoInputColsUi.getLancamentoColType()));
 			} else if (LancamentoColType.VL_PRINCIPAL.equals(lancamentoColType)) {
-				value = (BigDecimal) getFieldValue(lancamentoDetailUi, lancamentoInputColsUi);
+				value = (BigDecimal) getFieldValue(lancamentoDetailUi, lancamentoInputColsUi.getLancamentoColType());
 			} else {
 				throw new ServiceException("The column LancamentoInputColsUi[{}] cannot be used as BigDecimal:");
 			}
@@ -213,6 +212,122 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 			}
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public LancamentoDetailUi create(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		LancamentoDetailUi lancamentoDetailUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			lancamentoDetailUi = new LancamentoDetailUi();
+			coParticipacaoContext.setLancamentoDetailUi(lancamentoDetailUi);
+
+			if (!coParticipacaoContext.getLancamentoInputColsUis().isEmpty()) {
+				lancamentoDetailUi = createFromLancamentoInput(
+						coParticipacaoContext,
+						coParticipacaoContext.getLancamentoInputColsUis());
+			} else if (!coParticipacaoContext.getLancamentoInputSheetUis().isEmpty()) {
+				lancamentoDetailUi = createFromLancamentoInputSheet(
+						coParticipacaoContext,
+						coParticipacaoContext.getLancamentoInputSheetUis());
+			} else {
+				LOGGER.info(
+						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");
+
+				throw new ServiceException(
+						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");
+			}
+
+			coParticipacaoContext.setLancamentoDetailUi(lancamentoDetailUi);
+
+			LOGGER.info("END");
+			return lancamentoDetailUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private LancamentoDetailUi createFromLancamentoInput(
+			CoParticipacaoContext coParticipacaoContext,
+			List<LancamentoInputColsUi> lancamentoInputColsUis) throws ServiceException {
+		LancamentoDetailUi lancamentoDetailUi;
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		Object value;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			lancamentoDetailUi = new LancamentoDetailUi();
+
+			// Processando uma linha do arquivo:
+			for (LancamentoInputColsUi lancamentoInputColsUi : lancamentoInputColsUis) {
+				LOGGER.info(
+						"Using LancamentoInputCols[{}]",
+						lancamentoInputColsUi.getLancamentoColType().getDescription());
+
+				arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
+
+				value = coParticipacaoContext.getMapLine().get(arquivoInputColsDefUi.getNameColumn());
+
+				LOGGER.debug("Column [{}] with value [{}]:", arquivoInputColsDefUi.getNameColumn(), value);
+
+				setFieldValue(lancamentoDetailUi, lancamentoInputColsUi.getLancamentoColType(), value);
+			}
+
+			LOGGER.info("END");
+			return lancamentoDetailUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private LancamentoDetailUi createFromLancamentoInputSheet(
+			CoParticipacaoContext coParticipacaoContext,
+			List<LancamentoInputSheetUi> lancamentoInputSheetUis) throws ServiceException {
+		LancamentoDetailUi lancamentoDetailUi;
+		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
+		List<LancamentoInputSheetCols> lancamentoInputSheetColss;
+		Object value;
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			lancamentoDetailUi = new LancamentoDetailUi();
+
+			for (LancamentoInputSheetUi lancamentoInputSheetUi : lancamentoInputSheetUis) {
+				arquivoInputSheetUi = (ArquivoInputSheetUi) lancamentoInputSheetUi.getArquivoInputSheet();
+
+				if (arquivoInputSheetUi.getSheetId().equals(coParticipacaoContext.getCurrentSheet())) {
+					lancamentoInputSheetColss = lancamentoInputSheetUi.getLancamentoInputSheetCols();
+
+					// Processando uma linha do arquivo:
+					for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
+						LOGGER.info(
+								"Using LancamentoInputCols[{}]",
+								lancamentoInputSheetCols.getLancamentoColType().getDescription());
+
+						arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetCols
+								.getArquivoInputSheetColsDef();
+
+						value = coParticipacaoContext.getMapLine().get(arquivoInputSheetColsDefUi.getNameColumn());
+
+						LOGGER.debug("Column [{}] with value [{}]:", arquivoInputSheetColsDefUi.getNameColumn(), value);
+
+						setFieldValue(lancamentoDetailUi, lancamentoInputSheetCols.getLancamentoColType(), value);
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return lancamentoDetailUi;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

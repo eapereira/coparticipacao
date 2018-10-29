@@ -1169,55 +1169,6 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 1030');
-	/*****************************************************************************************************************************************************/	
-	/*****************************************************************************************************************************************************/		
-	/* NAO-LOCALIZADOS */
-	
-    call PROC_LOG_MESSAGE('LINHA - 981');
-	select ID into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_DESCONHECIDO_INTERVALOR';
-	
-	call PROC_LOG_MESSAGE('LINHA - 985');
-	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
-		ID_ARQUIVO_INPUT,
-		NM_ARQUIVO_FORMAT,
-		NM_DESCR_ARQUIVO,	
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_ARQUIVO_INPUT,
-		'NAO-LOCALIZADO-INTERVALOR-{YYYY}{MM}.xlsx',
-		'Arquivo com os beneficiários não localizados pelo processo',
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-		
-	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO from TB_ARQUIVO_OUTPUT_DESCONHECIDO;
-		
-	call PROC_LOG_MESSAGE('LINHA - 1005');
-	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO_SHEET(
-		ID_ARQUIVO_OUTPUT_DESCONHECIDO,
-		ID_VIEW_DESTINATION,
-		NM_SHEET,
-		CD_ORDEM,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO,
-		VAR_ID_VIEW_DESTINATION,
-		'%s',
-		1,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-			
 	call PROC_LOG_MESSAGE('LINHA - 1106');	
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/

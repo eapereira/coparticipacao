@@ -90,23 +90,7 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			lancamentoInputColsUis = coParticipacaoContext.getLancamentoInputColsUis();
 
 			if (!lancamentoInputColsUis.isEmpty()) {
-				lancamentoDetailUi = new LancamentoDetailUi();
-				coParticipacaoContext.setLancamentoDetailUi(lancamentoDetailUi);
-
-				// Processando uma linha do arquivo:
-				for (LancamentoInputColsUi lancamentoInputColsUi : lancamentoInputColsUis) {
-					LOGGER.info(
-							"Using LancamentoInputCols[{}]",
-							lancamentoInputColsUi.getLancamentoColType().getDescription());
-
-					arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
-
-					value = coParticipacaoContext.getMapLine().get(arquivoInputColsDefUi.getNameColumn());
-
-					LOGGER.debug("Column [{}] with value [{}]:", arquivoInputColsDefUi.getNameColumn(), value);
-
-					lancamentoDetailService.setFieldValue(lancamentoDetailUi, lancamentoInputColsUi, value);
-				}
+				lancamentoDetailUi = lancamentoDetailService.create(coParticipacaoContext);
 			} else {
 				LOGGER.info(
 						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");

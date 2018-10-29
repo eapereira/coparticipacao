@@ -14,6 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.dao.RegraDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
@@ -181,6 +182,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 		BigDecimal value;
 		BigDecimal result;
 		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		LancamentoColType lancamentoColType;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -238,21 +240,16 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 								result,
 								regraResult.getArquivoInputColsDef().getNameColumn());
 
+						lancamentoColType = lancamentoInputCols.getLancamentoColType();
+
 						if (ColDefType.DOUBLE.equals(regraResult.getArquivoInputColsDef().getType())) {
-							lancamentoDetailService.setFieldValue(
-									lancamentoDetailUi,
-									(LancamentoInputColsUi) lancamentoInputCols,
-									result);
+							lancamentoDetailService.setFieldValue(lancamentoDetailUi, lancamentoColType, result);
 						} else if (ColDefType.LONG.equals(regraResult.getArquivoInputColsDef().getType())) {
-							lancamentoDetailService.setFieldValue(
-									lancamentoDetailUi,
-									(LancamentoInputColsUi) lancamentoInputCols,
-									result.longValue());
+							lancamentoDetailService
+									.setFieldValue(lancamentoDetailUi, lancamentoColType, result.longValue());
 						} else if (ColDefType.INT.equals(regraResult.getArquivoInputColsDef().getType())) {
-							lancamentoDetailService.setFieldValue(
-									lancamentoDetailUi,
-									(LancamentoInputColsUi) lancamentoInputCols,
-									result.intValue());
+							lancamentoDetailService
+									.setFieldValue(lancamentoDetailUi, lancamentoColType, result.intValue());
 						}
 
 						break;

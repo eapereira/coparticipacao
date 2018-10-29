@@ -17,6 +17,7 @@ select
 	desconhecido.NR_MATRICULA,
     desconhecido.NM_BENEFICIARIO,
     desconhecido.NR_CPF,
+    desconhecido.DT_NASCIMENTO,
     desconhecido.NM_TITULAR
 from TB_DESCONHECIDO desconhecido
 	join TB_CONTRATO contrato on
