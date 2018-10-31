@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecido;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
@@ -146,6 +147,17 @@ public class ArquivoInputEntity extends ArquivoInput implements DomainEntity {
 	public List<IsentoInputSheet> getIsentoInputSheets() {
 		// TODO Auto-generated method stub
 		return super.getIsentoInputSheets();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInput",
+			targetEntity = ArquivoInputSheetEntity.class)
+	@Override
+	public List<ArquivoInputSheet> getArquivoInputSheets() {
+		// TODO Auto-generated method stub
+		return super.getArquivoInputSheets();
 	}
 
 }

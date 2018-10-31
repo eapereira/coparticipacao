@@ -1,7 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
@@ -14,12 +13,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBat
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.LancamentoBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
@@ -73,43 +69,15 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 	private DesconhecidoBatchService desconhecidoBatchService;
 
 	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
-		Object value;
-		List<LancamentoInputColsUi> lancamentoInputColsUis;
 		LancamentoUi lancamentoUi;
 		TitularUi titularUi;
 		DependenteUi dependenteUi;
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
 		LancamentoDetailUi lancamentoDetailUi;
-		List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			lancamentoUi = new LancamentoUi();
-
-			lancamentoInputColsUis = coParticipacaoContext.getLancamentoInputColsUis();
-
-			if (!lancamentoInputColsUis.isEmpty()) {
-				lancamentoDetailUi = lancamentoDetailService.create(coParticipacaoContext);
-			} else {
-				LOGGER.info(
-						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");
-
-				throw new ServiceException(
-						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");
-			}
-
-			if (lancamentoDetailUi.getMes() == null) {
-				lancamentoDetailUi.setMes(coParticipacaoContext.getMes());
-			} else {
-				coParticipacaoContext.setMes(lancamentoDetailUi.getMes());
-			}
-
-			if (lancamentoDetailUi.getAno() == null) {
-				lancamentoDetailUi.setAno(coParticipacaoContext.getAno());
-			} else {
-				coParticipacaoContext.setAno(lancamentoDetailUi.getAno());
-			}
+			lancamentoDetailUi = lancamentoDetailService.create(coParticipacaoContext);
 
 			if (!coParticipacaoContext.isFirstLineProcecessed()) {
 				LOGGER.info("Doing tasks to be performed just after we had read the first line:");

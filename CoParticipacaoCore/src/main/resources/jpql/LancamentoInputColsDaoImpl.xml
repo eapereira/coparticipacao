@@ -6,6 +6,7 @@
 				join fetch lancamentoInputCols.lancamentoInput lancamentoInput
 				join fetch lancamentoInputCols.arquivoInputColsDef arquivoInputColsDef 
 			where lancamentoInput.id = :lancamentoInputId
+			order by lancamentoInputCols.id
 		]]>
 	</query>
 
@@ -16,6 +17,7 @@
 				join fetch lancamentoInputCols.arquivoInputColsDef arquivoInputColsDef
 				join fetch  arquivoInputColsDef.arquivoInput arquivoInput
 			where arquivoInput.id = :arquivoInputId
+			order by lancamentoInputCols.id
 		]]>
 	</query>
 

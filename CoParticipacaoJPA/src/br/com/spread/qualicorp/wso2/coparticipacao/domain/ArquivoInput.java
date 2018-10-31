@@ -37,6 +37,8 @@ public abstract class ArquivoInput extends AbstractDomain {
 
 	private List<IsentoInputSheet> isentoInputSheets;
 
+	private List<ArquivoInputSheet> arquivoInputSheets;
+
 	public ArquivoInput() {
 		arquivoInputColsDefs = new ArrayList<>();
 		regras = new ArrayList<>();
@@ -44,6 +46,7 @@ public abstract class ArquivoInput extends AbstractDomain {
 
 		isentoInputSheets = new ArrayList<>();
 		arquivoOutputs = new ArrayList<>();
+		arquivoInputSheets = new ArrayList<>();
 	}
 
 	public String getDescrArquivo() {
@@ -176,11 +179,30 @@ public abstract class ArquivoInput extends AbstractDomain {
 		arquivoOutput.setArquivoInput(null);
 	}
 
+	public List<ArquivoInputSheet> getArquivoInputSheets() {
+		return arquivoInputSheets;
+	}
+
+	public void setArquivoInputSheets(List<ArquivoInputSheet> arquivoInputSheets) {
+		this.arquivoInputSheets = arquivoInputSheets;
+	}
+
+	public void addArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		getArquivoInputSheets().add(arquivoInputSheet);
+		arquivoInputSheet.setArquivoInput(this);
+	}
+
+	public void removeArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		getArquivoInputSheets().remove(arquivoInputSheet);
+		arquivoInputSheet.setArquivoInput(null);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((arquivoInputColsDefs == null) ? 0 : arquivoInputColsDefs.hashCode());
+		result = prime * result + ((arquivoInputSheets == null) ? 0 : arquivoInputSheets.hashCode());
 		result = prime * result + ((arquivoOutputDesconhecido == null) ? 0 : arquivoOutputDesconhecido.hashCode());
 		result = prime * result + ((arquivoOutputs == null) ? 0 : arquivoOutputs.hashCode());
 		result = prime * result + ((arquivoType == null) ? 0 : arquivoType.hashCode());
@@ -210,6 +232,11 @@ public abstract class ArquivoInput extends AbstractDomain {
 			if (other.arquivoInputColsDefs != null)
 				return false;
 		} else if (!arquivoInputColsDefs.equals(other.arquivoInputColsDefs))
+			return false;
+		if (arquivoInputSheets == null) {
+			if (other.arquivoInputSheets != null)
+				return false;
+		} else if (!arquivoInputSheets.equals(other.arquivoInputSheets))
 			return false;
 		if (arquivoOutputDesconhecido == null) {
 			if (other.arquivoOutputDesconhecido != null)
@@ -272,4 +299,5 @@ public abstract class ArquivoInput extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 }

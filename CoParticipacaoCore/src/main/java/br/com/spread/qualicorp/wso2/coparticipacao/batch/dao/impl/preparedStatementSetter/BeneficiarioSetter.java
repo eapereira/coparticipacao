@@ -138,7 +138,7 @@ public abstract class BeneficiarioSetter<ENTITY extends AbstractDomain> extends 
 			setInt(ps, COL_CD_CATEGORIA, beneficiarioDetail.getCategoria());
 			setString(ps, COL_SETOR, beneficiarioDetail.getSetor());
 			setString(ps, COL_ES, beneficiarioDetail.getEs());
-			setInt(ps, COL_CD_PLANO, beneficiarioDetail.getPlano());
+			setString(ps, COL_CD_PLANO, beneficiarioDetail.getPlano());
 			setDate(ps, COL_DT_INCLUSAO, beneficiarioDetail.getDtInclusao());
 
 			if (beneficiarioDetail.getSexo() != null) {

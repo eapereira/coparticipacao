@@ -13,6 +13,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBat
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
@@ -164,14 +165,30 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 	}
 
 	public boolean validateSheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Validating if sheet.ID[{}] with sheet.NAME[{}] will be accepted:",
+					coParticipacaoContext.getCurrentSheet(),
+					coParticipacaoContext.getSpreadsheetContext().getSheetName());
 
-			// MECSAS no momento lê apenas a primeira pasta:
-			if (NumberUtils.INTEGER_ZERO.equals(coParticipacaoContext.getCurrentSheet())) {
+			if (!coParticipacaoContext.getMapArquivoInputSheetUi().isEmpty()) {
+				arquivoInputSheetUi = coParticipacaoContext.getMapArquivoInputSheetUi()
+						.get(coParticipacaoContext.getCurrentSheet());
+
+				if (arquivoInputSheetUi != null) {
+					LOGGER.info("Sheet.ID[{}] accepted:", coParticipacaoContext.getCurrentSheet());
+					return true;
+				}
+			} else if (NumberUtils.INTEGER_ZERO.equals(coParticipacaoContext.getCurrentSheet())) {
+				// MECSAS no momento lê apenas a primeira pasta:
+				LOGGER.info("Sheet.ID[{}] accepted:", coParticipacaoContext.getCurrentSheet());
 				return true;
 			}
 
+			LOGGER.info("Sheet.ID[{}] rejected:", coParticipacaoContext.getCurrentSheet());
 			LOGGER.info("END");
 			return false;
 		} catch (Exception e) {

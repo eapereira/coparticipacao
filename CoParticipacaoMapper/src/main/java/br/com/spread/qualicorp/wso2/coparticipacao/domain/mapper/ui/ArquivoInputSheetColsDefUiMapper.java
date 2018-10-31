@@ -6,7 +6,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsD
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 
-@Mapper(componentModel = "spring", uses = { UserUiMapper.class, ArquivoInputSheetUiMapper.class })
+@Mapper(
+		componentModel = "spring",
+		uses = {
+				UserUiMapper.class,
+				ArquivoInputSheetUiMapper.class,
+				BeneficiarioColsUiMapper.class,
+				LancamentoInputSheetColsUiMapper.class })
 public abstract class ArquivoInputSheetColsDefUiMapper
 		extends AbstractMapper<ArquivoInputSheetColsDef, ArquivoInputSheetColsDefUi> {
 

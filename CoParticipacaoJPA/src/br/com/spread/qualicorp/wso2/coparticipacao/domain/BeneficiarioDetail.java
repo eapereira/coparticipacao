@@ -38,7 +38,7 @@ public class BeneficiarioDetail implements Serializable {
 
 	private String es;
 
-	private Integer plano;
+	private String plano;
 
 	private LocalDate dtInclusao;
 
@@ -200,11 +200,11 @@ public class BeneficiarioDetail implements Serializable {
 	}
 
 	@Column(name = "CD_PLANO")
-	public Integer getPlano() {
+	public String getPlano() {
 		return plano;
 	}
 
-	public void setPlano(Integer plano) {
+	public void setPlano(String plano) {
 		this.plano = plano;
 	}
 

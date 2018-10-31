@@ -70,13 +70,13 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR						int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA_ESPECIAL					int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_DESCR_PROFISSAO							int( 3 ) default 10;
-	declare VAR_COL_VIEW_LENGTH_NR_CPF_TITULAR							int( 3 ) default 10;	
+	declare VAR_COL_VIEW_LENGTH_DESCR_PROFISSAO							int( 3 ) default 40;
+	declare VAR_COL_VIEW_LENGTH_NR_CPF_TITULAR							int( 3 ) default 20;	
 	declare VAR_COL_VIEW_LENGTH_DT_MOVIMENTO							int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_CD_CONTRATO								int( 3 ) default 10;
-	declare VAR_COL_VIEW_LENGTH_NUM_SEGURADOS							int( 3 ) default 10;
-	declare VAR_COL_VIEW_LENGTH_VL_PROPORCAO							int( 3 ) default 10;
-	declare VAR_COL_VIEW_LENGTH_VL_ALOCACAO								int( 3 ) default 10;
+	declare VAR_COL_VIEW_LENGTH_NUM_SEGURADOS							int( 3 ) default 40;
+	declare VAR_COL_VIEW_LENGTH_VL_PROPORCAO							int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_VL_ALOCACAO								int( 3 ) default 20;
 
     declare VAR_COL_LABEL_NR_SUBFATURA									varchar( 40 ) default 'SUBFATURA';
 	declare VAR_COL_LABEL_NR_CERTIFICADO								varchar( 40 ) default 'CERTIFICADO';
@@ -176,7 +176,7 @@ BEGIN
 		'/coparticipacao/output-reports/bradesco/automind/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
-		'coparticipacao/output/',
+		'/coparticipacao/output/',
         VAR_FALSE,
         VAR_FALSE,		
         0,
@@ -333,7 +333,7 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;	
 	set VAR_CD_ORDEM = 0;
-	
+		
 	call PROC_LOG_MESSAGE('LINHA - 225');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
@@ -347,7 +347,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_VIEW_DESTINATION,
-		'NR_SUBFATURA',
+		'CD_CONTRATO',
 		VAR_COL_VARCHAR,
 		VAR_COL_VIEW_LENGTH_NR_SUBFATURA,
 		VAR_CD_ORDEM,
@@ -400,7 +400,7 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_VIEW_DESTINATION,
 		'NR_MATRICULA',
-		VAR_COL_INT,
+		VAR_COL_VARCHAR,
 		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
 		VAR_CD_ORDEM,
 		VAR_COL_LABEL_NR_MATRICULA,
@@ -640,7 +640,7 @@ BEGIN
 	);					
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
+		
 	call PROC_LOG_MESSAGE('LINHA - 797');	
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/
@@ -682,7 +682,7 @@ BEGIN
 		VAR_COL_LONG,
 		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
 		VAR_CD_ORDEM,
-		VAR_COL_LABEL_NR_MATRICULA,
+		VAR_COL_LABEL_NR_CERTIFICADO,
 		
 		VAR_ID_USER,
 		current_timestamp(),

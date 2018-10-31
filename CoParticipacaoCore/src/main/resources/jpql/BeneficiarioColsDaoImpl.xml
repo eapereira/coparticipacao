@@ -10,4 +10,14 @@
 		]]>
 	</query>
 
+	<query id="listByArquivoInputSheetId">
+		<![CDATA[
+			select beneficiarioCols from BeneficiarioColsEntity beneficiarioCols
+			join fetch beneficiarioCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
+			join fetch arquivoInputSheetColsDef.arquivoInputSheet arquivoInputSheet
+			where arquivoInputSheet.id = :arquivoInputSheetId	
+			order by beneficiarioCols.id
+		]]>
+	</query>
+
 </queries>

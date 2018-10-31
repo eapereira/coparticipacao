@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +14,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInput
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.LancamentoInputSheetColsEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.LancamentoInputSheetColsUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetColsService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -31,7 +35,7 @@ public class LancamentoInputSheetColsServiceImpl extends
 	private LancamentoInputSheetColsDao lancamentoInputSheetColsDao;
 
 	@Autowired
-	private LancamentoInputSheetColsUiMapper  uiMapper;
+	private LancamentoInputSheetColsUiMapper uiMapper;
 
 	@Autowired
 	private LancamentoInputSheetColsEntityMapper entityMapper;
@@ -59,5 +63,23 @@ public class LancamentoInputSheetColsServiceImpl extends
 	@Override
 	protected AbstractMapper<LancamentoInputSheetCols, LancamentoInputSheetColsEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<LancamentoInputSheetColsUi> listByArquivoInputSheet(ArquivoInputSheetUi arquivoInputSheetUi)
+			throws ServiceException {
+		List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			lancamentoInputSheetColsUis = entityToUi(
+					lancamentoInputSheetColsDao.listByArquivoInputSheetId(arquivoInputSheetUi.getId()));
+
+			LOGGER.info("END");
+			return lancamentoInputSheetColsUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 }

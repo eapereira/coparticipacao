@@ -91,9 +91,10 @@ public class ArquivoInputServiceImpl extends AbstractServiceImpl<ArquivoInputUi,
 										contrato.getCdContrato());
 							} else {
 								coParticipacaoContext = new CoParticipacaoContext();
-								coParticipacaoContext.setArquivoInputUi((ArquivoInputUi) contrato.getArquivoInput());
+								coParticipacaoContext.setArquivoInputUi(findByContratoId(contrato.getId()));
 								coParticipacaoContext.setAno(ano);
 								coParticipacaoContext.setMes(mes);
+								coParticipacaoContext.setEmpresaUi(empresaUi);
 							}
 
 							break;

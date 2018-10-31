@@ -3,8 +3,10 @@
 	<query id="listByArquivoInputId">
 		<![CDATA[
 			select	lancamentoInputSheet from LancamentoInputSheetEntity lancamentoInputSheet
+			join fetch lancamentoInputSheet.lancamentoInputSheetCols lancamentoInputSheetCols
+			join fetch lancamentoInputSheetCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
 			join fetch lancamentoInputSheet.arquivoInputSheet arquivoInputSheet			
-			join fetch arquivoInputSheet.arquivoInput arquivoInput
+			join arquivoInputSheet.arquivoInput arquivoInput
 			where arquivoInput.id = :arquivoInputId			  
 		]]>
 	</query>

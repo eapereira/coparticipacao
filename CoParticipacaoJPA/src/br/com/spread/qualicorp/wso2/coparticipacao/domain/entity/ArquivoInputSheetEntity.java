@@ -25,7 +25,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 @Entity
 @Table(name = "TB_ARQUIVO_INPUT_SHEET")
 @NamedQuery(name = "ArquivoInputSheetEntity.findAll", query = "SELECT a FROM ArquivoInputSheetEntity a")
-public class ArquivoInputSheetEntity extends ArquivoInputSheet {
+public class ArquivoInputSheetEntity extends ArquivoInputSheet implements DomainEntity {
 
 	/**
 	 * 

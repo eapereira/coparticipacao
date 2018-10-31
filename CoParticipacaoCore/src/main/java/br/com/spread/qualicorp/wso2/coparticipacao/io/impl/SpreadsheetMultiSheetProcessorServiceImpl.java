@@ -3,7 +3,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.io.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -44,59 +43,55 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 			Row row,
 			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
-		List<ArquivoInputSheetUi> arquivoInputSheetUis;
 		// int cellId = NumberUtils.INTEGER_ZERO;
 		String columnName = StringUtils.EMPTY;
 		Object value;
 		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
 		Cell cell;
 		ContratoUi contratoUi;
+		ArquivoInputSheetUi arquivoInputSheetUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputSheetUis = coParticipacaoContext.getArquivoInputSheetUis();
+			arquivoInputSheetUi = coParticipacaoContext.getMapArquivoInputSheetUi()
+					.get(coParticipacaoContext.getCurrentSheet());
 
 			mapLine = new HashMap<String, Object>();
 
 			// cellId = NumberUtils.INTEGER_ZERO;
 
-			for (ArquivoInputSheetUi arquivoInputSheetUi : arquivoInputSheetUis) {
-				if (arquivoInputSheetUi.getSheetId().equals(coParticipacaoContext.getCurrentSheet())) {
+			if (arquivoInputSheetUi != null) {
+				LOGGER.info("Processing sheet[{}] columns:", spreadsheetContext.getSheetName());
 
-					LOGGER.info("Processing sheet[{}] columns:", spreadsheetContext.getSheetName());
+				contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
 
-					contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
+				if (contratoUi != null) {
+					LOGGER.info(
+							"Using default ContratoUi[{}] for all registers in this ArquivoInputSheet:",
+							contratoUi.getCdContrato());
+					coParticipacaoContext.setContratoSheetRegisters(contratoUi);
+				}
 
-					if (contratoUi != null) {
-						LOGGER.info(
-								"Using default ContratoUi[{}] for all registers in this ArquivoInputSheet:",
-								contratoUi.getCdContrato());
-						coParticipacaoContext.setContratoSheetRegisters(contratoUi);
+				for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi
+						.getArquivoInputSheetColsDefs()) {
+					arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef;
+
+					cell = row.getCell(arquivoInputSheetColsDefUi.getOrdem());
+
+					if (cell != null) {
+						columnName = arquivoInputSheetColsDefUi.getNameColumn();
+
+						LOGGER.info("Retrieving cell value for column [{}]:", columnName);
+						value = getExtendedCellValue(spreadsheetContext, cell, arquivoInputSheetColsDefUi);
+
+						LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
+						mapLine.put(columnName, value);
+
+						// cellId++;
+					} else {
+						break;
 					}
-
-					for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi
-							.getArquivoInputSheetColsDefs()) {
-						arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef;
-
-						cell = row.getCell(arquivoInputSheetColsDefUi.getOrdem());
-
-						if (cell != null) {
-							columnName = arquivoInputSheetColsDefUi.getNameColumn();
-
-							LOGGER.info("Retrieving cell value for column [{}]:", columnName);
-							value = getExtendedCellValue(spreadsheetContext, cell, arquivoInputSheetColsDefUi);
-
-							LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
-							mapLine.put(columnName, value);
-
-							// cellId++;
-						} else {
-							break;
-						}
-					}
-
-					break;
 				}
 			}
 
@@ -147,7 +142,7 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 				break;
 			}
 
-			if (validateRestrictedValue(arquivoInputSheetColsDefUi, value)) {
+			if (!validateRestrictedValue(arquivoInputSheetColsDefUi, value)) {
 				throw new RestrictedValueException(
 						"Ignoring line for restricted acceptable value[%s] at column[%s]:",
 						value,
@@ -212,7 +207,7 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 			LOGGER.info("BEGIN");
 
 			if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getRestrictedValue())) {
-				if (arquivoInputSheetColsDefUi.getRestrictedValue().equals(value.toString())) {
+				if (!arquivoInputSheetColsDefUi.getRestrictedValue().equals(value.toString())) {
 					LOGGER.info(
 							"Ignoring line for restricted acceptable value[{}] at column[{}]:",
 							value,

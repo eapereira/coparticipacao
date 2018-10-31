@@ -1,5 +1,8 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
@@ -23,8 +26,12 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 
 	private ArquivoInputSheet arquivoInputSheet;
 
+	private List<BeneficiarioCols> beneficiarioCols;
+
 	public ArquivoInputSheetColsDef() {
 		super();
+
+		beneficiarioCols = new ArrayList<>();
 	}
 
 	public Integer getOrdem() {
@@ -91,10 +98,29 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 		this.restrictedValue = restrictedValue;
 	}
 
+	public List<BeneficiarioCols> getBeneficiarioCols() {
+		return beneficiarioCols;
+	}
+
+	public void setBeneficiarioCols(List<BeneficiarioCols> beneficiarioCols) {
+		this.beneficiarioCols = beneficiarioCols;
+	}
+
+	public void addBeneficiarioCols(BeneficiarioCols beneficiarioCols) {
+		getBeneficiarioCols().add(beneficiarioCols);
+		beneficiarioCols.setArquivoInputSheetColsDef(this);
+	}
+
+	public void removeBeneficiarioCols(BeneficiarioCols beneficiarioCols) {
+		getBeneficiarioCols().remove(beneficiarioCols);
+		beneficiarioCols.setArquivoInputSheetColsDef(null);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((beneficiarioCols == null) ? 0 : beneficiarioCols.hashCode());
 		result = prime * result + ((format == null) ? 0 : format.hashCode());
 		result = prime * result + ((length == null) ? 0 : length.hashCode());
 		result = prime * result + ((localePattern == null) ? 0 : localePattern.hashCode());
@@ -114,6 +140,11 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoInputSheetColsDef other = (ArquivoInputSheetColsDef) obj;
+		if (beneficiarioCols == null) {
+			if (other.beneficiarioCols != null)
+				return false;
+		} else if (!beneficiarioCols.equals(other.beneficiarioCols))
+			return false;
 		if (format == null) {
 			if (other.format != null)
 				return false;
@@ -148,4 +179,5 @@ public abstract class ArquivoInputSheetColsDef extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 }

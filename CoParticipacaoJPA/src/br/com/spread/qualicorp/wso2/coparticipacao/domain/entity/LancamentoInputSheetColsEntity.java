@@ -50,7 +50,7 @@ public class LancamentoInputSheetColsEntity extends LancamentoInputSheetCols {
 		return super.getArquivoInputSheetColsDef();
 	}
 
-	@Column(name = "CD_LANCAMENTO_COL_DEF")
+	@Column(name = "CD_LANCAMENTO_COLS_DEF")
 	@Convert(converter = LancamentoColTypeConverter.class)
 	@Override
 	public LancamentoColType getLancamentoColType() {

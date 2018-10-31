@@ -3,6 +3,7 @@
 	<query id="findByContratoId">
 		<![CDATA[
 			select arquivoInput from ArquivoInputEntity arquivoInput
+			left outer join fetch arquivoInput.arquivoInputSheets arquivoInputSheets
 			join fetch arquivoInput.contrato contrato
 			where contrato.id = :contratoId
 		]]>
