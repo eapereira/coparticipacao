@@ -81,8 +81,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
 
 				/*
-				 * Se aparecer uma célula com data, vamos alterar o seu formato para um que seja
-				 * fácil para convertermos:
+				 * Se aparecer uma célula com data, vamos alterar o seu formato
+				 * para um que seja fácil para convertermos:
 				 */
 				creationHelper = workbook.getCreationHelper();
 				dataFormat = creationHelper.createDataFormat();
@@ -108,7 +108,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 						}
 
 						LOGGER.info("Processing sheet [{}]:", sheet.getSheetName());
-						LOGGER.info("Sheet [{}] has a total number of Rows[{}]:", sheet.getSheetName(),
+						LOGGER.info(
+								"Sheet [{}] has a total number of Rows[{}]:",
+								sheet.getSheetName(),
 								sheet.getPhysicalNumberOfRows());
 
 						coParticipacaoContext.setCurrentSheet(sheetIndex);
@@ -125,12 +127,14 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 							LOGGER.info("Transforming line into Map:");
 							mapLine = readLine(spreadsheetContext, row, coParticipacaoContext);
 
-							LOGGER.info("Sending line to be processed by ProcessorListener:");
+							if (!mapLine.isEmpty()) {
+								LOGGER.info("Sending line to be processed by ProcessorListener:");
 
-							coParticipacaoContext.setMapLine(mapLine);
-							coParticipacaoContext.setCurrentLine(currentLine);
+								coParticipacaoContext.setMapLine(mapLine);
+								coParticipacaoContext.setCurrentLine(currentLine);
 
-							processorListener.processLine(coParticipacaoContext);
+								processorListener.processLine(coParticipacaoContext);
+							}
 
 							currentLine++;
 						}
@@ -143,7 +147,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				processorListener.afterProcess(coParticipacaoContext);
 			} else {
-				LOGGER.info("Is required at least one sheet to be loaded is the file [{}]:",
+				LOGGER.info(
+						"Is required at least one sheet to be loaded is the file [{}]:",
 						coParticipacaoContext.getFileName());
 			}
 
@@ -181,14 +186,16 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Map<String, Object> readLine(SpreadsheetContext spreadsheetContext, Row row,
+	protected Map<String, Object> readLine(
+			SpreadsheetContext spreadsheetContext,
+			Row row,
 			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 		// int cellId = NumberUtils.INTEGER_ZERO;
 		String columnName = StringUtils.EMPTY;
 		Object value;
-		ArquivoInputColsDef arquivoInputColsDef;
+		ArquivoInputColsDefUi arquivoInputColsDefUi;
 		Cell cell;
 
 		try {
@@ -201,15 +208,15 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			// cellId = NumberUtils.INTEGER_ZERO;
 
 			for (ArquivoInputColsDef colsDef : arquivoInputColsDefUis) {
-				arquivoInputColsDef = colsDef;
+				arquivoInputColsDefUi = (ArquivoInputColsDefUi) colsDef;
 
-				cell = row.getCell(arquivoInputColsDef.getOrdem());
+				cell = row.getCell(arquivoInputColsDefUi.getOrdem());
 
 				if (cell != null) {
-					columnName = arquivoInputColsDef.getNameColumn();
+					columnName = arquivoInputColsDefUi.getNameColumn();
 
 					LOGGER.info("Retrieving cell value for column [{}]:", columnName);
-					value = getCellValue(spreadsheetContext, cell, arquivoInputColsDef);
+					value = getCellValue(spreadsheetContext, cell, arquivoInputColsDefUi);
 
 					LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
 					mapLine.put(columnName, value);
@@ -228,7 +235,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Object getCellValue(SpreadsheetContext spreadsheetContext, Cell cell,
+	protected Object getCellValue(
+			SpreadsheetContext spreadsheetContext,
+			Cell cell,
 			ArquivoInputColsDef arquivoInputColsDef) throws ServiceException {
 		Object value;
 
@@ -289,7 +298,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				if (value instanceof String) {
 					if (StringUtils.isNotBlank(arquivoInputColsDef.getLocalePattern())) {
-						value = DateUtils.stringToDate((String) value, arquivoInputColsDef.getFormat(),
+						value = DateUtils.stringToDate(
+								(String) value,
+								arquivoInputColsDef.getFormat(),
 								arquivoInputColsDef.getLocalePattern());
 					} else {
 						value = DateUtils.stringToDate((String) value, arquivoInputColsDef.getFormat());
@@ -316,7 +327,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			strValue = ((String) value).trim();
 
 			if (StringUtils.isNotBlank(strValue)) {
-				strValue = StringUtils.replaceAll(strValue, "(\\.|\\-|\\')", StringUtils.EMPTY);
+				strValue = StringUtils.replaceAll(strValue, "(\\.|\\-|\\'|/)", StringUtils.EMPTY);
 				return Long.valueOf(strValue);
 			}
 

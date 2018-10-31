@@ -18,18 +18,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.BeneficiarioCol
  *
  */
 @Repository
-public class BeneficiarioColsDaoImpl extends
-		AbstractDaoImpl<BeneficiarioColsEntity> implements BeneficiarioColsDao {
-	private static final Logger LOGGER = LogManager
-			.getLogger(BeneficiarioColsDaoImpl.class);
+public class BeneficiarioColsDaoImpl extends AbstractDaoImpl<BeneficiarioColsEntity> implements BeneficiarioColsDao {
+	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioColsDaoImpl.class);
 
 	public BeneficiarioColsDaoImpl() throws DaoException {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public List<BeneficiarioColsEntity> listByArquivoInputId(
-			Long arquivoInputId) throws DaoException {
+	public List<BeneficiarioColsEntity> listByArquivoInputId(Long arquivoInputId) throws DaoException {
 		List<BeneficiarioColsEntity> entities;
 		Query query;
 
@@ -38,6 +35,26 @@ public class BeneficiarioColsDaoImpl extends
 
 			query = createQuery("listByArquivoInputId");
 			query.setParameter("arquivoInputId", arquivoInputId);
+
+			entities = query.getResultList();
+
+			LOGGER.info("END");
+			return entities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<BeneficiarioColsEntity> listByArquivoInputSheetId(Long arquivoInputSheetId) throws DaoException {
+		List<BeneficiarioColsEntity> entities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByArquivoInputSheetId");
+			query.setParameter("arquivoInputSheetId", arquivoInputSheetId);
 
 			entities = query.getResultList();
 

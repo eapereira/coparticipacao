@@ -1,5 +1,8 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
@@ -7,10 +10,12 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDefTypeConverter;
 
@@ -22,7 +27,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDe
 @Entity
 @Table(name = "TB_ARQUIVO_INPUT_SHEET_COLS_DEF")
 @NamedQuery(name = "ArquivoInputSheetColsDefEntity.findAll", query = "SELECT a FROM ArquivoInputSheetColsDefEntity a")
-public class ArquivoInputSheetColsDefEntity extends ArquivoInputSheetColsDef {
+public class ArquivoInputSheetColsDefEntity extends ArquivoInputSheetColsDef implements DomainEntity {
 
 	/**
 	 * 
@@ -82,5 +87,12 @@ public class ArquivoInputSheetColsDefEntity extends ArquivoInputSheetColsDef {
 	public String getRestrictedValue() {
 		// TODO Auto-generated method stub
 		return super.getRestrictedValue();
+	}
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = BeneficiarioColsEntity.class)
+	@Override
+	public List<BeneficiarioCols> getBeneficiarioCols() {
+		// TODO Auto-generated method stub
+		return super.getBeneficiarioCols();
 	}
 }

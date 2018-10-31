@@ -257,11 +257,13 @@ BEGIN
 	declare VAR_TP_REGRA_OPERATION_EQUALS									int( 3 )  default 5;
 	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS								int( 3 )  default 6;
 	
-	declare VAR_CD_FORMAT_DDMMYY											varchar( 15 ) default 'dd/MMM/yy';
-	declare VAR_CD_FORMAT_DDMMYYYY											varchar( 15 ) default 'dd/MMM/yyyy';
+	declare VAR_CD_FORMAT_DDMMYY											varchar( 15 ) default 'dd/MM/yy';
+	declare VAR_CD_FORMAT_DDMMYYYY											varchar( 15 ) default 'dd/MM/yyyy';
 	
 	declare CD_SHEET_TITULAR												int( 3 ) default 0;
 	declare CD_SHEET_DEPENDENTE												int( 3 ) default 4;
+	
+	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -359,6 +361,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_RESTRICTED_VALUE,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -366,8 +369,9 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_001_TP_REGISTRO',
-		VAR_COL_INT,
+		VAR_COL_VARCHAR,
 		null,
+		VAR_CD_RESTRICTED_VALUE,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -515,6 +519,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -522,8 +527,9 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_007_DT_NASCIMENTO',
-		VAR_COL_INT,
+		VAR_COL_DATE,
 		null,
+		VAR_CD_FORMAT_DDMMYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -629,7 +635,7 @@ BEGIN
 		'COLUMN_011_DT_ADMISSAO',
 		VAR_COL_DATE,
 		null,
-		VAR_CD_FORMAT_DDMMYYYY,
+		VAR_CD_FORMAT_DDMMYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -657,7 +663,7 @@ BEGIN
 		'COLUMN_012_DT_INICIO_VIGENCIA',
 		VAR_COL_DATE,
 		null,
-		VAR_CD_FORMAT_DDMMYYYY,
+		VAR_CD_FORMAT_DDMMYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -845,7 +851,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_019_DT_REATIVACAO',
-		VAR_COL_DATE,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
@@ -898,7 +904,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_021_DT_CANCELAMENTO',
-		VAR_COL_DATE,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -1505,6 +1511,22 @@ BEGIN
 		current_timestamp()		
 	);
 	
+	call PROC_LOG_MESSAGE('LINHA - 1580');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
+		VAR_ID_SHEET01_COLUMN_004_NM_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
 	call PROC_LOG_MESSAGE('LINHA - 1479');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
@@ -1630,7 +1652,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_CD_DESCONHECIDO_COLS_DEF_NM_DEPENDENTE,
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
 		VAR_ID_SHEET05_COLUMN_005_NM_DEPENDENTE,
 		
 		VAR_ID_USER,

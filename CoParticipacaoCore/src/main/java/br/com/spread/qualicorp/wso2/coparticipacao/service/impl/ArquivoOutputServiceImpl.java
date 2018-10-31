@@ -105,11 +105,11 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 		try {
 			LOGGER.info("BEGIN");
 
-			if (reportService.hasReports(coParticipacaoContext.getEmpresaUi())) {
+			/*if (reportService.hasReports(coParticipacaoContext.getEmpresaUi())) {
 				LOGGER.info("EmpresaUi[{}] has especial reports configured to JasperReports:",
 						coParticipacaoContext.getEmpresaUi().getNameEmpresa());
 				reportService.writeReport(coParticipacaoContext);
-			} else {
+			} else {*/
 				writeCoparticipacaoOutputFile(coParticipacaoContext);
 
 				arquivoOutputUis = listByEmpresaIdAndUseType(coParticipacaoContext.getEmpresaUi(), UseType.EXTRA_FILE);
@@ -119,7 +119,7 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 							arquivoOutputUi.getArquivoInput().getContrato().getCdContrato());
 					flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi, this);
 				}
-			}
+			//}
 
 			LOGGER.info("END");
 		} catch (Exception e) {

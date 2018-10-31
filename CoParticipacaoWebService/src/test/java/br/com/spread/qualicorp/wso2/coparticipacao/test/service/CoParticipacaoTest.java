@@ -52,8 +52,8 @@ public abstract class CoParticipacaoTest {
 
 	private StopWatchAdapter stopWatch;
 
-	//public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
-	public static final String TEST_PATH = "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	//public static final String TEST_PATH = "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
 
 	private static final Long ADMIN_USER_ID = 1l;
 	

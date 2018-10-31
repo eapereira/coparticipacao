@@ -161,6 +161,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.setNameBeneficiario(lancamentoDetailUi.getNameBeneficiario());
 			beneficiarioUi.setNameTitular(lancamentoDetailUi.getNameTitular());
 			beneficiarioUi.setDtNascimento(lancamentoDetailUi.getDtNascimento());
+			
+			beneficiarioUi.setContrato(lancamentoDetailUi.getContratoUi());
+			beneficiarioUi.setCdContrato(lancamentoDetailUi.getCdContrato());
 
 			LOGGER.info("END");
 			return beneficiarioUi;
@@ -292,7 +295,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			} else if (BeneficiarioColType.ES.equals(beneficiarioColType)) {
 				beneficiarioDetail.setEs((String) value);
 			} else if (BeneficiarioColType.CD_PLANO.equals(beneficiarioColType)) {
-				beneficiarioDetail.setPlano((Integer) value);
+				beneficiarioDetail.setPlano((String) value);
 			} else if (BeneficiarioColType.DT_INCLUSAO.equals(beneficiarioColType)) {
 				beneficiarioDetail.setDtInclusao((LocalDate) value);
 			} else if (BeneficiarioColType.SEXO.equals(beneficiarioColType)) {
@@ -466,11 +469,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			} else if (BeneficiarioColType.DIF_TRANSF.equals(beneficiarioColType)) {
 				beneficiarioDetail.setDifTransferencia((String) value);
 			} else if (BeneficiarioColType.DESCR_PROFISSAO.equals(beneficiarioColType)) {
-				beneficiarioDetail.setDifTransferencia((String) value);
+				beneficiarioDetail.setProfissao((String) value);
 			} else if (BeneficiarioColType.NR_MATRICULA_ESPECIAL.equals(beneficiarioColType)) {
-				beneficiarioDetail.setDifTransferencia((String) value);
+				beneficiarioDetail.setMatriculaEspecial((Long) value);
 			} else if (BeneficiarioColType.VL_FATOR_MODERADOR.equals(beneficiarioColType)) {
-				beneficiarioDetail.setDifTransferencia((String) value);
+				beneficiarioDetail.setFatorModerador((BigDecimal) value);
 			}
 
 			LOGGER.info("END");
@@ -483,7 +486,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 	public BeneficiarioUi createBeneficiarioFromMecsas(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
 		List<BeneficiarioColsUi> beneficiarioColsUis;
-		Object value;
 		BeneficiarioUi beneficiarioUi;
 
 		try {
@@ -491,30 +493,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			beneficiarioColsUis = coParticipacaoContext.getBeneficiarioColsUis();
 
-			LOGGER.info("Creating Beneficiario:");
-			beneficiarioUi = new BeneficiarioUi();
+			if (!beneficiarioColsUis.isEmpty()) {
+				beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioColsUis);
+			} else {
+				beneficiarioColsUis = coParticipacaoContext.getMapBeneficiarioCols()
+						.get(coParticipacaoContext.getCurrentSheet());
 
-			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
-				if (beneficiarioColsUi.getArquivoInputSheetColsDef() != null) {
-					value = coParticipacaoContext.getColumnValue(
-							(ArquivoInputSheetColsDefUi) beneficiarioColsUi.getArquivoInputSheetColsDef());
-				} else if (beneficiarioColsUi.getArquivoInputColsDef() != null) {
-					value = coParticipacaoContext
-							.getColumnValue((ArquivoInputColsDefUi) beneficiarioColsUi.getArquivoInputColsDef());
-				} else {
-					throw new ServiceException(
-							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputColsDefUi or ArquivoInputSheetColsDefUi mapped:",
-							beneficiarioColsUi.getBeneficiarioColType().getDescription());
-				}
-
-				LOGGER.info(
-						"Retrieving value [{}] from column [{}]",
-						value,
-						beneficiarioColsUi.getArquivoInputColsDef().getNameColumn());
-
-				if (isNotZero(value)) {
-					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
-				}
+				beneficiarioUi = createBeneficiarioByArquivoInputSheet(coParticipacaoContext, beneficiarioColsUis);
 			}
 
 			LOGGER.info(
@@ -593,6 +578,86 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throw new ServiceException(e.getMessage(), e);
 		}
 
+	}
+
+	private BeneficiarioUi createBeneficiario(
+			CoParticipacaoContext coParticipacaoContext,
+			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+		Object value;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			LOGGER.info("Creating Beneficiario:");
+			beneficiarioUi = new BeneficiarioUi();
+
+			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
+				if (beneficiarioColsUi.getArquivoInputColsDef() != null) {
+					value = coParticipacaoContext
+							.getColumnValue((ArquivoInputColsDefUi) beneficiarioColsUi.getArquivoInputColsDef());
+				} else {
+					throw new ServiceException(
+							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputColsDefUi or ArquivoInputSheetColsDefUi mapped:",
+							beneficiarioColsUi.getBeneficiarioColType().getDescription());
+				}
+
+				LOGGER.info(
+						"Retrieving value [{}] from column [{}]",
+						value,
+						beneficiarioColsUi.getArquivoInputColsDef().getNameColumn());
+
+				if (isNotZero(value)) {
+					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
+				}
+			}
+
+			LOGGER.info("END");
+			return beneficiarioUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private BeneficiarioUi createBeneficiarioByArquivoInputSheet(
+			CoParticipacaoContext coParticipacaoContext,
+			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+		Object value;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			LOGGER.info("Creating Beneficiario:");
+			beneficiarioUi = new BeneficiarioUi();
+
+			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
+				if (beneficiarioColsUi.getArquivoInputSheetColsDef() != null) {
+					value = coParticipacaoContext.getColumnValue(
+							(ArquivoInputSheetColsDefUi) beneficiarioColsUi.getArquivoInputSheetColsDef());
+				} else {
+					throw new ServiceException(
+							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputColsDefUi or ArquivoInputSheetColsDefUi mapped:",
+							beneficiarioColsUi.getBeneficiarioColType().getDescription());
+				}
+
+				LOGGER.info(
+						"Retrieving value [{}] from column [{}]",
+						value,
+						beneficiarioColsUi.getArquivoInputSheetColsDef().getNameColumn());
+
+				if (isNotZero(value)) {
+					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
+				}
+			}
+
+			LOGGER.info("END");
+			return beneficiarioUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 	private boolean isTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)

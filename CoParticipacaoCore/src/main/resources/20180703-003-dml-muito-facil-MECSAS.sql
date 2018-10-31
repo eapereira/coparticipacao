@@ -503,7 +503,7 @@ BEGIN
         DT_ALTERED ) values (	
         VAR_ID_ARQUIVO_INPUT,
         'PLANO',
-        VAR_COL_INT,
+        VAR_COL_VARCHAR,
         null,
         10,
                 

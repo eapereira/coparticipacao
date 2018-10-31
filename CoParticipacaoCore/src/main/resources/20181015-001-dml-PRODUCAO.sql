@@ -240,13 +240,13 @@ BEGIN
 	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção por valor';
 	declare VAR_NR_MATRICULA_BASE										bigint( 17 ) default 44400000000000;
 	
-	declare VAR_CD_INPUT_DIR											varchar( 200 ) default '/coparticipacao/input/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_MUITO_FACIL						varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/muito-facil/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_MARJAN								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/marjan/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_ABBVIE								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/abbvie/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_HOC								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/hoc/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_CARGILL							varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/cargill/';
-	declare VAR_CD_OUTPUT_REPORT_DIR_INTERVALOR							varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/intervalor/';
+	declare VAR_CD_INPUT_DIR											varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/input/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_MUITO_FACIL						varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/muito-facil/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_MARJAN								varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/marjan/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_ABBVIE								varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/abbvie/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_HOC								varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/hoc/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_CARGILL							varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/cargill/';
+	declare VAR_CD_OUTPUT_REPORT_DIR_INTERVALOR							varchar( 200 ) default '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/intervalor/';
 	
 	/***********************************************************************************************************************/
 	

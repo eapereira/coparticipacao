@@ -479,7 +479,161 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 482');
+	call PROC_LOG_MESSAGE('LINHA - 797');
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/
+	/* NAO-LOCALIZADOS */
+	
+	call PROC_LOG_MESSAGE('LINHA - 801');
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_DESCONHECIDO_INTERVALOR',
+		'Não Localizados',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;
+	set VAR_CD_ORDEM = 0;
+
+	call PROC_LOG_MESSAGE('LINHA - 820');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_MATRICULA',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 846');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NM_BENEFICIARIO',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_BENEFICIARIO,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NM_BENEFICIARIO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 846');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_CPF',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_CPF_BENEFICIARIO,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NR_CPF_BENEFICIARIO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 846');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'DT_NASCIMENTO',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_DT_NASCIMENTO,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_DT_NASCIMENTO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 872');	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NM_TITULAR',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_TITULAR,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NM_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+		
+	call PROC_LOG_MESSAGE('LINHA - 1030');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/
 	call PROC_UPDATE_SCRIPT( VAR_NM_SCRIPT );

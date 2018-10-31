@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.webservice.coparticipacao.CoParticipacaoInfo;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.CoparticipacaoJdbcDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExecucaoType;
@@ -30,6 +31,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
@@ -55,12 +57,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioColsServi
 import br.com.spread.qualicorp.wso2.coparticipacao.service.CoParticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.FatucopaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputColsService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetColsService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.NaoLocalizadoService;
@@ -131,9 +133,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	private IsentoService isentoService;
 
 	@Autowired
-	private EmpresaService empresaService;
-
-	@Autowired
 	private IsentoInputSheetService isentoInputSheetService;
 
 	@Qualifier("IsentoSpreadsheetProcessorService")
@@ -167,6 +166,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private LancamentoInputSheetService lancamentoInputSheetService;
+
+	@Autowired
+	private LancamentoInputSheetColsService lancamentoInputSheetColsService;
 
 	private static final Long USER_ADMIN_ID = 1l;
 
@@ -402,7 +404,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			if (UseType.FATUCOPA.equals(arquivoInputUi.getUseType())) {
 				changeThreadName(coParticipacaoContext, "FatuCopaService");
 
-				loadLancamentoDefinitions(coParticipacaoContext);
+				loadFatucopaDefinitions(coParticipacaoContext);
 
 				if (ArquivoType.FIXED_LENGTH.equals(arquivoInputUi.getArquivoType())) {
 					fixedLengthProcessorService
@@ -496,7 +498,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		EmpresaUi empresaUi;
-		List<BeneficiarioColsUi> beneficiarioColsUis;
 		PartitionMap<TitularUi> mapTitularUi;
 		PartitionMap<DependenteUi> mapDependenteUi;
 		List<ReportUi> reportUis;
@@ -509,17 +510,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			coParticipacaoContext.setUser(userUi);
 
-			empresaUi = (EmpresaUi) coParticipacaoContext.getArquivoInputUi().getContrato().getEmpresa();
-			empresaUi = empresaService.findById(empresaUi.getId());
+			empresaUi = coParticipacaoContext.getEmpresaUi();
 
-			beneficiarioColsUis = beneficiarioColsService
-					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
-
-			if (beneficiarioColsUis.isEmpty()) {
-				LOGGER.info(
-						"Didn't found mappings at BeneficiarioCols for ArquivoInput[{}]:",
-						coParticipacaoContext.getArquivoInputUi().getNameArquivoRegexp());
-			}
+			loadBeneficiarioCols(coParticipacaoContext);
 
 			LOGGER.info(
 					"Loading ArquivoInputSheetUi information if the current ArquivoInputUi[{}] use it:",
@@ -562,10 +555,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			}
 
 			coParticipacaoContext.setReportUis(reportUis);
-			coParticipacaoContext.setEmpresaUi(empresaUi);
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);
-			coParticipacaoContext.setBeneficiarioColsUis(beneficiarioColsUis);
 			coParticipacaoContext.setDesconhecidoUis(desconhecidoUis);
 
 			LOGGER.info("END");
@@ -574,6 +565,43 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			throw new ServiceException(e.getMessage(), e);
 		}
 
+	}
+
+	private void loadBeneficiarioCols(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		List<BeneficiarioColsUi> beneficiarioColsUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			beneficiarioColsUis = beneficiarioColsService
+					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
+
+			if (beneficiarioColsUis.isEmpty()) {
+				for (ArquivoInputSheet arquivoInputSheet : coParticipacaoContext.getArquivoInputUi()
+						.getArquivoInputSheets()) {
+					beneficiarioColsUis = beneficiarioColsService
+							.listByArquivoInputSheetId((ArquivoInputSheetUi) arquivoInputSheet);
+
+					if (!beneficiarioColsUis.isEmpty()) {
+						coParticipacaoContext.getMapBeneficiarioCols()
+								.put(arquivoInputSheet.getSheetId(), beneficiarioColsUis);
+					}
+				}
+
+				if (coParticipacaoContext.getMapBeneficiarioCols().isEmpty()) {
+					LOGGER.info(
+							"Didn't found mappings at BeneficiarioCols for ArquivoInput[{}]:",
+							coParticipacaoContext.getArquivoInputUi().getNameArquivoRegexp());
+				}
+			} else {
+				coParticipacaoContext.setBeneficiarioColsUis(beneficiarioColsUis);
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 	private void loadMecsasDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
@@ -585,7 +613,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
-
 	}
 
 	private void loadIsentoDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
@@ -607,8 +634,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	}
 
-	private void loadLancamentoDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	private void loadFatucopaDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		List<LancamentoInputColsUi> lancamentoInputColsUis;
+		List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis;
 		List<RegraUi> regraUis;
 		List<RegraConditionalUi> regraConditionalUis;
 		List<LancamentoInputSheetUi> lancamentoInputSheetUis;
@@ -618,7 +646,24 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			lancamentoInputColsUis = lancamentoInputColsService
 					.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
-			coParticipacaoContext.getLancamentoInputColsUis().addAll(lancamentoInputColsUis);
+
+			if (!lancamentoInputColsUis.isEmpty()) {
+				coParticipacaoContext.getLancamentoInputColsUis().addAll(lancamentoInputColsUis);
+			} else {
+				for (ArquivoInputSheetUi arquivoInputSheetUi : coParticipacaoContext.getArquivoInputSheetUis()) {
+					lancamentoInputSheetColsUis = lancamentoInputSheetColsService
+							.listByArquivoInputSheet(arquivoInputSheetUi);
+
+					LOGGER.info(
+							"Loading LancamentoInputSheetColsUi for sheetId[{}]:",
+							arquivoInputSheetUi.getSheetId());
+
+					if (!lancamentoInputSheetColsUis.isEmpty()) {
+						coParticipacaoContext.getMapLancamentoInputSheetColsUis()
+								.put(arquivoInputSheetUi.getSheetId(), lancamentoInputSheetColsUis);
+					}
+				}
+			}
 
 			// Caregando as regras para o arquivo:
 			regraUis = regraService.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());

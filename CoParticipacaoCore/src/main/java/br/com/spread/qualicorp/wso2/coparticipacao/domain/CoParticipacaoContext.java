@@ -28,6 +28,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsen
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
@@ -125,6 +126,10 @@ public class CoParticipacaoContext {
 
 	private List<LancamentoInputSheetUi> lancamentoInputSheetUis;
 
+	private Map<Integer, List<BeneficiarioColsUi>> mapBeneficiarioCols;
+
+	private Map<Integer, List<LancamentoInputSheetColsUi>> mapLancamentoInputSheetColsUis;
+
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
 		lancamentoInputColsUis = new ArrayList<LancamentoInputColsUi>();
@@ -149,6 +154,9 @@ public class CoParticipacaoContext {
 		reportUis = new ArrayList<ReportUi>();
 		mapLine = new HashMap<String, Object>();
 		bunker = new Bunker();
+
+		mapBeneficiarioCols = new HashMap<Integer, List<BeneficiarioColsUi>>();
+		mapLancamentoInputSheetColsUis = new HashMap<Integer, List<LancamentoInputSheetColsUi>>();
 
 		currentLine = NumberUtils.INTEGER_ONE;
 
@@ -754,6 +762,23 @@ public class CoParticipacaoContext {
 
 	public void setLancamentoInputSheetUis(List<LancamentoInputSheetUi> lancamentoInputSheetUis) {
 		this.lancamentoInputSheetUis = lancamentoInputSheetUis;
+	}
+
+	public Map<Integer, List<BeneficiarioColsUi>> getMapBeneficiarioCols() {
+		return mapBeneficiarioCols;
+	}
+
+	public void setMapBeneficiarioCols(Map<Integer, List<BeneficiarioColsUi>> mapBeneficiarioCols) {
+		this.mapBeneficiarioCols = mapBeneficiarioCols;
+	}
+
+	public Map<Integer, List<LancamentoInputSheetColsUi>> getMapLancamentoInputSheetColsUis() {
+		return mapLancamentoInputSheetColsUis;
+	}
+
+	public void setMapLancamentoInputSheetColsUis(
+			Map<Integer, List<LancamentoInputSheetColsUi>> mapLancamentoInputSheetColsUis) {
+		this.mapLancamentoInputSheetColsUis = mapLancamentoInputSheetColsUis;
 	}
 
 }

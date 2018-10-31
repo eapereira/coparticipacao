@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <queries>
-	<query id="ArquivoInputColsDefEntity.insert">
+	<query id="listByArquivoInputSheetId">
 		<![CDATA[
+			select lancamentoInputSheetCols from LancamentoInputSheetColsEntity lancamentoInputSheetCols
+			join fetch lancamentoInputSheetCols.lancamentoInputSheet lancamentoInputSheet
+			join fetch lancamentoInputSheetCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
+			join lancamentoInputSheet.arquivoInputSheet arquivoInputSheet
+			where arquivoInputSheet.id = :arquivoInputSheetId
+			order by lancamentoInputSheetCols.id
 		]]>
 	</query>
 

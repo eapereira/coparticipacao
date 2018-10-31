@@ -15,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInput
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.LancamentoInputColsEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.LancamentoInputColsUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputColsService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;

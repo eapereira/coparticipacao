@@ -14,4 +14,5 @@ public interface LancamentoInputColsDao extends AbstractDao<LancamentoInputColsE
 	List<LancamentoInputColsEntity> listByLancamentoInputId(Long lancamentoInputId) throws DaoException;
 
 	List<LancamentoInputColsEntity> listByArquivoInputId(Long arquivoInputId) throws DaoException;
+
 }

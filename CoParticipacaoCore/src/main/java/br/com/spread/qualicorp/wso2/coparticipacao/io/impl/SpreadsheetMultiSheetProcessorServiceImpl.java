@@ -147,7 +147,7 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 				break;
 			}
 
-			if (validateRestrictedValue(arquivoInputSheetColsDefUi, value)) {
+			if (!validateRestrictedValue(arquivoInputSheetColsDefUi, value)) {
 				throw new RestrictedValueException(
 						"Ignoring line for restricted acceptable value[%s] at column[%s]:",
 						value,
@@ -212,7 +212,7 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 			LOGGER.info("BEGIN");
 
 			if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getRestrictedValue())) {
-				if (arquivoInputSheetColsDefUi.getRestrictedValue().equals(value.toString())) {
+				if (!arquivoInputSheetColsDefUi.getRestrictedValue().equals(value.toString())) {
 					LOGGER.info(
 							"Ignoring line for restricted acceptable value[{}] at column[{}]:",
 							value,
