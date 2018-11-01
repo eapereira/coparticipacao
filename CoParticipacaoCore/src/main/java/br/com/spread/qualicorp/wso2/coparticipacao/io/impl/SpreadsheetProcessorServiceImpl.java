@@ -336,23 +336,25 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		return Double.valueOf(value.toString()).longValue();
 	}
 
-	protected Long clearDoubleMask(Object value) {
+	protected Double clearDoubleMask(Object value) {
 		String strValue;
+
+		LOGGER.debug("clearDoubleMask received value[{}]:", value);
 
 		if (value instanceof String) {
 			strValue = ((String) value).trim();
 
 			if (StringUtils.isNotBlank(strValue)) {
-				strValue = StringUtils.replaceAll(strValue, "(\\'|/|\\W)", StringUtils.EMPTY);
 				strValue = StringUtils.replaceAll(strValue, "\\,", ".");
+				strValue = StringUtils.replaceAll(strValue, "(\\'|/)", StringUtils.EMPTY);
 
-				return Long.valueOf(strValue);
+				return Double.valueOf(strValue);
 			}
 
-			return NumberUtils.LONG_ZERO;
+			return NumberUtils.DOUBLE_ZERO;
 		}
 
-		return Double.valueOf(value.toString()).longValue();
+		return Double.valueOf(value.toString());
 	}
 
 	@Override

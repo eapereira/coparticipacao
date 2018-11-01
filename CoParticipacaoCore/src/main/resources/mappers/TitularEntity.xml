@@ -104,9 +104,12 @@
 				IBGE,                        
 				CBO,                         
 				DIF_TRANSF,				/* 100 */                  
+				DESCR_PROFISSAO,
+				NR_MATRICULA_ESPECIAL,
+				VL_FATOR_MODERADOR,		
 				
-				DT_DEMISSAO, 			/* 101 */		
-				
+				DT_DEMISSAO, 			/* 104 */
+								
 				USER_CREATED,
 				DT_ALTERED,
 				DT_CREATED
@@ -211,8 +214,11 @@
 				?,
 				?,
 				?,
-				?, /* 100 */				
+				?, /* 100 */
+				?,
 				
+				?,
+				?,								
 				?,
 				
 				?,
@@ -326,9 +332,12 @@
 				CID10						= ?,                       
 				IBGE						= ?,                        
 				CBO							= ?,                         
-				DIF_TRANSF					= ?,                  
-				
+				DIF_TRANSF					= ?,                  				
 				DT_DEMISSAO					= ?,
+
+				DESCR_PROFISSAO				= ?,
+				NR_MATRICULA_ESPECIAL		= ?,
+				VL_FATOR_MODERADOR			= ?,							
 
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

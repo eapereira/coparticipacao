@@ -250,6 +250,7 @@ BEGIN
 	declare CD_SHEET_DEPENDENTE												int( 3 ) default 4;
 	
 	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
+	declare VAR_CD_FORMAT_VL_ORIGINAL										varchar( 10 ) default "#,000.00";
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -579,6 +580,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -588,6 +590,7 @@ BEGIN
 		'COLUMN_010_VL_ORIGINAL',
 		VAR_COL_DOUBLE,
 		null,
+		VAR_CD_FORMAT_VL_ORIGINAL,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -605,6 +608,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -614,6 +618,7 @@ BEGIN
 		'COLUMN_011_VL_REEMBOLSO',
 		VAR_COL_DOUBLE,
 		null,
+		VAR_CD_FORMAT_VL_ORIGINAL,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -631,6 +636,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -640,6 +646,7 @@ BEGIN
 		'COLUMN_012_VL_PARTICIPACAO',
 		VAR_COL_DOUBLE,
 		null,
+		VAR_CD_FORMAT_VL_ORIGINAL,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -657,6 +664,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -666,6 +674,7 @@ BEGIN
 		'COLUMN_013_VL_TOTAL_COPARTICIPACAO',
 		VAR_COL_DOUBLE,
 		null,
+		VAR_CD_FORMAT_VL_ORIGINAL,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

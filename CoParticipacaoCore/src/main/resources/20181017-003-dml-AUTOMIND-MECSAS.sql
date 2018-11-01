@@ -263,7 +263,8 @@ BEGIN
 	declare CD_SHEET_TITULAR												int( 3 ) default 0;
 	declare CD_SHEET_DEPENDENTE												int( 3 ) default 4;
 	
-	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
+	declare VAR_CD_RESTRICTED_VALUE_TITULAR									varchar( 10 ) default "2";
+	declare VAR_CD_RESTRICTED_VALUE_DEPENDENTE								varchar( 10 ) default "3";
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -371,7 +372,7 @@ BEGIN
 		'COLUMN_001_TP_REGISTRO',
 		VAR_COL_VARCHAR,
 		null,
-		VAR_CD_RESTRICTED_VALUE,
+		VAR_CD_RESTRICTED_VALUE_TITULAR,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -948,6 +949,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_RESTRICTED_VALUE,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -957,6 +959,7 @@ BEGIN
 		'COLUMN_001_TP_REGISTRO',
 		VAR_COL_VARCHAR,
 		null,
+		VAR_CD_RESTRICTED_VALUE_DEPENDENTE,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

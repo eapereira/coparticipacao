@@ -103,7 +103,11 @@
 				CID10,                       
 				IBGE,                        
 				CBO,                         
-				DIF_TRANSF, /* 100 */                  
+				DIF_TRANSF, /* 100 */          
+				
+				DESCR_PROFISSAO,
+				NR_MATRICULA_ESPECIAL,
+				VL_FATOR_MODERADOR,						        
 				
 				USER_CREATED,
 				DT_ALTERED,
@@ -210,6 +214,10 @@
 				?,
 				?,
 				?, /* 100 */
+				
+				?,
+				?,
+				?,
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -322,7 +330,11 @@
 				CID10						= ?,                       
 				IBGE						= ?,                        
 				CBO							= ?,                         
-				DIF_TRANSF					= ?,                  
+				DIF_TRANSF					= ?,      
+				            
+				DESCR_PROFISSAO				= ?,
+				NR_MATRICULA_ESPECIAL		= ?,
+				VL_FATOR_MODERADOR			= ?, /* 103 */						            
 				
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

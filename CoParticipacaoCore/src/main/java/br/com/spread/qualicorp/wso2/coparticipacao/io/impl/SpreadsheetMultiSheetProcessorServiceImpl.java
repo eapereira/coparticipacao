@@ -24,6 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetMultiSheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.NumberUtils2;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
@@ -149,6 +150,8 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 						arquivoInputSheetColsDefUi.getNameColumn());
 			}
 
+			LOGGER.debug("Converting value[{}]:", value);
+
 			if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
 				value = clearMask(value);
 
@@ -166,11 +169,13 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 					return NumberUtils.LONG_ZERO;
 				}
 			} else if (ColDefType.DOUBLE.equals(arquivoInputSheetColsDefUi.getType())) {
-				if (NumberUtils.isDigits(value.toString())) {
-					value = BigDecimal.valueOf((Double) cell.getNumericCellValue());
+				if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getFormat())) {
+					value = NumberUtils2.stringToDouble(value.toString(), arquivoInputSheetColsDefUi.getFormat());
 				} else {
-					return BigDecimal.ZERO;
+					value = clearDoubleMask(value);
 				}
+
+				value = BigDecimal.valueOf((Double) value);
 			} else if (ColDefType.DATE.equals(arquivoInputSheetColsDefUi.getType())) {
 				cell.setCellStyle(spreadsheetContext.getCellStyleDate());
 

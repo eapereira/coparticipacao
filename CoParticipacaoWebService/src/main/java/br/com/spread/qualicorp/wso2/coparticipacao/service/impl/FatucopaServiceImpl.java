@@ -147,6 +147,9 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 			}
 
 			lancamentoUi.setValorPrincipal(lancamentoDetailUi.getValorPrincipal());
+			lancamentoUi.setValorRembolso(lancamentoDetailUi.getValorReembolso());
+			lancamentoUi.setValorParticipacao(lancamentoDetailUi.getValorParticipacao());
+
 			lancamentoUi.setUserCreated(coParticipacaoContext.getUser());
 
 			LOGGER.info("END");
