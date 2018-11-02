@@ -6,12 +6,6 @@ import java.sql.Types;
 
 import org.apache.commons.lang3.StringUtils;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Rg;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
@@ -32,10 +26,10 @@ public class DependenteSetter extends BeneficiarioSetter<DependenteEntity> {
 	private static final int COL_NR_REF_CODE = 8;
 	private static final int COL_NR_MATRICULA_EMPRESA = 9;
 
-	private static final int COL_USER_CREATED = 101;
-	private static final int COL_USER_ALTERED = 101;
+	private static final int COL_USER_CREATED = 104;
+	private static final int COL_USER_ALTERED = 104;
 
-	private static final int COL_ID = 102;
+	private static final int COL_ID = 105;
 
 	public DependenteSetter(SetterAdapterType setterAdapterType, DependenteEntity entity) {
 		super(setterAdapterType, entity);

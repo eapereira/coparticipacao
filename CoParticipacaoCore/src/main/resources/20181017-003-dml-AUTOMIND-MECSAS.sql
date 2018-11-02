@@ -83,7 +83,7 @@ BEGIN
 	declare VAR_ID_SHEET05_COLUMN_007_TP_SEXO 				bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_008_TP_ESTADO_CIVIL 		bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_009_TP_GRAU_PARENTESCO 	bigint( 17 );
-	declare VAR_ID_SHEET05_COLUMN_010_TP_SEXO 				bigint( 17 );
+	declare VAR_ID_SHEET05_COLUMN_010_DT_INICIO_VIGENCIA 	bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_011_NR_CPF 				bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_012_NR_MATRICULA_ESPECIAL bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_013_DT_NASCIMENTO 		bigint( 17 );
@@ -91,7 +91,7 @@ BEGIN
 	declare VAR_ID_SHEET05_COLUMN_015_NR_MATRICULA_ESPECIAL bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_016_DT_REATIVACAO 		bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_017_DT_CANCELAMENTO 		bigint( 17 );
-	declare VAR_ID_SHEET05_COLUMN_018_DT_ADMISSAO 			bigint( 17 );
+	declare VAR_ID_SHEET05_COLUMN_018_NR_CPF 				bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_019_CD_CARTAO_DEPENDENTE 	bigint( 17 );
 	declare VAR_ID_SHEET05_COLUMN_020_NM_MAE 				bigint( 17 );
 	
@@ -263,7 +263,8 @@ BEGIN
 	declare CD_SHEET_TITULAR												int( 3 ) default 0;
 	declare CD_SHEET_DEPENDENTE												int( 3 ) default 4;
 	
-	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
+	declare VAR_CD_RESTRICTED_VALUE_TITULAR									varchar( 10 ) default "2";
+	declare VAR_CD_RESTRICTED_VALUE_DEPENDENTE								varchar( 10 ) default "3";
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -371,7 +372,7 @@ BEGIN
 		'COLUMN_001_TP_REGISTRO',
 		VAR_COL_VARCHAR,
 		null,
-		VAR_CD_RESTRICTED_VALUE,
+		VAR_CD_RESTRICTED_VALUE_TITULAR,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -948,6 +949,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_RESTRICTED_VALUE,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -955,8 +957,9 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_001_TP_REGISTRO',
-		VAR_COL_INT,
+		VAR_COL_VARCHAR,
 		null,
+		VAR_CD_RESTRICTED_VALUE_DEPENDENTE,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -1088,7 +1091,7 @@ BEGIN
 		'COLUMN_006_DT_NASCIMENTO',
 		VAR_COL_DATE,
 		null,
-		VAR_CD_FORMAT_DDMMYYYY,
+		VAR_CD_FORMAT_DDMMYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -1202,7 +1205,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_SHEET05_COLUMN_010_TP_SEXO
+	select max( ID ) into VAR_ID_SHEET05_COLUMN_010_DT_INICIO_VIGENCIA
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
@@ -1354,7 +1357,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_016_DT_REATIVACAO',
-		VAR_COL_DATE,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
@@ -1382,7 +1385,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_017_DT_CANCELAMENTO',
-		VAR_COL_DATE,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
@@ -1418,7 +1421,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_SHEET05_COLUMN_018_DT_ADMISSAO
+	select max( ID ) into VAR_ID_SHEET05_COLUMN_018_NR_CPF
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
@@ -1707,38 +1710,6 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-
-	call PROC_LOG_MESSAGE('LINHA - 2827');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO,
-		VAR_ID_SHEET05_COLUMN_018_DT_ADMISSAO,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);		
-	
-	call PROC_LOG_MESSAGE('LINHA - 2843');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_TP_SEXO,
-		VAR_ID_SHEET05_COLUMN_010_TP_SEXO,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);		
 	
 	call PROC_LOG_MESSAGE('LINHA - 1580');
 	/*********************************************************************************************************************************************/

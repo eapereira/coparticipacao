@@ -3,7 +3,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.io.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetMultiSheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.NumberUtils2;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
@@ -44,59 +44,55 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 			Row row,
 			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		Map<String, Object> mapLine;
-		List<ArquivoInputSheetUi> arquivoInputSheetUis;
 		// int cellId = NumberUtils.INTEGER_ZERO;
 		String columnName = StringUtils.EMPTY;
 		Object value;
 		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
 		Cell cell;
 		ContratoUi contratoUi;
+		ArquivoInputSheetUi arquivoInputSheetUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputSheetUis = coParticipacaoContext.getArquivoInputSheetUis();
+			arquivoInputSheetUi = coParticipacaoContext.getMapArquivoInputSheetUi()
+					.get(coParticipacaoContext.getCurrentSheet());
 
 			mapLine = new HashMap<String, Object>();
 
 			// cellId = NumberUtils.INTEGER_ZERO;
 
-			for (ArquivoInputSheetUi arquivoInputSheetUi : arquivoInputSheetUis) {
-				if (arquivoInputSheetUi.getSheetId().equals(coParticipacaoContext.getCurrentSheet())) {
+			if (arquivoInputSheetUi != null) {
+				LOGGER.info("Processing sheet[{}] columns:", spreadsheetContext.getSheetName());
 
-					LOGGER.info("Processing sheet[{}] columns:", spreadsheetContext.getSheetName());
+				contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
 
-					contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
+				if (contratoUi != null) {
+					LOGGER.info(
+							"Using default ContratoUi[{}] for all registers in this ArquivoInputSheet:",
+							contratoUi.getCdContrato());
+					coParticipacaoContext.setContratoSheetRegisters(contratoUi);
+				}
 
-					if (contratoUi != null) {
-						LOGGER.info(
-								"Using default ContratoUi[{}] for all registers in this ArquivoInputSheet:",
-								contratoUi.getCdContrato());
-						coParticipacaoContext.setContratoSheetRegisters(contratoUi);
+				for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi
+						.getArquivoInputSheetColsDefs()) {
+					arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef;
+
+					cell = row.getCell(arquivoInputSheetColsDefUi.getOrdem());
+
+					if (cell != null) {
+						columnName = arquivoInputSheetColsDefUi.getNameColumn();
+
+						LOGGER.info("Retrieving cell value for column [{}]:", columnName);
+						value = getExtendedCellValue(spreadsheetContext, cell, arquivoInputSheetColsDefUi);
+
+						LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
+						mapLine.put(columnName, value);
+
+						// cellId++;
+					} else {
+						break;
 					}
-
-					for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi
-							.getArquivoInputSheetColsDefs()) {
-						arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef;
-
-						cell = row.getCell(arquivoInputSheetColsDefUi.getOrdem());
-
-						if (cell != null) {
-							columnName = arquivoInputSheetColsDefUi.getNameColumn();
-
-							LOGGER.info("Retrieving cell value for column [{}]:", columnName);
-							value = getExtendedCellValue(spreadsheetContext, cell, arquivoInputSheetColsDefUi);
-
-							LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
-							mapLine.put(columnName, value);
-
-							// cellId++;
-						} else {
-							break;
-						}
-					}
-
-					break;
 				}
 			}
 
@@ -154,6 +150,8 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 						arquivoInputSheetColsDefUi.getNameColumn());
 			}
 
+			LOGGER.debug("Converting value[{}]:", value);
+
 			if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
 				value = clearMask(value);
 
@@ -171,11 +169,13 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 					return NumberUtils.LONG_ZERO;
 				}
 			} else if (ColDefType.DOUBLE.equals(arquivoInputSheetColsDefUi.getType())) {
-				if (NumberUtils.isDigits(value.toString())) {
-					value = BigDecimal.valueOf((Double) cell.getNumericCellValue());
+				if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getFormat())) {
+					value = NumberUtils2.stringToDouble(value.toString(), arquivoInputSheetColsDefUi.getFormat());
 				} else {
-					return BigDecimal.ZERO;
+					value = clearDoubleMask(value);
 				}
+
+				value = BigDecimal.valueOf((Double) value);
 			} else if (ColDefType.DATE.equals(arquivoInputSheetColsDefUi.getType())) {
 				cell.setCellStyle(spreadsheetContext.getCellStyleDate());
 

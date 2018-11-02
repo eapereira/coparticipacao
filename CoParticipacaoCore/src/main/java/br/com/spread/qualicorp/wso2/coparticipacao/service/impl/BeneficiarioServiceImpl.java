@@ -40,6 +40,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.NumberUtils2;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.BeneficiarioDetailHelper;
 
 /**
  * 
@@ -162,6 +164,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.setNameTitular(lancamentoDetailUi.getNameTitular());
 			beneficiarioUi.setDtNascimento(lancamentoDetailUi.getDtNascimento());
 			
+			beneficiarioUi.setContrato(lancamentoDetailUi.getContratoUi());
+			beneficiarioUi.setCdContrato(lancamentoDetailUi.getCdContrato());
+
 			beneficiarioUi.setContrato(lancamentoDetailUi.getContratoUi());
 			beneficiarioUi.setCdContrato(lancamentoDetailUi.getCdContrato());
 
@@ -536,7 +541,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.getNameBeneficiario(),
 					beneficiarioUi.getCdContrato());
 
-			if (StringUtils.isNotBlank(beneficiarioUi.getCdContrato())) {
+			if (StringUtils.isNotBlank(beneficiarioUi.getCdContrato()) && beneficiarioUi.getContrato() == null) {
 				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
 					if (contrato.getCdContrato().equals(beneficiarioUi.getCdContrato())) {
 						beneficiarioUi.setContrato(contrato);
@@ -816,6 +821,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 			} else {
 				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
+						|| UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
 						|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					coParticipacaoContext.setTitularUi(titularUi);
 
@@ -1082,8 +1088,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
 					|| UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
 					|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
-				if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
-					if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+				if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+					if (NumberUtils2.isNotZero(beneficiarioUi.getCpf())) {
 						LOGGER.debug("Updating Titular field CPF with value [{}]:", beneficiarioUi.getCpf());
 						titularUi.setCpf(beneficiarioUi.getCpf());
 					}
@@ -1113,7 +1119,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 				}
 
-				if (beneficiarioUi.getMatriculaEmpresa() != null) {
+				if (NumberUtils2.isNotZero(beneficiarioUi.getMatriculaEmpresa())) {
 					LOGGER.debug(
 							"Updating Titular field NR_MATRICULA_EMPRESA with value [{}]:",
 							beneficiarioUi.getMatriculaEmpresa());
@@ -1127,6 +1133,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 
 				titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
+
+				BeneficiarioDetailHelper.updateBeneficiarioDetail(
+						titularUi.getBeneficiarioDetail(),
+						beneficiarioUi.getBeneficiarioDetail());
+
 				titularUi.setUserAltered(coParticipacaoContext.getUser());
 			}
 

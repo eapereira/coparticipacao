@@ -39,6 +39,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.SpreadsheetContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.MapKey;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.PartitionMap;
 
@@ -114,8 +115,6 @@ public class CoParticipacaoContext {
 
 	private ExecucaoUi execucaoUi;
 
-	private List<ArquivoInputSheetUi> arquivoInputSheetUis;
-
 	private List<ReportUi> reportUis;
 
 	private LancamentoDetailUi lancamentoDetailUi;
@@ -129,6 +128,10 @@ public class CoParticipacaoContext {
 	private Map<Integer, List<BeneficiarioColsUi>> mapBeneficiarioCols;
 
 	private Map<Integer, List<LancamentoInputSheetColsUi>> mapLancamentoInputSheetColsUis;
+
+	private Map<Integer, ArquivoInputSheetUi> mapArquivoInputSheetUi;
+
+	private SpreadsheetContext spreadsheetContext;
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
@@ -147,7 +150,6 @@ public class CoParticipacaoContext {
 
 		isentoInputSheetUis = new ArrayList<IsentoInputSheetUi>();
 
-		arquivoInputSheetUis = new ArrayList<ArquivoInputSheetUi>();
 		desconhecidoUis = new ArrayList<DesconhecidoUi>();
 		lancamentoInputSheetUis = new ArrayList<LancamentoInputSheetUi>();
 
@@ -157,6 +159,7 @@ public class CoParticipacaoContext {
 
 		mapBeneficiarioCols = new HashMap<Integer, List<BeneficiarioColsUi>>();
 		mapLancamentoInputSheetColsUis = new HashMap<Integer, List<LancamentoInputSheetColsUi>>();
+		mapArquivoInputSheetUi = new HashMap<Integer, ArquivoInputSheetUi>();
 
 		currentLine = NumberUtils.INTEGER_ONE;
 
@@ -677,14 +680,6 @@ public class CoParticipacaoContext {
 		this.execucaoUi = execucaoUi;
 	}
 
-	public List<ArquivoInputSheetUi> getArquivoInputSheetUis() {
-		return arquivoInputSheetUis;
-	}
-
-	public void setArquivoInputSheetUis(List<ArquivoInputSheetUi> arquivoInputSheetUis) {
-		this.arquivoInputSheetUis = arquivoInputSheetUis;
-	}
-
 	public List<ReportUi> getReportUis() {
 		return reportUis;
 	}
@@ -781,4 +776,23 @@ public class CoParticipacaoContext {
 		this.mapLancamentoInputSheetColsUis = mapLancamentoInputSheetColsUis;
 	}
 
+	<<<<<<<HEAD=======
+
+	public Map<Integer, ArquivoInputSheetUi> getMapArquivoInputSheetUi() {
+		return mapArquivoInputSheetUi;
+	}
+
+	public void setMapArquivoInputSheetUi(Map<Integer, ArquivoInputSheetUi> mapArquivoInputSheetUi) {
+		this.mapArquivoInputSheetUi = mapArquivoInputSheetUi;
+	}
+
+	public SpreadsheetContext getSpreadsheetContext() {
+		return spreadsheetContext;
+	}
+
+	public void setSpreadsheetContext(SpreadsheetContext spreadsheetContext) {
+		this.spreadsheetContext = spreadsheetContext;
+	}
+
+	>>>>>>>refs/remotes/origin/201810-01
 }

@@ -58,7 +58,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		Sheet sheet;
 		FormulaEvaluator formulaEvaluator;
 		CreationHelper creationHelper;
-		int sheetIndex = NumberUtils.INTEGER_ZERO;
 		DataFormat dataFormat;
 		CellStyle cellStyleDate;
 		SpreadsheetContext spreadsheetContext;
@@ -67,6 +66,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			LOGGER.info("BEGIN");
 
 			spreadsheetContext = new SpreadsheetContext();
+			coParticipacaoContext.setSpreadsheetContext(spreadsheetContext);
 			markProcessAsRunning(coParticipacaoContext);
 
 			if (coParticipacaoContext.getFileName().toLowerCase().endsWith(EXCEL_97)) {
@@ -98,6 +98,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 					sheet = workbook.getSheetAt(i);
 					coParticipacaoContext.setCurrentSheet(i);
 
+					spreadsheetContext.setSheetName(sheet.getSheetName());
+
 					if ((!workbook.isSheetHidden(i) || workbook.isSheetVeryHidden(i))) {
 						if (processorListener instanceof SpreadsheetProcessorListener) {
 							if (!((SpreadsheetProcessorListener) processorListener)
@@ -112,9 +114,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 								"Sheet [{}] has a total number of Rows[{}]:",
 								sheet.getSheetName(),
 								sheet.getPhysicalNumberOfRows());
-
-						coParticipacaoContext.setCurrentSheet(sheetIndex);
-						spreadsheetContext.setSheetName(sheet.getSheetName());
 
 						for (Row row : sheet) {
 							if (row.getRowNum() < coParticipacaoContext.getArquivoInputUi().getSkipLines()) {
@@ -138,8 +137,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 							currentLine++;
 						}
-
-						sheetIndex++;
 					} else {
 						LOGGER.debug("Hidden sheet found [{}]:", sheet.getSheetName());
 					}
@@ -288,6 +285,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 					return NumberUtils.LONG_ZERO;
 				}
 			} else if (ColDefType.DOUBLE.equals(arquivoInputColsDef.getType())) {
+				value = clearDoubleMask(value);
+
 				if (NumberUtils.isNumber(value.toString())) {
 					value = BigDecimal.valueOf((Double) cell.getNumericCellValue());
 				} else {
@@ -327,7 +326,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			strValue = ((String) value).trim();
 
 			if (StringUtils.isNotBlank(strValue)) {
-				strValue = StringUtils.replaceAll(strValue, "(\\.|\\-|\\'|/)", StringUtils.EMPTY);
+				strValue = StringUtils.replaceAll(strValue, "(\\.|\\-|\\'|/|\\W)", StringUtils.EMPTY);
 				return Long.valueOf(strValue);
 			}
 
@@ -335,6 +334,27 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 
 		return Double.valueOf(value.toString()).longValue();
+	}
+
+	protected Double clearDoubleMask(Object value) {
+		String strValue;
+
+		LOGGER.debug("clearDoubleMask received value[{}]:", value);
+
+		if (value instanceof String) {
+			strValue = ((String) value).trim();
+
+			if (StringUtils.isNotBlank(strValue)) {
+				strValue = StringUtils.replaceAll(strValue, "\\,", ".");
+				strValue = StringUtils.replaceAll(strValue, "(\\'|/)", StringUtils.EMPTY);
+
+				return Double.valueOf(strValue);
+			}
+
+			return NumberUtils.DOUBLE_ZERO;
+		}
+
+		return Double.valueOf(value.toString());
 	}
 
 	@Override

@@ -18,11 +18,13 @@ public class LancamentoSetter extends PreparedStatementSetterAdapter<LancamentoE
 	private static final int COL_CD_MES = 4;
 	private static final int COL_CD_ANO = 5;
 	private static final int COL_VL_PRINCIPAL = 6;
+	private static final int COL_VL_REEMBOLSO = 7;
+	private static final int COL_VL_PARTICIPACAO = 8;
 
-	private static final int COL_USER_CREATED = 7;
-	private static final int COL_USER_ALTERED = 7;
+	private static final int COL_USER_CREATED = 9;
+	private static final int COL_USER_ALTERED = 9;
 
-	private static final int COL_ID = 8;
+	private static final int COL_ID = 10;
 
 	public LancamentoSetter(SetterAdapterType setterAdapterType, LancamentoEntity entity) {
 		super(setterAdapterType, entity);
@@ -49,6 +51,8 @@ public class LancamentoSetter extends PreparedStatementSetterAdapter<LancamentoE
 		ps.setInt(COL_CD_MES, getEntity().getMes());
 		ps.setInt(COL_CD_ANO, getEntity().getAno());
 		ps.setBigDecimal(COL_VL_PRINCIPAL, getEntity().getValorPrincipal());
+		ps.setBigDecimal(COL_VL_REEMBOLSO, getEntity().getValorRembolso());
+		ps.setBigDecimal(COL_VL_PARTICIPACAO, getEntity().getValorParticipacao());
 	}
 
 	@Override

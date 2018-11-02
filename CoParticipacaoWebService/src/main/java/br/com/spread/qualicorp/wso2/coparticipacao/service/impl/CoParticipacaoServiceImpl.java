@@ -323,7 +323,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
 
 			if (!coParticipacaoContext.getArquivoInputColsDefUis().isEmpty()
-					|| !coParticipacaoContext.getArquivoInputSheetUis().isEmpty()) {
+					|| !coParticipacaoContext.getMapArquivoInputSheetUi().isEmpty()) {
 				loadFileInputData(arquivoExecucaoUi, coParticipacaoContext);
 			} else {
 				throw new ServiceException(
@@ -350,6 +350,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		CoParticipacaoContext coParticipacaoContext = null;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 		List<ArquivoInputSheetUi> arquivoInputSheetUis;
+		List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -367,7 +368,23 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				arquivoInputSheetUis = arquivoInputSheetService
 						.listByArquivoInput(coParticipacaoContext.getArquivoInputUi());
 
-				coParticipacaoContext.setArquivoInputSheetUis(arquivoInputSheetUis);
+				for (ArquivoInputSheetUi arquivoInputSheetUi : arquivoInputSheetUis) {
+					coParticipacaoContext.getMapArquivoInputSheetUi()
+							.put(arquivoInputSheetUi.getSheetId(), arquivoInputSheetUi);
+
+					lancamentoInputSheetColsUis = lancamentoInputSheetColsService
+							.listByArquivoInputSheet(arquivoInputSheetUi);
+
+					LOGGER.info(
+							"Loading LancamentoInputSheetColsUi for sheetId[{}]:",
+							arquivoInputSheetUi.getSheetId());
+
+					if (!lancamentoInputSheetColsUis.isEmpty()) {
+						coParticipacaoContext.getMapLancamentoInputSheetColsUis()
+								.put(arquivoInputSheetUi.getSheetId(), lancamentoInputSheetColsUis);
+					}
+				}
+
 				coParticipacaoContext.setArquivoInputColsDefUis(arquivoInputColsDefUis);
 			}
 
@@ -412,7 +429,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 					csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) fatucopaService);
 				} else if (ArquivoType.SPREADSHEET.equals(arquivoInputUi.getArquivoType())) {
-					if (!coParticipacaoContext.getArquivoInputSheetUis().isEmpty()) {
+					if (!coParticipacaoContext.getMapArquivoInputSheetUi().isEmpty()) {
 						spreadsheetMultiSheetProcessorService
 								.readInputStream(coParticipacaoContext, (ProcessorListener) fatucopaService);
 					} else {
@@ -433,7 +450,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 					csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) mecsasService);
 				} else if (ArquivoType.SPREADSHEET.equals(arquivoInputUi.getArquivoType())) {
-					if (!coParticipacaoContext.getArquivoInputSheetUis().isEmpty()) {
+					if (!coParticipacaoContext.getMapArquivoInputSheetUi().isEmpty()) {
 						spreadsheetMultiSheetProcessorService
 								.readInputStream(coParticipacaoContext, (ProcessorListener) mecsasService);
 					} else {
@@ -649,6 +666,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			if (!lancamentoInputColsUis.isEmpty()) {
 				coParticipacaoContext.getLancamentoInputColsUis().addAll(lancamentoInputColsUis);
+<<<<<<< HEAD
 			} else {
 				for (ArquivoInputSheetUi arquivoInputSheetUi : coParticipacaoContext.getArquivoInputSheetUis()) {
 					lancamentoInputSheetColsUis = lancamentoInputSheetColsService
@@ -663,6 +681,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 								.put(arquivoInputSheetUi.getSheetId(), lancamentoInputSheetColsUis);
 					}
 				}
+=======
+>>>>>>> refs/remotes/origin/201810-01
 			}
 
 			// Caregando as regras para o arquivo:
