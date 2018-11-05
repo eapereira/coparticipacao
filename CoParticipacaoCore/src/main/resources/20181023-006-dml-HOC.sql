@@ -322,6 +322,12 @@ BEGIN
 	from 	TB_ARQUIVO_INPUT_COLS_DEF
 	where	ID_ARQUIVO_INPUT 	= VAR_ID_ARQUIVO_INPUT
 	and		NM_COLUMN			= 'COLUMN_02_EMPRESA';
+
+	call PROC_LOG_MESSAGE('LINHA - 257');
+	select 	ID into VAR_ID_COLUMN_07_COD_LOCAL
+	from 	TB_ARQUIVO_INPUT_COLS_DEF
+	where	ID_ARQUIVO_INPUT 	= VAR_ID_ARQUIVO_INPUT
+	and		NM_COLUMN			= 'COLUMN_07_COD_LOCAL';
 	
 	call PROC_LOG_MESSAGE('LINHA - 1458');
 	/*********************************************************************************************************************************************/
@@ -343,7 +349,7 @@ BEGIN
         current_timestamp(),
         current_timestamp()		
     );
-	
+    
 	call PROC_LOG_MESSAGE('LINHA - 1559');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	

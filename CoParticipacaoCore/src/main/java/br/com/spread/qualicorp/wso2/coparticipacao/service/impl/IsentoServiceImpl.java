@@ -30,6 +30,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
@@ -60,6 +61,9 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 	@Autowired
 	private RegraService regraService;
+
+	@Autowired
+	private BeneficiarioService beneficiarioService;
 
 	public boolean hasIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		ArquivoInputUi arquivoInputUi;
@@ -112,16 +116,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 						beneficiarioIsentoUi.getMatricula(),
 						beneficiarioIsentoUi.getCpf());
 
-				if (beneficiarioIsentoUi.getCpf() != null) {
-					titularUi = coParticipacaoContext
-							.findTitularByCpfAndName(beneficiarioIsentoUi.getCpf(), beneficiarioIsentoUi.getName());
-				}
-
-				if (titularUi == null) {
-					titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
-							beneficiarioIsentoUi.getMatricula(),
-							beneficiarioIsentoUi.getName());
-				}
+				titularUi = beneficiarioService.findTitular(coParticipacaoContext, beneficiarioIsentoUi);
 
 				if (titularUi != null) {
 					createTitularIsento(titularUi, beneficiarioIsentoUi, isentoType, coParticipacaoContext);
@@ -131,23 +126,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 							beneficiarioIsentoUi.getName(),
 							beneficiarioIsentoUi.getCpf());
 
-					if (beneficiarioIsentoUi.getCpf() != null) {
-						dependenteUi = coParticipacaoContext.findDependenteByCpfAndName(
-								beneficiarioIsentoUi.getCpf(),
-								beneficiarioIsentoUi.getName());
-					}
-
-					if (dependenteUi == null) {
-						dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
-								beneficiarioIsentoUi.getMatricula(),
-								beneficiarioIsentoUi.getName());
-
-						if (dependenteUi == null) {
-							dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
-									beneficiarioIsentoUi.getMatriculaTitular(),
-									beneficiarioIsentoUi.getName());
-						}
-					}
+					dependenteUi = beneficiarioService.findDependente(coParticipacaoContext, beneficiarioIsentoUi);
 
 					if (dependenteUi != null) {
 						createDependenteIsento(dependenteUi, beneficiarioIsentoUi, isentoType, coParticipacaoContext);
@@ -312,6 +291,8 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 				beneficiarioIsentoUi.setNameTitular((String) value);
 			} else if (BeneficiarioIsentoColType.VALOR_ISENCAO.equals(beneficiarioIsentoColType)) {
 				beneficiarioIsentoUi.setValorIsencao((BigDecimal) value);
+			} else if (BeneficiarioIsentoColType.NR_MATRICULA_EMPRESA.equals(beneficiarioIsentoColType)) {
+				beneficiarioIsentoUi.setMatriculaEmpresa((Long) value);
 			}
 
 			LOGGER.info("END");
@@ -345,6 +326,8 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 				value = beneficiarioIsentoUi.getNameTitular();
 			} else if (BeneficiarioIsentoColType.VALOR_ISENCAO.equals(beneficiarioIsentoColType)) {
 				value = beneficiarioIsentoUi.getValorIsencao();
+			} else if (BeneficiarioIsentoColType.NR_MATRICULA_EMPRESA.equals(beneficiarioIsentoColType)) {
+				value = beneficiarioIsentoUi.getMatriculaEmpresa();
 			}
 
 			LOGGER.info("END");

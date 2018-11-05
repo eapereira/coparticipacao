@@ -776,8 +776,6 @@ public class CoParticipacaoContext {
 		this.mapLancamentoInputSheetColsUis = mapLancamentoInputSheetColsUis;
 	}
 
-	<<<<<<<HEAD=======
-
 	public Map<Integer, ArquivoInputSheetUi> getMapArquivoInputSheetUi() {
 		return mapArquivoInputSheetUi;
 	}
@@ -794,5 +792,63 @@ public class CoParticipacaoContext {
 		this.spreadsheetContext = spreadsheetContext;
 	}
 
-	>>>>>>>refs/remotes/origin/201810-01
+	public DependenteUi findDependenteByCpf(Long cpf) {
+		DependenteUi dependenteUiTmp = null;
+		LOGGER.info("BEGIN");
+
+		if (cpf != null) {
+			for (DependenteUi dependenteUi : getDependenteUis()) {
+				if (dependenteUi.getCpf() != null) {
+					LOGGER.trace(
+							"Comparing with Dependente [{}] with Matricula [{}]:",
+							dependenteUi.getNameDependente(),
+							dependenteUi.getMatricula());
+
+					if (dependenteUi.getCpf().equals(cpf)) {
+						LOGGER.info(
+								"Dependente [{}] with CPF [{}] found:",
+								dependenteUi.getNameDependente(),
+								dependenteUi.getCpf());
+
+						dependenteUiTmp = dependenteUi;
+						break;
+					}
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return dependenteUiTmp;
+	}
+
+	public DependenteUi findDependenteByMatricula(Long matricula, Long matriculaEmpresa) {
+		DependenteUi dependenteUiTmp = null;
+
+		LOGGER.info("BEGIN");
+
+		if (matricula != null) {
+			for (DependenteUi dependenteUi : getDependenteUis()) {
+				LOGGER.trace(
+						"Comparing with Dependente [{}] with Matricula [{}]:",
+						dependenteUi.getNameDependente(),
+						dependenteUi.getMatricula());
+
+				if (dependenteUi.getMatricula().equals(matricula)) {
+					if (dependenteUi.getMatriculaEmpresa() != null
+							&& dependenteUi.getMatriculaEmpresa().equals(matriculaEmpresa)) {
+						LOGGER.info(
+								"Dependente [{}] with CPF [{}] found:",
+								dependenteUi.getNameDependente(),
+								dependenteUi.getCpf());
+
+						dependenteUiTmp = dependenteUi;
+						break;
+					}
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return dependenteUiTmp;
+	}
 }

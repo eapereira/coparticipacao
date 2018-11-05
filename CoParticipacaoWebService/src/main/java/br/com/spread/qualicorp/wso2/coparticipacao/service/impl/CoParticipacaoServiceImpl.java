@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -371,18 +372,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				for (ArquivoInputSheetUi arquivoInputSheetUi : arquivoInputSheetUis) {
 					coParticipacaoContext.getMapArquivoInputSheetUi()
 							.put(arquivoInputSheetUi.getSheetId(), arquivoInputSheetUi);
-
-					lancamentoInputSheetColsUis = lancamentoInputSheetColsService
-							.listByArquivoInputSheet(arquivoInputSheetUi);
-
-					LOGGER.info(
-							"Loading LancamentoInputSheetColsUi for sheetId[{}]:",
-							arquivoInputSheetUi.getSheetId());
-
-					if (!lancamentoInputSheetColsUis.isEmpty()) {
-						coParticipacaoContext.getMapLancamentoInputSheetColsUis()
-								.put(arquivoInputSheetUi.getSheetId(), lancamentoInputSheetColsUis);
-					}
 				}
 
 				coParticipacaoContext.setArquivoInputColsDefUis(arquivoInputColsDefUis);
@@ -657,6 +646,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<RegraUi> regraUis;
 		List<RegraConditionalUi> regraConditionalUis;
 		List<LancamentoInputSheetUi> lancamentoInputSheetUis;
+		Set<Integer> keys;
+		ArquivoInputSheetUi arquivoInputSheetUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -666,9 +657,12 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			if (!lancamentoInputColsUis.isEmpty()) {
 				coParticipacaoContext.getLancamentoInputColsUis().addAll(lancamentoInputColsUis);
-<<<<<<< HEAD
 			} else {
-				for (ArquivoInputSheetUi arquivoInputSheetUi : coParticipacaoContext.getArquivoInputSheetUis()) {
+				keys = coParticipacaoContext.getMapArquivoInputSheetUi().keySet();
+
+				for (Integer key : keys) {
+					arquivoInputSheetUi = coParticipacaoContext.getMapArquivoInputSheetUi().get(key);
+
 					lancamentoInputSheetColsUis = lancamentoInputSheetColsService
 							.listByArquivoInputSheet(arquivoInputSheetUi);
 
@@ -681,8 +675,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 								.put(arquivoInputSheetUi.getSheetId(), lancamentoInputSheetColsUis);
 					}
 				}
-=======
->>>>>>> refs/remotes/origin/201810-01
 			}
 
 			// Caregando as regras para o arquivo:

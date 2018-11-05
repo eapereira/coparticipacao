@@ -61,6 +61,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		DataFormat dataFormat;
 		CellStyle cellStyleDate;
 		SpreadsheetContext spreadsheetContext;
+		int sheetId = NumberUtils.INTEGER_ZERO;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -96,11 +97,17 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
 					sheet = workbook.getSheetAt(i);
-					coParticipacaoContext.setCurrentSheet(i);
 
 					spreadsheetContext.setSheetName(sheet.getSheetName());
 
 					if ((!workbook.isSheetHidden(i) || workbook.isSheetVeryHidden(i))) {
+						/*
+						 * As vezes o usuário deixa pastas invisíveis na
+						 * planilha, então vamos contas apenas as que são
+						 * habilitadas:
+						 */
+						coParticipacaoContext.setCurrentSheet(sheetId);
+
 						if (processorListener instanceof SpreadsheetProcessorListener) {
 							if (!((SpreadsheetProcessorListener) processorListener)
 									.validateSheet(coParticipacaoContext)) {
@@ -137,6 +144,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 							currentLine++;
 						}
+
+						sheetId++;
 					} else {
 						LOGGER.debug("Hidden sheet found [{}]:", sheet.getSheetName());
 					}

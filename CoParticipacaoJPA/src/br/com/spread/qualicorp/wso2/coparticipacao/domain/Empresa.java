@@ -43,6 +43,10 @@ public abstract class Empresa extends AbstractDomain {
 	private ReportQueryType reportQueryType;
 
 	private List<Report> reports;
+	
+	private boolean automaticCreateTitular;
+	
+	private boolean searchDependentesWithoutName;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -323,6 +327,22 @@ public abstract class Empresa extends AbstractDomain {
 		} else if (!titulars.equals(other.titulars))
 			return false;
 		return true;
+	}
+
+	public boolean isAutomaticCreateTitular() {
+		return automaticCreateTitular;
+	}
+
+	public void setAutomaticCreateTitular(boolean automaticCreateTitular) {
+		this.automaticCreateTitular = automaticCreateTitular;
+	}
+
+	public boolean isSearchDependentesWithoutName() {
+		return searchDependentesWithoutName;
+	}
+
+	public void setSearchDependentesWithoutName(boolean searchDependentesWithoutName) {
+		this.searchDependentesWithoutName = searchDependentesWithoutName;
 	}
 
 }

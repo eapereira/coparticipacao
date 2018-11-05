@@ -70,10 +70,11 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR						int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA_ESPECIAL					int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_DESCR_PROFISSAO							int( 3 ) default 40;
+	declare VAR_COL_VIEW_LENGTH_DESCR_PROFISSAO							int( 3 ) default 30;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF_TITULAR							int( 3 ) default 20;	
 	declare VAR_COL_VIEW_LENGTH_DT_MOVIMENTO							int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_CD_CONTRATO								int( 3 ) default 10;
+	declare VAR_COL_VIEW_LENGTH_CD_EMPRESA								int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_NUM_SEGURADOS							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PROPORCAO							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_VL_ALOCACAO								int( 3 ) default 20;
@@ -88,6 +89,7 @@ BEGIN
 	declare VAR_COL_LABEL_NR_CPF_TITULAR								varchar( 40 ) default 'CPF TÍTULAR';	
 	declare VAR_COL_LABEL_DT_MOVIMENTO									varchar( 40 ) default 'DT MOVIMENTO';
 	declare VAR_COL_LABEL_CD_CONTRATO									varchar( 40 ) default 'SUB FATURA';
+	declare VAR_COL_LABEL_CD_EMPRESA									varchar( 40 ) default 'EMPRESA';
 	declare VAR_COL_LABEL_NUM_SEGURADOS									varchar( 40 ) default 'VIDAS';
 	declare VAR_COL_LABEL_VL_PROPORCAO									varchar( 40 ) default 'PROPORÇÃO (%)';
 	declare VAR_COL_LABEL_VL_ALOCACAO									varchar( 40 ) default 'VALOR ALOCAÇÃO';
@@ -96,7 +98,9 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_ID_CONTRATO								bigint( 17 ) default 2;
 	declare VAR_COL_LANCAMENTO_CD_MES									bigint( 17 ) default 3;
 	declare VAR_COL_LANCAMENTO_CD_ANO									bigint( 17 ) default 4;
-	declare VAR_COL_LANCAMENTO_VL_PRINCIPAL								bigint( 17 ) default 5;
+	declare VAR_COL_LANCAMENTO_VL_PRINCIPAL								bigint( 17 ) default 5;	
+	declare VAR_COL_LANCAMENTO_VL_REEMBOLSO								bigint( 17 ) default 13;
+	declare VAR_COL_LANCAMENTO_VL_PARTICIPACAO							bigint( 17 ) default 14;
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
     
@@ -562,6 +566,32 @@ BEGIN
 	);				
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 225');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'CD_EMPRESA',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_CD_EMPRESA,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_CD_EMPRESA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	call PROC_LOG_MESSAGE('LINHA - 433');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
@@ -735,6 +765,84 @@ BEGIN
 		VAR_COL_VIEW_LENGTH_NR_CPF_TITULAR,
 		VAR_CD_ORDEM,
 		VAR_COL_LABEL_NR_CPF_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 846');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'VL_FATOR_MODERADOR',
+		VAR_COL_DOUBLE,
+		VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_VL_FATOR_MODERADOR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 846');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'DESCR_PROFISSAO',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_DESCR_PROFISSAO,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_DESCR_PROFISSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 846');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_MATRICULA_ESPECIAL',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA_ESPECIAL,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NR_MATRICULA_ESPECIAL,
 		
 		VAR_ID_USER,
 		current_timestamp(),

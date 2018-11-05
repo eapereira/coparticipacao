@@ -163,6 +163,8 @@ BEGIN
 		NM_EMPRESA,
         CD_EMPRESA,
 		CD_AUTOMATIC_CREATE_BENEFICIARIO,
+		CD_AUTOMATIC_CREATE_TITULAR,
+		CD_SEARCH_DEPENDENTES_NONAME,
 		CD_OUTPUT_REPORT_DIR,
         CD_INPUT_DIR,
         TP_SAVE_MECSAS_DETAIL,
@@ -175,6 +177,8 @@ BEGIN
 		'Marjan',
         'MARJAN',
 		VAR_FALSE,
+		VAR_TRUE,
+		VAR_TRUE,
 		'/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/marjan/',
         '/home/eapereira/desenv/work/coparticipacao/input/',
         VAR_FALSE,
@@ -966,6 +970,31 @@ BEGIN
         VAR_COL_VIEW_LENGTH_NR_CPF_TITULAR,
         VAR_CD_ORDEM,
         'CPF TITULAR',
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+    insert into TB_VIEW_DESTINATION_COLS_DEF(
+        ID_VIEW_DESTINATION	,
+        NM_COLUMN,
+        CD_TYPE,
+        VL_LENGTH,
+        CD_ORDEM,
+        NM_COL_TITLE_LABEL,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_VIEW_DESTINATION,
+        'NM_TITULAR',
+        VAR_COL_LONG,
+        VAR_COL_VIEW_LENGTH_NM_TITULAR,
+        VAR_CD_ORDEM,
+        'NOME TITULAR',
         
         VAR_ID_USER,
         current_timestamp(),

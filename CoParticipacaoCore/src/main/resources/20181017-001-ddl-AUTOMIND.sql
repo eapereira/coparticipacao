@@ -2,6 +2,7 @@
  * edson - 17/10/2018
  */
 
+drop view if exists VW_DESCONHECIDO_LEVEL01_AUTOMIND;
 drop view if exists VW_DESCONHECIDO_AUTOMIND;
 drop view if exists VW_COPARTICIPACAO_LEVEL01_AUTOMIND;
 drop view if exists VW_COPARTICIPACAO_AUTOMIND;
@@ -10,7 +11,7 @@ drop view if exists VW_COPARTICIPACAO_RESUMO_AUTOMIND;
 /****************************************************************************************************************************************************/
 /****************************************************************************************************************************************************/
 
-create view VW_DESCONHECIDO_AUTOMIND as
+create view VW_DESCONHECIDO_LEVEL01_AUTOMIND as
 select distinct
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
@@ -18,13 +19,53 @@ select distinct
 	desconhecido.NR_MATRICULA,
     desconhecido.NM_BENEFICIARIO,
     desconhecido.NR_CPF,
-    desconhecido.NM_TITULAR
+    desconhecido.NM_TITULAR,
+    desconhecido.VL_FATOR_MODERADOR,
+    desconhecido.DESCR_PROFISSAO,
+    desconhecido.NR_MATRICULA_ESPECIAL
 from TB_DESCONHECIDO desconhecido
 	join TB_CONTRATO contrato on
 		contrato.ID = desconhecido.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
 where empresa.CD_EMPRESA = 'AUTOMIND'
+union all
+select
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_CONTRATO,
+	titular.NR_MATRICULA,
+	titular.NM_TITULAR NM_BENEFICIARIO,
+	titular.NR_CPF,
+	titular.NM_TITULAR,
+	titular.VL_FATOR_MODERADOR,
+    titular.DESCR_PROFISSAO,
+    titular.NR_MATRICULA_ESPECIAL	
+from TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where	empresa.CD_EMPRESA = 'AUTOMIND'
+and		( titular.VL_FATOR_MODERADOR is null or 
+	(	titular.VL_FATOR_MODERADOR is not null and 
+		titular.VL_FATOR_MODERADOR <= 0 ));
+	
+create view VW_DESCONHECIDO_AUTOMIND as
+select
+	desconhecido.CD_MES,
+    desconhecido.CD_ANO,
+    desconhecido.ID_CONTRATO,
+	desconhecido.NR_MATRICULA,
+    desconhecido.NM_BENEFICIARIO,
+    desconhecido.NR_CPF,
+    desconhecido.NM_TITULAR,
+    desconhecido.VL_FATOR_MODERADOR,
+    desconhecido.DESCR_PROFISSAO,
+    desconhecido.NR_MATRICULA_ESPECIAL    
+from VW_DESCONHECIDO_LEVEL01_AUTOMIND desconhecido
 order by desconhecido.NM_BENEFICIARIO;
 
 create view VW_COPARTICIPACAO_LEVEL01_AUTOMIND as
@@ -47,7 +88,8 @@ from	TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
-where	empresa.CD_EMPRESA	= 'AUTOMIND';
+where	empresa.CD_EMPRESA			= 'AUTOMIND'
+and		titular.VL_FATOR_MODERADOR 	> 0;
 
 create view VW_COPARTICIPACAO_AUTOMIND as
 select
@@ -84,13 +126,15 @@ select
     automind.CD_ANO,
     automind.ID_CONTRATO,
     automind.CD_CONTRATO,
+    automind.CD_EMPRESA,
     count( 1 ) NUM_SEGURADOS,
     '100%' VL_PROPORCAO,
     'Automind' NM_SUBFATURA,
 	sum( automind.VL_FATOR_MODERADOR ) VL_ALOCACAO
-from	VW_COPARTICIPACAO_LEVEL01_AUTOMIND automind
+from	VW_COPARTICIPACAO_AUTOMIND automind
 group by
 	automind.CD_MES,
     automind.CD_ANO,
-    automind.ID_CONTRATO;
+    automind.ID_CONTRATO,
+    automind.CD_EMPRESA;
 	

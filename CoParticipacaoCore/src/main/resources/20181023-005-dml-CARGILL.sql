@@ -347,11 +347,23 @@ BEGIN
 	from 	TB_ARQUIVO_INPUT_COLS_DEF
 	where	ID_ARQUIVO_INPUT 	= VAR_ID_ARQUIVO_INPUT
 	and		NM_COLUMN			= 'COLUMN_002_CD_EMPRESA';
+
+	call PROC_LOG_MESSAGE('LINHA - 257');
+	select 	ID into VAR_ID_COLUMN_010_CD_PLANO
+	from 	TB_ARQUIVO_INPUT_COLS_DEF
+	where	ID_ARQUIVO_INPUT 	= VAR_ID_ARQUIVO_INPUT
+	and		NM_COLUMN			= 'COLUMN_010_CD_PLANO';
 	
 	call PROC_LOG_MESSAGE('LINHA - 1458');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	/* BENEFICIÁRIO TITULAR */
+	
+	call PROC_LOG_MESSAGE( 'LINHA - 2527' );
+	update TB_ARQUIVO_INPUT_COLS_DEF
+	set
+			CD_TYPE	= VAR_COL_VARCHAR
+	where	ID		= VAR_ID_COLUMN_010_CD_PLANO;	
 	
     call PROC_LOG_MESSAGE( 'LINHA - 2527' );
     insert into TB_BENEFICIARIO_COLS(

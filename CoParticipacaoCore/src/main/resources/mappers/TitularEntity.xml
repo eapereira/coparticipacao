@@ -333,11 +333,11 @@
 				IBGE						= ?,                        
 				CBO							= ?,                         
 				DIF_TRANSF					= ?,                  				
-				DT_DEMISSAO					= ?,
-
 				DESCR_PROFISSAO				= ?,
 				NR_MATRICULA_ESPECIAL		= ?,
-				VL_FATOR_MODERADOR			= ?,							
+				VL_FATOR_MODERADOR			= ?,
+											
+				DT_DEMISSAO					= ?,
 
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

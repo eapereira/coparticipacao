@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -55,6 +57,8 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 
 	@Autowired
 	private ContratoService contratoService;
+
+	private static final String LINE_END = "\n\r";// System.getProperty("line.terminator");
 
 	public void write(
 			CoParticipacaoContext coParticipacaoContext,
@@ -183,7 +187,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 				}
 
 				fileWriter.write(sb.toString());
-				fileWriter.write("\n");
+				fileWriter.write(LINE_END);
 			}
 
 			LOGGER.info("END");

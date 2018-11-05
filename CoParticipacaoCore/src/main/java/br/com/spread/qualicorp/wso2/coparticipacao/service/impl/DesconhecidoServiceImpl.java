@@ -258,6 +258,12 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			desconhecidoUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 			desconhecidoUi.setNameTitular(beneficiarioUi.getNameTitular());
 
+			desconhecidoUi.getBeneficiarioDetail()
+					.setFatorModerador(beneficiarioUi.getBeneficiarioDetail().getFatorModerador());
+			desconhecidoUi.getBeneficiarioDetail()
+					.setMatriculaEspecial(beneficiarioUi.getBeneficiarioDetail().getMatriculaEspecial());
+			desconhecidoUi.getBeneficiarioDetail().setProfissao(beneficiarioUi.getBeneficiarioDetail().getProfissao());
+
 			desconhecidoUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
 			desconhecidoUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 

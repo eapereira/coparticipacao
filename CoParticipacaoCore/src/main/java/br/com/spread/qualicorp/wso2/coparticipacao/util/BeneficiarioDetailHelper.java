@@ -19,7 +19,7 @@ public class BeneficiarioDetailHelper {
 
 	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioDetailHelper.class);
 
-	public static void updateBeneficiarioDetail(
+	public static void copyBeneficiarioDetail(
 			BeneficiarioDetail beneficiarioDetailDest,
 			BeneficiarioDetail beneficiarioDetailOrigin) throws ServiceException {
 		try {
@@ -247,15 +247,15 @@ public class BeneficiarioDetailHelper {
 				beneficiarioDetailDest.setTituloEleitor(beneficiarioDetailOrigin.getTituloEleitor());
 			}
 
-			updateDadosBancarios(
+			copyDadosBancarios(
 					beneficiarioDetailDest.getDadosBancarios(),
 					beneficiarioDetailOrigin.getDadosBancarios());
 
-			updateEndereco(beneficiarioDetailDest.getEndereco(), beneficiarioDetailOrigin.getEndereco());
+			copyEndereco(beneficiarioDetailDest.getEndereco(), beneficiarioDetailOrigin.getEndereco());
 
-			updateTelefone(beneficiarioDetailDest.getTelefone(), beneficiarioDetailOrigin.getTelefone());
+			copyteTelefone(beneficiarioDetailDest.getTelefone(), beneficiarioDetailOrigin.getTelefone());
 
-			updateTransferencia(beneficiarioDetailDest.getTransferencia(), beneficiarioDetailOrigin.getTransferencia());
+			copyTransferencia(beneficiarioDetailDest.getTransferencia(), beneficiarioDetailOrigin.getTransferencia());
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -264,7 +264,7 @@ public class BeneficiarioDetailHelper {
 		}
 	}
 
-	private static void updateTransferencia(Transferencia transferenciaDest, Transferencia transferenciaOrigin)
+	private static void copyTransferencia(Transferencia transferenciaDest, Transferencia transferenciaOrigin)
 			throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
@@ -341,7 +341,7 @@ public class BeneficiarioDetailHelper {
 		}
 	}
 
-	private static void updateTelefone(Telefone telefoneDest, Telefone telefoneOrigin) throws ServiceException {
+	private static void copyteTelefone(Telefone telefoneDest, Telefone telefoneOrigin) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
@@ -364,7 +364,7 @@ public class BeneficiarioDetailHelper {
 		}
 	}
 
-	private static void updateEndereco(Endereco enderecoDest, Endereco enderecoOrigin) throws ServiceException {
+	private static void copyEndereco(Endereco enderecoDest, Endereco enderecoOrigin) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
@@ -407,7 +407,7 @@ public class BeneficiarioDetailHelper {
 		}
 	}
 
-	private static void updateDadosBancarios(DadosBancarios dadosBancariosDest, DadosBancarios dadosBancariosOrigin)
+	private static void copyDadosBancarios(DadosBancarios dadosBancariosDest, DadosBancarios dadosBancariosOrigin)
 			throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");

@@ -157,6 +157,7 @@ BEGIN
 	
 	declare VAR_ISENTOS_NM_CONTRATO				bigint( 17 );
 	declare VAR_ISENTOS_NR_MATRICULA			bigint( 17 );
+	declare VAR_ISENTOS_NR_MATRICULA_EMPRESA	bigint( 17 );
 	declare VAR_ISENTOS_NM_BENEFICIARIO			bigint( 17 );
 	declare VAR_ISENTOS_NR_CPF					bigint( 17 );
 	declare VAR_ISENTOS_NR_MATRICULA_TITULAR	bigint( 17 );
@@ -205,6 +206,8 @@ BEGIN
 	declare VAR_CD_ISENTO_COLS_DEF_DT_NASCIMENTO						bigint( 17 ) default 4;
 	declare VAR_CD_ISENTO_COLS_DEF_NR_CPF								bigint( 17 ) default 5;
 	declare VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_TITULAR					bigint( 17 ) default 6;
+	declare VAR_CD_ISENTO_COLS_DEF_NM_TITULAR							bigint( 17 ) default 7;
+	declare VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_EMPRESA					bigint( 17 ) default 9;
 
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NM_DEPENDENTE					bigint( 17 ) default 4;
@@ -415,12 +418,38 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ISENTOS_NM_TITULAR from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_ISENTOS_NM_TITULAR 
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	insert into TB_ARQUIVO_INPUT_COLS_DEF(
+		ID_ARQUIVO_INPUT,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
 		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_ISENTOS,
+		'NR_MATRICULA_EMPRESA',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ISENTOS_NR_MATRICULA_EMPRESA 
+	from TB_ARQUIVO_INPUT_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/
-	/* BeneficiarioIsento */
+	/* BENEFICIARIO ISENTO */
 	
 	set VAR_CD_ORDEM = 0;
 	
@@ -527,6 +556,8 @@ BEGIN
 		current_timestamp()				
 	);
 	
+	/*****************************************************************************************************************************************************/
+	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	insert into TB_ISENTO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
@@ -630,6 +661,8 @@ BEGIN
 		current_timestamp()				
 	);
 		
+	/*****************************************************************************************************************************************************/
+	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	call PROC_LOG_MESSAGE('LINHA - 2955');
 	insert into TB_ISENTO_INPUT_SHEET(
@@ -685,14 +718,14 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_ISENTOS_NR_MATRICULA_TITULAR,
-		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_TITULAR,
+		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA,
 		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()				
 	);
-
+	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	call PROC_LOG_MESSAGE('LINHA - 3082');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
@@ -706,14 +739,14 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_ISENTOS_NM_TITULAR,
-		VAR_CD_ISENTO_COLS_DEF_NM_BENEFICIARIO,
+		VAR_CD_ISENTO_COLS_DEF_NM_TITULAR,
 		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()				
 	);
-	
+		
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
@@ -745,14 +778,16 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ISENTO_INPUT_SHEET,
-		VAR_ISENTOS_NR_MATRICULA,
-		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA,
+		VAR_ISENTOS_NR_MATRICULA_EMPRESA,
+		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_EMPRESA,
 		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()				
 	);
+	
+	/*****************************************************************************************************************************************************/
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	call PROC_LOG_MESSAGE('LINHA - 2955');
@@ -857,6 +892,8 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()				
 	);
+	
+	/*****************************************************************************************************************************************************/
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	call PROC_LOG_MESSAGE('LINHA - 5340');

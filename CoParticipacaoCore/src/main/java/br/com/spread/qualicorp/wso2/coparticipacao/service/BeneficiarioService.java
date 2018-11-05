@@ -1,6 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
@@ -27,6 +28,12 @@ public interface BeneficiarioService {
 			throws ServiceException, BeneficiarioNotFoundException, DependenteDuplicated;
 
 	DependenteUi findDependente(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
+			throws ServiceException;
+
+	DependenteUi findDependente(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
+			throws ServiceException;
+
+	TitularUi findTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
 			throws ServiceException;
 
 }

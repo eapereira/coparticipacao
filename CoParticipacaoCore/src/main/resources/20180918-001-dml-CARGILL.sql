@@ -774,19 +774,19 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_VIEW_DESTINATION,
-		'CD_VERBA',
+		'CD_PLANO',
 		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_CD_VERBA,
+		VAR_COL_VIEW_LENGTH_CD_PLANO,
 		VAR_CD_ORDEM,
-		VAR_COL_LABEL_CD_VERBA,
+		VAR_COL_LABEL_CD_PLANO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
-	);					
+	);			
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
+		
 	call PROC_LOG_MESSAGE('LINHA - 433');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
@@ -800,16 +800,16 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_VIEW_DESTINATION,
-		'CD_PLANO',
+		'CD_VERBA',
 		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_CD_PLANO,
+		VAR_COL_VIEW_LENGTH_CD_VERBA,
 		VAR_CD_ORDEM,
-		VAR_COL_LABEL_CD_PLANO,
+		VAR_COL_LABEL_CD_VERBA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
-	);					
+	);							
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	

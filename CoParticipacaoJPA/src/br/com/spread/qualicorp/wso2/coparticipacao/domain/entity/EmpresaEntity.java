@@ -176,4 +176,18 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.getReports();
 	}
 
+	@Column(name = "CD_AUTOMATIC_CREATE_TITULAR")
+	@Override
+	public boolean isAutomaticCreateTitular() {
+		// TODO Auto-generated method stub
+		return super.isAutomaticCreateTitular();
+	}
+
+	@Column(name = "CD_SEARCH_DEPENDENTES_NONAME")
+	@Override
+	public boolean isSearchDependentesWithoutName() {
+		// TODO Auto-generated method stub
+		return super.isSearchDependentesWithoutName();
+	}
+
 }

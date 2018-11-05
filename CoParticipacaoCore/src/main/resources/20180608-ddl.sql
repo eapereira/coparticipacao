@@ -184,6 +184,8 @@ create table TB_EMPRESA(
 	CD_AUTOMATIC_CREATE_BENEFICIARIO	int( 3 ) not null default 0,
 	CD_INPUT_DIR 						varchar( 800 ) not null,
 	CD_OUTPUT_REPORT_DIR 				varchar( 800 ) not null,
+	CD_AUTOMATIC_CREATE_TITULAR			int( 3 ) not null default 0, /* se o Títular tiver CPF, MATRICULA e NOME preenchidos, pode insirir: */
+	CD_SEARCH_DEPENDENTES_NONAME		int( 3 ) not null default 0, /* procura Dependetes apenas por CPF e MATRICULA: */
 	
 	TP_SAVE_MECSAS_DETAIL				int( 1 ) not null,
 	TP_SAVE_BENEFICIARIO_DETAIL			int( 1 ) not null,

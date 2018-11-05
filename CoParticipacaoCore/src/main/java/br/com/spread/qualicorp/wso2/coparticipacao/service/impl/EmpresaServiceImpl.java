@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.EmpresaDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
@@ -106,6 +107,12 @@ public class EmpresaServiceImpl extends AbstractServiceImpl<EmpresaUi, EmpresaEn
 			} else {
 				if (empresaUi.isAutomaticCreateBeneficiario()) {
 					return true;
+				} else {
+					if (BeneficiarioType.TITULAR.equals(coParticipacaoContext.getBeneficiarioUi().getType())) {
+						if (empresaUi.isAutomaticCreateTitular()) {
+							return true;
+						}
+					}
 				}
 			}
 

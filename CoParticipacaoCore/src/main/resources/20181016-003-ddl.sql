@@ -36,6 +36,13 @@ alter table TB_DEPENDENTE
 		NR_MATRICULA_ESPECIAL	bigint( 17 ) null
 );
 
+alter table TB_DESCONHECIDO
+	add ( 
+		VL_FATOR_MODERADOR 		numeric( 17, 2 ) null,
+		DESCR_PROFISSAO			varchar( 80 ) null,
+		NR_MATRICULA_ESPECIAL	bigint( 17 ) null
+);
+
 /*************************************************************************************************************************************/
 create table TB_LANCAMENTO_INPUT_SHEET(
 	ID 						bigint( 17 ) auto_increment,
