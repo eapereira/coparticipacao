@@ -29,7 +29,7 @@ drop view if exists VW_DESLIGADOS_HOC;
 
 drop view if exists VW_MESES_ANO;
 drop view if exists VW_RESUMO_EMPTY_HOC;
-drop view if exists VW_RESUMO_01_HOC;
+drop view if exists VW_RESUMO_LEVEL01_HOC;
 drop view if exists VW_RESUMO_HOC;
 
 drop view if exists VW_DESCONHECIDO_HOC ;
@@ -593,6 +593,7 @@ select
 create view VW_RESUMO_EMPTY_HOC as
 select
 	resumo_empty.NM_LABEL,
+    resumo_empty.ID_RESUMO,
     meses_ano.CD_MES,
     resumo_empty.CD_ANO,
     resumo_empty.ID_EMPRESA,
@@ -601,6 +602,7 @@ select
 from (
 select
 	'Total Coparticipação' NM_LABEL,
+	1 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -610,6 +612,7 @@ from TB_CONTRATO contrato
 union all
 select
 	'Isenção de Gestantes' NM_LABEL,
+	2 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -619,6 +622,7 @@ from TB_CONTRATO contrato
 union all
 select
 	'Isenção HOC' NM_LABEL,
+	2 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -628,6 +632,7 @@ from TB_CONTRATO contrato
 union all
 select
 	'Isenção Conselheiro' NM_LABEL,
+	2 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -637,6 +642,7 @@ from TB_CONTRATO contrato
 union all
 select
 	'Afastados' NM_LABEL,
+	3 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -646,6 +652,7 @@ from TB_CONTRATO contrato
 union all
 select
 	'Agregados' NM_LABEL,
+	4 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -655,6 +662,7 @@ from TB_CONTRATO contrato
 union all
 select
 	'Plano de Extensão' NM_LABEL,
+	5 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -664,6 +672,7 @@ from TB_CONTRATO contrato
 union all
 select
 	'Desligados' NM_LABEL,
+	6 ID_RESUMO,
 	date_format( current_date(), '%m') CD_MES,
 	date_format( current_date(), '%Y') CD_ANO,
     contrato.ID_EMPRESA,
@@ -673,9 +682,10 @@ from TB_CONTRATO contrato ) resumo_empty
 	join VW_MESES_ANO meses_ano on
 		meses_ano.CD_ANO = resumo_empty.CD_ANO;
 
-create view VW_RESUMO_01_HOC as
+create view VW_RESUMO_LEVEL01_HOC as
 select 
 	'Total Coparticipação' NM_LABEL,
+	1 ID_RESUMO,
 	original_hoc.CD_MES,
 	original_hoc.CD_ANO,
 	original_hoc.ID_EMPRESA,
@@ -685,6 +695,7 @@ from VW_LANCAMENTO_ORIGINAL_HOC original_hoc
 union all
 select
 	'Isenção de Gestantes' NM_LABEL,
+	2 ID_RESUMO,
 	isencao_gestantes.CD_MES,
 	isencao_gestantes.CD_ANO,
 	isencao_gestantes.ID_EMPRESA,
@@ -694,6 +705,7 @@ from VW_ISENCAO_GESTANTES_HOC isencao_gestantes
 union all
 select
 	'Isenção HOC' NM_LABEL,
+	2 ID_RESUMO,
 	isencao.CD_MES,
 	isencao.CD_ANO,
 	isencao.ID_EMPRESA,
@@ -703,6 +715,7 @@ from VW_ISENCAO_VALOR_HOC isencao
 union all
 select
 	'Isenção Conselheiro' NM_LABEL,
+	2 ID_RESUMO,
 	isencao_conselheiros.CD_MES,
 	isencao_conselheiros.CD_ANO,
 	isencao_conselheiros.ID_EMPRESA,
@@ -712,6 +725,7 @@ from VW_ISENCAO_CONSELHEIROS_HOC isencao_conselheiros
 union all
 select
 	'Afastados' NM_LABEL,
+	3 ID_RESUMO,
 	afastados.CD_MES,
 	afastados.CD_ANO,
 	afastados.ID_EMPRESA,
@@ -721,6 +735,7 @@ from VW_AFASTADOS_HOC afastados
 union all
 select
 	'Agregados' NM_LABEL,
+	4 ID_RESUMO,
 	agregados.CD_MES,
 	agregados.CD_ANO,
 	agregados.ID_EMPRESA,
@@ -730,6 +745,7 @@ from VW_AGREGADOS_HOC agregados
 union all
 select
 	'Plano de Extensão' NM_LABEL,
+	5 ID_RESUMO,
 	plano_extensao.CD_MES,
 	plano_extensao.CD_ANO,
 	plano_extensao.ID_EMPRESA,
@@ -739,6 +755,7 @@ from VW_PLANO_EXTENSAO_HOC plano_extensao
 union all
 select
 	'Desligados' NM_LABEL,
+	6 ID_RESUMO,
 	desligados.CD_MES,
 	desligados.CD_ANO,
 	desligados.ID_EMPRESA,
@@ -748,6 +765,7 @@ from VW_DESLIGADOS_HOC desligados
 union all
 select
 	resumo_empty.NM_LABEL,
+	resumo_empty.ID_RESUMO,
 	resumo_empty.CD_MES,
 	resumo_empty.CD_ANO,
 	resumo_empty.ID_EMPRESA,
@@ -757,6 +775,7 @@ from VW_RESUMO_EMPTY_HOC resumo_empty
 union all
 select 
 	'Total' NM_LABEL,
+    10 ID_RESUMO,
 	original_hoc.CD_MES,
 	original_hoc.CD_ANO,
 	original_hoc.ID_EMPRESA,
@@ -766,6 +785,7 @@ from VW_LANCAMENTO_ORIGINAL_HOC original_hoc
 union all
 select
 	'Total' NM_LABEL,
+    10 ID_RESUMO,
 	afastados.CD_MES,
 	afastados.CD_ANO,
 	afastados.ID_EMPRESA,
@@ -775,6 +795,7 @@ from VW_AFASTADOS_HOC afastados
 union all
 select
 	'Total' NM_LABEL,
+    10 ID_RESUMO,
 	agregados.CD_MES,
 	agregados.CD_ANO,
 	agregados.ID_EMPRESA,
@@ -784,6 +805,7 @@ from VW_AGREGADOS_HOC agregados
 union all
 select
 	'Total' NM_LABEL,
+    10 ID_RESUMO,
 	plano_extensao.CD_MES,
 	plano_extensao.CD_ANO,
 	plano_extensao.ID_EMPRESA,
@@ -793,6 +815,7 @@ from VW_PLANO_EXTENSAO_HOC plano_extensao
 union all
 select
 	'Total' NM_LABEL,
+    10 ID_RESUMO,
 	desligados.CD_MES,
 	desligados.CD_ANO,
 	desligados.ID_EMPRESA,
@@ -807,11 +830,12 @@ select
 	resumo.CD_ANO,
 	resumo.ID_CONTRATO,
 	sum( resumo.TOTAL_COPART ) TOTAL_COPART
-from VW_RESUMO_01_HOC resumo
+from VW_RESUMO_LEVEL01_HOC resumo
 group by
 	resumo.NM_LABEL,
 	resumo.CD_MES,
 	resumo.CD_ANO,
 	resumo.ID_CONTRATO,
-	resumo.ID_EMPRESA;
+	resumo.ID_EMPRESA
+order by resumo.ID_RESUMO;
 /**********************************************************************************************************************/

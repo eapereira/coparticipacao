@@ -851,4 +851,17 @@ public class CoParticipacaoContext {
 		LOGGER.info("END");
 		return dependenteUiTmp;
 	}
+
+	public ContratoUi findContratoById(Long contratoId) {
+		LOGGER.info("BEGIN");
+
+		for (Contrato contrato : getEmpresaUi().getContratos()) {
+			if (contrato.getId().equals(contratoId)) {
+				return (ContratoUi) contrato;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
 }

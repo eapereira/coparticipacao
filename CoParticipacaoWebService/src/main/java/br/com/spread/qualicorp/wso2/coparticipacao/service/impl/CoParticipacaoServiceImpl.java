@@ -73,6 +73,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ReportService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.UserService;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.FriendlyErrorHelper;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.StopWatchAdapter;
 
 /**
@@ -475,7 +476,11 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			coParticipacaoContext.getArquivoExecucaoUi().setErrorMessage(e.getMessage());
+			FriendlyErrorHelper.createFriendlyErrorMessage(
+					coParticipacaoContext,
+					coParticipacaoContext.getArquivoExecucaoUi(),
+					e.getMessage());
+
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.ERROR);
 
 			throw new ServiceException(e.getMessage(), e);
