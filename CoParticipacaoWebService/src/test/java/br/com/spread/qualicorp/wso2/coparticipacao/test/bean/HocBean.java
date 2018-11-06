@@ -25,6 +25,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -32,7 +33,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  *
  */
 @Component
-public class HocBean extends CoparticipacaoBean {
+public class HocBean {
 
 	private static final Logger LOGGER = LogManager.getLogger(HocBean.class);
 
@@ -50,12 +51,12 @@ public class HocBean extends CoparticipacaoBean {
 	private static final String FATUCOPA_201807 = "oswaldo-cruz/input/0444.0444.201807.005.csv";
 	private static final String NAO_LOCALIZADOS_201807 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201807.005.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 3034;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3909;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 3031;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3911;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201803 = 1;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201803 = 2377;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201803 = 310;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201803 = 5;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201803 = 481;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201803 = 1;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803_AFTER_VALIDATION = 3035;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803_AFTER_VALIDATION = 3910;
@@ -64,12 +65,12 @@ public class HocBean extends CoparticipacaoBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201803_AFTER_USER_VALIDATION = 310;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201803_AFTER_USER_VALIDATION = 5;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 2983;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 3839;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 2978;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 3866;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 1;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807 = 2117;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807 = 322;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201807 = 4;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807 = 499;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201807 = 3;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807_AFTER_USER_VALIDATION = 2984;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807_AFTER_USER_VALIDATION = 3839;
@@ -107,7 +108,7 @@ public class HocBean extends CoparticipacaoBean {
 	private DependenteIsentoService dependenteIsentoService;
 
 	@Test
-	public void testCoparticipacao201803() throws Exception {
+	public void testCoparticipacao201803(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -117,13 +118,14 @@ public class HocBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201803);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201804);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201803);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201804);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -150,7 +152,7 @@ public class HocBean extends CoparticipacaoBean {
 	}
 
 	@Test
-	public void testCoparticipacao201803AfterUserValidation() throws Exception {
+	public void testCoparticipacao201803AfterUserValidation(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -160,15 +162,17 @@ public class HocBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201803();
+		testCoparticipacao201803(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201804);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201804);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -196,7 +200,7 @@ public class HocBean extends CoparticipacaoBean {
 	}
 
 	@Test
-	public void testCoparticipacao201807() throws Exception {
+	public void testCoparticipacao201807(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -206,13 +210,15 @@ public class HocBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201807);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -239,7 +245,7 @@ public class HocBean extends CoparticipacaoBean {
 	}
 
 	@Test
-	public void testCoparticipacao201807AfterUserValidation() throws Exception {
+	public void testCoparticipacao201807AfterUserValidation(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -249,15 +255,18 @@ public class HocBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201807();
+		testCoparticipacao201807(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201807);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);

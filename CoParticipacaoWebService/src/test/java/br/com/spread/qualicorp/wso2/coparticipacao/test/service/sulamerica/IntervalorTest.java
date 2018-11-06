@@ -34,7 +34,7 @@ public class IntervalorTest extends CoParticipacaoTest {
 	public void testCoparticipacao201806() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201806();
+		intervalorBean.testCoparticipacao201806(this);
 
 		LOGGER.info("END");
 	}
@@ -43,7 +43,7 @@ public class IntervalorTest extends CoParticipacaoTest {
 	public void testCoparticipacao201806AfterUserValidation() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201806AfterUserValidation();
+		intervalorBean.testCoparticipacao201806AfterUserValidation(this);
 
 		LOGGER.info("END");
 	}
@@ -52,7 +52,7 @@ public class IntervalorTest extends CoParticipacaoTest {
 	public void testCoparticipacao201808() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201808();
+		intervalorBean.testCoparticipacao201808(this);
 
 		LOGGER.info("END");
 	}
@@ -61,7 +61,7 @@ public class IntervalorTest extends CoParticipacaoTest {
 	public void testCoparticipacao201808AfterUserValidation() throws Exception {
 		LOGGER.info("BEGIN");
 
-		intervalorBean.testCoparticipacao201886AfterUserValidation();
+		intervalorBean.testCoparticipacao201886AfterUserValidation(this);
 
 		LOGGER.info("END");
 	}

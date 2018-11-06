@@ -34,7 +34,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 	public void testCoparticipacao201806() throws Exception {
 		LOGGER.info("BEGIN");
 
-		muitoFacilBean.testCoparticipacao201806();
+		muitoFacilBean.testCoparticipacao201806(this);
 
 		LOGGER.info("END");
 	}
@@ -43,7 +43,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 	public void testCoparticipacao201807() throws Exception {
 		LOGGER.info("BEGIN");
 
-		muitoFacilBean.testCoparticipacao201807();
+		muitoFacilBean.testCoparticipacao201807(this);
 
 		LOGGER.info("END");
 	}
@@ -52,7 +52,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 	public void testCoparticipacao201807WithUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		muitoFacilBean.testCoparticipacao201807WithUserReturn();
+		muitoFacilBean.testCoparticipacao201807WithUserReturn(this);
 
 		LOGGER.info("END");
 	}
@@ -61,7 +61,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 	public void testCoparticipacao201809() throws Exception {
 		LOGGER.info("BEGIN");
 
-		muitoFacilBean.testCoparticipacao201809();
+		muitoFacilBean.testCoparticipacao201809(this);
 
 		LOGGER.info("END");
 	}
@@ -70,7 +70,7 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 	public void testCoparticipacao201809AfterUserValidation() throws Exception {
 		LOGGER.info("BEGIN");
 
-		muitoFacilBean.testCoparticipacao201809AfterUserValidation();
+		muitoFacilBean.testCoparticipacao201809AfterUserValidation(this);
 
 		LOGGER.info("END");
 	}

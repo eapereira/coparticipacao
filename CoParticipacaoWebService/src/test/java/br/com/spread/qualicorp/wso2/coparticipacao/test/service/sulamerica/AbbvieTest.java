@@ -29,7 +29,7 @@ public class AbbvieTest extends CoParticipacaoTest {
 	public void testCoparticipacao201808() throws Exception {
 		LOGGER.info("BEGIN");
 
-		abbvieBean.testCoparticipacao201808();
+		abbvieBean.testCoparticipacao201808(this);
 
 		LOGGER.info("END");
 	}
@@ -38,7 +38,7 @@ public class AbbvieTest extends CoParticipacaoTest {
 	public void testCoparticipacao201808WithUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		abbvieBean.testCoparticipacao201808WithUserReturn();
+		abbvieBean.testCoparticipacao201808WithUserReturn(this);
 
 		LOGGER.info("END");
 	}

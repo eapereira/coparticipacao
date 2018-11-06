@@ -3,6 +3,8 @@ package br.com.spread.qualicorp.wso2.coparticipacao.test.service.thread;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
+
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
@@ -14,9 +16,12 @@ public abstract class ThreadTest extends Thread {
 
 	private boolean done;
 
-	public ThreadTest(String name) {
+	private CoParticipacaoTest coParticipacaoTest;
+
+	public ThreadTest(CoParticipacaoTest coParticipacaoTest, String name) {
 		super(name);
 		this.done = false;
+		this.coParticipacaoTest = coParticipacaoTest;
 	}
 
 	@Override
@@ -24,7 +29,7 @@ public abstract class ThreadTest extends Thread {
 		try {
 			LOGGER.info("BEGIN");
 
-			doTest();
+			doTest(coParticipacaoTest);
 
 			done = true;
 
@@ -34,7 +39,7 @@ public abstract class ThreadTest extends Thread {
 		}
 	}
 
-	protected abstract void doTest() throws Exception;
+	protected abstract void doTest(CoParticipacaoTest coparticipacaoTest) throws Exception;
 
 	public boolean isDone() {
 		return done;

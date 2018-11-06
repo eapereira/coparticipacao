@@ -75,6 +75,7 @@ BEGIN
 	declare VAR_ID_COLUMN_27_LOTACAO 				bigint( 17 ); 
 	declare VAR_ID_COLUMN_28_CENTRO_CUSTO 			bigint( 17 ); 
 	declare VAR_ID_COLUMN_29_BANCO_PAGTO 			bigint( 17 ); 
+	declare VAR_ID_COLUMN_30_AGENCIA_PAGTO 			bigint( 17 );
 	declare VAR_ID_COLUMN_31_TP_CONTA_CORRENTE 		bigint( 17 ); 
 	declare VAR_ID_COLUMN_32_CONTA_CORRENTE_PAGTO 	bigint( 17 ); 
 	declare VAR_ID_COLUMN_33_VINCULO_EMPREGATICIO 	bigint( 17 ); 
@@ -921,6 +922,32 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_ID_COLUMN_29_BANCO_PAGTO from TB_ARQUIVO_INPUT_COLS_DEF;
+	set VAR_COL_INDEX = VAR_COL_INDEX + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 172');
+	insert into TB_ARQUIVO_INPUT_COLS_DEF(
+		ID_ARQUIVO_INPUT,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT,
+		'COLUMN_30_AGENCIA_PAGTO',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_COL_INDEX,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_30_AGENCIA_PAGTO 
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_COL_INDEX = VAR_COL_INDEX + 1;
 	
 	call PROC_LOG_MESSAGE('LINHA - 172');

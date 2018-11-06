@@ -71,11 +71,11 @@ public class MultiThreadTest extends CoParticipacaoTest {
 
 		executorService = Executors.newFixedThreadPool(5);
 
-		abbvieThreadTest = new AbbvieThreadTest(abbvieBean);
-		marjanThreadTest = new MarjanThreadTest(marjanBean);
-		muitoFacilThreadTest = new MuitoFacilThreadTest(muitoFacilBean);
-		hocThreadTest = new HocThreadTest(hocBean);
-		cargillThreadTest = new CargillThreadTest(cargillBean);
+		abbvieThreadTest = new AbbvieThreadTest(this, abbvieBean);
+		marjanThreadTest = new MarjanThreadTest(this, marjanBean);
+		muitoFacilThreadTest = new MuitoFacilThreadTest(this, muitoFacilBean);
+		hocThreadTest = new HocThreadTest(this, hocBean);
+		cargillThreadTest = new CargillThreadTest(this, cargillBean);
 
 		futures = new ArrayList<Future<ThreadTest>>();
 

@@ -30,7 +30,7 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 	public void testCoparticipacao201803() throws Exception {
 		LOGGER.info("BEGIN");
 
-		hocBean.testCoparticipacao201803();
+		hocBean.testCoparticipacao201803(this);
 
 		LOGGER.info("END");
 	}
@@ -39,7 +39,7 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 	public void testCoparticipacao201803AfterUserValidation() throws Exception {
 		LOGGER.info("BEGIN");
 
-		hocBean.testCoparticipacao201803AfterUserValidation();
+		hocBean.testCoparticipacao201803AfterUserValidation(this);
 
 		LOGGER.info("END");
 	}
@@ -48,16 +48,16 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 	public void testCoparticipacao201807() throws Exception {
 		LOGGER.info("BEGIN");
 
-		hocBean.testCoparticipacao201807();
+		hocBean.testCoparticipacao201807(this);
 
 		LOGGER.info("END");
 	}
- 
+
 	@Test
 	public void testCoparticipacao201807AfterUserValidation() throws Exception {
 		LOGGER.info("BEGIN");
 
-		hocBean.testCoparticipacao201807AfterUserValidation();
+		hocBean.testCoparticipacao201807AfterUserValidation(this);
 
 		LOGGER.info("END");
 	}

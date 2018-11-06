@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.test.bean.AbbvieBean;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -16,18 +17,18 @@ public class AbbvieThreadTest extends ThreadTest {
 
 	private AbbvieBean abbvieBean;
 
-	public AbbvieThreadTest(AbbvieBean abbvieBean) {
-		super("AbbvieThread");
+	public AbbvieThreadTest(CoParticipacaoTest coParticipacaoTest,AbbvieBean abbvieBean) {
+		super(coParticipacaoTest,"AbbvieThread");
 
 		this.abbvieBean = abbvieBean;
 	}
 
 	@Override
-	protected void doTest() throws Exception {
+	protected void doTest(CoParticipacaoTest coparticipacaoTest) throws Exception {
 		LOGGER.info("BEGIN");
 
-		abbvieBean.testCoparticipacao201808();
-		abbvieBean.testCoparticipacao201808WithUserReturn();
+		abbvieBean.testCoparticipacao201808(coparticipacaoTest);
+		abbvieBean.testCoparticipacao201808WithUserReturn(coparticipacaoTest);
 
 		LOGGER.info("END");
 	}

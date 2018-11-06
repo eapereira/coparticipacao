@@ -24,6 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -31,7 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  *
  */
 @Component
-public class MarjanBean extends CoparticipacaoBean {
+public class MarjanBean {
 
 	private static final Logger LOGGER = LogManager.getLogger(MarjanBean.class);
 
@@ -74,10 +75,10 @@ public class MarjanBean extends CoparticipacaoBean {
 	private static final String FATUCOPA_8C7XX_201810 = "marjan/input/MARJAN.8C7XX.201810.006.TXT";
 	private static final String NAO_LOCALIZADO_201810 = "marjan/input/MARJAN.NAO-LOCALIZADO.201810.004.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 467;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 481;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201802 = 565;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 32;
-	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201802 = 129;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 18;
+	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201802 = 143;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 471;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 565;
@@ -85,28 +86,28 @@ public class MarjanBean extends CoparticipacaoBean {
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201806 = 170;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806_AFTER_USER_RETURN = 473;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_RETURN = 573;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_RETURN = 569;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201806_AFTER_USER_RETURN = 174;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 467;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 468;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 565;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 4;
-	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201807 = 153;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 3;
+	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201807 = 154;
 
-	private static final int NUM_TOTAL_TITULARES_201808 = 501;
+	private static final int NUM_TOTAL_TITULARES_201808 = 511;
 	private static final int NUM_TOTAL_DEPENDENTES_201808 = 614;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201808 = 17;
-	private static final int NUM_TOTAL_FATUCOPA_201808 = 150;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808 = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 18;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201808 = 7;
+	private static final int NUM_TOTAL_FATUCOPA_201808 = 160;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808 = 29;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 14;
 
 	private static final int NUM_TOTAL_TITULARES_201808_AFTER_USER_RETURN = 513;
-	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 631;
+	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 621;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201808_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_201808_AFTER_USER_RETURN = 167;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN = 18;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808_AFTER_USER_RETURN = 29;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN = 14;
 
 	private static final int NUM_TOTAL_TITULARES_201810 = 511;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 614;
@@ -116,11 +117,11 @@ public class MarjanBean extends CoparticipacaoBean {
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 14;
 
 	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 513;
-	private static final int NUM_TOTAL_DEPENDENTES_201810_AFTER_USER_RETURN = 631;
+	private static final int NUM_TOTAL_DEPENDENTES_201810_AFTER_USER_RETURN = 621;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_201810_AFTER_USER_RETURN = 167;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 18;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN = 29;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 14;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";
@@ -152,7 +153,7 @@ public class MarjanBean extends CoparticipacaoBean {
 	@Autowired
 	private DependenteIsentoService dependenteIsentoService;
 
-	public void testCoparticipacao201806() throws Exception {
+	public void testCoparticipacao201806(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -160,13 +161,13 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201806);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -184,7 +185,7 @@ public class MarjanBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_FATUCOPA_FATUCOPA_201806, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201806WithUserReturn() throws Exception {
+	public void testCoparticipacao201806WithUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -192,14 +193,15 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201806();
+		testCoparticipacao201806(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201806);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201806);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -219,7 +221,7 @@ public class MarjanBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_FATUCOPA_FATUCOPA_201806_AFTER_USER_RETURN, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201802() throws Exception {
+	public void testCoparticipacao201802(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -227,14 +229,14 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201803);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201802);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201802);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201802);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201803);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201802);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201802);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201802);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -252,7 +254,7 @@ public class MarjanBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_FATUCOPA_FATUCOPA_201802, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201807() throws Exception {
+	public void testCoparticipacao201807(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -260,13 +262,13 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201807);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -284,7 +286,7 @@ public class MarjanBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_FATUCOPA_FATUCOPA_201807, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201808() throws Exception {
+	public void testCoparticipacao201808(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -294,14 +296,14 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201808);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -325,7 +327,7 @@ public class MarjanBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201808, dependenteIsentoUis.size());
 	}
 
-	public void testCoparticipacao201808AfterUserReturn() throws Exception {
+	public void testCoparticipacao201808AfterUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -335,15 +337,16 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201808();
+		testCoparticipacao201808(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201808);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201808);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -368,7 +371,7 @@ public class MarjanBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN, dependenteIsentoUis.size());
 	}
 
-	public void testCoparticipacao201810() throws Exception {
+	public void testCoparticipacao201810(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -378,14 +381,14 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201810);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -409,7 +412,7 @@ public class MarjanBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201810, dependenteIsentoUis.size());
 	}
 
-	public void testCoparticipacao201810AfterUserReturn() throws Exception {
+	public void testCoparticipacao201810AfterUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -419,15 +422,16 @@ public class MarjanBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("Marjan");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201810();
+		testCoparticipacao201810(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201810);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z9, FATUCOPA_8C5Z9_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201810);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);

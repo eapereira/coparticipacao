@@ -35,7 +35,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201806() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201806();
+		marjanBean.testCoparticipacao201806(this);
 
 		LOGGER.info("END");
 	}
@@ -44,7 +44,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201806WithUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201806WithUserReturn();
+		marjanBean.testCoparticipacao201806WithUserReturn(this);
 
 		LOGGER.info("END");
 	}
@@ -53,7 +53,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201802() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201802();
+		marjanBean.testCoparticipacao201802(this);
 
 		LOGGER.info("END");
 	}
@@ -62,7 +62,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201807() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201807();
+		marjanBean.testCoparticipacao201807(this);
 
 		LOGGER.info("END");
 	}
@@ -71,7 +71,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201808() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201808();
+		marjanBean.testCoparticipacao201808(this);
 
 		LOGGER.info("END");
 	}
@@ -80,7 +80,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201808AfterUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201808AfterUserReturn();
+		marjanBean.testCoparticipacao201808AfterUserReturn(this);
 
 		LOGGER.info("END");
 	}
@@ -89,7 +89,7 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201810() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201810();
+		marjanBean.testCoparticipacao201810(this);
 
 		LOGGER.info("END");
 	}
@@ -98,9 +98,9 @@ public class MarjanTest extends CoParticipacaoTest {
 	public void testCoparticipacao201810AfterUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		marjanBean.testCoparticipacao201810AfterUserReturn();
+		marjanBean.testCoparticipacao201810AfterUserReturn(this);
 
 		LOGGER.info("END");
 	}
-	
+
 }

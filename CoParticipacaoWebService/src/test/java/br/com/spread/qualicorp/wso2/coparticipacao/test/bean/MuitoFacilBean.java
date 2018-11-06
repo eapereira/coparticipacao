@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -27,7 +28,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  *
  */
 @Component
-public class MuitoFacilBean extends CoparticipacaoBean {
+public class MuitoFacilBean {
 	private static final Logger LOGGER = LogManager.getLogger(MuitoFacilBean.class);
 
 	private static final String MECSAS_201802 = "muito-facil/input/MUITO-FACIL.MECSAS.201802.001.csv";
@@ -72,12 +73,11 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201809_AFTER_USER_VALIDATION = 17;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201809_AFTER_USER_VALIDATION = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809_AFTER_USER_VALIDATION = 83;
-	
+
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_8CH5Y = "8CH5Y";
 	private static final String CD_CONTRATO_8CHE8 = "8CHE8";
 	private static final String CD_CONTRATO_NAO_LOCALIZADO = "NAO-LOCALIZADO";
-
 
 	@Autowired
 	private TitularService titularService;
@@ -94,7 +94,7 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 	@Autowired
 	private EmpresaService empresaService;
 
-	public void testCoparticipacao201806() throws Exception {
+	public void testCoparticipacao201806(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -102,11 +102,11 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("MUITO-FACIL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201802);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201802);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201806);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -124,7 +124,7 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201807() throws Exception {
+	public void testCoparticipacao201807(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -132,11 +132,11 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("MUITO-FACIL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201807);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -154,7 +154,7 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201807WithUserReturn() throws Exception {
+	public void testCoparticipacao201807WithUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -162,13 +162,14 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("MUITO-FACIL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201807();
+		testCoparticipacao201807(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201807);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201807);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -187,7 +188,7 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807_USER_RETURN, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201809() throws Exception {
+	public void testCoparticipacao201809(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -195,11 +196,11 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("MUITO-FACIL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201809);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201809);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201809);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201809);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201809);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201809);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -217,7 +218,7 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201809AfterUserValidation() throws Exception {
+	public void testCoparticipacao201809AfterUserValidation(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -225,13 +226,14 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("MUITO-FACIL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201809();
-		
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201809);		
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201809);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201809);
+		testCoparticipacao201809(coParticipacaoTest);
 
-		processFile(execucaoUi);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201809);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201809);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201809);
+
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -249,5 +251,5 @@ public class MuitoFacilBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201809_AFTER_USER_VALIDATION, desconhecidoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809_AFTER_USER_VALIDATION, lancamentoUis.size());
 	}
-	
+
 }

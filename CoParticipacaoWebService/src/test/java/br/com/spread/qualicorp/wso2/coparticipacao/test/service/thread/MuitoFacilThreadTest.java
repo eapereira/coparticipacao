@@ -4,6 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.test.bean.MuitoFacilBean;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -16,18 +17,18 @@ public class MuitoFacilThreadTest extends ThreadTest {
 
 	private MuitoFacilBean muitoFacilBean;
 
-	public MuitoFacilThreadTest(MuitoFacilBean muitoFacilBean) {
-		super("MuitoFacilThreadTest");
+	public MuitoFacilThreadTest(CoParticipacaoTest coParticipacaoTest, MuitoFacilBean muitoFacilBean) {
+		super(coParticipacaoTest, "MuitoFacilThreadTest");
 
 		this.muitoFacilBean = muitoFacilBean;
 	}
 
 	@Override
-	protected void doTest() throws Exception {
+	protected void doTest(CoParticipacaoTest coparticipacaoTest) throws Exception {
 		LOGGER.info("BEGIN");
 
-		muitoFacilBean.testCoparticipacao201807();
-		muitoFacilBean.testCoparticipacao201807WithUserReturn();
+		muitoFacilBean.testCoparticipacao201807(coparticipacaoTest);
+		muitoFacilBean.testCoparticipacao201807WithUserReturn(coparticipacaoTest);
 
 		LOGGER.info("END");
 	}

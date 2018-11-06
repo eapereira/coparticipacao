@@ -24,6 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -31,7 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  *
  */
 @Component
-public class CargillBean extends CoparticipacaoBean {
+public class CargillBean {
 
 	private static final Logger LOGGER = LogManager.getLogger(CargillBean.class);
 
@@ -43,14 +44,14 @@ public class CargillBean extends CoparticipacaoBean {
 	private static final String NAO_LOCALIZADO_201807 = "cargill/input/CARGILL.NAO-LOCALIZADO.201807.003.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_201807 = 975;
-	private static final int NUM_TOTAL_DEPENDENTES_201807 = 1182;
+	private static final int NUM_TOTAL_DEPENDENTES_201807 = 1181;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201807 = 3;
 	private static final int NUM_TOTAL_LANCAMENTOS_201807 = 107;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807 = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201807 = 0;
 
 	private static final int NUM_TOTAL_TITULARES_201807_AFTER_USER_RETURN = 978;
-	private static final int NUM_TOTAL_DEPENDENTES_201807_AFTER_USER_RETURN = 1184;
+	private static final int NUM_TOTAL_DEPENDENTES_201807_AFTER_USER_RETURN = 1183;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201807_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201807_AFTER_USER_RETURN = 110;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807_AFTER_USER_RETURN = 0;
@@ -105,7 +106,7 @@ public class CargillBean extends CoparticipacaoBean {
 	@Autowired
 	private DependenteIsentoService dependenteIsentoService;
 
-	public void testCoparticipacao201807() throws Exception {
+	public void testCoparticipacao201807(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -115,13 +116,13 @@ public class CargillBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("CARGILL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201807);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -145,7 +146,7 @@ public class CargillBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201807, dependenteIsentoUis.size());
 	}
 
-	public void testCoparticipacao201807AfterUserReturn() throws Exception {
+	public void testCoparticipacao201807AfterUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -155,15 +156,16 @@ public class CargillBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("CARGILL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201807();
+		testCoparticipacao201807(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201807);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201807);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201807);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201807);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201807);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -188,7 +190,7 @@ public class CargillBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201807_AFTER_USER_RETURN, dependenteIsentoUis.size());
 	}
 
-	public void testCoparticipacao201810() throws Exception {
+	public void testCoparticipacao201810(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -198,13 +200,13 @@ public class CargillBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("CARGILL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201810);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -228,7 +230,7 @@ public class CargillBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201810, dependenteIsentoUis.size());
 	}
 
-	public void testCoparticipacao201810AfterUserReturn() throws Exception {
+	public void testCoparticipacao201810AfterUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -238,15 +240,16 @@ public class CargillBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("CARGILL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201810();
+		testCoparticipacao201810(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201810);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201810);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201810);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -271,7 +274,8 @@ public class CargillBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN, dependenteIsentoUis.size());
 	}
 
-	public void testCoparticipacao201810AfterUserReturnAndEmptyDatabase() throws Exception {
+	public void testCoparticipacao201810AfterUserReturnAndEmptyDatabase(CoParticipacaoTest coParticipacaoTest)
+			throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -281,18 +285,19 @@ public class CargillBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByName("CARGILL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201810();
+		testCoparticipacao201810(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201810);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201810);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201810);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201810);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);

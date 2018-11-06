@@ -35,7 +35,7 @@ public class CargillTest extends CoParticipacaoTest {
 	public void testCoparticipacao201807() throws Exception {
 		LOGGER.info("BEGIN");
 
-		cargillBean.testCoparticipacao201807();
+		cargillBean.testCoparticipacao201807(this);
 
 		LOGGER.info("END");
 	}
@@ -44,7 +44,7 @@ public class CargillTest extends CoParticipacaoTest {
 	public void testCoparticipacao201807AfterUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		cargillBean.testCoparticipacao201807AfterUserReturn();
+		cargillBean.testCoparticipacao201807AfterUserReturn(this);
 
 		LOGGER.info("END");
 	}
@@ -53,7 +53,7 @@ public class CargillTest extends CoParticipacaoTest {
 	public void testCoparticipacao201810() throws Exception {
 		LOGGER.info("BEGIN");
 
-		cargillBean.testCoparticipacao201810();
+		cargillBean.testCoparticipacao201810(this);
 
 		LOGGER.info("END");
 	}
@@ -62,7 +62,7 @@ public class CargillTest extends CoParticipacaoTest {
 	public void testCoparticipacao201810AfterUserReturn() throws Exception {
 		LOGGER.info("BEGIN");
 
-		cargillBean.testCoparticipacao201810AfterUserReturn();
+		cargillBean.testCoparticipacao201810AfterUserReturn(this);
 
 		LOGGER.info("END");
 	}
@@ -71,7 +71,7 @@ public class CargillTest extends CoParticipacaoTest {
 	public void testCoparticipacao201810AfterUserReturnAndEmptyDatabase() throws Exception {
 		LOGGER.info("BEGIN");
 
-		cargillBean.testCoparticipacao201810AfterUserReturnAndEmptyDatabase();
+		cargillBean.testCoparticipacao201810AfterUserReturnAndEmptyDatabase(this);
 
 		LOGGER.info("END");
 	}

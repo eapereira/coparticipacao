@@ -20,6 +20,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
  * 
@@ -27,7 +28,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  *
  */
 @Component
-public class IntervalorBean extends CoparticipacaoBean {
+public class IntervalorBean {
 
 	private static final Logger LOGGER = LogManager.getLogger(IntervalorBean.class);
 
@@ -83,7 +84,7 @@ public class IntervalorBean extends CoparticipacaoBean {
 	@Autowired
 	private EmpresaService empresaService;
 
-	public void testCoparticipacao201806() throws Exception {
+	public void testCoparticipacao201806(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -91,12 +92,12 @@ public class IntervalorBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("INTERVALOR");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQR, FATUCOPA_8EAQR_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQR, FATUCOPA_8EAQR_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201806);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -114,7 +115,7 @@ public class IntervalorBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201806AfterUserValidation() throws Exception {
+	public void testCoparticipacao201806AfterUserValidation(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -122,16 +123,17 @@ public class IntervalorBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("INTERVALOR");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201806();
+		testCoparticipacao201806(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201806);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201806);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQR, FATUCOPA_8EAQR_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201806);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQR, FATUCOPA_8EAQR_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201806);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201806);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -150,7 +152,7 @@ public class IntervalorBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806_AFTER_USER_VALIDATION, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201808() throws Exception {
+	public void testCoparticipacao201808(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -158,11 +160,11 @@ public class IntervalorBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("INTERVALOR");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201808);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -180,7 +182,7 @@ public class IntervalorBean extends CoparticipacaoBean {
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201808, lancamentoUis.size());
 	}
 
-	public void testCoparticipacao201886AfterUserValidation() throws Exception {
+	public void testCoparticipacao201886AfterUserValidation(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
@@ -188,15 +190,16 @@ public class IntervalorBean extends CoparticipacaoBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("INTERVALOR");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		testCoparticipacao201808();
+		testCoparticipacao201808(coParticipacaoTest);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
 
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201808);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAPM, FATUCOPA_8EAPM_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQG, FATUCOPA_8EAQG_201808);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8EAQS, FATUCOPA_8EAQS_201808);
 
-		processFile(execucaoUi);
+		coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);

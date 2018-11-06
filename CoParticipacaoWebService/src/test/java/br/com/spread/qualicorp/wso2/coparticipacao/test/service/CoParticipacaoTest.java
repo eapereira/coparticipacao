@@ -1,7 +1,10 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.test.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
+import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -52,14 +55,18 @@ public abstract class CoParticipacaoTest {
 
 	private StopWatchAdapter stopWatch;
 
-	//public static final String TEST_PATH = "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
-	public static final String TEST_PATH = "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	// public static final String TEST_PATH =
+	// "/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
+	// public static final String TEST_PATH =
+	// "/desenv/git-home/coparticipacao/CoParticipacaoWebService/src/test/resources/";
 
 	private static final Long ADMIN_USER_ID = 1l;
-	
+
 	private static final String LINUX_SEPARATOR = "/";
 
 	private static final String WINDOWS_SEPARATOR = "\\\\";
+
+	private Properties properties;
 
 	@Before
 	public void beforeTestClearCoparticipacao() throws Exception {
@@ -82,7 +89,7 @@ public abstract class CoParticipacaoTest {
 		LOGGER.info("END");
 	}
 
-	protected void processFile(ExecucaoUi execucaoUi) throws Exception {
+	public void processFile(ExecucaoUi execucaoUi) throws Exception {
 		StringBuilder sb;
 		UserUi userUi = getTestUser();
 		LocalDate currentDate = LocalDate.now();
@@ -100,11 +107,11 @@ public abstract class CoParticipacaoTest {
 		Mockito.doNothing().when(coParticipacaoServiceSpy).moveExecucaoToFailure(
 				ArgumentMatchers.any(CoParticipacaoContext.class),
 				ArgumentMatchers.any(ArquivoExecucaoUi.class));
-		
+
 		for (ArquivoExecucao arquivoExecucao : execucaoUi.getArquivoExecucaos()) {
 			sb = new StringBuilder();
 
-			sb.append(TEST_PATH);
+			sb.append(getProperty("test.path"));
 			sb.append(File.separator);
 			sb.append(arquivoExecucao.getNameArquivoInput());
 
@@ -135,7 +142,7 @@ public abstract class CoParticipacaoTest {
 		return userService.findById(ADMIN_USER_ID);
 	}
 
-	protected void createArquivoExecucao(
+	public void createArquivoExecucao(
 			ExecucaoUi execucaoUi,
 			EmpresaUi empresaUi,
 			String cdContrato,
@@ -175,4 +182,29 @@ public abstract class CoParticipacaoTest {
 		return arquivoExecucaoUi;
 	}
 
+	public String getProperty(String propertyName) throws Exception {
+		File file;
+		StringBuilder sb;
+
+		if (properties == null) {
+			sb = new StringBuilder();
+			sb.append(System.getProperty("user.home"));
+			sb.append(File.separator);
+			sb.append(".coparticipacao");
+			sb.append(File.separator);
+			sb.append("coparticipacao.properties");
+
+			file = new File(sb.toString());
+
+			properties = new Properties();
+
+			if (file.exists()) {
+				properties.load(new FileInputStream(file));
+			} else {
+				properties.store(new FileOutputStream(file), "Arquivo para as propriedades de teste do projeto:");
+			}
+		}
+
+		return properties.getProperty(propertyName);
+	}
 }
