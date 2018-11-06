@@ -202,6 +202,9 @@ public abstract class CoParticipacaoTest {
 				properties.load(new FileInputStream(file));
 			} else {
 				properties.store(new FileOutputStream(file), "Arquivo para as propriedades de teste do projeto:");
+
+				throw new CoParticipacaoException(
+						"É necessário preencher as propriedades em coparticipacao.properties para realizar os testes.");
 			}
 		}
 

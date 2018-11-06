@@ -21,9 +21,11 @@ public class FriendlyErrorHelper {
 
 	private static final Logger LOGGER = LogManager.getLogger(FriendlyErrorHelper.class);
 
-	private static final CharSequence ERROR_MATRICULA_TITULAR = "UN_TITULAR_02";
+	private static final CharSequence ERROR_MATRICULA_TITULAR = "UN_TITULAR_01";
 
-	private static final String ERROR_COMMUNICATRION_LINK = "Communication link failure";
+	private static final String ERROR_COMMUNICATION_LINK = "Communication link failure";
+	
+	private static final String ERROR_CONNECT_DATABASE="Unable to acquire JDBC Connection";
 
 	private static final Pattern REGEXP_MATRICULA_TITULAR = Pattern
 			.compile("Duplicate entry \\'([0-9]{1,10})\\-([0-9]{1,10})\\' for key \\'UN_TITULAR_02\\'");
@@ -58,8 +60,10 @@ public class FriendlyErrorHelper {
 							matricula,
 							contratoUi.getCdContrato());
 				}
-			} else if (StringUtils.contains(errorMessage, ERROR_COMMUNICATRION_LINK)) {
+			} else if (StringUtils.contains(errorMessage, ERROR_COMMUNICATION_LINK)) {
 				friendlyMessage = "Consulta ao banco de dados excedeu o tempo limite";
+			} else if (StringUtils.contains(errorMessage, ERROR_CONNECT_DATABASE)) {
+				friendlyMessage = "Não foi possível conectar ao Banco de Dados";				
 			} else {
 				/*
 				 * Se não conhecemos o erro é melhor mostra-lo de forma completa

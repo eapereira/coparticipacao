@@ -82,5 +82,5 @@ create table TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
 /**************************************************************************************************************************************************/
 
 alter table TB_TITULAR
-	add constraint UN_TITULAR_02 unique key( ID_EMPRESA, NR_MATRICULA );
+	add constraint UN_TITULAR_01 unique key( ID_EMPRESA, NR_MATRICULA );
 	

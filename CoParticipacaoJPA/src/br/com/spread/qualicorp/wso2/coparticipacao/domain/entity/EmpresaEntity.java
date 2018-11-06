@@ -190,4 +190,11 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.isSearchDependentesWithoutName();
 	}
 
+	@Column(name = "CD_ACCEPT_TITULAR_WITHOUT_CPF")
+	@Override
+	public boolean isAcceptTitularWithoutCpf() {
+		// TODO Auto-generated method stub
+		return super.isAcceptTitularWithoutCpf();
+	}
+
 }

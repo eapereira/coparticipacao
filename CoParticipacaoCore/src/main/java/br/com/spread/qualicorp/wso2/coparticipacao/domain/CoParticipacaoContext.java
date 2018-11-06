@@ -31,7 +31,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ParameterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ReportUi;
@@ -76,8 +75,6 @@ public class CoParticipacaoContext {
 	private List<TitularUi> titularUis;
 
 	private List<DependenteUi> dependenteUis;
-
-	private List<ParameterUi> parameterUis;
 
 	private List<InputTitularIsentoColsUi> inputTitularIsentoColsUis;
 
@@ -141,7 +138,6 @@ public class CoParticipacaoContext {
 
 		regraConditionalUis = new ArrayList<RegraConditionalUi>();
 		regraUis = new ArrayList<RegraUi>();
-		parameterUis = new ArrayList<ParameterUi>();
 
 		inputTitularIsentoColsUis = new ArrayList<InputTitularIsentoColsUi>();
 		inputDependenteIsentoColsUis = new ArrayList<InputDependenteIsentoColsUi>();
@@ -329,24 +325,6 @@ public class CoParticipacaoContext {
 
 	public void setRegraConditionalUis(List<RegraConditionalUi> regraConditionalUis) {
 		this.regraConditionalUis = regraConditionalUis;
-	}
-
-	public List<ParameterUi> getParameterUis() {
-		return parameterUis;
-	}
-
-	public void setParameterUis(List<ParameterUi> parameterUis) {
-		this.parameterUis = parameterUis;
-	}
-
-	public ParameterUi findParameterByName(ParameterName parameterName) {
-		for (ParameterUi parameterUi : getParameterUis()) {
-			if (parameterUi.getNameParameter().equals(parameterName.getName())) {
-				return parameterUi;
-			}
-		}
-
-		return null;
 	}
 
 	public String getFileName() {
@@ -590,29 +568,6 @@ public class CoParticipacaoContext {
 						titularUi.getCpf());
 
 				if (titularUi.getMatricula().equals(matricula)) {
-					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
-					LOGGER.info("END");
-					return titularUi;
-				}
-			}
-		}
-
-		LOGGER.info("END");
-		return null;
-	}
-
-	public TitularUi findTitularByCpf(Long cpf) {
-		LOGGER.info("BEGIN");
-
-		if (cpf != null) {
-			for (TitularUi titularUi : getTitularUis()) {
-
-				LOGGER.trace(
-						"Comparing with Titular [{}] with CPF [{}]:",
-						titularUi.getNameTitular(),
-						titularUi.getCpf());
-
-				if (titularUi.getCpf().equals(cpf)) {
 					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
 					LOGGER.info("END");
 					return titularUi;

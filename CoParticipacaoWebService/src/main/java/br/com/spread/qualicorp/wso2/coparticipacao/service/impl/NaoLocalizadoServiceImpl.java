@@ -13,6 +13,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
@@ -93,6 +95,10 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 			}
 
 			LOGGER.info("END");
+		} catch (TitularDuplicated e) {
+			LOGGER.info(e.getMessage());
+		} catch (DependenteDuplicated e) {
+			LOGGER.info(e.getMessage());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

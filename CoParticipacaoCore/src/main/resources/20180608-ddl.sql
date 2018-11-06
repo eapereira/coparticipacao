@@ -186,6 +186,7 @@ create table TB_EMPRESA(
 	CD_OUTPUT_REPORT_DIR 				varchar( 800 ) not null,
 	CD_AUTOMATIC_CREATE_TITULAR			int( 3 ) not null default 0, /* se o Títular tiver CPF, MATRICULA e NOME preenchidos, pode insirir: */
 	CD_SEARCH_DEPENDENTES_NONAME		int( 3 ) not null default 0, /* procura Dependetes apenas por CPF e MATRICULA: */
+	CD_ACCEPT_TITULAR_WITHOUT_CPF		int( 3 ) not null default 0, /* permite gravar um títular com o CPF zerado: */
 	
 	TP_SAVE_MECSAS_DETAIL				int( 1 ) not null,
 	TP_SAVE_BENEFICIARIO_DETAIL			int( 1 ) not null,
@@ -678,8 +679,6 @@ create table TB_TITULAR(
 	DT_ALTERED				timestamp not null,		
 	
 	constraint PK_TITULAR primary key( ID ),
-	
-	constraint UN_TITULAR unique key( NR_CPF ),
 	
 	constraint FK_TITULAR_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TITULAR_02 foreign key( USER_ALTERED ) references TB_USER( ID ),

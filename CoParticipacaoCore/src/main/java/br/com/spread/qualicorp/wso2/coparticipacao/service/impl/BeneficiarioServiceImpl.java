@@ -33,6 +33,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoU
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
@@ -115,8 +116,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	private boolean validateBeneficiario(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
 			throws ServiceException {
+		EmpresaUi empresaUi;
+
 		try {
 			LOGGER.info("BEGIN");
+
+			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			if (beneficiarioUi.getType() == null) {
 				if (isTitular(coParticipacaoContext, beneficiarioUi)) {
@@ -130,13 +135,20 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				if ((StringUtils.isNotBlank(beneficiarioUi.getNameTitular())
 						|| StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario()))
 						&& beneficiarioUi.getCpf() != null && beneficiarioUi.getMatricula() != null) {
-					if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+					if (empresaUi.isAcceptTitularWithoutCpf()) {
+						LOGGER.info("END");
 						return true;
+					} else {
+						if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+							LOGGER.info("END");
+							return true;
+						}
 					}
 				}
 			} else {
 				if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())
 						&& beneficiarioUi.getMatricula() != null) {
+					LOGGER.info("END");
 					return true;
 				}
 			}
@@ -897,14 +909,22 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			titularUi = coParticipacaoContext.findTitularByCpf(beneficiarioUi.getCpf());
+			if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+				if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+					titularUi = coParticipacaoContext
+							.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameTitular());
+				} else {
+					titularUi = coParticipacaoContext
+							.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
+				}
 
-			if (titularUi != null) {
-				LOGGER.info(
-						"There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:",
-						titularUi.getCpf(),
-						titularUi.getMatricula());
-				return true;
+				if (titularUi != null) {
+					LOGGER.info(
+							"There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:",
+							titularUi.getCpf(),
+							titularUi.getMatricula());
+					return true;
+				}
 			}
 
 			LOGGER.info("END");
@@ -1227,7 +1247,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			titularUi = coParticipacaoContext.findTitularByCpf(beneficiarioUi.getCpf());
+			if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+				titularUi = coParticipacaoContext
+						.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameTitular());
+			}
 
 			if (titularUi == null) {
 				titularUi = coParticipacaoContext.findTitularByMatriculaAndCdContrato(

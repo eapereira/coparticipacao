@@ -190,7 +190,8 @@ BEGIN
 		CD_INPUT_DIR						= '/home/eapereira/desenv/work/coparticipacao/input/',
 		CD_OUTPUT_REPORT_DIR				= '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/intervalor/',
 		TP_EXTERNAL_PROCESS					= 0,
-		TP_REPORT_QUERY						= 2
+		TP_REPORT_QUERY						= 2,
+		CD_ACCEPT_TITULAR_WITHOUT_CPF		= VAR_TRUE
 	where	ID	= VAR_ID_EMPRESA;
 
 	call PROC_LOG_MESSAGE('LINHA - 192');

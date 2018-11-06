@@ -47,6 +47,8 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean automaticCreateTitular;
 	
 	private boolean searchDependentesWithoutName;
+	
+	private boolean acceptTitularWithoutCpf;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -343,6 +345,14 @@ public abstract class Empresa extends AbstractDomain {
 
 	public void setSearchDependentesWithoutName(boolean searchDependentesWithoutName) {
 		this.searchDependentesWithoutName = searchDependentesWithoutName;
+	}
+
+	public boolean isAcceptTitularWithoutCpf() {
+		return acceptTitularWithoutCpf;
+	}
+
+	public void setAcceptTitularWithoutCpf(boolean acceptTitularWithoutCpf) {
+		this.acceptTitularWithoutCpf = acceptTitularWithoutCpf;
 	}
 
 }

@@ -32,10 +32,10 @@ public class IntervalorBean {
 
 	private static final Logger LOGGER = LogManager.getLogger(IntervalorBean.class);
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 36;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 34;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806 = 2;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806 = 57;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 38;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 36;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806 = 59;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806_AFTER_USER_VALIDATION = 38;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_VALIDATION = 36;
@@ -49,9 +49,9 @@ public class IntervalorBean {
 	private static final String NAO_LOCALIZADO_201806 = "intervalor/input/INTERVALOR.NAO-LOCALIZADO.201806.000.xlsx";;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201808 = 29;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201808 = 21;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201808 = 1;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201808 = 40;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201808 = 22;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201808 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201808 = 41;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201808_AFTER_USER_VALIDATION = 29;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201808_AFTER_USER_VALIDATION = 22;
