@@ -49,6 +49,10 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean searchDependentesWithoutName;
 	
 	private boolean acceptTitularWithoutCpf;
+	
+	private boolean generateOutputFileWithoutFatucopa;
+	
+	private boolean createBeneficiarioFromMecsas2;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -354,5 +358,22 @@ public abstract class Empresa extends AbstractDomain {
 	public void setAcceptTitularWithoutCpf(boolean acceptTitularWithoutCpf) {
 		this.acceptTitularWithoutCpf = acceptTitularWithoutCpf;
 	}
+
+	public boolean isGenerateOutputFileWithoutFatucopa() {
+		return generateOutputFileWithoutFatucopa;
+	}
+
+	public void setGenerateOutputFileWithoutFatucopa(boolean generateOutputFileWithoutFatucopa) {
+		this.generateOutputFileWithoutFatucopa = generateOutputFileWithoutFatucopa;
+	}
+
+	public boolean isCreateBeneficiarioFromMecsas2() {
+		return createBeneficiarioFromMecsas2;
+	}
+
+	public void setCreateBeneficiarioFromMecsas2(boolean createBeneficiarioFromMecsas2) {
+		this.createBeneficiarioFromMecsas2 = createBeneficiarioFromMecsas2;
+	}
+
 
 }

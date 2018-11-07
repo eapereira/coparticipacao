@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181016-002-dml-BRADESCO.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181017-002-dml-AUTOMIND.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181023-006-dml-HOC.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181107-002-dml-LM-TRANSPORTES.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -166,6 +166,7 @@ BEGIN
         CD_INPUT_DIR,
         CD_FAILURE_DIR,
         CD_OUTPUT_DIR,
+        CD_GENERATE_OUTPUT_FILE_NOFATUCOPA,
         TP_SAVE_MECSAS_DETAIL,
 		TP_SAVE_BENEFICIARIO_DETAIL,				
 		TP_REPORT_QUERY,
@@ -174,13 +175,14 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
-		'AUTOMIND',
-		'AUTOMIND',
+		'LM-TRANSPORTES',
+		'073179',
 		VAR_FALSE,
-		'/coparticipacao/output-reports/bradesco/automind/',
+		'/coparticipacao/output-reports/bradesco/lm-transportes/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',
+		VAR_TRUE,
         VAR_FALSE,
         VAR_FALSE,		
         0,
@@ -204,8 +206,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'074210',
-	    '074210',
+		'073179',
+	    '073179',
 	    VAR_NM_CONTRATO_COPARTICIPACAO,
 	    VAR_USE_TYPE_FATUCOPA,
 	    
@@ -305,8 +307,8 @@ BEGIN
 		DT_ALTERED
 	) values (	
 		VAR_ID_EMPRESA,
-		'bradesco-automind.jasper',
-		'BRADESCO-AUTOMIND',
+		'bradesco-LMTransportes.jasper',
+		'BRADESCO-LM_TRANSPORTES',
 		'Automind-Bradesco (Saúde) - Coparticipação_{YYYY}{MM}.xlsx',
 
 		VAR_ID_USER,
@@ -327,8 +329,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_AUTOMIND',
-		'AUTOMIND',
+		'VW_COPARTICIPACAO_LM_TRANSPORTES',
+		'LM_TRANSPORTES',
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -530,8 +532,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_RESUMO_AUTOMIND',
-		'AUTOMIND',
+		'VW_COPARTICIPACAO_RESUMO_LM_TRANSPORTES',
+		'LM_TRANSPORTES',
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -684,7 +686,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_DESCONHECIDO_AUTOMIND',
+		'VW_DESCONHECIDO_LM_TRANSPORTES',
 		'Não Localizados',
 		
 		VAR_ID_USER,

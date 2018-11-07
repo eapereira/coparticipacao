@@ -187,6 +187,8 @@ create table TB_EMPRESA(
 	CD_AUTOMATIC_CREATE_TITULAR			int( 3 ) not null default 0, /* se o Títular tiver CPF, MATRICULA e NOME preenchidos, pode insirir: */
 	CD_SEARCH_DEPENDENTES_NONAME		int( 3 ) not null default 0, /* procura Dependetes apenas por CPF e MATRICULA: */
 	CD_ACCEPT_TITULAR_WITHOUT_CPF		int( 3 ) not null default 0, /* permite gravar um títular com o CPF zerado: */
+	CD_GENERATE_OUTPUT_FILE_NOFATUCOPA	int( 3 ) not null default 0, /* informa que a empresa não usa arquivo FATUCOPA e que o arquivo de saída deve ser gerado mesmo assim: */
+	CD_CREATE_BENEFICIARIO_FRON_MECSAS2	int( 3 ) not null default 0, /* informa ao processo se devem ser criados os títulares usando o arquivo de Base de Ativos da Empresa: */
 	
 	TP_SAVE_MECSAS_DETAIL				int( 1 ) not null,
 	TP_SAVE_BENEFICIARIO_DETAIL			int( 1 ) not null,

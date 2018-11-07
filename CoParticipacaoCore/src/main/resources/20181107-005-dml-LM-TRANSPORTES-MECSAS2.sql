@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181017-004-dml-AUTOMIND-074210.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181018-001-dml-AUTOMIND-MECSAS2.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181107-004-dml-LM-TRANSPORTES-073179.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181107-005-dml-LM-TRANSPORTES-MECSAS2.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -256,7 +256,7 @@ BEGIN
 	/***********************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 238');
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
-    where CD_EMPRESA = 'AUTOMIND';
+    where CD_EMPRESA = '073179';
 	
     call PROC_LOG_MESSAGE('LINHA - 242');
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
@@ -267,7 +267,7 @@ BEGIN
 	select 	ID into VAR_ID_CONTRATO_FATUCOPA 
 	from 	TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
-	and 	CD_CONTRATO = '074210'; 
+	and 	CD_CONTRATO = '073179'; 
 	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
@@ -287,7 +287,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(AUTOMIND)\\.(MECSAS2)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(073179)\\.(MECSAS2)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_MECSAS,

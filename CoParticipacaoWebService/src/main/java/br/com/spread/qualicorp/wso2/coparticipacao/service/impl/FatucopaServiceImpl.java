@@ -258,4 +258,17 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		}
 	}
 
+	public void generateOutputFileWithoutFatucopa(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			writeOutputFiles(coParticipacaoContext);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
 }

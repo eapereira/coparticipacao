@@ -27,19 +27,19 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTe
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class AutomindTest extends CoParticipacaoTest {
+public class LMTransporteTest extends CoParticipacaoTest {
 
 	private static final Logger LOGGER = LogManager.getLogger(AutomindTest.class);
 
-	private static final String MECSAS_201810 = "automind/input/AUTOMIND.MECSAS.201810.001.xlsx";
-	private static final String MECSAS2_201810 = "automind/input/AUTOMIND.MECSAS2.201810.002.xlsx";
-	private static final String FATUCOPA_201810 = "automind/input/AUTOMIND.074210.201810.004.xlsx";
-	private static final String NAO_LOCALIZADO_201808 = "automind/input/AUTOMIND.NAO-LOCALIZADO.201810.002.xlsx";
+	private static final String MECSAS_201810 = "lm-transportes/input/073179.MECSAS.201810.001.xlsx";
+	private static final String MECSAS2_201810 = "lm-transportes/input/073179.MECSAS2.201810.002.xlsx";
+	private static final String FATUCOPA_201810 = "lm-transportes/input/073179.073179.201810.004.xlsx";
+	private static final String NAO_LOCALIZADO_201808 = "lm-transportes/input/073179.NAO-LOCALIZADO.201810.002.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 75;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 0;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 475;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 154;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 1;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 3;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 0;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 88;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 60;
@@ -74,12 +74,12 @@ public class AutomindTest extends CoParticipacaoTest {
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
 		List<LancamentoUi> lancamentoUis;
-		EmpresaUi empresaUi = empresaService.findByName("AUTOMIND");
+		EmpresaUi empresaUi = empresaService.findByName("LM-TRANSPORTES");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
+		//createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		processFile(execucaoUi);
 
@@ -97,46 +97,6 @@ public class AutomindTest extends CoParticipacaoTest {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA, lancamentoUis.size());
-
-		LOGGER.info("END");
-	}
-
-	@Test
-	public void testCoparticipacao201810AftrUserValidation() throws Exception {
-		LOGGER.info("BEGIN");
-
-		List<TitularUi> titularUis;
-		List<DependenteUi> dependenteUis;
-		List<DesconhecidoUi> desconhecidoUis;
-		List<LancamentoUi> lancamentoUis;
-		EmpresaUi empresaUi = empresaService.findByName("AUTOMIND");
-		ExecucaoUi execucaoUi = new ExecucaoUi();
-
-		testCoparticipacao201810();
-
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
-
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
-
-		processFile(execucaoUi);
-
-		titularUis = titularService.listByEmpresaId(empresaUi);
-		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
-		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
-		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
-
-		LOGGER.info("After user´s validation:");
-		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
-		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
-		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
-		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
-
-		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN, titularUis.size());
-		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN, desconhecidoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN, lancamentoUis.size());
 
 		LOGGER.info("END");
 	}

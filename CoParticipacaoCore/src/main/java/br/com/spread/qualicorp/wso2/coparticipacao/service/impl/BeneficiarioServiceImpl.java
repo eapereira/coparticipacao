@@ -134,12 +134,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
 				if ((StringUtils.isNotBlank(beneficiarioUi.getNameTitular())
 						|| StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario()))
-						&& beneficiarioUi.getCpf() != null && beneficiarioUi.getMatricula() != null) {
+						&& beneficiarioUi.getMatricula() != null) {
 					if (empresaUi.isAcceptTitularWithoutCpf()) {
 						LOGGER.info("END");
 						return true;
 					} else {
-						if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+						if (beneficiarioUi.getCpf() != null && !NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 							LOGGER.info("END");
 							return true;
 						}
@@ -505,11 +505,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throws ServiceException {
 		List<BeneficiarioColsUi> beneficiarioColsUis;
 		BeneficiarioUi beneficiarioUi;
+		EmpresaUi empresaUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			beneficiarioColsUis = coParticipacaoContext.getBeneficiarioColsUis();
+			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			if (!beneficiarioColsUis.isEmpty()) {
 				beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioColsUis);
@@ -586,6 +588,15 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							"BeneficiarioUi[%s] has no ContratoUi defined for CD_CONTRATO[%s]",
 							beneficiarioUi.getNameBeneficiario(),
 							beneficiarioUi.getCdContrato());
+				}
+			}
+
+			if (empresaUi.isAcceptTitularWithoutCpf()) {
+				/*
+				 * O número do CPF esta NULL, então devemos deixar como ZERO:
+				 */
+				if (beneficiarioUi.getCpf() == null) {
+					beneficiarioUi.setCpf(NumberUtils.LONG_ZERO);
 				}
 			}
 
@@ -684,13 +695,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throws ServiceException {
 		ContratoUi contratoUi;
 		TitularUi titularUi;
+		EmpresaUi empresaUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			contratoUi = coParticipacaoContext.getContratoUi();
+			empresaUi = coParticipacaoContext.getEmpresaUi();
 
-			if (UseType.MECSAS.equals(contratoUi.getUseType())) {
+			if (UseType.MECSAS.equals(contratoUi.getUseType()) || (UseType.MECSAS2.equals(contratoUi.getUseType())
+					&& empresaUi.isCreateBeneficiarioFromMecsas2())) {
 				if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType()) || beneficiarioUi.getType() == null) {
 					LOGGER.info("END");
 					return true;
@@ -779,11 +793,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 	public TitularUi createTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
 			throws ServiceException, TitularDuplicated {
 		TitularUi titularUi;
+		EmpresaUi empresaUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
+			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			if (titularUi == null) {
 				if (empresaService.canAutomaticallyCreateBeneficiario(coParticipacaoContext)) {
@@ -808,7 +824,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								titularUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
 							}
 
-							if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+							if (empresaUi.isAcceptTitularWithoutCpf()) {
+								titularUi.setCpf(beneficiarioUi.getCpf());
+							} else if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 								if (beneficiarioUi.getDigitoCpf() != null) {
 									titularUi.setCpf(concatTitularCpf(beneficiarioUi));
 								} else {

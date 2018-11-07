@@ -197,4 +197,18 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.isAcceptTitularWithoutCpf();
 	}
 
+	@Column(name = "CD_GENERATE_OUTPUT_FILE_NOFATUCOPA")
+	@Override
+	public boolean isGenerateOutputFileWithoutFatucopa() {
+		// TODO Auto-generated method stub
+		return super.isGenerateOutputFileWithoutFatucopa();
+	}
+
+	@Column(name = "CD_CREATE_BENEFICIARIO_FRON_MECSAS2")
+	@Override
+	public boolean isCreateBeneficiarioFromMecsas2() {
+		// TODO Auto-generated method stub
+		return super.isCreateBeneficiarioFromMecsas2();
+	}
+
 }

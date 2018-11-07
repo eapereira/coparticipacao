@@ -11,9 +11,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
@@ -30,6 +35,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoServic
 import br.com.spread.qualicorp.wso2.coparticipacao.service.CoParticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.UserService;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.StopWatchAdapter;
 
 /**
@@ -37,6 +43,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.StopWatchAdapter;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@ContextConfiguration(classes = { CoParticipacaoWebServiceConfigurationTest.class })
+// @Transactional
+@ActiveProfiles("test")
 public abstract class CoParticipacaoTest {
 
 	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoTest.class);

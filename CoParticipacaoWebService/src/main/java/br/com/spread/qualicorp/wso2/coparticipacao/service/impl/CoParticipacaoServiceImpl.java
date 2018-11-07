@@ -18,6 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
@@ -27,6 +28,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDef
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
@@ -335,6 +337,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			moveExecucaoToOutput(coParticipacaoContext, arquivoExecucaoUi);
 
+			generateOutputFileWithoutFatucopa(coParticipacaoContext);
+
 			stopWatch.stop();
 
 			LOGGER.info("CoParticipacao task completed with [{}] min:", stopWatch.getTotalTimeMinutes());
@@ -348,11 +352,44 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		}
 	}
 
+	private void generateOutputFileWithoutFatucopa(CoParticipacaoContext coParticipacaoContext)
+			throws ServiceException {
+		EmpresaUi empresaUi;
+		ArquivoExecucaoUi arquivoExecucaoUi;
+		ArquivoExecucaoUi arquivoExecucaoUiTmp;
+		;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			empresaUi = coParticipacaoContext.getEmpresaUi();
+
+			if (empresaUi.isGenerateOutputFileWithoutFatucopa()) {
+				for (Contrato contrato : empresaUi.getContratos()) {
+					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
+						arquivoExecucaoUi = arquivoExecucaoService
+								.createArquivoExecucao(coParticipacaoContext, (ContratoUi) contrato);
+						arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
+						coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
+
+						fatucopaService.generateOutputFileWithoutFatucopa(coParticipacaoContext);
+
+						coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUiTmp);
+					}
+				}
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
 	private CoParticipacaoContext createCoParticipacaoContext(String fileName) throws ServiceException {
 		CoParticipacaoContext coParticipacaoContext = null;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 		List<ArquivoInputSheetUi> arquivoInputSheetUis;
-		List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis;
 
 		try {
 			LOGGER.info("BEGIN");
