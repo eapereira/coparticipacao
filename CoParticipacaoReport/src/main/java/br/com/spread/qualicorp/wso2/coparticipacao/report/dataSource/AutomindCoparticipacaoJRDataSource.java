@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.math.NumberUtils;
-
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.AutomindCoparticipacaoViewUi;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -16,13 +14,7 @@ import net.sf.jasperreports.engine.JRField;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class AutomindCoparticipacaoJRDataSource implements JRDataSource {
-
-	private List<AutomindCoparticipacaoViewUi> automindCoparticipacaoViewUis;
-
-	private AutomindCoparticipacaoViewUi automindCoparticipacaoViewUi;
-
-	private int cursor;
+public class AutomindCoparticipacaoJRDataSource extends CoParticipacaoDataSource<AutomindCoparticipacaoViewUi> {
 
 	private static final String FIELD_SUBFATURA = "cdEmpresa";
 	private static final String FIELD_NR_CERTIFICADO = "certificado";
@@ -33,14 +25,13 @@ public class AutomindCoparticipacaoJRDataSource implements JRDataSource {
 	private static final String FIELD_DESCR_PROFISSAO = "profissao";
 
 	public AutomindCoparticipacaoJRDataSource() {
-		automindCoparticipacaoViewUis = new ArrayList<>();
-		cursor = NumberUtils.INTEGER_ZERO;
-
-		buildData();
+		super();
 	}
 
-	private void buildData() {
-		automindCoparticipacaoViewUi = new AutomindCoparticipacaoViewUi();
+	protected List<AutomindCoparticipacaoViewUi> buildData() {
+		List<AutomindCoparticipacaoViewUi> automindCoparticipacaoViewUis = new ArrayList<>();
+		AutomindCoparticipacaoViewUi automindCoparticipacaoViewUi = new AutomindCoparticipacaoViewUi();
+
 		automindCoparticipacaoViewUi.setCdContrato("074210");
 		automindCoparticipacaoViewUi.setCdEmpresa("AUTOMIND");
 		automindCoparticipacaoViewUi.setCertificado(8345l);
@@ -52,51 +43,31 @@ public class AutomindCoparticipacaoJRDataSource implements JRDataSource {
 		automindCoparticipacaoViewUi.setProfissao("Costureira");
 
 		automindCoparticipacaoViewUis.add(automindCoparticipacaoViewUi);
+
+		return automindCoparticipacaoViewUis;
 	}
 
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException {
-		if (automindCoparticipacaoViewUi != null) {
+		if (getRegister() != null) {
 			if (FIELD_SUBFATURA.equals(jrField.getName())) {
-				return automindCoparticipacaoViewUi.getCdContrato();
+				return getRegister().getCdContrato();
 			} else if (FIELD_NR_CERTIFICADO.equals(jrField.getName())) {
-				return automindCoparticipacaoViewUi.getCertificado();
+				return getRegister().getCertificado();
 			} else if (FIELD_NR_MATRICULA.equals(jrField.getName())) {
-				return automindCoparticipacaoViewUi.getMatricula();
+				return getRegister().getMatricula();
 			} else if (FIELD_NM_TITULAR.equals(jrField.getName())) {
-				return automindCoparticipacaoViewUi.getNomeTitular();
+				return getRegister().getNomeTitular();
 			} else if (FIELD_VL_FATOR_MODERADOR.equals(jrField.getName())) {
-				return automindCoparticipacaoViewUi.getFatorModerador();
+				return getRegister().getFatorModerador();
 			} else if (FIELD_NR_MATRICULA_ESPECIAL.equals(jrField.getName())) {
-				return automindCoparticipacaoViewUi.getMatriculaEspecial();
+				return getRegister().getMatriculaEspecial();
 			} else if (FIELD_DESCR_PROFISSAO.equals(jrField.getName())) {
-				return automindCoparticipacaoViewUi.getProfissao();
+				return getRegister().getProfissao();
 			}
 		}
 
 		return null;
-	}
-
-	@Override
-	public boolean next() throws JRException {
-		int pos = NumberUtils.INTEGER_ZERO;
-
-		if (!automindCoparticipacaoViewUis.isEmpty()) {
-			if (cursor < automindCoparticipacaoViewUis.size()) {
-				for (AutomindCoparticipacaoViewUi view : automindCoparticipacaoViewUis) {
-					if (pos == cursor) {
-						automindCoparticipacaoViewUi = view;
-						cursor++;
-						return true;
-					}
-
-					pos++;
-				}
-
-			}
-		}
-
-		return false;
 	}
 
 	public static JRDataSource getInstance() {
