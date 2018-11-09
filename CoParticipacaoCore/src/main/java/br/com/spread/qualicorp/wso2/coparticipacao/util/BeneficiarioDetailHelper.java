@@ -257,6 +257,10 @@ public class BeneficiarioDetailHelper {
 
 			copyTransferencia(beneficiarioDetailDest.getTransferencia(), beneficiarioDetailOrigin.getTransferencia());
 
+			if (beneficiarioDetailOrigin.getSubFatura() != null) {
+				beneficiarioDetailDest.setSubFatura(beneficiarioDetailOrigin.getSubFatura());
+			}
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);

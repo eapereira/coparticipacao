@@ -68,6 +68,8 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserRoleEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestinationColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestinationEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.AutomindCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.AutomindResumoViewEntity</class>
 		
 		
 	</persistence-unit>

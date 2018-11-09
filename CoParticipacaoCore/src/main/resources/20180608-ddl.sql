@@ -1316,6 +1316,7 @@ drop procedure if exists PROC_CLEAR_COPARTICIPACAO;
 drop function if exists FUNC_DOUBLE_TO_LONG;
 drop function if exists FUNC_GET_MATRICULA_HOC;
 drop function if exists FUNC_GET_CPF;
+drop function if exists FUNC_GET_ROWNUM;
 
 delimiter $$
 
@@ -1567,6 +1568,24 @@ BEGIN
 	return VAR_RESULT;
 END
 $$
+
+delimiter $$
+
+create function FUNC_GET_ROWNUM( )
+returns int( 10 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para criar os números de matricula usados pelo Hospital Oswaldo Cruz:'
+BEGIN
+	declare VAR_RESULT int( 10 ) default 0;
+	
+	set @VAR_ROWNUM = ifnull( @VAR_ROWNUM, 0 ) + 1;
+		
+	return @VAR_ROWNUM;
+END
+$$
+
 
 #call PROC_CLEAR_COPARTICIPACAO( 1010 ); 
 /*****************************************************************************************************************************************************/

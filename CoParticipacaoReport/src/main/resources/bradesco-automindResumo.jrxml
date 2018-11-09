@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-automindResumo" pageWidth="595" pageHeight="1000" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b677f63f-2525-4b40-98c8-095940c2258b">
+	<property name="net.sf.jasperreports.data.adapter" value="AutomindResumoDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/AutomindResumoDataAdapter.xml"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="subFatura" class="java.lang.String">
+		<fieldDescription><![CDATA[subFatura]]></fieldDescription>
+	</field>
+	<field name="valorAlocacao" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorAlocacao]]></fieldDescription>
+	</field>
+	<field name="cdEmpresa" class="java.lang.String">
+		<fieldDescription><![CDATA[cdEmpresa]]></fieldDescription>
+	</field>
+	<field name="qtdeSegurados" class="java.lang.Integer">
+		<fieldDescription><![CDATA[qtdeSegurados]]></fieldDescription>
+	</field>
+	<field name="valorProporcao" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorProporcao]]></fieldDescription>
+	</field>
+	<variable name="VAR_totalValorAlocacao" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorAlocacao}]]></variableExpression>
+	</variable>
+	<variable name="VAR_totalValorProporcao" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorProporcao}]]></variableExpression>
+	</variable>
+	<variable name="VAR_totalQtdeSegurados" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{qtdeSegurados}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="32">
+			<image>
+				<reportElement x="0" y="0" width="110" height="30" uuid="2f83cd85-e81c-406e-ab24-e2c480aa1266"/>
+				<imageExpression><![CDATA["src/main/resources/images/qualicorp-logo.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="115">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="10" width="100" height="20" backcolor="#D9D7D7" uuid="b8083521-f414-48c1-aab6-18092aedbc43"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Automind]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="30" width="100" height="20" uuid="64da16d1-6f9c-4852-a965-dd0dd2984e30"/>
+				<textFieldExpression><![CDATA[DATEFORMAT(NOW( ),"dd/MM/yyyy")]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="60" y="60" width="350" height="20" uuid="2ac183ed-54d6-4baf-bec5-e3409e78acd8"/>
+				<box>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Coparticipação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="e2a08e05-f628-471e-98f9-9e4d2e450998"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub-Fatura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="240" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="f5d771c5-8767-4852-94b3-6ca4d247e1aa"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proporção ( % )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="360" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="eac102f7-1051-486e-ab1a-669cfea5acec"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Alocado R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="120" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="26c8cf53-60a7-4397-ba22-56910609ea7b"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vidas]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField pattern="#,##0.00#" isBlankWhenNull="true">
+				<reportElement x="360" y="0" width="100" height="20" uuid="23962b17-63ef-45ea-ba62-d3b9d486b996"/>
+				<textFieldExpression><![CDATA[$F{valorAlocacao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#" isBlankWhenNull="true">
+				<reportElement x="240" y="0" width="100" height="20" uuid="c8525f26-e386-4057-bb3f-b9e1f5ae5a55"/>
+				<textFieldExpression><![CDATA[$F{valorProporcao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement mode="Opaque" x="120" y="0" width="100" height="20" backcolor="#F2F2F2" uuid="5f6b4c0c-ba0c-4ed1-ad07-7b14f502a377"/>
+				<textFieldExpression><![CDATA[$F{qtdeSegurados}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="100" height="20" uuid="8c3830d7-8659-49b7-824b-9711695f9594"/>
+				<textFieldExpression><![CDATA[$F{subFatura}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="28">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#D9D7D7" uuid="82bbfb0c-7be2-4a7a-a509-8991502c1f3c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total da Fatura]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="0" width="100" height="20" uuid="c8c4255d-3a14-4dec-844e-4aa3e35ccbba"/>
+				<textFieldExpression><![CDATA[$V{VAR_totalQtdeSegurados}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="240" y="0" width="100" height="20" uuid="b323af48-502e-4d8e-9dda-f40368220a86"/>
+				<textFieldExpression><![CDATA[$V{VAR_totalValorProporcao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement mode="Opaque" x="360" y="0" width="100" height="20" backcolor="#F2F2F2" uuid="386bf048-2477-4861-aacd-5d8c677122b7"/>
+				<textFieldExpression><![CDATA[$V{VAR_totalValorAlocacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

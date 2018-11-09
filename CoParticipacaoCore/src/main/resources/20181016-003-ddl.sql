@@ -26,21 +26,24 @@ alter table TB_TITULAR
 	add ( 
 		VL_FATOR_MODERADOR 		numeric( 17, 2 ) null,
 		DESCR_PROFISSAO			varchar( 80 ) null,
-		NR_MATRICULA_ESPECIAL	bigint( 17 ) null
+		NR_MATRICULA_ESPECIAL	bigint( 17 ) null,
+		NR_SUBFATURA			varchar( 20 ) null
 );
 
 alter table TB_DEPENDENTE
 	add ( 
 		VL_FATOR_MODERADOR 		numeric( 17, 2 ) null,
 		DESCR_PROFISSAO			varchar( 80 ) null,
-		NR_MATRICULA_ESPECIAL	bigint( 17 ) null
+		NR_MATRICULA_ESPECIAL	bigint( 17 ) null,
+		NR_SUBFATURA			varchar( 20 ) null
 );
 
 alter table TB_DESCONHECIDO
 	add ( 
 		VL_FATOR_MODERADOR 		numeric( 17, 2 ) null,
 		DESCR_PROFISSAO			varchar( 80 ) null,
-		NR_MATRICULA_ESPECIAL	bigint( 17 ) null
+		NR_MATRICULA_ESPECIAL	bigint( 17 ) null,
+		NR_SUBFATURA			varchar( 20 ) null
 );
 
 /*************************************************************************************************************************************/

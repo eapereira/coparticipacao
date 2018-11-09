@@ -17,6 +17,7 @@ select distinct
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
 	desconhecido.NR_MATRICULA,
+	desconhecido.NR_SUBFATURA,
     desconhecido.NM_BENEFICIARIO,
     desconhecido.NR_CPF,
     desconhecido.NM_TITULAR,
@@ -35,6 +36,7 @@ select
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,
 	titular.NR_MATRICULA,
+	titular.NR_SUBFATURA,
 	titular.NM_TITULAR NM_BENEFICIARIO,
 	titular.NR_CPF,
 	titular.NM_TITULAR,
@@ -59,6 +61,7 @@ select
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
 	desconhecido.NR_MATRICULA,
+	desconhecido.NR_SUBFATURA,
     desconhecido.NM_BENEFICIARIO,
     desconhecido.NR_CPF,
     desconhecido.NM_TITULAR,
@@ -76,6 +79,7 @@ select
     contrato.CD_CONTRATO,
 	lpad( titular.NR_MATRICULA, 7, '0' ) NR_CERTIFICADO,
 	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
+	titular.NR_SUBFATURA,
 	titular.NM_TITULAR,
 	titular.VL_FATOR_MODERADOR,
 	titular.NR_MATRICULA_ESPECIAL,
@@ -93,6 +97,7 @@ and		titular.VL_FATOR_MODERADOR 	> 0;
 
 create view VW_COPARTICIPACAO_AUTOMIND as
 select
+	FUNC_GET_ROWNUM() ID,
 	automind.CD_MES,
     automind.CD_ANO,
     automind.ID_CONTRATO,
@@ -100,6 +105,7 @@ select
     automind.NR_CERTIFICADO,
 	automind.NR_MATRICULA,
 	automind.NM_TITULAR,
+	automind.NR_SUBFATURA,
 	automind.VL_FATOR_MODERADOR,
 	automind.NR_MATRICULA_ESPECIAL,
 	automind.DESCR_PROFISSAO,
@@ -113,6 +119,7 @@ group by
     automind.NR_CERTIFICADO,
 	automind.NR_MATRICULA,
 	automind.NM_TITULAR,
+	automind.NR_SUBFATURA,
 	automind.VL_FATOR_MODERADOR,
 	automind.NR_MATRICULA_ESPECIAL,
 	automind.DESCR_PROFISSAO,
@@ -122,19 +129,22 @@ order by
 	
 create view VW_COPARTICIPACAO_RESUMO_AUTOMIND as
 select
+	FUNC_GET_ROWNUM() ID,
 	automind.CD_MES,
     automind.CD_ANO,
     automind.ID_CONTRATO,
     automind.CD_CONTRATO,
     automind.CD_EMPRESA,
-    count( 1 ) NUM_SEGURADOS,
-    '100%' VL_PROPORCAO,
-    'Automind' NM_SUBFATURA,
-	sum( automind.VL_FATOR_MODERADOR ) VL_ALOCACAO
+    automind.NR_SUBFATURA,
+	count(1) QTDE_SEGURADOS,
+	sum( automind.VL_FATOR_MODERADOR ) VL_ALOCACAO,
+	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_AUTOMIND ) VL_PROPORCAO
 from	VW_COPARTICIPACAO_AUTOMIND automind
 group by
 	automind.CD_MES,
     automind.CD_ANO,
     automind.ID_CONTRATO,
-    automind.CD_EMPRESA;
+    automind.CD_CONTRATO,
+    automind.CD_EMPRESA,
+    automind.NR_SUBFATURA;
 	

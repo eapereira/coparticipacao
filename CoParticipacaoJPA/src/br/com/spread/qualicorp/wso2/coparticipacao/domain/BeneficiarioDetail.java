@@ -134,6 +134,8 @@ public class BeneficiarioDetail implements Serializable {
 	private String profissao;
 	private Long matriculaEspecial;
 	private BigDecimal fatorModerador;
+	
+	private String subFatura;
 
 	public BeneficiarioDetail() {
 		super();
@@ -687,6 +689,15 @@ public class BeneficiarioDetail implements Serializable {
 		this.fatorModerador = fatorModerador;
 	}
 
+	@Column(name = "NR_SUBFATURA")
+	public String getSubFatura() {
+		return subFatura;
+	}
+
+	public void setSubFatura(String subFatura) {
+		this.subFatura = subFatura;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -749,6 +760,7 @@ public class BeneficiarioDetail implements Serializable {
 		result = prime * result + ((ric == null) ? 0 : ric.hashCode());
 		result = prime * result + ((setor == null) ? 0 : setor.hashCode());
 		result = prime * result + ((sexo == null) ? 0 : sexo.hashCode());
+		result = prime * result + ((subFatura == null) ? 0 : subFatura.hashCode());
 		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
 		result = prime * result + ((tituloEleitor == null) ? 0 : tituloEleitor.hashCode());
 		result = prime * result + ((transferencia == null) ? 0 : transferencia.hashCode());
@@ -1042,6 +1054,11 @@ public class BeneficiarioDetail implements Serializable {
 		} else if (!setor.equals(other.setor))
 			return false;
 		if (sexo != other.sexo)
+			return false;
+		if (subFatura == null) {
+			if (other.subFatura != null)
+				return false;
+		} else if (!subFatura.equals(other.subFatura))
 			return false;
 		if (telefone == null) {
 			if (other.telefone != null)

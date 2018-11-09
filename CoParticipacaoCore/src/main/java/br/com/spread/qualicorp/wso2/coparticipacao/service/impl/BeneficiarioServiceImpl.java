@@ -492,6 +492,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				beneficiarioDetail.setMatriculaEspecial((Long) value);
 			} else if (BeneficiarioColType.VL_FATOR_MODERADOR.equals(beneficiarioColType)) {
 				beneficiarioDetail.setFatorModerador((BigDecimal) value);
+			} else if (BeneficiarioColType.NR_SUBFATURA.equals(beneficiarioColType)) {
+				beneficiarioDetail.setSubFatura((String) value);				
 			}
 
 			LOGGER.info("END");

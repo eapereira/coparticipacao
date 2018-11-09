@@ -123,7 +123,8 @@ public enum BeneficiarioColType {
 									DESCR_PROFISSAO(104, "DESCR_PROFISSAO"),
 									NR_MATRICULA_ESPECIAL(105, "NR_MATRICULA_ESPECIAL"),
 									VL_FATOR_MODERADOR(106, "VL_FATOR_MODERADOR"),
-									CD_CONTRATO(107, "CD_CONTRATO");
+									CD_CONTRATO(107, "CD_CONTRATO"),
+									NR_SUBFATURA(108, "NR_SUBFATURA");
 
 	private Integer id;
 
