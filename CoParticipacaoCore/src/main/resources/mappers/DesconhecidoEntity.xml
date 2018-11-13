@@ -14,6 +14,12 @@
 				VL_PRINCIPAL,				
 				NR_MATRICULA_EMPRESA,
 				NM_TITULAR,
+				
+				VL_FATOR_MODERADOR,
+				VL_FATOR_MODERADOR_INSS,
+				DESCR_PROFISSAO,
+				NR_MATRICULA_ESPECIAL,
+				NR_SUBFATURA,				
 								
 				USER_CREATED,
 				DT_CREATED,
@@ -29,7 +35,13 @@
 				?,				
 				?,
 				?,
+				?, /* 10 */
+
 				?,
+				?,
+				?,
+				?,				
+				?, /* 15 */
 								
 				?,
 				CURRENT_TIMESTAMP(),
@@ -52,7 +64,13 @@
 				DT_NASCIMENTO					= ?,				
 				VL_PRINCIPAL					= ?,				
 				NR_MATRICULA_EMPRESA			= ?,
-				NM_TITULAR						= ?,
+				NM_TITULAR						= ?, /* 10 */
+
+				VL_FATOR_MODERADOR				= ?,
+				VL_FATOR_MODERADOR_INSS			= ?,
+				DESCR_PROFISSAO					= ?,
+				NR_MATRICULA_ESPECIAL			= ?,
+				NR_SUBFATURA					= ?, /* 15 */				
 								
 				USER_CREATED					= ?,
 				DT_CREATED						= CURRENT_TIMESTAMP(),

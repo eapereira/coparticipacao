@@ -61,9 +61,6 @@ public abstract class User extends AbstractDomain {
 	private List<ViewDestinationColsDef> viewDestinationColsDefsUserCreated;
 	private List<ViewDestinationColsDef> viewDestinationColsDefsUserAltered;
 
-	private List<Parameter> userAlteredParameter;
-	private List<Parameter> userCreatedParameter;
-
 	private List<UserRole> userRoles;
 
 	private List<ArquivoExecucao> arquivoExecucaoUserCreated;
@@ -958,50 +955,6 @@ public abstract class User extends AbstractDomain {
 		return tbViewDestinationColsDefsUserAltered;
 	}
 
-	public List<Parameter> getUserCreatedParameter() {
-		return this.userCreatedParameter;
-	}
-
-	public void setUserCreatedParameter(List<Parameter> userCreatedParameter) {
-		this.userCreatedParameter = userCreatedParameter;
-	}
-
-	public Parameter addUserCreatedParameter(Parameter userCreatedParameter) {
-		getUserCreatedParameter().add(userCreatedParameter);
-		userCreatedParameter.setUserCreated(this);
-
-		return userCreatedParameter;
-	}
-
-	public Parameter removeUserCreatedParameter(Parameter userCreatedParameter) {
-		getUserCreatedParameter().remove(userCreatedParameter);
-		userCreatedParameter.setUserCreated(null);
-
-		return userCreatedParameter;
-	}
-
-	public List<Parameter> getUserAlteredParameter() {
-		return this.userAlteredParameter;
-	}
-
-	public void setUserAlteredParameter(List<Parameter> userAlteredParameter) {
-		this.userAlteredParameter = userAlteredParameter;
-	}
-
-	public Parameter addUserAlteredParameter(Parameter userAlteredParameter) {
-		getUserAlteredParameter().add(userAlteredParameter);
-		userAlteredParameter.setUserAltered(this);
-
-		return userAlteredParameter;
-	}
-
-	public Parameter removeUserAlteredParameter(Parameter userAlteredParameter) {
-		getUserAlteredParameter().remove(userAlteredParameter);
-		userAlteredParameter.setUserAltered(null);
-
-		return userAlteredParameter;
-	}
-
 	public List<LancamentoInput> getLancamentoInputUserCreated() {
 		return lancamentoInputUserCreated;
 	}
@@ -1148,7 +1101,7 @@ public abstract class User extends AbstractDomain {
 		getExecucaoUserCreated().add(execucaoUserCreated);
 		execucaoUserCreated.setUserCreated(this);
 	}
-	
+
 	public void removeExecucaoUserCreated(Execucao execucaoUserCreated) {
 		getExecucaoUserCreated().remove(execucaoUserCreated);
 		execucaoUserCreated.setUserCreated(null);
@@ -1158,10 +1111,10 @@ public abstract class User extends AbstractDomain {
 		getExecucaoUserAltered().add(execucaoUserAltered);
 		execucaoUserAltered.setUserAltered(this);
 	}
-	
+
 	public void removeExecucaoUserAltered(Execucao execucaoUserAltered) {
 		getExecucaoUserAltered().remove(execucaoUserAltered);
 		execucaoUserAltered.setUserAltered(null);
 	}
-	
+
 }

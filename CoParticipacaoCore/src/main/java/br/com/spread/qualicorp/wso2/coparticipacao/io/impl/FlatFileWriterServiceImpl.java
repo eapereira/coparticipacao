@@ -4,8 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,12 +24,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationCols
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FlatFileWriterService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ContratoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.CoParticipacaoFileUtils;
 
 /**
  * 
@@ -60,10 +58,8 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 
 	private static final String LINE_END = "\n\r";// System.getProperty("line.terminator");
 
-	public void write(
-			CoParticipacaoContext coParticipacaoContext,
-			ArquivoOutputUi arquivoOutputUi,
-			ArquivoOutputService arquivoOutputService) throws ServiceException {
+	public void write(CoParticipacaoContext coParticipacaoContext, ArquivoOutputUi arquivoOutputUi)
+			throws ServiceException {
 		List<ArquivoOutputSheetUi> arquivoOutputSheetUis;
 		List<DynamicEntity> dynamicEntities;
 		ViewDestinationUi viewDestinationUi;
@@ -122,8 +118,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 										arquivoOutputUi,
 										(ContratoUi) contrato,
 										viewDestinationColsDefUis,
-										dynamicEntities,
-										arquivoOutputService);
+										dynamicEntities);
 
 							}
 
@@ -157,8 +152,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 			ArquivoOutputUi arquivoOutputUi,
 			ContratoUi contratoUi,
 			List<ViewDestinationColsDefUi> viewDestinationColsDefUis,
-			List<DynamicEntity> dynamicEntities,
-			ArquivoOutputService arquivoOutputService) throws ServiceException {
+			List<DynamicEntity> dynamicEntities) throws ServiceException {
 		FileWriter fileWriter = null;
 		Object value;
 		StringBuilder sb;
@@ -166,7 +160,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 		try {
 			LOGGER.info("BEGIN");
 
-			fileWriter = createOutputFile(coParticipacaoContext, arquivoOutputUi, contratoUi, arquivoOutputService);
+			fileWriter = createOutputFile(coParticipacaoContext, arquivoOutputUi, contratoUi);
 
 			sb = new StringBuilder();
 
@@ -217,8 +211,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 	private FileWriter createOutputFile(
 			CoParticipacaoContext coParticipacaoContext,
 			ArquivoOutputUi arquivoOutputUi,
-			ContratoUi contratoUi,
-			ArquivoOutputService arquivoOutputService) throws ServiceException {
+			ContratoUi contratoUi) throws ServiceException {
 		FileWriter fileWriter;
 		StringBuilder sb;
 		File file;
@@ -229,7 +222,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 			sb = new StringBuilder();
 			sb.append(contratoUi.getEmpresa().getOutputReportDir());
 			sb.append(File.separator);
-			sb.append(arquivoOutputService.createFileName(coParticipacaoContext, arquivoOutputUi, contratoUi));
+			sb.append(CoParticipacaoFileUtils.createFileName(coParticipacaoContext, arquivoOutputUi, contratoUi));
 
 			file = new File(sb.toString());
 

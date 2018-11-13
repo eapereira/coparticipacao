@@ -136,6 +136,8 @@ public class BeneficiarioDetail implements Serializable {
 	private BigDecimal fatorModerador;
 	
 	private String subFatura;
+	
+	private BigDecimal fatorModeradorInss;
 
 	public BeneficiarioDetail() {
 		super();
@@ -698,6 +700,15 @@ public class BeneficiarioDetail implements Serializable {
 		this.subFatura = subFatura;
 	}
 
+	@Column(name = "VL_FATOR_MODERADOR_INSS")
+	public BigDecimal getFatorModeradorInss() {
+		return fatorModeradorInss;
+	}
+
+	public void setFatorModeradorInss(BigDecimal fatorModeradorInss) {
+		this.fatorModeradorInss = fatorModeradorInss;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -736,6 +747,7 @@ public class BeneficiarioDetail implements Serializable {
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((es == null) ? 0 : es.hashCode());
 		result = prime * result + ((fatorModerador == null) ? 0 : fatorModerador.hashCode());
+		result = prime * result + ((fatorModeradorInss == null) ? 0 : fatorModeradorInss.hashCode());
 		result = prime * result + ((grauEscolaridade == null) ? 0 : grauEscolaridade.hashCode());
 		result = prime * result + ((ibge == null) ? 0 : ibge.hashCode());
 		result = prime * result + ((indicadorCarencia == null) ? 0 : indicadorCarencia.hashCode());
@@ -945,6 +957,11 @@ public class BeneficiarioDetail implements Serializable {
 			if (other.fatorModerador != null)
 				return false;
 		} else if (!fatorModerador.equals(other.fatorModerador))
+			return false;
+		if (fatorModeradorInss == null) {
+			if (other.fatorModeradorInss != null)
+				return false;
+		} else if (!fatorModeradorInss.equals(other.fatorModeradorInss))
 			return false;
 		if (grauEscolaridade != other.grauEscolaridade)
 			return false;

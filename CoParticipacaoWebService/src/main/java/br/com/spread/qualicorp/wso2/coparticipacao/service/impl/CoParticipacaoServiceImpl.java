@@ -38,7 +38,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputShee
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ReportUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.CsvProcessorService;
@@ -71,7 +70,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.NaoLocalizadoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ReportService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.UserService;
@@ -161,9 +159,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private ArquivoInputSheetService arquivoInputSheetService;
-
-	@Autowired
-	private ReportService reportService;
 
 	@Autowired
 	private DesconhecidoService desconhecidoService;
@@ -548,7 +543,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		EmpresaUi empresaUi;
 		PartitionMap<TitularUi> mapTitularUi;
 		PartitionMap<DependenteUi> mapDependenteUi;
-		List<ReportUi> reportUis;
 		List<DesconhecidoUi> desconhecidoUis;
 
 		try {
@@ -561,11 +555,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			loadBeneficiarioCols(coParticipacaoContext);
-
-			LOGGER.info(
-					"Loading ArquivoInputSheetUi information if the current ArquivoInputUi[{}] use it:",
-					coParticipacaoContext.getContratoUi().getCdContrato());
-			reportUis = reportService.listByEmpresa(empresaUi);
 
 			// Carregando todos os beneficiários existentes da empresa:
 			LOGGER.info("Loading Beneficiários data by CPF and Name:");
@@ -602,7 +591,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				coParticipacaoContext.setMapDependenteUiByMatricula(mapDependenteUi);
 			}
 
-			coParticipacaoContext.setReportUis(reportUis);
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);
 			coParticipacaoContext.setDesconhecidoUis(desconhecidoUis);

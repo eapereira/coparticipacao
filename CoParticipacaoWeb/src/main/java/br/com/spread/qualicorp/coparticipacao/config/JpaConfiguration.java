@@ -126,8 +126,8 @@ public class JpaConfiguration {
 					"spring.datasource.hikari.dataSourceClassName",
 					"com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
 
-			properties.setProperty("spring.jpa.show-sql", "true");
-			properties.setProperty("spring.jpa.hibernate.format_sql", "true");
+			//properties.setProperty("spring.jpa.show-sql", "true");
+			//properties.setProperty("spring.jpa.hibernate.format_sql", "true");
 			// properties.setProperty("spring.jpa.hibernate.ddl-auto",
 			// "update");
 			properties.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");

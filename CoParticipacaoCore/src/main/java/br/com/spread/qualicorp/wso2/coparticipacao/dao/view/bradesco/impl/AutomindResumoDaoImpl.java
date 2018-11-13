@@ -1,4 +1,4 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl.view.bradesco;
+package br.com.spread.qualicorp.wso2.coparticipacao.dao.view.bradesco.impl;
 
 import java.util.List;
 

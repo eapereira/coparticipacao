@@ -25,7 +25,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Parameter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraField;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraOperation;
@@ -310,18 +309,6 @@ public class UserEntity extends User implements DomainEntity {
 	@OneToMany(mappedBy = "userAltered", targetEntity = ViewDestinationColsDefEntity.class)
 	public List<ViewDestinationColsDef> getViewDestinationColsDefsUserAltered() {
 		return super.getViewDestinationColsDefsUserAltered();
-	}
-
-	// bi-directional many-to-one association to Parameter
-	@OneToMany(mappedBy = "userCreated", targetEntity = ParameterEntity.class)
-	public List<Parameter> getUserCreatedParameter() {
-		return super.getUserCreatedParameter();
-	}
-
-	// bi-directional many-to-one association to Parameter
-	@OneToMany(mappedBy = "userAltered", targetEntity = ParameterEntity.class)
-	public List<Parameter> getUserAlteredParameter() {
-		return super.getUserAlteredParameter();
 	}
 
 	@OneToMany(mappedBy = "userCreated", targetEntity = LancamentoInputEntity.class)

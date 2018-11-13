@@ -1,10 +1,11 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource;
+package br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.AutomindCoparticipacaoViewUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipacaoDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;

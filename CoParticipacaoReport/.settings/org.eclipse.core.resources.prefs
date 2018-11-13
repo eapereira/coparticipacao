@@ -1,4 +1,7 @@
 eclipse.preferences.version=1
-encoding//src/main/resources/bradesco-automind.jrxml=UTF-8
-encoding//src/main/resources/bradesco-automindCoparticipacao.jrxml=UTF-8
-encoding//src/main/resources/bradesco-automindResumo.jrxml=UTF-8
+encoding//src/main/java=utf-8
+encoding//src/main/resources/reports/bradesco-LMTransportesCoparticipacao.jrxml=UTF-8
+encoding//src/main/resources/reports/bradesco-LMTransportesResumo.jrxml=UTF-8
+encoding//src/main/resources/reports/bradesco-automind.jrxml=UTF-8
+encoding//src/main/resources/reports/bradesco-automindCoparticipacao.jrxml=UTF-8
+encoding//src/main/resources/reports/bradesco-automindResumo.jrxml=UTF-8

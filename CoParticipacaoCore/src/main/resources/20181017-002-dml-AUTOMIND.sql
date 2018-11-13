@@ -167,7 +167,8 @@ BEGIN
         CD_FAILURE_DIR,
         CD_OUTPUT_DIR,
         TP_SAVE_MECSAS_DETAIL,
-		TP_SAVE_BENEFICIARIO_DETAIL,				
+		TP_SAVE_BENEFICIARIO_DETAIL,		
+		CD_USE_JASPER_REPORTS,		
 		TP_REPORT_QUERY,
 		
 		USER_CREATED, 
@@ -183,6 +184,7 @@ BEGIN
 		'/coparticipacao/output/',
         VAR_FALSE,
         VAR_FALSE,		
+        VAR_TRUE,
         0,
 		
 		VAR_ID_USER,

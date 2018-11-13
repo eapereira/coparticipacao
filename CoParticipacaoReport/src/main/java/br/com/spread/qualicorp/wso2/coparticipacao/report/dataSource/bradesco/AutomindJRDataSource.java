@@ -1,9 +1,10 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource;
+package br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipacaoDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.AutomindReport;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
@@ -21,6 +22,10 @@ public class AutomindJRDataSource extends CoParticipacaoDataSource<AutomindRepor
 
 	public AutomindJRDataSource() {
 		super();
+	}
+
+	public AutomindJRDataSource(List<AutomindReport> automindReports) {
+		super(automindReports);
 	}
 
 	protected List<AutomindReport> buildData() {

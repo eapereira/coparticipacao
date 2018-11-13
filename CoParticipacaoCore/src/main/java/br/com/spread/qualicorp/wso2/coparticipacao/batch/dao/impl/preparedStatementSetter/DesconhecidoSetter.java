@@ -28,10 +28,16 @@ public class DesconhecidoSetter extends PreparedStatementSetterAdapter<Desconhec
 	private static final int COL_NR_MATRICULA_EMPRESA = 9;
 	private static final int COL_NM_TITULAR = 10;
 
-	private static final int COL_USER_CREATED = 11;
-	private static final int COL_USER_ALTERED = 11;
+	private static final int COL_VL_FATOR_MODERADOR = 11;
+	private static final int COL_VL_FATOR_MODERADOR_INSS = 12;
+	private static final int COL_DESCR_PROFISSAO = 13;
+	private static final int COL_NR_MATRICULA_ESPECIAL = 14;
+	private static final int COL_NR_SUBFATURA = 15;
 
-	private static final int COL_ID = 12;
+	private static final int COL_USER_CREATED = 16;
+	private static final int COL_USER_ALTERED = 17;
+
+	private static final int COL_ID = 18;
 
 	public DesconhecidoSetter(SetterAdapterType setterAdapterType, DesconhecidoEntity entity) {
 		super(setterAdapterType, entity);
@@ -106,5 +112,10 @@ public class DesconhecidoSetter extends PreparedStatementSetterAdapter<Desconhec
 			ps.setNull(COL_NM_TITULAR, Types.VARCHAR);
 		}
 
+		setString(ps, COL_DESCR_PROFISSAO, getEntity().getBeneficiarioDetail().getProfissao());
+		setLong(ps, COL_NR_MATRICULA_ESPECIAL, getEntity().getBeneficiarioDetail().getMatriculaEspecial());
+		setBigDecimal(ps, COL_VL_FATOR_MODERADOR, getEntity().getBeneficiarioDetail().getFatorModerador());
+		setString(ps, COL_NR_SUBFATURA, getEntity().getBeneficiarioDetail().getSubFatura());
+		setBigDecimal(ps, COL_VL_FATOR_MODERADOR_INSS, getEntity().getBeneficiarioDetail().getFatorModeradorInss());
 	}
 }

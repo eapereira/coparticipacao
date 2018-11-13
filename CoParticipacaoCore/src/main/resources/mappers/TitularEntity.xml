@@ -108,8 +108,9 @@
 				NR_MATRICULA_ESPECIAL,
 				VL_FATOR_MODERADOR,		
 				NR_SUBFATURA,
+				VL_FATOR_MODERADOR_INSS, /* 105 */
 				
-				DT_DEMISSAO, 			/* 105 */
+				DT_DEMISSAO, 			/* 106 */
 								
 				USER_CREATED,
 				DT_ALTERED,
@@ -222,6 +223,7 @@
 				?,								
 				?,
 				?,
+				?, /* 106 */
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -338,7 +340,8 @@
 				DESCR_PROFISSAO				= ?,
 				NR_MATRICULA_ESPECIAL		= ?,
 				VL_FATOR_MODERADOR			= ?,
-				NR_SUBFATURA				= ?, /* 104 */
+				NR_SUBFATURA				= ?, 
+				VL_FATOR_MODERADOR_INSS		= ?, /* 105 */
 											
 				DT_DEMISSAO					= ?,
 

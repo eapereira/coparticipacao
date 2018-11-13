@@ -24,6 +24,10 @@ public abstract class CoParticipacaoDataSource<T> implements JRDataSource {
 		data = buildData();
 	}
 
+	public CoParticipacaoDataSource(List<T> data) {
+		this.data = data;
+	}
+
 	protected abstract List<T> buildData();
 
 	@Override
@@ -55,11 +59,11 @@ public abstract class CoParticipacaoDataSource<T> implements JRDataSource {
 		this.data = data;
 	}
 
-	public T getRegister() {
+	protected T getRegister() {
 		return register;
 	}
 
-	public void setRegister(T register) {
+	protected void setRegister(T register) {
 		this.register = register;
 	}
 

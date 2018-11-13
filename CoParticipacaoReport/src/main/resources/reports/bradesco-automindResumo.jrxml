@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-automindResumo" pageWidth="595" pageHeight="1000" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b677f63f-2525-4b40-98c8-095940c2258b">
-	<property name="net.sf.jasperreports.data.adapter" value="AutomindResumoDataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/AutomindResumoDataAdapter.xml"/>
-	<property name="net.sf.jasperreports.export.xls.sheet.names.{arbitrary_name}" value="Rateio"/>
+	<property name="net.sf.jasperreports.data.adapter" value="../data-adapters/AutomindResumoDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/data-adapters/AutomindResumoDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Rateio"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>

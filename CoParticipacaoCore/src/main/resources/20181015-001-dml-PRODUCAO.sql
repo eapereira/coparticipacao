@@ -241,6 +241,8 @@ BEGIN
 	declare VAR_NR_MATRICULA_BASE										bigint( 17 ) default 44400000000000;
 	
 	declare VAR_CD_INPUT_DIR											varchar( 200 ) default '/coparticipacao/input/';
+	declare VAR_CD_OUTPUT_DIR											varchar( 200 ) default '/coparticipacao/output/';
+	declare VAR_CD_FAILURE_DIR											varchar( 200 ) default '/coparticipacao/failure/';
 	declare VAR_CD_OUTPUT_REPORT_DIR_MUITO_FACIL						varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/muito-facil/';
 	declare VAR_CD_OUTPUT_REPORT_DIR_MARJAN								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/marjan/';
 	declare VAR_CD_OUTPUT_REPORT_DIR_ABBVIE								varchar( 200 ) default '/coparticipacao/output-reports/sulamerica/abbvie/';
@@ -310,6 +312,14 @@ BEGIN
 			CD_OUTPUT_REPORT_DIR 	= VAR_CD_OUTPUT_REPORT_DIR_INTERVALOR
 	where 	CD_EMPRESA 				= 'INTERVALOR';
 	
+	/*********************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 316');
+	update TB_EMPRESA
+	set 
+			CD_OUTPUT_DIR 			= VAR_CD_OUTPUT_DIR,
+			CD_FAILURE_DIR 			= VAR_CD_FAILURE_DIR;
+	
+	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 313');
 	update TB_CONTRATO
 	set 

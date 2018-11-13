@@ -20,6 +20,29 @@
 		<spring.version>4.3.18.RELEASE</spring.version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>DESENV</id>
+
+			<properties>
+				<jpa.showSql>true</jpa.showSql>
+				<jpa.formastSql>true</jpa.formastSql>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>PROD</id>
+
+			<properties>
+				<jpa.showSql>false</jpa.showSql>
+				<jpa.formastSql>false</jpa.formastSql>
+			</properties>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -110,12 +133,6 @@
 			<version>8.0.11</version>
 		</dependency>
 
-		<dependency>
-			<groupId>br.com.spread.qualicorp.wso2.coparticipacao</groupId>
-			<artifactId>CoParticipacaoJPA</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
 		<!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
@@ -140,6 +157,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>br.com.spread.qualicorp.wso2.coparticipacao</groupId>
+			<artifactId>CoParticipacaoJPA</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>
 				br.com.spread.qualicorp.wso2.coparticipacao
 			</groupId>
@@ -151,6 +173,13 @@
 				br.com.spread.qualicorp.wso2.coparticipacao
 			</groupId>
 			<artifactId>CoParticipacaoCore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>
+				br.com.spread.qualicorp.wso2.coparticipacao
+			</groupId>
+			<artifactId>CoParticipacaoReport</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
@@ -196,5 +225,12 @@
 			</plugin>
 
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 </project>

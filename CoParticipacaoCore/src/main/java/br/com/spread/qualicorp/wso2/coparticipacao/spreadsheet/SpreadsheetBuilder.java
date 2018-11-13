@@ -30,7 +30,6 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
@@ -82,7 +81,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 		this.spreadsheetFileName = spreadsheetFileName;
 	}
 
-	public void writeSpreadsheet(CoParticipacaoContext coParticipacaoContext, ArquivoOutputService arquivoOutputService)
+	public void writeSpreadsheet(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
 		Sheet sheet;
 		List<ColumnInfo> columnInfos;
@@ -111,7 +110,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 				numSheets++;
 			}
 
-			writeWorkbook(coParticipacaoContext, workbook, arquivoOutputService);
+			writeWorkbook(coParticipacaoContext, workbook);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -212,8 +211,7 @@ public class SpreadsheetBuilder<UI extends AbstractDomain> {
 
 	private void writeWorkbook(
 			CoParticipacaoContext coParticipacaoContext,
-			Workbook workbook,
-			ArquivoOutputService arquivoOutputService) throws ServiceException {
+			Workbook workbook) throws ServiceException {
 		OutputStream outputStream;
 		String reportPath;
 		String spreadsheetFilePath;

@@ -2,7 +2,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.io;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -12,5 +11,5 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  */
 public interface FlatFileWriterService {
 
-	void write(CoParticipacaoContext coParticipacaoContext, ArquivoOutputUi arquivoOutputUi, ArquivoOutputService arquivoOutputService) throws ServiceException;
+	void write(CoParticipacaoContext coParticipacaoContext, ArquivoOutputUi arquivoOutputUi) throws ServiceException;
 }

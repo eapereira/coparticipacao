@@ -20,7 +20,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExternalProcess;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Report;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportQueryTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.listener.EmpresaEntityListener;
@@ -165,17 +164,6 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.getReportQueryType();
 	}
 
-	@OneToMany(
-			mappedBy = "empresa",
-			targetEntity = ReportEntity.class,
-			fetch = FetchType.LAZY,
-			cascade = CascadeType.ALL)
-	@Override
-	public List<Report> getReports() {
-		// TODO Auto-generated method stub
-		return super.getReports();
-	}
-
 	@Column(name = "CD_AUTOMATIC_CREATE_TITULAR")
 	@Override
 	public boolean isAutomaticCreateTitular() {
@@ -209,6 +197,13 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	public boolean isCreateBeneficiarioFromMecsas2() {
 		// TODO Auto-generated method stub
 		return super.isCreateBeneficiarioFromMecsas2();
+	}
+
+	@Column(name = "CD_USE_JASPER_REPORTS")
+	@Override
+	public boolean isUseJasperReports() {
+		// TODO Auto-generated method stub
+		return super.isUseJasperReports();
 	}
 
 }

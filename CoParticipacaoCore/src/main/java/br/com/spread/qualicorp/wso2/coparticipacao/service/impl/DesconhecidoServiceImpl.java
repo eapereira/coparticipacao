@@ -37,7 +37,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ViewDestinationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputDesconhecidoSheetService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -86,9 +85,6 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 
 	@Autowired
 	private ArquivoExecucaoService arquivoExecucaoService;
-
-	@Autowired
-	private ArquivoOutputService arquivoOutputService;
 
 	public DesconhecidoServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -392,7 +388,7 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 
 				LOGGER.info("Writing spreadsheet to filesystem:");
 				spreadsheetBuilder.setSpreadsheetFileName(nameOutputFile);
-				spreadsheetBuilder.writeSpreadsheet(coParticipacaoContext, arquivoOutputService);
+				spreadsheetBuilder.writeSpreadsheet(coParticipacaoContext);
 
 				LOGGER.info("Updating ArquivoExecucaoUi with SUCCESS information:");
 				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);

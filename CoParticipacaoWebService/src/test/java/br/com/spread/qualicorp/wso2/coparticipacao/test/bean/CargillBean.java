@@ -74,7 +74,7 @@ public class CargillBean {
 	private static final int NUM_TOTAL_TITULARES_201810 = 995;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810 = 3;
-	private static final int NUM_TOTAL_LANCAMENTOS_201810 = 131;
+	private static final int NUM_TOTAL_LANCAMENTOS_201810 = 130;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810 = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 0;
 

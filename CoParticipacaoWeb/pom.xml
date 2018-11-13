@@ -21,6 +21,29 @@
 		<org.mapstruct.version>1.2.0.Final</org.mapstruct.version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>DESENV</id>
+
+			<properties>
+				<jpa.showSql>true</jpa.showSql>
+				<jpa.formastSql>true</jpa.formastSql>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>PROD</id>
+
+			<properties>
+				<jpa.showSql>false</jpa.showSql>
+				<jpa.formastSql>false</jpa.formastSql>
+			</properties>
+		</profile>
+	</profiles>
+
 	<dependencies>
 
 		<!-- ////////////////////////////////////////////////////////////////////////////////// -->
@@ -216,6 +239,12 @@
 			</plugin>
 		</plugins>
 
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 
 	<repositories>

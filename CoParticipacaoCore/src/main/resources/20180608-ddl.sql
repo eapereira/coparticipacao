@@ -189,6 +189,7 @@ create table TB_EMPRESA(
 	CD_ACCEPT_TITULAR_WITHOUT_CPF		int( 3 ) not null default 0, /* permite gravar um títular com o CPF zerado: */
 	CD_GENERATE_OUTPUT_FILE_NOFATUCOPA	int( 3 ) not null default 0, /* informa que a empresa não usa arquivo FATUCOPA e que o arquivo de saída deve ser gerado mesmo assim: */
 	CD_CREATE_BENEFICIARIO_FRON_MECSAS2	int( 3 ) not null default 0, /* informa ao processo se devem ser criados os títulares usando o arquivo de Base de Ativos da Empresa: */
+	CD_USE_JASPER_REPORTS				int( 3 ) not null default 0, /* informa se a Empresa utiliza para criar os relatórios o JasperReports */
 	
 	TP_SAVE_MECSAS_DETAIL				int( 1 ) not null,
 	TP_SAVE_BENEFICIARIO_DETAIL			int( 1 ) not null,

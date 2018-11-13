@@ -1,6 +1,5 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.dao.impl.view.bradesco;
+package br.com.spread.qualicorp.wso2.coparticipacao.dao.view.bradesco.impl;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -13,7 +12,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.impl.AbstractDaoImpl;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.view.bradesco.AutomindCoparticipacaoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.AutomindCoparticipacaoViewEntity;
-import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
 
 /**
  * 

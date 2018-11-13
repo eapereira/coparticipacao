@@ -33,7 +33,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputShee
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ReportUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
@@ -112,8 +111,6 @@ public class CoParticipacaoContext {
 
 	private ExecucaoUi execucaoUi;
 
-	private List<ReportUi> reportUis;
-
 	private LancamentoDetailUi lancamentoDetailUi;
 
 	private List<DesconhecidoUi> desconhecidoUis;
@@ -149,7 +146,6 @@ public class CoParticipacaoContext {
 		desconhecidoUis = new ArrayList<DesconhecidoUi>();
 		lancamentoInputSheetUis = new ArrayList<LancamentoInputSheetUi>();
 
-		reportUis = new ArrayList<ReportUi>();
 		mapLine = new HashMap<String, Object>();
 		bunker = new Bunker();
 
@@ -633,14 +629,6 @@ public class CoParticipacaoContext {
 
 	public void setExecucaoUi(ExecucaoUi execucaoUi) {
 		this.execucaoUi = execucaoUi;
-	}
-
-	public List<ReportUi> getReportUis() {
-		return reportUis;
-	}
-
-	public void setReportUis(List<ReportUi> reportUis) {
-		this.reportUis = reportUis;
 	}
 
 	public LancamentoDetailUi getLancamentoDetailUi() {

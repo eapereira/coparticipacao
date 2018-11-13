@@ -69,6 +69,7 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR						int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR_INSS					int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA_ESPECIAL					int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DESCR_PROFISSAO							int( 3 ) default 30;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF_TITULAR							int( 3 ) default 20;	
@@ -84,6 +85,7 @@ BEGIN
 	declare VAR_COL_LABEL_NR_MATRICULA									varchar( 40 ) default 'MATRICULA';
 	declare VAR_COL_LABEL_NM_TITULAR									varchar( 40 ) default 'NOME SEGURADO';
 	declare VAR_COL_LABEL_VL_FATOR_MODERADOR							varchar( 40 ) default 'FATOR MODERADOR';
+	declare VAR_COL_LABEL_VL_FATOR_MODERADOR_INSS						varchar( 40 ) default 'FATOR MODERADOR INSS';
 	declare VAR_COL_LABEL_NR_MATRICULA_ESPECIAL							varchar( 40 ) default 'MATRICULA ESPECIAL';
 	declare VAR_COL_LABEL_DESCR_PROFISSAO								varchar( 40 ) default 'CARGO';
 	declare VAR_COL_LABEL_NR_CPF_TITULAR								varchar( 40 ) default 'CPF TÍTULAR';	
@@ -168,7 +170,8 @@ BEGIN
         CD_OUTPUT_DIR,
         CD_GENERATE_OUTPUT_FILE_NOFATUCOPA,
         TP_SAVE_MECSAS_DETAIL,
-		TP_SAVE_BENEFICIARIO_DETAIL,				
+		TP_SAVE_BENEFICIARIO_DETAIL,	
+		CD_USE_JASPER_REPORTS,
 		TP_REPORT_QUERY,
 		
 		USER_CREATED, 
@@ -184,7 +187,8 @@ BEGIN
 		'/coparticipacao/output/',
 		VAR_TRUE,
         VAR_FALSE,
-        VAR_FALSE,		
+        VAR_FALSE,
+        VAR_TRUE,		
         0,
 		
 		VAR_ID_USER,
@@ -337,7 +341,8 @@ BEGIN
 		current_timestamp()		
 	);	
 	
-	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;	
+	select max( ID ) into VAR_ID_VIEW_DESTINATION 
+	from TB_VIEW_DESTINATION;	
 	set VAR_CD_ORDEM = 0;
 		
 	call PROC_LOG_MESSAGE('LINHA - 225');
@@ -540,7 +545,8 @@ BEGIN
 		current_timestamp()		
 	);	
 	
-	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;	
+	select max( ID ) into VAR_ID_VIEW_DESTINATION 
+	from TB_VIEW_DESTINATION;	
 	set VAR_CD_ORDEM = 0;
 	
 	call PROC_LOG_MESSAGE('LINHA - 225');
@@ -678,7 +684,7 @@ BEGIN
 	/*********************************************************************************************************************************************/
 	/* NAO-LOCALIZADOS */
 	
-	call PROC_LOG_MESSAGE('LINHA - 801');
+	call PROC_LOG_MESSAGE('LINHA - 685');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
 		NM_TITLE_LABEL,
@@ -697,7 +703,7 @@ BEGIN
 	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;
 	set VAR_CD_ORDEM = 0;
 
-	call PROC_LOG_MESSAGE('LINHA - 820');
+	call PROC_LOG_MESSAGE('LINHA - 704');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -723,7 +729,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 730');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -749,7 +755,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 756');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -775,7 +781,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 782');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -801,7 +807,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 808');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -827,7 +833,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 834');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -845,6 +851,32 @@ BEGIN
 		VAR_COL_VIEW_LENGTH_NR_MATRICULA_ESPECIAL,
 		VAR_CD_ORDEM,
 		VAR_COL_LABEL_NR_MATRICULA_ESPECIAL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 862');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'VL_FATOR_MODERADOR_INSS',
+		VAR_COL_DOUBLE,
+		VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR_INSS,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_VL_FATOR_MODERADOR_INSS,
 		
 		VAR_ID_USER,
 		current_timestamp(),
