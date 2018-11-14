@@ -25,17 +25,32 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSo
 	private static final String FIELD_NR_MATRICULA_ESPECIAL = "matriculaEspecial";
 	private static final String FIELD_DESCR_PROFISSAO = "profissao";
 	private static final String FIELD_VL_FATOR_MODERADOR_INSS = "fatorModeradorInss";
+	private static final String FIELD_NR_SUBFATURA = "subFatura";
+	private static final String FIELD_VL_ALIQUOTA_INSS = "valorAliquotaInss";
+	private static final String FIELD_VL_INSS = "valorInss";
+	private static final String FIELD_VL_LIQUIDO_SINISTRO = "valorLiquidoSinistro";
+	private static final String FIELD_INDICADOR_EVENTO = "indicadorEvento";
+	private static final String FIELD_TP_REGISTRO = "tipoRegistro";
+	private static final String FIELD_CD_CONTRATO = "cdContrato";
 
 	public TechnitSaudeCoparticipacaoJRDataSource() {
 		super();
 	}
 
+	public TechnitSaudeCoparticipacaoJRDataSource(
+			List<TechnitSaudeCoparticipacaoViewUi> technitSaudeCoparticipacaoViewUis) {
+		super(technitSaudeCoparticipacaoViewUis);
+	}
+
 	protected List<TechnitSaudeCoparticipacaoViewUi> buildData() {
 		List<TechnitSaudeCoparticipacaoViewUi> technitSaudeCoparticipacaoViewUis = new ArrayList<>();
-		TechnitSaudeCoparticipacaoViewUi technitSaudeCoparticipacaoViewUi = new TechnitSaudeCoparticipacaoViewUi();
+		TechnitSaudeCoparticipacaoViewUi technitSaudeCoparticipacaoViewUi;
 
-		technitSaudeCoparticipacaoViewUi.setCdContrato("074210");
-		technitSaudeCoparticipacaoViewUi.setCdEmpresa("AUTOMIND");
+		technitSaudeCoparticipacaoViewUi = new TechnitSaudeCoparticipacaoViewUi();
+		technitSaudeCoparticipacaoViewUi.setTipoRegistro(2);
+		technitSaudeCoparticipacaoViewUi.setSubFatura("001");
+		technitSaudeCoparticipacaoViewUi.setCdContrato("091707");
+		technitSaudeCoparticipacaoViewUi.setCdEmpresa("091707");
 		technitSaudeCoparticipacaoViewUi.setCertificado(8345l);
 
 		technitSaudeCoparticipacaoViewUi.setNomeTitular("JULIA MC MILLAN CARVALHO CAMPOS");
@@ -43,6 +58,54 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSo
 		technitSaudeCoparticipacaoViewUi.setMatriculaEspecial(950001l);
 		technitSaudeCoparticipacaoViewUi.setMatricula(75001l);
 		technitSaudeCoparticipacaoViewUi.setProfissao("Costureira");
+
+		technitSaudeCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
+		technitSaudeCoparticipacaoViewUi.setIndicadorEvento(4);
+		technitSaudeCoparticipacaoViewUi.setValorAliquotaInss(BigDecimal.ZERO);
+		technitSaudeCoparticipacaoViewUi.setValorInss(BigDecimal.ZERO);
+		technitSaudeCoparticipacaoViewUi.setValorLiquidoSinistro(new BigDecimal("258.02"));
+
+		technitSaudeCoparticipacaoViewUis.add(technitSaudeCoparticipacaoViewUi);
+
+		technitSaudeCoparticipacaoViewUi = new TechnitSaudeCoparticipacaoViewUi();
+		technitSaudeCoparticipacaoViewUi.setTipoRegistro(2);
+		technitSaudeCoparticipacaoViewUi.setSubFatura("001");
+		technitSaudeCoparticipacaoViewUi.setCdContrato("091707");
+		technitSaudeCoparticipacaoViewUi.setCdEmpresa("091707");
+		technitSaudeCoparticipacaoViewUi.setCertificado(8345l);
+
+		technitSaudeCoparticipacaoViewUi.setNomeTitular("MARCEL SIDNEI CAVITTE");
+		technitSaudeCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
+		technitSaudeCoparticipacaoViewUi.setMatriculaEspecial(950001l);
+		technitSaudeCoparticipacaoViewUi.setMatricula(75001l);
+		technitSaudeCoparticipacaoViewUi.setProfissao("Costureira");
+
+		technitSaudeCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
+		technitSaudeCoparticipacaoViewUi.setIndicadorEvento(4);
+		technitSaudeCoparticipacaoViewUi.setValorAliquotaInss(BigDecimal.ZERO);
+		technitSaudeCoparticipacaoViewUi.setValorInss(BigDecimal.ZERO);
+		technitSaudeCoparticipacaoViewUi.setValorLiquidoSinistro(new BigDecimal("258.02"));
+
+		technitSaudeCoparticipacaoViewUis.add(technitSaudeCoparticipacaoViewUi);
+
+		technitSaudeCoparticipacaoViewUi = new TechnitSaudeCoparticipacaoViewUi();
+		technitSaudeCoparticipacaoViewUi.setTipoRegistro(2);
+		technitSaudeCoparticipacaoViewUi.setSubFatura("001");
+		technitSaudeCoparticipacaoViewUi.setCdContrato("091707");
+		technitSaudeCoparticipacaoViewUi.setCdEmpresa("091707");
+		technitSaudeCoparticipacaoViewUi.setCertificado(1147l);
+
+		technitSaudeCoparticipacaoViewUi.setNomeTitular("FATIMA CRISTINA TAKAHASHI");
+		technitSaudeCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
+		technitSaudeCoparticipacaoViewUi.setMatriculaEspecial(950001l);
+		technitSaudeCoparticipacaoViewUi.setMatricula(75001l);
+		technitSaudeCoparticipacaoViewUi.setProfissao("Costureira");
+
+		technitSaudeCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
+		technitSaudeCoparticipacaoViewUi.setIndicadorEvento(4);
+		technitSaudeCoparticipacaoViewUi.setValorAliquotaInss(BigDecimal.ZERO);
+		technitSaudeCoparticipacaoViewUi.setValorInss(BigDecimal.ZERO);
+		technitSaudeCoparticipacaoViewUi.setValorLiquidoSinistro(new BigDecimal("258.02"));
 
 		technitSaudeCoparticipacaoViewUis.add(technitSaudeCoparticipacaoViewUi);
 
@@ -68,6 +131,20 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSo
 				return getRegister().getProfissao();
 			} else if (FIELD_VL_FATOR_MODERADOR_INSS.equals(jrField.getName())) {
 				return getRegister().getFatorModeradorInss();
+			} else if (FIELD_NR_SUBFATURA.equals(jrField.getName())) {
+				return getRegister().getSubFatura();
+			} else if (FIELD_VL_ALIQUOTA_INSS.equals(jrField.getName())) {
+				return getRegister().getValorAliquotaInss();
+			} else if (FIELD_VL_INSS.equals(jrField.getName())) {
+				return getRegister().getValorInss();
+			} else if (FIELD_VL_LIQUIDO_SINISTRO.equals(jrField.getName())) {
+				return getRegister().getValorLiquidoSinistro();
+			} else if (FIELD_INDICADOR_EVENTO.equals(jrField.getName())) {
+				return getRegister().getIndicadorEvento();
+			} else if (FIELD_TP_REGISTRO.equals(jrField.getName())) {
+				return getRegister().getTipoRegistro();
+			} else if (FIELD_CD_CONTRATO.equals(jrField.getName())) {
+				return getRegister().getCdContrato();
 			}
 		}
 

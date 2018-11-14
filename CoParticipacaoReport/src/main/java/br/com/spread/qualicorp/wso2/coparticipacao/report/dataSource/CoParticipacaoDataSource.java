@@ -22,6 +22,7 @@ public abstract class CoParticipacaoDataSource<T> implements JRDataSource {
 
 	public CoParticipacaoDataSource() {
 		data = buildData();
+		cursor = NumberUtils.INTEGER_ZERO;
 	}
 
 	public CoParticipacaoDataSource(List<T> data) {

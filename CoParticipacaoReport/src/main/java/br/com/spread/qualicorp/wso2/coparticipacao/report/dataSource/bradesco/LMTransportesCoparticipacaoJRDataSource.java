@@ -31,6 +31,11 @@ public class LMTransportesCoparticipacaoJRDataSource
 		super();
 	}
 
+	public LMTransportesCoparticipacaoJRDataSource(
+			List<LMTransportesCoparticipacaoViewUi> lmTransportesCoparticipacaoViewUis) {
+		super(lmTransportesCoparticipacaoViewUis);
+	}
+
 	protected List<LMTransportesCoparticipacaoViewUi> buildData() {
 		List<LMTransportesCoparticipacaoViewUi> lmTransportesCoparticipacaoViewUis = new ArrayList<>();
 		LMTransportesCoparticipacaoViewUi lmTransportesCoparticipacaoViewUi = new LMTransportesCoparticipacaoViewUi();

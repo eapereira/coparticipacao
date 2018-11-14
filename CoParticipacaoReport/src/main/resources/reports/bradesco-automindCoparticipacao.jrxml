@@ -129,7 +129,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeTitular}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="530" y="0" width="130" height="20" uuid="82a12d4b-40e8-482c-bda0-cfb699a3e2f7"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>

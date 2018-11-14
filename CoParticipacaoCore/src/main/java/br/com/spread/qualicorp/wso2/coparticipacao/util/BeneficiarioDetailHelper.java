@@ -257,8 +257,38 @@ public class BeneficiarioDetailHelper {
 
 			copyTransferencia(beneficiarioDetailDest.getTransferencia(), beneficiarioDetailOrigin.getTransferencia());
 
+			//////////////////////////////////////////////////////////////////////////////////////
+			// Campos do Bradesco:
 			if (beneficiarioDetailOrigin.getSubFatura() != null) {
 				beneficiarioDetailDest.setSubFatura(beneficiarioDetailOrigin.getSubFatura());
+			}
+
+			if (beneficiarioDetailOrigin.getProfissao() != null) {
+				beneficiarioDetailDest.setProfissao(beneficiarioDetailOrigin.getProfissao());
+			}
+
+			if (beneficiarioDetailOrigin.getMatriculaEspecial() != null) {
+				beneficiarioDetailDest.setMatriculaEspecial(beneficiarioDetailOrigin.getMatriculaEspecial());
+			}
+
+			if (beneficiarioDetailOrigin.getFatorModerador() != null) {
+				beneficiarioDetailDest.setFatorModerador(beneficiarioDetailOrigin.getFatorModerador());
+			}
+
+			if (beneficiarioDetailOrigin.getFatorModeradorInss() != null) {
+				beneficiarioDetailDest.setFatorModeradorInss(beneficiarioDetailOrigin.getFatorModeradorInss());
+			}
+
+			if (beneficiarioDetailOrigin.getValorInss() != null) {
+				beneficiarioDetailDest.setValorInss(beneficiarioDetailOrigin.getValorInss());
+			}
+
+			if (beneficiarioDetailOrigin.getValorAliquotaInss() != null) {
+				beneficiarioDetailDest.setValorAliquotaInss(beneficiarioDetailOrigin.getValorAliquotaInss());
+			}
+
+			if (beneficiarioDetailOrigin.getValorLiquidoSinistro() != null) {
+				beneficiarioDetailDest.setValorLiquidoSinistro(beneficiarioDetailOrigin.getValorLiquidoSinistro());
 			}
 
 			LOGGER.info("END");

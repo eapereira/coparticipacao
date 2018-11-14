@@ -79,6 +79,9 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NUM_SEGURADOS							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PROPORCAO							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_VL_ALOCACAO								int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_VL_ALIQUOTA_INSS						int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_VL_INSS									int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_VL_LIQUIDO_SINISTRO						int( 3 ) default 20;
 
     declare VAR_COL_LABEL_NR_SUBFATURA									varchar( 40 ) default 'SUBFATURA';
 	declare VAR_COL_LABEL_NR_CERTIFICADO								varchar( 40 ) default 'CERTIFICADO';
@@ -95,6 +98,9 @@ BEGIN
 	declare VAR_COL_LABEL_NUM_SEGURADOS									varchar( 40 ) default 'VIDAS';
 	declare VAR_COL_LABEL_VL_PROPORCAO									varchar( 40 ) default 'PROPORÇÃO (%)';
 	declare VAR_COL_LABEL_VL_ALOCACAO									varchar( 40 ) default 'VALOR ALOCAÇÃO';
+	declare VAR_COL_LABEL_VL_ALIQUOTA_INSS								varchar( 40 ) default 'VALOR ALIQUOTA INSS';
+	declare VAR_COL_LABEL_VL_INSS										varchar( 40 ) default 'VALOR INSS';
+	declare VAR_COL_LABEL_VL_LIQUIDO_SINISTRO							varchar( 40 ) default 'VALOR LÍQUIDO DO SINISTRO';
 	
 	declare VAR_COL_LANCAMENTO_ID_DEPENDENTE							bigint( 17 ) default 1;
 	declare VAR_COL_LANCAMENTO_ID_CONTRATO								bigint( 17 ) default 2;
@@ -726,7 +732,7 @@ BEGIN
 	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;
 	set VAR_CD_ORDEM = 0;
 
-	call PROC_LOG_MESSAGE('LINHA - 820');
+	call PROC_LOG_MESSAGE('LINHA - 735');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -752,7 +758,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 761');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -778,7 +784,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 787');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -804,7 +810,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 813');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -830,7 +836,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 839');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -856,7 +862,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 865');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -882,7 +888,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 846');
+	call PROC_LOG_MESSAGE('LINHA - 891');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -908,6 +914,111 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+
+	call PROC_LOG_MESSAGE('LINHA - 918');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_SUBFATURA',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NR_SUBFATURA,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NR_SUBFATURA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 944');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'VL_ALIQUOTA_INSS',
+		VAR_COL_DOUBLE,
+		VAR_COL_VIEW_LENGTH_VL_ALIQUOTA_INSS,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_VL_ALIQUOTA_INSS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 970');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'VL_INSS',
+		VAR_COL_DOUBLE,
+		VAR_COL_VIEW_LENGTH_VL_INSS,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_VL_INSS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 996');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'VL_LIQUIDO_SINISTRO',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_VL_LIQUIDO_SINISTRO,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_VL_LIQUIDO_SINISTRO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+		
 	call PROC_LOG_MESSAGE('LINHA - 950');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	

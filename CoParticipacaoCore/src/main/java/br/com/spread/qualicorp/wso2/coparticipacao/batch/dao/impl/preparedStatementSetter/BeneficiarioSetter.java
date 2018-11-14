@@ -114,6 +114,9 @@ public abstract class BeneficiarioSetter<ENTITY extends AbstractDomain> extends 
 	private static final int COL_VL_FATOR_MODERADOR = 103;
 	private static final int COL_SUBFATURA = 104;
 	private static final int COL_VL_FATOR_MODERADOR_INSS = 105;
+	private static final int COL_VL_ALIQUOTA_INSS = 106;
+	private static final int COL_VL_INSS = 107;
+	private static final int COL_VL_LIQUIDO_SINISTRO = 108;
 
 	public BeneficiarioSetter(SetterAdapterType setterAdapterType, ENTITY entity) {
 		super(setterAdapterType, entity);
@@ -218,6 +221,9 @@ public abstract class BeneficiarioSetter<ENTITY extends AbstractDomain> extends 
 			setBigDecimal(ps, COL_VL_FATOR_MODERADOR, beneficiarioDetail.getFatorModerador());
 			setString(ps, COL_SUBFATURA, beneficiarioDetail.getSubFatura());
 			setBigDecimal(ps, COL_VL_FATOR_MODERADOR_INSS, beneficiarioDetail.getFatorModeradorInss());
+			setBigDecimal(ps, COL_VL_ALIQUOTA_INSS, beneficiarioDetail.getValorAliquotaInss());
+			setBigDecimal(ps, COL_VL_INSS, beneficiarioDetail.getValorInss());
+			setBigDecimal(ps, COL_VL_LIQUIDO_SINISTRO, beneficiarioDetail.getValorLiquidoSinistro());
 		}
 	}
 

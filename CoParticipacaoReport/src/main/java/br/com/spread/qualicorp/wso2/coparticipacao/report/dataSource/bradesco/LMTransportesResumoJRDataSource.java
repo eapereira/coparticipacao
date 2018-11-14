@@ -29,6 +29,10 @@ public class LMTransportesResumoJRDataSource extends CoParticipacaoDataSource<LM
 		super();
 	}
 
+	public LMTransportesResumoJRDataSource(List<LMTransportesResumoViewUi> lmTransportesResumoViewUis) {
+		super(lmTransportesResumoViewUis);
+	}
+
 	protected List<LMTransportesResumoViewUi> buildData() {
 		List<LMTransportesResumoViewUi> lmTransportesResumoViewUis = new ArrayList<>();
 		LMTransportesResumoViewUi lmTransportesResumoViewUi = new LMTransportesResumoViewUi();

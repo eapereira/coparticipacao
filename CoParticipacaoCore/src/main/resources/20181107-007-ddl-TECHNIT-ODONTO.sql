@@ -24,7 +24,9 @@ select distinct
     desconhecido.VL_FATOR_MODERADOR,
     desconhecido.VL_FATOR_MODERADOR_INSS,
     desconhecido.DESCR_PROFISSAO,
-    desconhecido.NR_MATRICULA_ESPECIAL
+    desconhecido.NR_MATRICULA_ESPECIAL,
+    desconhecido.VL_INSS,
+    desconhecido.VL_LIQUIDO_SINISTRO
 from TB_DESCONHECIDO desconhecido
 	join TB_CONTRATO contrato on
 		contrato.ID = desconhecido.ID_CONTRATO
@@ -44,7 +46,9 @@ select
 	titular.VL_FATOR_MODERADOR,
 	titular.VL_FATOR_MODERADOR_INSS,
     titular.DESCR_PROFISSAO,
-    titular.NR_MATRICULA_ESPECIAL	
+    titular.NR_MATRICULA_ESPECIAL,
+	titular.VL_INSS,
+    titular.VL_LIQUIDO_SINISTRO
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
@@ -69,15 +73,20 @@ select
     desconhecido.VL_FATOR_MODERADOR,
     desconhecido.VL_FATOR_MODERADOR_INSS,
     desconhecido.DESCR_PROFISSAO,
-    desconhecido.NR_MATRICULA_ESPECIAL    
+    desconhecido.NR_MATRICULA_ESPECIAL,
+	desconhecido.VL_INSS,
+	desconhecido.VL_LIQUIDO_SINISTRO
 from VW_DESCONHECIDO_LEVEL01_TECHNIT_ODONTO desconhecido
 order by desconhecido.NM_BENEFICIARIO;
+
+/****************************************************************************************************************************************************/
 
 create view VW_COPARTICIPACAO_LEVEL01_TECHNIT_ODONTO as
 select
 	lancamento.CD_MES,
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
+    2 TP_REGISTRO,
     contrato.CD_CONTRATO,
 	lpad( titular.NR_MATRICULA, 7, '0' ) NR_CERTIFICADO,
 	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
@@ -87,7 +96,9 @@ select
 	titular.VL_FATOR_MODERADOR_INSS,
 	titular.NR_MATRICULA_ESPECIAL,
 	titular.DESCR_PROFISSAO,
-	empresa.CD_EMPRESA
+	empresa.CD_EMPRESA,
+	titular.VL_INSS,
+	titular.VL_LIQUIDO_SINISTRO
 from	TB_LANCAMENTO lancamento
 	join TB_CONTRATO contrato on
 		contrato.ID = lancamento.ID_CONTRATO
@@ -103,6 +114,7 @@ select
 	FUNC_GET_ROWNUM() ID,
 	technit.CD_MES,
     technit.CD_ANO,
+    technit.TP_REGISTRO,
     technit.ID_CONTRATO,
     technit.CD_CONTRATO,
     technit.NR_CERTIFICADO,
@@ -113,11 +125,14 @@ select
 	technit.VL_FATOR_MODERADOR_INSS,
 	technit.NR_MATRICULA_ESPECIAL,
 	technit.DESCR_PROFISSAO,
-	technit.CD_EMPRESA
+	technit.CD_EMPRESA,
+	technit.VL_INSS,
+	technit.VL_LIQUIDO_SINISTRO
 from	VW_COPARTICIPACAO_LEVEL01_TECHNIT_ODONTO technit
 group by
 	technit.CD_MES,
     technit.CD_ANO,
+    technit.TP_REGISTRO,
     technit.ID_CONTRATO,
     technit.CD_CONTRATO,
     technit.NR_CERTIFICADO,
@@ -128,7 +143,9 @@ group by
 	technit.VL_FATOR_MODERADOR_INSS,
 	technit.NR_MATRICULA_ESPECIAL,
 	technit.DESCR_PROFISSAO,
-	technit.CD_EMPRESA
+	technit.CD_EMPRESA,
+	technit.VL_INSS,
+	technit.VL_LIQUIDO_SINISTRO	
 order by
 	technit.NM_TITULAR;
 	

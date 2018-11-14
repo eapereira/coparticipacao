@@ -1,13 +1,13 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.TechnitOdontoCoparticipacaoView;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.TechnitSaudeCoparticipacaoView;
 
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class TechnitSaudeCoparticipacaoViewUi extends TechnitOdontoCoparticipacaoView {
+public class TechnitSaudeCoparticipacaoViewUi extends TechnitSaudeCoparticipacaoView {
 
 	/**
 	 * 

@@ -9,7 +9,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.Techn
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class TechnitOdontoReport extends BasicReport {
+public class TechnitOdontoReport extends TechnitReport {
 
 	private List<TechnitOdontoCoparticipacaoViewUi> technitOdontoCoparticipacaoViewUis;
 
@@ -25,4 +25,5 @@ public class TechnitOdontoReport extends BasicReport {
 			List<TechnitOdontoCoparticipacaoViewUi> technitOdontoCoparticipacaoViewUis) {
 		this.technitOdontoCoparticipacaoViewUis = technitOdontoCoparticipacaoViewUis;
 	}
+
 }

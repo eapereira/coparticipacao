@@ -63,6 +63,9 @@ BEGIN
 	declare VAR_ID_SHEET01_COLUMN_009_NR_MATRICULA_ESPECIAL 	bigint( 17 );
 	declare VAR_ID_SHEET01_COLUMN_010_VL_FATOR_MODERADOR_INSS 	bigint( 17 );
 	declare VAR_ID_SHEET01_COLUMN_011_DESCR_PROFISSAO 			bigint( 17 );
+	declare VAR_ID_SHEET01_COLUMN_012_VL_ALIQUOTA_INSS 			bigint( 17 );
+	declare VAR_ID_SHEET01_COLUMN_013_VL_LIQUIDO_SINISTRO 		bigint( 17 );
+	declare VAR_ID_SHEET01_COLUMN_014_VL_INSS 					bigint( 17 );
  	
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
 		
@@ -215,9 +218,12 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DESCR_PROFISSAO                 	bigint( 17 ) default 104;
 	declare VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL           	bigint( 17 ) default 105;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR              	bigint( 17 ) default 106;
-	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO     		         	bigint( 17 ) default 107;
-	declare VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA     		         	bigint( 17 ) default 108;
-	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR_INSS     		bigint( 17 ) default 109;	
+	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO              			bigint( 17 ) default 107;
+	declare VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA              			bigint( 17 ) default 108;	
+	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR_INSS           	bigint( 17 ) default 109;
+	declare VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS      				bigint( 17 ) default 110;
+	declare VAR_CD_BENEFICIARIO_COLS_VL_INSS              				bigint( 17 ) default 111;
+	declare VAR_CD_BENEFICIARIO_COLS_VL_LIQUIDO_SINISTRO              	bigint( 17 ) default 112;
 	
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;
@@ -615,6 +621,84 @@ BEGIN
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
+	call PROC_LOG_MESSAGE('LINHA - 302');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_012_VL_ALIQUOTA_INSS',
+		VAR_COL_DOUBLE,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_SHEET01_COLUMN_012_VL_ALIQUOTA_INSS
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 302');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_013_VL_LIQUIDO_SINISTRO',
+		VAR_COL_DOUBLE,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_SHEET01_COLUMN_013_VL_LIQUIDO_SINISTRO
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 302');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_014_VL_INSS',
+		VAR_COL_DOUBLE,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_SHEET01_COLUMN_014_VL_INSS
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF; 
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
 	call PROC_LOG_MESSAGE('LINHA - 1458');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
@@ -742,6 +826,54 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR_INSS,
 		VAR_ID_SHEET01_COLUMN_010_VL_FATOR_MODERADOR_INSS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 735');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS,
+		VAR_ID_SHEET01_COLUMN_012_VL_ALIQUOTA_INSS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 735');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_VL_LIQUIDO_SINISTRO,
+		VAR_ID_SHEET01_COLUMN_013_VL_LIQUIDO_SINISTRO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 735');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_VL_INSS,
+		VAR_ID_SHEET01_COLUMN_014_VL_INSS,
 		
 		VAR_ID_USER,
 		current_timestamp(),

@@ -28,7 +28,10 @@ alter table TB_TITULAR
 		VL_FATOR_MODERADOR_INSS numeric( 17, 2 ) null,
 		DESCR_PROFISSAO			varchar( 80 ) null,
 		NR_MATRICULA_ESPECIAL	bigint( 17 ) null,
-		NR_SUBFATURA			varchar( 20 ) null
+		NR_SUBFATURA			varchar( 20 ) null,
+		VL_INSS					numeric( 17, 2 ) null,
+		VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
+		VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null
 );
 
 alter table TB_DEPENDENTE
@@ -37,7 +40,10 @@ alter table TB_DEPENDENTE
 		VL_FATOR_MODERADOR_INSS numeric( 17, 2 ) null,
 		DESCR_PROFISSAO			varchar( 80 ) null,
 		NR_MATRICULA_ESPECIAL	bigint( 17 ) null,
-		NR_SUBFATURA			varchar( 20 ) null
+		NR_SUBFATURA			varchar( 20 ) null,
+		VL_INSS					numeric( 17, 2 ) null,
+		VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
+		VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null		
 );
 
 alter table TB_DESCONHECIDO
@@ -46,7 +52,10 @@ alter table TB_DESCONHECIDO
 		VL_FATOR_MODERADOR_INSS numeric( 17, 2 ) null,
 		DESCR_PROFISSAO			varchar( 80 ) null,
 		NR_MATRICULA_ESPECIAL	bigint( 17 ) null,
-		NR_SUBFATURA			varchar( 20 ) null
+		NR_SUBFATURA			varchar( 20 ) null,
+		VL_INSS					numeric( 17, 2 ) null,
+		VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
+		VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null		
 );
 
 /*************************************************************************************************************************************/

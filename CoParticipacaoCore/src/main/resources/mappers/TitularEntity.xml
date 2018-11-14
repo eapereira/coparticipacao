@@ -109,8 +109,11 @@
 				VL_FATOR_MODERADOR,		
 				NR_SUBFATURA,
 				VL_FATOR_MODERADOR_INSS, /* 105 */
-				
-				DT_DEMISSAO, 			/* 106 */
+				VL_ALIQUOTA_INSS,
+				VL_INSS,
+				VL_LIQUIDO_SINISTRO, /* 108 */				        
+								
+				DT_DEMISSAO, 			/* 109 */
 								
 				USER_CREATED,
 				DT_ALTERED,
@@ -223,7 +226,11 @@
 				?,								
 				?,
 				?,
-				?, /* 106 */
+				?,
+				?,
+				?,
+				
+				?, /* 109 */
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -342,8 +349,11 @@
 				VL_FATOR_MODERADOR			= ?,
 				NR_SUBFATURA				= ?, 
 				VL_FATOR_MODERADOR_INSS		= ?, /* 105 */
+				VL_ALIQUOTA_INSS			= ?,
+				VL_INSS						= ?,
+				VL_LIQUIDO_SINISTRO			= ?, /* 108 */				        
 											
-				DT_DEMISSAO					= ?,
+				DT_DEMISSAO					= ?, /* 109 */
 
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

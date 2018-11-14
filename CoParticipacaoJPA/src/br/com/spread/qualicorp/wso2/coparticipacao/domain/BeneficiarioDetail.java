@@ -138,6 +138,10 @@ public class BeneficiarioDetail implements Serializable {
 	private String subFatura;
 	
 	private BigDecimal fatorModeradorInss;
+	
+	private BigDecimal valorInss;
+	private BigDecimal valorAliquotaInss;
+	private BigDecimal valorLiquidoSinistro;
 
 	public BeneficiarioDetail() {
 		super();
@@ -1093,5 +1097,29 @@ public class BeneficiarioDetail implements Serializable {
 		} else if (!transferencia.equals(other.transferencia))
 			return false;
 		return true;
+	}
+
+	public BigDecimal getValorInss() {
+		return valorInss;
+	}
+
+	public void setValorInss(BigDecimal valorInss) {
+		this.valorInss = valorInss;
+	}
+
+	public BigDecimal getValorLiquidoSinistro() {
+		return valorLiquidoSinistro;
+	}
+
+	public void setValorLiquidoSinistro(BigDecimal valorLiquidoSinistro) {
+		this.valorLiquidoSinistro = valorLiquidoSinistro;
+	}
+
+	public BigDecimal getValorAliquotaInss() {
+		return valorAliquotaInss;
+	}
+
+	public void setValorAliquotaInss(BigDecimal valorAliquotaInss) {
+		this.valorAliquotaInss = valorAliquotaInss;
 	}
 }

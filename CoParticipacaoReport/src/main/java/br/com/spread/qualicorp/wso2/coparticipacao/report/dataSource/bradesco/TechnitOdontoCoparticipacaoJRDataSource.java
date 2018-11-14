@@ -26,17 +26,32 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 	private static final String FIELD_NR_MATRICULA_ESPECIAL = "matriculaEspecial";
 	private static final String FIELD_DESCR_PROFISSAO = "profissao";
 	private static final String FIELD_VL_FATOR_MODERADOR_INSS = "fatorModeradorInss";
+	private static final String FIELD_NR_SUBFATURA = "subFatura";
+	private static final String FIELD_VL_ALIQUOTA_INSS = "valorAliquotaInss";
+	private static final String FIELD_VL_INSS = "valorInss";
+	private static final String FIELD_VL_LIQUIDO_SINISTRO = "valorLiquidoSinistro";
+	private static final String FIELD_INDICADOR_EVENTO = "indicadorEvento";
+	private static final String FIELD_TP_REGISTRO = "tipoRegistro";
+	private static final String FIELD_CD_CONTRATO = "cdContrato";
 
 	public TechnitOdontoCoparticipacaoJRDataSource() {
 		super();
 	}
 
+	public TechnitOdontoCoparticipacaoJRDataSource(
+			List<TechnitOdontoCoparticipacaoViewUi> technitOdontoCoparticipacaoViewUis) {
+		super(technitOdontoCoparticipacaoViewUis);
+	}
+
 	protected List<TechnitOdontoCoparticipacaoViewUi> buildData() {
 		List<TechnitOdontoCoparticipacaoViewUi> technitOdontoCoparticipacaoViewUis = new ArrayList<>();
-		TechnitOdontoCoparticipacaoViewUi technitOdontoCoparticipacaoViewUi = new TechnitOdontoCoparticipacaoViewUi();
+		TechnitOdontoCoparticipacaoViewUi technitOdontoCoparticipacaoViewUi;
 
-		technitOdontoCoparticipacaoViewUi.setCdContrato("074210");
-		technitOdontoCoparticipacaoViewUi.setCdEmpresa("AUTOMIND");
+		technitOdontoCoparticipacaoViewUi = new TechnitOdontoCoparticipacaoViewUi();
+		technitOdontoCoparticipacaoViewUi.setTipoRegistro(2);
+		technitOdontoCoparticipacaoViewUi.setSubFatura("001");
+		technitOdontoCoparticipacaoViewUi.setCdContrato("091707");
+		technitOdontoCoparticipacaoViewUi.setCdEmpresa("091707");
 		technitOdontoCoparticipacaoViewUi.setCertificado(8345l);
 
 		technitOdontoCoparticipacaoViewUi.setNomeTitular("JULIA MC MILLAN CARVALHO CAMPOS");
@@ -44,6 +59,54 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		technitOdontoCoparticipacaoViewUi.setMatriculaEspecial(950001l);
 		technitOdontoCoparticipacaoViewUi.setMatricula(75001l);
 		technitOdontoCoparticipacaoViewUi.setProfissao("Costureira");
+
+		technitOdontoCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
+		technitOdontoCoparticipacaoViewUi.setIndicadorEvento(4);
+		technitOdontoCoparticipacaoViewUi.setValorAliquotaInss(BigDecimal.ZERO);
+		technitOdontoCoparticipacaoViewUi.setValorInss(BigDecimal.ZERO);
+		technitOdontoCoparticipacaoViewUi.setValorLiquidoSinistro(new BigDecimal("258.02"));
+
+		technitOdontoCoparticipacaoViewUis.add(technitOdontoCoparticipacaoViewUi);
+
+		technitOdontoCoparticipacaoViewUi = new TechnitOdontoCoparticipacaoViewUi();
+		technitOdontoCoparticipacaoViewUi.setTipoRegistro(2);
+		technitOdontoCoparticipacaoViewUi.setSubFatura("001");
+		technitOdontoCoparticipacaoViewUi.setCdContrato("091707");
+		technitOdontoCoparticipacaoViewUi.setCdEmpresa("091707");
+		technitOdontoCoparticipacaoViewUi.setCertificado(8345l);
+
+		technitOdontoCoparticipacaoViewUi.setNomeTitular("MARCEL SIDNEI CAVITTE");
+		technitOdontoCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
+		technitOdontoCoparticipacaoViewUi.setMatriculaEspecial(950001l);
+		technitOdontoCoparticipacaoViewUi.setMatricula(75001l);
+		technitOdontoCoparticipacaoViewUi.setProfissao("Costureira");
+
+		technitOdontoCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
+		technitOdontoCoparticipacaoViewUi.setIndicadorEvento(4);
+		technitOdontoCoparticipacaoViewUi.setValorAliquotaInss(BigDecimal.ZERO);
+		technitOdontoCoparticipacaoViewUi.setValorInss(BigDecimal.ZERO);
+		technitOdontoCoparticipacaoViewUi.setValorLiquidoSinistro(new BigDecimal("258.02"));
+
+		technitOdontoCoparticipacaoViewUis.add(technitOdontoCoparticipacaoViewUi);
+
+		technitOdontoCoparticipacaoViewUi = new TechnitOdontoCoparticipacaoViewUi();
+		technitOdontoCoparticipacaoViewUi.setTipoRegistro(2);
+		technitOdontoCoparticipacaoViewUi.setSubFatura("001");
+		technitOdontoCoparticipacaoViewUi.setCdContrato("091707");
+		technitOdontoCoparticipacaoViewUi.setCdEmpresa("091707");
+		technitOdontoCoparticipacaoViewUi.setCertificado(1147l);
+
+		technitOdontoCoparticipacaoViewUi.setNomeTitular("FATIMA CRISTINA TAKAHASHI");
+		technitOdontoCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
+		technitOdontoCoparticipacaoViewUi.setMatriculaEspecial(950001l);
+		technitOdontoCoparticipacaoViewUi.setMatricula(75001l);
+		technitOdontoCoparticipacaoViewUi.setProfissao("Costureira");
+
+		technitOdontoCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
+		technitOdontoCoparticipacaoViewUi.setIndicadorEvento(4);
+		technitOdontoCoparticipacaoViewUi.setValorAliquotaInss(BigDecimal.ZERO);
+		technitOdontoCoparticipacaoViewUi.setValorInss(BigDecimal.ZERO);
+		technitOdontoCoparticipacaoViewUi.setValorLiquidoSinistro(new BigDecimal("258.02"));
 
 		technitOdontoCoparticipacaoViewUis.add(technitOdontoCoparticipacaoViewUi);
 
@@ -69,6 +132,20 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 				return getRegister().getProfissao();
 			} else if (FIELD_VL_FATOR_MODERADOR_INSS.equals(jrField.getName())) {
 				return getRegister().getFatorModeradorInss();
+			} else if (FIELD_NR_SUBFATURA.equals(jrField.getName())) {
+				return getRegister().getSubFatura();
+			} else if (FIELD_VL_ALIQUOTA_INSS.equals(jrField.getName())) {
+				return getRegister().getValorAliquotaInss();
+			} else if (FIELD_VL_INSS.equals(jrField.getName())) {
+				return getRegister().getValorInss();
+			} else if (FIELD_VL_LIQUIDO_SINISTRO.equals(jrField.getName())) {
+				return getRegister().getValorLiquidoSinistro();
+			} else if (FIELD_INDICADOR_EVENTO.equals(jrField.getName())) {
+				return getRegister().getIndicadorEvento();
+			} else if (FIELD_TP_REGISTRO.equals(jrField.getName())) {
+				return getRegister().getTipoRegistro();
+			} else if (FIELD_CD_CONTRATO.equals(jrField.getName())) {
+				return getRegister().getCdContrato();
 			}
 		}
 

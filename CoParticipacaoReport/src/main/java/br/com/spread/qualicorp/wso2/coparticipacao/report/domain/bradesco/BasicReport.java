@@ -14,6 +14,8 @@ public abstract class BasicReport {
 	
 	private String sheetNameRateio;
 	
+	private String cdContrato;
+	
 	public BasicReport() {
 		
 	}
@@ -48,5 +50,13 @@ public abstract class BasicReport {
 
 	public void setSheetNameRateio(String sheetNameRateio) {
 		this.sheetNameRateio = sheetNameRateio;
+	}
+
+	public String getCdContrato() {
+		return cdContrato;
+	}
+
+	public void setCdContrato(String cdContrato) {
+		this.cdContrato = cdContrato;
 	}
 }

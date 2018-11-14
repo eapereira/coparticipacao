@@ -1,8 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco;
 
-import java.math.BigDecimal;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,13 +26,6 @@ public class TechnitOdontoCoparticipacaoViewEntity extends TechnitOdontoCopartic
 
 	public TechnitOdontoCoparticipacaoViewEntity() {
 		super();
-	}
-
-	@Column(name = "VL_FATOR_MODERADOR_INSS")
-	@Override
-	public BigDecimal getFatorModeradorInss() {
-		// TODO Auto-generated method stub
-		return super.getFatorModeradorInss();
 	}
 
 }

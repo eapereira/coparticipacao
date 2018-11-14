@@ -44,6 +44,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationColsDe
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ViewDestinationService;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.DesconhecidoSpreadsheetListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetBuilder;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.BeneficiarioDetailHelper;
 
 /**
  * 
@@ -254,11 +255,9 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			desconhecidoUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 			desconhecidoUi.setNameTitular(beneficiarioUi.getNameTitular());
 
-			desconhecidoUi.getBeneficiarioDetail()
-					.setFatorModerador(beneficiarioUi.getBeneficiarioDetail().getFatorModerador());
-			desconhecidoUi.getBeneficiarioDetail()
-					.setMatriculaEspecial(beneficiarioUi.getBeneficiarioDetail().getMatriculaEspecial());
-			desconhecidoUi.getBeneficiarioDetail().setProfissao(beneficiarioUi.getBeneficiarioDetail().getProfissao());
+			BeneficiarioDetailHelper.copyBeneficiarioDetail(
+					desconhecidoUi.getBeneficiarioDetail(),
+					beneficiarioUi.getBeneficiarioDetail());
 
 			desconhecidoUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
 			desconhecidoUi.setReferenceCode(beneficiarioUi.getReferenceCode());

@@ -3,11 +3,13 @@ package br.com.spread.qualicorp.wso2.coparticipacao.report.service.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +23,20 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.TechnitHeaderViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.AutomindJRDataSource;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.LMTransportesJRDataSource;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.TechnitOdontoJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.AutomindReport;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.LMTransportesReport;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitOdontoReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.ReportService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.AutomindCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.AutomindResumoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.LMTransportesCoparticipacaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.LMTransportesResumoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.TechnitOdontoCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.CoParticipacaoFileUtils;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -52,14 +62,23 @@ public class ReportServiceImpl implements ReportService {
 
 	private static final String BRADESCO_AUTOMIND_REPORT = "reports/bradesco-automind.jasper";
 	private static final String BRADESCO_LM_TRANSPORTES_REPORT = "reports/bradesco-LMTransportes.jasper";
-	private static final String BRADESCO_TECHNIT_ODONTO_REPORT = "reports/bradesco-technitOdonto.jasper";
-	private static final String BRADESCO_TECHNIT_SAUDE_REPORT = "reports/bradesco-technitSaude.jasper";
+	private static final String BRADESCO_TECHNIT_ODONTO_REPORT = "reports/bradesco-TechnitOdonto.jasper";
+	private static final String BRADESCO_TECHNIT_SAUDE_REPORT = "reports/bradesco-TechnitSaude.jasper";
 
 	@Autowired
 	private AutomindResumoService automindResumoService;
 
 	@Autowired
 	private AutomindCoparticipacaoService automindCoparticipacaoService;
+
+	@Autowired
+	private LMTransportesResumoService lmTransportesResumoService;
+
+	@Autowired
+	private LMTransportesCoparticipacaoService lmTransportesCoparticipacaoService;
+
+	@Autowired
+	private TechnitOdontoCoparticipacaoService technitOdontoCoparticipacaoService;
 
 	@Override
 	public void printReport(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
@@ -76,14 +95,114 @@ public class ReportServiceImpl implements ReportService {
 			if (CD_EMPRESA_AUTOMIND.equals(empresaUi.getCdEmpresa())) {
 				printReportAutomind(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_LM_TRANSPORTES.equals(empresaUi.getCdEmpresa())) {
-				printReportAutomind(coParticipacaoContext, mes, ano);
+				printReportLmTransportes(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_TECHNIT_ODONTO.equals(empresaUi.getCdEmpresa())) {
-				printReportAutomind(coParticipacaoContext, mes, ano);
+				printReportTechnitOdonto(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_TECHNIT_SAUDE.equals(empresaUi.getCdEmpresa())) {
-				printReportAutomind(coParticipacaoContext, mes, ano);				
+				printReportTechnitSaude(coParticipacaoContext, mes, ano);
 			} else {
 				throw new ServiceException("EmpresaUi[] doesn't has a report configured:", empresaUi.getCdEmpresa());
 			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	private void printReportTechnitSaude(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
+			throws ServiceException {
+	}
+
+	private void printReportTechnitOdonto(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
+			throws ServiceException {
+		JRDataSource jrDataSource;
+		List<TechnitOdontoReport> technitOdontoReports;
+		TechnitOdontoReport technitOdontoReport;
+		InputStream inputStream;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			LOGGER.info("Creating DataSource to fill the report:");
+			technitOdontoReports = new ArrayList<>();
+			technitOdontoReport = new TechnitOdontoReport();
+			technitOdontoReport.setTechnitOdontoCoparticipacaoViewUis(
+					technitOdontoCoparticipacaoService.listByMesAndAno(mes, ano));
+			technitOdontoReport.setTechnitHeaderViewUi(createTechnitHeader(coParticipacaoContext, mes, ano));
+			technitOdontoReport.setSheetNameCoparticipacao("SEDE");
+
+			technitOdontoReports.add(technitOdontoReport);
+
+			LOGGER.info("Loading the report file[{}] to be filled with data:", BRADESCO_TECHNIT_ODONTO_REPORT);
+			inputStream = getClass().getResourceAsStream(BRADESCO_TECHNIT_ODONTO_REPORT);
+
+			jrDataSource = new TechnitOdontoJRDataSource(technitOdontoReports);
+
+			fillAndExportReportToSpreadsheet(coParticipacaoContext, jrDataSource, inputStream);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	private TechnitHeaderViewUi createTechnitHeader(
+			CoParticipacaoContext coParticipacaoContext,
+			Integer mes,
+			Integer ano) throws ServiceException {
+		TechnitHeaderViewUi technitHeaderViewUi;
+		LocalDate dataCompetencia;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			dataCompetencia = LocalDate.of(ano, mes, NumberUtils.INTEGER_ONE);
+
+			technitHeaderViewUi = new TechnitHeaderViewUi();
+			technitHeaderViewUi.setTipoRegistro(NumberUtils.INTEGER_ONE);
+			technitHeaderViewUi.setTipoArquivo("PARTIC.SEGURADO");
+			technitHeaderViewUi.setCdContrato(coParticipacaoContext.getContratoUi().getCdContrato());
+			technitHeaderViewUi.setDataCompetencia(dataCompetencia);
+			technitHeaderViewUi.setDataProcessamento(LocalDate.now());
+
+			LOGGER.info("END");
+			return technitHeaderViewUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	private void printReportLmTransportes(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
+			throws ServiceException {
+		JRDataSource jrDataSource;
+		List<LMTransportesReport> lmTransportesReports;
+		LMTransportesReport lmTransportesReport;
+		InputStream inputStream;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			LOGGER.info("Creating DataSource to fill the report:");
+			lmTransportesReports = new ArrayList<>();
+			lmTransportesReport = new LMTransportesReport();
+			lmTransportesReport.setLmTransportesCoparticipacaoViewUis(
+					lmTransportesCoparticipacaoService.listByMesAndAno(mes, ano));
+			lmTransportesReport.setLmTransportesResumoViewUis(lmTransportesResumoService.listByMesAndAno(mes, ano));
+			lmTransportesReport.setSheetNameCoparticipacao(String.format("Coparticipação %d/%d", mes, ano));
+			lmTransportesReport.setSheetNameRateio("Rateio");
+
+			lmTransportesReports.add(lmTransportesReport);
+
+			LOGGER.info("Loading the report file[{}] to be filled with data:", BRADESCO_LM_TRANSPORTES_REPORT);
+			inputStream = getClass().getResourceAsStream(BRADESCO_LM_TRANSPORTES_REPORT);
+
+			jrDataSource = new LMTransportesJRDataSource(lmTransportesReports);
+
+			fillAndExportReportToSpreadsheet(coParticipacaoContext, jrDataSource, inputStream);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
