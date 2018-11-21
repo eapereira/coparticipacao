@@ -995,7 +995,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'Automind-Bradesco (Saúde) - Coparticipação_({YYYY}{MM}).xlsx',
+		'Technit({CC})-Bradesco (Odonto) - Coparticipação_({YYYY}{MM}).xlsx',
 		'Arquivo de saída para a carga dos lançamentos FATU COPA',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		
@@ -1074,7 +1074,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'NAO-LOCALIZADO-TECHNIT-{YYYY}{MM}.xlsx',
+		'NAO-LOCALIZADO-TECHNIT-ODONTO-{YYYY}{MM}.xlsx',
 		'Arquivo com os beneficiários não localizados pelo processo',
 		
 		VAR_ID_USER,

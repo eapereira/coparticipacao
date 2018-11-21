@@ -26,10 +26,10 @@ public class DependenteSetter extends BeneficiarioSetter<DependenteEntity> {
 	private static final int COL_NR_REF_CODE = 8;
 	private static final int COL_NR_MATRICULA_EMPRESA = 9;
 
-	private static final int COL_USER_CREATED = 109;
-	private static final int COL_USER_ALTERED = 109;
+	private static final int COL_USER_CREATED = 110;
+	private static final int COL_USER_ALTERED = 110;
 
-	private static final int COL_ID = 110;
+	private static final int COL_ID = 111;
 
 	public DependenteSetter(SetterAdapterType setterAdapterType, DependenteEntity entity) {
 		super(setterAdapterType, entity);

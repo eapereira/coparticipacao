@@ -13,10 +13,6 @@ public abstract class TechnitReport extends BasicReport {
 
 	private TechnitHeaderViewUi technitHeaderViewUi;
 
-	private Integer tipoRegistro;
-
-	private String tipoArquivo;
-
 	public TechnitReport() {
 		super();
 	}
@@ -27,22 +23,6 @@ public abstract class TechnitReport extends BasicReport {
 
 	public void setTechnitHeaderViewUi(TechnitHeaderViewUi technitHeaderViewUi) {
 		this.technitHeaderViewUi = technitHeaderViewUi;
-	}
-
-	public Integer getTipoRegistro() {
-		return tipoRegistro;
-	}
-
-	public void setTipoRegistro(Integer tipoRegistro) {
-		this.tipoRegistro = tipoRegistro;
-	}
-
-	public String getTipoArquivo() {
-		return tipoArquivo;
-	}
-
-	public void setTipoArquivo(String tipoArquivo) {
-		this.tipoArquivo = tipoArquivo;
 	}
 
 	public String getDataCompetenciaMMYY() throws CoParticipacaoException {

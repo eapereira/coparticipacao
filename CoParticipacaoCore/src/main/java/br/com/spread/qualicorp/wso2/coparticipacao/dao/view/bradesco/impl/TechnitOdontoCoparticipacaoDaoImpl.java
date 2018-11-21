@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao.view.bradesco.impl;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Query;
@@ -56,14 +57,17 @@ public class TechnitOdontoCoparticipacaoDaoImpl extends AbstractDaoImpl<TechnitO
 			String[] subFaturas) throws DaoException {
 		List<TechnitOdontoCoparticipacaoViewEntity> automindCoparticipacaoViewEntities;
 		Query query;
+		List<String> listSubFaturas;
 
 		try {
 			LOGGER.info("BEGIN");
 
+			listSubFaturas = Arrays.asList(subFaturas);
+
 			query = createQuery("listByMesAndAnoAndSubFaturas");
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
-			query.setParameter("subFaturas", subFaturas);
+			query.setParameter("subFaturas", listSubFaturas);
 
 			automindCoparticipacaoViewEntities = query.getResultList();
 

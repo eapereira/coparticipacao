@@ -128,7 +128,8 @@ public enum BeneficiarioColType {
 									VL_FATOR_MODERADOR_INSS(109, "VL_FATOR_MODERADOR_INSS"),
 									VL_ALIQUOTA_INSS(110, "VL_ALIQUOTA_INSS"),
 									VL_INSS(111, "VL_INSS"),
-									VL_LIQUIDO_SINISTRO(112, "VL_LIQUIDO_SINISTRO");
+									VL_LIQUIDO_SINISTRO(112, "VL_LIQUIDO_SINISTRO"),
+									IND_EVENTO(113, "IND_EVENTO");
 
 	private Integer id;
 

@@ -34,4 +34,14 @@ public enum TechnitSaude {
 		return subFaturas;
 	}
 
+	public static TechnitSaude parse(String description) {
+		for (TechnitSaude technitSaude : TechnitSaude.values()) {
+			if (technitSaude.getDescription().equals(description)) {
+				return technitSaude;
+			}
+		}
+
+		return null;
+	}
+
 }

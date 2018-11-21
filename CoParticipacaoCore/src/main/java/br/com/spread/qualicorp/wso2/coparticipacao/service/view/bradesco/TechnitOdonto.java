@@ -33,4 +33,14 @@ public enum TechnitOdonto {
 	public String[] getSubFaturas() {
 		return subFaturas;
 	}
+
+	public static TechnitOdonto parse(String description) {
+		for (TechnitOdonto technitOdonto : TechnitOdonto.values()) {
+			if (technitOdonto.getDescription().equals(description)) {
+				return technitOdonto;
+			}
+		}
+
+		return null;
+	}
 }

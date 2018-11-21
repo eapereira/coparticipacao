@@ -12,7 +12,7 @@ drop view if exists VW_COPARTICIPACAO_RESUMO_TECHNIT_ODONTO;
 /****************************************************************************************************************************************************/
 
 create view VW_DESCONHECIDO_LEVEL01_TECHNIT_ODONTO as
-select distinct
+select
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
@@ -61,7 +61,7 @@ and		(( titular.VL_FATOR_MODERADOR is null or titular.VL_FATOR_MODERADOR <= 0 ) 
 		( titular.VL_FATOR_MODERADOR_INSS is null or titular.VL_FATOR_MODERADOR_INSS <= 0 ));
 	
 create view VW_DESCONHECIDO_TECHNIT_ODONTO as
-select
+select distinct
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
@@ -83,14 +83,14 @@ order by desconhecido.NM_BENEFICIARIO;
 
 create view VW_COPARTICIPACAO_LEVEL01_TECHNIT_ODONTO as
 select
-	lancamento.CD_MES,
-    lancamento.CD_ANO,
-    lancamento.ID_CONTRATO,
+	month(current_date()) CD_MES,
+    year(current_date()) CD_ANO,
+    titular.ID_CONTRATO,
     2 TP_REGISTRO,
     contrato.CD_CONTRATO,
 	lpad( titular.NR_MATRICULA, 7, '0' ) NR_CERTIFICADO,
 	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
-	titular.NR_SUBFATURA,
+	lpad( titular.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
 	titular.NM_TITULAR,
 	titular.VL_FATOR_MODERADOR,
 	titular.VL_FATOR_MODERADOR_INSS,
@@ -98,14 +98,19 @@ select
 	titular.DESCR_PROFISSAO,
 	empresa.CD_EMPRESA,
 	titular.VL_INSS,
-	titular.VL_LIQUIDO_SINISTRO
-from	TB_LANCAMENTO lancamento
+	titular.VL_LIQUIDO_SINISTRO,
+	titular.IND_EVENTO,
+	titular.VL_ALIQUOTA_INSS,
+	0 VERSION,
+	1 USER_CREATED,
+	1 USER_ALTERED,
+	current_date() DT_CREATED,
+	current_date() DT_ALTERED		
+from TB_TITULAR titular
 	join TB_CONTRATO contrato on
-		contrato.ID = lancamento.ID_CONTRATO
+		contrato.ID = titular.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-	join TB_TITULAR titular on
-		titular.ID = lancamento.ID_TITULAR
 where	empresa.CD_EMPRESA			= '091707'
 and		titular.VL_FATOR_MODERADOR 	> 0;
 
@@ -127,7 +132,14 @@ select
 	technit.DESCR_PROFISSAO,
 	technit.CD_EMPRESA,
 	technit.VL_INSS,
-	technit.VL_LIQUIDO_SINISTRO
+	technit.VL_LIQUIDO_SINISTRO,
+	technit.IND_EVENTO,
+	technit.VL_ALIQUOTA_INSS,
+	technit.VERSION,
+	technit.USER_CREATED,
+	technit.USER_ALTERED,
+	technit.DT_CREATED,
+	technit.DT_ALTERED			
 from	VW_COPARTICIPACAO_LEVEL01_TECHNIT_ODONTO technit
 group by
 	technit.CD_MES,
@@ -145,7 +157,14 @@ group by
 	technit.DESCR_PROFISSAO,
 	technit.CD_EMPRESA,
 	technit.VL_INSS,
-	technit.VL_LIQUIDO_SINISTRO	
+	technit.VL_LIQUIDO_SINISTRO,
+	technit.IND_EVENTO,
+	technit.VL_ALIQUOTA_INSS,
+	technit.VERSION,
+	technit.USER_CREATED,
+	technit.USER_ALTERED,
+	technit.DT_CREATED,
+	technit.DT_ALTERED				
 order by
 	technit.NM_TITULAR;
 	
@@ -160,7 +179,12 @@ select
     technit.NR_SUBFATURA,
 	count(1) QTDE_SEGURADOS,
 	sum( technit.VL_FATOR_MODERADOR ) VL_ALOCACAO,
-	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_TECHNIT_ODONTO ) VL_PROPORCAO
+	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_TECHNIT_ODONTO ) VL_PROPORCAO,	
+	technit.VERSION,
+	technit.USER_CREATED,
+	technit.USER_ALTERED,
+	technit.DT_CREATED,
+	technit.DT_ALTERED			
 from	VW_COPARTICIPACAO_TECHNIT_ODONTO technit
 group by
 	technit.CD_MES,
@@ -168,5 +192,9 @@ group by
     technit.ID_CONTRATO,
     technit.CD_CONTRATO,
     technit.CD_EMPRESA,
-    technit.NR_SUBFATURA;
-	
+    technit.NR_SUBFATURA,
+	technit.VERSION,
+	technit.USER_CREATED,
+	technit.USER_ALTERED,
+	technit.DT_CREATED,
+	technit.DT_ALTERED;

@@ -83,6 +83,7 @@ public class TechnitCoparticipacaoView extends BradescoCoparticipacaoView {
 		this.valorLiquidoSinistro = valorLiquidoSinistro;
 	}
 
+	@Column(name = "VL_ALIQUOTA_INSS")
 	public BigDecimal getValorAliquotaInss() {
 		return valorAliquotaInss;
 	}
@@ -91,6 +92,7 @@ public class TechnitCoparticipacaoView extends BradescoCoparticipacaoView {
 		this.valorAliquotaInss = valorAliquotaInss;
 	}
 
+	@Column(name = "NR_SUBFATURA")
 	public String getSubFatura() {
 		return subFatura;
 	}
@@ -99,6 +101,7 @@ public class TechnitCoparticipacaoView extends BradescoCoparticipacaoView {
 		this.subFatura = subFatura;
 	}
 
+	@Column(name = "IND_EVENTO")
 	public Integer getIndicadorEvento() {
 		return indicadorEvento;
 	}

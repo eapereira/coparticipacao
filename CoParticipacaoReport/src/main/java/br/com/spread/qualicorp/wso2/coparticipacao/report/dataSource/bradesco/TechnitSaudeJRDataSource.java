@@ -28,11 +28,6 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSa
 
 	private static final String FIELD_HEADER = "technitHeaderViewUi";
 
-	private static final String FIELD_MES = "mes";
-	private static final String FIELD_ANO = "ano";
-	private static final String FIELD_TP_REGISTRO = "tipoRegistro";
-	private static final String FIELD_CD_CONTRATO = "cdContrato";
-	private static final String FIELD_TP_ARQUIVO = "tipoArquivo";
 	private static final String FIELD_DT_COMPETENCIA_MMYY = "dataCompetenciaMMYY";
 	private static final String FIELD_DT_COMPETENCIA_MMYYYY = "dataCompetenciaMMYYYY";
 	private static final String FIELD_DT_PROCESSAMENTO_MMYY = "dataProcessamentoMMYY";
@@ -80,16 +75,6 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSa
 					return getRegister().getTechnitSaudeCoparticipacaoViewUis();
 				} else if (FIELD_HEADER.equals(jrField.getName())) {
 					return getRegister().getTechnitHeaderViewUi();
-				} else if (FIELD_MES.equals(jrField.getName())) {
-					return getRegister().getMes();
-				} else if (FIELD_ANO.equals(jrField.getName())) {
-					return getRegister().getAno();
-				} else if (FIELD_CD_CONTRATO.equals(jrField.getName())) {
-					return getRegister().getCdContrato();
-				} else if (FIELD_TP_ARQUIVO.equals(jrField.getName())) {
-					return getRegister().getTipoArquivo();
-				} else if (FIELD_TP_REGISTRO.equals(jrField.getName())) {
-					return getRegister().getTipoRegistro();
 				} else if (FIELD_DT_COMPETENCIA_MMYY.equals(jrField.getName())) {
 					return getRegister().getDataCompetenciaMMYY();
 				} else if (FIELD_DT_PROCESSAMENTO_MMYY.equals(jrField.getName())) {

@@ -142,6 +142,8 @@ public class BeneficiarioDetail implements Serializable {
 	private BigDecimal valorInss;
 	private BigDecimal valorAliquotaInss;
 	private BigDecimal valorLiquidoSinistro;
+	
+	private Integer indicadorEvento;
 
 	public BeneficiarioDetail() {
 		super();
@@ -740,6 +742,15 @@ public class BeneficiarioDetail implements Serializable {
 		this.valorAliquotaInss = valorAliquotaInss;
 	}
 
+	@Column(name = "IND_EVENTO")
+	public Integer getIndicadorEvento() {
+		return indicadorEvento;
+	}
+
+	public void setIndicadorEvento(Integer indicadorEvento) {
+		this.indicadorEvento = indicadorEvento;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -782,6 +793,7 @@ public class BeneficiarioDetail implements Serializable {
 		result = prime * result + ((grauEscolaridade == null) ? 0 : grauEscolaridade.hashCode());
 		result = prime * result + ((ibge == null) ? 0 : ibge.hashCode());
 		result = prime * result + ((indicadorCarencia == null) ? 0 : indicadorCarencia.hashCode());
+		result = prime * result + ((indicadorEvento == null) ? 0 : indicadorEvento.hashCode());
 		result = prime * result + ((indicadorExEmpregado == null) ? 0 : indicadorExEmpregado.hashCode());
 		result = prime * result + ((indicadorPermanenciaPlano == null) ? 0 : indicadorPermanenciaPlano.hashCode());
 		result = prime * result + ((indicadorPoretabilidade1 == null) ? 0 : indicadorPoretabilidade1.hashCode());
@@ -1009,6 +1021,11 @@ public class BeneficiarioDetail implements Serializable {
 				return false;
 		} else if (!indicadorCarencia.equals(other.indicadorCarencia))
 			return false;
+		if (indicadorEvento == null) {
+			if (other.indicadorEvento != null)
+				return false;
+		} else if (!indicadorEvento.equals(other.indicadorEvento))
+			return false;
 		if (indicadorExEmpregado == null) {
 			if (other.indicadorExEmpregado != null)
 				return false;
@@ -1143,4 +1160,5 @@ public class BeneficiarioDetail implements Serializable {
 			return false;
 		return true;
 	}
+
 }

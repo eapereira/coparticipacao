@@ -88,14 +88,10 @@ public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity> implements 
 
 			LOGGER.info("END");
 			return contratoEntities;
-		} catch (NoResultException e) {
-			LOGGER.info(e.getMessage());
-			return null;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e.getMessage(), e);
 		}
-
 	}
 
 	public ContratoEntity findParentByChildId(Long childId) throws DaoException {
@@ -115,6 +111,26 @@ public class ContratoDaoImpl extends AbstractDaoImpl<ContratoEntity> implements 
 		} catch (NoResultException e) {
 			LOGGER.info(e.getMessage());
 			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<ContratoEntity> listByParent(Long parentId) throws DaoException {
+		Query query;
+		List<ContratoEntity> contratoEntities;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByParent");
+			query.setParameter("parentId", parentId);
+
+			contratoEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return contratoEntities;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e.getMessage(), e);

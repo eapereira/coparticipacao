@@ -499,9 +499,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			} else if (BeneficiarioColType.VL_INSS.equals(beneficiarioColType)) {
 				beneficiarioDetail.setValorInss((BigDecimal) value);
 			} else if (BeneficiarioColType.VL_ALIQUOTA_INSS.equals(beneficiarioColType)) {
-				beneficiarioDetail.setValorAliquotaInss((BigDecimal) value);				
+				beneficiarioDetail.setValorAliquotaInss((BigDecimal) value);
 			} else if (BeneficiarioColType.VL_LIQUIDO_SINISTRO.equals(beneficiarioColType)) {
 				beneficiarioDetail.setValorLiquidoSinistro((BigDecimal) value);
+			} else if (BeneficiarioColType.IND_EVENTO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setIndicadorEvento((Integer) value);
 			}
 
 			LOGGER.info("END");

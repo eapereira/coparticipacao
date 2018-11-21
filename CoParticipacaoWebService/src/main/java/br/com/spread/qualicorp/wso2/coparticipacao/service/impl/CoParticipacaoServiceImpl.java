@@ -59,6 +59,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputSheetServ
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioColsService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.CoParticipacaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ContratoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
@@ -173,6 +174,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private ArquivoOutputService arquivoOutputService;
+
+	@Autowired
+	private ContratoService contratoService;
 
 	private static final Long USER_ADMIN_ID = 1l;
 
@@ -355,9 +359,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	private void generateOutputFileWithoutFatucopa(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException {
 		EmpresaUi empresaUi;
-		ArquivoExecucaoUi arquivoExecucaoUi;
-		ArquivoExecucaoUi arquivoExecucaoUiTmp;
-		List<ArquivoOutputUi> arquivoOutputUis;
+		List<ContratoUi> children;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -367,23 +369,69 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			if (empresaUi.isGenerateOutputFileWithoutFatucopa()) {
 				for (Contrato contrato : empresaUi.getContratos()) {
 					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
-						LOGGER.info("Using ContratoUi[{}] as FATUCOPA:", contrato.getCdContrato());
+						children = contratoService.listByParent((ContratoUi) contrato);
 
-						LOGGER.info("Loading necessary data to create the report:");
-						arquivoExecucaoUi = arquivoExecucaoService
-								.createArquivoExecucao(coParticipacaoContext, (ContratoUi) contrato);
-						arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
-						coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
+						if (!children.isEmpty()) {
+							LOGGER.info("Main ContratoUi[{}] has children contratos:", contrato.getCdContrato());
 
-						arquivoOutputUis = arquivoOutputService.listByContrato((ContratoUi) contrato);
-						coParticipacaoContext.setArquivoOutputUis(arquivoOutputUis);
-
-						fatucopaService.generateOutputFileWithoutFatucopa(coParticipacaoContext);
-
-						coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUiTmp);
+							for (Contrato contratoChild : children) {
+								if (UseType.FATUCOPA.equals(contratoChild.getUseType())) {
+									LOGGER.info(
+											"Creating Output files for ContratoUi[{}]:",
+											contratoChild.getCdContrato());
+									generateOutputFileWithoutFatucopa(
+											coParticipacaoContext,
+											(ContratoUi) contratoChild);
+								}
+							}
+						} else {
+							generateOutputFileWithoutFatucopa(coParticipacaoContext, (ContratoUi) contrato);
+						}
 					}
 				}
 			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private void generateOutputFileWithoutFatucopa(CoParticipacaoContext coParticipacaoContext, ContratoUi contratoUi)
+			throws ServiceException {
+		ArquivoExecucaoUi arquivoExecucaoUi;
+		ArquivoExecucaoUi arquivoExecucaoUiTmp;
+		List<ArquivoOutputUi> arquivoOutputUis;
+		ContratoUi parent;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			if (contratoUi.getParent() != null) {
+				parent = (ContratoUi) contratoUi.getParent();
+			} else {
+				parent = contratoUi;
+			}
+
+			LOGGER.info("Using ContratoUi[{}] as FATUCOPA:", parent.getCdContrato());
+
+			LOGGER.info("Loading necessary data to create the report:");
+			arquivoExecucaoUi = arquivoExecucaoService
+					.createArquivoExecucao(coParticipacaoContext, (ContratoUi) contratoUi);
+			arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
+			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
+
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
+
+			arquivoOutputUis = arquivoOutputService.listByContrato((ContratoUi) parent);
+			coParticipacaoContext.setArquivoOutputUis(arquivoOutputUis);
+
+			fatucopaService.generateOutputFileWithoutFatucopa(coParticipacaoContext);
+
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);
+
+			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUiTmp);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

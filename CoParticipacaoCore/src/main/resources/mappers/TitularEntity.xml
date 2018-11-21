@@ -103,17 +103,18 @@
 				CID10,                       
 				IBGE,                        
 				CBO,                         
-				DIF_TRANSF,				/* 100 */                  
+				DIF_TRANSF,					/* 100 */                  
 				DESCR_PROFISSAO,
 				NR_MATRICULA_ESPECIAL,
 				VL_FATOR_MODERADOR,		
 				NR_SUBFATURA,
-				VL_FATOR_MODERADOR_INSS, /* 105 */
+				VL_FATOR_MODERADOR_INSS, 	/* 105 */
 				VL_ALIQUOTA_INSS,
 				VL_INSS,
-				VL_LIQUIDO_SINISTRO, /* 108 */				        
+				VL_LIQUIDO_SINISTRO, 		/* 108 */
+				IND_EVENTO,				        
 								
-				DT_DEMISSAO, 			/* 109 */
+				DT_DEMISSAO, 				/* 110 */
 								
 				USER_CREATED,
 				DT_ALTERED,
@@ -229,8 +230,9 @@
 				?,
 				?,
 				?,
+				?,
 				
-				?, /* 109 */
+				?, /* 110 */
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -351,9 +353,10 @@
 				VL_FATOR_MODERADOR_INSS		= ?, /* 105 */
 				VL_ALIQUOTA_INSS			= ?,
 				VL_INSS						= ?,
-				VL_LIQUIDO_SINISTRO			= ?, /* 108 */				        
+				VL_LIQUIDO_SINISTRO			= ?, /* 108 */		
+				IND_EVENTO					= ?,		        
 											
-				DT_DEMISSAO					= ?, /* 109 */
+				DT_DEMISSAO					= ?, /* 110 */
 
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

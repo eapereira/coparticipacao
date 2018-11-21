@@ -32,6 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.LMTran
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitOdontoReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitSaudeReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.ReportService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.AutomindCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.AutomindResumoService;
@@ -88,7 +89,7 @@ public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	private TechnitSaudeCoparticipacaoService technitSaudeCoparticipacaoService;
-
+	
 	@Override
 	public void printReport(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
 			throws ServiceException {
@@ -100,18 +101,15 @@ public class ReportServiceImpl implements ReportService {
 			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			LOGGER.info("Starting report for EmpresaUi[{}]:", empresaUi.getCdEmpresa());
-
+			
 			if (CD_EMPRESA_AUTOMIND.equals(empresaUi.getCdEmpresa())) {
 				printReportAutomind(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_LM_TRANSPORTES.equals(empresaUi.getCdEmpresa())) {
 				printReportLmTransportes(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_TECHNIT_ODONTO.equals(empresaUi.getCdEmpresa())) {
-				printReportTechnitOdonto(coParticipacaoContext, mes, ano, TechnitOdonto.DUTRA);
-				printReportTechnitOdonto(coParticipacaoContext, mes, ano, TechnitOdonto.SEDE);
+				printReportTechnitOdonto(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_TECHNIT_SAUDE.equals(empresaUi.getCdEmpresa())) {
-				printReportTechnitSaude(coParticipacaoContext, mes, ano, TechnitSaude.SEDE);
-				printReportTechnitSaude(coParticipacaoContext, mes, ano, TechnitSaude.TENOVA);
-				printReportTechnitSaude(coParticipacaoContext, mes, ano, TechnitSaude.TERNIUM);
+				printReportTechnitSaude(coParticipacaoContext, mes, ano);
 			} else {
 				throw new ServiceException("EmpresaUi[] doesn't has a report configured:", empresaUi.getCdEmpresa());
 			}
@@ -123,26 +121,28 @@ public class ReportServiceImpl implements ReportService {
 		}
 	}
 
-	private void printReportTechnitSaude(
-			CoParticipacaoContext coParticipacaoContext,
-			Integer mes,
-			Integer ano,
-			TechnitSaude technitSaude) throws ServiceException {
+	private void printReportTechnitSaude(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
+			throws ServiceException {
 		JRDataSource jrDataSource;
 		List<TechnitSaudeReport> technitSaudeReports;
 		TechnitSaudeReport technitSaudeReport;
 		InputStream inputStream;
+		TechnitSaude technitSaude;
+		ContratoUi contratoUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			LOGGER.info("Creating DataSource to fill the report:");
+			contratoUi = (ContratoUi) coParticipacaoContext.getArquivoExecucaoUi().getContrato();
+			technitSaude = TechnitSaude.parse(contratoUi.getCdContrato());
+
 			technitSaudeReports = new ArrayList<>();
 			technitSaudeReport = new TechnitSaudeReport();
 			technitSaudeReport
 					.setTechnitSaudeCoparticipacaoViewUis(technitSaudeCoparticipacaoService.listByMesAndAno(mes, ano));
 			technitSaudeReport.setTechnitHeaderViewUi(createTechnitHeader(coParticipacaoContext, mes, ano));
-			technitSaudeReport.setSheetNameCoparticipacao("SEDE");
+			technitSaudeReport.setSheetNameCoparticipacao(technitSaude.getDescription());
 
 			technitSaudeReports.add(technitSaudeReport);
 
@@ -160,26 +160,28 @@ public class ReportServiceImpl implements ReportService {
 		}
 	}
 
-	private void printReportTechnitOdonto(
-			CoParticipacaoContext coParticipacaoContext,
-			Integer mes,
-			Integer ano,
-			TechnitOdonto technitOdonto) throws ServiceException {
+	private void printReportTechnitOdonto(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
+			throws ServiceException {
 		JRDataSource jrDataSource;
 		List<TechnitOdontoReport> technitOdontoReports;
 		TechnitOdontoReport technitOdontoReport;
 		InputStream inputStream;
+		TechnitOdonto technitOdonto;
+		ContratoUi contratoUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			LOGGER.info("Creating DataSource to fill the report:");
+			contratoUi = (ContratoUi) coParticipacaoContext.getArquivoExecucaoUi().getContrato();
+			technitOdonto = TechnitOdonto.parse(contratoUi.getCdContrato());
+
 			technitOdontoReports = new ArrayList<>();
 			technitOdontoReport = new TechnitOdontoReport();
 			technitOdontoReport.setTechnitOdontoCoparticipacaoViewUis(
 					technitOdontoCoparticipacaoService.listByMesAndAnoAmdSubFatura(mes, ano, technitOdonto));
 			technitOdontoReport.setTechnitHeaderViewUi(createTechnitHeader(coParticipacaoContext, mes, ano));
-			technitOdontoReport.setSheetNameCoparticipacao("SEDE");
+			technitOdontoReport.setSheetNameCoparticipacao(technitOdonto.getDescription());
 
 			technitOdontoReports.add(technitOdontoReport);
 
@@ -364,7 +366,6 @@ public class ReportServiceImpl implements ReportService {
 						// Disponibilizando o arquivo para o usuário fazer
 						// download:
 						arquivoExecucaoUi.setNameArquivoOutput(sb.toString());
-						arquivoExecucaoUi.setStatusExecucaoType(StatusExecucaoType.SUCCESS);
 
 						CoParticipacaoFileUtils.close(fileOutputStream);
 

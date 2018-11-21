@@ -8,5 +8,13 @@
 		]]>
 	</query>
 
+	<query id="listByMesAndAnoAndSubFaturas">
+		<![CDATA[
+			select view from TechnitOdontoCoparticipacaoViewEntity view
+			where	view.mes 	= :mes
+			and 	view.ano 	= :ano
+			and		view.subFatura	in ( :subFaturas )			
+		]]>
+	</query>
 </queries>
 	

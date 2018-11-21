@@ -224,6 +224,7 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS      				bigint( 17 ) default 110;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_INSS              				bigint( 17 ) default 111;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_LIQUIDO_SINISTRO              	bigint( 17 ) default 112;
+	declare VAR_CD_BENEFICIARIO_COLS_IND_EVENTO    			          	bigint( 17 ) default 113;
 	
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;
@@ -879,7 +880,39 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 735');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
 	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA,
+		VAR_ID_SHEET01_COLUMN_003_NR_SUBFATURA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 735');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_IND_EVENTO,
+		VAR_ID_SHEET01_COLUMN_007_IND_EVENTO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
 	call PROC_LOG_MESSAGE('LINHA - 1559');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	

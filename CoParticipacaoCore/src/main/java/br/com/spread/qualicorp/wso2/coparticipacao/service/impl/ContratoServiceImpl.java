@@ -127,4 +127,20 @@ public class ContratoServiceImpl extends AbstractServiceImpl<ContratoUi, Contrat
 		}
 	}
 
+	public List<ContratoUi> listByParent(ContratoUi contratoUi) throws ServiceException {
+		List<ContratoUi> contratoUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			contratoUis = entityToUi(contratoDao.listByParent(contratoUi.getId()));
+
+			LOGGER.info("END");
+			return contratoUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
 }

@@ -291,6 +291,10 @@ public class BeneficiarioDetailHelper {
 				beneficiarioDetailDest.setValorLiquidoSinistro(beneficiarioDetailOrigin.getValorLiquidoSinistro());
 			}
 
+			if (beneficiarioDetailOrigin.getIndicadorEvento() != null) {
+				beneficiarioDetailDest.setIndicadorEvento(beneficiarioDetailOrigin.getIndicadorEvento());
+			}
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
