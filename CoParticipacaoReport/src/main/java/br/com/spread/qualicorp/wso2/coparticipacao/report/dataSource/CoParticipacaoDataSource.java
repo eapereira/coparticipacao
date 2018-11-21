@@ -20,16 +20,17 @@ public abstract class CoParticipacaoDataSource<T> implements JRDataSource {
 
 	private int cursor;
 
-	public CoParticipacaoDataSource() {
+	public CoParticipacaoDataSource() throws JRException {
 		data = buildData();
 		cursor = NumberUtils.INTEGER_ZERO;
 	}
 
 	public CoParticipacaoDataSource(List<T> data) {
 		this.data = data;
+		cursor = NumberUtils.INTEGER_ZERO;
 	}
 
-	protected abstract List<T> buildData();
+	protected abstract List<T> buildData() throws JRException;
 
 	@Override
 	public boolean next() throws JRException {

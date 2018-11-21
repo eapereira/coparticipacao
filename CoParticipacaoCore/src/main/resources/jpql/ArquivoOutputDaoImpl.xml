@@ -21,5 +21,14 @@
 		]]>
 	</query>
 
+	<query id="listByContratoId">
+		<![CDATA[
+			select arquivoOutput from ArquivoOutputEntity arquivoOutput
+			join fetch arquivoOutput.arquivoInput arquivoInput
+			join fetch arquivoInput.contrato contrato
+			where	contrato.id	= :contratoId
+		]]>
+	</query>
+
 </queries>
 	

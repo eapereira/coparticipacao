@@ -34,7 +34,7 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 	private static final String FIELD_TP_REGISTRO = "tipoRegistro";
 	private static final String FIELD_CD_CONTRATO = "cdContrato";
 
-	public TechnitOdontoCoparticipacaoJRDataSource() {
+	public TechnitOdontoCoparticipacaoJRDataSource() throws JRException {
 		super();
 	}
 
@@ -43,7 +43,7 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		super(technitOdontoCoparticipacaoViewUis);
 	}
 
-	protected List<TechnitOdontoCoparticipacaoViewUi> buildData() {
+	protected List<TechnitOdontoCoparticipacaoViewUi> buildData() throws JRException {
 		List<TechnitOdontoCoparticipacaoViewUi> technitOdontoCoparticipacaoViewUis = new ArrayList<>();
 		TechnitOdontoCoparticipacaoViewUi technitOdontoCoparticipacaoViewUi;
 
@@ -152,7 +152,7 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new TechnitOdontoCoparticipacaoJRDataSource();
 	}
 

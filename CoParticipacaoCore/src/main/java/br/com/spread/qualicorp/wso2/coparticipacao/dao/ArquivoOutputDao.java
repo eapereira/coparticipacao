@@ -17,4 +17,6 @@ public interface ArquivoOutputDao extends AbstractDao<ArquivoOutputEntity> {
 
 	List<ArquivoOutputEntity> listByEmpresaIdAndUseType(Long empresaId, UseType useType) throws DaoException;
 
+	List<ArquivoOutputEntity> listByContratoId(Long contratoId) throws DaoException;
+
 }

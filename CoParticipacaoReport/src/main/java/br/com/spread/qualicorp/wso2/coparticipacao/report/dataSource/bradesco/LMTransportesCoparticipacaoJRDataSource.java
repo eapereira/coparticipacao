@@ -27,7 +27,7 @@ public class LMTransportesCoparticipacaoJRDataSource
 	private static final String FIELD_DESCR_PROFISSAO = "profissao";
 	private static final String FIELD_VL_FATOR_MODERADOR_INSS = "fatorModeradorInss";
 
-	public LMTransportesCoparticipacaoJRDataSource() {
+	public LMTransportesCoparticipacaoJRDataSource() throws JRException {
 		super();
 	}
 
@@ -36,7 +36,7 @@ public class LMTransportesCoparticipacaoJRDataSource
 		super(lmTransportesCoparticipacaoViewUis);
 	}
 
-	protected List<LMTransportesCoparticipacaoViewUi> buildData() {
+	protected List<LMTransportesCoparticipacaoViewUi> buildData() throws JRException {
 		List<LMTransportesCoparticipacaoViewUi> lmTransportesCoparticipacaoViewUis = new ArrayList<>();
 		LMTransportesCoparticipacaoViewUi lmTransportesCoparticipacaoViewUi = new LMTransportesCoparticipacaoViewUi();
 
@@ -80,7 +80,7 @@ public class LMTransportesCoparticipacaoJRDataSource
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new LMTransportesCoparticipacaoJRDataSource();
 	}
 

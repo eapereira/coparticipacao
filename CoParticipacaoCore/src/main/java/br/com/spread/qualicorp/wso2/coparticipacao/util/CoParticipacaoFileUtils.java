@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.util;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.time.LocalDate;
 
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +53,32 @@ public class CoParticipacaoFileUtils {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
+	}
 
+	public static void close(FileOutputStream fileOutputStream) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			fileOutputStream.close();
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	public static void close(FileInputStream fileInputStream) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			fileInputStream.close();
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
 	}
 
 }

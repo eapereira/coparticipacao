@@ -16,6 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDef
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
@@ -127,6 +128,8 @@ public class CoParticipacaoContext {
 
 	private SpreadsheetContext spreadsheetContext;
 
+	private List<ArquivoOutputUi> arquivoOutputUis;
+
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
 		lancamentoInputColsUis = new ArrayList<LancamentoInputColsUi>();
@@ -152,6 +155,8 @@ public class CoParticipacaoContext {
 		mapBeneficiarioCols = new HashMap<Integer, List<BeneficiarioColsUi>>();
 		mapLancamentoInputSheetColsUis = new HashMap<Integer, List<LancamentoInputSheetColsUi>>();
 		mapArquivoInputSheetUi = new HashMap<Integer, ArquivoInputSheetUi>();
+
+		arquivoOutputUis = new ArrayList<ArquivoOutputUi>();
 
 		currentLine = NumberUtils.INTEGER_ONE;
 
@@ -806,5 +811,13 @@ public class CoParticipacaoContext {
 
 		LOGGER.info("END");
 		return null;
+	}
+
+	public List<ArquivoOutputUi> getArquivoOutputUis() {
+		return arquivoOutputUis;
+	}
+
+	public void setArquivoOutputUis(List<ArquivoOutputUi> arquivoOutputUis) {
+		this.arquivoOutputUis = arquivoOutputUis;
 	}
 }

@@ -123,11 +123,27 @@
 			<scope>provided</scope>
 		</dependency>
 
-	<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
+		<!-- https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
 			<version>6.7.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports-functions</artifactId>
+			<version>6.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.1</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
@@ -186,9 +202,28 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
+			<plugin>
+				<groupId>org.xifix.maven</groupId>
+				<artifactId>jasperreport-maven-plugin</artifactId>
+				<version>0.0.5</version>
+				<executions>
+					<execution>
+						<id>process</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>generate-jasper</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<sourceDir>${project.basedir}/src/main/resources/reports</sourceDir>
+					<outputDir>${project.build.outputDirectory}/reports</outputDir>
+				</configuration>
+			</plugin>
+
 		</plugins>
 	</build>
-	
+
 	<repositories>
 		<repository>
 			<id>OpenMS</id>
@@ -199,6 +234,11 @@
 			<snapshots>
 				<enabled>false</enabled>
 			</snapshots>
+		</repository>
+
+		<repository>
+			<id>jr-ce-releases</id>
+			<url>http://jaspersoft.artifactoryonline.com/jaspersoft/jr-ce-releases</url>
 		</repository>
 	</repositories>
 </project>

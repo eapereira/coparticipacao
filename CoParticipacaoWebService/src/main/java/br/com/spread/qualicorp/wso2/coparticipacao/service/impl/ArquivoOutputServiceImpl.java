@@ -249,4 +249,21 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 			throw new ServiceException(e);
 		}
 	}
+
+	@Override
+	public List<ArquivoOutputUi> listByContrato(ContratoUi contratoUi) throws ServiceException {
+		List<ArquivoOutputUi> arquivoOutputUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoOutputUis = entityToUi(arquivoOutputDao.listByContratoId(contratoUi.getId()));
+
+			LOGGER.info("END");
+			return arquivoOutputUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
 }

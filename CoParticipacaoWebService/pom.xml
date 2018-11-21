@@ -192,7 +192,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
 				<configuration>
-					<source>${java.source}</source>
+					<source>${java.version}</source>
 					<target>${java.target}</target>
 					<encoding>${java.encoding}</encoding>
 

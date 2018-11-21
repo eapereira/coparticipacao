@@ -17,6 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.Techn
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.TechnitOdontoCoparticipacaoView;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.AbstractServiceImpl;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.TechnitOdonto;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.TechnitOdontoCoparticipacaoService;
 
 /**
@@ -32,7 +33,7 @@ public class TechnitOdontoCoparticipacaoServiceImpl extends
 	private static final Logger LOGGER = LogManager.getLogger(TechnitOdontoCoparticipacaoServiceImpl.class);
 
 	@Autowired
-	private TechnitOdontoCoparticipacaoDao automindCoparticipacaoDao;
+	private TechnitOdontoCoparticipacaoDao technitOdontoCoparticipacaoDao;
 
 	@Autowired
 	private TechnitOdontoCoparticipacaoViewUiMapper uiMapper;
@@ -46,7 +47,7 @@ public class TechnitOdontoCoparticipacaoServiceImpl extends
 		try {
 			LOGGER.info("BEGIN");
 
-			automindCoparticipacaoViewUis = entityToUi(automindCoparticipacaoDao.listByMesAndAno(mes, ano));
+			automindCoparticipacaoViewUis = entityToUi(technitOdontoCoparticipacaoDao.listByMesAndAno(mes, ano));
 
 			LOGGER.info("END");
 			return automindCoparticipacaoViewUis;
@@ -68,7 +69,7 @@ public class TechnitOdontoCoparticipacaoServiceImpl extends
 
 	@Override
 	protected AbstractDao<TechnitOdontoCoparticipacaoViewEntity> getDao() {
-		return automindCoparticipacaoDao;
+		return technitOdontoCoparticipacaoDao;
 	}
 
 	@Override
@@ -79,5 +80,26 @@ public class TechnitOdontoCoparticipacaoServiceImpl extends
 	@Override
 	protected AbstractMapper<TechnitOdontoCoparticipacaoView, TechnitOdontoCoparticipacaoViewEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<TechnitOdontoCoparticipacaoViewUi> listByMesAndAnoAmdSubFatura(
+			Integer mes,
+			Integer ano,
+			TechnitOdonto technitOdonto) throws ServiceException {
+		List<TechnitOdontoCoparticipacaoViewUi> automindCoparticipacaoViewUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			automindCoparticipacaoViewUis = entityToUi(
+					technitOdontoCoparticipacaoDao
+							.listByMesAndAnoAndSubFatura(mes, ano, technitOdonto.getSubFaturas()));
+
+			LOGGER.info("END");
+			return automindCoparticipacaoViewUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
 	}
 }

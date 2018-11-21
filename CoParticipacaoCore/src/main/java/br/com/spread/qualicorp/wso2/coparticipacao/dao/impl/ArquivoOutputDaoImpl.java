@@ -69,9 +69,26 @@ public class ArquivoOutputDaoImpl extends AbstractDaoImpl<ArquivoOutputEntity> i
 
 			LOGGER.info("END");
 			return arquivoOutputEntities;
-		} catch (NoResultException e) {
-			LOGGER.info(e.getMessage());
-			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
+	public List<ArquivoOutputEntity> listByContratoId(Long contratoId) throws DaoException {
+		List<ArquivoOutputEntity> arquivoOutputEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByContratoId");
+			query.setParameter("contratoId", contratoId);
+
+			arquivoOutputEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return arquivoOutputEntities;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new DaoException(e);

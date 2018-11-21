@@ -19,4 +19,6 @@ public interface ArquivoOutputService extends AbstractService<ArquivoOutputUi> {
 
 	List<ArquivoOutputUi> listByEmpresaIdAndUseType(EmpresaUi empresaUi, UseType extraFile) throws ServiceException;
 
+	List<ArquivoOutputUi> listByContrato(ContratoUi contratoUi) throws ServiceException;
+
 }

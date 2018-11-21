@@ -35,5 +35,4 @@ public class AutomindReport extends BasicReport {
 	public void setAutomindResumoViewUis(List<AutomindResumoViewUi> automindResumoViewUis) {
 		this.automindResumoViewUis = automindResumoViewUis;
 	}
-	
 }

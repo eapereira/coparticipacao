@@ -50,4 +50,29 @@ public class TechnitOdontoCoparticipacaoDaoImpl extends AbstractDaoImpl<TechnitO
 		}
 	}
 
+	public List<TechnitOdontoCoparticipacaoViewEntity> listByMesAndAnoAndSubFatura(
+			Integer mes,
+			Integer ano,
+			String[] subFaturas) throws DaoException {
+		List<TechnitOdontoCoparticipacaoViewEntity> automindCoparticipacaoViewEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByMesAndAnoAndSubFaturas");
+			query.setParameter("mes", mes);
+			query.setParameter("ano", ano);
+			query.setParameter("subFaturas", subFaturas);
+
+			automindCoparticipacaoViewEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return automindCoparticipacaoViewEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e);
+		}
+	}
+
 }

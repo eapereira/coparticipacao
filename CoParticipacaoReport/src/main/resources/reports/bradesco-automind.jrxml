@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-automind" pageWidth="1200" pageHeight="842" columnWidth="1200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="49442e48-845e-4448-aeb6-0dc1d6b59170">
-	<property name="net.sf.jasperreports.data.adapter" value="../data-adapters/AutomindDataAdapter.xml"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-automind" pageWidth="1200" pageHeight="2000" columnWidth="1200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="49442e48-845e-4448-aeb6-0dc1d6b59170">
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -12,8 +11,8 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
-	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.1"><![CDATA[CONCATENATE("Coparticipação ",T($F{mes}),"/",T($F{ano}))]]></propertyExpression>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/reports/AutomindDataAdapter.xml"/>
+	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.1"><![CDATA["Coparticipação"]]></propertyExpression>
 	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.2"><![CDATA["Rateio"]]></propertyExpression>
 	<queryString>
 		<![CDATA[]]>
@@ -40,25 +39,25 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="131" splitType="Stretch">
+		<band height="140" splitType="Stretch">
 			<subreport>
-				<reportElement x="1" y="0" width="1159" height="60" uuid="be2da39b-0166-45d4-82f4-2352168f13e2">
+				<reportElement x="1" y="0" width="1199" height="60" uuid="be2da39b-0166-45d4-82f4-2352168f13e2">
 					<property name="com.jaspersoft.studio.element.name" value="Coparticipação"/>
-					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[CONCATENATE("Coparticipação ",T($F{mes}),"/",T($F{ano}))]]></propertyExpression>
+					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$F{sheetNameCoparticipacao}]]></propertyExpression>
 				</reportElement>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{automindCoparticipacaoViewUis})]]></dataSourceExpression>
-				<subreportExpression><![CDATA["src/main/resources/reports/bradesco-automindCoparticipacao.jasper"]]></subreportExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.AutomindCoparticipacaoJRDataSource($F{automindCoparticipacaoViewUis})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/bradesco-automindCoparticipacao.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
-				<reportElement x="0" y="70" width="97" height="1" uuid="68744d19-e222-48a2-b26d-2c986ce15995"/>
+				<reportElement x="0" y="74" width="93" height="1" uuid="68744d19-e222-48a2-b26d-2c986ce15995"/>
 			</break>
 			<subreport>
-				<reportElement x="0" y="80" width="529" height="50" uuid="fe534c14-d4e0-4c43-9185-c5c3a8df050c">
+				<reportElement x="-10" y="90" width="1200" height="50" uuid="fe534c14-d4e0-4c43-9185-c5c3a8df050c">
 					<property name="com.jaspersoft.studio.element.name" value="Rateio"/>
-					<property name="net.sf.jasperreports.export.xls.sheet.name" value="Rateio"/>
+					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$F{sheetNameRateio}]]></propertyExpression>
 				</reportElement>
-				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{automindResumoViewUis})]]></dataSourceExpression>
-				<subreportExpression><![CDATA["src/main/resources/reports/bradesco-automindResumo.jasper"]]></subreportExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.AutomindResumoJRDataSource($F{automindResumoViewUis})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/bradesco-automindResumo.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

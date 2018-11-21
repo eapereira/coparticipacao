@@ -33,7 +33,7 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSo
 	private static final String FIELD_TP_REGISTRO = "tipoRegistro";
 	private static final String FIELD_CD_CONTRATO = "cdContrato";
 
-	public TechnitSaudeCoparticipacaoJRDataSource() {
+	public TechnitSaudeCoparticipacaoJRDataSource() throws JRException {
 		super();
 	}
 
@@ -42,7 +42,7 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSo
 		super(technitSaudeCoparticipacaoViewUis);
 	}
 
-	protected List<TechnitSaudeCoparticipacaoViewUi> buildData() {
+	protected List<TechnitSaudeCoparticipacaoViewUi> buildData() throws JRException {
 		List<TechnitSaudeCoparticipacaoViewUi> technitSaudeCoparticipacaoViewUis = new ArrayList<>();
 		TechnitSaudeCoparticipacaoViewUi technitSaudeCoparticipacaoViewUi;
 
@@ -151,7 +151,7 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSo
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new TechnitSaudeCoparticipacaoJRDataSource();
 	}
 

@@ -14,4 +14,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 public interface TechnitOdontoCoparticipacaoService extends AbstractService<TechnitOdontoCoparticipacaoViewUi> {
 
 	List<TechnitOdontoCoparticipacaoViewUi> listByMesAndAno(Integer mes, Integer ano) throws ServiceException;
+
+	List<TechnitOdontoCoparticipacaoViewUi> listByMesAndAnoAmdSubFatura(
+			Integer mes,
+			Integer ano,
+			TechnitOdonto technitOdonto) throws ServiceException;
 }

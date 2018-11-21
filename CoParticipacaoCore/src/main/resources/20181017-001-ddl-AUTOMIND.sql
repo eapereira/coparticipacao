@@ -12,7 +12,7 @@ drop view if exists VW_COPARTICIPACAO_RESUMO_AUTOMIND;
 /****************************************************************************************************************************************************/
 
 create view VW_DESCONHECIDO_LEVEL01_AUTOMIND as
-select distinct
+select
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
@@ -56,7 +56,7 @@ and		( titular.VL_FATOR_MODERADOR is null or
 		titular.VL_FATOR_MODERADOR <= 0 ));
 	
 create view VW_DESCONHECIDO_AUTOMIND as
-select
+select distinct
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
@@ -84,7 +84,12 @@ select
 	titular.VL_FATOR_MODERADOR,
 	titular.NR_MATRICULA_ESPECIAL,
 	titular.DESCR_PROFISSAO,
-	empresa.CD_EMPRESA
+	empresa.CD_EMPRESA,
+	0 VERSION,
+	1 USER_CREATED,
+	1 USER_ALTERED,
+	current_date() DT_CREATED,
+	current_date() DT_ALTERED
 from	TB_LANCAMENTO lancamento
 	join TB_CONTRATO contrato on
 		contrato.ID = lancamento.ID_CONTRATO
@@ -109,7 +114,12 @@ select
 	automind.VL_FATOR_MODERADOR,
 	automind.NR_MATRICULA_ESPECIAL,
 	automind.DESCR_PROFISSAO,
-	automind.CD_EMPRESA
+	automind.CD_EMPRESA,
+	automind.VERSION,
+	automind.USER_CREATED,
+	automind.USER_ALTERED,
+	automind.DT_CREATED,
+	automind.DT_ALTERED
 from	VW_COPARTICIPACAO_LEVEL01_AUTOMIND automind
 group by
 	automind.CD_MES,
@@ -123,7 +133,12 @@ group by
 	automind.VL_FATOR_MODERADOR,
 	automind.NR_MATRICULA_ESPECIAL,
 	automind.DESCR_PROFISSAO,
-	automind.CD_EMPRESA
+	automind.CD_EMPRESA,
+	automind.VERSION,
+	automind.USER_CREATED,
+	automind.USER_ALTERED,
+	automind.DT_CREATED,
+	automind.DT_ALTERED	
 order by
 	automind.NM_TITULAR;
 	
@@ -138,7 +153,12 @@ select
     automind.NR_SUBFATURA,
 	count(1) QTDE_SEGURADOS,
 	sum( automind.VL_FATOR_MODERADOR ) VL_ALOCACAO,
-	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_AUTOMIND ) VL_PROPORCAO
+	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_AUTOMIND ) VL_PROPORCAO,
+	automind.VERSION,
+	automind.USER_CREATED,
+	automind.USER_ALTERED,
+	automind.DT_CREATED,
+	automind.DT_ALTERED	
 from	VW_COPARTICIPACAO_AUTOMIND automind
 group by
 	automind.CD_MES,
@@ -146,5 +166,10 @@ group by
     automind.ID_CONTRATO,
     automind.CD_CONTRATO,
     automind.CD_EMPRESA,
-    automind.NR_SUBFATURA;
+    automind.NR_SUBFATURA,
+    automind.VERSION,
+	automind.USER_CREATED,
+	automind.USER_ALTERED,
+	automind.DT_CREATED,
+	automind.DT_ALTERED;    
 	

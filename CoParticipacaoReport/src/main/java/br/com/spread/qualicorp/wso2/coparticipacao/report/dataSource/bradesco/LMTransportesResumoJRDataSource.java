@@ -25,7 +25,7 @@ public class LMTransportesResumoJRDataSource extends CoParticipacaoDataSource<LM
 
 	private static final String FIELD_VL_ALOCACAO = "valorAlocacao";
 
-	public LMTransportesResumoJRDataSource() {
+	public LMTransportesResumoJRDataSource() throws JRException {
 		super();
 	}
 
@@ -33,7 +33,7 @@ public class LMTransportesResumoJRDataSource extends CoParticipacaoDataSource<LM
 		super(lmTransportesResumoViewUis);
 	}
 
-	protected List<LMTransportesResumoViewUi> buildData() {
+	protected List<LMTransportesResumoViewUi> buildData() throws JRException {
 		List<LMTransportesResumoViewUi> lmTransportesResumoViewUis = new ArrayList<>();
 		LMTransportesResumoViewUi lmTransportesResumoViewUi = new LMTransportesResumoViewUi();
 
@@ -73,7 +73,7 @@ public class LMTransportesResumoJRDataSource extends CoParticipacaoDataSource<LM
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new LMTransportesResumoJRDataSource();
 	}
 }

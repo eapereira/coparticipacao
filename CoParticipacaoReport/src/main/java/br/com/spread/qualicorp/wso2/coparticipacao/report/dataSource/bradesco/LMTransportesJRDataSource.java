@@ -20,7 +20,7 @@ public class LMTransportesJRDataSource extends CoParticipacaoDataSource<LMTransp
 	private static final String FIELD_COPARTICIPACAO = "LmTransportesCoparticipacaoViewUis";
 	private static final String FIELD_RESUMO = "LmTransportesResumoViewUis";
 
-	public LMTransportesJRDataSource() {
+	public LMTransportesJRDataSource() throws JRException {
 		super();
 	}
 
@@ -28,7 +28,7 @@ public class LMTransportesJRDataSource extends CoParticipacaoDataSource<LMTransp
 		super(LMTransportesReports);
 	}
 
-	protected List<LMTransportesReport> buildData() {
+	protected List<LMTransportesReport> buildData() throws JRException {
 		List<LMTransportesReport> LMTransportesReports = new ArrayList<>();
 		LMTransportesReport LMTransportesReport = new LMTransportesReport();
 		LocalDate currentDate = LocalDate.now();
@@ -60,7 +60,7 @@ public class LMTransportesJRDataSource extends CoParticipacaoDataSource<LMTransp
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new LMTransportesJRDataSource();
 	}
 }

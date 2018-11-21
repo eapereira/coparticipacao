@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-automindResumo" pageWidth="595" pageHeight="1000" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b677f63f-2525-4b40-98c8-095940c2258b">
-	<property name="net.sf.jasperreports.data.adapter" value="../data-adapters/AutomindResumoDataAdapter.xml"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/data-adapters/AutomindResumoDataAdapter.xml"/>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-automindResumo" pageWidth="595" pageHeight="1000" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="b677f63f-2525-4b40-98c8-095940c2258b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Rateio"/>
 	<queryString>
 		<![CDATA[]]>
@@ -38,14 +37,14 @@
 		<band height="32">
 			<image>
 				<reportElement x="0" y="0" width="110" height="30" uuid="2f83cd85-e81c-406e-ab24-e2c480aa1266"/>
-				<imageExpression><![CDATA["src/main/resources/images/qualicorp-logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["images/qualicorp-logo.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="115">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="10" width="100" height="20" backcolor="#D9D7D7" uuid="b8083521-f414-48c1-aab6-18092aedbc43"/>
+				<reportElement mode="Opaque" x="0" y="10" width="100" height="20" backcolor="#D1CFCF" uuid="b8083521-f414-48c1-aab6-18092aedbc43"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
@@ -61,33 +60,33 @@
 					<bottomPen lineWidth="1.0"/>
 				</box>
 				<textElement textAlignment="Center">
-					<font isBold="true"/>
+					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Relatório de Coparticipação]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="e2a08e05-f628-471e-98f9-9e4d2e450998"/>
+				<reportElement mode="Opaque" x="0" y="90" width="100" height="20" backcolor="#D1CFCF" uuid="e2a08e05-f628-471e-98f9-9e4d2e450998"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Sub-Fatura]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="240" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="f5d771c5-8767-4852-94b3-6ca4d247e1aa"/>
+				<reportElement mode="Opaque" x="240" y="90" width="100" height="20" backcolor="#D1CFCF" uuid="f5d771c5-8767-4852-94b3-6ca4d247e1aa"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Proporção ( % )]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="360" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="eac102f7-1051-486e-ab1a-669cfea5acec"/>
+				<reportElement mode="Opaque" x="360" y="90" width="100" height="20" backcolor="#D1CFCF" uuid="eac102f7-1051-486e-ab1a-669cfea5acec"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor Alocado R$]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="120" y="90" width="100" height="20" backcolor="#D9D7D7" uuid="26c8cf53-60a7-4397-ba22-56910609ea7b"/>
+				<reportElement mode="Opaque" x="120" y="90" width="100" height="20" backcolor="#D1CFCF" uuid="26c8cf53-60a7-4397-ba22-56910609ea7b"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
@@ -99,18 +98,30 @@
 		<band height="24" splitType="Stretch">
 			<textField pattern="#,##0.00#" isBlankWhenNull="true">
 				<reportElement x="360" y="0" width="100" height="20" uuid="23962b17-63ef-45ea-ba62-d3b9d486b996"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valorAlocacao}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#" isBlankWhenNull="true">
 				<reportElement x="240" y="0" width="100" height="20" uuid="c8525f26-e386-4057-bb3f-b9e1f5ae5a55"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valorProporcao}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement mode="Opaque" x="120" y="0" width="100" height="20" backcolor="#F2F2F2" uuid="5f6b4c0c-ba0c-4ed1-ad07-7b14f502a377"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{qtdeSegurados}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="100" height="20" uuid="8c3830d7-8659-49b7-824b-9711695f9594"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{subFatura}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -118,7 +129,7 @@
 	<summary>
 		<band height="28">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#D9D7D7" uuid="82bbfb0c-7be2-4a7a-a509-8991502c1f3c"/>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#D1CFCF" uuid="82bbfb0c-7be2-4a7a-a509-8991502c1f3c"/>
 				<textElement textAlignment="Center">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
@@ -126,14 +137,23 @@
 			</staticText>
 			<textField>
 				<reportElement x="120" y="0" width="100" height="20" uuid="c8c4255d-3a14-4dec-844e-4aa3e35ccbba"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{VAR_totalQtdeSegurados}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#">
 				<reportElement x="240" y="0" width="100" height="20" uuid="b323af48-502e-4d8e-9dda-f40368220a86"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{VAR_totalValorProporcao}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#">
 				<reportElement mode="Opaque" x="360" y="0" width="100" height="20" backcolor="#F2F2F2" uuid="386bf048-2477-4861-aacd-5d8c677122b7"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$V{VAR_totalValorAlocacao}]]></textFieldExpression>
 			</textField>
 		</band>

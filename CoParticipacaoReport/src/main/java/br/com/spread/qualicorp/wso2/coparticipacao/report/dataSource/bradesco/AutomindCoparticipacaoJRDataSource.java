@@ -25,11 +25,16 @@ public class AutomindCoparticipacaoJRDataSource extends CoParticipacaoDataSource
 	private static final String FIELD_NR_MATRICULA_ESPECIAL = "matriculaEspecial";
 	private static final String FIELD_DESCR_PROFISSAO = "profissao";
 
-	public AutomindCoparticipacaoJRDataSource() {
+	public AutomindCoparticipacaoJRDataSource() throws JRException {
 		super();
 	}
 
-	protected List<AutomindCoparticipacaoViewUi> buildData() {
+	public AutomindCoparticipacaoJRDataSource(List<AutomindCoparticipacaoViewUi> automindCoparticipacaoViewUis)
+			throws JRException {
+		super(automindCoparticipacaoViewUis);
+	}
+
+	protected List<AutomindCoparticipacaoViewUi> buildData() throws JRException {
 		List<AutomindCoparticipacaoViewUi> automindCoparticipacaoViewUis = new ArrayList<>();
 		AutomindCoparticipacaoViewUi automindCoparticipacaoViewUi = new AutomindCoparticipacaoViewUi();
 
@@ -71,7 +76,7 @@ public class AutomindCoparticipacaoJRDataSource extends CoParticipacaoDataSource
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new AutomindCoparticipacaoJRDataSource();
 	}
 

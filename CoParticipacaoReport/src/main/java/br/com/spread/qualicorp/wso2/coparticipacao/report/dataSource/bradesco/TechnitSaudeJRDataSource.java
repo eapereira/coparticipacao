@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.TechnitHeaderViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipacaoDataSource;
@@ -19,9 +22,11 @@ import net.sf.jasperreports.engine.JRField;
  *
  */
 public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSaudeReport> {
+	private static final Logger LOGGER = LogManager.getLogger(TechnitSaudeJRDataSource.class);
+
 	private static final String FIELD_COPARTICIPACAO = "technitSaudeCoparticipacaoViewUis";
 
-	private static final String FIELD_HEADER = "technitSaudeHeaderViewUis";
+	private static final String FIELD_HEADER = "technitHeaderViewUi";
 
 	private static final String FIELD_MES = "mes";
 	private static final String FIELD_ANO = "ano";
@@ -33,7 +38,7 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSa
 	private static final String FIELD_DT_PROCESSAMENTO_MMYY = "dataProcessamentoMMYY";
 	private static final String FIELD_DT_PROCESSAMENTO_MMYYYY = "dataProcessamentoMMYYYY";
 
-	public TechnitSaudeJRDataSource() {
+	public TechnitSaudeJRDataSource() throws JRException {
 		super();
 	}
 
@@ -41,7 +46,7 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSa
 		super(technitSaudeReports);
 	}
 
-	protected List<TechnitSaudeReport> buildData() {
+	protected List<TechnitSaudeReport> buildData() throws JRException {
 		List<TechnitSaudeReport> technitSaudeReports = new ArrayList<>();
 		TechnitSaudeReport technitSaudeReport = new TechnitSaudeReport();
 		TechnitHeaderViewUi technitHeaderViewUi = new TechnitHeaderViewUi();
@@ -96,13 +101,14 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSa
 				}
 			}
 
+			LOGGER.info("No field found for [{}]:", jrField.getName());
 			return null;
 		} catch (CoParticipacaoException e) {
 			throw new JRException(e);
 		}
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new TechnitSaudeJRDataSource();
 	}
 }

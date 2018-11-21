@@ -974,11 +974,12 @@ BEGIN
 	);	
 	
 	call PROC_LOG_MESSAGE('LINHA - 958');	
-	/*****************************************************************************************************************/
-	/*****************************************************************************************************************/
-    /* ARQUIVO_OUTPUT */
-	
-	call PROC_LOG_MESSAGE('LINHA - 963');
+	/*****************************************************************************************************************************************************/	
+	/*****************************************************************************************************************************************************/		
+	/* ARQUIVO_OUTPUT */
+		
+	/* FASTU-COPA.1 */	    
+	call PROC_LOG_MESSAGE('LINHA - 990');
 	insert into TB_ARQUIVO_OUTPUT(
 		ID_ARQUIVO_INPUT,
 		NM_ARQUIVO_FORMAT,
@@ -989,7 +990,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'Automind-Bradesco (Saúde) - Coparticipação_({YYYY}{MM}).xlsx',
+		'Automind-Bradesco(Saude)_Coparticipacao_({YYYY}{MM}).xlsx',
 		'Arquivo de saída para a carga dos lançamentos FATU COPA',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		
@@ -1000,13 +1001,13 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT from TB_ARQUIVO_OUTPUT;
 	
-	/*****************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 986');
-	select 	ID into VAR_ID_VIEW_DESTINATION
-	from 	TB_VIEW_DESTINATION
-    where 	NM_VIEW = 'VW_COPARTICIPACAO_AUTOMIND';
-
-    call PROC_LOG_MESSAGE('LINHA - 991');
+	/*****************************************************************************************************************************************************/
+    call PROC_LOG_MESSAGE('LINHA - 984');
+	select ID into VAR_ID_VIEW_DESTINATION
+	from TB_VIEW_DESTINATION
+    where NM_VIEW = 'VW_COPARTICIPACAO_AUTOMIND';
+	
+    call PROC_LOG_MESSAGE('LINHA - 1012');
 	insert into TB_ARQUIVO_OUTPUT_SHEET(
 		ID_ARQUIVO_OUTPUT,
 		ID_VIEW_DESTINATION,
@@ -1017,15 +1018,15 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_OUTPUT,
 		VAR_ID_VIEW_DESTINATION,
-		'AUTOMIND %s',
+		'%s',
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 1009');
-	/*****************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 1011');
+	/*****************************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 1011');
 	select 	ID into VAR_ID_VIEW_DESTINATION
 	from 	TB_VIEW_DESTINATION
@@ -1048,14 +1049,15 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 1015');	
+		
+	call PROC_LOG_MESSAGE('LINHA - 1106');			
 	/*****************************************************************************************************************************************************/	
-	/*****************************************************************************************************************************************************/		
+	/*****************************************************************************************************************************************************/			
 	/* NAO-LOCALIZADOS */
 	
     call PROC_LOG_MESSAGE('LINHA - 1020');
-	select ID into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION
+	select ID into VAR_ID_VIEW_DESTINATION
+	from TB_VIEW_DESTINATION
     where NM_VIEW = 'VW_DESCONHECIDO_AUTOMIND';
 	
 	call PROC_LOG_MESSAGE('LINHA - 1024');

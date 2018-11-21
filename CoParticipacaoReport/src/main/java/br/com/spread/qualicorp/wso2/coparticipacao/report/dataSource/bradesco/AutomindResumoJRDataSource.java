@@ -25,11 +25,15 @@ public class AutomindResumoJRDataSource extends CoParticipacaoDataSource<Automin
 
 	private static final String FIELD_VL_ALOCACAO = "valorAlocacao";
 
-	public AutomindResumoJRDataSource() {
+	public AutomindResumoJRDataSource() throws JRException {
 		super();
 	}
 
-	protected List<AutomindResumoViewUi> buildData() {
+	public AutomindResumoJRDataSource(List<AutomindResumoViewUi> automindResumoViewUis) throws JRException {
+		super(automindResumoViewUis);
+	}
+
+	protected List<AutomindResumoViewUi> buildData() throws JRException {
 		List<AutomindResumoViewUi> automindResumoViewUis = new ArrayList<>();
 		AutomindResumoViewUi automindResumoViewUi = new AutomindResumoViewUi();
 
@@ -69,7 +73,7 @@ public class AutomindResumoJRDataSource extends CoParticipacaoDataSource<Automin
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new AutomindResumoJRDataSource();
 	}
 }

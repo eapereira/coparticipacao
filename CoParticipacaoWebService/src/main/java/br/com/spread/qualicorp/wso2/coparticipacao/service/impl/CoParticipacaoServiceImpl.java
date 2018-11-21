@@ -27,6 +27,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
@@ -55,6 +56,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoServic
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputColsDefService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputSheetService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioColsService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.CoParticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
@@ -168,6 +170,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private LancamentoInputSheetColsService lancamentoInputSheetColsService;
+
+	@Autowired
+	private ArquivoOutputService arquivoOutputService;
 
 	private static final Long USER_ADMIN_ID = 1l;
 
@@ -352,7 +357,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		EmpresaUi empresaUi;
 		ArquivoExecucaoUi arquivoExecucaoUi;
 		ArquivoExecucaoUi arquivoExecucaoUiTmp;
-		;
+		List<ArquivoOutputUi> arquivoOutputUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -362,10 +367,16 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			if (empresaUi.isGenerateOutputFileWithoutFatucopa()) {
 				for (Contrato contrato : empresaUi.getContratos()) {
 					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
+						LOGGER.info("Using ContratoUi[{}] as FATUCOPA:", contrato.getCdContrato());
+
+						LOGGER.info("Loading necessary data to create the report:");
 						arquivoExecucaoUi = arquivoExecucaoService
 								.createArquivoExecucao(coParticipacaoContext, (ContratoUi) contrato);
 						arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
 						coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
+
+						arquivoOutputUis = arquivoOutputService.listByContrato((ContratoUi) contrato);
+						coParticipacaoContext.setArquivoOutputUis(arquivoOutputUis);
 
 						fatucopaService.generateOutputFileWithoutFatucopa(coParticipacaoContext);
 
@@ -385,6 +396,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		CoParticipacaoContext coParticipacaoContext = null;
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 		List<ArquivoInputSheetUi> arquivoInputSheetUis;
+		List<ArquivoOutputUi> arquivoOutputUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -408,6 +420,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				}
 
 				coParticipacaoContext.setArquivoInputColsDefUis(arquivoInputColsDefUis);
+
+				arquivoOutputUis = arquivoOutputService.listByContrato(coParticipacaoContext.getContratoUi());
+				coParticipacaoContext.setArquivoOutputUis(arquivoOutputUis);
 			}
 
 			LOGGER.info("END");

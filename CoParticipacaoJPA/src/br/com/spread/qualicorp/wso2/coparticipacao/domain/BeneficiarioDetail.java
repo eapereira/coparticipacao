@@ -134,11 +134,11 @@ public class BeneficiarioDetail implements Serializable {
 	private String profissao;
 	private Long matriculaEspecial;
 	private BigDecimal fatorModerador;
-	
-	private String subFatura;
-	
+
+	private Integer subFatura;
+
 	private BigDecimal fatorModeradorInss;
-	
+
 	private BigDecimal valorInss;
 	private BigDecimal valorAliquotaInss;
 	private BigDecimal valorLiquidoSinistro;
@@ -696,11 +696,11 @@ public class BeneficiarioDetail implements Serializable {
 	}
 
 	@Column(name = "NR_SUBFATURA")
-	public String getSubFatura() {
+	public Integer getSubFatura() {
 		return subFatura;
 	}
 
-	public void setSubFatura(String subFatura) {
+	public void setSubFatura(Integer subFatura) {
 		this.subFatura = subFatura;
 	}
 
@@ -711,6 +711,33 @@ public class BeneficiarioDetail implements Serializable {
 
 	public void setFatorModeradorInss(BigDecimal fatorModeradorInss) {
 		this.fatorModeradorInss = fatorModeradorInss;
+	}
+
+	@Column(name = "VL_INSS")
+	public BigDecimal getValorInss() {
+		return valorInss;
+	}
+
+	public void setValorInss(BigDecimal valorInss) {
+		this.valorInss = valorInss;
+	}
+
+	@Column(name = "VL_LIQUIDO_SINISTRO")
+	public BigDecimal getValorLiquidoSinistro() {
+		return valorLiquidoSinistro;
+	}
+
+	public void setValorLiquidoSinistro(BigDecimal valorLiquidoSinistro) {
+		this.valorLiquidoSinistro = valorLiquidoSinistro;
+	}
+
+	@Column(name = "VL_ALIQUOTA_INSS")
+	public BigDecimal getValorAliquotaInss() {
+		return valorAliquotaInss;
+	}
+
+	public void setValorAliquotaInss(BigDecimal valorAliquotaInss) {
+		this.valorAliquotaInss = valorAliquotaInss;
 	}
 
 	@Override
@@ -780,6 +807,9 @@ public class BeneficiarioDetail implements Serializable {
 		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
 		result = prime * result + ((tituloEleitor == null) ? 0 : tituloEleitor.hashCode());
 		result = prime * result + ((transferencia == null) ? 0 : transferencia.hashCode());
+		result = prime * result + ((valorAliquotaInss == null) ? 0 : valorAliquotaInss.hashCode());
+		result = prime * result + ((valorInss == null) ? 0 : valorInss.hashCode());
+		result = prime * result + ((valorLiquidoSinistro == null) ? 0 : valorLiquidoSinistro.hashCode());
 		return result;
 	}
 
@@ -1096,30 +1126,21 @@ public class BeneficiarioDetail implements Serializable {
 				return false;
 		} else if (!transferencia.equals(other.transferencia))
 			return false;
+		if (valorAliquotaInss == null) {
+			if (other.valorAliquotaInss != null)
+				return false;
+		} else if (!valorAliquotaInss.equals(other.valorAliquotaInss))
+			return false;
+		if (valorInss == null) {
+			if (other.valorInss != null)
+				return false;
+		} else if (!valorInss.equals(other.valorInss))
+			return false;
+		if (valorLiquidoSinistro == null) {
+			if (other.valorLiquidoSinistro != null)
+				return false;
+		} else if (!valorLiquidoSinistro.equals(other.valorLiquidoSinistro))
+			return false;
 		return true;
-	}
-
-	public BigDecimal getValorInss() {
-		return valorInss;
-	}
-
-	public void setValorInss(BigDecimal valorInss) {
-		this.valorInss = valorInss;
-	}
-
-	public BigDecimal getValorLiquidoSinistro() {
-		return valorLiquidoSinistro;
-	}
-
-	public void setValorLiquidoSinistro(BigDecimal valorLiquidoSinistro) {
-		this.valorLiquidoSinistro = valorLiquidoSinistro;
-	}
-
-	public BigDecimal getValorAliquotaInss() {
-		return valorAliquotaInss;
-	}
-
-	public void setValorAliquotaInss(BigDecimal valorAliquotaInss) {
-		this.valorAliquotaInss = valorAliquotaInss;
 	}
 }

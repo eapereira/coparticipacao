@@ -493,7 +493,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			} else if (BeneficiarioColType.VL_FATOR_MODERADOR.equals(beneficiarioColType)) {
 				beneficiarioDetail.setFatorModerador((BigDecimal) value);
 			} else if (BeneficiarioColType.NR_SUBFATURA.equals(beneficiarioColType)) {
-				beneficiarioDetail.setSubFatura((String) value);
+				beneficiarioDetail.setSubFatura((Integer) value);
 			} else if (BeneficiarioColType.VL_FATOR_MODERADOR_INSS.equals(beneficiarioColType)) {
 				beneficiarioDetail.setFatorModeradorInss((BigDecimal) value);
 			} else if (BeneficiarioColType.VL_INSS.equals(beneficiarioColType)) {

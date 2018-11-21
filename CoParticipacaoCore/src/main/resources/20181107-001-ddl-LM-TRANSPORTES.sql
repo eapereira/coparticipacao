@@ -12,7 +12,7 @@ drop view if exists VW_COPARTICIPACAO_RESUMO_LM_TRANSPORTES;
 /****************************************************************************************************************************************************/
 
 create view VW_DESCONHECIDO_LEVEL01_LM_TRANSPORTES as
-select distinct
+select
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
@@ -57,7 +57,7 @@ and		(( titular.VL_FATOR_MODERADOR is null or titular.VL_FATOR_MODERADOR <= 0 ) 
 		( titular.VL_FATOR_MODERADOR_INSS is null or titular.VL_FATOR_MODERADOR_INSS <= 0 ));
 	
 create view VW_DESCONHECIDO_LM_TRANSPORTES as
-select
+select distinct
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
@@ -74,7 +74,7 @@ from VW_DESCONHECIDO_LEVEL01_LM_TRANSPORTES desconhecido
 order by desconhecido.NM_BENEFICIARIO;
 
 create view VW_COPARTICIPACAO_LEVEL01_LM_TRANSPORTES as
-select
+select	
 	lancamento.CD_MES,
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
@@ -87,7 +87,12 @@ select
 	titular.VL_FATOR_MODERADOR_INSS,
 	titular.NR_MATRICULA_ESPECIAL,
 	titular.DESCR_PROFISSAO,
-	empresa.CD_EMPRESA
+	empresa.CD_EMPRESA,
+	0 VERSION,
+	1 USER_CREATED,
+	1 USER_ALTERED,
+	current_date() DT_CREATED,
+	current_date() DT_ALTERED	
 from	TB_LANCAMENTO lancamento
 	join TB_CONTRATO contrato on
 		contrato.ID = lancamento.ID_CONTRATO
@@ -101,54 +106,76 @@ and		titular.VL_FATOR_MODERADOR 	> 0;
 create view VW_COPARTICIPACAO_LM_TRANSPORTES as
 select
 	FUNC_GET_ROWNUM() ID,
-	automind.CD_MES,
-    automind.CD_ANO,
-    automind.ID_CONTRATO,
-    automind.CD_CONTRATO,
-    automind.NR_CERTIFICADO,
-	automind.NR_MATRICULA,
-	automind.NM_TITULAR,
-	automind.NR_SUBFATURA,
-	automind.VL_FATOR_MODERADOR,
-	automind.VL_FATOR_MODERADOR_INSS,
-	automind.NR_MATRICULA_ESPECIAL,
-	automind.DESCR_PROFISSAO,
-	automind.CD_EMPRESA
-from	VW_COPARTICIPACAO_LEVEL01_LM_TRANSPORTES automind
+	lmTransportes.CD_MES,
+    lmTransportes.CD_ANO,
+    lmTransportes.ID_CONTRATO,
+    lmTransportes.CD_CONTRATO,
+    lmTransportes.NR_CERTIFICADO,
+	lmTransportes.NR_MATRICULA,
+	lmTransportes.NM_TITULAR,
+	lmTransportes.NR_SUBFATURA,
+	lmTransportes.VL_FATOR_MODERADOR,
+	lmTransportes.VL_FATOR_MODERADOR_INSS,
+	lmTransportes.NR_MATRICULA_ESPECIAL,
+	lmTransportes.DESCR_PROFISSAO,
+	lmTransportes.CD_EMPRESA,
+	lmTransportes.VERSION,
+	lmTransportes.USER_CREATED,
+	lmTransportes.USER_ALTERED,
+	lmTransportes.DT_CREATED,
+	lmTransportes.DT_ALTERED		
+from	VW_COPARTICIPACAO_LEVEL01_LM_TRANSPORTES lmTransportes
 group by
-	automind.CD_MES,
-    automind.CD_ANO,
-    automind.ID_CONTRATO,
-    automind.CD_CONTRATO,
-    automind.NR_CERTIFICADO,
-	automind.NR_MATRICULA,
-	automind.NM_TITULAR,
-	automind.NR_SUBFATURA,
-	automind.VL_FATOR_MODERADOR,
-	automind.NR_MATRICULA_ESPECIAL,
-	automind.DESCR_PROFISSAO,
-	automind.CD_EMPRESA
+	lmTransportes.CD_MES,
+    lmTransportes.CD_ANO,
+    lmTransportes.ID_CONTRATO,
+    lmTransportes.CD_CONTRATO,
+    lmTransportes.NR_CERTIFICADO,
+	lmTransportes.NR_MATRICULA,
+	lmTransportes.NM_TITULAR,
+	lmTransportes.NR_SUBFATURA,
+	lmTransportes.VL_FATOR_MODERADOR,
+	lmTransportes.VL_FATOR_MODERADOR_INSS,	
+	lmTransportes.NR_MATRICULA_ESPECIAL,
+	lmTransportes.DESCR_PROFISSAO,
+	lmTransportes.CD_EMPRESA,
+	lmTransportes.VERSION,
+	lmTransportes.USER_CREATED,
+	lmTransportes.USER_ALTERED,
+	lmTransportes.DT_CREATED,
+	lmTransportes.DT_ALTERED		
 order by
-	automind.NM_TITULAR;
+	lmTransportes.NM_TITULAR;
 	
 create view VW_COPARTICIPACAO_RESUMO_LM_TRANSPORTES as
 select
 	FUNC_GET_ROWNUM() ID,
-	automind.CD_MES,
-    automind.CD_ANO,
-    automind.ID_CONTRATO,
-    automind.CD_CONTRATO,
-    automind.CD_EMPRESA,
-    automind.NR_SUBFATURA,
+	lmTransportes.CD_MES,
+    lmTransportes.CD_ANO,
+    lmTransportes.ID_CONTRATO,
+    lmTransportes.CD_CONTRATO,
+    lmTransportes.CD_EMPRESA,
+    lmTransportes.NR_SUBFATURA,
 	count(1) QTDE_SEGURADOS,
-	sum( automind.VL_FATOR_MODERADOR ) VL_ALOCACAO,
-	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_LM_TRANSPORTES ) VL_PROPORCAO
-from	VW_COPARTICIPACAO_LM_TRANSPORTES automind
+	sum( lmTransportes.VL_FATOR_MODERADOR ) VL_ALOCACAO,
+	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_LM_TRANSPORTES ) VL_PROPORCAO,
+	lmTransportes.VERSION,
+	lmTransportes.USER_CREATED,
+	lmTransportes.USER_ALTERED,
+	lmTransportes.DT_CREATED,
+	lmTransportes.DT_ALTERED		
+from	VW_COPARTICIPACAO_LM_TRANSPORTES lmTransportes
 group by
-	automind.CD_MES,
-    automind.CD_ANO,
-    automind.ID_CONTRATO,
-    automind.CD_CONTRATO,
-    automind.CD_EMPRESA,
-    automind.NR_SUBFATURA;
+	lmTransportes.CD_MES,
+    lmTransportes.CD_ANO,
+    lmTransportes.ID_CONTRATO,
+    lmTransportes.CD_CONTRATO,
+    lmTransportes.CD_EMPRESA,
+    lmTransportes.NR_SUBFATURA,
+	lmTransportes.VERSION,
+	lmTransportes.USER_CREATED,
+	lmTransportes.USER_ALTERED,
+	lmTransportes.DT_CREATED,
+	lmTransportes.DT_ALTERED;	
+    
 	

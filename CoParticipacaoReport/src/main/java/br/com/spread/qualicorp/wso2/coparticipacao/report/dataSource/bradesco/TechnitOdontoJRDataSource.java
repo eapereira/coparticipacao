@@ -22,7 +22,7 @@ public class TechnitOdontoJRDataSource extends CoParticipacaoDataSource<TechnitO
 
 	private static final String FIELD_COPARTICIPACAO = "technitOdontoCoparticipacaoViewUis";
 
-	private static final String FIELD_HEADER = "technitOdontoHeaderViewUis";
+	private static final String FIELD_HEADER = "technitHeaderViewUi";
 
 	private static final String FIELD_MES = "mes";
 	private static final String FIELD_ANO = "ano";
@@ -34,7 +34,7 @@ public class TechnitOdontoJRDataSource extends CoParticipacaoDataSource<TechnitO
 	private static final String FIELD_DT_PROCESSAMENTO_MMYY = "dataProcessamentoMMYY";
 	private static final String FIELD_DT_PROCESSAMENTO_MMYYYY = "dataProcessamentoMMYYYY";
 
-	public TechnitOdontoJRDataSource() {
+	public TechnitOdontoJRDataSource() throws JRException {
 		super();
 	}
 
@@ -42,7 +42,7 @@ public class TechnitOdontoJRDataSource extends CoParticipacaoDataSource<TechnitO
 		super(technitOdontoReports);
 	}
 
-	protected List<TechnitOdontoReport> buildData() {
+	protected List<TechnitOdontoReport> buildData() throws JRException {
 		List<TechnitOdontoReport> technitOdontoReports = new ArrayList<>();
 		TechnitOdontoReport technitOdontoReport = new TechnitOdontoReport();
 		TechnitHeaderViewUi technitHeaderViewUi = new TechnitHeaderViewUi();
@@ -104,7 +104,7 @@ public class TechnitOdontoJRDataSource extends CoParticipacaoDataSource<TechnitO
 		}
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new TechnitOdontoJRDataSource();
 	}
 }

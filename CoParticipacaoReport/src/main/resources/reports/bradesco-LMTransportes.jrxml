@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-LMTransportes" pageWidth="1200" pageHeight="842" columnWidth="1200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="49442e48-845e-4448-aeb6-0dc1d6b59170">
-	<property name="net.sf.jasperreports.data.adapter" value="../data-adapters/LMTransportesDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="reports/LMTransportesDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.unit." value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
@@ -48,7 +48,7 @@
 					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[CONCATENATE("Coparticipação ",T($F{mes}),"/",T($F{ano}))]]></propertyExpression>
 				</reportElement>
 				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.LMTransportesCoparticipacaoJRDataSource($F{lmTransportesCoparticipacaoViewUis})]]></dataSourceExpression>
-				<subreportExpression><![CDATA["src/main/resources/reports/bradesco-LMTransportesCoparticipacao.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["reports/bradesco-LMTransportesCoparticipacao.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
 				<reportElement x="0" y="70" width="97" height="1" uuid="68744d19-e222-48a2-b26d-2c986ce15995"/>
@@ -59,7 +59,7 @@
 					<property name="net.sf.jasperreports.export.xls.sheet.name" value="Rateio"/>
 				</reportElement>
 				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.LMTransportesResumoJRDataSource($F{lmTransportesResumoViewUis})]]></dataSourceExpression>
-				<subreportExpression><![CDATA["src/main/resources/reports/bradesco-LMTransportesResumo.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["reports/bradesco-LMTransportesResumo.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

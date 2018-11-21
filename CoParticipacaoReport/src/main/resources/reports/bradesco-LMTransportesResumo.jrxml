@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-automindResumo" pageWidth="595" pageHeight="1000" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b677f63f-2525-4b40-98c8-095940c2258b">
-	<property name="net.sf.jasperreports.data.adapter" value="../data-adapters/LMTransportesResumoDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.data.adapter" value="reports/LMTransportesResumoDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\data-adapters\LMTransportesResumoDataAdapter.xml"/>
 	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Rateio"/>
 	<queryString>
@@ -44,11 +44,11 @@
 		<band height="58">
 			<image>
 				<reportElement x="0" y="0" width="110" height="30" uuid="2f83cd85-e81c-406e-ab24-e2c480aa1266"/>
-				<imageExpression><![CDATA["src/main/resources/images/qualicorp-logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["images/qualicorp-logo.jpg"]]></imageExpression>
 			</image>
 			<image>
 				<reportElement x="470" y="0" width="84" height="50" uuid="88eb2298-2e15-4cdb-a694-ab475898c20b"/>
-				<imageExpression><![CDATA["src/main/resources/images/LMTransportes-logo.jpg"]]></imageExpression>
+				<imageExpression><![CDATA["images/LMTransportes-logo.jpg"]]></imageExpression>
 			</image>
 		</band>
 	</pageHeader>

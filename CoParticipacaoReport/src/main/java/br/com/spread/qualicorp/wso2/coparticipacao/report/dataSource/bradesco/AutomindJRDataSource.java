@@ -4,6 +4,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipacaoDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.AutomindReport;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -17,18 +20,24 @@ import net.sf.jasperreports.engine.JRField;
  */
 public class AutomindJRDataSource extends CoParticipacaoDataSource<AutomindReport> {
 
+	private static final Logger LOGGER = LogManager.getLogger(AutomindJRDataSource.class);
+
 	private static final String FIELD_COPARTICIPACAO = "automindCoparticipacaoViewUis";
 	private static final String FIELD_RESUMO = "automindResumoViewUis";
+	private static final String FIELD_SHEETNAME_COPARTICIPACAO = "sheetNameCoparticipacao";
+	private static final String FIELD_SHEETNAME_RESUMO = "sheetNameRateio";
+	private static final String FIELD_MES = "mes";
+	private static final String FIELD_ANO = "ano";
 
-	public AutomindJRDataSource() {
+	public AutomindJRDataSource() throws JRException {
 		super();
 	}
 
-	public AutomindJRDataSource(List<AutomindReport> automindReports) {
+	public AutomindJRDataSource(List<AutomindReport> automindReports) throws JRException {
 		super(automindReports);
 	}
 
-	protected List<AutomindReport> buildData() {
+	protected List<AutomindReport> buildData() throws JRException {
 		List<AutomindReport> automindReports = new ArrayList<>();
 		AutomindReport automindReport = new AutomindReport();
 		LocalDate currentDate = LocalDate.now();
@@ -53,13 +62,22 @@ public class AutomindJRDataSource extends CoParticipacaoDataSource<AutomindRepor
 				return getRegister().getAutomindCoparticipacaoViewUis();
 			} else if (FIELD_RESUMO.equals(jrField.getName())) {
 				return getRegister().getAutomindResumoViewUis();
+			} else if (FIELD_SHEETNAME_COPARTICIPACAO.equals(jrField.getName())) {
+				return getRegister().getSheetNameCoparticipacao();
+			} else if (FIELD_SHEETNAME_RESUMO.equals(jrField.getName())) {
+				return getRegister().getSheetNameRateio();
+			} else if (FIELD_MES.equals(jrField.getName())) {
+				return getRegister().getMes();
+			} else if (FIELD_ANO.equals(jrField.getName())) {
+				return getRegister().getAno();
 			}
 		}
 
+		LOGGER.info("Report's field[{}] not found:", jrField.getName());
 		return null;
 	}
 
-	public static JRDataSource getInstance() {
+	public static JRDataSource getInstance() throws JRException {
 		return new AutomindJRDataSource();
 	}
 }

@@ -37,9 +37,9 @@ public class AutomindTest extends CoParticipacaoTest {
 	private static final String NAO_LOCALIZADO_201808 = "automind/input/AUTOMIND.NAO-LOCALIZADO.201810.002.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 75;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 0;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 475;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 154;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 96;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 198;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 431;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 88;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 60;
