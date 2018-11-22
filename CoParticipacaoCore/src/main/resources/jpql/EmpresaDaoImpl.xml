@@ -21,9 +21,10 @@
 	<query id="findByCdEmpresa">
 		<![CDATA[
 			select empresa from EmpresaEntity empresa
-			join fetch empresa.contratos contratos
+			join fetch empresa.contratos contratos 
 			join fetch empresa.operadora operadora
-			where empresa.cdEmpresa = :cdEmpresa
+			where	empresa.cdEmpresa = :cdEmpresa
+			and		contratos.parent is null
 		]]>
 	</query>
 

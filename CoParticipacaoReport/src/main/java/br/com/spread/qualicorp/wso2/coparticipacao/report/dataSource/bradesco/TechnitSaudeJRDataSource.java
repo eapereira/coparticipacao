@@ -22,16 +22,24 @@ import net.sf.jasperreports.engine.JRField;
  *
  */
 public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSaudeReport> {
+
 	private static final Logger LOGGER = LogManager.getLogger(TechnitSaudeJRDataSource.class);
 
 	private static final String FIELD_COPARTICIPACAO = "technitSaudeCoparticipacaoViewUis";
 
 	private static final String FIELD_HEADER = "technitHeaderViewUi";
 
+	private static final String FIELD_TP_REGISTRO = "tipoRegistro";
+	private static final String FIELD_TP_ARQUIVO = "tipoArquivo";
+	private static final String FIELD_CD_CONTRATO = "cdContrato";
+
 	private static final String FIELD_DT_COMPETENCIA_MMYY = "dataCompetenciaMMYY";
 	private static final String FIELD_DT_COMPETENCIA_MMYYYY = "dataCompetenciaMMYYYY";
 	private static final String FIELD_DT_PROCESSAMENTO_MMYY = "dataProcessamentoMMYY";
 	private static final String FIELD_DT_PROCESSAMENTO_MMYYYY = "dataProcessamentoMMYYYY";
+
+	private static final String FIELD_SHEETNAME_COPARTICIPACAO = "sheetNameCoparticipacao";
+	private static final String FIELD_SHEETNAME_RESUMO = "sheetNameRateio";
 
 	public TechnitSaudeJRDataSource() throws JRException {
 		super();
@@ -70,8 +78,16 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSa
 	@Override
 	public Object getFieldValue(JRField jrField) throws JRException {
 		try {
+			LOGGER.info("Looking for Report´s field[{}]:", jrField.getName());
+
 			if (getRegister() != null) {
-				if (FIELD_COPARTICIPACAO.equals(jrField.getName())) {
+				if (FIELD_TP_REGISTRO.equals(jrField.getName())) {
+					return getRegister().getTechnitHeaderViewUi().getTipoRegistro();
+				} else if (FIELD_TP_ARQUIVO.equals(jrField.getName())) {
+					return getRegister().getTechnitHeaderViewUi().getTipoArquivo();
+				} else if (FIELD_CD_CONTRATO.equals(jrField.getName())) {
+					return getRegister().getTechnitHeaderViewUi().getCdContrato();
+				} else if (FIELD_COPARTICIPACAO.equals(jrField.getName())) {
 					return getRegister().getTechnitSaudeCoparticipacaoViewUis();
 				} else if (FIELD_HEADER.equals(jrField.getName())) {
 					return getRegister().getTechnitHeaderViewUi();
@@ -83,10 +99,14 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoDataSource<TechnitSa
 					return getRegister().getDataCompetenciaMMYYYY();
 				} else if (FIELD_DT_PROCESSAMENTO_MMYYYY.equals(jrField.getName())) {
 					return getRegister().getDataProcessamentoMMYYYY();
+				} else if (FIELD_SHEETNAME_COPARTICIPACAO.equals(jrField.getName())) {
+					return getRegister().getSheetNameCoparticipacao();
+				} else if (FIELD_SHEETNAME_RESUMO.equals(jrField.getName())) {
+					return getRegister().getSheetNameRateio();
 				}
 			}
 
-			LOGGER.info("No field found for [{}]:", jrField.getName());
+			LOGGER.info("Report´s field[{}] not found:", jrField.getName());
 			return null;
 		} catch (CoParticipacaoException e) {
 			throw new JRException(e);

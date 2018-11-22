@@ -369,6 +369,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			if (empresaUi.isGenerateOutputFileWithoutFatucopa()) {
 				for (Contrato contrato : empresaUi.getContratos()) {
 					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
+						LOGGER.info("Preparing to create report for ContratoUi[{}]:", contrato.getCdContrato());
 						children = contratoService.listByParent((ContratoUi) contrato);
 
 						if (!children.isEmpty()) {

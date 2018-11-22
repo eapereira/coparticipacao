@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.TechnitSaudeCoparticipacaoViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipacaoDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -17,6 +20,8 @@ import net.sf.jasperreports.engine.JRField;
  */
 public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSource<TechnitSaudeCoparticipacaoViewUi> {
 
+	private static final Logger LOGGER = LogManager.getLogger(TechnitSaudeCoparticipacaoJRDataSource.class);
+	
 	private static final String FIELD_SUBFATURA = "cdEmpresa";
 	private static final String FIELD_NR_CERTIFICADO = "certificado";
 	private static final String FIELD_NR_MATRICULA = "matricula";
@@ -148,6 +153,7 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoDataSo
 			}
 		}
 
+		LOGGER.info("Report´s field[{}] not found:", jrField.getName());
 		return null;
 	}
 

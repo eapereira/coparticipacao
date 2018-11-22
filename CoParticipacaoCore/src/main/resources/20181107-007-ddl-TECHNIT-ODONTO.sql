@@ -166,7 +166,7 @@ group by
 	technit.DT_CREATED,
 	technit.DT_ALTERED				
 order by
-	technit.NM_TITULAR;
+	technit.NR_SUBFATURA, technit.NM_TITULAR;
 	
 create view VW_COPARTICIPACAO_RESUMO_TECHNIT_ODONTO as
 select
