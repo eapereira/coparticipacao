@@ -3,15 +3,9 @@ package br.com.spread.qualicorp.wso2.coparticipacao.test.service.sulamerica;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.test.bean.MuitoFacilBean;
-import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
@@ -19,11 +13,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTe
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@RunWith(SpringRunner.class)
-@SpringBootTest
-@ContextConfiguration(classes = { CoParticipacaoWebServiceConfigurationTest.class })
-// @Transactional
-@ActiveProfiles("test")
 public class MuitoFacilTest extends CoParticipacaoTest {
 	private static final Logger LOGGER = LogManager.getLogger(MuitoFacilTest.class);
 

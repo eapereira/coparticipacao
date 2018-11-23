@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181107-008-dml-TECHNIT-ODONTO.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181107-009-dml-TECHNIT-ODONTO-MECSAS.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181122-002-dml-CELPE.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-003-dml-CELPE-MECSAS.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -248,10 +248,6 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR              	bigint( 17 ) default 106;
 	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO              			bigint( 17 ) default 107;
 	declare VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA              			bigint( 17 ) default 108;
-	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR_INSS           	bigint( 17 ) default 109;
-	declare VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS      				bigint( 17 ) default 110;
-	declare VAR_CD_BENEFICIARIO_COLS_VL_INSS              				bigint( 17 ) default 111;
-	declare VAR_CD_BENEFICIARIO_COLS_VL_LIQUIDO_SINISTRO              	bigint( 17 ) default 112;
 	
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;
@@ -293,7 +289,7 @@ BEGIN
 	/***********************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 285');
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
-    where CD_EMPRESA = '091707';
+    where CD_EMPRESA = 'CELPE-ODONTO';
 	
     call PROC_LOG_MESSAGE('LINHA - 289');
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
@@ -304,7 +300,7 @@ BEGIN
 	select 	ID into VAR_ID_CONTRATO_FATUCOPA 
 	from 	TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
-	and 	CD_CONTRATO = '091707'; 
+	and 	CD_CONTRATO = '071421'; 
 	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
@@ -324,7 +320,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(TECHNIT)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(CELPE-ODONTO)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_MECSAS,
@@ -1631,7 +1627,7 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);		
-	
+
 	call PROC_LOG_MESSAGE('LINHA - 2158');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
@@ -1732,7 +1728,7 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-	
+
 	call PROC_LOG_MESSAGE('LINHA - 2158');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,

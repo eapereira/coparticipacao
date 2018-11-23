@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181107-006-dml-LM-TRANSPORTES-NAO-LOCALIZADO.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181107-008-dml-TECHNIT-ODONTO.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181107-012-dml-TECHNIT-ODONTO-NAO-LOCALIZADO.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-002-dml-CELPE.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -69,7 +69,6 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR						int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR_INSS					int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA_ESPECIAL					int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DESCR_PROFISSAO							int( 3 ) default 30;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF_TITULAR							int( 3 ) default 20;	
@@ -79,16 +78,12 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NUM_SEGURADOS							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PROPORCAO							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_VL_ALOCACAO								int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_VL_ALIQUOTA_INSS						int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_VL_INSS									int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_VL_LIQUIDO_SINISTRO						int( 3 ) default 20;
 
     declare VAR_COL_LABEL_NR_SUBFATURA									varchar( 40 ) default 'SUBFATURA';
 	declare VAR_COL_LABEL_NR_CERTIFICADO								varchar( 40 ) default 'CERTIFICADO';
 	declare VAR_COL_LABEL_NR_MATRICULA									varchar( 40 ) default 'MATRICULA';
 	declare VAR_COL_LABEL_NM_TITULAR									varchar( 40 ) default 'NOME SEGURADO';
 	declare VAR_COL_LABEL_VL_FATOR_MODERADOR							varchar( 40 ) default 'FATOR MODERADOR';
-	declare VAR_COL_LABEL_VL_FATOR_MODERADOR_INSS						varchar( 40 ) default 'FATOR MODERADOR INSS';
 	declare VAR_COL_LABEL_NR_MATRICULA_ESPECIAL							varchar( 40 ) default 'MATRICULA ESPECIAL';
 	declare VAR_COL_LABEL_DESCR_PROFISSAO								varchar( 40 ) default 'CARGO';
 	declare VAR_COL_LABEL_NR_CPF_TITULAR								varchar( 40 ) default 'CPF TÍTULAR';	
@@ -98,9 +93,6 @@ BEGIN
 	declare VAR_COL_LABEL_NUM_SEGURADOS									varchar( 40 ) default 'VIDAS';
 	declare VAR_COL_LABEL_VL_PROPORCAO									varchar( 40 ) default 'PROPORÇÃO (%)';
 	declare VAR_COL_LABEL_VL_ALOCACAO									varchar( 40 ) default 'VALOR ALOCAÇÃO';
-	declare VAR_COL_LABEL_VL_ALIQUOTA_INSS								varchar( 40 ) default 'VALOR ALIQUOTA INSS';
-	declare VAR_COL_LABEL_VL_INSS										varchar( 40 ) default 'VALOR INSS';
-	declare VAR_COL_LABEL_VL_LIQUIDO_SINISTRO							varchar( 40 ) default 'VALOR LÍQUIDO DO SINISTRO';
 	
 	declare VAR_COL_LANCAMENTO_ID_DEPENDENTE							bigint( 17 ) default 1;
 	declare VAR_COL_LANCAMENTO_ID_CONTRATO								bigint( 17 ) default 2;
@@ -174,31 +166,25 @@ BEGIN
         CD_INPUT_DIR,
         CD_FAILURE_DIR,
         CD_OUTPUT_DIR,
-        CD_CREATE_BENEFICIARIO_FRON_MECSAS2,
-        CD_GENERATE_OUTPUT_FILE_NOFATUCOPA,
-        CD_ACCEPT_TITULAR_WITHOUT_CPF,
         TP_SAVE_MECSAS_DETAIL,
-		TP_SAVE_BENEFICIARIO_DETAIL,	
-		CD_USE_JASPER_REPORTS,			
+		TP_SAVE_BENEFICIARIO_DETAIL,		
+		CD_USE_JASPER_REPORTS,		
 		TP_REPORT_QUERY,
 		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
-		'TECHNIT-ODONTO',
-		'091707',
+		'CELPE-ODONTO',
+		'CELPE-ODONTO',
 		VAR_FALSE,
-		'/coparticipacao/output-reports/bradesco/technit-odonto/',
+		'/coparticipacao/output-reports/bradesco/celpe-odonto/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',
-		VAR_TRUE,
-		VAR_TRUE,
-		VAR_TRUE,
         VAR_FALSE,
-        VAR_FALSE,
-        VAR_TRUE,		
+        VAR_FALSE,		
+        VAR_TRUE,
         0,
 		
 		VAR_ID_USER,
@@ -220,8 +206,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'091707',
-	    '091707',
+		'071421',
+	    '071421',
 	    VAR_NM_CONTRATO_COPARTICIPACAO,
 	    VAR_USE_TYPE_FATUCOPA,
 	    
@@ -231,56 +217,7 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
-
-	call PROC_LOG_MESSAGE('LINHA - 235');
-	insert into TB_CONTRATO(
-		ID_EMPRESA,
-		CD_CONTRATO,	
-	    NM_CONTRATO,
-	    DESCR_CONTRATO,
-        TP_USE,
-        ID_CONTRATO_PARENT,
-	    
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-	    VAR_ID_EMPRESA,
-		'SEDE',
-	    'SEDE',
-	    VAR_NM_CONTRATO_COPARTICIPACAO,
-	    VAR_USE_TYPE_FATUCOPA,
-	    VAR_ID_CONTRATO,
-	    
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 259');
-	insert into TB_CONTRATO(
-		ID_EMPRESA,
-		CD_CONTRATO,	
-	    NM_CONTRATO,
-	    DESCR_CONTRATO,
-        TP_USE,
-        ID_CONTRATO_PARENT,
-	    
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-	    VAR_ID_EMPRESA,
-		'DUTRA',
-	    'DUTRA',
-	    VAR_NM_CONTRATO_COPARTICIPACAO,
-	    VAR_USE_TYPE_FATUCOPA,
-	    VAR_ID_CONTRATO,
-	    
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
 	
-	/***********************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 187');
 	insert into TB_CONTRATO(
 		ID_EMPRESA,
@@ -356,53 +293,6 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 231');	
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
-	/* REPORT */
-
-	call PROC_LOG_MESSAGE('LINHA - 236');
-	insert into TB_REPORT(
-		ID_EMPRESA,
-		NM_REPORT,
-		DESCR_REPORT,
-		NM_OUTPUT_FORMAT,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED
-	) values (	
-		VAR_ID_EMPRESA,
-		'bradesco-Technit-OdontoSEDE.jasper',
-		'BRADESCO-TECHNIT',
-		'Technit(SEDE)-Bradesco (Odonto) - Coparticipação_{YYYY}{MM}.xlsx',
-
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 236');
-	insert into TB_REPORT(
-		ID_EMPRESA,
-		NM_REPORT,
-		DESCR_REPORT,
-		NM_OUTPUT_FORMAT,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED
-	) values (	
-		VAR_ID_EMPRESA,
-		'bradesco-Technit-OdontoDUTRA.jasper',
-		'BRADESCO-TECHNIT',
-		'Technit(DUTRA)-Bradesco (Odonto) - Coparticipação_{YYYY}{MM}.xlsx',
-
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 197');
-	/*****************************************************************************************************************/
-	/*****************************************************************************************************************/	
 	/* VIEW-DESTINATION */
 
 	call PROC_LOG_MESSAGE('LINHA - 230');
@@ -413,8 +303,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_TECHNIT',
-		'TECHNIT',
+		'VW_COPARTICIPACAO_CELPE_ODONTO',
+		'CELPE',
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -616,8 +506,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_RESUMO_TECHNIT',
-		'TECHNIT',
+		'VW_COPARTICIPACAO_RESUMO_CELPE_ODONTO',
+		'CELPE',
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -770,7 +660,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_DESCONHECIDO_TECHNIT',
+		'VW_DESCONHECIDO_CELPE_ODONTO',
 		'Não Localizados',
 		
 		VAR_ID_USER,
@@ -781,7 +671,7 @@ BEGIN
 	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;
 	set VAR_CD_ORDEM = 0;
 
-	call PROC_LOG_MESSAGE('LINHA - 735');
+	call PROC_LOG_MESSAGE('LINHA - 820');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -807,7 +697,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 761');
+	call PROC_LOG_MESSAGE('LINHA - 846');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -833,7 +723,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 787');
+	call PROC_LOG_MESSAGE('LINHA - 846');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -859,7 +749,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 813');
+	call PROC_LOG_MESSAGE('LINHA - 846');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -885,7 +775,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 839');
+	call PROC_LOG_MESSAGE('LINHA - 846');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -911,7 +801,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
-	call PROC_LOG_MESSAGE('LINHA - 865');
+	call PROC_LOG_MESSAGE('LINHA - 846');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
 		NM_COLUMN,
@@ -937,137 +827,6 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 891');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'VL_FATOR_MODERADOR_INSS',
-		VAR_COL_DOUBLE,
-		VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR_INSS,
-		VAR_CD_ORDEM,
-		VAR_COL_LABEL_VL_FATOR_MODERADOR_INSS,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);					
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-
-	call PROC_LOG_MESSAGE('LINHA - 918');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'NR_SUBFATURA',
-		VAR_COL_VARCHAR,
-		VAR_COL_VIEW_LENGTH_NR_SUBFATURA,
-		VAR_CD_ORDEM,
-		VAR_COL_LABEL_NR_SUBFATURA,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);					
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-	call PROC_LOG_MESSAGE('LINHA - 944');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'VL_ALIQUOTA_INSS',
-		VAR_COL_DOUBLE,
-		VAR_COL_VIEW_LENGTH_VL_ALIQUOTA_INSS,
-		VAR_CD_ORDEM,
-		VAR_COL_LABEL_VL_ALIQUOTA_INSS,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);					
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-	call PROC_LOG_MESSAGE('LINHA - 970');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'VL_INSS',
-		VAR_COL_DOUBLE,
-		VAR_COL_VIEW_LENGTH_VL_INSS,
-		VAR_CD_ORDEM,
-		VAR_COL_LABEL_VL_INSS,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);					
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-	call PROC_LOG_MESSAGE('LINHA - 996');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'VL_LIQUIDO_SINISTRO',
-		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_VL_LIQUIDO_SINISTRO,
-		VAR_CD_ORDEM,
-		VAR_COL_LABEL_VL_LIQUIDO_SINISTRO,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);					
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-		
 	call PROC_LOG_MESSAGE('LINHA - 950');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	

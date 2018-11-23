@@ -144,6 +144,10 @@ public class BeneficiarioDetail implements Serializable {
 	private BigDecimal valorLiquidoSinistro;
 	
 	private Integer indicadorEvento;
+	
+	private String cdUsuario;
+	
+	private Long certificado;
 
 	public BeneficiarioDetail() {
 		super();
@@ -751,6 +755,24 @@ public class BeneficiarioDetail implements Serializable {
 		this.indicadorEvento = indicadorEvento;
 	}
 
+	@Column(name = "CD_USUARIO")
+	public String getCdUsuario() {
+		return cdUsuario;
+	}
+
+	public void setCdUsuario(String cdUsuario) {
+		this.cdUsuario = cdUsuario;
+	}
+
+	@Column(name = "NR_CERTIFICADO")
+	public Long getCertificado() {
+		return certificado;
+	}
+
+	public void setCertificado(Long certificado) {
+		this.certificado = certificado;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -766,7 +788,9 @@ public class BeneficiarioDetail implements Serializable {
 		result = prime * result + ((cdPlanoAnteriorSas == null) ? 0 : cdPlanoAnteriorSas.hashCode());
 		result = prime * result + ((cdProduto == null) ? 0 : cdProduto.hashCode());
 		result = prime * result + ((cdProfissao == null) ? 0 : cdProfissao.hashCode());
+		result = prime * result + ((cdUsuario == null) ? 0 : cdUsuario.hashCode());
 		result = prime * result + ((certidaoNascimento == null) ? 0 : certidaoNascimento.hashCode());
+		result = prime * result + ((certificado == null) ? 0 : certificado.hashCode());
 		result = prime * result + ((cid01 == null) ? 0 : cid01.hashCode());
 		result = prime * result + ((cid02 == null) ? 0 : cid02.hashCode());
 		result = prime * result + ((cid03 == null) ? 0 : cid03.hashCode());
@@ -889,10 +913,20 @@ public class BeneficiarioDetail implements Serializable {
 				return false;
 		} else if (!cdProfissao.equals(other.cdProfissao))
 			return false;
+		if (cdUsuario == null) {
+			if (other.cdUsuario != null)
+				return false;
+		} else if (!cdUsuario.equals(other.cdUsuario))
+			return false;
 		if (certidaoNascimento == null) {
 			if (other.certidaoNascimento != null)
 				return false;
 		} else if (!certidaoNascimento.equals(other.certidaoNascimento))
+			return false;
+		if (certificado == null) {
+			if (other.certificado != null)
+				return false;
+		} else if (!certificado.equals(other.certificado))
 			return false;
 		if (cid01 == null) {
 			if (other.cid01 != null)
@@ -1160,5 +1194,6 @@ public class BeneficiarioDetail implements Serializable {
 			return false;
 		return true;
 	}
+
 
 }

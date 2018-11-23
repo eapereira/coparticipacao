@@ -129,7 +129,9 @@ public enum BeneficiarioColType {
 									VL_ALIQUOTA_INSS(110, "VL_ALIQUOTA_INSS"),
 									VL_INSS(111, "VL_INSS"),
 									VL_LIQUIDO_SINISTRO(112, "VL_LIQUIDO_SINISTRO"),
-									IND_EVENTO(113, "IND_EVENTO");
+									IND_EVENTO(113, "IND_EVENTO"),
+									CD_USUARIO(114, "CD_USUARIO"),
+									NR_CERTIFICADO(115, "NR_CERTIFICADO");
 
 	private Integer id;
 

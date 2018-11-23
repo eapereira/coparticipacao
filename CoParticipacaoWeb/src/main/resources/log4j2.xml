@@ -10,7 +10,7 @@
 	<Appenders>
 		<!-- Rolling File Appender -->
 		<RollingFile name="fileAppender" fileName="${app.home}/logs/CoParticipacaoWeb.log"
-			filePattern="${app.home}/logs/CoParticipacaoWeb-%d{yyyy-MM-dd}-%i.log">
+			filePattern="${app.home}/logs/CoParticipacaoWeb-%d{yyyy-MM-dd}-%i.log.zip">
 			<PatternLayout>
 				<Pattern>${LOG_PATTERN}</Pattern>
 			</PatternLayout>

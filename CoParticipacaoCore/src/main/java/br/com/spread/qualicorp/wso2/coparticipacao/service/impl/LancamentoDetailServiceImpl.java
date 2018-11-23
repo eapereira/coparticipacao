@@ -69,6 +69,8 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					lancamentoDetailUi.setValorReembolso((BigDecimal) value);
 				} else if (LancamentoColType.VL_PARTICIPACAO.equals(lancamentoColType)) {
 					lancamentoDetailUi.setValorParticipacao((BigDecimal) value);
+				} else if (LancamentoColType.CD_USUARIO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setCdUsuario((String) value);					
 				} else {
 					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 				}

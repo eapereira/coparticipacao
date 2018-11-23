@@ -113,7 +113,9 @@
 				VL_ALIQUOTA_INSS,
 				VL_INSS,
 				VL_LIQUIDO_SINISTRO, /* 108 */		
-				IND_EVENTO,	/* 109 */		        
+				IND_EVENTO,	/* 109 */	
+				CD_USUARIO,	        
+				NR_CERTIFICADO, /* 111 */
 				
 				USER_CREATED,
 				DT_ALTERED,
@@ -229,7 +231,9 @@
 				?,
 				?,
 				?,
-				?
+				?,
+				?,
+				?,
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -352,7 +356,9 @@
 				VL_ALIQUOTA_INSS			= ?,
 				VL_INSS						= ?,
 				VL_LIQUIDO_SINISTRO			= ?, 	/* 108 */		
-				IND_EVENTO					= ?,	/* 109 */		        				  
+				IND_EVENTO					= ?,	/* 109 */		   
+				CD_USUARIO					= ?,     		
+				NR_CERTIFICADO				= ?,		  
 				
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

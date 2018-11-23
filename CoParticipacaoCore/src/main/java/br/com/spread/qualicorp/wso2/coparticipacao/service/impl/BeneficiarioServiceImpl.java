@@ -183,6 +183,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.setContrato(lancamentoDetailUi.getContratoUi());
 			beneficiarioUi.setCdContrato(lancamentoDetailUi.getCdContrato());
 
+			beneficiarioUi.getBeneficiarioDetail().setCdUsuario(lancamentoDetailUi.getCdUsuario());
+
 			LOGGER.info("END");
 			return beneficiarioUi;
 		} catch (Exception e) {
@@ -504,6 +506,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				beneficiarioDetail.setValorLiquidoSinistro((BigDecimal) value);
 			} else if (BeneficiarioColType.IND_EVENTO.equals(beneficiarioColType)) {
 				beneficiarioDetail.setIndicadorEvento((Integer) value);
+			} else if (BeneficiarioColType.CD_USUARIO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCdUsuario((String) value);
+			} else if (BeneficiarioColType.NR_CERTIFICADO.equals(beneficiarioColType)) {
+				beneficiarioDetail.setCertificado((Long) value);
 			}
 
 			LOGGER.info("END");

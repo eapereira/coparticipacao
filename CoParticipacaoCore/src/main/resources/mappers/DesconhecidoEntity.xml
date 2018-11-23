@@ -19,7 +19,9 @@
 				VL_FATOR_MODERADOR_INSS,
 				DESCR_PROFISSAO,
 				NR_MATRICULA_ESPECIAL,
-				NR_SUBFATURA,				
+				NR_SUBFATURA,	
+				CD_USUARIO,		
+				NR_CERTIFICADO,	
 								
 				USER_CREATED,
 				DT_CREATED,
@@ -42,6 +44,8 @@
 				?,
 				?,				
 				?, /* 15 */
+				?,
+				?,
 								
 				?,
 				CURRENT_TIMESTAMP(),
@@ -70,7 +74,9 @@
 				VL_FATOR_MODERADOR_INSS			= ?,
 				DESCR_PROFISSAO					= ?,
 				NR_MATRICULA_ESPECIAL			= ?,
-				NR_SUBFATURA					= ?, /* 15 */				
+				NR_SUBFATURA					= ?, /* 15 */	
+				CD_USUARIO						= ?,		
+				NR_CERTIFICADO					= ?,	
 								
 				USER_CREATED					= ?,
 				DT_CREATED						= CURRENT_TIMESTAMP(),

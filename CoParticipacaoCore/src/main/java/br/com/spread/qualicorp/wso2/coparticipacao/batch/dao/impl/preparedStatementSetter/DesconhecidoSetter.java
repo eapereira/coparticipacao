@@ -2,12 +2,8 @@ package br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.impl.preparedState
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
-
-import org.apache.commons.lang3.StringUtils;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity;
-import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
  * 
@@ -33,11 +29,13 @@ public class DesconhecidoSetter extends PreparedStatementSetterAdapter<Desconhec
 	private static final int COL_DESCR_PROFISSAO = 13;
 	private static final int COL_NR_MATRICULA_ESPECIAL = 14;
 	private static final int COL_NR_SUBFATURA = 15;
+	private static final int COL_CD_USUARIO = 16;
+	private static final int COL_NR_CERTIFICADO = 17;
 
-	private static final int COL_USER_CREATED = 16;
-	private static final int COL_USER_ALTERED = 17;
+	private static final int COL_USER_CREATED = 18;
+	private static final int COL_USER_ALTERED = 18;
 
-	private static final int COL_ID = 18;
+	private static final int COL_ID = 19;
 
 	public DesconhecidoSetter(SetterAdapterType setterAdapterType, DesconhecidoEntity entity) {
 		super(setterAdapterType, entity);
@@ -60,62 +58,25 @@ public class DesconhecidoSetter extends PreparedStatementSetterAdapter<Desconhec
 	}
 
 	protected void setCommonValues(PreparedStatement ps) throws SQLException {
-		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
-		ps.setInt(COL_CD_MES, getEntity().getMes());
-		ps.setInt(COL_CD_ANO, getEntity().getAno());
+		setLong(ps, COL_ID_CONTRATO, getEntity().getContrato().getId());
+		setInt(ps, COL_CD_MES, getEntity().getMes());
+		setInt(ps, COL_CD_ANO, getEntity().getAno());
 
-		if (getEntity().getMatricula() != null) {
-			ps.setLong(COL_NR_MATRICULA, getEntity().getMatricula());
-		} else {
-			ps.setNull(COL_NR_MATRICULA, Types.BIGINT);
-		}
-
-		if (getEntity().getCpf() != null) {
-			ps.setLong(COL_NR_CPF, getEntity().getCpf());
-		} else {
-			ps.setNull(COL_NR_CPF, Types.BIGINT);
-		}
-
-		if (StringUtils.isNotBlank(getEntity().getNameBeneficiario())) {
-			ps.setString(COL_NM_BENEFICIARIO, getEntity().getNameBeneficiario());
-		} else {
-			ps.setNull(COL_NM_BENEFICIARIO, Types.VARCHAR);
-		}
-
-		if (getEntity().getDtNascimento() != null) {
-			ps.setDate(COL_DT_NASCIMENTO, DateUtils.localDateToSqlDate(getEntity().getDtNascimento()));
-		} else {
-			ps.setNull(COL_DT_NASCIMENTO, Types.DATE);
-		}
-
-		if (getEntity().getMatricula() != null) {
-			ps.setLong(COL_NR_MATRICULA, getEntity().getMatricula());
-		} else {
-			ps.setNull(COL_NR_MATRICULA, Types.BIGINT);
-		}
-
-		if (getEntity().getValorPrincipal() != null) {
-			ps.setBigDecimal(COL_VL_PRINCIPAL, getEntity().getValorPrincipal());
-		} else {
-			ps.setNull(COL_VL_PRINCIPAL, Types.DOUBLE);
-		}
-
-		if (getEntity().getMatriculaEmpresa() != null) {
-			ps.setLong(COL_NR_MATRICULA_EMPRESA, getEntity().getMatriculaEmpresa());
-		} else {
-			ps.setNull(COL_NR_MATRICULA_EMPRESA, Types.BIGINT);
-		}
-
-		if (StringUtils.isNotBlank(getEntity().getNameTitular())) {
-			ps.setString(COL_NM_TITULAR, getEntity().getNameTitular());
-		} else {
-			ps.setNull(COL_NM_TITULAR, Types.VARCHAR);
-		}
+		setLong(ps, COL_NR_MATRICULA, getEntity().getMatricula());
+		setLong(ps, COL_NR_CPF, getEntity().getCpf());
+		setString(ps, COL_NM_BENEFICIARIO, getEntity().getNameBeneficiario());
+		setDate(ps, COL_DT_NASCIMENTO, getEntity().getDtNascimento());
+		setLong(ps, COL_NR_MATRICULA, getEntity().getMatricula());
+		setBigDecimal(ps, COL_VL_PRINCIPAL, getEntity().getValorPrincipal());
+		setLong(ps, COL_NR_MATRICULA_EMPRESA, getEntity().getMatriculaEmpresa());
+		setString(ps, COL_NM_TITULAR, getEntity().getNameTitular());
 
 		setString(ps, COL_DESCR_PROFISSAO, getEntity().getBeneficiarioDetail().getProfissao());
 		setLong(ps, COL_NR_MATRICULA_ESPECIAL, getEntity().getBeneficiarioDetail().getMatriculaEspecial());
 		setBigDecimal(ps, COL_VL_FATOR_MODERADOR, getEntity().getBeneficiarioDetail().getFatorModerador());
 		setInt(ps, COL_NR_SUBFATURA, getEntity().getBeneficiarioDetail().getSubFatura());
 		setBigDecimal(ps, COL_VL_FATOR_MODERADOR_INSS, getEntity().getBeneficiarioDetail().getFatorModeradorInss());
+		setString(ps, COL_CD_USUARIO, getEntity().getBeneficiarioDetail().getCdUsuario());
+		setLong(ps, COL_NR_CERTIFICADO, getEntity().getBeneficiarioDetail().getCertificado());
 	}
 }

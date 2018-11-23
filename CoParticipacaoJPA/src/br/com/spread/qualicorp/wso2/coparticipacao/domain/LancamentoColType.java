@@ -19,7 +19,8 @@ public enum LancamentoColType {
 								NM_TITULAR(11, "NM_TITULAR"),
 								DT_NASCIMENTO(12, "DT_NASCIMENTO"),
 								VL_REEMBOLSO(13, "VL_REEMBOLSO"),
-								VL_PARTICIPACAO(14, "VL_PARTICIPACAO");
+								VL_PARTICIPACAO(14, "VL_PARTICIPACAO"),
+								CD_USUARIO(15, "CD_USUARIO");
 
 	private Integer id;
 

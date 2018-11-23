@@ -32,7 +32,9 @@ alter table TB_TITULAR
 		VL_INSS					numeric( 17, 2 ) null,
 		VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
 		VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null,
-		IND_EVENTO				int( 5 ) null
+		IND_EVENTO				int( 5 ) null,
+		CD_USUARIO				varchar( 20 ) null,
+		NR_CERTIFICADO			bigint( 17 ) null
 );
 
 alter table TB_DEPENDENTE
@@ -45,7 +47,9 @@ alter table TB_DEPENDENTE
 		VL_INSS					numeric( 17, 2 ) null,
 		VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
 		VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null,
-		IND_EVENTO				int( 5 ) null		
+		IND_EVENTO				int( 5 ) null,
+		CD_USUARIO				varchar( 20 ) null,
+		NR_CERTIFICADO			bigint( 17 ) null		
 );
 
 alter table TB_DESCONHECIDO
@@ -58,7 +62,9 @@ alter table TB_DESCONHECIDO
 		VL_INSS					numeric( 17, 2 ) null,
 		VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
 		VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null,
-		IND_EVENTO				int( 5 ) null		
+		IND_EVENTO				int( 5 ) null,
+		CD_USUARIO				varchar( 20 ) null,
+		NR_CERTIFICADO			bigint( 17 ) null		
 );
 
 /*************************************************************************************************************************************/

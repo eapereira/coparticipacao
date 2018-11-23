@@ -295,6 +295,14 @@ public class BeneficiarioDetailHelper {
 				beneficiarioDetailDest.setIndicadorEvento(beneficiarioDetailOrigin.getIndicadorEvento());
 			}
 
+			if (beneficiarioDetailOrigin.getCdUsuario() != null) {
+				beneficiarioDetailDest.setCdUsuario(beneficiarioDetailOrigin.getCdUsuario());
+			}
+
+			if (beneficiarioDetailOrigin.getCertificado() != null) {
+				beneficiarioDetailDest.setCertificado(beneficiarioDetailOrigin.getCertificado());
+			}
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);

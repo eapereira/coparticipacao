@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181107-010-dml-TECHNIT-091707.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181107-011-dml-TECHNIT-MECSAS2.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181107-010-dml-TECHNIT-ODONTO-091707.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181107-011-dml-TECHNIT-ODONTO-MECSAS2.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;

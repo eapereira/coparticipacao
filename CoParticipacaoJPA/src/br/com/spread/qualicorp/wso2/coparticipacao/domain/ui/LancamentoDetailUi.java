@@ -39,6 +39,8 @@ public class LancamentoDetailUi implements Serializable {
 	
 	private BigDecimal valorReembolso;
 	private BigDecimal valorParticipacao;
+	
+	private String cdUsuario;
 
 	public LancamentoDetailUi() {
 		super();
@@ -178,6 +180,14 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setCdContrato(String cdContrato) {
 		this.cdContrato = cdContrato;
+	}
+
+	public String getCdUsuario() {
+		return cdUsuario;
+	}
+
+	public void setCdUsuario(String cdUsuario) {
+		this.cdUsuario = cdUsuario;
 	}
 
 }
