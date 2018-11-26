@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-CelpeSaudeRateio" pageWidth="595" pageHeight="500" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8561b507-4168-4184-9cb1-d20c0ea46dff">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/CelpeSaudeRateioDataAdapter.xml"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nameTitular" class="java.lang.String">
+		<fieldDescription><![CDATA[nameTitular]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<variable name="VAR_totalValor" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="170" height="79" uuid="dee0d618-bf8d-453e-84c8-2bbc64401a3d"/>
+				<imageExpression><![CDATA["images/qualicorp-logo.jpg"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="445" y="0" width="110" height="60" uuid="5998be82-7fb1-41b7-ae2e-ed2778a63a95"/>
+				<imageExpression><![CDATA["images/celpe-logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="30" uuid="27a9d2f5-843e-432f-9c6d-ad97212ae7a6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[COPARTICIPAÇÃO CELPE SAÚDE 071421]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="375" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="d927d3d2-a93e-4c53-b726-76c927926408"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Títular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="375" y="0" width="180" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="4a705277-fd96-4fcb-a069-0a5d207ae73d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="375" height="30" uuid="8e056f19-85d5-4985-bd84-991d4613dc66"/>
+				<textFieldExpression><![CDATA[$F{nameTitular}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="375" y="0" width="180" height="30" uuid="43c06c41-214a-44c6-801f-8d29d3602f0e"/>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="30" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="375" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="7b0f248a-43e7-4a39-a6ac-1f7327297e83"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField pattern="#,##0.00#">
+				<reportElement mode="Opaque" x="375" y="0" width="180" height="30" forecolor="#FFFFFF" backcolor="#003366" uuid="e036dbbb-e316-4f80-acb9-8a67b292536d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{VAR_totalValor}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

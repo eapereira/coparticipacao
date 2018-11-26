@@ -176,7 +176,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
 		'CELPE-ODONTO',
-		'CELPE-ODONTO',
+		'071421',
 		VAR_FALSE,
 		'/coparticipacao/output-reports/bradesco/celpe-odonto/',
         '/coparticipacao/input/',

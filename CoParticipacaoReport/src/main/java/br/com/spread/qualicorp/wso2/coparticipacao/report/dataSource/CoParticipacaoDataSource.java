@@ -2,10 +2,16 @@ package br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource;
 
 import java.util.List;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean2;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
 
 /**
  * 
@@ -13,6 +19,8 @@ import net.sf.jasperreports.engine.JRException;
  *
  */
 public abstract class CoParticipacaoDataSource<T> implements JRDataSource {
+
+	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoDataSource.class);
 
 	private List<T> data;
 
@@ -51,6 +59,26 @@ public abstract class CoParticipacaoDataSource<T> implements JRDataSource {
 		}
 
 		return false;
+	}
+
+	@Override
+	public Object getFieldValue(JRField jrField) throws JRException {
+		Object value;
+
+		try {
+			LOGGER.info("BEGIN");
+			LOGGER.info("Searching for field's name[{}]:", jrField.getName());
+
+			value = PropertyUtils.getProperty(getRegister(), jrField.getName());
+
+			LOGGER.info("Field's name[{}] has value[{}]:", jrField.getName(), value);
+
+			LOGGER.info("END");
+			return value;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new JRException(e);
+		}
 	}
 
 	public List<T> getData() {

@@ -17,31 +17,35 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.TechnitHeaderViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.AutomindJRDataSource;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.CelpeSaudeJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.LMTransportesJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.TechnitOdontoJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.TechnitSaudeJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.AutomindReport;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.CelpeSaudeReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.LMTransportesReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitOdontoReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitSaudeReport;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.AutomindCoparticipacaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.AutomindResumoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.CelpeSaudeCoparticipacaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.CelpeSaudeRateioService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.CelpeSaudeResumoDetailService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.CelpeSaudeResumoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.LMTransportesCoparticipacaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.LMTransportesResumoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.ReportService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitOdonto;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitOdontoCoparticipacaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitSaude;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitSaudeCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.AutomindCoparticipacaoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.AutomindResumoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.LMTransportesCoparticipacaoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.LMTransportesResumoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.TechnitOdonto;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.TechnitOdontoCoparticipacaoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.TechnitSaude;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.view.bradesco.TechnitSaudeCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.CoParticipacaoFileUtils;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -66,11 +70,13 @@ public class ReportServiceImpl implements ReportService {
 	private static final String CD_EMPRESA_LM_TRANSPORTES = "073179";
 	private static final String CD_EMPRESA_TECHNIT_ODONTO = "091707";
 	private static final String CD_EMPRESA_TECHNIT_SAUDE = "091707";
+	private static final String CD_EMPRESA_CELPE_SAUDE = "071421";
 
 	private static final String BRADESCO_AUTOMIND_REPORT = "/reports/bradesco-automind.jasper";
 	private static final String BRADESCO_LM_TRANSPORTES_REPORT = "/reports/bradesco-LMTransportes.jasper";
 	private static final String BRADESCO_TECHNIT_ODONTO_REPORT = "/reports/bradesco-TechnitOdonto.jasper";
 	private static final String BRADESCO_TECHNIT_SAUDE_REPORT = "/reports/bradesco-TechnitSaude.jasper";
+	private static final String BRADESCO_CELPE_SAUDE_REPORT = "/reports/bradesco-CelpeSaude.jasper";
 
 	@Autowired
 	private AutomindResumoService automindResumoService;
@@ -89,7 +95,19 @@ public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	private TechnitSaudeCoparticipacaoService technitSaudeCoparticipacaoService;
-	
+
+	@Autowired
+	private CelpeSaudeResumoService celpeSaudeResumoService;
+
+	@Autowired
+	private CelpeSaudeResumoDetailService celpeSaudeResumoDetailService;
+
+	@Autowired
+	private CelpeSaudeRateioService celpeSaudeRateioService;
+
+	@Autowired
+	private CelpeSaudeCoparticipacaoService celpeSaudeCoparticipacaoService;
+
 	@Override
 	public void printReport(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
 			throws ServiceException {
@@ -101,7 +119,7 @@ public class ReportServiceImpl implements ReportService {
 			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			LOGGER.info("Starting report for EmpresaUi[{}]:", empresaUi.getCdEmpresa());
-			
+
 			if (CD_EMPRESA_AUTOMIND.equals(empresaUi.getCdEmpresa())) {
 				printReportAutomind(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_LM_TRANSPORTES.equals(empresaUi.getCdEmpresa())) {
@@ -110,9 +128,49 @@ public class ReportServiceImpl implements ReportService {
 				printReportTechnitOdonto(coParticipacaoContext, mes, ano);
 			} else if (CD_EMPRESA_TECHNIT_SAUDE.equals(empresaUi.getCdEmpresa())) {
 				printReportTechnitSaude(coParticipacaoContext, mes, ano);
+			} else if (CD_EMPRESA_CELPE_SAUDE.equals(empresaUi.getCdEmpresa())) {
+				printReportCelpeSaude(coParticipacaoContext, mes, ano);
 			} else {
 				throw new ServiceException("EmpresaUi[] doesn't has a report configured:", empresaUi.getCdEmpresa());
 			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	private void printReportCelpeSaude(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
+			throws ServiceException {
+		JRDataSource jrDataSource;
+		List<CelpeSaudeReport> celpeSaudeReports;
+		CelpeSaudeReport celpeSaudeReport;
+		InputStream inputStream;
+		ContratoUi contratoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+			contratoUi = (ContratoUi) coParticipacaoContext.getArquivoExecucaoUi().getContrato();
+			celpeSaudeReports = new ArrayList<>();
+			celpeSaudeReport = new CelpeSaudeReport();
+			celpeSaudeReport.setCdContrato(contratoUi.getCdContrato());
+			celpeSaudeReport.setMes(mes);
+			celpeSaudeReport.setAno(ano);
+			celpeSaudeReport.setCelpeSaudeResumoViewUis(celpeSaudeResumoService.listByMesAndAno(mes, ano));
+			celpeSaudeReport.setCelpeSaudeRateioViewUis(celpeSaudeRateioService.listByMesAndAno(mes, ano));
+			celpeSaudeReport
+					.setCelpeSaudeCoparticipacaoViewUis(celpeSaudeCoparticipacaoService.listByMesAndAno(mes, ano));
+
+			celpeSaudeReports.add(celpeSaudeReport);
+
+			LOGGER.info("Creating the DataSource to fill the report:");
+			jrDataSource = new CelpeSaudeJRDataSource(celpeSaudeReports);
+
+			LOGGER.info("Loading the report file[{}] to be filled with data:", BRADESCO_CELPE_SAUDE_REPORT);
+			inputStream = getClass().getResourceAsStream(BRADESCO_CELPE_SAUDE_REPORT);
+
+			fillAndExportReportToSpreadsheet(coParticipacaoContext, jrDataSource, inputStream);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

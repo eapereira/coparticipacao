@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByMesAndAno">
+		<![CDATA[
+			select view from CelpeSaudeResumoViewEntity view
+			where 	view.mes 	= :mes
+			and		view.ano	= ;ano	
+			order by view.cdContrato
+		]]>
+	</query>
+
+</queries>

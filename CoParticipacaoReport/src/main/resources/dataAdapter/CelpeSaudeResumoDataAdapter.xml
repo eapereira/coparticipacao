@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dsDataAdapter class="net.sf.jasperreports.data.ds.DataSourceDataAdapterImpl"><name>CelpeSaudeResumoDataAdapter</name><factoryClass>br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.CelpeSaudeResumoJRDataSource</factoryClass><methodToCall>getInstance</methodToCall><classpath>/home/eapereira/desenv/git-home/coparticipacao/CoParticipacaoReport/target/CoParticipacaoReport.jar</classpath></dsDataAdapter>

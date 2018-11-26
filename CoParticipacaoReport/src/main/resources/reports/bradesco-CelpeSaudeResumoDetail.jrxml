@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-CelpeSaudeResumoDetail" pageWidth="640" pageHeight="100" columnWidth="640" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="e5f50921-0f3d-4cd8-9225-636a71abbc57">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/CelpeSaudeResumoDetailDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="subEstipulante" class="java.lang.String">
+		<fieldDescription><![CDATA[subEstipulante]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<field name="cdContrato" class="java.lang.String">
+		<fieldDescription><![CDATA[cdContrato]]></fieldDescription>
+	</field>
+	<field name="vidas" class="java.lang.Integer">
+		<fieldDescription><![CDATA[vidas]]></fieldDescription>
+	</field>
+	<field name="percentualValor" class="java.lang.Float">
+		<fieldDescription><![CDATA[percentualValor]]></fieldDescription>
+	</field>
+	<field name="percentualVidas" class="java.lang.Float">
+		<fieldDescription><![CDATA[percentualVidas]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="f06febfd-d5e9-428a-b3a2-5fd5382916ae"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="140" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="1d23e9a2-3cb5-4e64-be9c-28702b5fa4c7"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub-Estipulante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="240" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="3f831eb6-5403-4d9f-a9f6-ed88d9be21b5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vidas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="340" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="40f3286f-d75f-4140-ad6a-4117b21dfc62"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="440" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="93e42f95-bb13-4eed-8888-e70959cf718d"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor ( R$ )]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="540" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="aeeb9757-76a0-4780-a00b-843fb1ed0108"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[%]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="100" y="0" width="140" height="20" uuid="8dd433e3-0bdf-4d6a-b859-889eaf1e2720"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subEstipulante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="51c4a57e-3e38-4a75-8140-7e01db138ef0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cdContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="240" y="0" width="100" height="20" uuid="71c57028-a04b-4cac-aa07-ef9fcc00f7f2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vidas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="340" y="0" width="100" height="20" uuid="f62a76a4-4ff9-4c7b-9d3a-66e29e58202d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{percentualVidas}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="440" y="0" width="100" height="20" uuid="2f2af276-f706-4be4-a033-1d99a55548bf"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00#">
+				<reportElement x="540" y="0" width="100" height="20" uuid="badb622b-3dd3-4a13-9e4c-5958d7571521"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{percentualVidas}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -251,7 +251,7 @@ BEGIN
 	/***********************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 252');
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
-    where CD_EMPRESA = 'CELPE-ODONTO';
+    where CD_EMPRESA = '071421';
 	
     call PROC_LOG_MESSAGE('LINHA - 256');
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
