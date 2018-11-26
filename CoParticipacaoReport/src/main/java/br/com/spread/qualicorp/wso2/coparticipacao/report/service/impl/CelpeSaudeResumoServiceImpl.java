@@ -1,7 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.report.service.impl;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -21,7 +19,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.report.service.CelpeSaudeResu
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.CelpeSaudeResumoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.AbstractServiceImpl;
-import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
  * 
@@ -49,25 +46,16 @@ public class CelpeSaudeResumoServiceImpl
 
 	public List<CelpeSaudeResumoViewUi> listByMesAndAno(Integer mes, Integer ano) throws ServiceException {
 		List<CelpeSaudeResumoViewUi> celpeSaudeResumoViewUis;
-		LocalDate date;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			celpeSaudeResumoViewUis = entityToUi(celpeSaudeResumoDao.listByMesAndAno(mes, ano));
 
-			date = DateUtils.stringToDate(String.format("01/%d/%d", mes, ano), "dd/MM/yyyy");
-
 			for (CelpeSaudeResumoViewUi celpeSaudeResumoViewUi : celpeSaudeResumoViewUis) {
 				// Existe apenas um elemento:
 				celpeSaudeResumoViewUi
 						.setCelpeSaudeResumoDetailViewUis(celpeSaudeResumoDetailService.listByMesAndAno(mes, ano));
-
-				celpeSaudeResumoViewUi.setValorAnterior(findValorPrincipalAnteriorByMesAndAno(mes, ano));
-				celpeSaudeResumoViewUi.setCompetencia(DateUtils.dateToString(date, "MMMMM/yyyy"));
-
-				date = date.minusMonths(1);
-				celpeSaudeResumoViewUi.setCompetenciaAnterior(DateUtils.dateToString(date, "MMMMM/yyyy"));
 			}
 
 			LOGGER.info("END");
@@ -76,28 +64,6 @@ public class CelpeSaudeResumoServiceImpl
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
-	}
-
-	private BigDecimal findValorPrincipalAnteriorByMesAndAno(Integer mes, Integer ano) throws ServiceException {
-		List<CelpeSaudeResumoViewUi> celpeSaudeResumoViewUis;
-		BigDecimal valorPrincipalAnterior = BigDecimal.ZERO;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			celpeSaudeResumoViewUis = entityToUi(celpeSaudeResumoDao.listByMesAndAno(mes - 1, ano));
-
-			for (CelpeSaudeResumoViewUi celpeSaudeResumoViewUi : celpeSaudeResumoViewUis) {
-				valorPrincipalAnterior = valorPrincipalAnterior.add(celpeSaudeResumoViewUi.getValor());
-			}
-
-			LOGGER.info("END");
-			return valorPrincipalAnterior;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
-		}
-
 	}
 
 	@Override

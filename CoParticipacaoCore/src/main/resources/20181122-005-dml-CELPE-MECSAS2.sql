@@ -12,7 +12,7 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181122-004-dml-CELPE-71421.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181122-004-dml-CELPE-071421.sql';
 	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-005-dml-CELPE-MECSAS2.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
@@ -548,7 +548,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_009_NR_MATRICULA_ESPECIAL',
-		VAR_COL_LONG,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		

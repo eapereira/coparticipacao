@@ -491,7 +491,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			} else if (BeneficiarioColType.DESCR_PROFISSAO.equals(beneficiarioColType)) {
 				beneficiarioDetail.setProfissao((String) value);
 			} else if (BeneficiarioColType.NR_MATRICULA_ESPECIAL.equals(beneficiarioColType)) {
-				beneficiarioDetail.setMatriculaEspecial((Long) value);
+				beneficiarioDetail.setMatriculaEspecial((String) value);
 			} else if (BeneficiarioColType.VL_FATOR_MODERADOR.equals(beneficiarioColType)) {
 				beneficiarioDetail.setFatorModerador((BigDecimal) value);
 			} else if (BeneficiarioColType.NR_SUBFATURA.equals(beneficiarioColType)) {

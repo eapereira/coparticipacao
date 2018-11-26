@@ -132,7 +132,7 @@ public class BeneficiarioDetail implements Serializable {
 	private String difTransferencia;
 
 	private String profissao;
-	private Long matriculaEspecial;
+	private String matriculaEspecial;
 	private BigDecimal fatorModerador;
 
 	private Integer subFatura;
@@ -684,11 +684,11 @@ public class BeneficiarioDetail implements Serializable {
 	}
 
 	@Column(name = "NR_MATRICULA_ESPECIAL")
-	public Long getMatriculaEspecial() {
+	public String getMatriculaEspecial() {
 		return matriculaEspecial;
 	}
 
-	public void setMatriculaEspecial(Long matriculaEspecial) {
+	public void setMatriculaEspecial(String matriculaEspecial) {
 		this.matriculaEspecial = matriculaEspecial;
 	}
 

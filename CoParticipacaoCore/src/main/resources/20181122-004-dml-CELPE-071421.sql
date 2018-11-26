@@ -13,7 +13,7 @@ SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
 	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181122-003-dml-CELPE-MECSAS.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-004-dml-CELPE-71421.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-004-dml-CELPE-071421.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -83,15 +83,6 @@ BEGIN
 	
 	declare VAR_ID_ARQUIVO_OUTPUT										bigint( 17 );
     declare VAR_ID_VIEW_DESTINATION										bigint( 17 );
-	declare VAR_VIEW_DESTINATION_RESUMO_HOC 							bigint( 17 );
-	declare VAR_VIEW_DESTINATION_ORIGINAL_HOC 							bigint( 17 );
-	declare VAR_VIEW_DESTINATION_ISENCAO_GESTANTES_HOC 					bigint( 17 );
-	declare VAR_VIEW_DESTINATION_CONSELHEIROS_HOC 						bigint( 17 );
-	declare VAR_VIEW_DESTINATION_AFASTADOS_HOC		 					bigint( 17 );
-	declare VAR_VIEW_DESTINATION_AGREGADOS_HOC 							bigint( 17 );
-	declare VAR_VIEW_DESTINATION_PLANO_EXTENSAO_HOC 					bigint( 17 );
-	declare VAR_VIEW_DESTINATION_DESLIGADOS_HOC 						bigint( 17 );
-	declare VAR_VIEW_DESTINATION_PRN_HOC 								bigint( 17 );
 	
 	declare VAR_COL_VIEW_LENGTH_ID_TITULAR								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
@@ -415,7 +406,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_003_CD_USUARIO',
-		VAR_COL_INT,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -813,7 +804,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_018_NR_MATRICULA_ESPECIAL',
-		VAR_COL_LONG,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -1001,13 +992,13 @@ BEGIN
 		current_timestamp()	
 	);	
 	
-	call PROC_LOG_MESSAGE('LINHA - 958');	
+	call PROC_LOG_MESSAGE('LINHA - 995');	
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/		
 	/* ARQUIVO_OUTPUT */
 		
 	/* FASTU-COPA.1 */	    
-	call PROC_LOG_MESSAGE('LINHA - 990');
+	call PROC_LOG_MESSAGE('LINHA - 1001');
 	insert into TB_ARQUIVO_OUTPUT(
 		ID_ARQUIVO_INPUT,
 		NM_ARQUIVO_FORMAT,
@@ -1030,12 +1021,12 @@ BEGIN
 	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT from TB_ARQUIVO_OUTPUT;
 	
 	/*****************************************************************************************************************************************************/
-    call PROC_LOG_MESSAGE('LINHA - 984');
+    call PROC_LOG_MESSAGE('LINHA - 1024');
 	select ID into VAR_ID_VIEW_DESTINATION
 	from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_COPARTICIPACAO_CELPE_ODONTO';
+    where NM_VIEW = 'VW_COPARTICIPACAO_CELPE_SAUDE';
 	
-    call PROC_LOG_MESSAGE('LINHA - 1038');
+    call PROC_LOG_MESSAGE('LINHA - 1029');
 	insert into TB_ARQUIVO_OUTPUT_SHEET(
 		ID_ARQUIVO_OUTPUT,
 		ID_VIEW_DESTINATION,
@@ -1053,14 +1044,14 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 1056');
+	call PROC_LOG_MESSAGE('LINHA - 1047');
 	/*****************************************************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 1011');
+	call PROC_LOG_MESSAGE('LINHA - 1049');
 	select 	ID into VAR_ID_VIEW_DESTINATION
 	from 	TB_VIEW_DESTINATION
-    where 	NM_VIEW = 'VW_COPARTICIPACAO_RESUMO_CELPE_ODONTO';
+    where 	NM_VIEW = 'VW_RESUMO_DETAIL_CELPE_SAUDE';
 
-    call PROC_LOG_MESSAGE('LINHA - 997');
+    call PROC_LOG_MESSAGE('LINHA - 1054');
 	insert into TB_ARQUIVO_OUTPUT_SHEET(
 		ID_ARQUIVO_OUTPUT,
 		ID_VIEW_DESTINATION,
@@ -1071,24 +1062,24 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_OUTPUT,
 		VAR_ID_VIEW_DESTINATION,
-		'RATEIO %s',
+		'RESUMO %s',
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
 		
-	call PROC_LOG_MESSAGE('LINHA - 1106');			
+	call PROC_LOG_MESSAGE('LINHA - 1072');
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/			
 	/* NAO-LOCALIZADOS */
 	
-    call PROC_LOG_MESSAGE('LINHA - 1020');
+    call PROC_LOG_MESSAGE('LINHA - 1102');
 	select ID into VAR_ID_VIEW_DESTINATION
 	from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_DESCONHECIDO_CELPE_ODONTO';
+    where NM_VIEW = 'VW_DESCONHECIDO_CELPE_SAUDE';
 	
-	call PROC_LOG_MESSAGE('LINHA - 1024');
+	call PROC_LOG_MESSAGE('LINHA - 1107');
 	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 		ID_ARQUIVO_INPUT,
 		NM_ARQUIVO_FORMAT,
@@ -1098,7 +1089,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'NAO-LOCALIZADO-CELPE-ODONTO-{YYYY}{MM}.xlsx',
+		'NAO-LOCALIZADO-CELPE-SAUDE-{YYYY}{MM}.xlsx',
 		'Arquivo com os beneficiários não localizados pelo processo',
 		
 		VAR_ID_USER,

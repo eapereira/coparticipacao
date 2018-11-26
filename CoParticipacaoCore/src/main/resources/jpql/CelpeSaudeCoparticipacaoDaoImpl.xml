@@ -4,7 +4,7 @@
 		<![CDATA[
 			select view from CelpeSaudeCoparticipacaoViewEntity view
 			where 	view.mes 	= :mes
-			and		view.ano	= ;ano	
+			and		view.ano	= :ano	
 			order by view.nameTitular, view.nameBeneficiario
 		]]>
 	</query>

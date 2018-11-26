@@ -117,4 +117,12 @@ public abstract class DateUtils {
 
 		return null;
 	}
+
+	public static boolean isNotZeroDate(String date) {
+		if ("00/00/00".equals(date) || "00/00/0000".equals(date)) {
+			return false;
+		}
+
+		return true;
+	}
 }

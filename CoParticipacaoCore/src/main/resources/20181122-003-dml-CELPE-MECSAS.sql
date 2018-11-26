@@ -717,7 +717,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_014_NR_MATRICULA_ESPECIAL',
-		VAR_COL_LONG,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -1250,7 +1250,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_012_NR_MATRICULA_ESPECIAL',
-		VAR_COL_LONG,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -1332,7 +1332,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_015_NR_MATRICULA_ESPECIAL',
-		VAR_COL_LONG,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -1643,6 +1643,22 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);	
+
+	call PROC_LOG_MESSAGE('LINHA - 2158');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL,
+		VAR_ID_SHEET01_COLUMN_014_NR_MATRICULA_ESPECIAL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
 	
 	call PROC_LOG_MESSAGE('LINHA - 1559');
 	/*********************************************************************************************************************************************/
@@ -1744,6 +1760,23 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 2158');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL,
+		VAR_ID_SHEET05_COLUMN_015_NR_MATRICULA_ESPECIAL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
 	
 	call PROC_LOG_MESSAGE('LINHA - 1580');
 	/*********************************************************************************************************************************************/

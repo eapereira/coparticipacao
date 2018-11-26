@@ -180,13 +180,17 @@ public class SpreadsheetMultiSheetProcessorServiceImpl extends SpreadsheetProces
 				cell.setCellStyle(spreadsheetContext.getCellStyleDate());
 
 				if (value instanceof String) {
-					if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getLocalePattern())) {
-						value = DateUtils.stringToDate(
-								(String) value,
-								arquivoInputSheetColsDefUi.getFormat(),
-								arquivoInputSheetColsDefUi.getLocalePattern());
+					if (DateUtils.isNotZeroDate((String) value)) {
+						if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getLocalePattern())) {
+							value = DateUtils.stringToDate(
+									(String) value,
+									arquivoInputSheetColsDefUi.getFormat(),
+									arquivoInputSheetColsDefUi.getLocalePattern());
+						} else {
+							value = DateUtils.stringToDate((String) value, arquivoInputSheetColsDefUi.getFormat());
+						}
 					} else {
-						value = DateUtils.stringToDate((String) value, arquivoInputSheetColsDefUi.getFormat());
+						value = null;
 					}
 				} else if (value instanceof Date) {
 					value = DateUtils.dateToLocalDate((Date) value);

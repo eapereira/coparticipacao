@@ -277,7 +277,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(CELPE-ODONTO)\\.(NAO-LOCALIZADO)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(071421)\\.(NAO-LOCALIZADO)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_NAO_LOCALIZADO,
@@ -434,7 +434,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
 		'COLUMN_006_NR_MATRICULA_ESPECIAL',
-		VAR_COL_LONG,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		

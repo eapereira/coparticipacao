@@ -220,7 +220,7 @@ public abstract class BeneficiarioSetter<ENTITY extends AbstractDomain> extends 
 			setString(ps, COL_DIF_TRANSF, beneficiarioDetail.getDifTransferencia());
 
 			setString(ps, COL_DESCR_PROFISSAO, beneficiarioDetail.getProfissao());
-			setLong(ps, COL_NR_MATRICULA_ESPECIAL, beneficiarioDetail.getMatriculaEspecial());
+			setString(ps, COL_NR_MATRICULA_ESPECIAL, beneficiarioDetail.getMatriculaEspecial());
 			setBigDecimal(ps, COL_VL_FATOR_MODERADOR, beneficiarioDetail.getFatorModerador());
 			setInt(ps, COL_SUBFATURA, beneficiarioDetail.getSubFatura());
 			setBigDecimal(ps, COL_VL_FATOR_MODERADOR_INSS, beneficiarioDetail.getFatorModeradorInss());

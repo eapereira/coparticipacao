@@ -16,6 +16,9 @@ public abstract class CelpeSaudeCoparticipacaoView extends AbstractDomain{
 	 */
 	private static final long serialVersionUID = -4555460510745447322L;
 
+	private Integer mes;
+	private Integer ano;
+	
 	private String cdContrato;
 	private String cdUsuario;
 	private String nameTitular;
@@ -121,16 +124,34 @@ public abstract class CelpeSaudeCoparticipacaoView extends AbstractDomain{
 		this.cpfBeneficiario = cpfBeneficiario;
 	}
 
+	public Integer getMes() {
+		return mes;
+	}
+
+	public void setMes(Integer mes) {
+		this.mes = mes;
+	}
+
+	public Integer getAno() {
+		return ano;
+	}
+
+	public void setAno(Integer ano) {
+		this.ano = ano;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((ano == null) ? 0 : ano.hashCode());
 		result = prime * result + ((carteiraIdentificacao == null) ? 0 : carteiraIdentificacao.hashCode());
 		result = prime * result + ((cdContrato == null) ? 0 : cdContrato.hashCode());
 		result = prime * result + ((cdUsuario == null) ? 0 : cdUsuario.hashCode());
 		result = prime * result + ((certificado == null) ? 0 : certificado.hashCode());
 		result = prime * result + ((cpfBeneficiario == null) ? 0 : cpfBeneficiario.hashCode());
 		result = prime * result + ((matriculaEspecial == null) ? 0 : matriculaEspecial.hashCode());
+		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((nameBeneficiario == null) ? 0 : nameBeneficiario.hashCode());
 		result = prime * result + ((nameTitular == null) ? 0 : nameTitular.hashCode());
 		result = prime * result + ((plano == null) ? 0 : plano.hashCode());
@@ -148,6 +169,11 @@ public abstract class CelpeSaudeCoparticipacaoView extends AbstractDomain{
 		if (getClass() != obj.getClass())
 			return false;
 		CelpeSaudeCoparticipacaoView other = (CelpeSaudeCoparticipacaoView) obj;
+		if (ano == null) {
+			if (other.ano != null)
+				return false;
+		} else if (!ano.equals(other.ano))
+			return false;
 		if (carteiraIdentificacao == null) {
 			if (other.carteiraIdentificacao != null)
 				return false;
@@ -178,6 +204,11 @@ public abstract class CelpeSaudeCoparticipacaoView extends AbstractDomain{
 				return false;
 		} else if (!matriculaEspecial.equals(other.matriculaEspecial))
 			return false;
+		if (mes == null) {
+			if (other.mes != null)
+				return false;
+		} else if (!mes.equals(other.mes))
+			return false;
 		if (nameBeneficiario == null) {
 			if (other.nameBeneficiario != null)
 				return false;
@@ -205,4 +236,5 @@ public abstract class CelpeSaudeCoparticipacaoView extends AbstractDomain{
 			return false;
 		return true;
 	}
+
 }

@@ -31,6 +31,20 @@ public class CelpeSaudeResumoDetailViewEntity extends CelpeSaudeResumoDetailView
 		super();
 	}
 
+	@Column(name = "CD_MES")
+	@Override
+	public Integer getMes() {
+		// TODO Auto-generated method stub
+		return super.getMes();
+	}
+
+	@Column(name = "CD_ANO")
+	@Override
+	public Integer getAno() {
+		// TODO Auto-generated method stub
+		return super.getAno();
+	}
+	
 	@Column(name = "CD_CONTRATO")
 	@Override
 	public String getCdContrato() {
@@ -45,14 +59,14 @@ public class CelpeSaudeResumoDetailViewEntity extends CelpeSaudeResumoDetailView
 		return super.getSubEstipulante();
 	}
 
-	@Column(name = "NUM_VIDAS")
+	@Column(name = "QTDE_VIDAS")
 	@Override
 	public Integer getVidas() {
 		// TODO Auto-generated method stub
 		return super.getVidas();
 	}
 
-	@Column(name = "VL_VALOR")
+	@Column(name = "VL_PRINCIPAL")
 	@Override
 	public BigDecimal getValor() {
 		// TODO Auto-generated method stub
@@ -66,7 +80,7 @@ public class CelpeSaudeResumoDetailViewEntity extends CelpeSaudeResumoDetailView
 		return super.getPercentualVidas();
 	}
 
-	@Column(name = "PERC_VALOR")
+	@Column(name = "PERC_VL_PRINCIPAL")
 	@Override
 	public Float getPercentualValor() {
 		// TODO Auto-generated method stub

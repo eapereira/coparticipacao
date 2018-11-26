@@ -30,14 +30,14 @@ public class CelpeSaudeResumoViewEntity extends CelpeSaudeResumoView implements 
 		// TODO Auto-generated constructor stub
 	}
 
-	@Column(name = "CD_RAMO")
+	@Column(name = "NM_RAMO")
 	@Override
 	public String getRamo() {
 		// TODO Auto-generated method stub
 		return super.getRamo();
 	}
 
-	@Column(name = "CD_OPERADORA")
+	@Column(name = "NM_OPERADORA")
 	@Override
 	public String getOperadora() {
 		// TODO Auto-generated method stub
@@ -70,6 +70,20 @@ public class CelpeSaudeResumoViewEntity extends CelpeSaudeResumoView implements 
 	public BigDecimal getValorAnterior() {
 		// TODO Auto-generated method stub
 		return super.getValorAnterior();
+	}
+
+	@Column(name = "CD_MES")
+	@Override
+	public Integer getMes() {
+		// TODO Auto-generated method stub
+		return super.getMes();
+	}
+
+	@Column(name = "CD_ANO")
+	@Override
+	public Integer getAno() {
+		// TODO Auto-generated method stub
+		return super.getAno();
 	}
 
 }

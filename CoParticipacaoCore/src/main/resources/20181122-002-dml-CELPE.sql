@@ -175,10 +175,10 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
-		'CELPE-ODONTO',
+		'CELPE-SAUDE',
 		'071421',
 		VAR_FALSE,
-		'/coparticipacao/output-reports/bradesco/celpe-odonto/',
+		'/coparticipacao/output-reports/bradesco/celpe-saude/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',
@@ -303,7 +303,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_CELPE_ODONTO',
+		'VW_COPARTICIPACAO_CELPE_SAUDE',
 		'CELPE',
 		
 		VAR_ID_USER,
@@ -506,7 +506,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_RESUMO_CELPE_ODONTO',
+		'VW_RESUMO_DETAIL_CELPE_SAUDE',
 		'CELPE',
 		
 		VAR_ID_USER,
@@ -582,7 +582,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_VIEW_DESTINATION,
-		'NUM_SEGURADOS',
+		'QTDE_SEGURADOS',
 		VAR_COL_INT,
 		VAR_COL_VIEW_LENGTH_NUM_SEGURADOS,
 		VAR_CD_ORDEM,
@@ -660,7 +660,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_DESCONHECIDO_CELPE_ODONTO',
+		'VW_DESCONHECIDO_CELPE_SAUDE',
 		'Não Localizados',
 		
 		VAR_ID_USER,

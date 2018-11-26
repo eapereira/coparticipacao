@@ -30,6 +30,20 @@ public class CelpeSaudeCoparticipacaoViewEntity extends CelpeSaudeCoparticipacao
 		super();
 	}
 
+	@Column(name = "CD_MES")
+	@Override
+	public Integer getMes() {
+		// TODO Auto-generated method stub
+		return super.getMes();
+	}
+
+	@Column(name = "CD_ANO")
+	@Override
+	public Integer getAno() {
+		// TODO Auto-generated method stub
+		return super.getAno();
+	}
+
 	@Column(name = "CD_CONTRATO")
 	@Override
 	public String getCdContrato() {
