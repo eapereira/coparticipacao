@@ -181,18 +181,19 @@ create table TB_EMPRESA(
 	NM_EMPRESA			varchar( 200 ) not null,
 	CD_EMPRESA			varchar( 200 ) not null,
 	
-	CD_AUTOMATIC_CREATE_BENEFICIARIO	int( 3 ) not null default 0,
-	CD_INPUT_DIR 						varchar( 800 ) not null,
-	CD_OUTPUT_REPORT_DIR 				varchar( 800 ) not null,
-	CD_AUTOMATIC_CREATE_TITULAR			int( 3 ) not null default 0, /* se o Títular tiver CPF, MATRICULA e NOME preenchidos, pode insirir: */
-	CD_SEARCH_DEPENDENTES_NONAME		int( 3 ) not null default 0, /* procura Dependetes apenas por CPF e MATRICULA: */
-	CD_ACCEPT_TITULAR_WITHOUT_CPF		int( 3 ) not null default 0, /* permite gravar um títular com o CPF zerado: */
-	CD_GENERATE_OUTPUT_FILE_NOFATUCOPA	int( 3 ) not null default 0, /* informa que a empresa não usa arquivo FATUCOPA e que o arquivo de saída deve ser gerado mesmo assim: */
-	CD_CREATE_BENEFICIARIO_FRON_MECSAS2	int( 3 ) not null default 0, /* informa ao processo se devem ser criados os títulares usando o arquivo de Base de Ativos da Empresa: */
-	CD_USE_JASPER_REPORTS				int( 3 ) not null default 0, /* informa se a Empresa utiliza para criar os relatórios o JasperReports */
+	CD_AUTOMATIC_CREATE_BENEFICIARIO		int( 3 ) not null default 0,
+	CD_INPUT_DIR 							varchar( 800 ) not null,
+	CD_OUTPUT_REPORT_DIR 					varchar( 800 ) not null,
+	CD_AUTOMATIC_CREATE_TITULAR				int( 3 ) not null default 0, /* se o Títular tiver CPF, MATRICULA e NOME preenchidos, pode insirir: */
+	CD_SEARCH_DEPENDENTES_NONAME			int( 3 ) not null default 0, /* procura Dependetes apenas por CPF e MATRICULA: */
+	CD_ACCEPT_TITULAR_WITHOUT_CPF			int( 3 ) not null default 0, /* permite gravar um títular com o CPF zerado: */
+	CD_GENERATE_OUTPUT_FILE_NOFATUCOPA		int( 3 ) not null default 0, /* informa que a empresa não usa arquivo FATUCOPA e que o arquivo de saída deve ser gerado mesmo assim: */
+	CD_CREATE_BENEFICIARIO_FRON_MECSAS2		int( 3 ) not null default 0, /* informa ao processo se devem ser criados os títulares usando o arquivo de Base de Ativos da Empresa: */
+	CD_USE_JASPER_REPORTS					int( 3 ) not null default 0, /* informa se a Empresa utiliza para criar os relatórios o JasperReports */
+	CD_UPDATE_BENEFICIARIO_FROM_FATUCOPA	int( 3 ) not null default 0, /* informa se o processo pode atualizar os dados do beneficiário com os valores do arquivo de coparticipação: */
 	
-	TP_SAVE_MECSAS_DETAIL				int( 1 ) not null,
-	TP_SAVE_BENEFICIARIO_DETAIL			int( 1 ) not null,
+	TP_SAVE_MECSAS_DETAIL					int( 1 ) not null,
+	TP_SAVE_BENEFICIARIO_DETAIL				int( 1 ) not null,
         
 	VERSION		bigint( 17 ) null,
 	 
@@ -1318,6 +1319,7 @@ drop function if exists FUNC_DOUBLE_TO_LONG;
 drop function if exists FUNC_GET_MATRICULA_HOC;
 drop function if exists FUNC_GET_CPF;
 drop function if exists FUNC_GET_ROWNUM;
+drop function if exists FUNC_GET_CARTAO_IDENTIFICACAO_CELPE;
 
 delimiter $$
 
@@ -1587,6 +1589,35 @@ BEGIN
 END
 $$
 
+create function FUNC_GET_CARTAO_IDENTIFICACAO_CELPE( 
+	PARAM_CD_CONTRATO varchar( 60 ), 
+	PARAM_NR_CERTIFICADO bigint( 17 ), 
+	PARAM_CD_USUARIO varchar( 20 ))
+returns varchar( 20 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para criar os números de matricula usados pelo Hospital Oswaldo Cruz:'
+BEGIN
+	declare VAR_RESULT 				varchar( 20 ) default '';
+	declare VAR_NR_MATRICULA_BASE	bigint( 17 ) default 700000000000000;
+    declare VAR_NR_MATRICULA_CELPE 	bigint( 17 ) default 0;
+	
+	if PARAM_NR_CERTIFICADO  is not null then
+		set VAR_NR_MATRICULA_CELPE = VAR_NR_MATRICULA_BASE + (( convert( PARAM_CD_CONTRATO, unsigned integer ) * 1000000 ) + PARAM_NR_CERTIFICADO ) * 1000; 
+		
+		if PARAM_CD_USUARIO is not null then
+			set VAR_NR_MATRICULA_CELPE = VAR_NR_MATRICULA_CELPE + convert( PARAM_CD_USUARIO, unsigned integer ); 
+		end if;
+		
+		set VAR_RESULT = lpad(cast( VAR_NR_MATRICULA_CELPE as char ), 15, '0' );
+		
+		#Deve-se somar ao campo RDP do MECSAS:
+	end if;
+	
+	return VAR_RESULT;
+END
+$$
 
 #call PROC_CLEAR_COPARTICIPACAO( 1010 ); 
 /*****************************************************************************************************************************************************/

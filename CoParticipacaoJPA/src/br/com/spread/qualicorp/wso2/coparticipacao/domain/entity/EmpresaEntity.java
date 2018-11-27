@@ -206,4 +206,11 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.isUseJasperReports();
 	}
 
+	@Column(name = "CD_UPDATE_BENEFICIARIO_FROM_FATUCOPA")
+	@Override
+	public boolean isUpdateBeneficiarioFromFatucopa() {
+		// TODO Auto-generated method stub
+		return super.isUpdateBeneficiarioFromFatucopa();
+	}
+
 }

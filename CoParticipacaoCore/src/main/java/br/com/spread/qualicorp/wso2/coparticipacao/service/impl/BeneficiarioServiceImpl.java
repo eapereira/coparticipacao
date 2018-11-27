@@ -898,6 +898,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					} else {
 						throw new TitularDuplicated(beneficiarioUi);
 					}
+				} else {
+					if (UseType.FATUCOPA.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+						if (empresaUi.isUpdateBeneficiarioFromFatucopa()) {
+							if (!titularUi.isMarkedForUpdated() && titularUi.getId() != null) {
+								titularUi.setMarkedForUpdated(true);
+								updateTitular(coParticipacaoContext, titularUi, beneficiarioUi);
+								coParticipacaoContext.addTitular(titularUi);
+							}
+						}
+					}
 				}
 			}
 
@@ -976,11 +986,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		DependenteUi dependenteUi = null;
 		TitularUi titularUi = null;
 		BeneficiarioUi beneficiarioTitular;
+		EmpresaUi empresaUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			dependenteUi = findDependente(coParticipacaoContext, beneficiarioUi);
+			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			if (dependenteUi == null) {
 				if (empresaService.canAutomaticallyCreateBeneficiario(coParticipacaoContext)) {
@@ -1082,6 +1094,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						coParticipacaoContext.addDependente(dependenteUi);
 					} else {
 						throw new DependenteDuplicated(beneficiarioUi);
+					}
+				} else {
+					if (UseType.FATUCOPA.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+						if (empresaUi.isUpdateBeneficiarioFromFatucopa()) {
+							updateDependente(coParticipacaoContext, dependenteUi, beneficiarioUi);
+							coParticipacaoContext.addDependente(dependenteUi);
+						}
 					}
 				}
 			}
@@ -1202,8 +1221,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					coParticipacaoContext.addTitular(titularUi);
 				}
 
-				titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
-
 				BeneficiarioDetailHelper.copyBeneficiarioDetail(
 						titularUi.getBeneficiarioDetail(),
 						beneficiarioUi.getBeneficiarioDetail());
@@ -1265,7 +1282,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					coParticipacaoContext.addDependente(dependenteUi);
 				}
 
-				dependenteUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
+				BeneficiarioDetailHelper.copyBeneficiarioDetail(
+						dependenteUi.getBeneficiarioDetail(),
+						beneficiarioUi.getBeneficiarioDetail());
+
 				dependenteUi.setUserAltered(coParticipacaoContext.getUser());
 			}
 

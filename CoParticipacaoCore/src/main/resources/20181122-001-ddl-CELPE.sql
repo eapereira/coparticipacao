@@ -20,12 +20,13 @@ select
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
 	desconhecido.NR_MATRICULA,
-	desconhecido.NR_SUBFATURA,
     desconhecido.NM_BENEFICIARIO,
     desconhecido.NR_CPF,
     desconhecido.NM_TITULAR,
-    desconhecido.VL_FATOR_MODERADOR,
-    desconhecido.DESCR_PROFISSAO,
+	desconhecido.NR_SUBFATURA,
+    desconhecido.CD_PLANO,
+    desconhecido.NR_CARTEIRA_IDENT,
+    desconhecido.CD_USUARIO,
     desconhecido.NR_MATRICULA_ESPECIAL
 from TB_DESCONHECIDO desconhecido
 	join TB_CONTRATO contrato on
@@ -39,12 +40,13 @@ select
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,
 	titular.NR_MATRICULA,
-	titular.NR_SUBFATURA,
 	titular.NM_TITULAR NM_BENEFICIARIO,
 	titular.NR_CPF,
 	titular.NM_TITULAR,
-	titular.VL_FATOR_MODERADOR,
-    titular.DESCR_PROFISSAO,
+	titular.NR_SUBFATURA,
+    titular.CD_PLANO,
+    titular.NR_CARTEIRA_IDENT,
+    titular.CD_USUARIO,
     titular.NR_MATRICULA_ESPECIAL	
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -53,7 +55,46 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = '071421';
+where	empresa.CD_EMPRESA = '071421'
+and		lancamento.ID_DEPENDENTE is null
+and		( 
+	titular.NR_SUBFATURA is null or
+	titular.CD_PLANO is null or
+	titular.NR_CARTEIRA_IDENT is null or
+	titular.CD_USUARIO is null or
+	titular.NR_MATRICULA_ESPECIAL is null )
+union all
+select
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_CONTRATO,
+	dependente.NR_MATRICULA,
+	dependente.NM_DEPENDENTE NM_BENEFICIARIO,
+	dependente.NR_CPF,
+	titular.NM_TITULAR,
+	dependente.NR_SUBFATURA,
+    dependente.CD_PLANO,
+    dependente.NR_CARTEIRA_IDENT,
+    dependente.CD_USUARIO,
+    dependente.NR_MATRICULA_ESPECIAL	
+from TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+	join TB_DEPENDENTE dependente on
+		dependente.ID = lancamento.ID_DEPENDENTE		
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where	empresa.CD_EMPRESA = '071421'
+and		lancamento.ID_DEPENDENTE is not null
+and		( 
+	dependente.NR_SUBFATURA is null or
+	dependente.CD_PLANO is null or
+	dependente.NR_CARTEIRA_IDENT is null or
+	dependente.CD_USUARIO is null or
+	dependente.NR_MATRICULA_ESPECIAL is null );
+
 	
 create view VW_DESCONHECIDO_CELPE_SAUDE as
 select distinct
@@ -65,8 +106,9 @@ select distinct
     desconhecido.NM_BENEFICIARIO,
     desconhecido.NR_CPF,
     desconhecido.NM_TITULAR,
-    desconhecido.VL_FATOR_MODERADOR,
-    desconhecido.DESCR_PROFISSAO,
+    desconhecido.CD_PLANO,
+    desconhecido.NR_CARTEIRA_IDENT,
+    desconhecido.CD_USUARIO,
     desconhecido.NR_MATRICULA_ESPECIAL    
 from VW_DESCONHECIDO_LEVEL01_CELPE_SAUDE desconhecido
 order by desconhecido.NM_BENEFICIARIO;
@@ -88,7 +130,7 @@ select
 	titular.NR_MATRICULA_ESPECIAL,
 	titular.DESCR_PROFISSAO,
 	titular.CD_USUARIO,
-	titular.NR_CARTEIRA_IDENT,
+	FUNC_GET_CARTAO_IDENTIFICACAO_CELPE( contrato.CD_CONTRATO, titular.NR_MATRICULA, titular.CD_USUARIO) NR_CARTEIRA_IDENT,
 	titular.NR_CPF NR_CPF_BENEFICIARIO,
 	titular.CD_PLANO,
 	lancamento.VL_PRINCIPAL,

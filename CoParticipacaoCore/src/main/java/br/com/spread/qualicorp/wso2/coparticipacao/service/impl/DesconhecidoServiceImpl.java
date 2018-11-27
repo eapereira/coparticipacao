@@ -215,6 +215,9 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			desconhecidoUi.setMatriculaEmpresa(titularUi.getMatriculaEmpresa());
 			desconhecidoUi.setDtNascimento(titularUi.getDtNascimento());
 
+			BeneficiarioDetailHelper
+					.copyBeneficiarioDetail(desconhecidoUi.getBeneficiarioDetail(), titularUi.getBeneficiarioDetail());
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);

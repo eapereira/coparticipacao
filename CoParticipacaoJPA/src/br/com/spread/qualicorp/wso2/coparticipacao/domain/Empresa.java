@@ -53,6 +53,8 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean createBeneficiarioFromMecsas2;
 
 	private boolean useJasperReports;
+	
+	private boolean updateBeneficiarioFromFatucopa;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -264,6 +266,14 @@ public abstract class Empresa extends AbstractDomain {
 		this.useJasperReports = useJasperReports;
 	}
 
+	public boolean isUpdateBeneficiarioFromFatucopa() {
+		return updateBeneficiarioFromFatucopa;
+	}
+
+	public void setUpdateBeneficiarioFromFatucopa(boolean updateBeneficiarioFromFatucopa) {
+		this.updateBeneficiarioFromFatucopa = updateBeneficiarioFromFatucopa;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -281,6 +291,7 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + (generateOutputFileWithoutFatucopa ? 1231 : 1237);
 		result = prime * result + ((inputDir == null) ? 0 : inputDir.hashCode());
 		result = prime * result + ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
+		result = prime * result + ((operadora == null) ? 0 : operadora.hashCode());
 		result = prime * result + ((outputDir == null) ? 0 : outputDir.hashCode());
 		result = prime * result + ((outputReportDir == null) ? 0 : outputReportDir.hashCode());
 		result = prime * result + ((reportQueryType == null) ? 0 : reportQueryType.hashCode());
@@ -288,6 +299,7 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + (saveMecsasDetails ? 1231 : 1237);
 		result = prime * result + (searchDependentesWithoutName ? 1231 : 1237);
 		result = prime * result + ((titulars == null) ? 0 : titulars.hashCode());
+		result = prime * result + (updateBeneficiarioFromFatucopa ? 1231 : 1237);
 		result = prime * result + (useJasperReports ? 1231 : 1237);
 		return result;
 	}
@@ -348,6 +360,11 @@ public abstract class Empresa extends AbstractDomain {
 				return false;
 		} else if (!nameEmpresa.equals(other.nameEmpresa))
 			return false;
+		if (operadora == null) {
+			if (other.operadora != null)
+				return false;
+		} else if (!operadora.equals(other.operadora))
+			return false;
 		if (outputDir == null) {
 			if (other.outputDir != null)
 				return false;
@@ -370,6 +387,8 @@ public abstract class Empresa extends AbstractDomain {
 			if (other.titulars != null)
 				return false;
 		} else if (!titulars.equals(other.titulars))
+			return false;
+		if (updateBeneficiarioFromFatucopa != other.updateBeneficiarioFromFatucopa)
 			return false;
 		if (useJasperReports != other.useJasperReports)
 			return false;

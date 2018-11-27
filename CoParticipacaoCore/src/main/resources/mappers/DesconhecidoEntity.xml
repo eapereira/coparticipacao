@@ -22,6 +22,8 @@
 				NR_SUBFATURA,	
 				CD_USUARIO,		
 				NR_CERTIFICADO,	
+				CD_PLANO,
+				NR_CARTEIRA_IDENT,
 								
 				USER_CREATED,
 				DT_CREATED,
@@ -46,6 +48,8 @@
 				?, /* 15 */
 				?,
 				?,
+				?,
+				?,/* 19 */
 								
 				?,
 				CURRENT_TIMESTAMP(),
@@ -77,6 +81,8 @@
 				NR_SUBFATURA					= ?, /* 15 */	
 				CD_USUARIO						= ?,		
 				NR_CERTIFICADO					= ?,	
+				CD_PLANO						= ?,
+				NR_CARTEIRA_IDENT				= ?,				
 								
 				USER_CREATED					= ?,
 				DT_CREATED						= CURRENT_TIMESTAMP(),
