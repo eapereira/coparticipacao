@@ -26,13 +26,14 @@ select
     desconhecido.DESCR_PROFISSAO,
     desconhecido.NR_MATRICULA_ESPECIAL,
     desconhecido.VL_INSS,
+    desconhecido.VL_ALIQUOTA_INSS,
     desconhecido.VL_LIQUIDO_SINISTRO
 from TB_DESCONHECIDO desconhecido
 	join TB_CONTRATO contrato on
 		contrato.ID = desconhecido.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where empresa.CD_EMPRESA = '091707'
+where empresa.CD_EMPRESA = '180831'
 union all
 select
 	lancamento.CD_MES,
@@ -48,6 +49,7 @@ select
     titular.DESCR_PROFISSAO,
     titular.NR_MATRICULA_ESPECIAL,
 	titular.VL_INSS,
+	titular.VL_ALIQUOTA_INSS,
     titular.VL_LIQUIDO_SINISTRO
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -56,7 +58,7 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = 'TECHNIT_SAUDE'
+where	empresa.CD_EMPRESA = '180831'
 and		(( titular.VL_FATOR_MODERADOR is null or titular.VL_FATOR_MODERADOR <= 0 ) or 
 		( titular.VL_FATOR_MODERADOR_INSS is null or titular.VL_FATOR_MODERADOR_INSS <= 0 ));
 	
@@ -75,6 +77,7 @@ select distinct
     desconhecido.DESCR_PROFISSAO,
     desconhecido.NR_MATRICULA_ESPECIAL,
 	desconhecido.VL_INSS,
+	desconhecido.VL_ALIQUOTA_INSS,
 	desconhecido.VL_LIQUIDO_SINISTRO
 from VW_DESCONHECIDO_LEVEL01_TECHNIT_SAUDE desconhecido
 order by desconhecido.NM_BENEFICIARIO;
@@ -111,8 +114,9 @@ from TB_TITULAR titular
 		contrato.ID = titular.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA			= '091707'
-and		titular.VL_FATOR_MODERADOR 	> 0;
+where	empresa.CD_EMPRESA			= '180831'
+and		titular.VL_FATOR_MODERADOR 	> 0
+AND		titular.NR_SUBFATURA in ( 1, 3, 5, 7, 9 );
 
 create view VW_COPARTICIPACAO_TECHNIT_SAUDE as
 select

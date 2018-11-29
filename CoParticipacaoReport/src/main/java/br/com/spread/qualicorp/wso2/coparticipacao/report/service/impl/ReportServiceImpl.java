@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
@@ -45,6 +47,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitOdonto;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitOdontoCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitSaude;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.TechnitSaudeCoparticipacaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.CoParticipacaoFileUtils;
 import net.sf.jasperreports.engine.JRDataSource;
@@ -69,7 +72,7 @@ public class ReportServiceImpl implements ReportService {
 	private static final String CD_EMPRESA_AUTOMIND = "AUTOMIND";
 	private static final String CD_EMPRESA_LM_TRANSPORTES = "073179";
 	private static final String CD_EMPRESA_TECHNIT_ODONTO = "091707";
-	private static final String CD_EMPRESA_TECHNIT_SAUDE = "091707";
+	private static final String CD_EMPRESA_TECHNIT_SAUDE = "180831";
 	private static final String CD_EMPRESA_CELPE_SAUDE = "071421";
 
 	private static final String BRADESCO_AUTOMIND_REPORT = "/reports/bradesco-automind.jasper";
@@ -108,31 +111,80 @@ public class ReportServiceImpl implements ReportService {
 	@Autowired
 	private CelpeSaudeCoparticipacaoService celpeSaudeCoparticipacaoService;
 
+	@Autowired
+	private ArquivoExecucaoService arquivoExecucaoService;
+
 	@Override
 	public void printReport(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
 			throws ServiceException {
 		EmpresaUi empresaUi;
+		ContratoUi contratoUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			empresaUi = coParticipacaoContext.getEmpresaUi();
+			contratoUi = (ContratoUi) coParticipacaoContext.getArquivoExecucaoUi().getContrato();
 
 			LOGGER.info("Starting report for EmpresaUi[{}]:", empresaUi.getCdEmpresa());
 
-			if (CD_EMPRESA_AUTOMIND.equals(empresaUi.getCdEmpresa())) {
-				printReportAutomind(coParticipacaoContext, mes, ano);
-			} else if (CD_EMPRESA_LM_TRANSPORTES.equals(empresaUi.getCdEmpresa())) {
-				printReportLmTransportes(coParticipacaoContext, mes, ano);
-			} else if (CD_EMPRESA_TECHNIT_ODONTO.equals(empresaUi.getCdEmpresa())) {
-				printReportTechnitOdonto(coParticipacaoContext, mes, ano);
-			} else if (CD_EMPRESA_TECHNIT_SAUDE.equals(empresaUi.getCdEmpresa())) {
-				printReportTechnitSaude(coParticipacaoContext, mes, ano);
-			} else if (CD_EMPRESA_CELPE_SAUDE.equals(empresaUi.getCdEmpresa())) {
-				printReportCelpeSaude(coParticipacaoContext, mes, ano);
+			if (!contratoUi.getChildren().isEmpty()) {
+				for (Contrato child : contratoUi.getChildren()) {
+					LOGGER.info("Starting report process for ContratoUi[{}]:", child.getCdContrato());
+					createReportProcess(coParticipacaoContext, mes, ano, (ContratoUi) child);
+				}
 			} else {
-				throw new ServiceException("EmpresaUi[] doesn't has a report configured:", empresaUi.getCdEmpresa());
+				if (CD_EMPRESA_AUTOMIND.equals(empresaUi.getCdEmpresa())) {
+					printReportAutomind(coParticipacaoContext, mes, ano);
+				} else if (CD_EMPRESA_LM_TRANSPORTES.equals(empresaUi.getCdEmpresa())) {
+					printReportLmTransportes(coParticipacaoContext, mes, ano);
+				} else if (CD_EMPRESA_TECHNIT_ODONTO.equals(empresaUi.getCdEmpresa())) {
+					printReportTechnitOdonto(coParticipacaoContext, mes, ano);
+				} else if (CD_EMPRESA_TECHNIT_SAUDE.equals(empresaUi.getCdEmpresa())) {
+					printReportTechnitSaude(coParticipacaoContext, mes, ano);
+				} else if (CD_EMPRESA_CELPE_SAUDE.equals(empresaUi.getCdEmpresa())) {
+					printReportCelpeSaude(coParticipacaoContext, mes, ano);
+				} else {
+					throw new ServiceException(
+							"EmpresaUi[] doesn't has a report configured:",
+							empresaUi.getCdEmpresa());
+				}
 			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	private void createReportProcess(
+			CoParticipacaoContext coParticipacaoContext,
+			Integer mes,
+			Integer ano,
+			ContratoUi contratoUi) throws ServiceException {
+		ArquivoExecucaoUi arquivoExecucaoUi;
+		ArquivoExecucaoUi arquivoExecucaoUiTmp;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoExecucaoUi = arquivoExecucaoService.createArquivoExecucao(coParticipacaoContext, contratoUi);
+
+			arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
+			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
+
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
+
+			/*
+			 * Chamando o caminho normal para o processo como se fosse para o
+			 * ContratoUi parent:
+			 */
+			printReport(coParticipacaoContext, mes, ano);
+
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);
+
+			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUiTmp);
 
 			LOGGER.info("END");
 		} catch (Exception e) {
@@ -151,6 +203,7 @@ public class ReportServiceImpl implements ReportService {
 
 		try {
 			LOGGER.info("BEGIN");
+
 			contratoUi = (ContratoUi) coParticipacaoContext.getArquivoExecucaoUi().getContrato();
 			celpeSaudeReports = new ArrayList<>();
 			celpeSaudeReport = new CelpeSaudeReport();
@@ -204,7 +257,7 @@ public class ReportServiceImpl implements ReportService {
 
 			technitSaudeReports.add(technitSaudeReport);
 
-			LOGGER.info("Loading the report file[{}] to be filled with data:", BRADESCO_TECHNIT_SAUDE_REPORT);
+			LOGGER.info("Reading the report file[{}] to be filled with data:", BRADESCO_TECHNIT_SAUDE_REPORT);
 			inputStream = getClass().getResourceAsStream(BRADESCO_TECHNIT_SAUDE_REPORT);
 
 			jrDataSource = new TechnitSaudeJRDataSource(technitSaudeReports);

@@ -45,6 +45,25 @@ public class ContratoServiceImpl extends AbstractServiceImpl<ContratoUi, Contrat
 		try {
 			LOGGER.info("BEGIN");
 			contratoUi = entityToUi(contratoDao.findByCdContrato(contratoName));
+			contratoUi.getChildren().addAll(listByParent(contratoUi));
+
+			LOGGER.info("END");
+			return contratoUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public ContratoUi findById(Long contratoId) throws ServiceException {
+		ContratoUi contratoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			contratoUi = entityToUi(contratoDao.findById(contratoId));
+			contratoUi.getChildren().addAll(listByParent(contratoUi));
 
 			LOGGER.info("END");
 			return contratoUi;
@@ -61,6 +80,7 @@ public class ContratoServiceImpl extends AbstractServiceImpl<ContratoUi, Contrat
 			LOGGER.info("BEGIN");
 
 			contratoUi = entityToUi(contratoDao.findByCdEmpresaAndCdContrato(cdEmpresa, cdContrato));
+			contratoUi.getChildren().addAll(listByParent(contratoUi));
 
 			LOGGER.info("END");
 			return contratoUi;

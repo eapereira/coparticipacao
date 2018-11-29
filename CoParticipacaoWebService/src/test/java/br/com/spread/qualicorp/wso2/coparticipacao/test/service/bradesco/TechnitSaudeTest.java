@@ -31,19 +31,19 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 
 	private static final Logger LOGGER = LogManager.getLogger(AutomindTest.class);
 
-	private static final String MECSAS_201810 = "technit-saude/input/180831.MECSAS.201810.001.xlsx";
-	private static final String MECSAS2_201810 = "technit-saude/input/180831.MECSAS2.201810.002.xlsx";
-	private static final String FATUCOPA_201810 = "technit-saude/input/180831.180831.201810.004.xlsx";
-	private static final String NAO_LOCALIZADO_201808 = "technit-saude/input/180831.NAO-LOCALIZADO.201810.002.xlsx";
+	private static final String MECSAS_201810 = "technit-saude/input/180831.MECSAS.201807.001.xlsx";
+	private static final String MECSAS2_201810 = "technit-saude/input/180831.MECSAS2.201807.002.xlsx";
+	private static final String FATUCOPA_201810 = "technit-saude/input/180831.180831.201807.004.xlsx";
+	private static final String NAO_LOCALIZADO_201808 = "technit-saude/input/180831.NAO-LOCALIZADO.201807.002.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 24;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 0;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 0;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 346;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 158;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 1919;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";
-	private static final String CD_CONTRATO_FATUCOPA = "074210";
+	private static final String CD_CONTRATO_FATUCOPA = "180831";
 	private static final String CD_CONTRATO_NAO_LOCALIZADO = "NAO-LOCALIZADO";
 
 	@Autowired
@@ -62,21 +62,20 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 	private EmpresaService empresaService;
 
 	@Test
-	public void testCoparticipacao201810() throws Exception {
+	public void testCoparticipacao201807() throws Exception {
 		LOGGER.info("BEGIN");
 
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
 		List<LancamentoUi> lancamentoUis;
-		EmpresaUi empresaUi = empresaService.findByName("TECHNIT-ODONTO");
+		EmpresaUi empresaUi = empresaService.findByName("TECHNIT-SAUDE");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
-		// createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS,
-		// MECSAS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
-		// createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA,
-		// FATUCOPA_201810);
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
+		// createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2,
+		// MECSAS2_201810);
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		processFile(execucaoUi);
 

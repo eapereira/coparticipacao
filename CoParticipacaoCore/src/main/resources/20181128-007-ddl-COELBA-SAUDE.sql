@@ -34,7 +34,7 @@ from TB_DESCONHECIDO desconhecido
 		contrato.ID = desconhecido.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where empresa.CD_EMPRESA = '180613'
+where empresa.CD_EMPRESA = '071769'
 union all
 select
 	lancamento.CD_MES,
@@ -57,7 +57,7 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = '180613'
+where	empresa.CD_EMPRESA = '071769'
 and		lancamento.ID_DEPENDENTE is null
 and		( 
 	titular.NR_SUBFATURA is null or
@@ -88,7 +88,7 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = '180613'
+where	empresa.CD_EMPRESA = '071769'
 and		lancamento.ID_DEPENDENTE is not null
 and		( 
 	dependente.NR_SUBFATURA is null or
@@ -151,7 +151,7 @@ from	TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
-where	empresa.CD_EMPRESA			= '180612'
+where	empresa.CD_EMPRESA			= '071769'
 and		titular.NR_SUBFATURA not in ( 110, 220, 221, 320, 321, 420, 500, 510, 851, 852 )
 and		lancamento.ID_DEPENDENTE is null
 and		titular.NR_MATRICULA not in (
@@ -193,7 +193,7 @@ from	TB_LANCAMENTO lancamento
 		titular.ID = lancamento.ID_TITULAR
 	join TB_DEPENDENTE dependente on
 		lancamento.ID_DEPENDENTE = dependente.ID
-where	empresa.CD_EMPRESA			= '180612'
+where	empresa.CD_EMPRESA			= '071769'
 and		titular.NR_SUBFATURA not in ( 110, 220, 221, 320, 321, 420, 500, 510, 851, 852 )
 and		lancamento.ID_DEPENDENTE is not null
 and		dependente.NR_MATRICULA not in (

@@ -129,6 +129,8 @@ public class CoParticipacaoContext {
 	private SpreadsheetContext spreadsheetContext;
 
 	private List<ArquivoOutputUi> arquivoOutputUis;
+	
+	private ContratoUi contratoUi;
 
 	public CoParticipacaoContext() {
 		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
@@ -233,10 +235,6 @@ public class CoParticipacaoContext {
 
 	public void setDependenteUis(List<DependenteUi> dependenteUis) {
 		this.dependenteUis = dependenteUis;
-	}
-
-	public ContratoUi getContratoUi() {
-		return (ContratoUi) getArquivoInputUi().getContrato();
 	}
 
 	public Bunker getBunker() {
@@ -819,5 +817,13 @@ public class CoParticipacaoContext {
 
 	public void setArquivoOutputUis(List<ArquivoOutputUi> arquivoOutputUis) {
 		this.arquivoOutputUis = arquivoOutputUis;
+	}
+
+	public ContratoUi getContratoUi() {
+		return contratoUi;
+	}
+
+	public void setContratoUi(ContratoUi contratoUi) {
+		this.contratoUi = contratoUi;
 	}
 }

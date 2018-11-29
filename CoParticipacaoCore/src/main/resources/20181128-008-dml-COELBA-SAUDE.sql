@@ -188,7 +188,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
 		'COELBA-SAUDE',
-		'180613',
+		'071769',
 		VAR_FALSE,
 		'/coparticipacao/output-reports/bradesco/coelba-saude/',
         '/coparticipacao/input/',
@@ -220,8 +220,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'180613',
-	    '180613',
+		'071769',
+	    '071769',
 	    VAR_NM_CONTRATO_COPARTICIPACAO,
 	    VAR_USE_TYPE_FATUCOPA,
 	    

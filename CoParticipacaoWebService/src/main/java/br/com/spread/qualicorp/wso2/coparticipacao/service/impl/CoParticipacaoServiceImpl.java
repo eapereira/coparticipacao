@@ -446,6 +446,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
 		List<ArquivoInputSheetUi> arquivoInputSheetUis;
 		List<ArquivoOutputUi> arquivoOutputUis;
+		ContratoUi contratoUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -463,6 +464,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				arquivoInputSheetUis = arquivoInputSheetService
 						.listByArquivoInput(coParticipacaoContext.getArquivoInputUi());
 
+				contratoUi = contratoService.findById(coParticipacaoContext.getArquivoInputUi().getContrato().getId());
+
 				for (ArquivoInputSheetUi arquivoInputSheetUi : arquivoInputSheetUis) {
 					coParticipacaoContext.getMapArquivoInputSheetUi()
 							.put(arquivoInputSheetUi.getSheetId(), arquivoInputSheetUi);
@@ -470,6 +473,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 				coParticipacaoContext.setArquivoInputColsDefUis(arquivoInputColsDefUis);
 
+				coParticipacaoContext.setContratoUi(contratoUi);
 				arquivoOutputUis = arquivoOutputService.listByContrato(coParticipacaoContext.getContratoUi());
 				coParticipacaoContext.setArquivoOutputUis(arquivoOutputUis);
 			}

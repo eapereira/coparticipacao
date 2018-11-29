@@ -295,7 +295,7 @@ BEGIN
 	/***********************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 285');
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
-    where CD_EMPRESA = '180613';
+    where CD_EMPRESA = '071769';
 	
     call PROC_LOG_MESSAGE('LINHA - 289');
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
@@ -306,7 +306,7 @@ BEGIN
 	select 	ID into VAR_ID_CONTRATO_FATUCOPA 
 	from 	TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
-	and 	CD_CONTRATO = '180613'; 
+	and 	CD_CONTRATO = '071769'; 
 	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
@@ -326,7 +326,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(180613)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(071769)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_MECSAS,

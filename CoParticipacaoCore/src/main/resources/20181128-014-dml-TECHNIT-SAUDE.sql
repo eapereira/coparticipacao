@@ -194,7 +194,7 @@ BEGIN
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',
 		VAR_TRUE,
-		VAR_TRUE,
+		VAR_FALSE,
 		VAR_TRUE,
         VAR_FALSE,
         VAR_FALSE,
@@ -230,7 +230,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+	select max( ID ) into VAR_ID_CONTRATO
+	from TB_CONTRATO;
 
 	call PROC_LOG_MESSAGE('LINHA - 235');
 	insert into TB_CONTRATO(
@@ -269,8 +270,32 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'DUTRA',
-	    'DUTRA',
+		'TENOVA',
+	    'TENOVA',
+	    VAR_NM_CONTRATO_COPARTICIPACAO,
+	    VAR_USE_TYPE_FATUCOPA,
+	    VAR_ID_CONTRATO,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 283');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+        TP_USE,
+        ID_CONTRATO_PARENT,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'TERNIUM',
+	    'TERNIUM',
 	    VAR_NM_CONTRATO_COPARTICIPACAO,
 	    VAR_USE_TYPE_FATUCOPA,
 	    VAR_ID_CONTRATO,
@@ -281,7 +306,7 @@ BEGIN
 	);
 	
 	/***********************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 187');
+	call PROC_LOG_MESSAGE('LINHA - 388');
 	insert into TB_CONTRATO(
 		ID_EMPRESA,
 		CD_CONTRATO,	
@@ -305,7 +330,7 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;	
 
-	call PROC_LOG_MESSAGE('LINHA - 187');
+	call PROC_LOG_MESSAGE('LINHA - 332');
 	insert into TB_CONTRATO(
 		ID_EMPRESA,
 		CD_CONTRATO,	
@@ -329,7 +354,7 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;	
 	
-	call PROC_LOG_MESSAGE('LINHA - 207');
+	call PROC_LOG_MESSAGE('LINHA - 356');
 	insert into TB_CONTRATO(
 		ID_EMPRESA,
 		CD_CONTRATO,	
@@ -353,12 +378,12 @@ BEGIN
 		current_timestamp()
 	);	
 	
-	call PROC_LOG_MESSAGE('LINHA - 231');	
+	call PROC_LOG_MESSAGE('LINHA - 380');	
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/		
 	/* VIEW-DESTINATION */
 
-	call PROC_LOG_MESSAGE('LINHA - 230');
+	call PROC_LOG_MESSAGE('LINHA - 385');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
 		NM_TITLE_LABEL,

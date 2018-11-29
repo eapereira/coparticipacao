@@ -26,6 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ContratoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
@@ -57,6 +58,9 @@ public class ExecucaoServiceImpl extends AbstractServiceImpl<ExecucaoUi, Execuca
 
 	@Autowired
 	private ExecucaoBatchService execucaoBatchService;
+
+	@Autowired
+	private ContratoService contratoService;
 
 	@Override
 	protected ExecucaoUi createUi() {
@@ -179,6 +183,10 @@ public class ExecucaoServiceImpl extends AbstractServiceImpl<ExecucaoUi, Execuca
 			LOGGER.info("BEGIN");
 
 			execucaoUi = entityToUi(execucaoDao.findById(id));
+
+			for (ArquivoExecucao arquivoExecucao : execucaoUi.getArquivoExecucaos()) {
+				arquivoExecucao.setContrato(contratoService.findById(arquivoExecucao.getContrato().getId()));
+			}
 
 			LOGGER.info("END");
 			return execucaoUi;
