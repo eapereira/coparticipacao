@@ -2,19 +2,19 @@
  * edson - 17/10/2018
  */
 
-drop view if exists VW_DESCONHECIDO_LEVEL01_CELPE_SAUDE;
-drop view if exists VW_DESCONHECIDO_CELPE_SAUDE;
-drop view if exists VW_COPARTICIPACAO_LEVEL01_CELPE_SAUDE;
-drop view if exists VW_COPARTICIPACAO_CELPE_SAUDE;
-drop view if exists VW_RATEIO_CELPE_SAUDE;
-drop view if exists VW_RESUMO_LEVEL01_CELPE_SAUDE;
-drop view if exists VW_RESUMO_CELPE_SAUDE;
-drop view if exists VW_RESUMO_DETAIL_CELPE_SAUDE;
+drop view if exists VW_DESCONHECIDO_LEVEL01_COELBA_ODONTO;
+drop view if exists VW_DESCONHECIDO_COELBA_ODONTO;
+drop view if exists VW_COPARTICIPACAO_LEVEL01_COELBA_ODONTO;
+drop view if exists VW_COPARTICIPACAO_COELBA_ODONTO;
+drop view if exists VW_RATEIO_COELBA_ODONTO;
+drop view if exists VW_RESUMO_LEVEL01_COELBA_ODONTO;
+drop view if exists VW_RESUMO_COELBA_ODONTO;
+drop view if exists VW_RESUMO_DETAIL_COELBA_ODONTO;
 
 /****************************************************************************************************************************************************/
 /****************************************************************************************************************************************************/
 
-create view VW_DESCONHECIDO_LEVEL01_CELPE_SAUDE as
+create view VW_DESCONHECIDO_LEVEL01_COELBA_ODONTO as
 select
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
@@ -57,7 +57,7 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = '071421'
+where	empresa.CD_EMPRESA = '180612'
 and		lancamento.ID_DEPENDENTE is null
 and		( 
 	titular.NR_SUBFATURA is null or
@@ -88,7 +88,7 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = '071421'
+where	empresa.CD_EMPRESA = '180612'
 and		lancamento.ID_DEPENDENTE is not null
 and		( 
 	dependente.NR_SUBFATURA is null or
@@ -97,7 +97,7 @@ and		(
 	dependente.NR_MATRICULA_ESPECIAL is null );
 
 	
-create view VW_DESCONHECIDO_CELPE_SAUDE as
+create view VW_DESCONHECIDO_COELBA_ODONTO as
 select distinct
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
@@ -112,14 +112,14 @@ select distinct
     desconhecido.NR_CARTEIRA_IDENT,
     desconhecido.CD_USUARIO,
     desconhecido.NR_MATRICULA_ESPECIAL    
-from VW_DESCONHECIDO_LEVEL01_CELPE_SAUDE desconhecido
+from VW_DESCONHECIDO_LEVEL01_COELBA_ODONTO desconhecido
 order by 
 	desconhecido.NM_TITULAR, 
 	desconhecido.NM_BENEFICIARIO;
 
 /****************************************************************************************************************************************************/
 
-create view VW_COPARTICIPACAO_LEVEL01_CELPE_SAUDE as
+create view VW_COPARTICIPACAO_LEVEL01_COELBA_ODONTO as
 select
 	lancamento.CD_MES,
     lancamento.CD_ANO,
@@ -151,13 +151,13 @@ from	TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
-where	empresa.CD_EMPRESA			= '071421'
+where	empresa.CD_EMPRESA			= '180612'
 and		titular.NR_SUBFATURA not in ( 110, 220, 221, 320, 321, 420, 500, 510, 851, 852 )
 and		lancamento.ID_DEPENDENTE is null
 and		titular.NR_MATRICULA not in (
 	select 
 		desconhecido.NR_MATRICULA
-	from VW_DESCONHECIDO_CELPE_SAUDE desconhecido
+	from VW_DESCONHECIDO_COELBA_ODONTO desconhecido
 	where desconhecido.NR_MATRICULA = titular.NR_MATRICULA )
 union all
 select
@@ -193,177 +193,177 @@ from	TB_LANCAMENTO lancamento
 		titular.ID = lancamento.ID_TITULAR
 	join TB_DEPENDENTE dependente on
 		lancamento.ID_DEPENDENTE = dependente.ID
-where	empresa.CD_EMPRESA			= '071421'
+where	empresa.CD_EMPRESA			= '180612'
 and		titular.NR_SUBFATURA not in ( 110, 220, 221, 320, 321, 420, 500, 510, 851, 852 )
 and		lancamento.ID_DEPENDENTE is not null
 and		dependente.NR_MATRICULA not in (
 	select 
 		desconhecido.NR_MATRICULA
-	from VW_DESCONHECIDO_CELPE_SAUDE desconhecido
+	from VW_DESCONHECIDO_COELBA_ODONTO desconhecido
 	where desconhecido.NR_MATRICULA = dependente.NR_MATRICULA );
 
-create view VW_COPARTICIPACAO_CELPE_SAUDE as
+create view VW_COPARTICIPACAO_COELBA_ODONTO as
 select
 	FUNC_GET_ROWNUM() ID,
-	celpe.CD_MES,
-    celpe.CD_ANO,
-    celpe.ID_CONTRATO,
-    celpe.CD_CONTRATO,
-    celpe.NR_CERTIFICADO,
-	celpe.NR_MATRICULA,
-	celpe.NM_TITULAR,
-	celpe.NM_BENEFICIARIO,
-	celpe.NR_SUBFATURA,
-	celpe.VL_FATOR_MODERADOR,
-	celpe.NR_MATRICULA_ESPECIAL,
-	celpe.DESCR_PROFISSAO,
-	celpe.CD_USUARIO,
-	celpe.NR_CARTEIRA_IDENT,
-	celpe.NR_CPF_BENEFICIARIO,
-	celpe.CD_PLANO,	
-	sum( celpe.VL_PRINCIPAL ) VL_PRINCIPAL,
-	celpe.CD_EMPRESA,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED
-from	VW_COPARTICIPACAO_LEVEL01_CELPE_SAUDE celpe
+	coelba.CD_MES,
+    coelba.CD_ANO,
+    coelba.ID_CONTRATO,
+    coelba.CD_CONTRATO,
+    coelba.NR_CERTIFICADO,
+	coelba.NR_MATRICULA,
+	coelba.NM_TITULAR,
+	coelba.NM_BENEFICIARIO,
+	coelba.NR_SUBFATURA,
+	coelba.VL_FATOR_MODERADOR,
+	coelba.NR_MATRICULA_ESPECIAL,
+	coelba.DESCR_PROFISSAO,
+	coelba.CD_USUARIO,
+	coelba.NR_CARTEIRA_IDENT,
+	coelba.NR_CPF_BENEFICIARIO,
+	coelba.CD_PLANO,	
+	sum( coelba.VL_PRINCIPAL ) VL_PRINCIPAL,
+	coelba.CD_EMPRESA,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED
+from	VW_COPARTICIPACAO_LEVEL01_COELBA_ODONTO coelba
 group by
-	celpe.CD_MES,
-    celpe.CD_ANO,
-    celpe.ID_CONTRATO,
-    celpe.CD_CONTRATO,
-    celpe.NR_CERTIFICADO,
-	celpe.NR_MATRICULA,
-	celpe.NM_TITULAR,
-	celpe.NM_BENEFICIARIO,
-	celpe.NR_SUBFATURA,
-	celpe.VL_FATOR_MODERADOR,
-	celpe.NR_MATRICULA_ESPECIAL,
-	celpe.DESCR_PROFISSAO,
-	celpe.CD_USUARIO,
-	celpe.NR_CARTEIRA_IDENT,
-    celpe.NR_CPF_BENEFICIARIO,
-	celpe.CD_PLANO,		
-	celpe.CD_EMPRESA,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED	
+	coelba.CD_MES,
+    coelba.CD_ANO,
+    coelba.ID_CONTRATO,
+    coelba.CD_CONTRATO,
+    coelba.NR_CERTIFICADO,
+	coelba.NR_MATRICULA,
+	coelba.NM_TITULAR,
+	coelba.NM_BENEFICIARIO,
+	coelba.NR_SUBFATURA,
+	coelba.VL_FATOR_MODERADOR,
+	coelba.NR_MATRICULA_ESPECIAL,
+	coelba.DESCR_PROFISSAO,
+	coelba.CD_USUARIO,
+	coelba.NR_CARTEIRA_IDENT,
+    coelba.NR_CPF_BENEFICIARIO,
+	coelba.CD_PLANO,		
+	coelba.CD_EMPRESA,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED	
 order by
-	celpe.NM_TITULAR;
+	coelba.NM_TITULAR;
 	
 /****************************************************************************************************************************************************/
 	
-create view VW_RESUMO_DETAIL_CELPE_SAUDE as
+create view VW_RESUMO_DETAIL_COELBA_ODONTO as
 select
 	FUNC_GET_ROWNUM() ID,
-	celpe.CD_MES,
-    celpe.CD_ANO,
-    celpe.ID_CONTRATO,
-    celpe.CD_CONTRATO,
-    celpe.CD_EMPRESA,
+	coelba.CD_MES,
+    coelba.CD_ANO,
+    coelba.ID_CONTRATO,
+    coelba.CD_CONTRATO,
+    coelba.CD_EMPRESA,
     'Celpe' NM_SUBESTIPULANTE,
-	sum( celpe.VL_PRINCIPAL ) VL_PRINCIPAL,
-	( sum( celpe.VL_PRINCIPAL ) / ( select sum( total.VL_PRINCIPAL ) from VW_COPARTICIPACAO_CELPE_SAUDE total where total.CD_MES = celpe.CD_MES and total.CD_ANO = celpe.CD_ANO )) * 100 PERC_VL_PRINCIPAL,
+	sum( coelba.VL_PRINCIPAL ) VL_PRINCIPAL,
+	( sum( coelba.VL_PRINCIPAL ) / ( select sum( total.VL_PRINCIPAL ) from VW_COPARTICIPACAO_COELBA_ODONTO total where total.CD_MES = coelba.CD_MES and total.CD_ANO = coelba.CD_ANO )) * 100 PERC_VL_PRINCIPAL,
 	count( 1 ) QTDE_VIDAS,	
-	( count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_CELPE_SAUDE total where total.CD_MES = celpe.CD_MES and total.CD_ANO = celpe.CD_ANO )) * 100 PERC_VIDAS,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED	
-from	VW_COPARTICIPACAO_CELPE_SAUDE celpe
+	( count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_COELBA_ODONTO total where total.CD_MES = coelba.CD_MES and total.CD_ANO = coelba.CD_ANO )) * 100 PERC_VIDAS,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED	
+from	VW_COPARTICIPACAO_COELBA_ODONTO coelba
 group by
-	celpe.CD_MES,
-    celpe.CD_ANO,
-    celpe.ID_CONTRATO,
-    celpe.CD_CONTRATO,
-    celpe.CD_EMPRESA,
-    celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED;
+	coelba.CD_MES,
+    coelba.CD_ANO,
+    coelba.ID_CONTRATO,
+    coelba.CD_CONTRATO,
+    coelba.CD_EMPRESA,
+    coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED;
 	
 /****************************************************************************************************************************************************/
 
-create view VW_RESUMO_LEVEL01_CELPE_SAUDE as
+create view VW_RESUMO_LEVEL01_COELBA_ODONTO as
 select     
 	'Saúde' NM_RAMO,
 	'Bradesco' NM_OPERADORA,
-	celpe.CD_MES,
-	celpe.CD_ANO,
-	FUNC_CREATE_DATA_COMPETENCIA( celpe.CD_MES, celpe.CD_ANO ) DESCR_COMPETENCIA,
-	sum( ifnull( celpe.VL_PRINCIPAL, 0 ))  VL_PRINCIPAL,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED	        
-from VW_COPARTICIPACAO_CELPE_SAUDE celpe
+	coelba.CD_MES,
+	coelba.CD_ANO,
+	FUNC_CREATE_DATA_COMPETENCIA( coelba.CD_MES, coelba.CD_ANO ) DESCR_COMPETENCIA,
+	sum( ifnull( coelba.VL_PRINCIPAL, 0 ))  VL_PRINCIPAL,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED	        
+from VW_COPARTICIPACAO_COELBA_ODONTO coelba
 group by
-	celpe.CD_MES,
-	celpe.CD_ANO,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED;    
+	coelba.CD_MES,
+	coelba.CD_ANO,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED;    
 		
-create view VW_RESUMO_CELPE_SAUDE as
+create view VW_RESUMO_COELBA_ODONTO as
 select	
 	FUNC_GET_ROWNUM() ID,     
-	celpe.NM_RAMO,
-	celpe.NM_OPERADORA,
-	celpe.CD_MES,
-	celpe.CD_ANO,
-	celpe.DESCR_COMPETENCIA,
-	celpe.VL_PRINCIPAL,
+	coelba.NM_RAMO,
+	coelba.NM_OPERADORA,
+	coelba.CD_MES,
+	coelba.CD_ANO,
+	coelba.DESCR_COMPETENCIA,
+	coelba.VL_PRINCIPAL,
 	( select 
-		celpe_anterior.DESCR_COMPETENCIA
-	from VW_RESUMO_LEVEL01_CELPE_SAUDE celpe_anterior
-	where	celpe_anterior.CD_MES	= celpe.CD_MES - 1
-	and		celpe_anterior.CD_ANO	= celpe.CD_ANO ) DESCR_COMPETENCIA_ANTERIOR,
+		coelba_anterior.DESCR_COMPETENCIA
+	from VW_RESUMO_LEVEL01_COELBA_ODONTO coelba_anterior
+	where	coelba_anterior.CD_MES	= coelba.CD_MES - 1
+	and		coelba_anterior.CD_ANO	= coelba.CD_ANO ) DESCR_COMPETENCIA_ANTERIOR,
 	ifnull(( select 
-		celpe_anterior.VL_PRINCIPAL
-	from VW_RESUMO_LEVEL01_CELPE_SAUDE celpe_anterior
-	where	celpe_anterior.CD_MES	= celpe.CD_MES - 1
-	and		celpe_anterior.CD_ANO	= celpe.CD_ANO ), 0 ) VL_PRINCIPAL_ANTERIOR,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED	        
-from VW_RESUMO_LEVEL01_CELPE_SAUDE celpe;
+		coelba_anterior.VL_PRINCIPAL
+	from VW_RESUMO_LEVEL01_COELBA_ODONTO coelba_anterior
+	where	coelba_anterior.CD_MES	= coelba.CD_MES - 1
+	and		coelba_anterior.CD_ANO	= coelba.CD_ANO ), 0 ) VL_PRINCIPAL_ANTERIOR,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED	        
+from VW_RESUMO_LEVEL01_COELBA_ODONTO coelba;
 		
 /****************************************************************************************************************************************************/
 	
-create view VW_RATEIO_CELPE_SAUDE as
+create view VW_RATEIO_COELBA_ODONTO as
 select
 	FUNC_GET_ROWNUM() ID,     
-	celpe.CD_MES,
-    celpe.CD_ANO,
-    celpe.NM_TITULAR,
-    sum( celpe.VL_PRINCIPAL ) VL_PRINCIPAL,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED	    
-from	VW_COPARTICIPACAO_CELPE_SAUDE celpe
+	coelba.CD_MES,
+    coelba.CD_ANO,
+    coelba.NM_TITULAR,
+    sum( coelba.VL_PRINCIPAL ) VL_PRINCIPAL,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED	    
+from	VW_COPARTICIPACAO_COELBA_ODONTO coelba
 group by
-	celpe.CD_MES,
-    celpe.CD_ANO,
-    celpe.NM_TITULAR,
-	celpe.VERSION,
-	celpe.USER_CREATED,
-	celpe.USER_ALTERED,
-	celpe.DT_CREATED,
-	celpe.DT_ALTERED	    
+	coelba.CD_MES,
+    coelba.CD_ANO,
+    coelba.NM_TITULAR,
+	coelba.VERSION,
+	coelba.USER_CREATED,
+	coelba.USER_ALTERED,
+	coelba.DT_CREATED,
+	coelba.DT_ALTERED	    
 order by
-	celpe.NM_TITULAR;
+	coelba.NM_TITULAR;
 
 

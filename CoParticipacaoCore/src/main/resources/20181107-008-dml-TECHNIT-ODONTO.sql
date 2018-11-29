@@ -356,53 +356,6 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 231');	
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
-	/* REPORT */
-
-	call PROC_LOG_MESSAGE('LINHA - 236');
-	insert into TB_REPORT(
-		ID_EMPRESA,
-		NM_REPORT,
-		DESCR_REPORT,
-		NM_OUTPUT_FORMAT,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED
-	) values (	
-		VAR_ID_EMPRESA,
-		'bradesco-Technit-OdontoSEDE.jasper',
-		'BRADESCO-TECHNIT',
-		'Technit(SEDE)-Bradesco (Odonto) - Coparticipação_{YYYY}{MM}.xlsx',
-
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 236');
-	insert into TB_REPORT(
-		ID_EMPRESA,
-		NM_REPORT,
-		DESCR_REPORT,
-		NM_OUTPUT_FORMAT,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED
-	) values (	
-		VAR_ID_EMPRESA,
-		'bradesco-Technit-OdontoDUTRA.jasper',
-		'BRADESCO-TECHNIT',
-		'Technit(DUTRA)-Bradesco (Odonto) - Coparticipação_{YYYY}{MM}.xlsx',
-
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 197');
-	/*****************************************************************************************************************/
-	/*****************************************************************************************************************/	
 	/* VIEW-DESTINATION */
 
 	call PROC_LOG_MESSAGE('LINHA - 230');
@@ -413,7 +366,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_TECHNIT',
+		'VW_COPARTICIPACAO_TECHNIT_ODONTO',
 		'TECHNIT',
 		
 		VAR_ID_USER,
@@ -616,7 +569,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_RESUMO_TECHNIT',
+		'VW_COPARTICIPACAO_RESUMO_TECHNIT_ODONTO',
 		'TECHNIT',
 		
 		VAR_ID_USER,
@@ -770,7 +723,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_DESCONHECIDO_TECHNIT',
+		'VW_DESCONHECIDO_TECHNIT_ODONTO',
 		'Não Localizados',
 		
 		VAR_ID_USER,

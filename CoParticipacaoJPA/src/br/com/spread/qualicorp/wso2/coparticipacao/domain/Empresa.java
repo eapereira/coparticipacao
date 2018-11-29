@@ -55,6 +55,8 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean useJasperReports;
 	
 	private boolean updateBeneficiarioFromFatucopa;
+	
+	private boolean enabled;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -274,6 +276,14 @@ public abstract class Empresa extends AbstractDomain {
 		this.updateBeneficiarioFromFatucopa = updateBeneficiarioFromFatucopa;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -284,6 +294,7 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + ((cdEmpresa == null) ? 0 : cdEmpresa.hashCode());
 		result = prime * result + ((contratos == null) ? 0 : contratos.hashCode());
 		result = prime * result + (createBeneficiarioFromMecsas2 ? 1231 : 1237);
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + (enabledExternalProcess ? 1231 : 1237);
 		result = prime * result + ((execucaos == null) ? 0 : execucaos.hashCode());
 		result = prime * result + ((externalProcess == null) ? 0 : externalProcess.hashCode());
@@ -330,6 +341,8 @@ public abstract class Empresa extends AbstractDomain {
 		} else if (!contratos.equals(other.contratos))
 			return false;
 		if (createBeneficiarioFromMecsas2 != other.createBeneficiarioFromMecsas2)
+			return false;
+		if (enabled != other.enabled)
 			return false;
 		if (enabledExternalProcess != other.enabledExternalProcess)
 			return false;
@@ -394,5 +407,6 @@ public abstract class Empresa extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 
 }

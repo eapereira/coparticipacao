@@ -376,7 +376,7 @@ public class BeneficiarioDetailHelper {
 				transferenciaDest.setQtdePermanenciaMeses(transferenciaOrigin.getQtdePermanenciaMeses());
 			}
 
-			if (transferenciaDest.getRdpNovoTitular() != null) {
+			if (transferenciaOrigin.getRdpNovoTitular() != null) {
 				transferenciaDest.setRdpNovoTitular(transferenciaOrigin.getRdpNovoTitular());
 			}
 

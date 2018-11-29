@@ -192,6 +192,8 @@ create table TB_EMPRESA(
 	CD_USE_JASPER_REPORTS					int( 3 ) not null default 0, /* informa se a Empresa utiliza para criar os relatórios o JasperReports */
 	CD_UPDATE_BENEFICIARIO_FROM_FATUCOPA	int( 3 ) not null default 0, /* informa se o processo pode atualizar os dados do beneficiário com os valores do arquivo de coparticipação: */
 	
+	CD_ENABLED								int( 1 ) not null default 1,
+	
 	TP_SAVE_MECSAS_DETAIL					int( 1 ) not null,
 	TP_SAVE_BENEFICIARIO_DETAIL				int( 1 ) not null,
         
@@ -411,8 +413,8 @@ create table TB_ARQUIVO_OUTPUT_SHEET(
 create table TB_ARQUIVO_EXECUCAO(
 	ID 					bigint( 17 ) auto_increment,
 	ID_CONTRATO			bigint( 17 ) not null,
-	CD_MES				int( 3 ) not null,
-	CD_ANO				int( 3 ) not null,
+	CD_MES				int( 2 ) not null,
+	CD_ANO				int( 4 ) not null,
 	TP_STATUS			int( 3 ) not null,
 	
 	NM_ARQUIVO_INPUT	varchar( 400 ) not null,
@@ -783,7 +785,7 @@ create table TB_LANCAMENTO(
 	ID_TITULAR				bigint( 17 ) not null,
 	ID_DEPENDENTE			bigint( 17 ) null,
 	CD_MES					int( 2 ) not null,
-	CD_ANO					int( 5 ) not null,
+	CD_ANO					int( 4 ) not null,
 	VL_PRINCIPAL			numeric( 17, 2 ) null,
 	
 	VERSION		bigint( 17 ) null,
@@ -860,8 +862,8 @@ create table TB_TITULAR_ISENTO(
 	ID_TITULAR				bigint( 17 ) not null,
 	TP_ISENTO				int( 3 ) not null, /* */
 
-	CD_MES					int( 3 ) not null,
-	CD_ANO					int( 3 ) not null,
+	CD_MES					int( 2 ) not null,
+	CD_ANO					int( 4 ) not null,
 	VL_ISENCAO				numeric( 17, 2 ) null,
 
 	VERSION		bigint( 17 ) null,
@@ -885,8 +887,8 @@ create table TB_DEPENDENTE_ISENTO(
 	ID_DEPENDENTE			bigint( 17 ) not null,
 	TP_ISENTO				int( 3 ) not null, /* 1 = GRAVIDA,  */
 
-	CD_MES					int( 3 ) not null,
-	CD_ANO					int( 3 ) not null,
+	CD_MES					int( 2 ) not null,
+	CD_ANO					int( 4 ) not null,
 	VL_ISENCAO				numeric( 17, 2 ) null,
 	
 	VERSION		bigint( 17 ) null,
@@ -1083,8 +1085,8 @@ create table TB_LANCAMENTO_INPUT_COLS(
 create table TB_DESCONHECIDO(
 	ID 							bigint( 17 ) auto_increment,
 	ID_CONTRATO					bigint( 17 ) not null,
-	CD_MES						int( 3 ) not null,
-	CD_ANO						int( 3 ),
+	CD_MES						int( 2 ) not null,
+	CD_ANO						int( 4 ),
 	
 	NM_BENEFICIARIO				varchar( 200 ) null,
 	NM_TITULAR					varchar( 200 ) null,
@@ -1320,6 +1322,7 @@ drop function if exists FUNC_GET_MATRICULA_HOC;
 drop function if exists FUNC_GET_CPF;
 drop function if exists FUNC_GET_ROWNUM;
 drop function if exists FUNC_GET_CARTAO_IDENTIFICACAO_CELPE;
+drop function if exists FUNC_CREATE_DATA_COMPETENCIA;
 
 delimiter $$
 
@@ -1589,6 +1592,8 @@ BEGIN
 END
 $$
 
+delimiter $$
+
 create function FUNC_GET_CARTAO_IDENTIFICACAO_CELPE( 
 	PARAM_CD_CONTRATO varchar( 60 ), 
 	PARAM_NR_CERTIFICADO bigint( 17 ), 
@@ -1617,6 +1622,25 @@ BEGIN
 	
 	return VAR_RESULT;
 END
+$$
+
+create function FUNC_CREATE_DATA_COMPETENCIA(
+	PARAM_CD_MES int( 2 ),
+	PARAM_CD_ANO int( 4 ))
+returns varchar( 20 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para criar os números de matricula usados pelo Hospital Oswaldo Cruz:'
+BEGIN
+	declare VAR_RESULT 				varchar( 20 ) default '';
+	declare VAR_DATE 				varchar( 20 ) default '';
+
+	set VAR_DATE	= concat( '01/',PARAM_CD_MES, '/', PARAM_CD_ANO );	
+	set VAR_RESULT 	= concat( MONTHNAME(STR_TO_DATE( VAR_DATE, '%d/%m/%Y')), ' / ', PARAM_CD_ANO ); 	
+	
+	return VAR_RESULT;
+END	
 $$
 
 #call PROC_CLEAR_COPARTICIPACAO( 1010 ); 

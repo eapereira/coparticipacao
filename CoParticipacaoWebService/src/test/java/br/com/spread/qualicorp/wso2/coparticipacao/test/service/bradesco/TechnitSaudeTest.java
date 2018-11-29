@@ -27,14 +27,14 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTe
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class TechnitOdontoTest extends CoParticipacaoTest {
+public class TechnitSaudeTest extends CoParticipacaoTest {
 
 	private static final Logger LOGGER = LogManager.getLogger(AutomindTest.class);
 
-	private static final String MECSAS_201810 = "technit-odonto/input/091707.MECSAS.201810.001.xlsx";
-	private static final String MECSAS2_201810 = "technit-odonto/input/091707.MECSAS2.201810.002.xlsx";
-	private static final String FATUCOPA_201810 = "technit-odonto/input/091707.091707.201810.004.xlsx";
-	private static final String NAO_LOCALIZADO_201808 = "technit-odonto/input/091707.NAO-LOCALIZADO.201810.002.xlsx";
+	private static final String MECSAS_201810 = "technit-saude/input/180831.MECSAS.201810.001.xlsx";
+	private static final String MECSAS2_201810 = "technit-saude/input/180831.MECSAS2.201810.002.xlsx";
+	private static final String FATUCOPA_201810 = "technit-saude/input/180831.180831.201810.004.xlsx";
+	private static final String NAO_LOCALIZADO_201808 = "technit-saude/input/180831.NAO-LOCALIZADO.201810.002.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 24;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 0;

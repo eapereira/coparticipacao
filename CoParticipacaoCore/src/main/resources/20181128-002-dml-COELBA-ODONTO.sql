@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181107-012-dml-TECHNIT-ODONTO-NAO-LOCALIZADO.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-002-dml-CELPE.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181122-006-dml-CELPE-NAO-LOCALIZADO.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181128-002-dml-COELBA-ODONTO.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -187,10 +187,10 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
-		'CELPE-SAUDE',
-		'071421',
+		'COELBA-ODONTO',
+		'180612',
 		VAR_FALSE,
-		'/coparticipacao/output-reports/bradesco/celpe-saude/',
+		'/coparticipacao/output-reports/bradesco/coelba-odonto/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',
@@ -220,8 +220,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'071421',
-	    '071421',
+		'180612',
+	    '180612',
 	    VAR_NM_CONTRATO_COPARTICIPACAO,
 	    VAR_USE_TYPE_FATUCOPA,
 	    
@@ -317,8 +317,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_COPARTICIPACAO_CELPE_SAUDE',
-		'CELPE',
+		'VW_COPARTICIPACAO_COELBA_ODONTO',
+		'COELBA',
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -520,8 +520,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_RESUMO_DETAIL_CELPE_SAUDE',
-		'CELPE',
+		'VW_RESUMO_DETAIL_COELBA_ODONTO',
+		'COELBA',
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -674,7 +674,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		'VW_DESCONHECIDO_CELPE_SAUDE',
+		'VW_DESCONHECIDO_COELBA_ODONTO',
 		'Não Localizados',
 		
 		VAR_ID_USER,

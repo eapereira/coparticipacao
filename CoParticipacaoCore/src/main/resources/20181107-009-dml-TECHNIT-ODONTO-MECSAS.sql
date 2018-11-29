@@ -324,7 +324,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(TECHNIT)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(091707)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_MECSAS,

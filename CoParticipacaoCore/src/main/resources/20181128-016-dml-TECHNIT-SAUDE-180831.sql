@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181122-003-dml-CELPE-MECSAS.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-004-dml-CELPE-071421.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181128-015-dml-TECHNIT-SAUDE-MECSAS.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181128-016-dml-TECHNIT-SAUDE-180831.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -83,6 +83,15 @@ BEGIN
 	
 	declare VAR_ID_ARQUIVO_OUTPUT										bigint( 17 );
     declare VAR_ID_VIEW_DESTINATION										bigint( 17 );
+	declare VAR_VIEW_DESTINATION_RESUMO_HOC 							bigint( 17 );
+	declare VAR_VIEW_DESTINATION_ORIGINAL_HOC 							bigint( 17 );
+	declare VAR_VIEW_DESTINATION_ISENCAO_GESTANTES_HOC 					bigint( 17 );
+	declare VAR_VIEW_DESTINATION_CONSELHEIROS_HOC 						bigint( 17 );
+	declare VAR_VIEW_DESTINATION_AFASTADOS_HOC		 					bigint( 17 );
+	declare VAR_VIEW_DESTINATION_AGREGADOS_HOC 							bigint( 17 );
+	declare VAR_VIEW_DESTINATION_PLANO_EXTENSAO_HOC 					bigint( 17 );
+	declare VAR_VIEW_DESTINATION_DESLIGADOS_HOC 						bigint( 17 );
+	declare VAR_VIEW_DESTINATION_PRN_HOC 								bigint( 17 );
 	
 	declare VAR_COL_VIEW_LENGTH_ID_TITULAR								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
@@ -104,7 +113,6 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_DT_NASCIMENTO							bigint( 17 ) default 12;
 	declare VAR_COL_LANCAMENTO_VL_REEMBOLSO								bigint( 17 ) default 13;
 	declare VAR_COL_LANCAMENTO_VL_PARTICIPACAO							bigint( 17 ) default 14;
-	declare VAR_COL_LANCAMENTO_CD_USUARIO								bigint( 17 ) default 15;
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
 	declare VAR_ID_LANCAMENTO_INPUT_SHEET								bigint( 17 );
@@ -224,15 +232,12 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DESCR_PROFISSAO                 	bigint( 17 ) default 104;
 	declare VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL           	bigint( 17 ) default 105;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR              	bigint( 17 ) default 106;
-	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO   			           	bigint( 17 ) default 107;
-	declare VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA  		            	bigint( 17 ) default 108;
+	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO              			bigint( 17 ) default 107;
+	declare VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA              			bigint( 17 ) default 108;	
 	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR_INSS           	bigint( 17 ) default 109;
-	declare VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS 	             	bigint( 17 ) default 110;
-	declare VAR_CD_BENEFICIARIO_COLS_VL_INSS  			            	bigint( 17 ) default 111;
+	declare VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS      				bigint( 17 ) default 110;
+	declare VAR_CD_BENEFICIARIO_COLS_VL_INSS              				bigint( 17 ) default 111;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_LIQUIDO_SINISTRO              	bigint( 17 ) default 112;
-	declare VAR_CD_BENEFICIARIO_COLS_IND_EVENTO 		             	bigint( 17 ) default 113;
-	declare VAR_CD_BENEFICIARIO_COLS_CD_USUARIO         		     	bigint( 17 ) default 114;
-	declare VAR_CD_BENEFICIARIO_COLS_NR_CERTIFICADO        		     	bigint( 17 ) default 115;
 	
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;
@@ -275,13 +280,13 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 238');
     select	ID into VAR_ID_EMPRESA
     from 	TB_EMPRESA
-    where 	CD_EMPRESA = '071421';
+    where 	CD_EMPRESA = '180831';
 	
     call PROC_LOG_MESSAGE('LINHA - 242');
 	select 	ID into VAR_ID_CONTRATO
 	from 	TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
-	and 	CD_CONTRATO = '071421'; 
+	and 	CD_CONTRATO = '180831'; 
 
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
@@ -301,7 +306,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(CELPE-SAUDE)\\.(071421)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(180831)\\.(180831)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_FATUCOPA,
@@ -406,7 +411,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_003_CD_USUARIO',
-		VAR_COL_VARCHAR,
+		VAR_COL_INT,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -973,32 +978,13 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()	
 	);	
-
-	call PROC_LOG_MESSAGE('LINHA - 984');
-	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
-		ID_LANCAMENTO_INPUT_SHEET,
-		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_LANCAMENTO_INPUT_SHEET,
-		VAR_COL_LANCAMENTO_CD_USUARIO,
-		VAR_ID_SHEET01_COLUMN_003_CD_USUARIO,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);	
 	
-	call PROC_LOG_MESSAGE('LINHA - 995');	
-	/*****************************************************************************************************************************************************/	
-	/*****************************************************************************************************************************************************/		
-	/* ARQUIVO_OUTPUT */
-		
-	/* FASTU-COPA.1 */	    
-	call PROC_LOG_MESSAGE('LINHA - 1001');
+	call PROC_LOG_MESSAGE('LINHA - 958');	
+	/*****************************************************************************************************************/
+	/*****************************************************************************************************************/
+    /* ARQUIVO_OUTPUT */
+	
+	call PROC_LOG_MESSAGE('LINHA - 963');
 	insert into TB_ARQUIVO_OUTPUT(
 		ID_ARQUIVO_INPUT,
 		NM_ARQUIVO_FORMAT,
@@ -1009,7 +995,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'CELPE-Bradesco(Saude)_Coparticipacao_({YYYY}{MM}).xlsx',
+		'Technit({CC})-Bradesco (Odonto) - Coparticipação_({YYYY}{MM}).xlsx',
 		'Arquivo de saída para a carga dos lançamentos FATU COPA',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		
@@ -1020,38 +1006,13 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT from TB_ARQUIVO_OUTPUT;
 	
-	/*****************************************************************************************************************************************************/
-    call PROC_LOG_MESSAGE('LINHA - 1024');
-	select ID into VAR_ID_VIEW_DESTINATION
-	from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_COPARTICIPACAO_CELPE_SAUDE';
-	
-    call PROC_LOG_MESSAGE('LINHA - 1029');
-	insert into TB_ARQUIVO_OUTPUT_SHEET(
-		ID_ARQUIVO_OUTPUT,
-		ID_VIEW_DESTINATION,
-		NM_SHEET,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_ARQUIVO_OUTPUT,
-		VAR_ID_VIEW_DESTINATION,
-		'%s',
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 1047');
-	/*****************************************************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 1049');
+	/*****************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 986');
 	select 	ID into VAR_ID_VIEW_DESTINATION
 	from 	TB_VIEW_DESTINATION
-    where 	NM_VIEW = 'VW_RESUMO_DETAIL_CELPE_SAUDE';
+    where 	NM_VIEW = 'VW_COPARTICIPACAO_TECHNIT_SAUDE';
 
-    call PROC_LOG_MESSAGE('LINHA - 1054');
+    call PROC_LOG_MESSAGE('LINHA - 991');
 	insert into TB_ARQUIVO_OUTPUT_SHEET(
 		ID_ARQUIVO_OUTPUT,
 		ID_VIEW_DESTINATION,
@@ -1062,24 +1023,48 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_OUTPUT,
 		VAR_ID_VIEW_DESTINATION,
-		'RESUMO %s',
+		'TECHNIT %s',
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 1009');
+	/*****************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 1011');
+	select 	ID into VAR_ID_VIEW_DESTINATION
+	from 	TB_VIEW_DESTINATION
+    where 	NM_VIEW = 'VW_COPARTICIPACAO_RESUMO_TECHNIT_SAUDE';
+
+    call PROC_LOG_MESSAGE('LINHA - 997');
+	insert into TB_ARQUIVO_OUTPUT_SHEET(
+		ID_ARQUIVO_OUTPUT,
+		ID_VIEW_DESTINATION,
+		NM_SHEET,
 		
-	call PROC_LOG_MESSAGE('LINHA - 1072');
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_ARQUIVO_OUTPUT,
+		VAR_ID_VIEW_DESTINATION,
+		'RATEIO %s',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 1015');	
 	/*****************************************************************************************************************************************************/	
-	/*****************************************************************************************************************************************************/			
+	/*****************************************************************************************************************************************************/		
 	/* NAO-LOCALIZADOS */
 	
-    call PROC_LOG_MESSAGE('LINHA - 1102');
-	select ID into VAR_ID_VIEW_DESTINATION
-	from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_DESCONHECIDO_CELPE_SAUDE';
+    call PROC_LOG_MESSAGE('LINHA - 1020');
+	select ID into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION
+    where NM_VIEW = 'VW_DESCONHECIDO_TECHNIT_SAUDE';
 	
-	call PROC_LOG_MESSAGE('LINHA - 1107');
+	call PROC_LOG_MESSAGE('LINHA - 1024');
 	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
 		ID_ARQUIVO_INPUT,
 		NM_ARQUIVO_FORMAT,
@@ -1089,7 +1074,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'NAO-LOCALIZADO-CELPE-SAUDE-{YYYY}{MM}.xlsx',
+		'NAO-LOCALIZADO-TECHNIT-SAUDE-{YYYY}{MM}.xlsx',
 		'Arquivo com os beneficiários não localizados pelo processo',
 		
 		VAR_ID_USER,

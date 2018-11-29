@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181122-003-dml-CELPE-MECSAS.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181122-004-dml-CELPE-071421.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181128-003-dml-COELBA-ODONTO-MECSAS.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181128-004-dml-COELBA-ODONTO-180612.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -275,13 +275,13 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 238');
     select	ID into VAR_ID_EMPRESA
     from 	TB_EMPRESA
-    where 	CD_EMPRESA = '071421';
+    where 	CD_EMPRESA = '180612';
 	
     call PROC_LOG_MESSAGE('LINHA - 242');
 	select 	ID into VAR_ID_CONTRATO
 	from 	TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
-	and 	CD_CONTRATO = '071421'; 
+	and 	CD_CONTRATO = '180612'; 
 
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
@@ -301,7 +301,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(CELPE-SAUDE)\\.(071421)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(180612)\\.(180612)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_FATUCOPA,
@@ -1009,7 +1009,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'CELPE-Bradesco(Saude)_Coparticipacao_({YYYY}{MM}).xlsx',
+		'COELBA(Odonto)-Bradesco(Saude)_Coparticipacao_({YYYY}{MM}).xlsx',
 		'Arquivo de saída para a carga dos lançamentos FATU COPA',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		
@@ -1024,7 +1024,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 1024');
 	select ID into VAR_ID_VIEW_DESTINATION
 	from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_COPARTICIPACAO_CELPE_SAUDE';
+    where NM_VIEW = 'VW_COPARTICIPACAO_COELBA_ODONTO';
 	
     call PROC_LOG_MESSAGE('LINHA - 1029');
 	insert into TB_ARQUIVO_OUTPUT_SHEET(
@@ -1049,7 +1049,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 1049');
 	select 	ID into VAR_ID_VIEW_DESTINATION
 	from 	TB_VIEW_DESTINATION
-    where 	NM_VIEW = 'VW_RESUMO_DETAIL_CELPE_SAUDE';
+    where 	NM_VIEW = 'VW_RESUMO_DETAIL_COELBA_ODONTO';
 
     call PROC_LOG_MESSAGE('LINHA - 1054');
 	insert into TB_ARQUIVO_OUTPUT_SHEET(
@@ -1077,7 +1077,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 1102');
 	select ID into VAR_ID_VIEW_DESTINATION
 	from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_DESCONHECIDO_CELPE_SAUDE';
+    where NM_VIEW = 'VW_DESCONHECIDO_COELBA_ODONTO';
 	
 	call PROC_LOG_MESSAGE('LINHA - 1107');
 	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(
@@ -1089,7 +1089,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'NAO-LOCALIZADO-CELPE-SAUDE-{YYYY}{MM}.xlsx',
+		'NAO-LOCALIZADO-COELBA-ODONTO-{YYYY}{MM}.xlsx',
 		'Arquivo com os beneficiários não localizados pelo processo',
 		
 		VAR_ID_USER,

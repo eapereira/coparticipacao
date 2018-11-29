@@ -267,7 +267,7 @@ BEGIN
 	select 	ID into VAR_ID_CONTRATO_FATUCOPA 
 	from 	TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
-	and 	CD_CONTRATO = '074210'; 
+	and 	CD_CONTRATO = '071421'; 
 	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
@@ -287,7 +287,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(CELPE-ODONTO)\\.(MECSAS2)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
+		'^(CELPE-SAUDE)\\.(MECSAS2)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
 		'Arquivo de carga de beneficiários',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_MECSAS,
