@@ -51,12 +51,12 @@ public class HocBean {
 	private static final String FATUCOPA_201807 = "oswaldo-cruz/input/0444.0444.201807.005.csv";
 	private static final String NAO_LOCALIZADOS_201807 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201807.005.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 3031;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3911;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 3034;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3989;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201803 = 1;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201803 = 2377;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201803 = 481;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201803 = 1;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201803 = 309;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201803 = 5;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803_AFTER_VALIDATION = 3035;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803_AFTER_VALIDATION = 3910;

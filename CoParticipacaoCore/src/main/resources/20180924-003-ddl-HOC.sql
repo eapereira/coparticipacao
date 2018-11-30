@@ -825,13 +825,16 @@ from VW_DESLIGADOS_HOC desligados;
 
 create view VW_RESUMO_HOC as
 select
+	resumo.ID_RESUMO,
 	resumo.NM_LABEL,
 	resumo.CD_MES,
 	resumo.CD_ANO,
+	resumo.ID_EMPRESA,
 	resumo.ID_CONTRATO,
 	sum( resumo.TOTAL_COPART ) TOTAL_COPART
 from VW_RESUMO_LEVEL01_HOC resumo
 group by
+	resumo.ID_RESUMO,
 	resumo.NM_LABEL,
 	resumo.CD_MES,
 	resumo.CD_ANO,

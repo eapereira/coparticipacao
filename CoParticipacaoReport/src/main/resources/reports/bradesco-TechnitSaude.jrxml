@@ -12,7 +12,7 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\TechnitSaudeDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/TechnitSaudeDataAdapter.xml"/>
 	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.1"><![CDATA["Coparticipação"]]></propertyExpression>
 	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.2"><![CDATA["Rateio"]]></propertyExpression>
 	<queryString>

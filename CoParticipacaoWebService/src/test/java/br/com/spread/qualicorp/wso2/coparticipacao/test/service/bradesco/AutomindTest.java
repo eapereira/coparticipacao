@@ -42,7 +42,7 @@ public class AutomindTest extends CoParticipacaoTest {
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 431;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 88;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 60;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 117;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 629;
 

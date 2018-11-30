@@ -39,9 +39,9 @@ public abstract class Beneficiario extends AbstractDomain {
 	private String nameTitular;
 
 	private Long matriculaTitular;
-	
+
 	private String cdContrato;
-	
+
 	private Contrato contrato;
 
 	private BeneficiarioDetail beneficiarioDetail;
@@ -155,6 +155,10 @@ public abstract class Beneficiario extends AbstractDomain {
 	}
 
 	public BeneficiarioDetail getBeneficiarioDetail() {
+		if (beneficiarioDetail == null) {
+			beneficiarioDetail = new BeneficiarioDetail();
+		}
+
 		return beneficiarioDetail;
 	}
 

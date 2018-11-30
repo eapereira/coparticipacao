@@ -60,7 +60,8 @@ from TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA = '180831'
 and		(( titular.VL_FATOR_MODERADOR is null or titular.VL_FATOR_MODERADOR <= 0 ) or 
-		( titular.VL_FATOR_MODERADOR_INSS is null or titular.VL_FATOR_MODERADOR_INSS <= 0 ));
+		( titular.VL_FATOR_MODERADOR_INSS is null or titular.VL_FATOR_MODERADOR_INSS <= 0 ))
+and titular.DESCR_PROFISSAO is null;
 	
 create view VW_DESCONHECIDO_TECHNIT_SAUDE as
 select distinct
@@ -116,7 +117,7 @@ from TB_TITULAR titular
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA			= '180831'
 and		titular.VL_FATOR_MODERADOR 	> 0
-AND		titular.NR_SUBFATURA in ( 1, 3, 5, 7, 9 );
+and		titular.NR_SUBFATURA in ( 1, 3, 5, 7, 9 );
 
 create view VW_COPARTICIPACAO_TECHNIT_SAUDE as
 select

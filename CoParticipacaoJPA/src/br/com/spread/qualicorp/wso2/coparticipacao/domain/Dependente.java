@@ -38,14 +38,14 @@ public abstract class Dependente extends AbstractDomain {
 
 	private List<DependenteIsento> dependenteIsentos;
 	private List<Lancamento> lancamentos;
-	
+
 	private BeneficiarioDetail beneficiarioDetail;
 
 	public Dependente() {
 		dependenteIsentos = new ArrayList<>();
 		lancamentos = new ArrayList<>();
-		
-		beneficiarioDetail=new BeneficiarioDetail();
+
+		beneficiarioDetail = new BeneficiarioDetail();
 	}
 
 	public Dependente(Dependente entity) {
@@ -267,7 +267,5 @@ public abstract class Dependente extends AbstractDomain {
 			return false;
 		return true;
 	}
-
-
 
 }

@@ -981,13 +981,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		DependenteUi dependenteUi = null;
 		TitularUi titularUi = null;
 		BeneficiarioUi beneficiarioTitular;
-		EmpresaUi empresaUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			dependenteUi = findDependente(coParticipacaoContext, beneficiarioUi);
-			empresaUi = coParticipacaoContext.getEmpresaUi();
 
 			if (dependenteUi == null) {
 				if (empresaService.canAutomaticallyCreateBeneficiario(coParticipacaoContext)) {
