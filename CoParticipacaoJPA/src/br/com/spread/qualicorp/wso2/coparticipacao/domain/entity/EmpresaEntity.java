@@ -213,4 +213,11 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.isUpdateBeneficiarioFromFatucopa();
 	}
 
+	@Column(name = "CD_ENABLED")
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return super.isEnabled();
+	}
+
 }

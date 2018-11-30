@@ -75,9 +75,9 @@ order by desconhecido.NM_BENEFICIARIO;
 
 create view VW_COPARTICIPACAO_LEVEL01_LM_TRANSPORTES as
 select	
-	lancamento.CD_MES,
-    lancamento.CD_ANO,
-    lancamento.ID_CONTRATO,
+	month(current_date()) CD_MES,
+    year(current_date()) CD_ANO,
+    titular.ID_CONTRATO,
     contrato.CD_CONTRATO,
 	lpad( titular.NR_MATRICULA, 7, '0' ) NR_CERTIFICADO,
 	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
@@ -93,13 +93,11 @@ select
 	1 USER_ALTERED,
 	current_date() DT_CREATED,
 	current_date() DT_ALTERED	
-from	TB_LANCAMENTO lancamento
+from	TB_TITULAR titular
 	join TB_CONTRATO contrato on
-		contrato.ID = lancamento.ID_CONTRATO
+		contrato.ID = titular.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-	join TB_TITULAR titular on
-		titular.ID = lancamento.ID_TITULAR
 where	empresa.CD_EMPRESA			= '073179'
 and		titular.VL_FATOR_MODERADOR 	> 0;
 

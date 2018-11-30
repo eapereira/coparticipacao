@@ -23,7 +23,7 @@ public class FriendlyErrorHelper {
 
 	private static final CharSequence ERROR_MATRICULA_TITULAR = "UN_TITULAR_01";
 
-	private static final String ERROR_COMMUNICATION_LINK = "Communication link failure";
+	private static final String ERROR_COMMUNICATION_LINK = "Communications link failure";
 	
 	private static final String ERROR_CONNECT_DATABASE="Unable to acquire JDBC Connection";
 

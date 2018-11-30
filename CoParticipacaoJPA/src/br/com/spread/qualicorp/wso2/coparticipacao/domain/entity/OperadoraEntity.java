@@ -50,4 +50,11 @@ public class OperadoraEntity extends Operadora implements DomainEntity {
 		return super.getEmpresas();
 	}
 
+	@Column(name = "CD_ENABLED")
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return super.isEnabled();
+	}
+
 }

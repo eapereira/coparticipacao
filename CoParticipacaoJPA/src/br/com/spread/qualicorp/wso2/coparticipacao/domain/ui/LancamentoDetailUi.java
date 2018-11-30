@@ -41,6 +41,8 @@ public class LancamentoDetailUi implements Serializable {
 	private BigDecimal valorParticipacao;
 	
 	private String cdUsuario;
+	
+	private LocalDate dtUtilizacao;
 
 	public LancamentoDetailUi() {
 		super();
@@ -188,6 +190,14 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setCdUsuario(String cdUsuario) {
 		this.cdUsuario = cdUsuario;
+	}
+
+	public LocalDate getDtUtilizacao() {
+		return dtUtilizacao;
+	}
+
+	public void setDtUtilizacao(LocalDate dtUtilizacao) {
+		this.dtUtilizacao = dtUtilizacao;
 	}
 
 }

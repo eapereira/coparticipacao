@@ -2,7 +2,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.impl.preparedState
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntity;
 
@@ -20,11 +19,12 @@ public class LancamentoSetter extends PreparedStatementSetterAdapter<LancamentoE
 	private static final int COL_VL_PRINCIPAL = 6;
 	private static final int COL_VL_REEMBOLSO = 7;
 	private static final int COL_VL_PARTICIPACAO = 8;
+	private static final int COL_DT_UTILIZACAO = 9;
 
-	private static final int COL_USER_CREATED = 9;
-	private static final int COL_USER_ALTERED = 9;
+	private static final int COL_USER_CREATED = 10;
+	private static final int COL_USER_ALTERED = 10;
 
-	private static final int COL_ID = 10;
+	private static final int COL_ID = 11;
 
 	public LancamentoSetter(SetterAdapterType setterAdapterType, LancamentoEntity entity) {
 		super(setterAdapterType, entity);
@@ -39,28 +39,29 @@ public class LancamentoSetter extends PreparedStatementSetterAdapter<LancamentoE
 	}
 
 	private void setCommonsValues(PreparedStatement ps) throws SQLException {
-		ps.setLong(COL_ID_TITULAR, getEntity().getTitular().getId());
+		setLong(ps, COL_ID_TITULAR, getEntity().getTitular().getId());
 
 		if (getEntity().getDependente() != null) {
-			ps.setLong(COL_ID_DEPENDENTE, getEntity().getDependente().getId());
+			setLong(ps, COL_ID_DEPENDENTE, getEntity().getDependente().getId());
 		} else {
-			ps.setNull(COL_ID_DEPENDENTE, Types.BIGINT);
+			setLong(ps, COL_ID_DEPENDENTE, null);
 		}
 
-		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
-		ps.setInt(COL_CD_MES, getEntity().getMes());
-		ps.setInt(COL_CD_ANO, getEntity().getAno());
-		ps.setBigDecimal(COL_VL_PRINCIPAL, getEntity().getValorPrincipal());
-		ps.setBigDecimal(COL_VL_REEMBOLSO, getEntity().getValorRembolso());
-		ps.setBigDecimal(COL_VL_PARTICIPACAO, getEntity().getValorParticipacao());
+		setLong(ps, COL_ID_CONTRATO, getEntity().getContrato().getId());
+		setInt(ps, COL_CD_MES, getEntity().getMes());
+		setInt(ps, COL_CD_ANO, getEntity().getAno());
+		setBigDecimal(ps, COL_VL_PRINCIPAL, getEntity().getValorPrincipal());
+		setBigDecimal(ps, COL_VL_REEMBOLSO, getEntity().getValorRembolso());
+		setBigDecimal(ps, COL_VL_PARTICIPACAO, getEntity().getValorParticipacao());
+		setDate(ps, COL_DT_UTILIZACAO, getEntity().getDtUtilizacao());
 	}
 
 	@Override
 	protected void setValuesForUpdate(PreparedStatement ps) throws SQLException {
 		setCommonsValues(ps);
 
-		ps.setLong(COL_USER_ALTERED, getEntity().getUserAltered().getId());
-		ps.setLong(COL_ID, getEntity().getId());
+		setLong(ps, COL_USER_ALTERED, getEntity().getUserAltered().getId());
+		setLong(ps, COL_ID, getEntity().getId());
 	}
 
 }

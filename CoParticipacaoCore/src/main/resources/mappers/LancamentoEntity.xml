@@ -11,6 +11,7 @@
 				VL_PRINCIPAL,
 				VL_REEMBOLSO,
 				VL_PARTICIPACAO,
+				DT_UTILIZACAO,
 				
 				USER_CREATED,
 				DT_ALTERED,
@@ -21,6 +22,7 @@
 				?,
 				?,
 				?,			
+				?,
 				?,
 				?,
 				?,	
@@ -44,6 +46,7 @@
 				VL_PRINCIPAL	= ?,
 				VL_REEMBOLSO	= ?,
 				VL_PARTICIPACAO	= ?,				
+				DT_UTILIZACAO	= ?,
 				
 				USER_ALTERED 	= ?,
 				DT_ALTERED = CURRENT_TIMESTAMP()

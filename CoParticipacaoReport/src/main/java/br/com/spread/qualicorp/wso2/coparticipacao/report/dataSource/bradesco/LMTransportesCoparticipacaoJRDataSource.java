@@ -18,15 +18,6 @@ import net.sf.jasperreports.engine.JRField;
 public class LMTransportesCoparticipacaoJRDataSource
 		extends CoParticipacaoDataSource<LMTransportesCoparticipacaoViewUi> {
 
-	private static final String FIELD_SUBFATURA = "cdEmpresa";
-	private static final String FIELD_NR_CERTIFICADO = "certificado";
-	private static final String FIELD_NR_MATRICULA = "matricula";
-	private static final String FIELD_NM_TITULAR = "nomeTitular";
-	private static final String FIELD_VL_FATOR_MODERADOR = "fatorModerador";
-	private static final String FIELD_NR_MATRICULA_ESPECIAL = "matriculaEspecial";
-	private static final String FIELD_DESCR_PROFISSAO = "profissao";
-	private static final String FIELD_VL_FATOR_MODERADOR_INSS = "fatorModeradorInss";
-
 	public LMTransportesCoparticipacaoJRDataSource() throws JRException {
 		super();
 	}
@@ -53,31 +44,6 @@ public class LMTransportesCoparticipacaoJRDataSource
 		lmTransportesCoparticipacaoViewUis.add(lmTransportesCoparticipacaoViewUi);
 
 		return lmTransportesCoparticipacaoViewUis;
-	}
-
-	@Override
-	public Object getFieldValue(JRField jrField) throws JRException {
-		if (getRegister() != null) {
-			if (FIELD_SUBFATURA.equals(jrField.getName())) {
-				return getRegister().getCdContrato();
-			} else if (FIELD_NR_CERTIFICADO.equals(jrField.getName())) {
-				return getRegister().getCertificado();
-			} else if (FIELD_NR_MATRICULA.equals(jrField.getName())) {
-				return getRegister().getMatricula();
-			} else if (FIELD_NM_TITULAR.equals(jrField.getName())) {
-				return getRegister().getNomeTitular();
-			} else if (FIELD_VL_FATOR_MODERADOR.equals(jrField.getName())) {
-				return getRegister().getFatorModerador();
-			} else if (FIELD_NR_MATRICULA_ESPECIAL.equals(jrField.getName())) {
-				return getRegister().getMatriculaEspecial();
-			} else if (FIELD_DESCR_PROFISSAO.equals(jrField.getName())) {
-				return getRegister().getProfissao();
-			} else if (FIELD_VL_FATOR_MODERADOR_INSS.equals(jrField.getName())) {
-				return getRegister().getFatorModeradorInss();
-			}
-		}
-
-		return null;
 	}
 
 	public static JRDataSource getInstance() throws JRException {

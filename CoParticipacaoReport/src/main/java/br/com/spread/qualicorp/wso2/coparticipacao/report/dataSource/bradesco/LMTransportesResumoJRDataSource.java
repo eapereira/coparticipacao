@@ -8,7 +8,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.LMTra
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipacaoDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 /**
  * 
@@ -16,14 +15,6 @@ import net.sf.jasperreports.engine.JRField;
  *
  */
 public class LMTransportesResumoJRDataSource extends CoParticipacaoDataSource<LMTransportesResumoViewUi> {
-
-	private static final String FIELD_NM_SUBFATURA = "subFatura";
-
-	private static final String FIELD_QTDE_SEGURADOS = "qtdeSegurados";
-
-	private static final String FIELD_VL_PROPORCAO = "valorProporcao";
-
-	private static final String FIELD_VL_ALOCACAO = "valorAlocacao";
 
 	public LMTransportesResumoJRDataSource() throws JRException {
 		super();
@@ -54,23 +45,6 @@ public class LMTransportesResumoJRDataSource extends CoParticipacaoDataSource<LM
 		lmTransportesResumoViewUis.add(lmTransportesResumoViewUi);
 
 		return lmTransportesResumoViewUis;
-	}
-
-	@Override
-	public Object getFieldValue(JRField jrField) throws JRException {
-		if (getRegister() != null) {
-			if (FIELD_NM_SUBFATURA.equals(jrField.getName())) {
-				return getRegister().getSubFatura();
-			} else if (FIELD_QTDE_SEGURADOS.equals(jrField.getName())) {
-				return getRegister().getQtdeSegurados();
-			} else if (FIELD_VL_PROPORCAO.equals(jrField.getName())) {
-				return getRegister().getValorProporcao();
-			} else if (FIELD_VL_ALOCACAO.equals(jrField.getName())) {
-				return getRegister().getValorAlocacao();
-			}
-		}
-
-		return null;
 	}
 
 	public static JRDataSource getInstance() throws JRException {

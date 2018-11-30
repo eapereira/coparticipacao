@@ -106,22 +106,6 @@ public abstract class AbstractDaoImpl<ENTITY extends AbstractDomain> implements 
 		}
 	}
 
-	@Deprecated
-	protected Query createQueryOld(String sql) throws DaoException {
-		Query query;
-
-		try {
-			LOGGER.info("BEGIN");
-			query = entityManager.createQuery(sql);
-
-			LOGGER.info("END");
-			return query;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new DaoException(e);
-		}
-	}
-
 	@Transactional(propagation = Propagation.REQUIRED, transactionManager = TRANSACTION_MANAGER)
 	public void delete(ENTITY entity) throws DaoException {
 		try {

@@ -32,7 +32,8 @@
 		<![CDATA[
 			select empresa from EmpresaEntity empresa
 			join fetch empresa.operadora operadora
-			where operadora.id = :operadoraId
+			where	operadora.id 	= :operadoraId
+			and		empresa.enabled	= true
 			order by empresa.nameEmpresa
 		]]>
 	</query>

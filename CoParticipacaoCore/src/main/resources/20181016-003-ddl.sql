@@ -19,7 +19,9 @@ alter table TB_BENEFICIARIO_COLS
 alter table TB_LANCAMENTO
 	add(
 		VL_REEMBOLSO	numeric( 17, 2 ) null,
-		VL_PARTICIPACAO	numeric( 17, 2 ) null
+		VL_PARTICIPACAO	numeric( 17, 2 ) null,
+		
+		DT_UTILIZACAO	date null
 );
 
 alter table TB_TITULAR

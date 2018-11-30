@@ -351,8 +351,8 @@ public class ReportServiceImpl implements ReportService {
 			lmTransportesReports = new ArrayList<>();
 			lmTransportesReport = new LMTransportesReport();
 			lmTransportesReport.setLmTransportesCoparticipacaoViewUis(
-					lmTransportesCoparticipacaoService.listByMesAndAno(mes, ano));
-			lmTransportesReport.setLmTransportesResumoViewUis(lmTransportesResumoService.listByMesAndAno(mes, ano));
+					lmTransportesCoparticipacaoService.listAll());
+			lmTransportesReport.setLmTransportesResumoViewUis(lmTransportesResumoService.listAll());
 			lmTransportesReport.setSheetNameCoparticipacao(String.format("Coparticipação %d/%d", mes, ano));
 			lmTransportesReport.setSheetNameRateio("Rateio");
 

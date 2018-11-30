@@ -159,6 +159,7 @@ create table TB_USER_ROLE(
 create table TB_OPERADORA(
 	ID 					bigint( 17 ) auto_increment,
 	NM_OPERADORA		varchar( 200 ) not null,
+	CD_ENABLED			int( 1 ) not null default 1,
 	
 	VERSION		bigint( 17 ) null,
 	 

@@ -8,7 +8,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipa
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.LMTransportesReport;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 /**
  * 
@@ -16,9 +15,6 @@ import net.sf.jasperreports.engine.JRField;
  *
  */
 public class LMTransportesJRDataSource extends CoParticipacaoDataSource<LMTransportesReport> {
-
-	private static final String FIELD_COPARTICIPACAO = "LmTransportesCoparticipacaoViewUis";
-	private static final String FIELD_RESUMO = "LmTransportesResumoViewUis";
 
 	public LMTransportesJRDataSource() throws JRException {
 		super();
@@ -45,19 +41,6 @@ public class LMTransportesJRDataSource extends CoParticipacaoDataSource<LMTransp
 		LMTransportesReports.add(LMTransportesReport);
 
 		return LMTransportesReports;
-	}
-
-	@Override
-	public Object getFieldValue(JRField jrField) throws JRException {
-		if (getRegister() != null) {
-			if (FIELD_COPARTICIPACAO.equals(jrField.getName())) {
-				return getRegister().getLmTransportesResumoViewUis();
-			} else if (FIELD_RESUMO.equals(jrField.getName())) {
-				return getRegister().getLmTransportesResumoViewUis();
-			}
-		}
-
-		return null;
 	}
 
 	public static JRDataSource getInstance() throws JRException {

@@ -1,6 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -88,6 +89,13 @@ public class LancamentoEntity extends Lancamento implements DomainEntity {
 	public BigDecimal getValorParticipacao() {
 		// TODO Auto-generated method stub
 		return super.getValorParticipacao();
+	}
+
+	@Column(name = "DT_UTILIZACAO")
+	@Override
+	public LocalDate getDtUtilizacao() {
+		// TODO Auto-generated method stub
+		return super.getDtUtilizacao();
 	}
 
 }

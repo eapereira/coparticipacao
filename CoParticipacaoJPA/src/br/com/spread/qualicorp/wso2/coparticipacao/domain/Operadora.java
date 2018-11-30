@@ -20,6 +20,8 @@ public abstract class Operadora extends AbstractDomain {
 	private String cdOperadora;
 
 	private List<Empresa> empresas;
+	
+	private boolean enabled;
 
 	public Operadora() {
 		empresas = new ArrayList<>();
@@ -63,12 +65,21 @@ public abstract class Operadora extends AbstractDomain {
 		this.cdOperadora = cdOperadora;
 	}
 
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((cdOperadora == null) ? 0 : cdOperadora.hashCode());
 		result = prime * result + ((empresas == null) ? 0 : empresas.hashCode());
+		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + ((nameOperadora == null) ? 0 : nameOperadora.hashCode());
 		return result;
 	}
@@ -91,6 +102,8 @@ public abstract class Operadora extends AbstractDomain {
 			if (other.empresas != null)
 				return false;
 		} else if (!empresas.equals(other.empresas))
+			return false;
+		if (enabled != other.enabled)
 			return false;
 		if (nameOperadora == null) {
 			if (other.nameOperadora != null)

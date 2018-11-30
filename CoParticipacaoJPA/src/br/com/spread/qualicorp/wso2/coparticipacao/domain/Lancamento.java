@@ -1,6 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * The persistent class for the tb_lancamento database table.
@@ -8,23 +9,24 @@ import java.math.BigDecimal;
  */
 public abstract class Lancamento extends AbstractDomain {
 
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5172981778962698969L;
-	
+
 	private Integer ano;
 	private Integer mes;
 
 	private Contrato contrato;
 	private Dependente dependente;
 	private Titular titular;
-	
+
 	private BigDecimal valorPrincipal;
-	
+
 	private BigDecimal valorRembolso;
 	private BigDecimal valorParticipacao;
+
+	private LocalDate dtUtilizacao;
 
 	public Lancamento() {
 		super();
@@ -98,12 +100,22 @@ public abstract class Lancamento extends AbstractDomain {
 		this.valorParticipacao = valorParticipacao;
 	}
 
+	public LocalDate getDtUtilizacao() {
+		return dtUtilizacao;
+	}
+
+	public void setDtUtilizacao(LocalDate dtUtilizacao) {
+		this.dtUtilizacao = dtUtilizacao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((ano == null) ? 0 : ano.hashCode());
+		result = prime * result + ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
+		result = prime * result + ((dtUtilizacao == null) ? 0 : dtUtilizacao.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
 		result = prime * result + ((valorParticipacao == null) ? 0 : valorParticipacao.hashCode());
@@ -126,10 +138,20 @@ public abstract class Lancamento extends AbstractDomain {
 				return false;
 		} else if (!ano.equals(other.ano))
 			return false;
+		if (contrato == null) {
+			if (other.contrato != null)
+				return false;
+		} else if (!contrato.equals(other.contrato))
+			return false;
 		if (dependente == null) {
 			if (other.dependente != null)
 				return false;
 		} else if (!dependente.equals(other.dependente))
+			return false;
+		if (dtUtilizacao == null) {
+			if (other.dtUtilizacao != null)
+				return false;
+		} else if (!dtUtilizacao.equals(other.dtUtilizacao))
 			return false;
 		if (mes == null) {
 			if (other.mes != null)
