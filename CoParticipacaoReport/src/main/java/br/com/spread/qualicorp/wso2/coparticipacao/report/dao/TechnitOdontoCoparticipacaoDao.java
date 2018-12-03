@@ -18,5 +18,7 @@ public interface TechnitOdontoCoparticipacaoDao extends AbstractDao<TechnitOdont
 	List<TechnitOdontoCoparticipacaoViewEntity> listByMesAndAnoAndSubFatura(
 			Integer mes,
 			Integer ano,
-			String[] subFaturas) throws DaoException;;
+			String[] subFaturas) throws DaoException;
+
+	List<TechnitOdontoCoparticipacaoViewEntity> listBySubFatura(String[] subFaturas) throws DaoException;
 }

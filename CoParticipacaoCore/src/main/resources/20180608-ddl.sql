@@ -7,6 +7,7 @@
 drop table if exists TB_LANCAMENTO_INPUT_SHEET_COLS;
 drop table if exists TB_LANCAMENTO_INPUT_SHEET;
  
+drop table if exists TB_SUBFATURA;
 drop table if exists TB_REPORT;
 
 drop table if exists TB_SCRIPT;
@@ -1295,6 +1296,7 @@ create index NDX_CONTRATO_01 ON TB_CONTRATO( CD_CONTRATO );
 create index NDX_TITULAR_01 ON TB_CONTRATO( ID_EMPRESA );
 
 /*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
 
 create table TB_LOG(
 	ID			bigint( 17 ) auto_increment,
@@ -1311,6 +1313,10 @@ create table TB_SCRIPT(
 	
 	constraint PK_LOG primary key( ID ) 
 );
+
+/*****************************************************************************************************************************************************/
+#Se precisar execute essa linha como o ROOT:
+#set persist log_bin_trust_function_creators = 1;
 
 drop procedure if exists PROC_LOG_MESSAGE;
 drop procedure if exists PROC_SHOW_LOG_MESSAGE;
@@ -1503,9 +1509,6 @@ END
 $$
 
 delimiter $$
-
-#Se precisar execute essa linha como o ROOT:
-#set global log_bin_trust_function_creators = 1;
 
 create function FUNC_DOUBLE_TO_LONG( PARAM_VALUE numeric( 17, 2 ))
 returns bigint( 17 )

@@ -274,7 +274,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 238');
     select	ID into VAR_ID_EMPRESA
     from 	TB_EMPRESA
-    where 	CD_EMPRESA = 'AUTOMIND';
+    where 	CD_EMPRESA = '074210';
 	
     call PROC_LOG_MESSAGE('LINHA - 242');
 	select 	ID into VAR_ID_CONTRATO

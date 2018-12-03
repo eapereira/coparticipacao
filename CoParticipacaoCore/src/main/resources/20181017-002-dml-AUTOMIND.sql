@@ -176,7 +176,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
 		'AUTOMIND',
-		'AUTOMIND',
+		'074210',
 		VAR_FALSE,
 		'/coparticipacao/output-reports/bradesco/automind/',
         '/coparticipacao/input/',

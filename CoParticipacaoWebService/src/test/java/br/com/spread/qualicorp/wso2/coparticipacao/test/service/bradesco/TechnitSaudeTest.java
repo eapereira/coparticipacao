@@ -29,7 +29,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTe
  */
 public class TechnitSaudeTest extends CoParticipacaoTest {
 
-	private static final Logger LOGGER = LogManager.getLogger(AutomindTest.class);
+	private static final Logger LOGGER = LogManager.getLogger(TechnitSaudeTest.class);
 
 	private static final String MECSAS_201807 = "technit-saude/input/180831.MECSAS.201807.001.xlsx";
 	private static final String MECSAS2_201807 = "technit-saude/input/180831.MECSAS2.201807.002.xlsx";

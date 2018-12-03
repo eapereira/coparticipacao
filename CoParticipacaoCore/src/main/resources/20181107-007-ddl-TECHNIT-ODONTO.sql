@@ -95,15 +95,15 @@ select
 	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
 	lpad( titular.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
 	titular.NM_TITULAR,
-	titular.VL_FATOR_MODERADOR,
-	titular.VL_FATOR_MODERADOR_INSS,
+	ifnull( titular.VL_FATOR_MODERADOR, 0.0 ) VL_FATOR_MODERADOR,
+	ifnull( titular.VL_FATOR_MODERADOR_INSS, 0.0 ) VL_FATOR_MODERADOR_INSS, 
 	titular.NR_MATRICULA_ESPECIAL,
 	titular.DESCR_PROFISSAO,
 	empresa.CD_EMPRESA,
-	titular.VL_INSS,
-	titular.VL_LIQUIDO_SINISTRO,
+	ifnull( titular.VL_INSS, 0.0 ) VL_INSS,
+	ifnull( titular.VL_LIQUIDO_SINISTRO, 0.0 ) VL_LIQUIDO_SINISTRO,
 	titular.IND_EVENTO,
-	titular.VL_ALIQUOTA_INSS,
+	ifnull( titular.VL_ALIQUOTA_INSS, 0.0 ) VL_ALIQUOTA_INSS,
 	0 VERSION,
 	1 USER_CREATED,
 	1 USER_ALTERED,
@@ -115,7 +115,6 @@ from TB_TITULAR titular
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA			= '091707'
-and		titular.VL_FATOR_MODERADOR 	> 0
 and		titular.NR_SUBFATURA in ( 1, 3, 5, 6 );
 
 create view VW_COPARTICIPACAO_TECHNIT_ODONTO as

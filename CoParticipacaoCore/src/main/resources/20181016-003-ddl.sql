@@ -112,3 +112,25 @@ create table TB_LANCAMENTO_INPUT_SHEET_COLS(
 	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_03 foreign key( ID_LANCAMENTO_INPUT_SHEET ) references TB_LANCAMENTO_INPUT_SHEET( ID ),
 	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
 );
+
+create table TB_SUBFATURA(
+	ID 						bigint( 17 ) auto_increment,
+	ID_EMPRESA				bigint( 17 ) not null,
+	NR_SUBFATURA			int( 5 ) not null,
+	NM_SUBFATURA			varchar( 80 ) not null,
+
+	VERSION					bigint( 17 ) null,
+ 
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,
+	
+	constraint PK_SUBFATURA primary key( ID ),
+	
+	constraint UN_SUBFATURA_01 unique key( ID_EMPRESA, NR_SUBFATURA ),
+	
+	constraint FK_SUBFATURA_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_SUBFATURA_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_SUBFATURA_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )	
+);

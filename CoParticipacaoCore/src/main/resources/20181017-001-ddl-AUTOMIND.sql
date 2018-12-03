@@ -29,7 +29,7 @@ from TB_DESCONHECIDO desconhecido
 		contrato.ID = desconhecido.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where empresa.CD_EMPRESA = 'AUTOMIND'
+where empresa.CD_EMPRESA = '074210'
 union all
 select
 	lancamento.CD_MES,
@@ -50,7 +50,7 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = 'AUTOMIND'
+where	empresa.CD_EMPRESA = '074210'
 and		( titular.VL_FATOR_MODERADOR is null or 
 	(	titular.VL_FATOR_MODERADOR is not null and 
 		titular.VL_FATOR_MODERADOR <= 0 ));
@@ -97,7 +97,7 @@ from	TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
-where	empresa.CD_EMPRESA			= 'AUTOMIND'
+where	empresa.CD_EMPRESA			= '074210'
 and		titular.VL_FATOR_MODERADOR 	> 0;
 
 create view VW_COPARTICIPACAO_AUTOMIND as

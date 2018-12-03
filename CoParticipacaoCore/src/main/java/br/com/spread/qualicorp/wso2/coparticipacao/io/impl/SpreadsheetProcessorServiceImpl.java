@@ -29,10 +29,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.NumberUtils2;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
@@ -345,7 +347,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		return Double.valueOf(value.toString()).longValue();
 	}
 
-	protected Double clearDoubleMask(Object value) {
+	protected Double clearDoubleMask(Object value) throws CoParticipacaoException {
 		String strValue;
 
 		LOGGER.debug("clearDoubleMask received value[{}]:", value);
@@ -353,11 +355,11 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		if (value instanceof String) {
 			strValue = ((String) value).trim();
 
+			
 			if (StringUtils.isNotBlank(strValue)) {
-				strValue = StringUtils.replaceAll(strValue, "\\,", ".");
 				strValue = StringUtils.replaceAll(strValue, "(\\'|/)", StringUtils.EMPTY);
 
-				return Double.valueOf(strValue);
+				return NumberUtils2.stringToDouble((String)value );
 			}
 
 			return NumberUtils.DOUBLE_ZERO;
