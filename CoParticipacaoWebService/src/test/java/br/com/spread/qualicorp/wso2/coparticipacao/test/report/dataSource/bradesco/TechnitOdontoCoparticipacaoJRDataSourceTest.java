@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.TechnitOdontoCoparticipacaoJRDataSource;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.technit.TechnitOdontoCoparticipacaoJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.report.dataSource.CoParticipacaoJRField;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 import net.sf.jasperreports.engine.JRDataSource;

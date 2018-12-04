@@ -50,6 +50,8 @@ public abstract class Contrato extends AbstractDomain {
 	private List<Titular> titulars;
 
 	private List<ArquivoInputSheet> arquivoInputSheets;
+	
+	private boolean displayOutputResult;
 
 	public Contrato() {
 		lancamentos = new ArrayList<>();
@@ -208,82 +210,6 @@ public abstract class Contrato extends AbstractDomain {
 		return spreadsheetAllPages;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((arquivoExecucaos == null) ? 0 : arquivoExecucaos.hashCode());
-		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
-		result = prime * result + ((cdContrato == null) ? 0 : cdContrato.hashCode());
-		result = prime * result + ((dependenteIsentos == null) ? 0 : dependenteIsentos.hashCode());
-		result = prime * result + ((description == null) ? 0 : description.hashCode());
-		result = prime * result + ((lancamentos == null) ? 0 : lancamentos.hashCode());
-		result = prime * result + ((nameContrato == null) ? 0 : nameContrato.hashCode());
-		result = prime * result + ((spreadsheetAllPages == null) ? 0 : spreadsheetAllPages.hashCode());
-		result = prime * result + ((titularIsentos == null) ? 0 : titularIsentos.hashCode());
-		result = prime * result + ((useType == null) ? 0 : useType.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Contrato other = (Contrato) obj;
-		if (arquivoExecucaos == null) {
-			if (other.arquivoExecucaos != null)
-				return false;
-		} else if (!arquivoExecucaos.equals(other.arquivoExecucaos))
-			return false;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
-				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
-			return false;
-		if (cdContrato == null) {
-			if (other.cdContrato != null)
-				return false;
-		} else if (!cdContrato.equals(other.cdContrato))
-			return false;
-		if (dependenteIsentos == null) {
-			if (other.dependenteIsentos != null)
-				return false;
-		} else if (!dependenteIsentos.equals(other.dependenteIsentos))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (lancamentos == null) {
-			if (other.lancamentos != null)
-				return false;
-		} else if (!lancamentos.equals(other.lancamentos))
-			return false;
-		if (nameContrato == null) {
-			if (other.nameContrato != null)
-				return false;
-		} else if (!nameContrato.equals(other.nameContrato))
-			return false;
-		if (spreadsheetAllPages == null) {
-			if (other.spreadsheetAllPages != null)
-				return false;
-		} else if (!spreadsheetAllPages.equals(other.spreadsheetAllPages))
-			return false;
-		if (titularIsentos == null) {
-			if (other.titularIsentos != null)
-				return false;
-		} else if (!titularIsentos.equals(other.titularIsentos))
-			return false;
-		if (useType != other.useType)
-			return false;
-		return true;
-	}
-
 	public List<DependenteIsento> getDependenteIsentos() {
 		return dependenteIsentos;
 	}
@@ -352,6 +278,117 @@ public abstract class Contrato extends AbstractDomain {
 	public void removeArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
 		getArquivoInputSheets().remove(arquivoInputSheet);
 		arquivoInputSheet.setContrato(null);
+	}
+
+	public boolean isDisplayOutputResult() {
+		return displayOutputResult;
+	}
+
+	public void setDisplayOutputResult(boolean displayOutputResult) {
+		this.displayOutputResult = displayOutputResult;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((arquivoExecucaos == null) ? 0 : arquivoExecucaos.hashCode());
+		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+		result = prime * result + ((arquivoInputSheets == null) ? 0 : arquivoInputSheets.hashCode());
+		result = prime * result + ((cdContrato == null) ? 0 : cdContrato.hashCode());
+		result = prime * result + ((children == null) ? 0 : children.hashCode());
+		result = prime * result + ((dependenteIsentos == null) ? 0 : dependenteIsentos.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + (displayOutputResult ? 1231 : 1237);
+		result = prime * result + ((lancamentos == null) ? 0 : lancamentos.hashCode());
+		result = prime * result + ((nameContrato == null) ? 0 : nameContrato.hashCode());
+		result = prime * result + ((parent == null) ? 0 : parent.hashCode());
+		result = prime * result + ((spreadsheetAllPages == null) ? 0 : spreadsheetAllPages.hashCode());
+		result = prime * result + ((titularIsentos == null) ? 0 : titularIsentos.hashCode());
+		result = prime * result + ((titulars == null) ? 0 : titulars.hashCode());
+		result = prime * result + ((useType == null) ? 0 : useType.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Contrato other = (Contrato) obj;
+		if (arquivoExecucaos == null) {
+			if (other.arquivoExecucaos != null)
+				return false;
+		} else if (!arquivoExecucaos.equals(other.arquivoExecucaos))
+			return false;
+		if (arquivoInput == null) {
+			if (other.arquivoInput != null)
+				return false;
+		} else if (!arquivoInput.equals(other.arquivoInput))
+			return false;
+		if (arquivoInputSheets == null) {
+			if (other.arquivoInputSheets != null)
+				return false;
+		} else if (!arquivoInputSheets.equals(other.arquivoInputSheets))
+			return false;
+		if (cdContrato == null) {
+			if (other.cdContrato != null)
+				return false;
+		} else if (!cdContrato.equals(other.cdContrato))
+			return false;
+		if (children == null) {
+			if (other.children != null)
+				return false;
+		} else if (!children.equals(other.children))
+			return false;
+		if (dependenteIsentos == null) {
+			if (other.dependenteIsentos != null)
+				return false;
+		} else if (!dependenteIsentos.equals(other.dependenteIsentos))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (displayOutputResult != other.displayOutputResult)
+			return false;
+		if (lancamentos == null) {
+			if (other.lancamentos != null)
+				return false;
+		} else if (!lancamentos.equals(other.lancamentos))
+			return false;
+		if (nameContrato == null) {
+			if (other.nameContrato != null)
+				return false;
+		} else if (!nameContrato.equals(other.nameContrato))
+			return false;
+		if (parent == null) {
+			if (other.parent != null)
+				return false;
+		} else if (!parent.equals(other.parent))
+			return false;
+		if (spreadsheetAllPages == null) {
+			if (other.spreadsheetAllPages != null)
+				return false;
+		} else if (!spreadsheetAllPages.equals(other.spreadsheetAllPages))
+			return false;
+		if (titularIsentos == null) {
+			if (other.titularIsentos != null)
+				return false;
+		} else if (!titularIsentos.equals(other.titularIsentos))
+			return false;
+		if (titulars == null) {
+			if (other.titulars != null)
+				return false;
+		} else if (!titulars.equals(other.titulars))
+			return false;
+		if (useType != other.useType)
+			return false;
+		return true;
 	}
 
 }

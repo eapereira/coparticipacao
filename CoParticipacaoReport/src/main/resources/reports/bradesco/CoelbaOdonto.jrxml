@@ -40,7 +40,7 @@
 		<band height="251" splitType="Stretch">
 			<subreport>
 				<reportElement x="0" y="0" width="1600" height="70" uuid="ab8c8df3-f2e7-4973-b0df-73610d0e974b"/>
-				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.CelpeSaudeResumoJRDataSource($F{celpeSaudeResumoViewUis})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.celpe.CelpeSaudeResumoJRDataSource($F{celpeSaudeResumoViewUis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/bradesco/CoelbaOdontoResumo.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
@@ -48,7 +48,7 @@
 			</break>
 			<subreport>
 				<reportElement x="0" y="83" width="1600" height="70" uuid="51ff2355-4838-40d5-8e60-4421ccaf8e6b"/>
-				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.CelpeSaudeRateioJRDataSource($F{celpeSaudeRateioViewUis})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.celpe.CelpeSaudeRateioJRDataSource($F{celpeSaudeRateioViewUis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/bradesco/CoelbaOdontoRateio.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
@@ -56,7 +56,7 @@
 			</break>
 			<subreport>
 				<reportElement x="0" y="179" width="1600" height="70" uuid="bff9ad30-9173-4cac-9031-12bb0a56fce8"/>
-				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.CelpeSaudeCoparticipacaoJRDataSource($F{celpeSaudeCoparticipacaoViewUis})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.celpe.CelpeSaudeCoparticipacaoJRDataSource($F{celpeSaudeCoparticipacaoViewUis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/bradesco/CoelbaOdontoCoparticipacao.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.TechnitOdontoJRDataSource;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.technit.TechnitOdontoJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitOdonto;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitOdontoReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.TechnitOdontoCoparticipacaoService;

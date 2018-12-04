@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.LMTransportesJRDataSource;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.lmtransportes.LMTransportesJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.LMTransportesReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.LMTransportesCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.LMTransportesReportWriter;

@@ -12,22 +12,22 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.Sprea
  */
 public class SpreadSaudeReport {
 
-	private SpreadSaudeResumoReport spreadSaudeResumoReport;
+	private List<SpreadSaudeResumoReport> spreadSaudeResumoReports;
 
 	private List<SpreadSaudeCoparticipacaoViewUi> spreadSaudeCoparticipacaoViewUis;
 
-	private List<SpreadSaudeCoparticipacaoResumidaViewUi> saudeCoparticipacaoResumidaViewUis;
+	private List<SpreadSaudeCoparticipacaoResumidaViewUi> spreadSaudeCoparticipacaoResumidaViewUis;
 
 	public SpreadSaudeReport() {
 
 	}
 
-	public SpreadSaudeResumoReport getSpreadSaudeResumoReport() {
-		return spreadSaudeResumoReport;
+	public List<SpreadSaudeResumoReport> getSpreadSaudeResumoReports() {
+		return spreadSaudeResumoReports;
 	}
 
-	public void setSpreadSaudeResumoReport(SpreadSaudeResumoReport spreadSaudeResumoReport) {
-		this.spreadSaudeResumoReport = spreadSaudeResumoReport;
+	public void setSpreadSaudeResumoReports(List<SpreadSaudeResumoReport> spreadSaudeResumoReports) {
+		this.spreadSaudeResumoReports = spreadSaudeResumoReports;
 	}
 
 	public List<SpreadSaudeCoparticipacaoViewUi> getSpreadSaudeCoparticipacaoViewUis() {
@@ -39,12 +39,13 @@ public class SpreadSaudeReport {
 		this.spreadSaudeCoparticipacaoViewUis = spreadSaudeCoparticipacaoViewUis;
 	}
 
-	public List<SpreadSaudeCoparticipacaoResumidaViewUi> getSaudeCoparticipacaoResumidaViewUis() {
-		return saudeCoparticipacaoResumidaViewUis;
+	public List<SpreadSaudeCoparticipacaoResumidaViewUi> getSpreadSaudeCoparticipacaoResumidaViewUis() {
+		return spreadSaudeCoparticipacaoResumidaViewUis;
 	}
 
-	public void setSaudeCoparticipacaoResumidaViewUis(
-			List<SpreadSaudeCoparticipacaoResumidaViewUi> saudeCoparticipacaoResumidaViewUis) {
-		this.saudeCoparticipacaoResumidaViewUis = saudeCoparticipacaoResumidaViewUis;
+	public void setSpreadSaudeCoparticipacaoResumidaViewUis(
+			List<SpreadSaudeCoparticipacaoResumidaViewUi> spreadSaudeCoparticipacaoResumidaViewUis) {
+		this.spreadSaudeCoparticipacaoResumidaViewUis = spreadSaudeCoparticipacaoResumidaViewUis;
 	}
+
 }

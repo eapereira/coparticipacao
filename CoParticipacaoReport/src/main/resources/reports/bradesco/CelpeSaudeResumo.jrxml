@@ -143,7 +143,7 @@
 		<band height="40">
 			<subreport>
 				<reportElement x="0" y="0" width="640" height="40" uuid="d1b3247f-ca93-478b-81a9-03525fa7fda5"/>
-				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.CelpeSaudeResumoDetailJRDataSource($F{celpeSaudeResumoDetailViewUis})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.celpe.CelpeSaudeResumoDetailJRDataSource($F{celpeSaudeResumoDetailViewUis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/bradesco/CelpeSaudeResumoDetail.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

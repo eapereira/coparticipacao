@@ -154,7 +154,7 @@
 		<band height="50">
 			<subreport>
 				<reportElement x="0" y="-1" width="2200" height="49" uuid="0b979859-0a21-41c1-a3b0-8f62ed225036"/>
-				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.TechnitOdontoCoparticipacaoJRDataSource($F{technitOdontoCoparticipacaoViewUis})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.technit.TechnitOdontoCoparticipacaoJRDataSource($F{technitOdontoCoparticipacaoViewUis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/bradesco/TechnitOdontoCoparticipacao.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

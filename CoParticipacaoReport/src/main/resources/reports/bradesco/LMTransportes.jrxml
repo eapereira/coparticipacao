@@ -46,7 +46,7 @@
 					<property name="com.jaspersoft.studio.element.name" value="Coparticipação"/>
 					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[CONCATENATE("Coparticipação ",T($F{mes}),"/",T($F{ano}))]]></propertyExpression>
 				</reportElement>
-				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.LMTransportesCoparticipacaoJRDataSource($F{lmTransportesCoparticipacaoViewUis})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.lmtransportes.LMTransportesCoparticipacaoJRDataSource($F{lmTransportesCoparticipacaoViewUis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/bradesco/LMTransportesCoparticipacao.jasper"]]></subreportExpression>
 			</subreport>
 			<break>
@@ -57,7 +57,7 @@
 					<property name="com.jaspersoft.studio.element.name" value="Rateio"/>
 					<property name="net.sf.jasperreports.export.xls.sheet.name" value="Rateio"/>
 				</reportElement>
-				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.LMTransportesResumoJRDataSource($F{lmTransportesResumoViewUis})]]></dataSourceExpression>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.lmtransportes.LMTransportesResumoJRDataSource($F{lmTransportesResumoViewUis})]]></dataSourceExpression>
 				<subreportExpression><![CDATA["reports/bradesco/LMTransportesResumo.jasper"]]></subreportExpression>
 			</subreport>
 		</band>

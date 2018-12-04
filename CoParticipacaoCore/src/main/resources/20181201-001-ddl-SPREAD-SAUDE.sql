@@ -7,7 +7,7 @@ drop view if exists VW_DESCONHECIDO_SPREAD_SAUDE;
 drop view if exists VW_COPARTICIPACAO_LEVEL01_SPREAD_SAUDE;
 
 drop view if exists VW_COPARTICIPACAO_SPREAD_SAUDE;
-drop view if exists VW_COPARTICIPACAO_RESUMIDO_SPREAD_SAUDE;
+drop view if exists VW_COPARTICIPACAO_RESUMIDA_SPREAD_SAUDE;
 drop view if exists VW_RESUMO_SPREAD_SAUDE;
 
 /****************************************************************************************************************************************************/
@@ -225,7 +225,7 @@ order by
 
 /****************************************************************************************************************************************************/
 
-create view VW_COPARTICIPACAO_RESUMIDO_SPREAD_SAUDE as
+create view VW_COPARTICIPACAO_RESUMIDA_SPREAD_SAUDE as
 select
 	FUNC_GET_ROWNUM() ID,
 	spread.CD_MES,

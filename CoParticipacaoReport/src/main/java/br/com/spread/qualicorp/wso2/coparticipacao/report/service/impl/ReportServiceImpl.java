@@ -24,6 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.report.service.ReportWriter;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.AutomindReportWriter;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.CelpeSaudeReportWriter;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.LMTransportesReportWriter;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.SpreadSaudeReportWriter;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.TechnitOdontoReportWriter;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.TechnitSaudeReportWriter;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
@@ -73,6 +74,9 @@ public class ReportServiceImpl implements ReportService {
 
 	@Autowired
 	private CelpeSaudeReportWriter celpeSaudeReportWriter;
+
+	@Autowired
+	private SpreadSaudeReportWriter spreadSaudeReportWriter;
 
 	@Override
 	public void printReport(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
@@ -127,6 +131,8 @@ public class ReportServiceImpl implements ReportService {
 
 			} else if (CD_EMPRESA_COELBA_SAUDE.equals(cdEmpresa)) {
 
+			} else if (spreadSaudeReportWriter.getCdEmpresa().equals(cdEmpresa)) {
+				reportWriter = spreadSaudeReportWriter;
 			} else {
 				throw new ServiceException("EmpresaUi[%s] doesn't has a report configured:", cdEmpresa);
 			}

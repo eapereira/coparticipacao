@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SpreadResumoInativos" pageWidth="600" pageHeight="842" columnWidth="600" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="b475903c-163c-4c7d-9d8b-13c7cd5cb0c2">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="valorIsento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorIsento]]></fieldDescription>
+	</field>
+	<field name="valorPrincipal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorPrincipal]]></fieldDescription>
+	</field>
+	<field name="nameEmpresa" class="java.lang.String">
+		<fieldDescription><![CDATA[nameEmpresa]]></fieldDescription>
+	</field>
+	<variable name="VAR_totalValorPrincipal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorPrincipal}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="210" height="20" backcolor="#F4A460" uuid="7909e980-1834-438b-b78b-f7f779f019b8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="0" width="150" height="20" backcolor="#F4A460" uuid="8cf9ad9d-d961-4775-845c-f8c6ad7b0726"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Coparticipação]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="210" height="20" uuid="c0d0c409-b407-4013-b95a-480e54c130f6"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="0" width="150" height="20" uuid="4089a2f5-c4fc-462c-9a12-e9a28d4e27a6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorPrincipal}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="210" height="20" backcolor="#F4A460" uuid="f1bf6459-2e47-4d8b-80a9-6e1576105028"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="210" y="0" width="150" height="20" backcolor="#F4A460" uuid="003ce591-691b-4d08-84ea-b9dfd3ee75d5"/>
+				<textElement textAlignment="Right">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Text Field"]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

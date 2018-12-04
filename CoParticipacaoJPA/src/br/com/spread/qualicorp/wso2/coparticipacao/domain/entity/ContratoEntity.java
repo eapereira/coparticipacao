@@ -158,4 +158,11 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 		return super.getArquivoInputSheets();
 	}
 
+	@Column(name = "CD_DISPLAY_OUTPUT_RESULT")
+	@Override
+	public boolean isDisplayOutputResult() {
+		// TODO Auto-generated method stub
+		return super.isDisplayOutputResult();
+	}
+
 }

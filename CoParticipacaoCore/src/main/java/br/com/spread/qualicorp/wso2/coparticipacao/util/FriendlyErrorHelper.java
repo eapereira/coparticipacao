@@ -24,8 +24,10 @@ public class FriendlyErrorHelper {
 	private static final CharSequence ERROR_MATRICULA_TITULAR = "UN_TITULAR_01";
 
 	private static final String ERROR_COMMUNICATION_LINK = "Communications link failure";
-	
-	private static final String ERROR_CONNECT_DATABASE="Unable to acquire JDBC Connection";
+
+	private static final String ERROR_CONNECT_DATABASE = "Unable to acquire JDBC Connection";
+
+	private static final String ERROR_INVALID_UPLOADED_FILE = "No valid entries or contents found, this is not a valid OOXML (Office Open XML) file";
 
 	private static final Pattern REGEXP_MATRICULA_TITULAR = Pattern
 			.compile("Duplicate entry \\'([0-9]{1,10})\\-([0-9]{1,10})\\' for key \\'UN_TITULAR_02\\'");
@@ -63,7 +65,9 @@ public class FriendlyErrorHelper {
 			} else if (StringUtils.contains(errorMessage, ERROR_COMMUNICATION_LINK)) {
 				friendlyMessage = "Consulta ao banco de dados excedeu o tempo limite";
 			} else if (StringUtils.contains(errorMessage, ERROR_CONNECT_DATABASE)) {
-				friendlyMessage = "Não foi possível conectar ao Banco de Dados";				
+				friendlyMessage = "Não foi possível conectar ao Banco de Dados";
+			} else if (StringUtils.contains(errorMessage, ERROR_INVALID_UPLOADED_FILE)) {
+				friendlyMessage = "O arquivo carregado não é uma planilha Excel XLSX válida.";
 			} else {
 				/*
 				 * Se não conhecemos o erro é melhor mostra-lo de forma completa
