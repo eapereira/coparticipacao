@@ -74,6 +74,9 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.CelpeSaudeResumoViewEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.LMTransportesCoparticipacaoViewEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.LMTransportesResumoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.SpreadSaudeCoparticipacaoResumidaViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.SpreadSaudeCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.SpreadSaudeResumoViewEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.TechnitOdontoCoparticipacaoViewEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.TechnitSaudeCoparticipacaoViewEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.BradescoCoparticipacaoView</class>

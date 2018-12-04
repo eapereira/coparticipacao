@@ -14,7 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.view.bra
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.view.bradesco.AutomindCoparticipacaoViewUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.AutomindCoparticipacaoViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.AutomindCoparticipacaoView;
-import br.com.spread.qualicorp.wso2.coparticipacao.report.dao.AutomindCoparticipacaoDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dao.bradesco.AutomindCoparticipacaoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.AutomindCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.AbstractServiceImpl;

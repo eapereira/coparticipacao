@@ -423,6 +423,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
 			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
 
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
 
 			arquivoOutputUis = arquivoOutputService.listByContrato((ContratoUi) parent);

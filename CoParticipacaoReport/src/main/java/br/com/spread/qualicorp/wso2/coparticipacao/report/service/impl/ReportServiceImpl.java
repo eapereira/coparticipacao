@@ -155,6 +155,7 @@ public class ReportServiceImpl implements ReportService {
 			arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
 			coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
 
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
 
 			/*

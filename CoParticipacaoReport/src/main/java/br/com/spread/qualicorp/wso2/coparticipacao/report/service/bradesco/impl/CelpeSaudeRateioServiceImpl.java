@@ -14,7 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.view.bra
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.view.bradesco.CelpeSaudeRateioViewUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.CelpeSaudeRateioViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.CelpeSaudeRateioView;
-import br.com.spread.qualicorp.wso2.coparticipacao.report.dao.CelpeSaudeRateioDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dao.bradesco.CelpeSaudeRateioDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.CelpeSaudeRateioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.AbstractServiceImpl;
