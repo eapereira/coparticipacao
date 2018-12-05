@@ -29,6 +29,8 @@ public class FriendlyErrorHelper {
 
 	private static final String ERROR_INVALID_UPLOADED_FILE = "No valid entries or contents found, this is not a valid OOXML (Office Open XML) file";
 
+	private static final String ERROR_INVALID_SPREADSHEET_FILE = "You are calling the part of POI that deals with OOXML (Office Open XML) Documents";
+
 	private static final Pattern REGEXP_MATRICULA_TITULAR = Pattern
 			.compile("Duplicate entry \\'([0-9]{1,10})\\-([0-9]{1,10})\\' for key \\'UN_TITULAR_02\\'");
 
@@ -66,7 +68,8 @@ public class FriendlyErrorHelper {
 				friendlyMessage = "Consulta ao banco de dados excedeu o tempo limite";
 			} else if (StringUtils.contains(errorMessage, ERROR_CONNECT_DATABASE)) {
 				friendlyMessage = "Não foi possível conectar ao Banco de Dados";
-			} else if (StringUtils.contains(errorMessage, ERROR_INVALID_UPLOADED_FILE)) {
+			} else if (StringUtils.contains(errorMessage, ERROR_INVALID_UPLOADED_FILE)
+					|| StringUtils.contains(errorMessage, ERROR_INVALID_SPREADSHEET_FILE)) {
 				friendlyMessage = "O arquivo carregado não é uma planilha Excel XLSX válida.";
 			} else {
 				/*
