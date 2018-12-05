@@ -14,4 +14,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 public interface SpreadSaudeResumoService extends AbstractService<SpreadSaudeResumoViewUi> {
 
 	List<SpreadSaudeResumoViewUi> listByMesAndAno(Integer mes, Integer ano) throws ServiceException;
+
+	List<SpreadSaudeResumoViewUi> listByMesAndAnoAndInativos(Integer mes, Integer ano) throws ServiceException;
+
+	List<SpreadSaudeResumoViewUi> listByMesAndAnoAndAtivos(Integer mes, Integer ano) throws ServiceException;
 }

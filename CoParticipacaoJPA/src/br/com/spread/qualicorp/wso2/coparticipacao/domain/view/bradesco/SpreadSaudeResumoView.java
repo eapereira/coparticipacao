@@ -22,6 +22,8 @@ public abstract class SpreadSaudeResumoView extends AbstractDomain {
 
 	private Long idContrato;
 
+	private String subFatura;
+
 	private String nameEmpresa;
 
 	private BigDecimal valorPrincipal;
@@ -80,6 +82,14 @@ public abstract class SpreadSaudeResumoView extends AbstractDomain {
 		this.valorIsento = valorIsento;
 	}
 
+	public String getSubFatura() {
+		return subFatura;
+	}
+
+	public void setSubFatura(String subFatura) {
+		this.subFatura = subFatura;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -88,6 +98,7 @@ public abstract class SpreadSaudeResumoView extends AbstractDomain {
 		result = prime * result + ((idContrato == null) ? 0 : idContrato.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
+		result = prime * result + ((subFatura == null) ? 0 : subFatura.hashCode());
 		result = prime * result + ((valorIsento == null) ? 0 : valorIsento.hashCode());
 		result = prime * result + ((valorPrincipal == null) ? 0 : valorPrincipal.hashCode());
 		return result;
@@ -122,6 +133,11 @@ public abstract class SpreadSaudeResumoView extends AbstractDomain {
 				return false;
 		} else if (!nameEmpresa.equals(other.nameEmpresa))
 			return false;
+		if (subFatura == null) {
+			if (other.subFatura != null)
+				return false;
+		} else if (!subFatura.equals(other.subFatura))
+			return false;
 		if (valorIsento == null) {
 			if (other.valorIsento != null)
 				return false;
@@ -134,4 +150,5 @@ public abstract class SpreadSaudeResumoView extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 }

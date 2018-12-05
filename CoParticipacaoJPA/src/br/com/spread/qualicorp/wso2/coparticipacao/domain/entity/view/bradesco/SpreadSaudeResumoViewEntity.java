@@ -69,4 +69,11 @@ public class SpreadSaudeResumoViewEntity extends SpreadSaudeResumoView {
 		// TODO Auto-generated method stub
 		return super.getValorIsento();
 	}
+
+	@Column(name="NR_SUBFATURA")
+	@Override
+	public String getSubFatura() {
+		// TODO Auto-generated method stub
+		return super.getSubFatura();
+	}
 }

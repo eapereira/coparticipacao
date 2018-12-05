@@ -100,8 +100,8 @@ public class SpreadSaudeReportWriterImpl implements SpreadSaudeReportWriter {
 
 			spreadSaudeResumoReports = new ArrayList<>();
 			spreadSaudeResumoReport = new SpreadSaudeResumoReport();
-			spreadSaudeResumoReport.setResumo(spreadSaudeResumoService.listByMesAndAno(mes, ano));
-			spreadSaudeResumoReport.setResumoInativo(spreadSaudeResumoService.listByMesAndAno(mes, ano));
+			spreadSaudeResumoReport.setResumo(spreadSaudeResumoService.listByMesAndAnoAndAtivos(mes, ano));
+			spreadSaudeResumoReport.setResumoInativo(spreadSaudeResumoService.listByMesAndAnoAndInativos(mes, ano));
 
 			spreadSaudeResumoReports.add(spreadSaudeResumoReport);
 

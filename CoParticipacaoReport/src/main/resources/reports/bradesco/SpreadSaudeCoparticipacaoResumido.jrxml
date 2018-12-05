@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SpreadCoparticipacaoResumido" pageWidth="1200" pageHeight="842" columnWidth="1200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="113b369f-b701-4736-9cc5-b7f0a3ffbf11">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SpreadCoparticipacaoResumido" pageWidth="1200" pageHeight="9999" columnWidth="1200" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="113b369f-b701-4736-9cc5-b7f0a3ffbf11">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\bradesco\SpreadSaudeCoparticipacaoResumidaDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="false"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -124,7 +125,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{plano}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="900" y="0" width="100" height="20" uuid="b398d972-5bde-47c1-8e8f-d965bc5a949c"/>
 				<textElement textAlignment="Right">
 					<font fontName="Calibri"/>
@@ -142,7 +143,7 @@
 				</textElement>
 				<text><![CDATA[]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement mode="Opaque" x="900" y="0" width="100" height="20" backcolor="#F4A460" uuid="44ce7685-f060-4d57-973d-c194bbf3bfc2"/>
 				<textElement textAlignment="Right">
 					<font fontName="Calibri" isBold="true"/>

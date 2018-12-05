@@ -116,6 +116,7 @@ public class ReportServiceImpl implements ReportService {
 
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info("Searching ReportWriter for EmpresaUi[]:", cdEmpresa);
 
 			if (automindReportWriter.getCdEmpresa().equals(cdEmpresa)) {
 				reportWriter = automindReportWriter;

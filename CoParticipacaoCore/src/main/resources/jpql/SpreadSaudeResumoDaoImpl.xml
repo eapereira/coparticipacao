@@ -7,4 +7,14 @@
 			and 	view.ano = :ano
 		]]>
 	</query>
+	
+	<query id="listByMesAndAnoAndSubFaturas">
+		<![CDATA[
+			select view from SpreadSaudeResumoViewEntity view
+			where	view.mes = :mes
+			and 	view.ano = :ano
+			and 	view.subFatura in ( :subFaturas )
+		]]>
+	</query>
+	
 </queries>

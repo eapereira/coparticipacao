@@ -15,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.view.bradesc
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.SpreadSaudeResumoViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.SpreadSaudeResumoView;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dao.bradesco.SpreadSaudeResumoDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.SpreadSaude;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.SpreadSaudeResumoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.AbstractServiceImpl;
@@ -80,5 +81,41 @@ public class SpreadSaudeResumoServiceImpl
 	@Override
 	protected AbstractMapper<SpreadSaudeResumoView, SpreadSaudeResumoViewEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	@Override
+	public List<SpreadSaudeResumoViewUi> listByMesAndAnoAndInativos(Integer mes, Integer ano) throws ServiceException {
+		List<SpreadSaudeResumoViewUi> spreadSaudeResumoViewUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			spreadSaudeResumoViewUis = entityToUi(
+					spreadSaudeResumoDao.listByMesAndAnoAndSubFaturas(mes, ano, SpreadSaude.getInativos()));
+
+			LOGGER.info("END");
+			return spreadSaudeResumoViewUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public List<SpreadSaudeResumoViewUi> listByMesAndAnoAndAtivos(Integer mes, Integer ano) throws ServiceException {
+		List<SpreadSaudeResumoViewUi> spreadSaudeResumoViewUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			spreadSaudeResumoViewUis = entityToUi(
+					spreadSaudeResumoDao.listByMesAndAnoAndSubFaturas(mes, ano, SpreadSaude.getAtivos()));
+
+			LOGGER.info("END");
+			return spreadSaudeResumoViewUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
 	}
 }
