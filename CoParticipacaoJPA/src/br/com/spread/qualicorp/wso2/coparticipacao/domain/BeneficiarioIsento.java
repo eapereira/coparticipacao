@@ -8,7 +8,7 @@ import java.time.LocalDate;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public abstract class BeneficiarioIsento extends AbstractDomain{
+public abstract class BeneficiarioIsento extends AbstractDomain {
 
 	/**
 	 * 
@@ -16,29 +16,33 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 	private static final long serialVersionUID = 5963228193026141320L;
 
 	private Long matricula;
-	
+
 	private String name;
-	
+
 	private LocalDate dtNascimento;
-	
+
 	private Long cpf;
-	
+
 	private IsentoType isentoType;
-	
+
 	private Titular titular;
-	
-	private Dependente dependente;	
-	
+
+	private Dependente dependente;
+
 	private Long matriculaTitular;
-	
+
 	private String nameTitular;
-	
+
 	private BigDecimal valorIsencao;
-	
+
 	private Long matriculaEmpresa;
-	
+
+	private String plano;
+
+	private String matriculaEspecial;
+
 	public BeneficiarioIsento() {
-		
+
 	}
 
 	public Long getMatricula() {
@@ -121,6 +125,30 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 		this.valorIsencao = valorIsencao;
 	}
 
+	public Long getMatriculaEmpresa() {
+		return matriculaEmpresa;
+	}
+
+	public void setMatriculaEmpresa(Long matriculaEmpresa) {
+		this.matriculaEmpresa = matriculaEmpresa;
+	}
+
+	public String getPlano() {
+		return plano;
+	}
+
+	public void setPlano(String plano) {
+		this.plano = plano;
+	}
+
+	public String getMatriculaEspecial() {
+		return matriculaEspecial;
+	}
+
+	public void setMatriculaEspecial(String matriculaEspecial) {
+		this.matriculaEspecial = matriculaEspecial;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -130,9 +158,12 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
 		result = prime * result + ((isentoType == null) ? 0 : isentoType.hashCode());
 		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
+		result = prime * result + ((matriculaEspecial == null) ? 0 : matriculaEspecial.hashCode());
 		result = prime * result + ((matriculaTitular == null) ? 0 : matriculaTitular.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((nameTitular == null) ? 0 : nameTitular.hashCode());
+		result = prime * result + ((plano == null) ? 0 : plano.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
 		result = prime * result + ((valorIsencao == null) ? 0 : valorIsencao.hashCode());
 		return result;
@@ -169,6 +200,16 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 				return false;
 		} else if (!matricula.equals(other.matricula))
 			return false;
+		if (matriculaEmpresa == null) {
+			if (other.matriculaEmpresa != null)
+				return false;
+		} else if (!matriculaEmpresa.equals(other.matriculaEmpresa))
+			return false;
+		if (matriculaEspecial == null) {
+			if (other.matriculaEspecial != null)
+				return false;
+		} else if (!matriculaEspecial.equals(other.matriculaEspecial))
+			return false;
 		if (matriculaTitular == null) {
 			if (other.matriculaTitular != null)
 				return false;
@@ -184,6 +225,11 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 				return false;
 		} else if (!nameTitular.equals(other.nameTitular))
 			return false;
+		if (plano == null) {
+			if (other.plano != null)
+				return false;
+		} else if (!plano.equals(other.plano))
+			return false;
 		if (titular == null) {
 			if (other.titular != null)
 				return false;
@@ -195,13 +241,5 @@ public abstract class BeneficiarioIsento extends AbstractDomain{
 		} else if (!valorIsencao.equals(other.valorIsencao))
 			return false;
 		return true;
-	}
-
-	public Long getMatriculaEmpresa() {
-		return matriculaEmpresa;
-	}
-
-	public void setMatriculaEmpresa(Long matriculaEmpresa) {
-		this.matriculaEmpresa = matriculaEmpresa;
 	}
 }

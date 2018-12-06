@@ -6,6 +6,9 @@ drop view if exists VW_DESCONHECIDO_LEVEL01_SPREAD_SAUDE;
 drop view if exists VW_DESCONHECIDO_SPREAD_SAUDE;
 drop view if exists VW_COPARTICIPACAO_LEVEL01_SPREAD_SAUDE;
 
+drop view if exists VW_TITULAR_ISENTO_SPREAD_SAUDE;
+drop view if exists VW_DEPENDENTE_ISENTO_SPREAD_SAUDE;
+
 drop view if exists VW_COPARTICIPACAO_SPREAD_SAUDE;
 drop view if exists VW_COPARTICIPACAO_RESUMIDA_SPREAD_SAUDE;
 drop view if exists VW_RESUMO_SPREAD_SAUDE;
@@ -95,6 +98,29 @@ from VW_DESCONHECIDO_LEVEL01_SPREAD_SAUDE desconhecido
 order by desconhecido.NM_BENEFICIARIO;
 
 /****************************************************************************************************************************************************/
+create view VW_TITULAR_ISENTO_SPREAD_SAUDE as
+select
+	titular.ID ID_TITULAR,
+	lancamento.VL_PRINCIPAL VL_ISENCAO
+from TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+	join TB_TITULAR_ISENTO isento on
+		isento.ID_TITULAR = titular.ID
+where lancamento.ID_DEPENDENTE is null;
+		
+create view VW_DEPENDENTE_ISENTO_SPREAD_SAUDE as
+select
+	dependente.ID ID_DEPENDENTE,
+	lancamento.VL_PRINCIPAL VL_ISENCAO
+from TB_LANCAMENTO lancamento
+	join TB_DEPENDENTE dependente on
+		dependente.ID = lancamento.ID_DEPENDENTE
+	join TB_TITULAR_ISENTO isento on
+		isento.ID_TITULAR = dependente.ID
+where lancamento.ID_DEPENDENTE is not null;
+		
+/****************************************************************************************************************************************************/
 
 create view VW_COPARTICIPACAO_LEVEL01_SPREAD_SAUDE as
 select
@@ -130,7 +156,7 @@ from TB_LANCAMENTO lancamento
 		titular.ID = lancamento.ID_TITULAR
 	join TB_SUBFATURA subfatura on
 		subfatura.NR_SUBFATURA = titular.NR_SUBFATURA
-	left outer join TB_TITULAR_ISENTO isento on
+	left outer join VW_TITULAR_ISENTO_SPREAD_SAUDE isento on
 		isento.ID_TITULAR = titular.ID
 where	empresa.CD_EMPRESA = '073828' 
 and		lancamento.ID_DEPENDENTE is null
@@ -170,8 +196,8 @@ from TB_LANCAMENTO lancamento
 		dependente.ID = lancamento.ID_DEPENDENTE
 	join TB_SUBFATURA subfatura on
 		subfatura.NR_SUBFATURA = dependente.NR_SUBFATURA        
-	left outer join TB_TITULAR_ISENTO isento on
-		isento.ID_TITULAR = titular.ID
+	left outer join VW_DEPENDENTE_ISENTO_SPREAD_SAUDE isento on
+		isento.ID_DEPENDENTE = dependente.ID
 where	empresa.CD_EMPRESA = '073828' 
 and		lancamento.ID_DEPENDENTE is not null;
 
@@ -295,4 +321,3 @@ group by
 	
 /****************************************************************************************************************************************************/
 
-		

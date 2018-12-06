@@ -72,11 +72,17 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			coParticipacaoContext.setSpreadsheetContext(spreadsheetContext);
 			markProcessAsRunning(coParticipacaoContext);
 
+			LOGGER.info(
+					"Reading spreadsheet file[{}]:",
+					coParticipacaoContext.getArquivoExecucaoUi().getNameArquivoInput());
+
 			if (coParticipacaoContext.getFileName().toLowerCase().endsWith(EXCEL_97)) {
 				workbook = new HSSFWorkbook(coParticipacaoContext.getFileInputStream());
 			} else {
 				workbook = new XSSFWorkbook(coParticipacaoContext.getFileInputStream());
 			}
+
+			LOGGER.info("Spreadsheet is ready to be processed:");
 
 			if (workbook.getNumberOfSheets() >= 1) {
 				processorListener.beforeProcess(coParticipacaoContext);
@@ -97,14 +103,18 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				coParticipacaoContext.setFormulaEvaluator(formulaEvaluator);
 
+				LOGGER.info("Reading spreadsheet lines:");
+
 				for (int i = 0; i < workbook.getNumberOfSheets(); i++) {
 					sheet = workbook.getSheetAt(i);
 
 					spreadsheetContext.setSheetName(sheet.getSheetName());
 
+					LOGGER.info("Verifying if sheet[{}] can be loaded:", sheet.getSheetName());
+
 					if ((!workbook.isSheetHidden(i) || workbook.isSheetVeryHidden(i))) {
 						sheetId++;
-						
+
 						/*
 						 * As vezes o usuário deixa pastas invisíveis na
 						 * planilha, então vamos contas apenas as que são
@@ -355,11 +365,10 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		if (value instanceof String) {
 			strValue = ((String) value).trim();
 
-			
 			if (StringUtils.isNotBlank(strValue)) {
 				strValue = StringUtils.replaceAll(strValue, "(\\'|/)", StringUtils.EMPTY);
 
-				return NumberUtils2.stringToDouble((String)value );
+				return NumberUtils2.stringToDouble((String) value);
 			}
 
 			return NumberUtils.DOUBLE_ZERO;

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SpreadSaudeCoparticipacao" pageWidth="2400" pageHeight="9999" columnWidth="2400" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4ffbecd3-77f9-41c6-adad-e911f877de10">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SpreadSaudeCoparticipacao" pageWidth="2400" pageHeight="99999" columnWidth="2400" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4ffbecd3-77f9-41c6-adad-e911f877de10">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\bradesco\SpreadSaudeCoparticipacaoDataAdapter.xml"/>
 	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="false"/>
 	<queryString>
@@ -63,77 +63,77 @@
 	<columnHeader>
 		<band height="40" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="100" height="40" backcolor="#F4A460" uuid="f87ebfb8-99c7-4359-902d-e78a9e89e4cc"/>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="40" backcolor="#FFC300" uuid="f87ebfb8-99c7-4359-902d-e78a9e89e4cc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Matricula]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="100" y="0" width="300" height="40" backcolor="#F4A460" uuid="cc5ab2ee-f5e2-4722-bc1c-690d8d130d1a"/>
+				<reportElement mode="Opaque" x="100" y="0" width="300" height="40" backcolor="#FFC300" uuid="cc5ab2ee-f5e2-4722-bc1c-690d8d130d1a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Empresa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="400" y="0" width="300" height="40" backcolor="#F4A460" uuid="b8c0ea3f-458e-4376-be6b-2dab0f9144b4"/>
+				<reportElement mode="Opaque" x="400" y="0" width="300" height="40" backcolor="#FFC300" uuid="b8c0ea3f-458e-4376-be6b-2dab0f9144b4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Títular]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="700" y="0" width="300" height="40" backcolor="#F4A460" uuid="393ab859-b42b-41f4-be63-699416080bd9"/>
+				<reportElement mode="Opaque" x="700" y="0" width="300" height="40" backcolor="#FFC300" uuid="393ab859-b42b-41f4-be63-699416080bd9"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Utilizado por]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1000" y="0" width="140" height="40" backcolor="#F4A460" uuid="951312da-2b00-4f31-bd99-bc801927ed6c"/>
+				<reportElement mode="Opaque" x="1000" y="0" width="140" height="40" backcolor="#FFC300" uuid="951312da-2b00-4f31-bd99-bc801927ed6c"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Utilização ( Títular/Dependente )]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1140" y="0" width="100" height="40" backcolor="#F4A460" uuid="98b2290b-5686-443f-8900-6548cb8a2c2b"/>
+				<reportElement mode="Opaque" x="1140" y="0" width="100" height="40" backcolor="#FFC300" uuid="98b2290b-5686-443f-8900-6548cb8a2c2b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Data do Atendimento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1240" y="0" width="100" height="40" backcolor="#F4A460" uuid="a7373daa-7678-46a9-9dff-1ed653cd8036"/>
+				<reportElement mode="Opaque" x="1240" y="0" width="100" height="40" backcolor="#FFC300" uuid="a7373daa-7678-46a9-9dff-1ed653cd8036"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Plano]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1340" y="0" width="250" height="40" backcolor="#F4A460" uuid="c7f9acb6-b5ac-4109-a232-b5e0bd2fc7e8"/>
+				<reportElement mode="Opaque" x="1340" y="0" width="250" height="40" backcolor="#FFC300" uuid="c7f9acb6-b5ac-4109-a232-b5e0bd2fc7e8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Descrição do Serviço]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1590" y="0" width="100" height="40" backcolor="#F4A460" uuid="81bc07bc-d948-4493-b7df-9f90df6bdd24"/>
+				<reportElement mode="Opaque" x="1590" y="0" width="100" height="40" backcolor="#FFC300" uuid="81bc07bc-d948-4493-b7df-9f90df6bdd24"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor Coparticipação]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1690" y="0" width="100" height="40" backcolor="#F4A460" uuid="eafd9cf3-81a8-4ebe-bf8a-fed903d6dc19"/>
+				<reportElement mode="Opaque" x="1690" y="0" width="100" height="40" backcolor="#FFC300" uuid="eafd9cf3-81a8-4ebe-bf8a-fed903d6dc19"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Isento]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="1790" y="0" width="100" height="40" backcolor="#F4A460" uuid="fb9345a8-90ef-4789-8210-4d36c8a96615"/>
+				<reportElement mode="Opaque" x="1790" y="0" width="100" height="40" backcolor="#FFC300" uuid="fb9345a8-90ef-4789-8210-4d36c8a96615"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
@@ -218,28 +218,28 @@
 	<columnFooter>
 		<band height="20">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="1590" height="20" backcolor="#F4A460" uuid="d87cbaab-995d-4238-b212-79c8fe99f947"/>
+				<reportElement mode="Opaque" x="0" y="0" width="1590" height="20" backcolor="#FFC300" uuid="d87cbaab-995d-4238-b212-79c8fe99f947"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
 			<textField pattern="#,##0.00#">
-				<reportElement mode="Opaque" x="1790" y="0" width="100" height="20" backcolor="#F4A460" uuid="13e71f32-7be6-43ef-a4ab-2853c1a0ebf7"/>
+				<reportElement mode="Opaque" x="1790" y="0" width="100" height="20" backcolor="#FFC300" uuid="13e71f32-7be6-43ef-a4ab-2853c1a0ebf7"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{VAR_totalValorIsento}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#">
-				<reportElement mode="Opaque" x="1590" y="0" width="100" height="20" backcolor="#F4A460" uuid="176361e5-9e41-4160-9c3a-17575cc3728e"/>
+				<reportElement mode="Opaque" x="1590" y="0" width="100" height="20" backcolor="#FFC300" uuid="176361e5-9e41-4160-9c3a-17575cc3728e"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{VAR_totalValorPrincipal}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="1690" y="0" width="100" height="20" backcolor="#F4A460" uuid="3d9975fd-8317-4869-8fae-48d7a105bf42"/>
+				<reportElement mode="Opaque" x="1690" y="0" width="100" height="20" backcolor="#FFC300" uuid="3d9975fd-8317-4869-8fae-48d7a105bf42"/>
 				<text><![CDATA[]]></text>
 			</staticText>
 		</band>

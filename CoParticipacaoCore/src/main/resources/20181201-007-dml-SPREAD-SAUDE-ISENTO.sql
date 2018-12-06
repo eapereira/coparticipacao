@@ -56,6 +56,7 @@ BEGIN
 	declare VAR_ID_COLUMN_002_NR_MATRICULA_ESPECIAL 	bigint( 17 );
 	declare VAR_ID_COLUMN_003_NM_BENEFICIARIO 			bigint( 17 );
 	declare VAR_ID_COLUMN_004_NR_CPF 					bigint( 17 );
+	declare VAR_ID_COLUMN_005_NR_CD_PLANO 				bigint( 17 );
 	 	
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
 		
@@ -231,7 +232,15 @@ BEGIN
 	declare CD_SHEET_TITULAR												int( 3 ) default 0;
 	declare CD_SHEET_DEPENDENTE												int( 3 ) default 4;
 	
+	declare VAR_CD_ISENTO_COLS_DEF_TP_ISENTO							bigint( 17 ) default 1;
+	declare VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA							bigint( 17 ) default 2;
+	declare VAR_CD_ISENTO_COLS_DEF_NM_BENEFICIARIO						bigint( 17 ) default 3;
+	declare VAR_CD_ISENTO_COLS_DEF_DT_NASCIMENTO						bigint( 17 ) default 4;
+	declare VAR_CD_ISENTO_COLS_DEF_NR_CPF								bigint( 17 ) default 5;	
+	
 	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
+	
+	declare VAR_TP_ISENTO_VALOR											int( 3 ) default 7;
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -400,58 +409,74 @@ BEGIN
 	
 	call PROC_LOG_MESSAGE('LINHA - 450');
 	/*********************************************************************************************************************************************/
-	/*********************************************************************************************************************************************/	
-	/* BENEFICIÁRIO TITULAR */
+	/*********************************************************************************************************************************************/
+	/* BENEFICIÁRIO-ISENTO */
 	
-    call PROC_LOG_MESSAGE('LINHA - 455');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-	
+	insert into TB_ISENTO_INPUT_SHEET(
+		ID_ARQUIVO_INPUT,
+		TP_ISENTO,
+		CD_SHEET,
+		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
-		VAR_ID_COLUMN_003_NM_BENEFICIARIO,
-		
+		VAR_ID_ARQUIVO_INPUT,
+		VAR_TP_ISENTO_VALOR,
+		0, /* SHEETNAME-BASE */ 
+
 		VAR_ID_USER,
 		current_timestamp(),
-		current_timestamp()		
+		current_timestamp()						
+	);
+	
+	select max( ID ) into VAR_ID_ISENTO_INPUT_SHEET 
+	from TB_ISENTO_INPUT_SHEET;
+	
+	call PROC_LOG_MESSAGE('LINHA - 479');
+	set VAR_CD_ORDEM = 2;
+
+	insert into TB_ISENTO_INPUT_SHEET_COLS(
+		ID_ISENTO_INPUT_SHEET,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		CD_BENEFICIARIO_COLS_DEF,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_ISENTO_INPUT_SHEET,
+		VAR_ID_COLUMN_003_NM_BENEFICIARIO,
+		VAR_CD_ISENTO_COLS_DEF_NM_BENEFICIARIO,
+		VAR_CD_ORDEM,
+
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
 	);
 
-	call PROC_LOG_MESSAGE('LINHA - 487');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
+	call PROC_LOG_MESSAGE('LINHA - 457');
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	 
+	insert into TB_ISENTO_INPUT_SHEET_COLS(
+		ID_ISENTO_INPUT_SHEET,
 		ID_ARQUIVO_INPUT_COLS_DEF,
-	
+		CD_BENEFICIARIO_COLS_DEF,
+		CD_ORDEM,
+		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
+		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
-		VAR_ID_COLUMN_004_NR_CPF,
-		
+		VAR_CD_ISENTO_COLS_DEF_NR_CPF,
+		VAR_CD_ORDEM,
+
 		VAR_ID_USER,
 		current_timestamp(),
-		current_timestamp()		
+		current_timestamp()				
 	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 503');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL,
-		VAR_ID_COLUMN_002_NR_MATRICULA_ESPECIAL,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 551');
+
+	call PROC_LOG_MESSAGE('LINHA - 524');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	call PROC_UPDATE_SCRIPT( VAR_NM_SCRIPT );

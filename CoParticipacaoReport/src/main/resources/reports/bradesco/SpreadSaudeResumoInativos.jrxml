@@ -39,13 +39,6 @@
 				</textElement>
 				<text><![CDATA[Valor Coparticipação]]></text>
 			</staticText>
-			<staticText>
-				<reportElement mode="Opaque" x="450" y="0" width="150" height="20" backcolor="#FFC300" uuid="e4ce6a18-5090-4155-9719-cb8ab7996816"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Valor com Isenção]]></text>
-			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -65,13 +58,6 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorPrincipal}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00#">
-				<reportElement x="450" y="0" width="150" height="20" uuid="72177c57-3268-4d31-b3a5-956acd7fa8d7"/>
-				<textElement textAlignment="Right">
-					<font fontName="Calibri"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{valorIsento}]]></textFieldExpression>
-			</textField>
 		</band>
 	</detail>
 	<columnFooter>
@@ -89,13 +75,6 @@
 					<font fontName="Calibri" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$V{VAR_totalValorPrincipal}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement mode="Opaque" x="450" y="0" width="150" height="20" backcolor="#FFC300" uuid="5da3020f-2e5e-4a29-9408-0bde6b56f6f2"/>
-				<textElement textAlignment="Right">
-					<font fontName="Calibri" isBold="true"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$V{VAR_totalValorIsento}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

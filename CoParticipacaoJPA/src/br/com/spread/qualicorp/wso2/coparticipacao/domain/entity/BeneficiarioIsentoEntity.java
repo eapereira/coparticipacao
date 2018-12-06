@@ -87,4 +87,18 @@ public class BeneficiarioIsentoEntity extends BeneficiarioIsento implements Doma
 		// TODO Auto-generated method stub
 		return super.getIsentoType();
 	}
+
+	@Column(name = "CD_PLANO")
+	@Override
+	public String getPlano() {
+		// TODO Auto-generated method stub
+		return super.getPlano();
+	}
+
+	@Column(name = "NR_MATRICULA_ESPECIAL")
+	@Override
+	public String getMatriculaEspecial() {
+		// TODO Auto-generated method stub
+		return super.getMatriculaEspecial();
+	}
 }
