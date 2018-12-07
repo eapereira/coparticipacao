@@ -47,7 +47,7 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 	private static final String CD_CONTRATO_NAO_LOCALIZADO = "NAO-LOCALIZADO";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 310;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 379;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 362;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 2077;
 

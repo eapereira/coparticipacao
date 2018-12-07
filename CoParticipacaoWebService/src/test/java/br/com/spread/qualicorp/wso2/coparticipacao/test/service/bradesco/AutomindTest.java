@@ -31,10 +31,10 @@ public class AutomindTest extends CoParticipacaoTest {
 
 	private static final Logger LOGGER = LogManager.getLogger(AutomindTest.class);
 
-	private static final String MECSAS_201810 = "automind/input/AUTOMIND.MECSAS.201810.001.xlsx";
-	private static final String MECSAS2_201810 = "automind/input/AUTOMIND.MECSAS2.201810.002.xlsx";
-	private static final String FATUCOPA_201810 = "automind/input/AUTOMIND.074210.201810.004.xlsx";
-	private static final String NAO_LOCALIZADO_201808 = "automind/input/AUTOMIND.NAO-LOCALIZADO.201810.002.xlsx";
+	private static final String MECSAS_201810 = "automind/input/074210.MECSAS.201810.001.xlsx";
+	private static final String MECSAS2_201810 = "automind/input/074210.MECSAS2.201810.002.xlsx";
+	private static final String FATUCOPA_201810 = "automind/input/074210.074210.201810.004.xlsx";
+	private static final String NAO_LOCALIZADO_201808 = "automind/input/074210.NAO-LOCALIZADO.201810.003.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 75;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 96;
@@ -42,7 +42,7 @@ public class AutomindTest extends CoParticipacaoTest {
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 431;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 88;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 117;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 113;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 629;
 
@@ -115,9 +115,6 @@ public class AutomindTest extends CoParticipacaoTest {
 		testCoparticipacao201810();
 
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201808);
-
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201810);
-		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201810);
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		processFile(execucaoUi);

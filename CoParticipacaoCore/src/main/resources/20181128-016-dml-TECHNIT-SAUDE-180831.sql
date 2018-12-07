@@ -1015,7 +1015,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT,
-		'Technit({CC})-Bradesco (Odonto) - Coparticipação_({YYYY}{MM}).xlsx',
+		'Technit({CC})-Bradesco (Saude) - Coparticipação_({YYYY}{MM}).xlsx',
 		'Arquivo de saída para a carga dos lançamentos FATU COPA',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		

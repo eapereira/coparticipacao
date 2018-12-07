@@ -38,6 +38,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 /**
  * 
@@ -215,6 +216,7 @@ public class ReportServiceImpl implements ReportService {
 		Map<String, Object> parameters;
 		JasperPrint jasperPrint;
 		JRXlsExporter jrXlsExporter;
+		SimpleXlsxReportConfiguration configuration;
 		StringBuilder sb;
 		EmpresaUi empresaUi;
 		ContratoUi contratoUi;
@@ -274,6 +276,13 @@ public class ReportServiceImpl implements ReportService {
 						jrXlsExporter = new JRXlsExporter();
 						jrXlsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
 						jrXlsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fileOutputStream));
+
+						// setup configuration
+						configuration = new SimpleXlsxReportConfiguration();
+						configuration.setOnePagePerSheet(true);
+						configuration.setDetectCellType(true);
+						jrXlsExporter.setConfiguration(configuration);
+
 						jrXlsExporter.exportReport();
 
 						// Disponibilizando o arquivo para o usuário fazer
