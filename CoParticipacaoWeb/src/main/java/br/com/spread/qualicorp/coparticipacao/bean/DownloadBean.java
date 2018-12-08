@@ -8,6 +8,7 @@ import java.util.List;
 
 import javax.faces.event.ValueChangeEvent;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.primefaces.model.DefaultStreamedContent;
@@ -121,7 +122,7 @@ public class DownloadBean extends AbstractBean {
 				LOGGER.info("Component has changed its value to [{}]:", getEmpresaUi().getNameEmpresa());
 
 				currentDate = LocalDate.now();
-				arquivoExecucaoUis = arquivoExecucaoService.listByEmpresaIdAndMesAndAno(
+				arquivoExecucaoUis = arquivoExecucaoService.listByEmpresaIdAndMesAndAnoToUser(
 						getEmpresaUi(),
 						currentDate.getMonthValue(),
 						currentDate.getYear());
@@ -230,12 +231,18 @@ public class DownloadBean extends AbstractBean {
 				LOGGER.info("Downloading file with ContratoUi [{}]", arquivoExecucaoUi.getContrato().getCdContrato());
 
 				if (StatusExecucaoType.SUCCESS.equals(arquivoExecucaoUi.getStatusExecucaoType())) {
-					downloadFile = new File(arquivoExecucaoUi.getNameArquivoOutput());
+					if (StringUtils.isNoneBlank(arquivoExecucaoUi.getNameArquivoOutput())) {
+						downloadFile = new File(arquivoExecucaoUi.getNameArquivoOutput());
 
-					streamedContent = new DefaultStreamedContent(
-							new FileInputStream(downloadFile),
-							"application/vnd.ms-excel",
-							downloadFile.getName());
+						streamedContent = new DefaultStreamedContent(
+								new FileInputStream(downloadFile),
+								"application/vnd.ms-excel",
+								downloadFile.getName());
+					} else {
+						LOGGER.info(
+								"There is no OutputFile expecifyied to ArquivoExcecucaoUi[{}]:",
+								arquivoExecucaoUi.getId());
+					}
 				}
 			}
 

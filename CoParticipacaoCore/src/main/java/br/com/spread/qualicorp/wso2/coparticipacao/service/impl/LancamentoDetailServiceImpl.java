@@ -73,6 +73,8 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					lancamentoDetailUi.setCdUsuario((String) value);
 				} else if (LancamentoColType.DT_UTILIZACAO.equals(lancamentoColType)) {
 					lancamentoDetailUi.setDtUtilizacao((LocalDate) value);
+				} else if (LancamentoColType.NR_SUBFATURA.equals(lancamentoColType)) {
+					lancamentoDetailUi.setSubFatura((Integer) value);
 				} else {
 					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 				}
@@ -126,6 +128,8 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 				value = lancamentoDetailUi.getCdUsuario();
 			} else if (LancamentoColType.DT_UTILIZACAO.equals(lancamentoColType)) {
 				value = lancamentoDetailUi.getDtUtilizacao();
+			} else if (LancamentoColType.NR_SUBFATURA.equals(lancamentoColType)) {
+				value = lancamentoDetailUi.getSubFatura();
 			} else {
 				throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 			}

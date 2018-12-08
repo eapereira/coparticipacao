@@ -57,12 +57,12 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		technitOdontoCoparticipacaoViewUi.setSubFatura("001");
 		technitOdontoCoparticipacaoViewUi.setCdContrato("091707");
 		technitOdontoCoparticipacaoViewUi.setCdEmpresa("091707");
-		technitOdontoCoparticipacaoViewUi.setCertificado(8345l);
+		technitOdontoCoparticipacaoViewUi.setCertificado("8345");
 
 		technitOdontoCoparticipacaoViewUi.setNomeTitular("JULIA MC MILLAN CARVALHO CAMPOS");
 		technitOdontoCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		technitOdontoCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		technitOdontoCoparticipacaoViewUi.setMatricula(75001l);
+		technitOdontoCoparticipacaoViewUi.setMatricula("75001");
 		technitOdontoCoparticipacaoViewUi.setProfissao("Costureira");
 
 		technitOdontoCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
@@ -78,12 +78,12 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		technitOdontoCoparticipacaoViewUi.setSubFatura("001");
 		technitOdontoCoparticipacaoViewUi.setCdContrato("091707");
 		technitOdontoCoparticipacaoViewUi.setCdEmpresa("091707");
-		technitOdontoCoparticipacaoViewUi.setCertificado(8345l);
+		technitOdontoCoparticipacaoViewUi.setCertificado("8345");
 
 		technitOdontoCoparticipacaoViewUi.setNomeTitular("MARCEL SIDNEI CAVITTE");
 		technitOdontoCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		technitOdontoCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		technitOdontoCoparticipacaoViewUi.setMatricula(75001l);
+		technitOdontoCoparticipacaoViewUi.setMatricula("75001");
 		technitOdontoCoparticipacaoViewUi.setProfissao("Costureira");
 
 		technitOdontoCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
@@ -99,12 +99,12 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		technitOdontoCoparticipacaoViewUi.setSubFatura("001");
 		technitOdontoCoparticipacaoViewUi.setCdContrato("091707");
 		technitOdontoCoparticipacaoViewUi.setCdEmpresa("091707");
-		technitOdontoCoparticipacaoViewUi.setCertificado(1147l);
+		technitOdontoCoparticipacaoViewUi.setCertificado("1147");
 
 		technitOdontoCoparticipacaoViewUi.setNomeTitular("FATIMA CRISTINA TAKAHASHI");
 		technitOdontoCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		technitOdontoCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		technitOdontoCoparticipacaoViewUi.setMatricula(75001l);
+		technitOdontoCoparticipacaoViewUi.setMatricula("75001");
 		technitOdontoCoparticipacaoViewUi.setProfissao("Costureira");
 
 		technitOdontoCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));

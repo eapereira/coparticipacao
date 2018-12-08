@@ -21,7 +21,9 @@ public class FriendlyErrorHelper {
 
 	private static final Logger LOGGER = LogManager.getLogger(FriendlyErrorHelper.class);
 
-	private static final CharSequence ERROR_MATRICULA_TITULAR = "UN_TITULAR_01";
+	private static final String ERROR_MATRICULA_TITULAR = "UN_TITULAR_01";
+
+	private static final String ERROR_DUPLICATED_DEPENDENTE_02 = "UN_DEPENDENTE_02";
 
 	private static final String ERROR_COMMUNICATION_LINK = "Communications link failure";
 
@@ -33,6 +35,9 @@ public class FriendlyErrorHelper {
 
 	private static final Pattern REGEXP_MATRICULA_TITULAR = Pattern
 			.compile("Duplicate entry \\'([0-9]{1,10})\\-([0-9]{1,10})\\' for key \\'UN_TITULAR_02\\'");
+
+	private static final Pattern REGEXP_DUPLICATED_DEPENDENTE_02 = Pattern
+			.compile("Duplicate\\Wentry\\W'(.+)(\\-)([0-9]{1,})(' for key 'UN_DEPENDENTE_02')");
 
 	private static final int GROUP_MATRICULA_TITULAR = 2;
 
@@ -71,6 +76,8 @@ public class FriendlyErrorHelper {
 			} else if (StringUtils.contains(errorMessage, ERROR_INVALID_UPLOADED_FILE)
 					|| StringUtils.contains(errorMessage, ERROR_INVALID_SPREADSHEET_FILE)) {
 				friendlyMessage = "O arquivo carregado não é uma planilha Excel XLSX válida.";
+			} else if (StringUtils.contains(errorMessage, ERROR_DUPLICATED_DEPENDENTE_02)) {
+				friendlyMessage = createErrorDuplicatedDependente(errorMessage);
 			} else {
 				/*
 				 * Se não conhecemos o erro é melhor mostra-lo de forma completa
@@ -87,6 +94,34 @@ public class FriendlyErrorHelper {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
+	}
+
+	private static String createErrorDuplicatedDependente(String errorMessage) throws ServiceException {
+		Matcher matcher;
+		String friendlyMessage = null;
+		String nameDependente;
+		String cpf;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			matcher = REGEXP_DUPLICATED_DEPENDENTE_02.matcher(errorMessage);
+			friendlyMessage = "Existem registros repetidos para o Dependente[%s] usando o CPF[%s]:";
+
+			if (matcher.find()) {
+				nameDependente = matcher.group(1);
+				cpf = matcher.group(3);
+
+				friendlyMessage = String.format(friendlyMessage, nameDependente, cpf);
+			}
+
+			LOGGER.info("END");
+			return friendlyMessage;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+
 	}
 
 }

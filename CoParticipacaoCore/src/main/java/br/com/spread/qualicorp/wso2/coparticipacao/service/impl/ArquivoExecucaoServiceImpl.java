@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -537,6 +538,44 @@ public class ArquivoExecucaoServiceImpl
 			arquivoExecucaoDao.deleteByEmpresaAndUseTypeAndMesAndAno(empresaUi.getId(), useType, mes, ano);
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	public List<ArquivoExecucaoUi> listByEmpresaIdAndMesAndAnoToUser(EmpresaUi empresaUi, Integer mes, Integer ano)
+			throws ServiceException {
+		List<ArquivoExecucaoUi> arquivoExecucaoUisTmp;
+		List<ArquivoExecucaoUi> arquivoExecucaoUis;
+		ContratoUi contratoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			/*
+			 * Para contratos que possuem contratos filhos, alguns como o
+			 * Technit não precisam mostrar a linha do parent quando terminam
+			 * com sucesso, pois neste caso o parent não gera arquivos de saída,
+			 * apenas os filhos:
+			 */
+			arquivoExecucaoUisTmp = listByEmpresaIdAndMesAndAno(empresaUi, mes, ano);
+			arquivoExecucaoUis = new ArrayList<ArquivoExecucaoUi>();
+
+			for (ArquivoExecucaoUi arquivoExecucaoUi : arquivoExecucaoUisTmp) {
+				contratoUi = (ContratoUi) arquivoExecucaoUi.getContrato();
+
+				if (StatusExecucaoType.SUCCESS.equals(arquivoExecucaoUi.getStatusExecucaoType())) {
+					if (contratoUi.isDisplayOutputResult()) {
+						arquivoExecucaoUis.add(arquivoExecucaoUi);
+					}
+				} else {
+					arquivoExecucaoUis.add(arquivoExecucaoUi);
+				}
+			}
+
+			LOGGER.info("END");
+			return arquivoExecucaoUis;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);

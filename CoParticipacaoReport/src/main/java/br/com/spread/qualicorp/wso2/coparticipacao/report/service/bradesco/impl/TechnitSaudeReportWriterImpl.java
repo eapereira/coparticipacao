@@ -1,8 +1,5 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +7,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.technit.TechnitSaudeJRDataSource;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.technit.TechnitSaudeCoparticipacaoJRDataSource;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitSaude;
-import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.TechnitSaudeReport;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.TechnitSaudeCoparticipacaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.TechnitSaudeReportWriter;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -29,8 +25,8 @@ public class TechnitSaudeReportWriterImpl extends TechnitReportWriter implements
 	private static final Logger LOGGER = LogManager.getLogger(TechnitSaudeReportWriterImpl.class);
 
 	private static final String CD_EMPRESA_TECHNIT_SAUDE = "180831";
-	
-	private static final String BRADESCO_TECHNIT_SAUDE_REPORT = "/reports/bradesco/TechnitSaude.jasper";
+
+	private static final String BRADESCO_TECHNIT_SAUDE_REPORT = "/reports/bradesco/TechnitSaudeCoparticipacao.jasper";
 
 	@Autowired
 	private TechnitSaudeCoparticipacaoService technitSaudeCoparticipacaoService;
@@ -44,8 +40,6 @@ public class TechnitSaudeReportWriterImpl extends TechnitReportWriter implements
 	public JRDataSource getDataSource(CoParticipacaoContext coParticipacaoContext, Integer mes, Integer ano)
 			throws ServiceException {
 		JRDataSource jrDataSource;
-		List<TechnitSaudeReport> technitSaudeReports;
-		TechnitSaudeReport technitSaudeReport;
 		TechnitSaude technitSaude;
 		ContratoUi contratoUi;
 
@@ -56,17 +50,9 @@ public class TechnitSaudeReportWriterImpl extends TechnitReportWriter implements
 			contratoUi = (ContratoUi) coParticipacaoContext.getArquivoExecucaoUi().getContrato();
 			technitSaude = TechnitSaude.parse(contratoUi.getCdContrato());
 
-			technitSaudeReports = new ArrayList<>();
-			technitSaudeReport = new TechnitSaudeReport();
-			technitSaudeReport.setTechnitSaudeCoparticipacaoViewUis(
+			jrDataSource = new TechnitSaudeCoparticipacaoJRDataSource(
 					technitSaudeCoparticipacaoService
 							.listByMesAndAnoAndSubFatura(mes, ano, technitSaude.getSubFaturas()));
-			technitSaudeReport.setTechnitHeaderViewUi(createTechnitHeader(coParticipacaoContext, mes, ano));
-			technitSaudeReport.setSheetNameCoparticipacao(technitSaude.getDescription());
-
-			technitSaudeReports.add(technitSaudeReport);
-
-			jrDataSource = new TechnitSaudeJRDataSource(technitSaudeReports);
 
 			LOGGER.info("END");
 			return jrDataSource;

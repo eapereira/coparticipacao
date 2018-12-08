@@ -35,6 +35,7 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.export.SimpleExporterInput;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
@@ -215,7 +216,7 @@ public class ReportServiceImpl implements ReportService {
 			InputStream inputStream) throws ServiceException {
 		Map<String, Object> parameters;
 		JasperPrint jasperPrint;
-		JRXlsExporter jrXlsExporter;
+		JRXlsxExporter jrXlsxExporter;
 		SimpleXlsxReportConfiguration configuration;
 		StringBuilder sb;
 		EmpresaUi empresaUi;
@@ -273,17 +274,17 @@ public class ReportServiceImpl implements ReportService {
 						fileOutputStream = new FileOutputStream(file);
 
 						// Exportando para o formato de planilha:
-						jrXlsExporter = new JRXlsExporter();
-						jrXlsExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
-						jrXlsExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fileOutputStream));
+						jrXlsxExporter = new JRXlsxExporter();
+						jrXlsxExporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+						jrXlsxExporter.setExporterOutput(new SimpleOutputStreamExporterOutput(fileOutputStream));
 
 						// setup configuration
 						configuration = new SimpleXlsxReportConfiguration();
 						configuration.setOnePagePerSheet(true);
 						configuration.setDetectCellType(true);
-						jrXlsExporter.setConfiguration(configuration);
+						jrXlsxExporter.setConfiguration(configuration);
 
-						jrXlsExporter.exportReport();
+						jrXlsxExporter.exportReport();
 
 						// Disponibilizando o arquivo para o usuário fazer
 						// download:

@@ -26,8 +26,8 @@ public abstract class BradescoCoparticipacaoView extends AbstractDomain {
 	private String cdContrato;
 	private String cdEmpresa;
 
-	private Long certificado;
-	private Long matricula;
+	private String certificado;
+	private String matricula;
 	private String nomeTitular;
 	private BigDecimal fatorModerador;
 	private Long matriculaEspecial;
@@ -83,20 +83,20 @@ public abstract class BradescoCoparticipacaoView extends AbstractDomain {
 	}
 
 	@Column(name = "NR_CERTIFICADO")
-	public Long getCertificado() {
+	public String getCertificado() {
 		return certificado;
 	}
 
-	public void setCertificado(Long certificado) {
+	public void setCertificado(String certificado) {
 		this.certificado = certificado;
 	}
 
 	@Column(name = "NR_MATRICULA")
-	public Long getMatricula() {
+	public String getMatricula() {
 		return matricula;
 	}
 
-	public void setMatricula(Long matricula) {
+	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
 

@@ -12,7 +12,7 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181201-006-dml-TECHNIT-SAUDE-NAO-LOCALIZADO.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181201-006-dml-SPREAD-SAUDE-NAO-LOCALIZADO.sql';
 	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181201-007-dml-SPREAD-SAUDE-ISENTO.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			

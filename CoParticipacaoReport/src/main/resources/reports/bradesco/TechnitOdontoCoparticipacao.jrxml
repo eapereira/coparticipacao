@@ -40,7 +40,7 @@
 	<field name="cdContrato" class="java.lang.String">
 		<fieldDescription><![CDATA[cdContrato]]></fieldDescription>
 	</field>
-	<field name="certificado" class="java.lang.Long">
+	<field name="certificado" class="java.lang.String">
 		<fieldDescription><![CDATA[certificado]]></fieldDescription>
 	</field>
 	<field name="matriculaEspecial" class="java.lang.Long">
@@ -52,7 +52,7 @@
 	<field name="fatorModeradorInss" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[fatorModeradorInss]]></fieldDescription>
 	</field>
-	<field name="matricula" class="java.lang.Long">
+	<field name="matricula" class="java.lang.String">
 		<fieldDescription><![CDATA[matricula]]></fieldDescription>
 	</field>
 	<field name="valorInss" class="java.math.BigDecimal">
@@ -170,12 +170,16 @@
 		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="110" height="20" uuid="82ad26fe-6a93-4a17-9174-ec242316a7d3"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{tipoRegistro}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="110" y="0" width="110" height="20" uuid="f5445b6d-5640-417d-91d3-7e67672018c7"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{cdContrato}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -208,7 +212,9 @@
 			</textField>
 			<textField>
 				<reportElement x="920" y="0" width="200" height="20" uuid="3295f5c7-2147-46e8-af35-470733c549f2"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{indicadorEvento}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
@@ -241,17 +247,23 @@
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="1800" y="0" width="100" height="20" uuid="e078f7c0-201e-4eee-95cd-1f12431a60d0"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valorAliquotaInss}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="1900" y="0" width="140" height="20" uuid="abb3b45a-d12b-4e03-9d13-8234de23e23e"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valorLiquidoSinistro}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00">
 				<reportElement x="2040" y="0" width="100" height="20" uuid="6ae059be-9a4a-4ca9-b047-1d28ec8ca03e"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Calibri"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{valorInss}]]></textFieldExpression>
 			</textField>
 		</band>

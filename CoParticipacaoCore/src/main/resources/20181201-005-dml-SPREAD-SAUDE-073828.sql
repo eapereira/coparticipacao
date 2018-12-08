@@ -115,6 +115,7 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_VL_PARTICIPACAO							bigint( 17 ) default 14;
 	declare VAR_COL_LANCAMENTO_CD_USUARIO								bigint( 17 ) default 15;
 	declare VAR_COL_LANCAMENTO_DT_UTILIZACAO							bigint( 17 ) default 16;
+	declare VAR_COL_LANCAMENTO_NR_SUBFATURA								bigint( 17 ) default 17;
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
 	declare VAR_ID_LANCAMENTO_INPUT_SHEET								bigint( 17 );
@@ -998,6 +999,24 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()	
 	);	
+
+	call PROC_LOG_MESSAGE('LINHA - 984');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
+		CD_LANCAMENTO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
+		VAR_COL_LANCAMENTO_NR_SUBFATURA,
+		VAR_ID_SHEET01_COLUMN_019_SUBFATURA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
 	
 	call PROC_LOG_MESSAGE('LINHA - 958');	
 	/*****************************************************************************************************************/
@@ -1043,7 +1062,7 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_OUTPUT,
 		VAR_ID_VIEW_DESTINATION,
-		'TECHNIT %s',
+		'SPREAD %s',
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1082,7 +1101,7 @@ BEGIN
 	
     call PROC_LOG_MESSAGE('LINHA - 1020');
 	select ID into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION
-    where NM_VIEW = 'VW_DESCONHECIDO_TECHNIT_SAUDE';
+    where NM_VIEW = 'VW_DESCONHECIDO_SPREAD_SAUDE';
 	
 	call PROC_LOG_MESSAGE('LINHA - 1024');
 	insert into TB_ARQUIVO_OUTPUT_DESCONHECIDO(

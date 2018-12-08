@@ -73,7 +73,8 @@ public class ContratoBean extends AbstractBean {
 					 * Vamos deixar serem exibidos apenas os contratos que o
 					 * usuário pode selecionar:
 					 */
-					if (!UseType.EXTRA_FILE.equals(contratoUi.getUseType())) {
+					LOGGER.debug("Verifying if ContratoUi[{}] can be displayed to user:", contratoUi.getCdContrato());
+					if (!UseType.EXTRA_FILE.equals(contratoUi.getUseType()) && contratoUi.getParent() == null) {
 						contratoUis.add(contratoUi);
 					}
 				}

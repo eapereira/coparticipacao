@@ -23,6 +23,9 @@ public interface ArquivoExecucaoService extends AbstractService<ArquivoExecucaoU
 	List<ArquivoExecucaoUi> listByEmpresaIdAndMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano)
 			throws ServiceException;
 
+	List<ArquivoExecucaoUi> listByEmpresaIdAndMesAndAnoToUser(EmpresaUi empresaUi, Integer mes, Integer ano)
+			throws ServiceException;
+
 	void updateStatus(CoParticipacaoContext coParticipacaoContext, StatusExecucaoType statusExecucaoType)
 			throws ServiceException;
 

@@ -40,12 +40,12 @@ public class AutomindCoparticipacaoJRDataSource extends CoParticipacaoJRDataSour
 
 		automindCoparticipacaoViewUi.setCdContrato("074210");
 		automindCoparticipacaoViewUi.setCdEmpresa("AUTOMIND");
-		automindCoparticipacaoViewUi.setCertificado(8345l);
+		automindCoparticipacaoViewUi.setCertificado("8345");
 
 		automindCoparticipacaoViewUi.setNomeTitular("JULIA MC MILLAN CARVALHO CAMPOS");
 		automindCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		automindCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		automindCoparticipacaoViewUi.setMatricula(75001l);
+		automindCoparticipacaoViewUi.setMatricula("75001");
 		automindCoparticipacaoViewUi.setProfissao("Costureira");
 
 		automindCoparticipacaoViewUis.add(automindCoparticipacaoViewUi);

@@ -33,15 +33,20 @@ public class SpreadSaudeTest extends CoParticipacaoTest {
 
 	private static final String MECSAS_201810 = "spread-saude/input/073828.MECSAS.201810.001.xlsx";
 	private static final String MECSAS2_201810 = "spread-saude/input/073828.MECSAS2.201810.002.xlsx";
-	private static final String FATUCOPA_201810 = "spread-saude/input/073828.073828.201810.004.xlsx";
-	private static final String ISENTO_201810 = "spread-saude/input/073828.ISENTO.201810.003.xlsx";
-	private static final String NAO_LOCALIZADO_201810 = "spread-saude/input/073828.NAO-LOCALIZADO.201810.002.xlsx";
+	private static final String FATUCOPA_201810 = "spread-saude/input/073828.073828.201810.005.xlsx";
+	private static final String ISENTO_201810 = "spread-saude/input/073828.ISENTO.201810.004.xlsx";
+	private static final String NAO_LOCALIZADO_201810 = "spread-saude/input/073828.NAO-LOCALIZADO.201810.003.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 939;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 601;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 220;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 5265;
 
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 954;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 633;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 5485;
+	
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";
 	private static final String CD_CONTRATO_FATUCOPA = "073828";
@@ -113,6 +118,7 @@ public class SpreadSaudeTest extends CoParticipacaoTest {
 		testCoparticipacao201810();
 		
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201810);
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTO_201810);
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		processFile(execucaoUi);
@@ -122,15 +128,16 @@ public class SpreadSaudeTest extends CoParticipacaoTest {
 		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 
+		LOGGER.info("After user´s validation:");
 		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
 		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
 		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 
-		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA, titularUis.size());
-		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN, lancamentoUis.size());
 
 		LOGGER.info("END");
 	}

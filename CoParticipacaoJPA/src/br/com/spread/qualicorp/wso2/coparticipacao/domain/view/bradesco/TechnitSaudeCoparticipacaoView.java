@@ -12,8 +12,18 @@ public abstract class TechnitSaudeCoparticipacaoView extends TechnitCoparticipac
 	 */
 	private static final long serialVersionUID = -3078942775061985813L;
 
+	private String nameBeneficiario;
+	
 	public TechnitSaudeCoparticipacaoView() {
 		super();
+	}
+
+	public String getNameBeneficiario() {
+		return nameBeneficiario;
+	}
+
+	public void setNameBeneficiario(String nameBeneficiario) {
+		this.nameBeneficiario = nameBeneficiario;
 	}
 
 }

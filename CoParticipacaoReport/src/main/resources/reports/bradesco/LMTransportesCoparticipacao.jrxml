@@ -19,7 +19,7 @@
 	<field name="fatorModerador" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[fatorModerador]]></fieldDescription>
 	</field>
-	<field name="certificado" class="java.lang.Long">
+	<field name="certificado" class="java.lang.String">
 		<fieldDescription><![CDATA[certificado]]></fieldDescription>
 	</field>
 	<field name="matriculaEspecial" class="java.lang.Long">
@@ -31,7 +31,7 @@
 	<field name="fatorModeradorInss" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[fatorModeradorInss]]></fieldDescription>
 	</field>
-	<field name="matricula" class="java.lang.Long">
+	<field name="matricula" class="java.lang.String">
 		<fieldDescription><![CDATA[matricula]]></fieldDescription>
 	</field>
 	<field name="idContrato" class="java.lang.Long">

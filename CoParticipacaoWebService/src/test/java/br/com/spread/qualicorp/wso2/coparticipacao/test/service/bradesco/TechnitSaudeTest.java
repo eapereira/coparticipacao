@@ -36,6 +36,10 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 	private static final String FATUCOPA_201807 = "technit-saude/input/180831.180831.201807.004.xlsx";
 	private static final String NAO_LOCALIZADO_201807 = "technit-saude/input/180831.NAO-LOCALIZADO.201807.002.xlsx";
 
+	private static final String MECSAS_201812 = "technit-saude/input/180831.MECSAS.201812.001.xlsx";
+	private static final String FATUCOPA_201812 = "technit-saude/input/180831.180831.201812.004.xlsx";
+	private static final String NAO_LOCALIZADO_201812 = "technit-saude/input/180831.NAO-LOCALIZADO.201812.002.xlsx";
+
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 346;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 158;
@@ -50,6 +54,16 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 362;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 2077;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201812 = 294;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201812 = 324;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201812 = 122;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201812 = 2163;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812 = 301;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201812 = 339;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201812 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201812 = 2285;
 
 	@Autowired
 	private TitularService titularService;
@@ -114,10 +128,10 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
 		testCoparticipacao201807();
-		
+
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201807);
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
-		
+
 		processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
@@ -138,5 +152,76 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 
 		LOGGER.info("END");
 	}
-	
+
+	@Test
+	public void testCoparticipacao201812() throws Exception {
+		LOGGER.info("BEGIN");
+
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		EmpresaUi empresaUi = empresaService.findByName("TECHNIT-SAUDE");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201812);
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201812);
+
+		processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201812, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201812, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201812, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201812, lancamentoUis.size());
+
+		LOGGER.info("END");
+	}
+
+	@Test
+	public void testCoparticipacao201812AfterUserValidation() throws Exception {
+		LOGGER.info("BEGIN");
+
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		EmpresaUi empresaUi = empresaService.findByName("TECHNIT-SAUDE");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		testCoparticipacao201812();
+
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201812);
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201812);
+
+		processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("After user´s validation:");
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201812, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201812, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201812, lancamentoUis.size());
+
+		LOGGER.info("END");
+	}
+
 }

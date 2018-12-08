@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,6 +27,13 @@ public class TechnitSaudeCoparticipacaoViewEntity extends TechnitSaudeCoparticip
 
 	public TechnitSaudeCoparticipacaoViewEntity() {
 		super();
+	}
+
+	@Column(name="NM_BENEFICIARIO")
+	@Override
+	public String getNameBeneficiario() {
+		// TODO Auto-generated method stub
+		return super.getNameBeneficiario();
 	}
 
 }

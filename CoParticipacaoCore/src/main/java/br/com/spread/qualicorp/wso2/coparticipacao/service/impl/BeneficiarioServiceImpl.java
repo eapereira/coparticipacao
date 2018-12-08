@@ -184,6 +184,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.setCdContrato(lancamentoDetailUi.getCdContrato());
 
 			beneficiarioUi.getBeneficiarioDetail().setCdUsuario(lancamentoDetailUi.getCdUsuario());
+			beneficiarioUi.getBeneficiarioDetail().setSubFatura(lancamentoDetailUi.getSubFatura());
 
 			LOGGER.info("END");
 			return beneficiarioUi;
@@ -1331,7 +1332,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 			}
 
-			if (titularUi == null) {
+			if (titularUi == null && beneficiarioUi.getCdContrato() != null) {
 				titularUi = coParticipacaoContext.findTitularByMatriculaAndCdContrato(
 						beneficiarioUi.getMatricula(),
 						beneficiarioUi.getCdContrato());

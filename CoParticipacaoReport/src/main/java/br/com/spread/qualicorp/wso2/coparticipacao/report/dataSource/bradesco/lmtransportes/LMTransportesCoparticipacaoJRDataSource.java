@@ -33,12 +33,12 @@ public class LMTransportesCoparticipacaoJRDataSource
 
 		lmTransportesCoparticipacaoViewUi.setCdContrato("074210");
 		lmTransportesCoparticipacaoViewUi.setCdEmpresa("AUTOMIND");
-		lmTransportesCoparticipacaoViewUi.setCertificado(8345l);
+		lmTransportesCoparticipacaoViewUi.setCertificado("8345");
 
 		lmTransportesCoparticipacaoViewUi.setNomeTitular("JULIA MC MILLAN CARVALHO CAMPOS");
 		lmTransportesCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		lmTransportesCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		lmTransportesCoparticipacaoViewUi.setMatricula(75001l);
+		lmTransportesCoparticipacaoViewUi.setMatricula("75001");
 		lmTransportesCoparticipacaoViewUi.setProfissao("Costureira");
 
 		lmTransportesCoparticipacaoViewUis.add(lmTransportesCoparticipacaoViewUi);

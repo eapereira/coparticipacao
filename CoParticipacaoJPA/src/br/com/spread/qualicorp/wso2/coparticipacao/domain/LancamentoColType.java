@@ -21,7 +21,8 @@ public enum LancamentoColType {
 								VL_REEMBOLSO(13, "VL_REEMBOLSO"),
 								VL_PARTICIPACAO(14, "VL_PARTICIPACAO"),
 								CD_USUARIO(15, "CD_USUARIO"),
-								DT_UTILIZACAO(16,"DT_UTILIZACAO");
+								DT_UTILIZACAO(16,"DT_UTILIZACAO"),
+								NR_SUBFATURA(17,"NR_SUBFATURA");
 
 	private Integer id;
 

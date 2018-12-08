@@ -48,7 +48,6 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 
 		try {
 			LOGGER.info("BEGIN");
-
 			beneficiarioUi = beneficiarioService.createBeneficiarioFromMecsas(coParticipacaoContext);
 
 			desconhecidoUi = coParticipacaoContext.findDesconhecidoByBeneficiario(beneficiarioUi);

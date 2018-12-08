@@ -56,12 +56,12 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoJRData
 		technitSaudeCoparticipacaoViewUi.setSubFatura("001");
 		technitSaudeCoparticipacaoViewUi.setCdContrato("091707");
 		technitSaudeCoparticipacaoViewUi.setCdEmpresa("091707");
-		technitSaudeCoparticipacaoViewUi.setCertificado(8345l);
+		technitSaudeCoparticipacaoViewUi.setCertificado("8345");
 
 		technitSaudeCoparticipacaoViewUi.setNomeTitular("JULIA MC MILLAN CARVALHO CAMPOS");
 		technitSaudeCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		technitSaudeCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		technitSaudeCoparticipacaoViewUi.setMatricula(75001l);
+		technitSaudeCoparticipacaoViewUi.setMatricula("75001");
 		technitSaudeCoparticipacaoViewUi.setProfissao("Costureira");
 
 		technitSaudeCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
@@ -77,12 +77,12 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoJRData
 		technitSaudeCoparticipacaoViewUi.setSubFatura("001");
 		technitSaudeCoparticipacaoViewUi.setCdContrato("091707");
 		technitSaudeCoparticipacaoViewUi.setCdEmpresa("091707");
-		technitSaudeCoparticipacaoViewUi.setCertificado(8345l);
+		technitSaudeCoparticipacaoViewUi.setCertificado("8345");
 
 		technitSaudeCoparticipacaoViewUi.setNomeTitular("MARCEL SIDNEI CAVITTE");
 		technitSaudeCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		technitSaudeCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		technitSaudeCoparticipacaoViewUi.setMatricula(75001l);
+		technitSaudeCoparticipacaoViewUi.setMatricula("75001");
 		technitSaudeCoparticipacaoViewUi.setProfissao("Costureira");
 
 		technitSaudeCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));
@@ -98,12 +98,12 @@ public class TechnitSaudeCoparticipacaoJRDataSource extends CoParticipacaoJRData
 		technitSaudeCoparticipacaoViewUi.setSubFatura("001");
 		technitSaudeCoparticipacaoViewUi.setCdContrato("091707");
 		technitSaudeCoparticipacaoViewUi.setCdEmpresa("091707");
-		technitSaudeCoparticipacaoViewUi.setCertificado(1147l);
+		technitSaudeCoparticipacaoViewUi.setCertificado("1147");
 
 		technitSaudeCoparticipacaoViewUi.setNomeTitular("FATIMA CRISTINA TAKAHASHI");
 		technitSaudeCoparticipacaoViewUi.setFatorModerador(new BigDecimal("34.89"));
 		technitSaudeCoparticipacaoViewUi.setMatriculaEspecial(950001l);
-		technitSaudeCoparticipacaoViewUi.setMatricula(75001l);
+		technitSaudeCoparticipacaoViewUi.setMatricula("75001");
 		technitSaudeCoparticipacaoViewUi.setProfissao("Costureira");
 
 		technitSaudeCoparticipacaoViewUi.setFatorModeradorInss(new BigDecimal("12.36"));

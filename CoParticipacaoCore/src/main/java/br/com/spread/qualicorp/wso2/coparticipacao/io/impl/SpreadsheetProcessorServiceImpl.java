@@ -240,8 +240,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 					mapLine.put(columnName, value);
 
 					// cellId++;
-				} else {
-					break;
 				}
 			}
 

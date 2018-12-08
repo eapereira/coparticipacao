@@ -16,6 +16,7 @@ select
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
+    contrato.CD_CONTRATO,
 	desconhecido.NR_MATRICULA,
 	desconhecido.NR_SUBFATURA,
     desconhecido.NM_BENEFICIARIO,
@@ -24,10 +25,7 @@ select
     desconhecido.VL_FATOR_MODERADOR,
     desconhecido.VL_FATOR_MODERADOR_INSS,
     desconhecido.DESCR_PROFISSAO,
-    desconhecido.NR_MATRICULA_ESPECIAL,
-    desconhecido.VL_INSS,
-    desconhecido.VL_ALIQUOTA_INSS,
-    desconhecido.VL_LIQUIDO_SINISTRO
+    desconhecido.NR_MATRICULA_ESPECIAL
 from TB_DESCONHECIDO desconhecido
 	join TB_CONTRATO contrato on
 		contrato.ID = desconhecido.ID_CONTRATO
@@ -39,6 +37,7 @@ select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,
+	contrato.CD_CONTRATO,
 	titular.NR_MATRICULA,
 	titular.NR_SUBFATURA,
 	titular.NM_TITULAR NM_BENEFICIARIO,
@@ -47,10 +46,7 @@ select
 	titular.VL_FATOR_MODERADOR,
 	titular.VL_FATOR_MODERADOR_INSS,
     titular.DESCR_PROFISSAO,
-    titular.NR_MATRICULA_ESPECIAL,
-	titular.VL_INSS,
-	titular.VL_ALIQUOTA_INSS,
-    titular.VL_LIQUIDO_SINISTRO
+    titular.NR_MATRICULA_ESPECIAL
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
@@ -59,15 +55,45 @@ from TB_LANCAMENTO lancamento
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA = '180831'
+and		lancamento.ID_DEPENDENTE is null
 and		(( titular.VL_FATOR_MODERADOR is null or titular.VL_FATOR_MODERADOR <= 0 ) or 
 		( titular.VL_FATOR_MODERADOR_INSS is null or titular.VL_FATOR_MODERADOR_INSS <= 0 ))
-and titular.DESCR_PROFISSAO is null;
+and titular.DESCR_PROFISSAO is null
+union all
+select
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_CONTRATO,
+	contrato.CD_CONTRATO,
+	titular.NR_MATRICULA,
+	titular.NR_SUBFATURA,
+	dependente.NM_DEPENDENTE NM_BENEFICIARIO,
+	dependente.NR_CPF,
+	titular.NM_TITULAR,
+	dependente.VL_FATOR_MODERADOR,
+	dependente.VL_FATOR_MODERADOR_INSS,
+    titular.DESCR_PROFISSAO,
+    dependente.NR_MATRICULA_ESPECIAL
+from TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+	join TB_DEPENDENTE dependente on
+		dependente.ID = lancamento.ID_DEPENDENTE
+where	empresa.CD_EMPRESA = '180831'
+and		lancamento.ID_DEPENDENTE is not null
+and		(( dependente.VL_FATOR_MODERADOR is null or dependente.VL_FATOR_MODERADOR <= 0 ) or 
+		( dependente.VL_FATOR_MODERADOR_INSS is null or dependente.VL_FATOR_MODERADOR_INSS <= 0 ));
 	
 create view VW_DESCONHECIDO_TECHNIT_SAUDE as
 select distinct
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,
+    desconhecido.CD_CONTRATO,
 	desconhecido.NR_MATRICULA,
 	desconhecido.NR_SUBFATURA,
     desconhecido.NM_BENEFICIARIO,
@@ -76,12 +102,11 @@ select distinct
     desconhecido.VL_FATOR_MODERADOR,
     desconhecido.VL_FATOR_MODERADOR_INSS,
     desconhecido.DESCR_PROFISSAO,
-    desconhecido.NR_MATRICULA_ESPECIAL,
-	desconhecido.VL_INSS,
-	desconhecido.VL_ALIQUOTA_INSS,
-	desconhecido.VL_LIQUIDO_SINISTRO
+    desconhecido.NR_MATRICULA_ESPECIAL
 from VW_DESCONHECIDO_LEVEL01_TECHNIT_SAUDE desconhecido
-order by desconhecido.NM_BENEFICIARIO;
+order by
+	desconhecido.NM_TITULAR, 
+	desconhecido.NM_BENEFICIARIO;
 
 /****************************************************************************************************************************************************/
 
@@ -96,6 +121,7 @@ select
 	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
 	lpad( titular.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
 	titular.NM_TITULAR,
+	titular.NM_TITULAR NM_BENEFICIARIO,
 	ifnull( titular.VL_FATOR_MODERADOR, 0.0 ) VL_FATOR_MODERADOR,
 	ifnull( titular.VL_FATOR_MODERADOR_INSS, 0.0 ) VL_FATOR_MODERADOR_INSS, 
 	titular.NR_MATRICULA_ESPECIAL,
@@ -137,6 +163,7 @@ select
 	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
 	lpad( titular.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
 	titular.NM_TITULAR,
+	dependente.NM_DEPENDENTE NM_BENEFICIARIO,
 	ifnull( titular.VL_FATOR_MODERADOR, 0.0 ) VL_FATOR_MODERADOR,
 	ifnull( titular.VL_FATOR_MODERADOR_INSS, 0.0 ) VL_FATOR_MODERADOR_INSS, 
 	titular.NR_MATRICULA_ESPECIAL,
@@ -181,6 +208,7 @@ select
     technit.NR_CERTIFICADO,
 	technit.NR_MATRICULA,
 	technit.NM_TITULAR,
+	technit.NM_BENEFICIARIO,
 	technit.NR_SUBFATURA,
 	technit.VL_FATOR_MODERADOR,
 	technit.VL_FATOR_MODERADOR_INSS,
@@ -206,6 +234,7 @@ group by
     technit.NR_CERTIFICADO,
 	technit.NR_MATRICULA,
 	technit.NM_TITULAR,
+	technit.NM_BENEFICIARIO,
 	technit.NR_SUBFATURA,
 	technit.VL_FATOR_MODERADOR,
 	technit.VL_FATOR_MODERADOR_INSS,
