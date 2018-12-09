@@ -10,7 +10,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
@@ -33,12 +33,12 @@ public class CoParticipacaoWebConfig {
 
 	@Bean
 	public MessageSource messageSource() throws CoParticipacaoException {
-		ResourceBundleMessageSource messageSource;
+		ReloadableResourceBundleMessageSource messageSource;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			messageSource = new ResourceBundleMessageSource();
+			messageSource = new ReloadableResourceBundleMessageSource();
 			messageSource.setBasenames("messages");
 			messageSource.setDefaultEncoding("UTF-8");
 

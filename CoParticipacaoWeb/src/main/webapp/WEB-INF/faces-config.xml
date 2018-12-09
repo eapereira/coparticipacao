@@ -65,8 +65,8 @@
 			<default-locale>pt-BR</default-locale>
 			<supported-locale>en-US</supported-locale>
 		</locale-config>
-		<resource-bundle>
-			<base-name>messages</base-name>
+		<resource-bundle> 
+			<base-name>br.com.spread.qualicorp.coparticipacao.util.CoparticipacaoResourceBundle</base-name>						
 			<var>msg</var>
 		</resource-bundle>
 
