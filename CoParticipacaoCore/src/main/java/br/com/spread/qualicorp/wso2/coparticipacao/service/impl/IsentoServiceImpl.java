@@ -293,6 +293,10 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 				beneficiarioIsentoUi.setValorIsencao((BigDecimal) value);
 			} else if (BeneficiarioIsentoColType.NR_MATRICULA_EMPRESA.equals(beneficiarioIsentoColType)) {
 				beneficiarioIsentoUi.setMatriculaEmpresa((Long) value);
+			} else if (BeneficiarioIsentoColType.DT_INICIO.equals(beneficiarioIsentoColType)) {
+				beneficiarioIsentoUi.setDtInicio((LocalDate) value);
+			} else if (BeneficiarioIsentoColType.DT_FIM.equals(beneficiarioIsentoColType)) {
+				beneficiarioIsentoUi.setDtFim((LocalDate) value);				
 			}
 
 			LOGGER.info("END");

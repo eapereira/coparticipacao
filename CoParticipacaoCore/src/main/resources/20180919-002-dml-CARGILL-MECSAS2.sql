@@ -52,24 +52,8 @@ BEGIN
 	declare VAR_ID_COLUMN_001_CD_CGC				bigint( 17 );
 	declare VAR_ID_COLUMN_002_NR_MATRICULA			bigint( 17 );
 	declare VAR_ID_COLUMN_003_NM_BENEFICIARIO		bigint( 17 );
-	declare VAR_ID_COLUMN_004_CD_STATUS				bigint( 17 );
-	declare VAR_ID_COLUMN_005_DT_ADMISSAO			bigint( 17 );
-	declare VAR_ID_COLUMN_006_DT_NASCIMENTO			bigint( 17 );
-	declare VAR_ID_COLUMN_007_NR_CPF				bigint( 17 );
-	declare VAR_ID_COLUMN_008_NM_LOCAL				bigint( 17 );
-	declare VAR_ID_COLUMN_009_NM_DIVISAO			bigint( 17 );
-	declare VAR_ID_COLUMN_010_NM_DEPTO				bigint( 17 );
-	declare VAR_ID_COLUMN_011_NM_SUB_SESSAO			bigint( 17 );
-	declare VAR_ID_COLUMN_012_DDD					bigint( 17 );
-	declare VAR_ID_COLUMN_013_NR_TELEFONE			bigint( 17 );
-	declare VAR_ID_COLUMN_014_EMAIL					bigint( 17 );
-	declare VAR_ID_COLUMN_015_NM_ENDERECO			bigint( 17 );
-	declare VAR_ID_COLUMN_016_NUM_ENDERECO			bigint( 17 );
-	declare VAR_ID_COLUMN_017_COMPL					bigint( 17 );
-	declare VAR_ID_COLUMN_018_BAIRRO				bigint( 17 );
-	declare VAR_ID_COLUMN_019_CIDADE				bigint( 17 );
-	declare VAR_ID_COLUMN_020_UF					bigint( 17 );
-	declare VAR_ID_COLUMN_021_CEP					bigint( 17 );
+	declare VAR_ID_COLUMN_004_DT_ADMISSAO			bigint( 17 );
+	declare VAR_ID_COLUMN_005_NR_CPF				bigint( 17 );
 
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
 		
@@ -282,32 +266,6 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_004_CD_STATUS',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_004_CD_STATUS
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
 		CD_FORMAT,
 		CD_ORDEM,
 		
@@ -315,7 +273,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_005_DT_ADMISSAO',
+		'COLUMN_004_DT_ADMISSAO',
 		VAR_COL_DATE,
 		null,
 		VAR_DT_FORMAT,
@@ -326,35 +284,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_005_DT_ADMISSAO 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_FORMAT,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_006_DT_NASCIMENTO',
-		VAR_COL_DATE,
-		null,
-		VAR_DT_FORMAT,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_006_DT_NASCIMENTO 
+	select max( ID ) into VAR_ID_COLUMN_004_DT_ADMISSAO 
 	from TB_ARQUIVO_INPUT_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
@@ -370,7 +300,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_007_NR_CPF',
+		'COLUMN_005_NR_CPF',
 		VAR_COL_LONG,
 		null,
 		VAR_CD_ORDEM,
@@ -380,369 +310,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_007_NR_CPF 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 387');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_008_NM_LOCAL',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_008_NM_LOCAL 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_009_NM_DIVISAO',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_009_NM_DIVISAO 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_010_NM_DEPTO',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_010_NM_DEPTO 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 465');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_011_NM_SUB_SESSAO',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_011_NM_SUB_SESSAO 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 491');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_012_DDD',
-		VAR_COL_INT,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_012_DDD 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_013_NR_TELEFONE',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_013_NR_TELEFONE 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_014_EMAIL',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_014_EMAIL 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_015_NM_ENDERECO',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_015_NM_ENDERECO 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_016_NUM_ENDERECO',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_016_NUM_ENDERECO 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_017_COMPL',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_017_COMPL 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 279');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_018_BAIRRO',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_018_BAIRRO 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 673');
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_019_CIDADE',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_019_CIDADE 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_020_UF',
-		VAR_COL_VARCHAR,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_020_UF 
-	from TB_ARQUIVO_INPUT_COLS_DEF; 
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	insert into TB_ARQUIVO_INPUT_COLS_DEF(
-		ID_ARQUIVO_INPUT,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_021_CEP',
-		VAR_COL_INT,
-		null,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_021_CEP 
+	select max( ID ) into VAR_ID_COLUMN_005_NR_CPF 
 	from TB_ARQUIVO_INPUT_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
@@ -808,23 +376,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
-		VAR_ID_COLUMN_007_NR_CPF,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 818');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_DT_NASCIMENTO,
-		VAR_ID_COLUMN_006_DT_NASCIMENTO,
+		VAR_ID_COLUMN_005_NR_CPF,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -840,7 +392,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO,
-		VAR_ID_COLUMN_005_DT_ADMISSAO,
+		VAR_ID_COLUMN_004_DT_ADMISSAO,
 		
 		VAR_ID_USER,
 		current_timestamp(),

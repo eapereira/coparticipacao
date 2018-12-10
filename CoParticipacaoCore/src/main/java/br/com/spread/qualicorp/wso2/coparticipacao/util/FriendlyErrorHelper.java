@@ -33,6 +33,8 @@ public class FriendlyErrorHelper {
 
 	private static final String ERROR_INVALID_SPREADSHEET_FILE = "You are calling the part of POI that deals with OOXML (Office Open XML) Documents";
 
+	private static final String ERROR_ARQUIVO_INPUT_PARSER = "ArquivoInputException";
+
 	private static final Pattern REGEXP_MATRICULA_TITULAR = Pattern
 			.compile("Duplicate entry \\'([0-9]{1,10})\\-([0-9]{1,10})\\' for key \\'UN_TITULAR_02\\'");
 
@@ -48,27 +50,12 @@ public class FriendlyErrorHelper {
 			ArquivoExecucaoUi arquivoExecucaoUi,
 			String errorMessage) throws ServiceException {
 		String friendlyMessage = null;
-		ContratoUi contratoUi;
-		Long matricula;
-		Matcher matcher;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			if (StringUtils.contains(errorMessage, ERROR_MATRICULA_TITULAR)) {
-				friendlyMessage = "Existem Títulares com o mesmo número de Matricula para o mesmo ContratoUi";
-				matcher = REGEXP_MATRICULA_TITULAR.matcher(errorMessage);
-
-				if (matcher.find()) {
-					matricula = Long.parseLong(matcher.group(GROUP_MATRICULA_TITULAR));
-					contratoUi = coParticipacaoContext
-							.findContratoById(Long.parseLong(matcher.group(GROUP_CONTRATO_TITULAR)));
-
-					friendlyMessage = String.format(
-							"Existem Títulares com o mesmo número de Matricula[%d] para o mesmo ContratoUi[%s]",
-							matricula,
-							contratoUi.getCdContrato());
-				}
+				friendlyMessage = createErrorMatriculaTitular(coParticipacaoContext, errorMessage);
 			} else if (StringUtils.contains(errorMessage, ERROR_COMMUNICATION_LINK)) {
 				friendlyMessage = "Consulta ao banco de dados excedeu o tempo limite";
 			} else if (StringUtils.contains(errorMessage, ERROR_CONNECT_DATABASE)) {
@@ -78,6 +65,8 @@ public class FriendlyErrorHelper {
 				friendlyMessage = "O arquivo carregado não é uma planilha Excel XLSX válida.";
 			} else if (StringUtils.contains(errorMessage, ERROR_DUPLICATED_DEPENDENTE_02)) {
 				friendlyMessage = createErrorDuplicatedDependente(errorMessage);
+			} else if (StringUtils.contains(errorMessage, ERROR_ARQUIVO_INPUT_PARSER)) {
+				friendlyMessage = "O arquivo de entrada não se encontra no formato esperado";
 			} else {
 				/*
 				 * Se não conhecemos o erro é melhor mostra-lo de forma completa
@@ -90,6 +79,38 @@ public class FriendlyErrorHelper {
 			arquivoExecucaoUi.setErrorMessage(friendlyMessage);
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private static String createErrorMatriculaTitular(CoParticipacaoContext coParticipacaoContext, String errorMessage)
+			throws ServiceException {
+		Matcher matcher;
+		String friendlyMessage = null;
+		ContratoUi contratoUi;
+		Long matricula;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			friendlyMessage = "Existem Títulares com o mesmo número de Matricula para o mesmo ContratoUi";
+			matcher = REGEXP_MATRICULA_TITULAR.matcher(errorMessage);
+
+			if (matcher.find()) {
+				matricula = Long.parseLong(matcher.group(GROUP_MATRICULA_TITULAR));
+				contratoUi = coParticipacaoContext
+						.findContratoById(Long.parseLong(matcher.group(GROUP_CONTRATO_TITULAR)));
+
+				friendlyMessage = String.format(
+						"Existem Títulares com o mesmo número de Matricula[%d] para o mesmo ContratoUi[%s]",
+						matricula,
+						contratoUi.getCdContrato());
+			}
+
+			LOGGER.info("END");
+			return friendlyMessage;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

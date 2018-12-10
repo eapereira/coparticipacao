@@ -8,7 +8,10 @@
 				CD_MES,
 				CD_ANO,
 				VL_ISENCAO,
-				ID_CONTRATO,
+				ID_CONTRATO,	/* 6 */
+				
+				DT_INICIO,
+				DT_FIM,			/* 8 */
 				
 				USER_CREATED,
 				DT_ALTERED,
@@ -18,6 +21,9 @@
 				?,
 				?,
 				?,
+				?,
+				?,
+				
 				?,
 				?,
 				
@@ -38,6 +44,9 @@
 				CD_ANO			= ?,
 				VL_ISENCAO		= ?,
 				ID_CONTRATO		= ?,
+				
+				DT_INICIO		= ?,
+				DT_FIM			= ?,
 				
 				USER_ALTERED 	= ?,
 				DT_ALTERED 		= CURRENT_TIMESTAMP()

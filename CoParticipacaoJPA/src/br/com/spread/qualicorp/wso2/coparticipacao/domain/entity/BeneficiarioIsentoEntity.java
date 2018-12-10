@@ -101,4 +101,18 @@ public class BeneficiarioIsentoEntity extends BeneficiarioIsento implements Doma
 		// TODO Auto-generated method stub
 		return super.getMatriculaEspecial();
 	}
+
+	@Column(name = "DT_INICIO")
+	@Override
+	public LocalDate getDtInicio() {
+		// TODO Auto-generated method stub
+		return super.getDtInicio();
+	}
+
+	@Column(name = "DT_FIM")
+	@Override
+	public LocalDate getDtFim() {
+		// TODO Auto-generated method stub
+		return super.getDtFim();
+	}
 }

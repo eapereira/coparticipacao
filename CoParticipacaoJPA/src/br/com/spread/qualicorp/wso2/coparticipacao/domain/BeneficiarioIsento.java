@@ -40,6 +40,10 @@ public abstract class BeneficiarioIsento extends AbstractDomain {
 	private String plano;
 
 	private String matriculaEspecial;
+	
+	private LocalDate dtInicio;
+	
+	private LocalDate dtFim;
 
 	public BeneficiarioIsento() {
 
@@ -149,12 +153,30 @@ public abstract class BeneficiarioIsento extends AbstractDomain {
 		this.matriculaEspecial = matriculaEspecial;
 	}
 
+	public LocalDate getDtInicio() {
+		return dtInicio;
+	}
+
+	public void setDtInicio(LocalDate dtInicio) {
+		this.dtInicio = dtInicio;
+	}
+
+	public LocalDate getDtFim() {
+		return dtFim;
+	}
+
+	public void setDtFim(LocalDate dtFim) {
+		this.dtFim = dtFim;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
+		result = prime * result + ((dtFim == null) ? 0 : dtFim.hashCode());
+		result = prime * result + ((dtInicio == null) ? 0 : dtInicio.hashCode());
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
 		result = prime * result + ((isentoType == null) ? 0 : isentoType.hashCode());
 		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
@@ -187,6 +209,16 @@ public abstract class BeneficiarioIsento extends AbstractDomain {
 			if (other.dependente != null)
 				return false;
 		} else if (!dependente.equals(other.dependente))
+			return false;
+		if (dtFim == null) {
+			if (other.dtFim != null)
+				return false;
+		} else if (!dtFim.equals(other.dtFim))
+			return false;
+		if (dtInicio == null) {
+			if (other.dtInicio != null)
+				return false;
+		} else if (!dtInicio.equals(other.dtInicio))
 			return false;
 		if (dtNascimento == null) {
 			if (other.dtNascimento != null)

@@ -18,6 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
@@ -48,7 +49,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 	}
 
 	public void readInputStream(CoParticipacaoContext coParticipacaoContext, ProcessorListener processorListener)
-			throws ServiceException {
+			throws ArquivoInputException {
 		BufferedReader bufferedReader;
 		String line;
 		Map<String, Object> mapLine;
@@ -101,7 +102,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
+			throw new ArquivoInputException(e);
 		}
 	}
 

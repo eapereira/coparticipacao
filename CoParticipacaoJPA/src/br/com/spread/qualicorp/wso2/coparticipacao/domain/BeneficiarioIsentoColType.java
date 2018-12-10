@@ -22,7 +22,9 @@ public enum BeneficiarioIsentoColType {
 										NR_MATRICULA_TITULAR(6, "NR_MATRICULA_TITULAR"),
 										NM_TITULAR(7, "NM_TITULAR"),
 										VALOR_ISENCAO(8, "VALOR_ISENCAO"),
-										NR_MATRICULA_EMPRESA(9, "NR_MATRICULA_EMPRESA");
+										NR_MATRICULA_EMPRESA(9, "NR_MATRICULA_EMPRESA"),
+										DT_INICIO(10, "DT_INICIO"),
+										DT_FIM(11, "DT_FIM");
 
 	private Integer id;
 

@@ -2,7 +2,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.impl.preparedState
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteIsentoEntity;
 
@@ -19,10 +18,13 @@ public class DependenteIsentoSetter extends PreparedStatementSetterAdapter<Depen
 	private static final int COL_VL_ISENCAO = 5;
 	private static final int COL_ID_CONTRATO = 6;
 
-	private static final int COL_USER_CREATED = 7;
-	private static final int COL_USER_ALTERED = 7;
+	private static final int COL_DT_INICIO = 7;
+	private static final int COL_DT_FIM = 8;
 
-	private static final int COL_ID = 8;
+	private static final int COL_USER_CREATED = 9;
+	private static final int COL_USER_ALTERED = 9;
+
+	private static final int COL_ID = 10;
 
 	public DependenteIsentoSetter(SetterAdapterType setterAdapterType, DependenteIsentoEntity entity) {
 		super(setterAdapterType, entity);
@@ -42,18 +44,23 @@ public class DependenteIsentoSetter extends PreparedStatementSetterAdapter<Depen
 
 	@Override
 	protected void setCommonValues(PreparedStatement ps) throws SQLException {
-		ps.setLong(COL_ID_DEPENDENTE, getEntity().getDependente().getId());
-		ps.setLong(COL_TP_ISENTO, getEntity().getIsentoType().getId());
-		ps.setInt(COL_MES, getEntity().getMes());
-		ps.setInt(COL_ANO, getEntity().getAno());
+		setLong(ps, COL_ID_DEPENDENTE, getEntity().getDependente().getId());
 
-		if (getEntity().getValorIsencao() != null) {
-			ps.setBigDecimal(COL_VL_ISENCAO, getEntity().getValorIsencao());
+		if (getEntity().getIsentoType() != null) {
+			setInt(ps, COL_TP_ISENTO, getEntity().getIsentoType().getId());
 		} else {
-			ps.setNull(COL_VL_ISENCAO, Types.DOUBLE);
+			setInt(ps, COL_TP_ISENTO, null);
 		}
 
-		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
+		setInt(ps, COL_MES, getEntity().getMes());
+		setInt(ps, COL_ANO, getEntity().getAno());
+
+		setBigDecimal(ps, COL_VL_ISENCAO, getEntity().getValorIsencao());
+
+		setLong(ps, COL_ID_CONTRATO, getEntity().getContrato().getId());
+
+		setDate(ps, COL_DT_INICIO, getEntity().getDtInicio());
+		setDate(ps, COL_DT_FIM, getEntity().getDtFim());
 	}
 
 }

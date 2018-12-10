@@ -361,6 +361,28 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
 	
+	call PROC_LOG_MESSAGE('LINHA - 364');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+	    TP_USO,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'ISENTO',
+		'ISENTO',
+	    VAR_NM_CONTRATO_ISENTO,
+	    VAR_USE_TYPE_ISENTO,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+		
 	call PROC_LOG_MESSAGE('LINHA - 292');
 	insert into TB_CONTRATO(
 		ID_EMPRESA,

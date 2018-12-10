@@ -29,6 +29,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
@@ -53,7 +54,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 	private static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
 
 	public void readInputStream(CoParticipacaoContext coParticipacaoContext, ProcessorListener processorListener)
-			throws ServiceException {
+			throws ArquivoInputException {
 		Map<String, Object> mapLine;
 		int currentLine = NumberUtils.INTEGER_ZERO;
 		Workbook workbook;
@@ -176,7 +177,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
+			throw new ArquivoInputException(e);
 		}
 	}
 

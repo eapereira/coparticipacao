@@ -12,7 +12,7 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180920-004-dml-CARGILL-00197.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180920-005-dml-CARGILL-ISENTOS.sql';
 	declare VAR_NM_SCRIPT					varchar( 400 ) default '20180921-001-dml-CARGILL-NAO-LOCALIZADOS.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			

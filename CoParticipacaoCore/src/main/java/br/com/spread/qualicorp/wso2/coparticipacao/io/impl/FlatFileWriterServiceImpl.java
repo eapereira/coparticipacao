@@ -56,7 +56,7 @@ public class FlatFileWriterServiceImpl implements FlatFileWriterService {
 	@Autowired
 	private ContratoService contratoService;
 
-	private static final String LINE_END = "\n\r";// System.getProperty("line.terminator");
+	private static final String LINE_END = "\r\n";// System.getProperty("line.terminator");
 
 	public void write(CoParticipacaoContext coParticipacaoContext, ArquivoOutputUi arquivoOutputUi)
 			throws ServiceException {

@@ -868,6 +868,9 @@ create table TB_TITULAR_ISENTO(
 	CD_MES					int( 2 ) not null,
 	CD_ANO					int( 4 ) not null,
 	VL_ISENCAO				numeric( 17, 2 ) null,
+	
+	DT_INICIO				date null,
+	DT_FIM					date null,
 
 	VERSION		bigint( 17 ) null,
 	 
@@ -893,6 +896,9 @@ create table TB_DEPENDENTE_ISENTO(
 	CD_MES					int( 2 ) not null,
 	CD_ANO					int( 4 ) not null,
 	VL_ISENCAO				numeric( 17, 2 ) null,
+	
+	DT_INICIO				date null,
+	DT_FIM					date null,
 	
 	VERSION		bigint( 17 ) null,
 	 

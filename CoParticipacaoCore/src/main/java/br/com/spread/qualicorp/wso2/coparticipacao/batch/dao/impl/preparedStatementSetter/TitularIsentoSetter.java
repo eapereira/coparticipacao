@@ -2,7 +2,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.impl.preparedState
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoEntity;
 
@@ -20,10 +19,13 @@ public class TitularIsentoSetter extends PreparedStatementSetterAdapter<TitularI
 	private static final int COL_VL_ISENCAO = 5;
 	private static final int COL_ID_CONTRATO = 6;
 
-	private static final int COL_USER_CREATED = 7;
-	private static final int COL_USER_ALTERED = 7;
+	private static final int COL_DT_INICIO = 7;
+	private static final int COL_DT_FIM = 8;
 
-	private static final int COL_ID = 8;
+	private static final int COL_USER_CREATED = 9;
+	private static final int COL_USER_ALTERED = 9;
+
+	private static final int COL_ID = 10;
 
 	public TitularIsentoSetter(SetterAdapterType setterAdapterType, TitularIsentoEntity entity) {
 		super(setterAdapterType, entity);
@@ -44,18 +46,17 @@ public class TitularIsentoSetter extends PreparedStatementSetterAdapter<TitularI
 
 	@Override
 	protected void setCommonValues(PreparedStatement ps) throws SQLException {
-		ps.setLong(COL_ID_TITULAR, getEntity().getTitular().getId());
-		ps.setInt(COL_TP_ISENTO, getEntity().getIsentoType().getId());
-		ps.setInt(COL_MES, getEntity().getMes());
-		ps.setInt(COL_ANO, getEntity().getAno());
+		setLong(ps, COL_ID_TITULAR, getEntity().getTitular().getId());
+		setInt(ps, COL_TP_ISENTO, getEntity().getIsentoType().getId());
+		setInt(ps, COL_MES, getEntity().getMes());
+		setInt(ps, COL_ANO, getEntity().getAno());
 
-		if (getEntity().getValorIsencao() != null) {
-			ps.setBigDecimal(COL_VL_ISENCAO, getEntity().getValorIsencao());
-		} else {
-			ps.setNull(COL_VL_ISENCAO, Types.DOUBLE);
-		}
+		setBigDecimal(ps, COL_VL_ISENCAO, getEntity().getValorIsencao());
 
-		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
+		setLong(ps, COL_ID_CONTRATO, getEntity().getContrato().getId());
+
+		setDate(ps, COL_DT_INICIO, getEntity().getDtInicio());
+		setDate(ps, COL_DT_FIM, getEntity().getDtFim());
 	}
 
 }

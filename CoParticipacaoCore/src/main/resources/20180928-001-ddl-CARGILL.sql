@@ -110,7 +110,7 @@ select
 	    end TP_SINAL,	    
 	   	lancamento.VL_PRINCIPAL VL_PRINCIPAL,
 	   	case
-	   		when titular.DT_ADMISSAO <= str_to_date( '01/06/2013', '%d/%M/%Y' ) then lancamento.VL_PRINCIPAL - ( lancamento.VL_PRINCIPAL * 0.20 )
+	   		when titular.DT_ADMISSAO <= str_to_date( '01/06/2013', '%d/%m/%Y' ) then lancamento.VL_PRINCIPAL - ( lancamento.VL_PRINCIPAL * 0.20 )
 	   	else
 	   		lancamento.VL_PRINCIPAL
 	   	end VL_DESCONTO
@@ -122,6 +122,7 @@ select
 	    join TB_EMPRESA empresa on
 			empresa.ID = contrato.ID_EMPRESA        
 	where	empresa.CD_EMPRESA	= 'CARGILL' 
+	and		titular.DT_ADMISSAO >= str_to_date( '01/06/2013', '%d/%m/%Y' )
 	and		titular.NR_MATRICULA not in (
 		select desconhecido.NR_MATRICULA
 		from VW_DESCONHECIDO_CARGILL desconhecido
