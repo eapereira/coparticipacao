@@ -21,7 +21,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.UserRole;
 @Entity
 @Table(name = "TB_ROLE")
 @NamedQuery(name = "RoleEntity.findAll", query = "SELECT l FROM RoleEntity l")
-public class RoleEntity extends Role {
+public class RoleEntity extends Role implements DomainEntity{
 
 	/**
 	 * 

@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 /**
  * 
@@ -58,6 +57,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		httpSecurity.formLogin().loginPage("/index.xhtml").permitAll().successForwardUrl("/pages/home.xhtml")
 				.failureUrl("/index.xhtml?error=true");
 
+		/*
+		httpSecurity.formLogin().  //login configuration
+                loginPage("/index.xhtml").
+                loginProcessingUrl("/login").
+                usernameParameter("username").
+                passwordParameter("password").
+                defaultSuccessUrl("/pages/home.xhtml").
+                failureUrl("/index.xhtml?error=true");*/
+		
 		// logout
 		httpSecurity.logout().logoutSuccessUrl("/index.xhtml");
 

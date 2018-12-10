@@ -8,6 +8,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -30,8 +31,18 @@ public class RequestFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
 			throws IOException, ServletException {
-		// TODO Auto-generated method stub
- 
+		LOGGER.info("BEGIN");
+
+		HttpServletResponse response = (HttpServletResponse) servletRequest;
+
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "GET,POST");
+		response.setHeader("Access-Control-Max-Age", "360");
+		response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+
+		filterChain.doFilter(servletRequest, servletResponse);
+
+		LOGGER.info("END");
 	}
 
 	@Override
