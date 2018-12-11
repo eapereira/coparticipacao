@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FixedLengthProcessorService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -26,7 +26,7 @@ public class FixedLengthProcessorServiceImpl extends AbstractFileProcessorImpl i
 	private static final Logger LOGGER = LogManager.getLogger(FixedLengthProcessorServiceImpl.class);
 
 	@Override
-	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext) throws ArquivoInputException {
 		Map<String, Object> mapLine;
 		String columnValue;
 		int pos = NumberUtils.INTEGER_ZERO;
@@ -51,9 +51,8 @@ public class FixedLengthProcessorServiceImpl extends AbstractFileProcessorImpl i
 			return mapLine;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
+			throw new ArquivoInputException(e);
 		}
-
 	}
 
 	@Override

@@ -11,6 +11,9 @@
 drop view if exists VW_COPARTICIPACAO_LEVEL01_CARGILL;
 drop view if exists VW_COPARTICIPACAO_LEVEL02_CARGILL;
 
+drop view if exists VW_TITULAR_ISENTO_CARGILL;
+drop view if exists VW_DEPENDENTE_ISENTO_CARGILL;
+
 drop view if exists VW_COPARTICIPACAO_CARGILL;
 drop view if exists VW_PRN_CARGILL;
 drop view if exists VW_DESCONHECIDO_CARGILL;
@@ -64,7 +67,29 @@ create view VW_DESCONHECIDO_CARGILL as
 	and		titular.DT_ADMISSAO is null;
 
 /**************************************************************************************************************************/
-	
+
+create view VW_TITULAR_ISENTO_CARGILL as
+select
+	titular.ID ID_TITULAR,
+	titular.NR_MATRICULA,
+	titular.NM_TITULAR
+from TB_TITULAR titular
+	join TB_TITULAR_ISENTO isento on
+		isento.ID_TITULAR = titular.ID
+where current_date( ) between isento.DT_INICIO and isento.DT_FIM;
+
+create view VW_DEPENDENTE_ISENTO_CARGILL as
+select
+	dependente.ID ID_DEPENDENTE,
+	dependente.NR_MATRICULA,
+	dependente.NM_DEPENDENTE
+from TB_DEPENDENTE dependente
+	join TB_DEPENDENTE_ISENTO isento on
+		isento.ID_DEPENDENTE = dependente.ID
+where current_date( ) between isento.DT_INICIO and isento.DT_FIM;
+
+
+/**************************************************************************************************************************/	
 create view VW_COPARTICIPACAO_LEVEL01_CARGILL as
 select
 		empresa.CD_EMPRESA,
@@ -123,10 +148,86 @@ select
 			empresa.ID = contrato.ID_EMPRESA        
 	where	empresa.CD_EMPRESA	= 'CARGILL' 
 	and		titular.DT_ADMISSAO >= str_to_date( '01/06/2013', '%d/%m/%Y' )
+	and		lancamento.ID_DEPENDENTE is null
 	and		titular.NR_MATRICULA not in (
 		select desconhecido.NR_MATRICULA
 		from VW_DESCONHECIDO_CARGILL desconhecido
-		where desconhecido.NR_MATRICULA = titular.NR_MATRICULA );
+		where desconhecido.NR_MATRICULA = titular.NR_MATRICULA )
+	and		titular.ID not in (
+		select
+			isento.ID_TITULAR
+		from VW_TITULAR_ISENTO_CARGILL isento
+		where isento.ID_TITULAR = titular.ID )
+union all
+select
+		empresa.CD_EMPRESA,
+		lancamento.CD_MES,
+		lancamento.CD_ANO,
+		lancamento.ID_CONTRATO,
+		contrato.CD_CONTRATO,
+	    titular.NR_CPF,
+	    titular.NM_TITULAR,
+	    titular.NR_MATRICULA,
+	    titular.NR_MATRICULA_EMPRESA,
+	    'CP32' CD_VERBA,
+	    case 
+	    	when titular.CD_PLANO = 17257 then 1
+	    	when titular.CD_PLANO = 17258 then 2
+	    	when titular.CD_PLANO = 17259 then 3
+	    	when titular.CD_PLANO = 17260 then 4
+	    	when titular.CD_PLANO = 17261 then 1
+	    	when titular.CD_PLANO = 17262 then 2
+	    	when titular.CD_PLANO = 17263 then 3
+	    	when titular.CD_PLANO = 17264 then 4
+	    	when titular.CD_PLANO = 11368 then 4
+	    	when titular.CD_PLANO = 17263 then 3
+	    	else null
+	    end CD_PLANO,
+	    case 
+	    	when titular.CD_PLANO = 17257 then 'BASICO'
+	    	when titular.CD_PLANO = 17258 then 'ESPECIAL 1'
+	    	when titular.CD_PLANO = 17259 then 'ESPECIAL 2'
+	    	when titular.CD_PLANO = 17260 then 'EXECUTIVO'
+	    	when titular.CD_PLANO = 17261 then 'BASICO'
+	    	when titular.CD_PLANO = 17262 then 'ESPECIAL 1'
+	    	when titular.CD_PLANO = 17263 then 'ESPECIAL 2'
+	    	when titular.CD_PLANO = 17264 then 'EXECUTIVO'
+	    	when titular.CD_PLANO = 11368 then 'EXECUTIVO'
+	    	when titular.CD_PLANO = 17263 then 'ESPECIAL 2'
+	    	else null
+	    end NM_PLANO,	    
+	    titular.DT_ADMISSAO,
+	    case
+	    	when lancamento.VL_PRINCIPAL >= 0 then '+'
+	    	else '-'
+	    end TP_SINAL,	    
+	   	lancamento.VL_PRINCIPAL VL_PRINCIPAL,
+	   	case
+	   		when titular.DT_ADMISSAO <= str_to_date( '01/06/2013', '%d/%m/%Y' ) then lancamento.VL_PRINCIPAL - ( lancamento.VL_PRINCIPAL * 0.20 )
+	   	else
+	   		lancamento.VL_PRINCIPAL
+	   	end VL_DESCONTO
+	from TB_LANCAMENTO lancamento
+		join TB_TITULAR titular on
+			titular.ID = lancamento.ID_TITULAR
+	    join TB_CONTRATO contrato on
+			contrato.ID = lancamento.ID_CONTRATO
+	    join TB_EMPRESA empresa on
+			empresa.ID = contrato.ID_EMPRESA
+		join TB_DEPENDENTE dependente on
+			dependente.ID = lancamento.ID_DEPENDENTE        
+	where	empresa.CD_EMPRESA	= 'CARGILL' 
+	and		titular.DT_ADMISSAO >= str_to_date( '01/06/2013', '%d/%m/%Y' )
+	and		lancamento.ID_DEPENDENTE is not null
+	and		dependente.NR_MATRICULA not in (
+		select desconhecido.NR_MATRICULA
+		from VW_DESCONHECIDO_CARGILL desconhecido
+		where desconhecido.NR_MATRICULA = dependente.NR_MATRICULA )
+	and		dependente.ID not in (
+		select
+			isento.ID_DEPENDENTE
+		from VW_DEPENDENTE_ISENTO_CARGILL isento
+		where isento.ID_DEPENDENTE = dependente.ID );
 
 create view VW_COPARTICIPACAO_LEVEL02_CARGILL as
 	select
@@ -202,6 +303,4 @@ create view VW_PRN_CARGILL as
 	    lpad( FUNC_DOUBLE_TO_LONG( cargill.VL_PRINCIPAL ), 15, '0' ) VL_PRINCIPAL,
 	    lpad( FUNC_DOUBLE_TO_LONG( cargill.VL_DESCONTO ), 15, '0' ) VL_DESCONTO
 	from VW_COPARTICIPACAO_LEVEL02_CARGILL cargill;
-	
-	
 	

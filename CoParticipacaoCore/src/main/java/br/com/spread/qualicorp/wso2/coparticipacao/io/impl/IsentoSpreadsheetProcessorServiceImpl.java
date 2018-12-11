@@ -52,12 +52,17 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 							coParticipacaoContext.getCurrentSheet());
 
 					for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetUi.getIsentoInputSheetCols()) {
+						LOGGER.debug(
+								"Checking column[{}] with BeneficiarioIsentoColType[{}]:",
+								isentoInputSheetCols.getArquivoInputColsDef().getNameColumn(),
+								isentoInputSheetCols.getBeneficiarioIsentoColType());
+
 						if (isentoInputSheetCols.getBeneficiarioIsentoColType() != null) {
 							arquivoInputColsDef = isentoInputSheetCols.getArquivoInputColsDef();
 
 							LOGGER.debug("Loading Isento column [{}]", arquivoInputColsDef.getNameColumn());
 
-							cell = row.getCell(isentoInputSheetCols.getOrdem());
+							cell = row.getCell(arquivoInputColsDef.getOrdem());
 
 							if (cell != null) {
 								columnName = arquivoInputColsDef.getNameColumn();

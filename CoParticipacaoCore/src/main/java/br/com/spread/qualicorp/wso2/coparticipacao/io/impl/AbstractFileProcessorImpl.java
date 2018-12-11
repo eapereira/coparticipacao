@@ -49,7 +49,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 	}
 
 	public void readInputStream(CoParticipacaoContext coParticipacaoContext, ProcessorListener processorListener)
-			throws ArquivoInputException {
+			throws ServiceException {
 		BufferedReader bufferedReader;
 		String line;
 		Map<String, Object> mapLine;
@@ -102,7 +102,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new ArquivoInputException(e);
+			throw new ServiceException(e);
 		}
 	}
 
@@ -111,7 +111,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 	}
 
 	protected abstract Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext)
-			throws ServiceException;
+			throws ArquivoInputException;
 
 	protected Object stringToColumnValue(ArquivoInputColsDefUi arquivoInputColsDefUi, String columnValue)
 			throws ServiceException {

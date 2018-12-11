@@ -54,7 +54,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 	private static final String DEFAULT_DATE_FORMAT = "dd/MM/yyyy";
 
 	public void readInputStream(CoParticipacaoContext coParticipacaoContext, ProcessorListener processorListener)
-			throws ArquivoInputException {
+			throws ServiceException {
 		Map<String, Object> mapLine;
 		int currentLine = NumberUtils.INTEGER_ZERO;
 		Workbook workbook;
@@ -177,7 +177,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			throw new ArquivoInputException(e);
+			throw new ServiceException(e);
 		}
 	}
 
@@ -377,7 +377,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 	}
 
 	@Override
-	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext) throws ArquivoInputException {
 		// TODO Auto-generated method stub
 		return null;
 	}

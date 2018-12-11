@@ -281,7 +281,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 				beneficiarioIsentoUi.setDtNascimento((LocalDate) value);
 			} else if (BeneficiarioIsentoColType.TP_ISENTO.equals(beneficiarioIsentoColType)) {
 				if (value instanceof String) {
-					beneficiarioIsentoUi.setIsentoType(IsentoType.parse((String) value));
+					beneficiarioIsentoUi.setIsentoType(IsentoType.parse(((String) value).toUpperCase()));
 				} else {
 					beneficiarioIsentoUi.setIsentoType(IsentoType.parse((Integer) value));
 				}
@@ -296,7 +296,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 			} else if (BeneficiarioIsentoColType.DT_INICIO.equals(beneficiarioIsentoColType)) {
 				beneficiarioIsentoUi.setDtInicio((LocalDate) value);
 			} else if (BeneficiarioIsentoColType.DT_FIM.equals(beneficiarioIsentoColType)) {
-				beneficiarioIsentoUi.setDtFim((LocalDate) value);				
+				beneficiarioIsentoUi.setDtFim((LocalDate) value);
 			}
 
 			LOGGER.info("END");
