@@ -21,11 +21,11 @@ BEGIN
 	DECLARE VAR_CODE CHAR(5) DEFAULT '00000';
   	DECLARE VAR_MSG TEXT;
 								
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
-	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 3;
-	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 4;
-	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 5;	
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;
@@ -206,6 +206,98 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_REF_CODE						bigint( 17 ) default 8;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA			bigint( 17 ) default 10;
 	
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_DF              	 		bigint( 17 ) default 13;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_RDP            	 			bigint( 17 ) default 14;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_LOCAL			 			bigint( 17 ) default 15;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_CATEGORIA         			bigint( 17 ) default 16;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_SETOR          	 			bigint( 17 ) default 17;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_ES                   			bigint( 17 ) default 18;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_PLANO             			bigint( 17 ) default 19;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_DT_INCLUSAO       	 			bigint( 17 ) default 20;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_SEXO           	 			bigint( 17 ) default 21;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_PERMANENCIA          			bigint( 17 ) default 22;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_DT_REF               			bigint( 17 ) default 23;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_BANCO                			bigint( 17 ) default 24;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_AGENCIA              			bigint( 17 ) default 25;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_AGENCIA_DG           			bigint( 17 ) default 26;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CONTA_CORRENTE       			bigint( 17 ) default 27;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF_CC         	 			bigint( 17 ) default 28;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR_CC        			bigint( 17 ) default 29;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_CARDIF     		 			bigint( 17 ) default 30;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_CEP               			bigint( 17 ) default 31;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_LOGRADOURO        			bigint( 17 ) default 32;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_LOGRADOURO        			bigint( 17 ) default 33;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NUM_LOGRADOURO    	 			bigint( 17 ) default 34;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_COMPL                			bigint( 17 ) default 35;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_BAIRRO         	 			bigint( 17 ) default 36;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_MUNICIPIO      	 			bigint( 17 ) default 37;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_UF                   			bigint( 17 ) default 38;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_TEL_RESIDENCIAL      			bigint( 17 ) default 39;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_TEL_COMERCIAL        			bigint( 17 ) default 40;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_TEL_CELULAR          			bigint( 17 ) default 41;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_MAE               			bigint( 17 ) default 42;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_RG                			bigint( 17 ) default 43;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_ORGAO_EMISSAO_RG  			bigint( 17 ) default 44;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_PAIS_RG           			bigint( 17 ) default 45;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_DT_EMISSAO_RG        			bigint( 17 ) default 46;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_UF_RG                			bigint( 17 ) default 47;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_PIS                  			bigint( 17 ) default 48;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CNS                  			bigint( 17 ) default 49;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_EMAIL                			bigint( 17 ) default 50;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_GRAU_ESCOLARIDADE			bigint( 17 ) default 51;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_VL_RENDA_FAMILIAR      		bigint( 17 ) default 52;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_PROFISSAO        			bigint( 17 ) default 53;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_PAIS_ORIGEM      			bigint( 17 ) default 54;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_DT_EXCLUSAO             		bigint( 17 ) default 55;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_MOTIVO_EXCLUSAO      		bigint( 17 ) default 56;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_OPERACAO             		bigint( 17 ) default 57;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_EMPRESA_TITULAR_TRANSF    	bigint( 17 ) default 58;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_TRANSF     		bigint( 17 ) default 59;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_LOCAL_TRANSF         		bigint( 17 ) default 60;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_CATEGORIA_TRANSF     		bigint( 17 ) default 61;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_PLANO_TRANSF         		bigint( 17 ) default 62;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_MOTIVO_REMISSAO         		bigint( 17 ) default 63;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF_NOVO_TITULAR     		bigint( 17 ) default 64;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_QTDE_PERM_MESES         		bigint( 17 ) default 65;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_RDP_NOVO_TITULAR        		bigint( 17 ) default 66;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_DT_INICIO_TRANSF        		bigint( 17 ) default 67;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_STATUS               		bigint( 17 ) default 68;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_ERROR                		bigint( 17 ) default 69;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_DV                   		bigint( 17 ) default 70;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_BLOQ_EMPRESA_INADIMPLENCIA   	bigint( 17 ) default 71;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CPT                           	bigint( 17 ) default 72;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_EMPRESA_TITULAR           	bigint( 17 ) default 73;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_DIF_MATRICULA_TITULAR        	bigint( 17 ) default 74;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_TITULO_ELEITOR             	bigint( 17 ) default 75;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_RIC                       	bigint( 17 ) default 76;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_CERTIDAO_NASCIMENTO        	bigint( 17 ) default 77;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_CARTEIRA_IDENT            	bigint( 17 ) default 78;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IND_SEGURADO_CONTRIBUTARIO    	bigint( 17 ) default 79;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IND_COND_EX_EMPREGADO        	bigint( 17 ) default 80;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IND_PERM_PLANO                	bigint( 17 ) default 81;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_QTDE_MESES_CONTRIB           	bigint( 17 ) default 82;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO_COMPLETO     	bigint( 17 ) default 83;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IND_TITULAR_REMIDO          	bigint( 17 ) default 84;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_EMAIL_SEGURADORA             	bigint( 17 ) default 85;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IND_PORTABILIDADE_01         	bigint( 17 ) default 86;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IND_PORTABILIDADE_02        	bigint( 17 ) default 87;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IND_CARENCIA                	bigint( 17 ) default 88;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_PRODUTO                  	bigint( 17 ) default 89;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CD_IND_PLANO_ANTERIOR_SAS    	bigint( 17 ) default 90;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID01                        	bigint( 17 ) default 91;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID02                         	bigint( 17 ) default 92;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID03                        	bigint( 17 ) default 93;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID04                         	bigint( 17 ) default 94;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID05                        	bigint( 17 ) default 95;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID06                        	bigint( 17 ) default 96;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID07                        	bigint( 17 ) default 97;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID08                         	bigint( 17 ) default 98;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID09                         	bigint( 17 ) default 99;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CID10                         	bigint( 17 ) default 100;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_IBGE                         	bigint( 17 ) default 101;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_CBO                          	bigint( 17 ) default 102;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_DIF_TRANSF                    	bigint( 17 ) default 103;	
+		
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;
 	
@@ -524,7 +616,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_010_CD_PLANO from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_ID_COLUMN_010_CD_PLANO 
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
 	call PROC_LOG_MESSAGE('LINHA - 529');
@@ -798,7 +891,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
 		'COLUMN_021_AGENCIA',
-		VAR_COL_INT,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -807,7 +900,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_021_AGENCIA from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_ID_COLUMN_021_AGENCIA
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
 	call PROC_LOG_MESSAGE('LINHA - 813');
@@ -1232,7 +1326,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_038_NM_MAE from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_ID_COLUMN_038_NM_MAE
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	call PROC_LOG_MESSAGE('LINHA - 1238');
@@ -1257,7 +1352,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_039_NR_RG from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_ID_COLUMN_039_NR_RG
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
 	call PROC_LOG_MESSAGE('LINHA - 1263');
@@ -1524,7 +1620,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_051_CD_PAIS_ORIGEM',
+		'COLUMN_050_CD_PAIS_ORIGEM',
 		VAR_COL_INT,
 		null,
 		VAR_CD_ORDEM,
@@ -1551,7 +1647,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
 		'COLUMN_051_DT_EXCLUSAO',
-		VAR_COL_VARCHAR,
+		VAR_COL_DATE,
 		null,
 		VAR_DT_FORMAT,
 		VAR_CD_ORDEM,
@@ -1876,7 +1972,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
 		'COLUMN_064_CD_STATUS',
-		VAR_COL_INT,
+		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -1885,7 +1981,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_064_CD_STATUS from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_ID_COLUMN_064_CD_STATUS
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	call PROC_LOG_MESSAGE('LINHA - 1891');
@@ -2922,7 +3019,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_REF_CODE,
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_PLANO,
 		VAR_ID_COLUMN_010_CD_PLANO,
 		
 		VAR_ID_USER,
@@ -2931,6 +3028,1480 @@ BEGIN
 	);		
 		
 	call PROC_LOG_MESSAGE('LINHA - 2859');
+	
+call PROC_LOG_MESSAGE('LINHA - 957');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_DF,
+		VAR_ID_COLUMN_004_DF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 973');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_RDP,
+		VAR_ID_COLUMN_005_RDP,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 989');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_LOCAL,
+		VAR_ID_COLUMN_006_NR_LOCAL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1005');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_CATEGORIA,
+		VAR_ID_COLUMN_007_CD_CATEGORIA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1021');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_SETOR,
+		VAR_ID_COLUMN_008_SETOR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1037');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_ES,
+		VAR_ID_COLUMN_009_ES,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1053');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_PLANO,
+		VAR_ID_COLUMN_010_CD_PLANO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1069');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_INCLUSAO,
+		VAR_ID_COLUMN_011_DT_ADESAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1085');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_TP_SEXO,
+		VAR_ID_COLUMN_015_SEXO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1101');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_PERMANENCIA,
+		VAR_ID_COLUMN_016_PERMANENCIA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1117');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_REF,
+		VAR_ID_COLUMN_019_DT_REF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1133');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_BANCO,
+		VAR_ID_COLUMN_020_BANCO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1148');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_AGENCIA,
+		VAR_ID_COLUMN_021_AGENCIA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1165');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_AGENCIA_DG,
+		VAR_ID_COLUMN_022_AGENCIA_DG,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1181');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CONTA_CORRENTE,
+		VAR_ID_COLUMN_023_CONTA_CORRENTE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1197');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF_CC,
+		VAR_ID_COLUMN_024_CPF_CC,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1213');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR_CC,
+		VAR_ID_COLUMN_025_NM_TITULAR_CC,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1229');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_CARDIF,
+		VAR_ID_COLUMN_026_CD_CARDIRF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1245');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CEP,
+		VAR_ID_COLUMN_027_NR_CEP,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1261');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_TP_LOGRADOURO,
+		VAR_ID_COLUMN_028_TP_LOGRADOURO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1277');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_LOGRADOURO,
+		VAR_ID_COLUMN_029_NM_LOGRADOURO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1293');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NUM_LOGRADOURO,
+		VAR_ID_COLUMN_030_NUM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1309');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_COMPL,
+		VAR_ID_COLUMN_031_COMPL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1325');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BAIRRO,
+		VAR_ID_COLUMN_032_BAIRRO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1341');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_MUNICIPIO,
+		VAR_ID_COLUMN_033_MUNICIPIO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1357');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_UF,
+		VAR_ID_COLUMN_034_UF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1373');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_TEL_RESIDENCIAL,
+		VAR_ID_COLUMN_035_TEL_RESIDENCIAL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1389');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_TEL_COMERCIAL,
+		VAR_ID_COLUMN_036_TEL_COMERCIAL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1405');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_TEL_CELULAR,
+		VAR_ID_COLUMN_037_TEL_CELULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1421');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_MAE,
+		VAR_ID_COLUMN_038_NM_MAE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1437');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_RG,
+		VAR_ID_COLUMN_039_NR_RG,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1453');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_ORGAO_EMISSAO_RG,
+		VAR_ID_COLUMN_040_ORGAO_EMISSOR_RG,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1469');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_PAIS_RG,
+		VAR_ID_COLUMN_041_PAIS_RG,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1485');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_EMISSAO_RG,
+		VAR_ID_COLUMN_042_DT_EMISSAO_RG,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1501');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_UF_RG,
+		VAR_ID_COLUMN_043_UF_RG,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1517');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_PIS,
+		VAR_ID_COLUMN_044_PIS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1533');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CNS,
+		VAR_ID_COLUMN_045_CNS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1549');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_EMAIL,
+		VAR_ID_COLUMN_046_EMAIL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1565');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_TP_GRAU_ESCOLARIDADE,
+		VAR_ID_COLUMN_047_GRAU_ESCOLARIDADE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1581');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_VL_RENDA_FAMILIAR,
+		VAR_ID_COLUMN_048_RENDA_FAMILIAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1597');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_PROFISSAO,
+		VAR_ID_COLUMN_049_CD_PROFISSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1613');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_PAIS_ORIGEM,
+		VAR_ID_COLUMN_050_CD_PAIS_ORIGEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1629');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_EXCLUSAO,
+		VAR_ID_COLUMN_051_DT_EXCLUSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1645');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_MOTIVO_EXCLUSAO,
+		VAR_ID_COLUMN_052_CD_MOTIVO_EXCLUSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1661');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_OPERACAO,
+		VAR_ID_COLUMN_053_CD_OPERACAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1677');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_EMPRESA_TITULAR_TRANSF,
+		VAR_ID_COLUMN_054_CD_EMPRESA_TRANSF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1693');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_TRANSF,
+		VAR_ID_COLUMN_055_NR_MATRICULA_TRANSF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1709');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_LOCAL_TRANSF,
+		VAR_ID_COLUMN_056_NR_LOCAL_TRANSF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1725');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_CATEGORIA_TRANSF,
+		VAR_ID_COLUMN_057_NR_CATEGORIA_TRANSF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1741');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_PLANO_TRANSF,
+		VAR_ID_COLUMN_058_CD_PLANO_TRANSF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1757');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_MOTIVO_REMISSAO,
+		VAR_ID_COLUMN_059_MOTIVO_REMISSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1773');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF_NOVO_TITULAR,
+		VAR_ID_COLUMN_060_NR_CPF_NOVO_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1789');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_QTDE_PERM_MESES,
+		VAR_ID_COLUMN_061_QTDE_PERM_MESES,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1805');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_RDP_NOVO_TITULAR,
+		VAR_ID_COLUMN_062_RDP_NOVO_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1821');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_INICIO_TRANSF,
+		VAR_ID_COLUMN_063_DT_INICIO_TRANSF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1837');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_STATUS,
+		VAR_ID_COLUMN_064_CD_STATUS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1853');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_ERROR,
+		VAR_ID_COLUMN_065_CD_ERROR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1869');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_DV,
+		VAR_ID_COLUMN_066_CD_DV,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1885');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_BLOQ_EMPRESA_INADIMPLENCIA,
+		VAR_ID_COLUMN_067_BLOQ_EMPRESA_INADIMPLENCIA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1901');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CPT,
+		VAR_ID_COLUMN_068_CPT,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1917');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_EMPRESA_TITULAR,
+		VAR_ID_COLUMN_069_CD_EMPRESA_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1933');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DIF_MATRICULA_TITULAR,
+		VAR_ID_COLUMN_071_DIF_MATRICULA_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1949');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_TITULO_ELEITOR,
+		VAR_ID_COLUMN_072_NR_TITULO_ELEITOR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1965');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_RIC,
+		VAR_ID_COLUMN_073_NR_RIC,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 1981');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CERTIDAO_NASCIMENTO,
+		VAR_ID_COLUMN_074_NR_CERTIDAO_NASCIMENTO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 1997');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CARTEIRA_IDENT,
+		VAR_ID_COLUMN_075_NR_CARTEIRA_IDENT,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2013');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IND_SEGURADO_CONTRIBUTARIO,
+		VAR_ID_COLUMN_076_IND_SEGURADO_CONTRIBUTARIO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2829');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IND_COND_EX_EMPREGADO,
+		VAR_ID_COLUMN_077_IND_COND_EX_EMPREGADO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2845');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IND_PERM_PLANO,
+		VAR_ID_COLUMN_078_IND_PERM_PLANO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2861');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_QTDE_MESES_CONTRIB,
+		VAR_ID_COLUMN_079_QTDE_MESES_CONTRIB,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2877');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO_COMPLETO,
+		VAR_ID_COLUMN_080_NM_BENEFICIARIO_COMPLETO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2893');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IND_TITULAR_REMIDO,
+		VAR_ID_COLUMN_081_IND_TITULAR_REMIDO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2109');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_EMAIL_SEGURADORA,
+		VAR_ID_COLUMN_082_EMAIL_SEGURADORA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2125');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IND_PORTABILIDADE_01,
+		VAR_ID_COLUMN_083_IND_PORTABILIDADE_01,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2141');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IND_PORTABILIDADE_02,
+		VAR_ID_COLUMN_084_IND_PORTABILIDADE_02,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2157');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IND_CARENCIA,
+		VAR_ID_COLUMN_085_IND_CARENCIA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2173');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_PRODUTO,
+		VAR_ID_COLUMN_086_CD_PRODUTO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2189');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CD_IND_PLANO_ANTERIOR_SAS,
+		VAR_ID_COLUMN_087_CD_IND_PRODUTO_ANTERIOR_SAS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2205');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID01,
+		VAR_ID_COLUMN_088_CID01,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2221');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID02,
+		VAR_ID_COLUMN_089_CID02,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2237');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID03,
+		VAR_ID_COLUMN_090_CID03,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2253');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID04,
+		VAR_ID_COLUMN_091_CID04,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2269');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID05,
+		VAR_ID_COLUMN_092_CID05,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2285');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID06,
+		VAR_ID_COLUMN_093_CID06,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2301');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID07,
+		VAR_ID_COLUMN_094_CID07,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2317');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID08,
+		VAR_ID_COLUMN_095_CID08,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2333');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID09,
+		VAR_ID_COLUMN_096_CID09,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+
+	call PROC_LOG_MESSAGE('LINHA - 2349');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CID10,
+		VAR_ID_COLUMN_097_CID10,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2365');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_IBGE,
+		VAR_ID_COLUMN_098_IBGE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+	
+	call PROC_LOG_MESSAGE('LINHA - 2381');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_CBO,
+		VAR_ID_COLUMN_099_CBO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+
+	call PROC_LOG_MESSAGE('LINHA - 2397');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DIF_TRANSF,
+		VAR_ID_COLUMN_100_DIF_TRANSF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+		
+	call PROC_LOG_MESSAGE( 'LINHA - 2527' );
+    insert into TB_BENEFICIARIO_COLS(
+        CD_BENEFICIARIO_COLS_DEF,
+        ID_ARQUIVO_INPUT_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO,
+        VAR_ID_COLUMN_002_CD_EMPRESA,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+	call PROC_LOG_MESSAGE('LINHA - 4391');	    	
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	call PROC_UPDATE_SCRIPT( VAR_NM_SCRIPT );

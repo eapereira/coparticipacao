@@ -10,6 +10,7 @@ drop view if exists VW_COPARTICIPACAO_ABBVIE_LEVEL01;
 
 drop view if exists VW_DESCONHECIDO_ABBVIE;
 drop view if exists VW_DESCONHECIDO_LEVEL01_ABBVIE;
+drop view if exists VW_DESCONHECIDO_LEVEL02_ABBVIE;
 drop view if exists VW_MENORES_12_MESES_ABBVIE;
 /*****************************************************************************************************************/
 
@@ -178,6 +179,8 @@ select
     copa.VL_PRINCIPAL
 from VW_COPARTICIPACAO_ABBVIE copa;
 
+/*****************************************************************************************************************/
+
 create view VW_DESCONHECIDO_LEVEL01_ABBVIE as
 select
 	desconhecido.CD_MES,
@@ -186,9 +189,29 @@ select
     desconhecido.NR_MATRICULA,
     desconhecido.NR_CPF,
     desconhecido.NM_BENEFICIARIO,
+    desconhecido.NM_TITULAR,
     desconhecido.DT_ADMISSAO,
     desconhecido.NR_MATRICULA_EMPRESA
 from TB_DESCONHECIDO desconhecido
+	join TB_CONTRATO contrato on
+		contrato.ID = desconhecido.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA	
+where	empresa.CD_EMPRESA = 'ABBVIE';
+
+
+create view VW_DESCONHECIDO_LEVEL02_ABBVIE as
+select
+	desconhecido.CD_MES,
+    desconhecido.CD_ANO,
+    desconhecido.ID_CONTRATO,
+    desconhecido.NR_MATRICULA,
+    desconhecido.NR_CPF,
+    desconhecido.NM_BENEFICIARIO,
+    desconhecido.NM_TITULAR,
+    desconhecido.DT_ADMISSAO,
+    desconhecido.NR_MATRICULA_EMPRESA
+from VW_DESCONHECIDO_LEVEL01_ABBVIE desconhecido
 union all
 select
 	lancamento.CD_MES,
@@ -197,6 +220,7 @@ select
     titular.NR_MATRICULA,
     titular.NR_CPF,
     titular.NM_TITULAR NM_BENEFICIARIO,
+    titular.NM_TITULAR,
     titular.DT_ADMISSAO,
     titular.NR_MATRICULA_EMPRESA
 from TB_LANCAMENTO lancamento
@@ -218,11 +242,15 @@ select
     dependente.NR_MATRICULA,
     dependente.NR_CPF,
     dependente.NM_DEPENDENTE NM_BENEFICIARIO,
+    titular.NM_TITULAR,
     null DT_ADMISSAO,
     dependente.NR_MATRICULA_EMPRESA
 from TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
 	join TB_DEPENDENTE dependente on
-	dependente.ID = lancamento.ID_DEPENDENTE
+		dependente.ID 			= lancamento.ID_DEPENDENTE and
+		dependente.ID_TITULAR	= lancamento.ID_TITULAR
 	join TB_CONTRATO contrato on
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
@@ -238,9 +266,10 @@ select
     desconhecido.NR_MATRICULA,
     desconhecido.NR_CPF,
     desconhecido.NM_BENEFICIARIO,
+    desconhecido.NM_TITULAR,
     desconhecido.DT_ADMISSAO,
     desconhecido.NR_MATRICULA_EMPRESA
-from VW_DESCONHECIDO_LEVEL01_ABBVIE desconhecido
+from VW_DESCONHECIDO_LEVEL02_ABBVIE desconhecido
 order by desconhecido.NM_BENEFICIARIO;
 
 /*****************************************************************************************************************/

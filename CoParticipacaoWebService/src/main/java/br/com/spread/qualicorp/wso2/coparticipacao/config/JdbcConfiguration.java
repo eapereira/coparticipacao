@@ -32,6 +32,8 @@ public class JdbcConfiguration {
 
 	private static final String CO_PARTICIPACAO_DS = "jdbc/CoparticipacaoJdbcDS";
 
+	private static final long QUERY_TIMEOUT = 2700000l;
+	
 	@Bean(name = "jdbcTransactionManager")
 	public DataSourceTransactionManager dataSourceTransactionManager(
 			@Qualifier("jdbcDataSource") DataSource dataSourceJdbc) throws CoParticipacaoException {
@@ -66,7 +68,13 @@ public class JdbcConfiguration {
 			dataSource = dataSourceLookup.getDataSource(CO_PARTICIPACAO_DS);
 
 			hikariConfig = new HikariConfig();
-			hikariConfig.setDataSource(dataSource);
+			hikariConfig.setDataSource(dataSource);			
+			hikariConfig.setPoolName("JPA-DataSource");
+			hikariConfig.setConnectionTimeout(QUERY_TIMEOUT);
+			hikariConfig.setIdleTimeout(QUERY_TIMEOUT);
+			hikariConfig.setMaxLifetime(QUERY_TIMEOUT);
+			hikariConfig.setValidationTimeout(QUERY_TIMEOUT);
+			
 			hikariDataSource = new HikariDataSource(hikariConfig);
 
 			LOGGER.info("END");

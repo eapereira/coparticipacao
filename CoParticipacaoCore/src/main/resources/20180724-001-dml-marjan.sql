@@ -23,17 +23,21 @@ BEGIN
 								
   	declare VAR_CD_ORDEM					int( 3 ) default 0;
   	
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
-	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 3;
-	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 4;	
-	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 5;
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;
 	declare VAR_COL_DATE					int( 3 ) default 4;
 	declare VAR_COL_LONG					int( 3 ) default 5;
 	declare VAR_COL_DOUBLE					int( 3 ) default 2;
+	
+	declare VAR_TP_REPORT_QUERY_BY_CONTRATO_AND_PERIODO		int( 3 ) default 0;
+	declare VAR_TP_REPORT_QUERY_BY_PERIODO_ONLY				int( 3 ) default 1;
+	declare VAR_TP_REPORT_QUERY_BY_CD_CONTRATO				int( 3 ) default 2;
 	
 	declare VAR_ARQUIVO_TYPE_FLATFILE		int( 3 ) default 1;
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
@@ -98,6 +102,8 @@ BEGIN
 	declare VAR_ID_VIEW_DESTINATION_GESTANTE							bigint( 17 );
 	declare VAR_ID_VIEW_DESTINATION_ESTAGIARIO							bigint( 17 );
 	declare VAR_ID_VIEW_DESTINATION_FILHOS								bigint( 17 );
+	declare VAR_ID_VIEW_DESTINATION_DIRETORIA							bigint( 17 );
+    declare VAR_ID_VIEW_DESTINATION_DEMITIDO							bigint( 17 );
 	
 	declare VAR_COL_VIEW_LENGTH_ID_TITULAR								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
@@ -166,9 +172,12 @@ BEGIN
 		CD_AUTOMATIC_CREATE_TITULAR,
 		CD_SEARCH_DEPENDENTES_NONAME,
 		CD_OUTPUT_REPORT_DIR,
+        CD_FAILURE_DIR,
+        CD_OUTPUT_DIR,
         CD_INPUT_DIR,
         TP_SAVE_MECSAS_DETAIL,
-		TP_SAVE_BENEFICIARIO_DETAIL,		
+		TP_SAVE_BENEFICIARIO_DETAIL,
+		TP_REPORT_QUERY,		
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -181,8 +190,11 @@ BEGIN
 		VAR_TRUE,
 		'/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/marjan/',
         '/home/eapereira/desenv/work/coparticipacao/input/',
+        '/home/eapereira/desenv/work/coparticipacao/failure/',
+        '/home/eapereira/desenv/work/coparticipacao/output/',
         VAR_FALSE,
         VAR_FALSE,		
+        VAR_TP_REPORT_QUERY_BY_CD_CONTRATO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -197,7 +209,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -219,7 +231,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -241,7 +253,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -263,7 +275,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-        TP_USO,
+        TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -285,7 +297,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-        TP_USO,
+        TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -307,7 +319,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-        TP_USO,
+        TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -329,7 +341,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -351,7 +363,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-	    TP_USO,
+	    TP_USE,
 	    CD_SPREADSHEET_ALL_PAGES,
 	    
 		USER_CREATED, 
@@ -903,7 +915,277 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);		
+	
+	/*****************************************************************************************************************************************************/
 	    	
+	call PROC_LOG_MESSAGE('LINHA - 172');
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_ISENTOS_DIRETORIA_MARJAN',
+		'Diretória',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_VIEW_DESTINATION_DIRETORIA from TB_VIEW_DESTINATION;
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DIRETORIA,
+		'NR_MATRICULA_TITULAR',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_ID_TITULAR,
+		1,
+		'ID TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DIRETORIA,
+		'NM_TITULAR',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_TITULAR,
+		2,
+		'NOME TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DIRETORIA,
+		'NR_MATRICULA_DEPENDENTE',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_ID_DEPENDENTE,
+		3,
+		'ID DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+		
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DIRETORIA,
+		'NM_DEPENDENTE',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_DEPENDENTE,
+		4,
+		'NOME DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DIRETORIA,
+		'VL_PRINCIPAL',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_VL_PRINCIPAL,
+		5,
+		'VALOR PRINCIPAL',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+
+	call PROC_LOG_MESSAGE('LINHA - 301');
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_DEMITIDO_MARJAN',
+		'Demitidos',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_VIEW_DESTINATION_DEMITIDO from TB_VIEW_DESTINATION;
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DEMITIDO,
+		'NR_MATRICULA_TITULAR',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_ID_TITULAR,
+		1,
+		'ID TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DEMITIDO,
+		'NM_TITULAR',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_TITULAR,
+		2,
+		'NOME TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DEMITIDO,
+		'NR_MATRICULA_DEPENDENTE',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_ID_DEPENDENTE,
+		3,
+		'ID DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+		
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DEMITIDO,
+		'NM_DEPENDENTE',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_DEPENDENTE,
+		4,
+		'NOME DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION_DEMITIDO,
+		'VL_PRINCIPAL',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_VL_PRINCIPAL,
+		5,
+		'VALOR PRINCIPAL',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+		    	
+	call PROC_LOG_MESSAGE('LINHA - 1174');
     /***********************************************************************************************************************************************/
     /* NAO LOCALIZADOS */
 	

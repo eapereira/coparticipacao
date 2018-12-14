@@ -21,17 +21,24 @@ BEGIN
 	DECLARE VAR_CODE CHAR(5) DEFAULT '00000';
   	DECLARE VAR_MSG TEXT;
 								
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	
 	declare VAR_CD_ORDEM					int( 3 ) default 0;
-	declare VAR_DT_FORMAT					varchar( 40 ) default 'dd/MM/yyyy';
+	declare VAR_DT_FORMAT					varchar( 40 ) default 'ddMMyyyy';
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;
 	declare VAR_COL_DATE					int( 3 ) default 4;
 	declare VAR_COL_LONG					int( 3 ) default 5;
 	declare VAR_COL_DOUBLE					int( 3 ) default 2;
+	
+	declare VAR_TP_REPORT_QUERY_BY_CONTRATO_AND_PERIODO		int( 3 ) default 0;
+	declare VAR_TP_REPORT_QUERY_BY_PERIODO_ONLY				int( 3 ) default 1;
+	declare VAR_TP_REPORT_QUERY_BY_CD_CONTRATO				int( 3 ) default 2;
 	
 	declare VAR_ARQUIVO_TYPE_FLATFILE		int( 3 ) default 1;
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
@@ -95,12 +102,18 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NM_DEPENDENTE							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
 
-	declare VAR_COL_LANCAMENTO_ID_DEPENDENTE							bigint( 17 ) default 1;
+	declare VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE					bigint( 17 ) default 1;
 	declare VAR_COL_LANCAMENTO_ID_CONTRATO								bigint( 17 ) default 2;
 	declare VAR_COL_LANCAMENTO_CD_MES									bigint( 17 ) default 3;
 	declare VAR_COL_LANCAMENTO_CD_ANO									bigint( 17 ) default 4;
 	declare VAR_COL_LANCAMENTO_VL_PRINCIPAL								bigint( 17 ) default 5;
-	declare VAR_COL_LANCAMENTO_DT_MOVTO									bigint( 17 ) default 6;
+	declare VAR_COL_LANCAMENTO_DT_MOVIMENTO								bigint( 17 ) default 6;
+	declare VAR_COL_LANCAMENTO_TP_VALOR									bigint( 17 ) default 7;
+	declare VAR_COL_LANCAMENTO_NR_MATRICULA_TITULAR						bigint( 17 ) default 8;
+	declare VAR_COL_LANCAMENTO_NR_CPF									bigint( 17 ) default 9;	
+	declare VAR_COL_LANCAMENTO_NM_BENEFICIARIO							bigint( 17 ) default 10;
+	declare VAR_COL_LANCAMENTO_NM_TITULAR								bigint( 17 ) default 11;
+	declare VAR_COL_LANCAMENTO_DT_NASCIMENTO							bigint( 17 ) default 12;
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
     
@@ -591,8 +604,8 @@ BEGIN
 		DT_ALTERED 
 	) values (
 		VAR_ID_LANCAMENTO_INPUT,
-		VAR_COL_LANCAMENTO_ID_DEPENDENTE,
-		VAR_ID_COLUMN_12_NR_CPF,
+		VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE,
+		VAR_ID_COLUMN_05_NR_MATRICULA_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -653,6 +666,60 @@ BEGIN
 		current_timestamp()	
 	);	
 	
+ call PROC_LOG_MESSAGE('LINHA - 299');
+    insert into TB_LANCAMENTO_INPUT_COLS (
+        ID_LANCAMENTO_INPUT,
+        ID_ARQUIVO_INPUT_COLS_DEF,
+        CD_LANCAMENTO_COLS_DEF,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_COLUMN_12_NR_CPF,
+		VAR_COL_LANCAMENTO_NR_CPF,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()	
+    );
+
+    call PROC_LOG_MESSAGE('LINHA - 335');
+    insert into TB_LANCAMENTO_INPUT_COLS (
+        ID_LANCAMENTO_INPUT,
+        ID_ARQUIVO_INPUT_COLS_DEF,
+        CD_LANCAMENTO_COLS_DEF,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_COLUMN_04_NR_MATRICULA_TITULAR,
+		VAR_COL_LANCAMENTO_NR_MATRICULA_TITULAR,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()	
+    );
+
+    call PROC_LOG_MESSAGE('LINHA - 353');
+    insert into TB_LANCAMENTO_INPUT_COLS (
+        ID_LANCAMENTO_INPUT,
+        ID_ARQUIVO_INPUT_COLS_DEF,
+        CD_LANCAMENTO_COLS_DEF,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_LANCAMENTO_INPUT,
+		VAR_ID_COLUMN_06_NM_DEPENDENTE,
+		VAR_COL_LANCAMENTO_NM_BENEFICIARIO,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()	
+    );
+    	
 	call PROC_LOG_MESSAGE('LINHA - 617');
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/

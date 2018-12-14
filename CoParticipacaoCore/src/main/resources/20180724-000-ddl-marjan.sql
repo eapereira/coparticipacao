@@ -327,16 +327,16 @@ select
 	marjan.NM_DEPENDENTE,
 	marjan.VL_PRINCIPAL
 from VW_COPARTICIPACAO_MARJAN marjan
-where marjan.ID_TITULAR not in (
+where marjan.ID_DEPENDENTE is null
+and ( marjan.ID_TITULAR not in (
 	select
 		demitido.ID_TITULAR
 	from VW_TITULAR_DEMITIDO_MARJAN demitido
     where	demitido.ID_TITULAR = marjan.ID_TITULAR )
-and marjan.ID_DEPENDENTE is null
 and marjan.ID_TITULAR not in ( 
 	select 	isento.ID_TITULAR
 	from 	TB_TITULAR_ISENTO isento
-	where	isento.ID_TITULAR = marjan.ID_TITULAR )
+	where	isento.ID_TITULAR = marjan.ID_TITULAR ))
 union all
 select 
 	marjan.CD_MES,
@@ -353,19 +353,19 @@ select
 	marjan.VL_PRINCIPAL
 from VW_COPARTICIPACAO_MARJAN marjan
 where marjan.ID_DEPENDENTE is not null
-and marjan.ID_TITULAR not in ( 
+and ( marjan.ID_TITULAR not in ( 
 	select 	isento.ID_TITULAR
 	from 	TB_TITULAR_ISENTO isento
-	where	isento.ID_TITULAR = marjan.ID_TITULAR ) and
-marjan.ID_DEPENDENTE not in ( 
+	where	isento.ID_TITULAR = marjan.ID_TITULAR ) 
+and marjan.ID_DEPENDENTE not in ( 
 	select 	isento.ID_DEPENDENTE
 	from 	TB_DEPENDENTE_ISENTO isento
-	where	isento.ID_DEPENDENTE = marjan.ID_DEPENDENTE ) and
-marjan.ID_TITULAR not in (
+	where	isento.ID_DEPENDENTE = marjan.ID_DEPENDENTE )
+and marjan.ID_TITULAR not in (
 	select
 		demitido.ID_TITULAR
 	from VW_TITULAR_DEMITIDO_MARJAN demitido
-    where	demitido.ID_TITULAR = marjan.ID_TITULAR );
+    where	demitido.ID_TITULAR = marjan.ID_TITULAR ));
 
 create view VW_COPARTICIPACAO_TELA_MARJAN as
 select 

@@ -21,10 +21,11 @@ BEGIN
 	DECLARE VAR_CODE CHAR(5) DEFAULT '00000';
   	DECLARE VAR_MSG TEXT;
 								
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
-	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 3;
-	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 4;
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;
@@ -62,7 +63,7 @@ BEGIN
 	declare VAR_COLUMN_10_CD_PLANO					bigint( 17 );
 	declare VAR_COLUMN_11_CD_CENTRO_CUSTO			bigint( 17 );
 	declare VAR_COLUMN_12_NM_CENTRO_CUSTO			bigint( 17 );	
-	declare VAR_COLUMN_13_CD_DEMISSAO				bigint( 17 );
+	declare VAR_COLUMN_13_DT_DEMISSAO				bigint( 17 );
 					
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_CONTRATO						bigint( 17 ) default 0;
 	
@@ -471,8 +472,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_13_CD_DEMISSAO',
-		VAR_COL_VARCHAR,
+		'COLUMN_13_DT_DEMISSAO',
+		VAR_COL_DATE,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -481,7 +482,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_13_CD_DEMISSAO from TB_ARQUIVO_INPUT_COLS_DEF;
+	select max( ID ) into VAR_COLUMN_13_DT_DEMISSAO 
+	from TB_ARQUIVO_INPUT_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	/*****************************************************************************************************************************************************/
@@ -600,6 +602,22 @@ BEGIN
 		current_timestamp()		
 	);
 	
+	call PROC_LOG_MESSAGE('LINHA - 146'); 	
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_DEMISSAO,
+		VAR_COLUMN_13_DT_DEMISSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+		
 	call PROC_LOG_MESSAGE('LINHA - 617');
 	
 	/*****************************************************************************************************************************************************/	

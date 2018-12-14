@@ -96,6 +96,9 @@ drop table if exists TB_USER_ROLE;
 drop table if exists TB_ROLE;
 drop table if exists TB_USER;
 
+
+drop view if exists VW_TITULAR_RESUMO;
+drop view if exists VW_DEPENDENTE_RESUMO;
 /*****************************************************************************************************************************************************/
 
 create table TB_USER(
@@ -113,7 +116,9 @@ create table TB_USER(
 	DT_CREATED		timestamp not null,
 	DT_ALTERED		timestamp not null,
 	
-	constraint PK_USER primary key( ID )
+	constraint PK_USER primary key( ID ),
+	
+	constraint UN_USER unique key ( NM_LOGIN )	
 );
 
 create table TB_ROLE(
@@ -159,7 +164,8 @@ create table TB_USER_ROLE(
 
 create table TB_OPERADORA(
 	ID 					bigint( 17 ) auto_increment,
-	NM_OPERADORA		varchar( 200 ) not null,
+	NM_OPERADORA		varchar( 80 ) not null,
+	CD_OPERADORA 		varchar( 20 ) null,
 	CD_ENABLED			int( 1 ) not null default 1,
 	
 	VERSION		bigint( 17 ) null,
@@ -171,7 +177,8 @@ create table TB_OPERADORA(
 	
 	constraint PK_OPERADORA primary key( ID ),
 	
-	constraint UN_OPERADORA unique key( NM_OPERADORA ),
+	constraint UN_OPERADORA_01 unique key( NM_OPERADORA ),
+	constraint UN_OPERADORA_02 unique key( CD_OPERADORA ),
 	
 	constraint FK_OPERADORA_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_OPERADORA_02 foreign key( USER_ALTERED ) references TB_USER( ID )
@@ -181,7 +188,15 @@ create table TB_EMPRESA(
 	ID 					bigint( 17 ) auto_increment,
 	ID_OPERADORA		bigint( 17 ) not null,
 	NM_EMPRESA			varchar( 200 ) not null,
-	CD_EMPRESA			varchar( 200 ) not null,
+	CD_EMPRESA 			varchar( 40 ) not null,
+	
+	TP_EXTERNAL_PROCESS 					int( 1 ) not null default 0,
+	
+	/**
+	 * 0 - QUERY_BY_CONTRATO		- Usar ID_CONTRATO nas queryes p/ criar as planilhas de saída;
+	 * 1 - QUERY_BY_PERIODO_ONLY	- Usar apenas mês e ano;
+	 */
+	TP_REPORT_QUERY int( 3 ) null,
 	
 	CD_AUTOMATIC_CREATE_BENEFICIARIO		int( 3 ) not null default 0,
 	CD_INPUT_DIR 							varchar( 800 ) not null,
@@ -194,6 +209,9 @@ create table TB_EMPRESA(
 	CD_USE_JASPER_REPORTS					int( 3 ) not null default 0, /* informa se a Empresa utiliza para criar os relatórios o JasperReports */
 	CD_UPDATE_BENEFICIARIO_FROM_FATUCOPA	int( 3 ) not null default 0, /* informa se o processo pode atualizar os dados do beneficiário com os valores do arquivo de coparticipação: */
 	
+	CD_FAILURE_DIR	varchar( 800 ) not null,
+	CD_OUTPUT_DIR	varchar( 800 ) not null,
+		
 	CD_ENABLED								int( 1 ) not null default 1,
 	
 	TP_SAVE_MECSAS_DETAIL					int( 1 ) not null,
@@ -215,37 +233,16 @@ create table TB_EMPRESA(
 	constraint FK_EMPRESA_03 foreign key( ID_OPERADORA ) references TB_OPERADORA( ID )
 );
 
-create table TB_PARAMETER(
-	ID 					bigint( 17 ) auto_increment,
-	
-	ID_EMPRESA			bigint( 17 ) not null,
-	NM_PARAMETER		varchar( 200 ) not null,
-	VL_PARAMETER		varchar( 4000 ) not null,
-	
-	VERSION		bigint( 17 ) null,
-	 
-	USER_CREATED		bigint( 17 ) not null,
-	USER_ALTERED 		bigint( 17 ),
-	DT_CREATED			timestamp not null,
-	DT_ALTERED			timestamp not null,
-	
-	constraint PK_PARAMETER primary key( ID ),
-	
-	constraint UN_PARAMETER unique key( ID_EMPRESA, NM_PARAMETER ),
-	
-	constraint FK_PARAMETER_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_PARAMETER_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_PARAMETER_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )	
-);
-
 create table TB_CONTRATO(
 	ID 					bigint( 17 ) auto_increment,
 	ID_EMPRESA			bigint( 17 ) not null,
 	CD_CONTRATO			varchar( 60 ) not null,
 	NM_CONTRATO			varchar( 60 ) not null,
 	DESCR_CONTRATO		varchar( 400 ) not null,
-	TP_USO				int( 3 ) not null,
-	
+	TP_USE				int( 3 ) not null,
+
+	ID_CONTRATO_PARENT bigint( 17 ) null,
+			
 	/* notifica o processo para ler todas as pastas de uma planilha de entrada */
 	CD_SPREADSHEET_ALL_PAGES	int( 3 ) null, 
 	CD_DISPLAY_OUTPUT_RESULT 	int( 1 ) not null default 1,
@@ -263,7 +260,8 @@ create table TB_CONTRATO(
 	
 	constraint FK_CONTRATO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_CONTRATO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_CONTRATO_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )
+	constraint FK_CONTRATO_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID ),
+	constraint FK_CONTRATO_04 foreign key ( ID_CONTRATO_PARENT ) references TB_CONTRATO( ID )
 );
 
 /*****************************************************************************************************************************************************/
@@ -374,6 +372,8 @@ create table TB_ARQUIVO_OUTPUT(
 	NM_ARQUIVO_FORMAT	varchar( 200 ) not null, /* pode colocar {CC} = contrato, {DD} para dia, {MM} para mês e {YYYY} para ano */
 	DESCR_ARQUIVO		varchar( 200 ) not null,
 	
+	TP_ARQUIVO int( 3 ) not null,
+	
 	VERSION				bigint( 17 ) null,
 	 
 	USER_CREATED		bigint( 17 ) not null,
@@ -382,8 +382,8 @@ create table TB_ARQUIVO_OUTPUT(
 	DT_ALTERED			timestamp not null,	
 	
 	constraint PK_ARQUIVO_OUTPUT primary key( ID ),
-	
-	constraint UN_ARQUIVO_OUTPUT unique key( ID_ARQUIVO_INPUT ),
+		
+	constraint UN_ARQUIVO_OUTPUT unique key( ID_ARQUIVO_INPUT, TP_ARQUIVO ),
 	
 	constraint FK_ARQUIVO_OUTPUT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_OUTPUT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
@@ -395,6 +395,8 @@ create table TB_ARQUIVO_OUTPUT_SHEET(
 	ID_ARQUIVO_OUTPUT	bigint( 17 ) not null,
 	ID_VIEW_DESTINATION	bigint( 17 ) not null,
 	NM_SHEET			varchar( 60 ) not null,
+	
+	CD_ORDEM int( 3 ) null,
 	
 	VERSION		bigint( 17 ) null,
  
@@ -413,8 +415,27 @@ create table TB_ARQUIVO_OUTPUT_SHEET(
 	constraint FK_ARQUIVO_OUTPUT_SHEET_04 foreign key( ID_VIEW_DESTINATION ) references TB_VIEW_DESTINATION( ID )
 );
 
+create table TB_EXECUCAO(
+	ID					bigint( 17 ) auto_increment,
+	ID_EMPRESA			bigint( 17 ) not null,
+	TP_STATUS			int( 3 ) not null,
+	
+	VERSION				bigint( 17 ) null,	
+	USER_CREATED		bigint( 17 ) not null,
+	USER_ALTERED 		bigint( 17 ),
+	DT_CREATED			timestamp not null,
+	DT_ALTERED			timestamp not null,
+	
+	constraint PK_EXECUCAO primary key( ID ),
+	
+	constraint FK_EXECUCAO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_EXECUCAO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_EXECUCAO_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )
+);
+
 create table TB_ARQUIVO_EXECUCAO(
 	ID 					bigint( 17 ) auto_increment,
+	ID_EXECUCAO 		bigint( 17 ) not null,
 	ID_CONTRATO			bigint( 17 ) not null,
 	CD_MES				int( 2 ) not null,
 	CD_ANO				int( 4 ) not null,
@@ -425,6 +446,7 @@ create table TB_ARQUIVO_EXECUCAO(
 	DT_STARTED			timestamp null,
 	DT_FINNISHED		timestamp null,
 	DESCR_ERROR_MESSAGE	TEXT null,
+	
 	
 	VERSION				bigint( 17 ) null,
  
@@ -439,7 +461,8 @@ create table TB_ARQUIVO_EXECUCAO(
 	
 	constraint FK_ARQUIVO_EXECUCAO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_EXECUCAO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_EXECUCAO_03 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID )
+	constraint FK_ARQUIVO_EXECUCAO_03 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID ),
+	constraint FK_ARQUIVO_EXECUCAO_04 foreign key( ID_EXECUCAO ) references TB_EXECUCAO( ID )
 );
 
 /*****************************************************************************************************************************************************/
@@ -450,7 +473,8 @@ create table TB_ARQUIVO_EXECUCAO(
  
 create table TB_REGRA (
 	ID 					bigint( 17 ) auto_increment,
-	NM_REGRA			varchar( 400 ) not null,
+	NM_REGRA 			varchar( 40 ) not null,
+	DESCR_REGRA 		varchar( 400 ) null,
 	TP_REGRA			int( 3 ) not null, /* 1 = SIMPLES; 2 = CONDICIONAL */
 	CD_ORDEM			int( 3 ) not null,
 	ID_ARQUIVO_INPUT 	bigint( 17 ) not null,
@@ -668,7 +692,7 @@ create table TB_REGRA_CONDITIONAL_RESULT(
  
 create table TB_TITULAR(
 	ID 						bigint( 17 ) auto_increment,
-	ID_EMPRESA				bigint( 17 ) not null,
+	ID_CONTRATO 			bigint( 17 ) not null,
 	NR_MATRICULA			bigint( 17 ) not null,
 	NR_MATRICULA_EMPRESA	bigint( 17 ) null,
 	NM_TITULAR				varchar( 200 ) CHARACTER SET latin1 COLLATE latin1_bin not null,
@@ -680,6 +704,110 @@ create table TB_TITULAR(
 	NM_LABEL				varchar( 400 ) null,
 	NR_REF_CODE				bigint( 17 ) null,
 	
+    NR_DF              	int( 3 ) null,
+    NR_RDP            	int( 3 ) null,
+    NR_LOCAL			int( 3 ) null,
+    CD_CATEGORIA        bigint( 17 ) null,
+    NM_SETOR          	varchar( 60 ) null,
+    ES                  varchar( 10 ) null,
+    CD_PLANO            varchar( 20 ) null,
+    DT_INCLUSAO       	date null,
+    TP_SEXO           	char( 1 ) null,
+    PERMANENCIA         varchar( 10 ) null,
+    DT_REF              date null,
+    BANCO               int( 3 ),
+    AGENCIA             varchar( 60 ) null,
+    AGENCIA_DG          varchar( 5 ) null,
+    CONTA_CORRENTE      varchar( 60 ) null,
+    NR_CPF_CC         	bigint( 17 ) null,
+    NM_TITULAR_CC       varchar( 200 ) null,
+    CD_CARDIF     		varchar( 40 ) null,
+    NR_CEP              int( 8 ),
+    TP_LOGRADOURO       varchar( 40 ) null,
+    NM_LOGRADOURO       varchar( 200 ) null,
+    NUM_LOGRADOURO    	varchar( 10 ) null,
+    COMPL               varchar( 20 ) null,
+    NM_BAIRRO         	varchar( 60 ) null,
+    NM_MUNICIPIO      	varchar( 80 ) null,
+    UF                  char( 2 ) null,
+    TEL_RESIDENCIAL     	bigint( 17 ) null,
+    TEL_COMERCIAL       	bigint( 17 ) null,
+    TEL_CELULAR         	bigint( 17 ) null,
+    NM_MAE              	varchar( 200 ) null,
+    NR_RG               	varchar( 16 ) null,
+    NM_ORGAO_EMISSAO_RG    	varchar( 60 ) null,
+    NM_PAIS_RG             	varchar( 80 ) null,
+    DT_EMISSAO_RG       	date null,
+    UF_RG               	char( 2 ) null,
+    PIS                 	varchar( 80 ) null,
+    CNS                 	varchar( 60 ) null,
+    EMAIL               	varchar( 80 ) null,
+    TP_GRAU_ESCOLARIDADE			int ( 3 ) null,
+    VL_RENDA_FAMILIAR      			numeric( 17, 2 ) null,
+    CD_PROFISSAO        			int( 3 ) null,
+    CD_PAIS_ORIGEM      			int( 3 ) null,
+    DT_EXCLUSAO             		date null,
+    CD_MOTIVO_EXCLUSAO      		varchar( 60 ) null,
+    CD_OPERACAO             		int( 3 ) null,
+    CD_EMPRESA_TITULAR_TRANSF       int( 3 ) null,
+    NR_MATRICULA_TRANSF     		bigint( 17 ) null,
+    NR_LOCAL_TRANSF         		int( 3 ) null,
+    CD_CATEGORIA_TRANSF     		bigint( 17 ) null,
+    CD_PLANO_TRANSF         		int( 5 ) null,
+    MOTIVO_REMISSAO         		varchar( 60 ) null,
+    NR_CPF_NOVO_TITULAR     		bigint( 17 ) null,
+    QTDE_PERM_MESES         		int( 3 ) null,
+    RDP_NOVO_TITULAR        		int( 3 ) null,
+    DT_INICIO_TRANSF        		date null,
+    CD_STATUS               		int( 3 ) null,
+    CD_ERROR                		int( 3 ) null,
+    CD_DV                   		int( 3 ) null,
+    BLOQ_EMPRESA_INADIMPLENCIA      varchar( 60 ) null,
+    CPT                             varchar( 60 ) null,
+    CD_EMPRESA_TITULAR              int( 5 ) null,
+    DIF_MATRICULA_TITULAR           varchar( 60 ) null,
+    NR_TITULO_ELEITOR               varchar( 80 ) null,
+    NR_RIC                          varchar( 60 ) null,
+    NR_CERTIDAO_NASCIMENTO          varchar( 200 ) null,
+    NR_CARTEIRA_IDENT               varchar( 60 ) null,
+    IND_SEGURADO_CONTRIBUTARIO      varchar( 60 ) null,
+    IND_COND_EX_EMPREGADO           varchar( 60 ) null,
+    IND_PERM_PLANO                  varchar( 60 ) null,
+    QTDE_MESES_CONTRIB              int( 3 ) null,
+    NM_BENEFICIARIO_COMPLETO        varchar( 200 ) null,
+    IND_TITULAR_REMIDO              varchar( 60 ) null,
+    EMAIL_SEGURADORA                varchar( 80 ) null,
+    IND_PORTABILIDADE_01            varchar( 60 ) null,
+    IND_PORTABILIDADE_02            varchar( 60 ) null,
+    IND_CARENCIA                    varchar( 60 ) null,
+    CD_PRODUTO                      int( 5 ) null,
+    CD_IND_PLANO_ANTERIOR_SAS     	varchar( 60 ) null,
+    CID01                           varchar( 10 ) null,
+    CID02                           varchar( 10 ) null,
+    CID03                           varchar( 10 ) null,
+    CID04                           varchar( 10 ) null,
+    CID05                           varchar( 10 ) null,
+    CID06                           varchar( 10 ) null,
+    CID07                           varchar( 10 ) null,
+    CID08                           varchar( 10 ) null,
+    CID09                           varchar( 10 ) null,
+    CID10                           varchar( 10 ) null,
+    IBGE                            varchar( 10 ) null,
+    CBO                             varchar( 10 ) null,
+    DIF_TRANSF                      varchar( 10 ) null,
+
+	VL_FATOR_MODERADOR 		numeric( 17, 2 ) null,
+	VL_FATOR_MODERADOR_INSS numeric( 17, 2 ) null,
+	DESCR_PROFISSAO			varchar( 80 ) null,
+	NR_MATRICULA_ESPECIAL	varchar( 20 ) null,
+	NR_SUBFATURA			int( 10 ) null,
+	VL_INSS					numeric( 17, 2 ) null,
+	VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
+	VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null,
+	IND_EVENTO				int( 5 ) null,
+	CD_USUARIO				varchar( 20 ) null,
+	NR_CERTIFICADO			bigint( 17 ) null,
+    	
 	VERSION					bigint( 17 ) null,
 	 
 	USER_CREATED			bigint( 17 ) not null,
@@ -689,39 +817,12 @@ create table TB_TITULAR(
 	
 	constraint PK_TITULAR primary key( ID ),
 	
+	constraint UN_TITULAR_01 unique key ( ID_CONTRATO, NR_MATRICULA ),
+	
 	constraint FK_TITULAR_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TITULAR_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_TITULAR_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )
+	constraint FK_TITULAR_03 foreign key ( ID_CONTRATO ) references TB_CONTRATO( ID )
 );
-
-create table TB_TITULAR_DETAIL(
-	ID 							bigint( 17 ) auto_increment,
-	ID_TITULAR					bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
-	
-	VL_DOUBLE					numeric( 17, 2 ) null,
-	VL_INT						int( 10 ) null,
-	VL_DATE						date null,
-	VL_LONG						bigint( 17 ) null,
-	VL_STRING					varchar( 500 ),
-	
-	VERSION						bigint( 17 ) null,
-	 
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,		
-	
-	constraint PK_TITULAR_DETAIL primary key( ID ),
-	
-	constraint UN_TITULAR_DETAIL unique key( ID_TITULAR, ID_ARQUIVO_INPUT_COLS_DEF ),
-	
-	constraint FK_TITULAR_DETAIL_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_TITULAR_DETAIL_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_TITULAR_DETAIL_03 foreign key( ID_TITULAR ) references TB_TITULAR( ID ),
-	constraint FK_TITULAR_DETAIL_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
-);
-
 
 create table TB_DEPENDENTE(
 	ID 						bigint( 17 ) auto_increment,
@@ -736,6 +837,110 @@ create table TB_DEPENDENTE(
 	NM_LABEL				varchar( 400 ) null,
 	NR_REF_CODE				bigint( 17 ) null,
 	
+    NR_DF              	int( 3 ) null,
+    NR_RDP            	int( 3 ) null,
+    NR_LOCAL			int( 3 ) null,
+    CD_CATEGORIA        bigint( 17 ) null,
+    NM_SETOR          	varchar( 60 ) null,
+    ES                  varchar( 10 ) null,
+    CD_PLANO            varchar( 20 ) null,
+    DT_INCLUSAO       	date null,
+    TP_SEXO           	char( 1 ) null,
+    PERMANENCIA         varchar( 10 ) null,
+    DT_REF              date null,
+    BANCO               int( 3 ),
+    AGENCIA             varchar( 60 ) null,
+    AGENCIA_DG          varchar( 5 ) null,
+    CONTA_CORRENTE      varchar( 60 ) null,
+    NR_CPF_CC         	bigint( 17 ) null,
+    NM_TITULAR_CC       varchar( 200 ) null,
+    CD_CARDIF     		varchar( 40 ) null,
+    NR_CEP              int( 8 ),
+    TP_LOGRADOURO       varchar( 40 ) null,
+    NM_LOGRADOURO       varchar( 200 ) null,
+    NUM_LOGRADOURO    	varchar( 10 ) null,
+    COMPL               varchar( 20 ) null,
+    NM_BAIRRO         	varchar( 60 ) null,
+    NM_MUNICIPIO      	varchar( 80 ) null,
+    UF                  char( 2 ) null,
+    TEL_RESIDENCIAL     	bigint( 17 ) null,
+    TEL_COMERCIAL       	bigint( 17 ) null,
+    TEL_CELULAR         	bigint( 17 ) null,
+    NM_MAE              	varchar( 200 ) null,
+    NR_RG               	varchar( 16 ) null,
+    NM_ORGAO_EMISSAO_RG    	varchar( 60 ) null,
+    NM_PAIS_RG             	varchar( 80 ) null,
+    DT_EMISSAO_RG       	date null,
+    UF_RG               	char( 2 ) null,
+    PIS                 	varchar( 80 ) null,
+    CNS                 	varchar( 60 ) null,
+    EMAIL               	varchar( 80 ) null,
+    TP_GRAU_ESCOLARIDADE			int ( 3 ) null,
+    VL_RENDA_FAMILIAR      			numeric( 17, 2 ) null,
+    CD_PROFISSAO        			int( 3 ) null,
+    CD_PAIS_ORIGEM      			int( 3 ) null,
+    DT_EXCLUSAO             		date null,
+    CD_MOTIVO_EXCLUSAO      		varchar( 60 ) null,
+    CD_OPERACAO             		int( 3 ) null,
+    CD_EMPRESA_TITULAR_TRANSF       int( 3 ) null,
+    NR_MATRICULA_TRANSF     		bigint( 17 ) null,
+    NR_LOCAL_TRANSF         		int( 3 ) null,
+    CD_CATEGORIA_TRANSF     		bigint( 17 ) null,
+    CD_PLANO_TRANSF         		int( 5 ) null,
+    MOTIVO_REMISSAO         		varchar( 60 ) null,
+    NR_CPF_NOVO_TITULAR     		bigint( 17 ) null,
+    QTDE_PERM_MESES         		int( 3 ) null,
+    RDP_NOVO_TITULAR        		int( 3 ) null,
+    DT_INICIO_TRANSF        		date null,
+    CD_STATUS               		int( 3 ) null,
+    CD_ERROR                		int( 3 ) null,
+    CD_DV                   		int( 3 ) null,
+    BLOQ_EMPRESA_INADIMPLENCIA      varchar( 60 ) null,
+    CPT                             varchar( 60 ) null,
+    CD_EMPRESA_TITULAR              int( 5 ) null,
+    DIF_MATRICULA_TITULAR           varchar( 60 ) null,
+    NR_TITULO_ELEITOR               varchar( 80 ) null,
+    NR_RIC                          varchar( 60 ) null,
+    NR_CERTIDAO_NASCIMENTO          varchar( 200 ) null,
+    NR_CARTEIRA_IDENT               varchar( 60 ) null,
+    IND_SEGURADO_CONTRIBUTARIO      varchar( 60 ) null,
+    IND_COND_EX_EMPREGADO           varchar( 60 ) null,
+    IND_PERM_PLANO                  varchar( 60 ) null,
+    QTDE_MESES_CONTRIB              int( 3 ) null,
+    NM_BENEFICIARIO_COMPLETO        varchar( 200 ) null,
+    IND_TITULAR_REMIDO              varchar( 60 ) null,
+    EMAIL_SEGURADORA                varchar( 80 ) null,
+    IND_PORTABILIDADE_01            varchar( 60 ) null,
+    IND_PORTABILIDADE_02            varchar( 60 ) null,
+    IND_CARENCIA                    varchar( 60 ) null,
+    CD_PRODUTO                      int( 5 ) null,
+    CD_IND_PLANO_ANTERIOR_SAS     	varchar( 60 ) null,
+    CID01                           varchar( 10 ) null,
+    CID02                           varchar( 10 ) null,
+    CID03                           varchar( 10 ) null,
+    CID04                           varchar( 10 ) null,
+    CID05                           varchar( 10 ) null,
+    CID06                           varchar( 10 ) null,
+    CID07                           varchar( 10 ) null,
+    CID08                           varchar( 10 ) null,
+    CID09                           varchar( 10 ) null,
+    CID10                           varchar( 10 ) null,
+    IBGE                            varchar( 10 ) null,
+    CBO                             varchar( 10 ) null,
+    DIF_TRANSF                      varchar( 10 ) null,
+    	
+	VL_FATOR_MODERADOR 		numeric( 17, 2 ) null,
+	VL_FATOR_MODERADOR_INSS numeric( 17, 2 ) null,
+	DESCR_PROFISSAO			varchar( 80 ) null,
+	NR_MATRICULA_ESPECIAL	varchar( 20 ) null,
+	NR_SUBFATURA			int( 10 ) null,
+	VL_INSS					numeric( 17, 2 ) null,
+	VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
+	VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null,
+	IND_EVENTO				int( 5 ) null,
+	CD_USUARIO				varchar( 20 ) null,
+	NR_CERTIFICADO			bigint( 17 ) null,
+    	
 	VERSION					bigint( 17 ) null,
  
 	USER_CREATED			bigint( 17 ) not null,
@@ -753,34 +958,60 @@ create table TB_DEPENDENTE(
 	constraint FK_DEPENDENTE_03 foreign key( ID_TITULAR ) references TB_TITULAR( ID )
 );
 
-create table TB_DEPENDENTE_DETAIL(
+/**************************************************************************************************************************************************/
+	
+create table TB_ARQUIVO_INPUT_SHEET(
 	ID 							bigint( 17 ) auto_increment,
-	ID_DEPENDENTE				bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
 	
-	VL_DOUBLE					numeric( 17, 2 ) null,
-	VL_INT						int( 10 ) null,
-	VL_DATE						date null,
-	VL_LONG						bigint( 17 ) null,
-	VL_STRING					varchar( 500 ),
+	ID_ARQUIVO_INPUT			bigint( 17 ) not null,		
+	CD_SHEET					int( 3 ) not null,
+	ID_CONTRATO					bigint( 17 ) null, /* Se não existir o CD_CONTRATO dentro do arquivo, podesse chumbar um padrão para todos os registros */
 	
-	VERSION		bigint( 17 ) null,
+	VERSION						bigint( 17 ) null,
+	USER_CREATED				bigint( 17 ) not null,
+	USER_ALTERED 				bigint( 17 ),
+	DT_CREATED					timestamp not null,
+	DT_ALTERED					timestamp not null,
+	
+	constraint PK_ARQUIVO_INPUT_SHEET primary key( ID ),
+	
+	constraint UN_ARQUIVO_INPUT_SHEET_01 unique key( ID_ARQUIVO_INPUT, CD_SHEET ),
+	
+	constraint FK_ARQUIVO_INPUT_SHEET_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_ARQUIVO_INPUT_SHEET_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_ARQUIVO_INPUT_SHEET_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID ),
+	constraint FK_ARQUIVO_INPUT_SHEET_04 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID )
+);
+
+create table TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+	ID 							bigint( 17 ) auto_increment,
+	ID_ARQUIVO_INPUT_SHEET		bigint( 17 ) not null,
+	
+	NM_COLUMN					varchar( 60 ) not null,
+	CD_TYPE						int( 3 ) not null, 	/* 0 = INT, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
+	VL_LENGTH					int( 5 ) null, 		/* arquivos CSV nao precisa de tamanho de coluna */
+	CD_ORDEM					int( 3 ) not null,
+	CD_FORMAT					varchar( 200 ) null, /* Para usar com datas e números */
+	CD_LOCALE_PATTERN			varchar( 200 ) null, /* Para usar com datas e números */
+	CD_RESTRICTED_VALUE			varchar( 40 ) null,
+	
+	VERSION						bigint( 17 ) null,
 	 
 	USER_CREATED				bigint( 17 ) not null,
 	USER_ALTERED 				bigint( 17 ),
 	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,		
+	DT_ALTERED					timestamp not null,
 	
-	constraint PK_DEPENDENTE_DETAIL primary key( ID ),
+	constraint PK_ARQUIVO_INPUT_SHEET_COLS_DEF primary key( ID ),
 	
-	constraint UN_DEPENDENTE_DETAIL unique key( ID_DEPENDENTE, ID_ARQUIVO_INPUT_COLS_DEF ),
+	constraint UN_ARQUIVO_INPUT_SHEET_COLS_DEF_01 unique key( ID_ARQUIVO_INPUT_SHEET, NM_COLUMN ),
 	
-	constraint FK_DEPENDENTE_DETAIL_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_DEPENDENTE_DETAIL_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_DEPENDENTE_DETAIL_03 foreign key( ID_DEPENDENTE ) references TB_DEPENDENTE( ID ),
-	constraint FK_DEPENDENTE_DETAIL_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
-);
+	constraint FK_ARQUIVO_INPUT_SHEET_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_ARQUIVO_INPUT_SHEET_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_ARQUIVO_INPUT_SHEET_COLS_DEF_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
+);	
 
+/**************************************************************************************************************************************************/
 
 create table TB_LANCAMENTO(
 	ID 						bigint( 17 ) auto_increment,
@@ -791,6 +1022,11 @@ create table TB_LANCAMENTO(
 	CD_ANO					int( 4 ) not null,
 	VL_PRINCIPAL			numeric( 17, 2 ) null,
 	
+	VL_REEMBOLSO			numeric( 17, 2 ) null,
+	VL_PARTICIPACAO			numeric( 17, 2 ) null,	
+	DT_UTILIZACAO			date null,
+	DESCR_UTILIZACAO		varchar( 200 ) null,
+			
 	VERSION		bigint( 17 ) null,
 	 
 	USER_CREATED			bigint( 17 ) not null,
@@ -806,35 +1042,6 @@ create table TB_LANCAMENTO(
 	constraint FK_LANCAMENTO_04 foreign key( ID_DEPENDENTE ) references TB_DEPENDENTE( ID ),
 	constraint FK_LANCAMENTO_05 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID )
 );
-
-create table TB_LANCAMENTO_DETAIL(
-	ID 							bigint( 17 ) auto_increment,
-	ID_LANCAMENTO				bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
-	
-	VL_DOUBLE					numeric( 17, 2 ) null,
-	VL_INT						int( 10 ) null,
-	VL_DATE						date null,
-	VL_LONG						bigint( 17 ) null,
-	VL_STRING					varchar( 500 ),
-	
-	VERSION		bigint( 17 ) null,
-	 
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,		
-	
-	constraint PK_LANCAMENTO_DETAIL primary key( ID ),
-	
-	constraint UN_LANCAMENTO_DETAIL unique key( ID_LANCAMENTO, ID_ARQUIVO_INPUT_COLS_DEF ),
-	
-	constraint FK_LANCAMENTO_DETAIL_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_LANCAMENTO_DETAIL_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_LANCAMENTO_DETAIL_03 foreign key( ID_LANCAMENTO ) references TB_LANCAMENTO( ID ),
-	constraint FK_LANCAMENTO_DETAIL_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
-);
-
 
 create table TB_LANCAMENTO_COLS_DEF(
 	ID 						bigint( 17 ) auto_increment,
@@ -857,6 +1064,71 @@ create table TB_LANCAMENTO_COLS_DEF(
 	constraint FK_LANCAMENTO_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID )
 );
 
+create table TB_LANCAMENTO_INPUT_SHEET(
+	ID 						bigint( 17 ) auto_increment,
+	ID_ARQUIVO_INPUT_SHEET	bigint( 17 ) not null,
+	
+	VERSION					bigint( 17 ) null,
+	
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,
+	
+	constraint PK_LANCAMENTO_INPUT_SHEET primary key( ID ),
+	
+	constraint UN_INPUT_LANCAMNETO_01 unique key( ID_ARQUIVO_INPUT_SHEET ),
+	
+	constraint FK_LANCAMENTO_INPUT_SHEET_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_LANCAMENTO_INPUT_SHEET_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_LANCAMENTO_INPUT_SHEET_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
+);
+
+create table TB_LANCAMENTO_INPUT_SHEET_COLS(
+	ID 								bigint( 17 ) auto_increment,
+	ID_LANCAMENTO_INPUT_SHEET		bigint( 17 ) not null,
+	CD_LANCAMENTO_COLS_DEF			int( 3 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+	
+	VERSION					bigint( 17 ) null,
+ 
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,
+	
+	constraint PK_LANCAMENTO_INPUT_SHEET_COLS primary key( ID ),
+	
+	constraint UN_INPUT_LANCAMNETO_COLS_01 unique key( CD_LANCAMENTO_COLS_DEF, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
+	
+	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_03 foreign key( ID_LANCAMENTO_INPUT_SHEET ) references TB_LANCAMENTO_INPUT_SHEET( ID ),
+	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+);
+
+create table TB_SUBFATURA(
+	ID 						bigint( 17 ) auto_increment,
+	ID_EMPRESA				bigint( 17 ) not null,
+	NR_SUBFATURA			int( 5 ) not null,
+	NM_SUBFATURA			varchar( 80 ) not null,
+
+	VERSION					bigint( 17 ) null,
+ 
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,
+	
+	constraint PK_SUBFATURA primary key( ID ),
+	
+	constraint UN_SUBFATURA_01 unique key( ID_EMPRESA, NR_SUBFATURA ),
+	
+	constraint FK_SUBFATURA_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_SUBFATURA_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_SUBFATURA_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )	
+);
+
 /***********************************************************************************************************************/
 /* Isento */
 
@@ -864,6 +1136,7 @@ create table TB_TITULAR_ISENTO(
 	ID 						bigint( 17 ) auto_increment,
 	ID_TITULAR				bigint( 17 ) not null,
 	TP_ISENTO				int( 3 ) not null, /* */
+	ID_CONTRATO				bigint( 17 ) not null,
 
 	CD_MES					int( 2 ) not null,
 	CD_ANO					int( 4 ) not null,
@@ -881,17 +1154,19 @@ create table TB_TITULAR_ISENTO(
 	
 	constraint PK_TITULAR_ISENTO primary key( ID ),
 	
-	constraint UN_TITULAR_ISENTO unique key ( ID_TITULAR, CD_MES, CD_ANO ),
+	constraint UN_TITULAR_ISENTO unique key ( ID_TITULAR, CD_MES, CD_ANO, TP_ISENTO ),
 	
 	constraint FK_TITULAR_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TITULAR_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_TITULAR_ISENTO_03 foreign key( ID_TITULAR ) references TB_TITULAR( ID )
+	constraint FK_TITULAR_ISENTO_03 foreign key( ID_TITULAR ) references TB_TITULAR( ID ),
+	constraint FK_TITULAR_ISENTO_04 foreign key ( ID_CONTRATO ) references TB_CONTRATO( ID )
 );
 
 create table TB_DEPENDENTE_ISENTO(
 	ID 						bigint( 17 ) auto_increment,
 	ID_DEPENDENTE			bigint( 17 ) not null,
 	TP_ISENTO				int( 3 ) not null, /* 1 = GRAVIDA,  */
+	ID_CONTRATO				bigint( 17 ) not null,
 
 	CD_MES					int( 2 ) not null,
 	CD_ANO					int( 4 ) not null,
@@ -906,14 +1181,15 @@ create table TB_DEPENDENTE_ISENTO(
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
 	DT_ALTERED				timestamp not null,		
-	
+		
 	constraint PK_DEPENDENTE_ISENTO primary key( ID ),
 	
-	constraint UN_DEPENDENTE_ISENTO unique key ( ID_DEPENDENTE, CD_MES, CD_ANO ),
+	constraint UN_DEPENDENTE_ISENTO unique key ( ID_DEPENDENTE, CD_MES, CD_ANO, TP_ISENTO ),	
 	
 	constraint FK_DEPENDENTE_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_DEPENDENTE_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_DEPENDENTE_ISENTO_03 foreign key( ID_DEPENDENTE ) references TB_DEPENDENTE( ID )
+	constraint FK_DEPENDENTE_ISENTO_03 foreign key( ID_DEPENDENTE ) references TB_DEPENDENTE( ID ),
+	constraint FK_DEPENDENTE_ISENTO_04 foreign key ( ID_CONTRATO ) references TB_CONTRATO( ID )
 );
 
 create table TB_TITULAR_ISENTO_COLS_DEF(
@@ -1110,6 +1386,112 @@ create table TB_DESCONHECIDO(
 	
 	NR_MATRICULA_EMPRESA		bigint( 17 ) null,
 	
+    NR_DF              	int( 3 ) null,
+    NR_RDP            	int( 3 ) null,
+    NR_LOCAL			int( 3 ) null,
+    CD_CATEGORIA        bigint( 17 ) null,
+    NM_SETOR          	varchar( 60 ) null,
+    ES                  varchar( 10 ) null,
+    CD_PLANO            varchar( 20 ) null,
+    DT_INCLUSAO       	date null,
+    TP_SEXO           	char( 1 ) null,
+    PERMANENCIA         varchar( 10 ) null,
+    DT_REF              date null,
+    BANCO               int( 3 ),
+    AGENCIA             varchar( 60 ) null,
+    AGENCIA_DG          varchar( 5 ) null,
+    CONTA_CORRENTE      varchar( 60 ) null,
+    NR_CPF_CC         	bigint( 17 ) null,
+    NM_TITULAR_CC       varchar( 200 ) null,
+    CD_CARDIF     		varchar( 40 ) null,
+    NR_CEP              int( 8 ),
+    TP_LOGRADOURO       varchar( 40 ) null,
+    NM_LOGRADOURO       varchar( 200 ) null,
+    NUM_LOGRADOURO    	varchar( 10 ) null,
+    COMPL               varchar( 20 ) null,
+    NM_BAIRRO         	varchar( 60 ) null,
+    NM_MUNICIPIO      	varchar( 80 ) null,
+    UF                  char( 2 ) null,
+    TEL_RESIDENCIAL     	bigint( 17 ) null,
+    TEL_COMERCIAL       	bigint( 17 ) null,
+    TEL_CELULAR         	bigint( 17 ) null,
+    NM_MAE              	varchar( 200 ) null,
+    NR_RG               	varchar( 16 ) null,
+    NM_ORGAO_EMISSAO_RG    	varchar( 60 ) null,
+    NM_PAIS_RG             	varchar( 80 ) null,
+    DT_EMISSAO_RG       	date null,
+    UF_RG               	char( 2 ) null,
+    PIS                 	varchar( 80 ) null,
+    CNS                 	varchar( 60 ) null,
+    EMAIL               	varchar( 80 ) null,
+    TP_GRAU_ESCOLARIDADE			int ( 3 ) null,
+    VL_RENDA_FAMILIAR      			numeric( 17, 2 ) null,
+    CD_PROFISSAO        			int( 3 ) null,
+    CD_PAIS_ORIGEM      			int( 3 ) null,
+    DT_EXCLUSAO             		date null,
+    CD_MOTIVO_EXCLUSAO      		varchar( 60 ) null,
+    CD_OPERACAO             		int( 3 ) null,
+    CD_EMPRESA_TITULAR_TRANSF       int( 3 ) null,
+    NR_MATRICULA_TRANSF     		bigint( 17 ) null,
+    NR_LOCAL_TRANSF         		int( 3 ) null,
+    CD_CATEGORIA_TRANSF     		bigint( 17 ) null,
+    CD_PLANO_TRANSF         		int( 5 ) null,
+    MOTIVO_REMISSAO         		varchar( 60 ) null,
+    NR_CPF_NOVO_TITULAR     		bigint( 17 ) null,
+    QTDE_PERM_MESES         		int( 3 ) null,
+    RDP_NOVO_TITULAR        		int( 3 ) null,
+    DT_INICIO_TRANSF        		date null,
+    CD_STATUS               		int( 3 ) null,
+    CD_ERROR                		int( 3 ) null,
+    CD_DV                   		int( 3 ) null,
+    BLOQ_EMPRESA_INADIMPLENCIA      varchar( 60 ) null,
+    CPT                             varchar( 60 ) null,
+    CD_EMPRESA_TITULAR              int( 5 ) null,
+    DIF_MATRICULA_TITULAR           varchar( 60 ) null,
+    NR_TITULO_ELEITOR               varchar( 80 ) null,
+    NR_RIC                          varchar( 60 ) null,
+    NR_CERTIDAO_NASCIMENTO          varchar( 200 ) null,
+    NR_CARTEIRA_IDENT               varchar( 60 ) null,
+    IND_SEGURADO_CONTRIBUTARIO      varchar( 60 ) null,
+    IND_COND_EX_EMPREGADO           varchar( 60 ) null,
+    IND_PERM_PLANO                  varchar( 60 ) null,
+    QTDE_MESES_CONTRIB              int( 3 ) null,
+    NM_BENEFICIARIO_COMPLETO        varchar( 200 ) null,
+    IND_TITULAR_REMIDO              varchar( 60 ) null,
+    EMAIL_SEGURADORA                varchar( 80 ) null,
+    IND_PORTABILIDADE_01            varchar( 60 ) null,
+    IND_PORTABILIDADE_02            varchar( 60 ) null,
+    IND_CARENCIA                    varchar( 60 ) null,
+    CD_PRODUTO                      int( 5 ) null,
+    CD_IND_PLANO_ANTERIOR_SAS     	varchar( 60 ) null,
+    CID01                           varchar( 10 ) null,
+    CID02                           varchar( 10 ) null,
+    CID03                           varchar( 10 ) null,
+    CID04                           varchar( 10 ) null,
+    CID05                           varchar( 10 ) null,
+    CID06                           varchar( 10 ) null,
+    CID07                           varchar( 10 ) null,
+    CID08                           varchar( 10 ) null,
+    CID09                           varchar( 10 ) null,
+    CID10                           varchar( 10 ) null,
+    IBGE                            varchar( 10 ) null,
+    CBO                             varchar( 10 ) null,
+    DIF_TRANSF                      varchar( 10 ) null,    
+    	
+	VL_FATOR_MODERADOR 		numeric( 17, 2 ) null,
+	VL_FATOR_MODERADOR_INSS numeric( 17, 2 ) null,
+	DESCR_PROFISSAO			varchar( 80 ) null,
+	NR_MATRICULA_ESPECIAL	varchar( 20 ) null,
+	NR_SUBFATURA			int( 10 ) null,
+	VL_INSS					numeric( 17, 2 ) null,
+	VL_ALIQUOTA_INSS		numeric( 17, 2 ) null,
+	VL_LIQUIDO_SINISTRO		numeric( 17, 2 ) null,
+	IND_EVENTO				int( 5 ) null,
+	CD_USUARIO				varchar( 20 ) null,
+	NR_CERTIFICADO			bigint( 17 ) null,
+	DT_UTILIZACAO			date null,
+	DESCR_UTILIZACAO		varchar( 200 ) null,
+    	
 	VERSION		bigint( 17 ) null,
 	 
 	USER_CREATED				bigint( 17 ) not null,
@@ -1185,7 +1567,8 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO_SHEET(
 create table TB_BENEFICIARIO_COLS(
 	ID 							bigint( 17 ) auto_increment,	
 	CD_BENEFICIARIO_COLS_DEF	int( 3 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF bigint( 17 ) null,
+	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) null,
 	
 	VERSION						bigint( 17 ) null,
  
@@ -1200,6 +1583,7 @@ create table TB_BENEFICIARIO_COLS(
 	
 	constraint FK_BENEFICIARIO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_BENEFICIARIO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_BENEFICIARIO_COLS_03 foreign key ( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID ),
 	constraint FK_BENEFICIARIO_COLS_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
 );
 
@@ -1282,6 +1666,107 @@ create table TB_ISENTO_INPUT_SHEET_COLS(
 
 );
 
+create table TB_EXTERNAL_PROCESS(
+	ID 							bigint( 17 ) auto_increment,
+	ID_EMPRESA					bigint( 17 ) not null,
+	
+	CD_REGEXP_ARQUIVO_INPUT		varchar( 200 ) not null,
+	CD_REGEXP_ARQUIVO_OUTPUT	varchar( 200 ) not null,
+	        
+	VERSION		bigint( 17 ) null,
+	 
+	USER_CREATED		bigint( 17 ) not null,
+	USER_ALTERED 		bigint( 17 ),
+	DT_CREATED			timestamp not null,
+	DT_ALTERED			timestamp not null,
+	
+	constraint PK_EXTERNAL_PROCESS primary key( ID ),
+	
+	constraint UN_EXTERNAL_PROCESS unique key( ID_EMPRESA ),
+	
+	constraint FK_EXTERNAL_PROCESS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_EXTERNAL_PROCESS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_EXTERNAL_PROCESS_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )	
+);
+
+/**
+ * edson - 11/10/2018
+ */
+
+create table TB_REPORT(
+	ID 					bigint( 17 ) auto_increment,	
+	NM_REPORT			varchar( 60 ) not null,
+	DESCR_REPORT		varchar( 200 ) not null,
+	NM_OUTPUT_FORMAT	varchar( 200 ) not null,
+	
+	ID_EMPRESA			bigint( 17 ) not null,
+        
+	VERSION				bigint( 17 ) null,	 
+	USER_CREATED		bigint( 17 ) not null,
+	USER_ALTERED 		bigint( 17 ),
+	DT_CREATED			timestamp not null,
+	DT_ALTERED			timestamp not null,
+	
+	constraint PK_REPORT primary key( ID ),
+	
+	constraint UN_REPORT unique key( NM_REPORT ),
+	
+	constraint FK_REPORT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REPORT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REPORT_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )
+ 
+);
+
+/*****************************************************************************************************************************************************/
+
+/**
+ * Edson - 25/09/2018
+ */
+
+create view VW_TITULAR_RESUMO as
+select
+	titular.ID,
+	titular.NR_MATRICULA,
+	titular.NR_CPF,
+    titular.ID_CONTRATO,
+	empresa.ID ID_EMPRESA,    
+	titular.NM_TITULAR,
+	
+	titular.VERSION,
+	titular.USER_CREATED,
+	titular.USER_ALTERED,
+	titular.DT_CREATED,
+	titular.DT_ALTERED
+from TB_TITULAR titular
+	join TB_CONTRATO contrato on
+		contrato.ID = titular.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA;
+
+create view VW_DEPENDENTE_RESUMO as
+select
+	dependente.ID,
+	dependente.NR_MATRICULA,
+	dependente.NR_CPF,
+	empresa.ID ID_EMPRESA,
+	dependente.NM_DEPENDENTE,
+
+	dependente.VERSION,
+	dependente.USER_CREATED,
+	dependente.USER_ALTERED,
+	dependente.DT_CREATED,
+	dependente.DT_ALTERED	
+from TB_DEPENDENTE dependente
+	join TB_TITULAR titular on
+		titular.ID = dependente.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = titular.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA;
+	
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+
 create index NDX_LANCAMENTO_01 on TB_LANCAMENTO( CD_MES, CD_ANO );
 create index NDX_LANCAMENTO_02 on TB_LANCAMENTO( ID_DEPENDENTE );
 create index NDX_LANCAMENTO_03 on TB_LANCAMENTO( CD_MES, CD_ANO, ID_DEPENDENTE );
@@ -1330,6 +1815,7 @@ drop procedure if exists PROC_SHOW_LOG_MESSAGE;
 drop procedure if exists PROC_VALIDATE_SCRIPT;
 drop procedure if exists PROC_UPDATE_SCRIPT;
 drop procedure if exists PROC_CLEAR_COPARTICIPACAO;
+drop procedure if exists PROC_UPDATE_OUTPUT_SHEET_ORDEM;
 
 drop function if exists FUNC_DOUBLE_TO_LONG;
 drop function if exists FUNC_GET_MATRICULA_HOC;
@@ -1337,6 +1823,8 @@ drop function if exists FUNC_GET_CPF;
 drop function if exists FUNC_GET_ROWNUM;
 drop function if exists FUNC_GET_CARTAO_IDENTIFICACAO_CELPE;
 drop function if exists FUNC_CREATE_DATA_COMPETENCIA;
+drop function if exists FUNC_FIND_ARQUIVO_OUTPUT;
+drop function if exists FUNC_FIND_ARQUIVO_INPUT;
 
 delimiter $$
 
@@ -1652,6 +2140,162 @@ BEGIN
 	
 	return VAR_RESULT;
 END	
+$$
+
+delimiter $$
+
+create function FUNC_FIND_ARQUIVO_OUTPUT( 
+	PARAM_CD_EMPRESA varchar( 60 ), 
+	PARAM_CD_CONTRATO varchar( 60 ), 
+	PARAM_TP_ARQUIVO int( 3 ))
+returns bigint( 17 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para criar os números de matricula usados pelo Hospital Oswaldo Cruz:'
+BEGIN
+	declare VAR_ID_ARQUIVO_OUTPUT bigint( 17 ) default 0;
+	declare VAR_ID_EMPRESA bigint( 17 );
+	declare VAR_ID_CONTRATO bigint( 17 );
+	declare VAR_ID_ARQUIVO_INPUT bigint( 17 );
+	
+	/***********************************************************************************************************************/
+	/***********************************************************************************************************************/		
+    call PROC_LOG_MESSAGE('LINHA - 27');
+    select ID into VAR_ID_EMPRESA from TB_EMPRESA
+    where CD_EMPRESA = PARAM_CD_EMPRESA;
+    
+	select ID into VAR_ID_CONTRATO from TB_CONTRATO
+	where	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = PARAM_CD_CONTRATO;
+
+	/***********************************************************************************************************************/
+	/***********************************************************************************************************************/		
+	/* FATU-COPA */
+	
+	call PROC_LOG_MESSAGE('LINHA - 39');
+	select	ID into VAR_ID_ARQUIVO_INPUT 
+	from 	TB_ARQUIVO_INPUT
+	where	ID = VAR_ID_CONTRATO;
+				
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/	
+	/* VIEW-DESTINATION */
+
+	call PROC_LOG_MESSAGE('LINHA - 184');
+	
+	select	ID into VAR_ID_ARQUIVO_OUTPUT from TB_ARQUIVO_OUTPUT
+	where 	ID_ARQUIVO_INPUT	= VAR_ID_ARQUIVO_INPUT
+	and		TP_ARQUIVO 			= PARAM_TP_ARQUIVO;
+	
+	return VAR_ID_ARQUIVO_OUTPUT;
+END
+$$
+
+delimiter $$
+
+create procedure PROC_UPDATE_OUTPUT_SHEET_ORDEM( PARAM_ID_ARQUIVO_OUTPUT bigint( 17 ))
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
+BEGIN
+	DECLARE VAR_CODE CHAR(5) DEFAULT '00000';
+  	DECLARE VAR_MSG TEXT;
+									
+	declare VAR_ID_ARQUIVO_OUTPUT_SHEET		bigint( 17 );
+	declare VAR_CD_ORDEM					int( 3 ) default 0;		
+	declare VAR_NOT_FOUND 					int( 3 ) default 0;
+	
+	declare CURSOR_ARQUIVO_OUTPUT_SHEET cursor for 
+		select 	ID  from TB_ARQUIVO_OUTPUT_SHEET 
+        where	ID_ARQUIVO_OUTPUT = PARAM_ID_ARQUIVO_OUTPUT 
+        order by ID;
+    
+	declare continue handler for not found set VAR_NOT_FOUND = 1;  
+	/***********************************************************************************************************************/
+	
+	DECLARE exit handler for sqlexception
+	BEGIN		
+		GET DIAGNOSTICS CONDITION 1
+        	VAR_CODE = RETURNED_SQLSTATE, VAR_MSG = MESSAGE_TEXT;
+    
+		-- ERROR
+		call PROC_LOG_MESSAGE( 'Erro ao executar procedure:' );        	
+       	call PROC_LOG_MESSAGE( concat( VAR_CODE, ' - ', VAR_MSG ));
+       	
+       	call PROC_SHOW_LOG_MESSAGE();
+		ROLLBACK;
+	END;
+
+	START TRANSACTION;	
+
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/	
+	
+	call PROC_LOG_MESSAGE('LINHA - 190');
+		
+	open CURSOR_ARQUIVO_OUTPUT_SHEET;
+	
+	updateSheet: loop
+	
+		fetch CURSOR_ARQUIVO_OUTPUT_SHEET into VAR_ID_ARQUIVO_OUTPUT_SHEET;
+
+		if VAR_NOT_FOUND = 1 then
+			leave updateSheet;
+		end if;
+		
+		update	TB_ARQUIVO_OUTPUT_SHEET
+		set 	CD_ORDEM	= VAR_CD_ORDEM
+		where 	ID 			= VAR_ID_ARQUIVO_OUTPUT_SHEET;
+		
+		set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+		
+	end loop updateSheet;
+	
+	close CURSOR_ARQUIVO_OUTPUT_SHEET;			
+		
+	call PROC_LOG_MESSAGE('LINHA - 228');	
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/	
+	
+	COMMIT;
+	
+	call PROC_LOG_MESSAGE( 'Alterações executadas com sucesso.' );
+	call PROC_SHOW_LOG_MESSAGE();
+END
+$$
+
+delimiter $$
+
+create function FUNC_FIND_ARQUIVO_INPUT( 
+	PARAM_CD_EMPRESA varchar( 40 ), 
+	PARAM_CD_CONTRATO varchar( 40 ))
+returns bigint( 17 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para informar o ID_ARQUIVO_INPUT'
+BEGIN
+	declare VAR_ID_ARQUIVO_INPUT 	bigint( 17 ) default 0;
+	declare	VAR_ID_EMPRESA			bigint( 17 ) default 0;
+	declare	VAR_ID_CONTRATO			bigint( 17 ) default 0;
+	
+	select ID into VAR_ID_EMPRESA
+	from 	TB_EMPRESA
+	where	CD_EMPRESA = PARAM_CD_EMPRESA;
+	
+	select	ID into VAR_ID_CONTRATO
+	from 	TB_CONTRATO
+	where	ID_EMPRESA	= VAR_ID_EMPRESA
+	and		CD_CONTRATO	= PARAM_CD_CONTRATO;
+	
+	select	ID into VAR_ID_ARQUIVO_INPUT
+	from 	TB_ARQUIVO_INPUT
+	where	ID_CONTRATO = VAR_ID_CONTRATO;
+	
+	return VAR_ID_ARQUIVO_INPUT;
+END
 $$
 
 #call PROC_CLEAR_COPARTICIPACAO( 1010 ); 

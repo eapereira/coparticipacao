@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180810-005-dml-HOC-ISENTOS-VALOR.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20180815-006-dml-HOC-NAO-LOCALIZADOS.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180915-006-dml-HOC-ISENTOS-VALOR-CENTAVOS.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20180915-007-dml-HOC-NAO-LOCALIZADOS.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
 	declare VAR_TRUE						int( 3 ) default 1;
@@ -23,11 +23,11 @@ BEGIN
 								
   	declare VAR_CD_ORDEM					int( 3 ) default 0;
   	
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
-	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 3;
-	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 4;
-	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 5;
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;

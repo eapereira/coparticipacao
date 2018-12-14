@@ -21,10 +21,11 @@ BEGIN
 	DECLARE VAR_CODE CHAR(5) DEFAULT '00000';
   	DECLARE VAR_MSG TEXT;
 								
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
-	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 3;
-	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 4;
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;

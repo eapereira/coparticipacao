@@ -10,7 +10,7 @@ drop view if exists VW_DESCONHECIDO_MUITO_FACIL;
 create view VW_LANCAMENTO_TITULAR as
 select 
 	lancamento.ID,
-	titular.ID_EMPRESA,
+	contrato.ID_EMPRESA,
 	lancamento.ID_CONTRATO,
 	lancamento.CD_MES,
 	lancamento.CD_ANO,	

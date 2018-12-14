@@ -12,7 +12,7 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20181010-002-dml-CARGILL.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180921-001-dml-CARGILL-NAO-LOCALIZADOS.sql';
 	declare VAR_NM_SCRIPT					varchar( 400 ) default '20181011-003-dml-INTERVALOR.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			
@@ -27,6 +27,10 @@ BEGIN
 	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
 	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	declare VAR_USE_TYPE_EXTRA_FILE			int( 3 ) default 6;
+	
+	declare VAR_TP_REPORT_QUERY_BY_CONTRATO_AND_PERIODO		int( 3 ) default 0;
+	declare VAR_TP_REPORT_QUERY_BY_PERIODO					int( 3 ) default 1;
+	declare VAR_TP_REPORT_QUERY_BY_CONTRATO					int( 3 ) default 2;
 	
 	declare VAR_CD_ORDEM					int( 3 ) default 0;
 	
@@ -172,6 +176,146 @@ BEGIN
 	START TRANSACTION;
 	
 	call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
+	/***********************************************************************************************************************/
+	/***********************************************************************************************************************/		
+    call PROC_LOG_MESSAGE('LINHA - 149');
+	insert into TB_EMPRESA (
+		ID_OPERADORA,
+		NM_EMPRESA,	
+		CD_EMPRESA,
+		CD_AUTOMATIC_CREATE_BENEFICIARIO,
+		CD_OUTPUT_REPORT_DIR,		
+        CD_INPUT_DIR,
+        CD_FAILURE_DIR,
+        CD_OUTPUT_DIR,
+        TP_SAVE_MECSAS_DETAIL,
+		TP_SAVE_BENEFICIARIO_DETAIL,
+		TP_EXTERNAL_PROCESS,
+		TP_REPORT_QUERY,
+		CD_ACCEPT_TITULAR_WITHOUT_CPF,
+		
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_OPERADORA_SULAMERICA,
+		'Intervalor',
+		'INTERVALOR',
+		VAR_FALSE,
+		'/home/eapereira/desenv/work/coparticipacao/intervalor/output-reports',
+        '/home/eapereira/desenv/work/coparticipacao/intervalor/input/',
+        '/home/eapereira/desenv/work/coparticipacao/intervalor/failure/',
+        '/home/eapereira/desenv/work/coparticipacao/intervalor/output/',
+        VAR_FALSE,
+        VAR_FALSE,		
+        VAR_FALSE,
+        VAR_TP_REPORT_QUERY_BY_CONTRATO,
+        VAR_TRUE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_EMPRESA from TB_EMPRESA;
+	
+	call PROC_LOG_MESSAGE('LINHA - 167');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+        TP_USE,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'8EAPM',
+	    '8EAPM',
+	    VAR_NM_CONTRATO_COPARTICIPACAO,
+	    VAR_USE_TYPE_FATUCOPA,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+
+	call PROC_LOG_MESSAGE('LINHA - 167');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+        TP_USE,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'8EAQG',
+	    '8EAQG',
+	    VAR_NM_CONTRATO_COPARTICIPACAO,
+	    VAR_USE_TYPE_FATUCOPA,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+	
+	call PROC_LOG_MESSAGE('LINHA - 167');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+        TP_USE,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'8EAQR',
+	    '8EAQR',
+	    VAR_NM_CONTRATO_COPARTICIPACAO,
+	    VAR_USE_TYPE_FATUCOPA,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+	
+	call PROC_LOG_MESSAGE('LINHA - 167');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+        TP_USE,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'8EAQS',
+	    '8EAQS',
+	    VAR_NM_CONTRATO_COPARTICIPACAO,
+	    VAR_USE_TYPE_FATUCOPA,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+	
+	call PROC_LOG_MESSAGE('LINHA - 284');	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
     call PROC_LOG_MESSAGE('LINHA - 173');

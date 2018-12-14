@@ -23,11 +23,12 @@ BEGIN
 								
   	declare VAR_CD_ORDEM					int( 3 ) default 0;
   	
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
-	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 3;
-	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 4;	
-	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 5;
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
+	declare VAR_USE_TYPE_EXTRA_FILE			int( 3 ) default 6;
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;
@@ -38,6 +39,10 @@ BEGIN
 	declare VAR_ARQUIVO_TYPE_FLATFILE		int( 3 ) default 1;
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
 	declare VAR_ARQUIVO_TYPE_SPREADSHEET	int( 3 ) default 3;
+	
+	declare VAR_TP_REPORT_QUERY_BY_CONTRATO_AND_PERIODO		int( 3 ) default 0;
+	declare VAR_TP_REPORT_QUERY_BY_PERIODO_ONLY				int( 3 ) default 1;
+	declare VAR_TP_REPORT_QUERY_BY_CD_CONTRATO				int( 3 ) default 2;
 	
 	declare VAR_ID_OPERADORA_SULAMERICA				bigint( 17 ) default 1;
 	DECLARE VAR_ID_USER 							bigint( 17 ) default 1;
@@ -133,6 +138,7 @@ BEGIN
 	declare VAR_NM_CONTRATO_MECSAS2										varchar( 400 ) default 'Base de Ativos do Cliente';
 	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção';
 	
+    declare VAR_NM_CONTRATO_PRN											varchar( 400 ) default '0444-PRN';
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -161,8 +167,11 @@ BEGIN
 		CD_AUTOMATIC_CREATE_BENEFICIARIO,
 		CD_OUTPUT_REPORT_DIR,		
         CD_INPUT_DIR,
+        CD_FAILURE_DIR,
+        CD_OUTPUT_DIR,
         TP_SAVE_MECSAS_DETAIL,
-		TP_SAVE_BENEFICIARIO_DETAIL,				
+		TP_SAVE_BENEFICIARIO_DETAIL,			
+		TP_REPORT_QUERY,	
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -170,11 +179,14 @@ BEGIN
 		VAR_ID_OPERADORA_SULAMERICA,
 		'Hospital Oswaldo Cruz',
 		'0444',
-		VAR_FALSE,
+		VAR_TRUE,
 		'/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/hoc/',
         '/home/eapereira/desenv/work/coparticipacao/input/',
+        '/home/eapereira/desenv/work/coparticipacao/failure/',
+        '/home/eapereira/desenv/work/coparticipacao/output/',
         VAR_FALSE,
         VAR_FALSE,		
+        VAR_TP_REPORT_QUERY_BY_CD_CONTRATO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -189,7 +201,7 @@ BEGIN
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-        TP_USO,
+        TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -205,15 +217,42 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+	select max( ID ) into VAR_ID_CONTRATO 
+	from TB_CONTRATO;
 
+	call PROC_LOG_MESSAGE('LINHA - 238');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+	    CD_SPREADSHEET_ALL_PAGES,
+	    TP_USE,
+	    ID_CONTRATO_PARENT,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'0444-PRN',
+	    '0444-PRN',
+	    VAR_NM_CONTRATO_PRN,
+	    VAR_FALSE,
+	    VAR_USE_TYPE_EXTRA_FILE,
+	    VAR_ID_CONTRATO,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);	
+	
 	call PROC_LOG_MESSAGE('LINHA - 187');
 	insert into TB_CONTRATO(
 		ID_EMPRESA,
 		CD_CONTRATO,	
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -238,7 +277,7 @@ BEGIN
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
 	    CD_SPREADSHEET_ALL_PAGES,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -262,14 +301,38 @@ BEGIN
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
 	    CD_SPREADSHEET_ALL_PAGES,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'ISENTO-VALOR',
-	    'ISENTO-VALOR',
+		'ISENTO-UTILIZACAO',
+	    'ISENTO-UTILIZACAO',
+	    VAR_NM_CONTRATO_ISENTO,
+	    VAR_FALSE,
+	    VAR_USE_TYPE_ISENTO,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);	
+
+	call PROC_LOG_MESSAGE('LINHA - 151');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+	    CD_SPREADSHEET_ALL_PAGES,
+	    TP_USE,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'ISENTO-CENTAVOS',
+	    'ISENTO-CENTAVOS',
 	    VAR_NM_CONTRATO_ISENTO,
 	    VAR_FALSE,
 	    VAR_USE_TYPE_ISENTO,
@@ -286,7 +349,7 @@ BEGIN
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
 	    CD_SPREADSHEET_ALL_PAGES,
-	    TP_USO,
+	    TP_USE,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -2007,8 +2070,234 @@ BEGIN
 		current_timestamp()		
 	);			
 	
-	call PROC_LOG_MESSAGE('LINHA - 1642');
+	/*********************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 182');
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_ISENCAO_VALOR_HOC',
+		'Isenção HOC',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
 	
+	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;
+
+	call PROC_LOG_MESSAGE('LINHA - 205');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'COD_TITULAR',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
+		VAR_CD_ORDEM,
+		'COD TÍTULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 229');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'COD_DEPENDENTE',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
+		VAR_CD_ORDEM,
+		'COD DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+		
+	call PROC_LOG_MESSAGE('LINHA - 283');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NM_USUARIO',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_TITULAR,
+		VAR_CD_ORDEM,
+		'NONE USUÁRIO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 303');	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'TOTAL_COPART',
+		VAR_COL_DOUBLE,
+		VAR_COL_VIEW_LENGTH_VL_PRINCIPAL,
+		VAR_CD_ORDEM,
+		'TOTAL COPART',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+		
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 335');	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_LOCAL',
+		VAR_COL_INT,
+		VAR_COL_VIEW_LENGTH_NM_LOCAL,
+		VAR_CD_ORDEM,
+		'LOCAL',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 361');	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'DT_NASCIMENTO',
+		VAR_COL_DATE,
+		VAR_COL_VIEW_LENGTH_DT_NASCIMENTO,
+		VAR_CD_ORDEM,
+		'DT NASCIMENTO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 387');	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'CPF_DEPENDENTE',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_CPF,
+		VAR_CD_ORDEM,
+		'CPF DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 257');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_MATRICULA',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
+		VAR_CD_ORDEM,
+		'MATRICULA',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 2248');	
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	

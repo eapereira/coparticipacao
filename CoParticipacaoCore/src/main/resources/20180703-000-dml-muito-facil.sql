@@ -21,17 +21,21 @@ BEGIN
 	declare VAR_FALSE						int( 3 ) default 0;
 	declare VAR_TRUE						int( 3 ) default 1;
     
-	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 1;
-	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 2;
-	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 3;
-	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 4;	
-	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 5;
+	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
+	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
+	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
+	declare VAR_USE_TYPE_ISENTO				int( 3 ) default 4;
+	declare VAR_USE_TYPE_FATUCOPA			int( 3 ) default 5;
 	
 	declare VAR_COL_VARCHAR					int( 3 ) default 3;
 	declare VAR_COL_INT						int( 3 ) default 1;
 	declare VAR_COL_DATE					int( 3 ) default 4;
 	declare VAR_COL_LONG					int( 3 ) default 5;
 	declare VAR_COL_DOUBLE					int( 3 ) default 2;
+	
+	declare VAR_TP_REPORT_QUERY_BY_CONTRATO_AND_PERIODO		int( 3 ) default 0;
+	declare VAR_TP_REPORT_QUERY_BY_PERIODO_ONLY				int( 3 ) default 1;
+	declare VAR_TP_REPORT_QUERY_BY_CD_CONTRATO				int( 3 ) default 2;
 	
 	declare VAR_CD_ORDEM					int( 3 ) default 0;
 	
@@ -159,9 +163,12 @@ BEGIN
         ID_OPERADORA,
         CD_AUTOMATIC_CREATE_BENEFICIARIO,
         CD_OUTPUT_REPORT_DIR,
+        CD_FAILURE_DIR,
+        CD_OUTPUT_DIR,
         CD_INPUT_DIR,
         TP_SAVE_MECSAS_DETAIL,
 		TP_SAVE_BENEFICIARIO_DETAIL,
+		TP_REPORT_QUERY,
         
         USER_CREATED, 
         DT_CREATED,
@@ -172,8 +179,11 @@ BEGIN
         VAR_TRUE,
         '/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/muito-facil/',
         '/home/eapereira/desenv/work/coparticipacao/input/',
+        '/home/eapereira/desenv/work/coparticipacao/failure/',
+        '/home/eapereira/desenv/work/coparticipacao/output/',
         VAR_FALSE,
         VAR_FALSE,
+        VAR_TP_REPORT_QUERY_BY_CD_CONTRATO,
         
         VAR_ID_USER,
         current_timestamp(),
@@ -188,7 +198,7 @@ BEGIN
         CD_CONTRATO,	
         NM_CONTRATO,
         DESCR_CONTRATO,
-        TP_USO,
+        TP_USE,
         
         USER_CREATED, 
         DT_CREATED,
@@ -212,7 +222,7 @@ BEGIN
         CD_CONTRATO,	
         NM_CONTRATO,
         DESCR_CONTRATO,
-        TP_USO,
+        TP_USE,
         CD_SPREADSHEET_ALL_PAGES,
         
         USER_CREATED, 
