@@ -140,7 +140,7 @@ BEGIN
 
 	START TRANSACTION;
 	
-	#call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
+	call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
 	/***********************************************************************************************************************/		
     call PROC_LOG_MESSAGE('LINHA - 236');
 	select ID into VAR_ID_EMPRESA from TB_EMPRESA

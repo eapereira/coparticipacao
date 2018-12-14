@@ -95,6 +95,7 @@ BEGIN
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CPF_TITULAR					bigint( 17 ) default 7;
 	
 	declare VAR_CD_ORDEM												int( 3 ) default 0;
+	declare VAR_CD_FORMAT_DDMMYYYY										varchar( 20 ) default 'dd/MM/yyyy';
 	
 	/***********************************************************************************************************************/
 	
@@ -144,7 +145,7 @@ BEGIN
 		'Arquivo de carga de coparticipação',
 		VAR_ARQUIVO_TYPE_SPREADSHEET,
 		VAR_USE_TYPE_MECSAS2,
-		2,
+		1,
 		null, /* Não é usado para arquivo CSV */
 				
 		VAR_ID_USER,
@@ -270,7 +271,7 @@ BEGIN
 		'DT_NASCIMENTO_TITULAR',
 		VAR_COL_DATE,
 		null,
-		'dd/MM/yyyy',
+		VAR_CD_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -338,7 +339,6 @@ BEGIN
 		CD_TYPE,
 		VL_LENGTH,
 		CD_FORMAT,
-		CD_LOCALE_PATTERN,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -348,8 +348,7 @@ BEGIN
 		'DT_NASCIMENTO_DEPENDENTE',
 		VAR_COL_DATE,
 		null,
-		'dd-MMM-yy',
-		'en-US',
+		VAR_CD_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -466,6 +465,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -475,6 +475,7 @@ BEGIN
 		'COLUMN_13_DT_DEMISSAO',
 		VAR_COL_DATE,
 		null,
+		VAR_CD_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

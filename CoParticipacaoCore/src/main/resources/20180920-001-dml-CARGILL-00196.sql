@@ -115,6 +115,10 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_NM_BENEFICIARIO							bigint( 17 ) default 10;
 	declare VAR_COL_LANCAMENTO_NM_TITULAR								bigint( 17 ) default 11;
 	declare VAR_COL_LANCAMENTO_DT_NASCIMENTO							bigint( 17 ) default 12;
+	declare VAR_COL_LANCAMENTO_VL_REEMBOLSO								bigint( 17 ) default 13;
+	declare VAR_COL_LANCAMENTO_VL_PARTICIPACAO							bigint( 17 ) default 14;
+	declare VAR_COL_LANCAMENTO_CD_USUARIO								bigint( 17 ) default 15;
+	declare VAR_COL_LANCAMENTO_DT_UTILIZACAO							bigint( 17 ) default 16;
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
     
@@ -623,7 +627,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_LANCAMENTO_INPUT,
-		VAR_COL_LANCAMENTO_DT_MOVTO,
+		VAR_COL_LANCAMENTO_DT_MOVIMENTO,
 		VAR_ID_COLUMN_14_DT_MOVTO,		
 		
 		VAR_ID_USER,
