@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-TechnitSaudeCoparticipacao" pageWidth="1800" pageHeight="950" columnWidth="1800" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="8e24f7a4-0b2b-4f77-b53e-59fa253f5d29">
 	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Coparticipação"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\TechnitSaudeCoParticipacaoDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\bradesco\TechnitSaudeCoParticipacaoDataAdapter.xml"/>
 	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.1"><![CDATA["Coparticipação"]]></propertyExpression>
 	<queryString>
 		<![CDATA[]]>
@@ -19,6 +19,9 @@
 	</field>
 	<field name="indicadorEvento" class="java.lang.Integer">
 		<fieldDescription><![CDATA[indicadorEvento]]></fieldDescription>
+	</field>
+	<field name="valorParticipacao" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorParticipacao]]></fieldDescription>
 	</field>
 	<field name="mes" class="java.lang.Integer">
 		<fieldDescription><![CDATA[mes]]></fieldDescription>
@@ -38,6 +41,9 @@
 	<field name="profissao" class="java.lang.String">
 		<fieldDescription><![CDATA[profissao]]></fieldDescription>
 	</field>
+	<field name="valorPrincipal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorPrincipal]]></fieldDescription>
+	</field>
 	<field name="cdContrato" class="java.lang.String">
 		<fieldDescription><![CDATA[cdContrato]]></fieldDescription>
 	</field>
@@ -50,6 +56,9 @@
 	<field name="cdEmpresa" class="java.lang.String">
 		<fieldDescription><![CDATA[cdEmpresa]]></fieldDescription>
 	</field>
+	<field name="nameBeneficiario" class="java.lang.String">
+		<fieldDescription><![CDATA[nameBeneficiario]]></fieldDescription>
+	</field>
 	<field name="fatorModeradorInss" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[fatorModeradorInss]]></fieldDescription>
 	</field>
@@ -61,9 +70,6 @@
 	</field>
 	<field name="idContrato" class="java.lang.Long">
 		<fieldDescription><![CDATA[idContrato]]></fieldDescription>
-	</field>
-	<field name="nameBeneficiario" class="java.lang.String">
-		<fieldDescription><![CDATA[nameBeneficiario]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -172,12 +178,12 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nameBeneficiario}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00#" isBlankWhenNull="true">
 				<reportElement x="1060" y="0" width="160" height="20" uuid="82a12d4b-40e8-482c-bda0-cfb699a3e2f7"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{fatorModerador}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorParticipacao}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="1220" y="0" width="130" height="20" uuid="7572fc37-cf15-43c9-8228-47929d7d573f"/>
@@ -186,7 +192,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matriculaEspecial}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00#" isBlankWhenNull="true">
 				<reportElement x="1350" y="0" width="180" height="20" uuid="7d4b2546-655a-4015-9169-a3025bb70ea1"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>

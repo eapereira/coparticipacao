@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco;
 
+import java.math.BigDecimal;
+
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
@@ -14,6 +16,10 @@ public abstract class TechnitSaudeCoparticipacaoView extends TechnitCoparticipac
 
 	private String nameBeneficiario;
 	
+	private BigDecimal valorPrincipal;
+	
+	private BigDecimal valorParticipacao;
+	
 	public TechnitSaudeCoparticipacaoView() {
 		super();
 	}
@@ -24,6 +30,22 @@ public abstract class TechnitSaudeCoparticipacaoView extends TechnitCoparticipac
 
 	public void setNameBeneficiario(String nameBeneficiario) {
 		this.nameBeneficiario = nameBeneficiario;
+	}
+
+	public BigDecimal getValorPrincipal() {
+		return valorPrincipal;
+	}
+
+	public void setValorPrincipal(BigDecimal valorPrincipal) {
+		this.valorPrincipal = valorPrincipal;
+	}
+
+	public BigDecimal getValorParticipacao() {
+		return valorParticipacao;
+	}
+
+	public void setValorParticipacao(BigDecimal valorParticipacao) {
+		this.valorParticipacao = valorParticipacao;
 	}
 
 }

@@ -62,7 +62,9 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 
 							LOGGER.debug("Loading Isento column [{}]", arquivoInputColsDef.getNameColumn());
 
-							cell = row.getCell(arquivoInputColsDef.getOrdem());
+							// cell =
+							// row.getCell(arquivoInputColsDef.getOrdem());
+							cell = row.getCell(isentoInputSheetCols.getOrdem());
 
 							if (cell != null) {
 								columnName = arquivoInputColsDef.getNameColumn();

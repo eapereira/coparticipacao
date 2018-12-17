@@ -560,13 +560,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 					csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
 				} else if (ArquivoType.SPREADSHEET.equals(arquivoInputUi.getArquivoType())) {
-					if (!coParticipacaoContext.getMapArquivoInputSheetUi().isEmpty()) {
-						spreadsheetMultiSheetProcessorService
-								.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
-					} else {
-						spreadsheetProcessorService
-								.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
-					}
+					isentoSpreadsheetProcessorService
+							.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
 				}
 			} else if (UseType.NAO_LOCALIZADO.equals(arquivoInputUi.getUseType())) {
 				changeThreadName(coParticipacaoContext, "NaoLocalizadoService");

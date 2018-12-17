@@ -288,6 +288,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				break;
 			}
 
+			LOGGER.debug("Reading cell for field[{}] with value[{}]:", arquivoInputColsDef.getNameColumn(), value);
+
 			if (ColDefType.INT.equals(arquivoInputColsDef.getType())) {
 				value = clearMask(value);
 

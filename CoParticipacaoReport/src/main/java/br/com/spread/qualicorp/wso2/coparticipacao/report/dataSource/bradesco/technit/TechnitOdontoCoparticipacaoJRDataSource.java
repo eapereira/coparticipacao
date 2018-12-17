@@ -11,7 +11,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.Techn
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.CoParticipacaoJRDataSource;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRField;
 
 /**
  * 
@@ -22,22 +21,6 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		extends CoParticipacaoJRDataSource<TechnitOdontoCoparticipacaoViewUi> {
 
 	private static final Logger LOGGER = LogManager.getLogger(TechnitOdontoCoparticipacaoJRDataSource.class);
-
-	private static final String FIELD_SUBFATURA = "cdEmpresa";
-	private static final String FIELD_NR_CERTIFICADO = "certificado";
-	private static final String FIELD_NR_MATRICULA = "matricula";
-	private static final String FIELD_NM_TITULAR = "nomeTitular";
-	private static final String FIELD_VL_FATOR_MODERADOR = "fatorModerador";
-	private static final String FIELD_NR_MATRICULA_ESPECIAL = "matriculaEspecial";
-	private static final String FIELD_DESCR_PROFISSAO = "profissao";
-	private static final String FIELD_VL_FATOR_MODERADOR_INSS = "fatorModeradorInss";
-	private static final String FIELD_NR_SUBFATURA = "subFatura";
-	private static final String FIELD_VL_ALIQUOTA_INSS = "valorAliquotaInss";
-	private static final String FIELD_VL_INSS = "valorInss";
-	private static final String FIELD_VL_LIQUIDO_SINISTRO = "valorLiquidoSinistro";
-	private static final String FIELD_INDICADOR_EVENTO = "indicadorEvento";
-	private static final String FIELD_TP_REGISTRO = "tipoRegistro";
-	private static final String FIELD_CD_CONTRATO = "cdContrato";
 
 	public TechnitOdontoCoparticipacaoJRDataSource() throws JRException {
 		super();
@@ -116,46 +99,6 @@ public class TechnitOdontoCoparticipacaoJRDataSource
 		technitOdontoCoparticipacaoViewUis.add(technitOdontoCoparticipacaoViewUi);
 
 		return technitOdontoCoparticipacaoViewUis;
-	}
-
-	@Override
-	public Object getFieldValue(JRField jrField) throws JRException {
-		if (getRegister() != null) {
-			if (FIELD_SUBFATURA.equals(jrField.getName())) {
-				return getRegister().getCdContrato();
-			} else if (FIELD_NR_CERTIFICADO.equals(jrField.getName())) {
-				return getRegister().getCertificado();
-			} else if (FIELD_NR_MATRICULA.equals(jrField.getName())) {
-				return getRegister().getMatricula();
-			} else if (FIELD_NM_TITULAR.equals(jrField.getName())) {
-				return getRegister().getNomeTitular();
-			} else if (FIELD_VL_FATOR_MODERADOR.equals(jrField.getName())) {
-				return getRegister().getFatorModerador();
-			} else if (FIELD_NR_MATRICULA_ESPECIAL.equals(jrField.getName())) {
-				return getRegister().getMatriculaEspecial();
-			} else if (FIELD_DESCR_PROFISSAO.equals(jrField.getName())) {
-				return getRegister().getProfissao();
-			} else if (FIELD_VL_FATOR_MODERADOR_INSS.equals(jrField.getName())) {
-				return getRegister().getFatorModeradorInss();
-			} else if (FIELD_NR_SUBFATURA.equals(jrField.getName())) {
-				return getRegister().getSubFatura();
-			} else if (FIELD_VL_ALIQUOTA_INSS.equals(jrField.getName())) {
-				return getRegister().getValorAliquotaInss();
-			} else if (FIELD_VL_INSS.equals(jrField.getName())) {
-				return getRegister().getValorInss();
-			} else if (FIELD_VL_LIQUIDO_SINISTRO.equals(jrField.getName())) {
-				return getRegister().getValorLiquidoSinistro();
-			} else if (FIELD_INDICADOR_EVENTO.equals(jrField.getName())) {
-				return getRegister().getIndicadorEvento();
-			} else if (FIELD_TP_REGISTRO.equals(jrField.getName())) {
-				return getRegister().getTipoRegistro();
-			} else if (FIELD_CD_CONTRATO.equals(jrField.getName())) {
-				return getRegister().getCdContrato();
-			}
-		}
-
-		LOGGER.info("Report´s field[{}] not found:", jrField.getName());
-		return null;
 	}
 
 	public static JRDataSource getInstance() throws JRException {

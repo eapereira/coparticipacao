@@ -102,7 +102,7 @@ select
 	empresa.CD_EMPRESA,
 	ifnull( titular.VL_INSS, 0.0 ) VL_INSS,
 	ifnull( titular.VL_LIQUIDO_SINISTRO, 0.0 ) VL_LIQUIDO_SINISTRO,
-	titular.IND_EVENTO,
+	ifnull( titular.IND_EVENTO, 0.0 ) IND_EVENTO,
 	ifnull( titular.VL_ALIQUOTA_INSS, 0.0 ) VL_ALIQUOTA_INSS,
 	0 VERSION,
 	1 USER_CREATED,

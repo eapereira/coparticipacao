@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
@@ -34,6 +36,20 @@ public class TechnitSaudeCoparticipacaoViewEntity extends TechnitSaudeCoparticip
 	public String getNameBeneficiario() {
 		// TODO Auto-generated method stub
 		return super.getNameBeneficiario();
+	}
+
+	@Column(name="VL_PRINCIPAL")
+	@Override
+	public BigDecimal getValorPrincipal() {
+		// TODO Auto-generated method stub
+		return super.getValorPrincipal();
+	}
+
+	@Column(name="VL_PARTICIPACAO")
+	@Override
+	public BigDecimal getValorParticipacao() {
+		// TODO Auto-generated method stub
+		return super.getValorParticipacao();
 	}
 
 }
