@@ -76,6 +76,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.UserService;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.FriendlyErrorHelper;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.StopWatchAdapter;
 
@@ -338,7 +339,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 						"O arquivo [%s] não possui colunas definidas.",
 						arquivoExecucaoUi.getSimpleNameArquivoInput());
 			}
-			
+
+			generateOutputFileWithoutFatucopa(coParticipacaoContext);
+
 			moveExecucaoToOutput(coParticipacaoContext, arquivoExecucaoUi);
 
 			stopWatch.stop();
@@ -347,7 +350,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.info("END");
 			return coParticipacaoInfo;
 		} catch (Exception e) {
-			moveExecucaoToFailure(coParticipacaoContext, arquivoExecucaoUi);
+			notifyErrorMessage(coParticipacaoContext, e);
 
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -568,8 +571,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 						.readInputStream(coParticipacaoContext, (ProcessorListener) naoLocalizadoService);
 			}
 
-			generateOutputFileWithoutFatucopa(coParticipacaoContext);
-			
 			changeThreadName(coParticipacaoContext, null);
 
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);
@@ -577,16 +578,40 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
-			FriendlyErrorHelper.createFriendlyErrorMessage(
-					coParticipacaoContext,
-					coParticipacaoContext.getArquivoExecucaoUi(),
-					e.getMessage());
-
-			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.ERROR);
 
 			throw new ServiceException(e.getMessage(), e);
 		} finally {
 			close(fileInputStream);
+		}
+	}
+
+	private void notifyErrorMessage(CoParticipacaoContext coParticipacaoContext, Exception exception)
+			throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			LOGGER.info("Saving the error message to display to user:");
+			LOGGER.info("Error message[{}]:", exception.getMessage());
+
+			FriendlyErrorHelper.createFriendlyErrorMessage(
+					coParticipacaoContext,
+					coParticipacaoContext.getArquivoExecucaoUi(),
+					exception.getMessage());
+
+			LOGGER.info(
+					"Updating ArquivoExecucaoUi[{}] to status ERROR:",
+					coParticipacaoContext.getArquivoExecucaoUi().getId());
+			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.ERROR);
+
+			LOGGER.info(
+					"Moving input file[{}] to error directory:",
+					coParticipacaoContext.getArquivoExecucaoUi().getNameArquivoInput());
+			moveExecucaoToFailure(coParticipacaoContext, coParticipacaoContext.getArquivoExecucaoUi());
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 

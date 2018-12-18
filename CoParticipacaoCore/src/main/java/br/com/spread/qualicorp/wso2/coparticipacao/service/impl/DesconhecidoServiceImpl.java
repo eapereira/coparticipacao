@@ -336,56 +336,47 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
 				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
 
-				if (arquivoOutputDesconhecidoUi != null) {
-					for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
-						if (UseType.FATUCOPA.equals(contrato.getUseType())) {
-							LOGGER.info("Configuring sheet [{}] for Desconhecidos:", contrato.getCdContrato());
+				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
+					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
+						LOGGER.info("Configuring sheet [{}] for Desconhecidos:", contrato.getCdContrato());
 
-							if (contrato.getArquivoInput() != null) {
-								arquivoOutputDesconhecidoSheetUis = arquivoOutputDesconhecidoSheetService
-										.listByArquivoInputId((ArquivoInputUi) contrato.getArquivoInput());
+						if (contrato.getArquivoInput() != null) {
+							arquivoOutputDesconhecidoSheetUis = arquivoOutputDesconhecidoSheetService
+									.listByArquivoInputId((ArquivoInputUi) contrato.getArquivoInput());
 
-								if (!arquivoOutputDesconhecidoSheetUis.isEmpty()) {
-									for (ArquivoOutputDesconhecidoSheetUi arquivoOutputDesconhecidoSheetUi : arquivoOutputDesconhecidoSheetUis) {
+							if (!arquivoOutputDesconhecidoSheetUis.isEmpty()) {
+								for (ArquivoOutputDesconhecidoSheetUi arquivoOutputDesconhecidoSheetUi : arquivoOutputDesconhecidoSheetUis) {
 
-										viewDestinationUi = (ViewDestinationUi) arquivoOutputDesconhecidoSheetUi
-												.getViewDestination();
-										viewDestinationColsDefUis = viewDestinationColsDefService
-												.listByViewDestinationId(viewDestinationUi);
+									viewDestinationUi = (ViewDestinationUi) arquivoOutputDesconhecidoSheetUi
+											.getViewDestination();
+									viewDestinationColsDefUis = viewDestinationColsDefService
+											.listByViewDestinationId(viewDestinationUi);
 
-										LOGGER.info(
-												"Creating the report for the ViewDestination [{}]:",
-												viewDestinationUi.getNameView());
-										dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
-												viewDestinationUi,
-												(ContratoUi) contrato,
-												coParticipacaoContext.getMes(),
-												coParticipacaoContext.getAno());
-
-										spreadsheetBuilder.addSpreadsheetListener(
-												new DesconhecidoSpreadsheetListener(
-														viewDestinationColsDefUis,
-														dynamicEntities,
-														(ContratoUi) contrato,
-														coParticipacaoContext));
-									}
-								} else {
 									LOGGER.info(
-											"Contrato [{}] doesn't have an OutputFile mapped:",
-											contrato.getCdContrato());
+											"Creating the report for the ViewDestination [{}]:",
+											viewDestinationUi.getNameView());
+									dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
+											viewDestinationUi,
+											(ContratoUi) contrato,
+											coParticipacaoContext.getMes(),
+											coParticipacaoContext.getAno());
+
+									spreadsheetBuilder.addSpreadsheetListener(
+											new DesconhecidoSpreadsheetListener(
+													viewDestinationColsDefUis,
+													dynamicEntities,
+													(ContratoUi) contrato,
+													coParticipacaoContext));
 								}
 							} else {
 								LOGGER.info(
-										"Contrato [{}] doesn't have an ArquivoInput mapped:",
+										"Contrato [{}] doesn't have an OutputFile mapped:",
 										contrato.getCdContrato());
 							}
+						} else {
+							LOGGER.info("Contrato [{}] doesn't have an ArquivoInput mapped:", contrato.getCdContrato());
 						}
 					}
-				} else {
-					LOGGER.info(
-							"The ArquivoInput[{}] and Contrato [{}] does not have a ArquivoOutput defined to it:",
-							coParticipacaoContext.getArquivoInputUi().getDescrArquivo(),
-							coParticipacaoContext.getContratoUi().getCdContrato());
 				}
 
 				LOGGER.info("Writing spreadsheet to filesystem:");
@@ -396,6 +387,11 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);
 				coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUiTmp);
 			} else {
+				LOGGER.info(
+						"The ArquivoInput[{}] and Contrato [{}] does not have a ArquivoOutput defined to it:",
+						coParticipacaoContext.getArquivoInputUi().getDescrArquivo(),
+						coParticipacaoContext.getContratoUi().getCdContrato());
+
 				LOGGER.info(
 						"There is no ArquivoOutputDesconhecidoUi defined for ContratoUi[{}]:",
 						coParticipacaoContext.getContratoUi());

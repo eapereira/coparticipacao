@@ -52,8 +52,8 @@ BEGIN
 	declare VAR_ID_ARQUIVO_INPUT_ISENTOS			bigint( 17 );
 	declare VAR_ARQUIVO_INPUT_LAYOUT				bigint( 17 );
 
-	declare VAR_ID_COLUMN_001_NM_SUBFATURA 				bigint( 17 );
-	declare VAR_ID_COLUMN_002_NR_MATRICULA_ESPECIAL 	bigint( 17 );
+	declare VAR_ID_COLUMN_001_NM_EMPRESA 				bigint( 17 );
+	declare VAR_ID_COLUMN_002_NR_MATRICULA 				bigint( 17 );
 	declare VAR_ID_COLUMN_003_NM_BENEFICIARIO 			bigint( 17 );
 	declare VAR_ID_COLUMN_004_NR_CPF 					bigint( 17 );
 	declare VAR_ID_COLUMN_005_NR_CD_PLANO 				bigint( 17 );
@@ -315,7 +315,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_001_NM_SUBFATURA',
+		'COLUMN_001_NM_EMPRESA',
 		VAR_COL_VARCHAR,
 		null,
 		VAR_CD_ORDEM,
@@ -325,7 +325,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_001_NM_SUBFATURA
+	select max( ID ) into VAR_ID_COLUMN_001_NM_EMPRESA
 	from TB_ARQUIVO_INPUT_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
@@ -341,8 +341,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT,
-		'COLUMN_002_NR_MATRICULA_ESPECIAL',
-		VAR_COL_VARCHAR,
+		'COLUMN_002_NR_MATRICULA',
+		VAR_COL_LONG,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -351,7 +351,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_002_NR_MATRICULA_ESPECIAL
+	select max( ID ) into VAR_ID_COLUMN_002_NR_MATRICULA
 	from TB_ARQUIVO_INPUT_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
@@ -406,6 +406,32 @@ BEGIN
 	select max( ID ) into VAR_ID_COLUMN_004_NR_CPF
 	from TB_ARQUIVO_INPUT_COLS_DEF; 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 372');
+	insert into TB_ARQUIVO_INPUT_COLS_DEF(
+		ID_ARQUIVO_INPUT,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT,
+		'COLUMN_005_CD_PLANO',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_005_CD_PLANO
+	from TB_ARQUIVO_INPUT_COLS_DEF; 
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	call PROC_LOG_MESSAGE('LINHA - 450');
 	/*********************************************************************************************************************************************/
@@ -433,7 +459,29 @@ BEGIN
 	from TB_ISENTO_INPUT_SHEET;
 	
 	call PROC_LOG_MESSAGE('LINHA - 479');
-	set VAR_CD_ORDEM = 2;
+	set VAR_CD_ORDEM = 1;
+
+	insert into TB_ISENTO_INPUT_SHEET_COLS(
+		ID_ISENTO_INPUT_SHEET,
+		ID_ARQUIVO_INPUT_COLS_DEF,
+		CD_BENEFICIARIO_COLS_DEF,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_ISENTO_INPUT_SHEET,
+		VAR_ID_COLUMN_002_NR_MATRICULA,
+		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA,
+		VAR_CD_ORDEM,
+
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 457');
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
