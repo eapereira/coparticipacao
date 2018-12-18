@@ -11,7 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\TechnitOdontoDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/bradesco/TechnitOdontoDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
 	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.1"><![CDATA["Coparticipação"]]></propertyExpression>
 	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.2"><![CDATA["Rateio"]]></propertyExpression>
@@ -39,14 +39,11 @@
 	<field name="dataProcessamentoMMYY" class="java.lang.String">
 		<fieldDescription><![CDATA[dataProcessamentoMMYY]]></fieldDescription>
 	</field>
-	<field name="tipoRegistro" class="java.lang.Integer">
-		<fieldDescription><![CDATA[tipoRegistro]]></fieldDescription>
-	</field>
-	<field name="tipoArquivo" class="java.lang.String">
-		<fieldDescription><![CDATA[tipoArquivo]]></fieldDescription>
-	</field>
 	<field name="cdContrato" class="java.lang.String">
 		<fieldDescription><![CDATA[cdContrato]]></fieldDescription>
+	</field>
+	<field name="technitHeaderViewUi" class="br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.TechnitHeaderViewUi">
+		<fieldDescription><![CDATA[technitHeaderViewUi]]></fieldDescription>
 	</field>
 	<columnHeader>
 		<band height="41">
@@ -104,14 +101,14 @@
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tipoRegistro}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{technitHeaderViewUi}.getTipoRegistro()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="ElementGroupBottom" x="110" y="20" width="110" height="20" uuid="679e9651-a0ef-4e16-960c-123e0219608b"/>
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{tipoArquivo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{technitHeaderViewUi}.getTipoArquivo()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="ElementGroupBottom" x="220" y="20" width="140" height="20" uuid="d82d50c6-eaa8-4f1f-bc50-1df98c751050"/>

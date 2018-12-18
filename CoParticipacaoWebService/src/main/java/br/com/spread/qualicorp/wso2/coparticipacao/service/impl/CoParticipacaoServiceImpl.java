@@ -338,10 +338,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 						"O arquivo [%s] não possui colunas definidas.",
 						arquivoExecucaoUi.getSimpleNameArquivoInput());
 			}
-
+			
 			moveExecucaoToOutput(coParticipacaoContext, arquivoExecucaoUi);
-
-			generateOutputFileWithoutFatucopa(coParticipacaoContext);
 
 			stopWatch.stop();
 
@@ -570,6 +568,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 						.readInputStream(coParticipacaoContext, (ProcessorListener) naoLocalizadoService);
 			}
 
+			generateOutputFileWithoutFatucopa(coParticipacaoContext);
+			
 			changeThreadName(coParticipacaoContext, null);
 
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);

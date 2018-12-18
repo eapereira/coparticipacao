@@ -110,6 +110,7 @@ public class ExecucaoServiceImpl extends AbstractServiceImpl<ExecucaoUi, Execuca
 
 				arquivoExecucaoUi.setUserCreated(userUi);
 
+				LOGGER.debug("Adding ArquivoExecucao[{}]:", arquivoExecucaoUi.getNameArquivoInput());
 				execucaoUi.addArquivoExecucao(arquivoExecucaoUi);
 
 				ordem++;

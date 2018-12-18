@@ -3,7 +3,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-TechnitSaudeCoparticipacao" pageWidth="1800" pageHeight="950" columnWidth="1800" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="8e24f7a4-0b2b-4f77-b53e-59fa253f5d29">
 	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Coparticipação"/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\bradesco\TechnitSaudeCoParticipacaoDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/bradesco/TechnitSaudeCoParticipacaoDataAdapter.xml"/>
 	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.1"><![CDATA["Coparticipação"]]></propertyExpression>
 	<queryString>
 		<![CDATA[]]>
@@ -13,9 +13,6 @@
 	</field>
 	<field name="fatorModerador" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[fatorModerador]]></fieldDescription>
-	</field>
-	<field name="tipoRegistro" class="java.lang.Integer">
-		<fieldDescription><![CDATA[tipoRegistro]]></fieldDescription>
 	</field>
 	<field name="indicadorEvento" class="java.lang.Integer">
 		<fieldDescription><![CDATA[indicadorEvento]]></fieldDescription>
