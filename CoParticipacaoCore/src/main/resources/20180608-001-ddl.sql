@@ -15,9 +15,6 @@ drop table if exists TB_LOG;
 
 drop table if exists TB_BENEFICIARIO_COLS;
 
-drop table if exists TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
-drop table if exists TB_ARQUIVO_INPUT_SHEET;
-
 drop table if exists TB_ISENTO_INPUT_SHEET_COLS;
 drop table if exists TB_ISENTO_INPUT_SHEET;
 drop table if exists TB_BENEFICIARIO_ISENTO_COLS;
@@ -77,6 +74,10 @@ drop table if exists TB_ARQUIVO_OUTPUT_SHEET;
 drop table if exists TB_ARQUIVO_OUTPUT;
 drop table if exists TB_VIEW_DESTINATION_COLS_DEF;
 drop table if exists TB_VIEW_DESTINATION;
+
+drop table if exists TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+drop table if exists TB_ARQUIVO_INPUT_SHEET;
+
 drop table if exists TB_ARQUIVO_INPUT_COLS_DEF;
 drop table if exists TB_ARQUIVO_INPUT;
 
@@ -463,225 +464,6 @@ create table TB_ARQUIVO_EXECUCAO(
 	constraint FK_ARQUIVO_EXECUCAO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_ARQUIVO_EXECUCAO_03 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID ),
 	constraint FK_ARQUIVO_EXECUCAO_04 foreign key( ID_EXECUCAO ) references TB_EXECUCAO( ID )
-);
-
-/*****************************************************************************************************************************************************/
-
-/**
- * Regra
- */
- 
-create table TB_REGRA (
-	ID 					bigint( 17 ) auto_increment,
-	NM_REGRA 			varchar( 40 ) not null,
-	DESCR_REGRA 		varchar( 400 ) null,
-	TP_REGRA			int( 3 ) not null, /* 1 = SIMPLES; 2 = CONDICIONAL */
-	CD_ORDEM			int( 3 ) not null,
-	ID_ARQUIVO_INPUT 	bigint( 17 ) not null,
-	
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED		bigint( 17 ) not null,
-	USER_ALTERED 		bigint( 17 ),
-	DT_CREATED			timestamp not null,
-	DT_ALTERED			timestamp not null,	
-	
-	constraint PK_REGRA primary key( ID ),
-	
-	constraint UN_REGRA unique key( NM_REGRA ),
-	
-	constraint FK_REGRA_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
-);
-
-create table TB_REGRA_OPERATION(
-	ID 				bigint( 17 ) auto_increment,
-	ID_REGRA 		bigint( 17 ) not null,
-	TP_OPERATION	int( 3 ) not null, /* 1 = SOMAR, 2 = SUBTRAIR = 3 = MULTIPLICAR, 4 = DIVIDIR */
-	CD_ORDEM		int( 3 ) not null,
-	
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED	bigint( 17 ) not null,
-	USER_ALTERED 	bigint( 17 ),
-	DT_CREATED		timestamp not null,
-	DT_ALTERED		timestamp not null,	
-	
-	constraint PK_REGRA_OPERATION primary key( ID ),
-	
-	constraint FK_REGRA_OPERATION_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_OPERATION_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_OPERATION_03 foreign key( ID_REGRA ) references TB_REGRA( ID )
-);
-
-create table TB_REGRA_FIELD(
-	ID 							bigint( 17 ) auto_increment,
-	ID_REGRA_OPERATION			bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
-
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,	
-	
-	constraint PK_REGRA_FIELD primary key( ID ),
-	
-	constraint FK_REGRA_FIELD_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_FIELD_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_FIELD_03 foreign key( ID_REGRA_OPERATION ) references TB_REGRA_OPERATION( ID ),
-	constraint FK_REGRA_FIELD_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
-);
-
-create table TB_REGRA_VALOR(
-	ID 						bigint( 17 ) auto_increment,
-	ID_REGRA_OPERATION		bigint( 17 ) not null,
-	VL_REGRA_VALOR			numeric( 17, 2 ) not null,
-
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,	
-	
-	constraint PK_REGRA_VALOR primary key( ID ),
-	
-	constraint FK_REGRA_VALOR_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_VALOR_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_VALOR_03 foreign key( ID_REGRA_OPERATION ) references TB_REGRA_OPERATION( ID )
-);
-
-create table TB_REGRA_RESULT(
-	ID 							bigint( 17 ) auto_increment,
-	ID_REGRA					bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
-
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,	
-	
-	constraint PK_REGRA_RESULT primary key( ID ),
-	
-	constraint UN_REGRA_RESULT unique key(  ID_REGRA, ID_ARQUIVO_INPUT_COLS_DEF ),
-	
-	constraint FK_REGRA_RESULT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_RESULT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_RESULT_03 foreign key( ID_REGRA ) references TB_REGRA( ID ),
-	constraint FK_REGRA_RESULT_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
-);
-
-create table TB_REGRA_CONDITIONAL (
-	ID 						bigint( 17 ) auto_increment,
-	NM_REGRA_CONDITIONAL	varchar( 400 ) not null,
-	CD_ORDEM				int( 3 ) not null,
-	ID_ARQUIVO_INPUT 		bigint( 17 ) not null,
-	
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,	
-	
-	constraint PK_REGRA_CONDITIONAL primary key( ID ),
-	
-	constraint UN_REGRA_CONDITIONAL unique key( NM_REGRA_CONDITIONAL ),
-	
-	constraint FK_REGRA_CONDITIONAL_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
-);
-
-create table TB_REGRA_CONDITIONAL_OPERATION(
-	ID 						bigint( 17 ) auto_increment,
-	ID_REGRA_CONDITIONAL 	bigint( 17 ) not null,
-	TP_OPERATION			int( 3 ) not null, /* 5 = EQUALS, 6 = NOT_EQUALS */
-	CD_ORDEM				int( 3 ) not null,
-	
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED	bigint( 17 ) not null,
-	USER_ALTERED 	bigint( 17 ),
-	DT_CREATED		timestamp not null,
-	DT_ALTERED		timestamp not null,	
-	
-	constraint PK_REGRA_CONDITIONAL_OPERATION primary key( ID ),
-	
-	constraint FK_REGRA_CONDITIONAL_OPERATION_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_OPERATION_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_OPERATION_03 foreign key( ID_REGRA_CONDITIONAL ) references TB_REGRA_CONDITIONAL( ID )
-);
-
-create table TB_REGRA_CONDITIONAL_FIELD(
-	ID 								bigint( 17 ) auto_increment,
-	ID_REGRA_CONDITIONAL_OPERATION	bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) not null,
-
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED					bigint( 17 ) not null,
-	USER_ALTERED 					bigint( 17 ),
-	DT_CREATED						timestamp not null,
-	DT_ALTERED						timestamp not null,	
-	
-	constraint PK_REGRA_CONDITIONAL_FIELD primary key( ID ),
-	
-	constraint FK_REGRA_CONDITIONAL_FIELD_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_FIELD_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_FIELD_03 foreign key( ID_REGRA_CONDITIONAL_OPERATION ) references TB_REGRA_CONDITIONAL_OPERATION( ID ),
-	constraint FK_REGRA_CONDITIONAL_FIELD_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
-);
-
-create table TB_REGRA_CONDITIONAL_VALOR(
-	ID 									bigint( 17 ) auto_increment,
-	ID_REGRA_CONDITIONAL_OPERATION		bigint( 17 ) not null,
-
-	VL_DOUBLE							numeric( 17, 2 ) null,
-	VL_INT								int( 10 ) null,
-	VL_DATE								date null,
-	VL_LONG								bigint( 17 ) null,
-	VL_STRING							varchar( 500 ),
-	
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED						bigint( 17 ) not null,
-	USER_ALTERED 						bigint( 17 ),
-	DT_CREATED							timestamp not null,
-	DT_ALTERED							timestamp not null,	
-	
-	constraint PK_REGRA_CONDITIONAL_VALOR primary key( ID ),
-	
-	constraint FK_REGRA_CONDITIONAL_VALOR_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_VALOR_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_VALOR_03 foreign key( ID_REGRA_CONDITIONAL_OPERATION ) references TB_REGRA_CONDITIONAL_OPERATION( ID )
-);
-
-create table TB_REGRA_CONDITIONAL_RESULT(
-	ID 							bigint( 17 ) auto_increment,
-	ID_REGRA_CONDITIONAL		bigint( 17 ) not null,
-	ID_REGRA_EXECUTION       	bigint( 17 ) not null,
-
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,	
-	
-	constraint PK_REGRA_CONDITIONAL_RESULT primary key( ID ),
-	
-	constraint UN_REGRA_CONDITIONAL_RESULT unique key( ID_REGRA_CONDITIONAL, ID_REGRA_EXECUTION ),
-	
-	constraint FK_REGRA_CONDITIONAL_RESULT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_RESULT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_REGRA_CONDITIONAL_RESULT_03 foreign key( ID_REGRA_CONDITIONAL ) references TB_REGRA_CONDITIONAL( ID ),
-	constraint FK_REGRA_CONDITIONAL_RESULT_04 foreign key( ID_REGRA_EXECUTION ) references TB_REGRA( ID )
 );
 
 /*****************************************************************************************************************************************************/
@@ -1565,17 +1347,17 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO_SHEET(
  * 8 - NR_CPF_DEPENDENTE 
  */
 create table TB_BENEFICIARIO_COLS(
-	ID 							bigint( 17 ) auto_increment,	
-	CD_BENEFICIARIO_COLS_DEF	int( 3 ) not null,
+	ID 								bigint( 17 ) auto_increment,	
+	CD_BENEFICIARIO_COLS_DEF		int( 3 ) not null,
 	ID_ARQUIVO_INPUT_SHEET_COLS_DEF bigint( 17 ) null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) null,
+	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) null,
 	
-	VERSION						bigint( 17 ) null,
+	VERSION							bigint( 17 ) null,
  
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,
+	USER_CREATED					bigint( 17 ) not null,
+	USER_ALTERED 					bigint( 17 ),
+	DT_CREATED						timestamp not null,
+	DT_ALTERED						timestamp not null,
 	
 	constraint PK_BENEFICIARIO_COLS primary key( ID ),
 	
@@ -1645,7 +1427,7 @@ create table TB_ISENTO_INPUT_SHEET_COLS(
 
 	ID_ISENTO_INPUT_SHEET			bigint( 17 ) not null,
 	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
-	CD_BENEFICIARIO_COLS_DEF		int( 3 ) not null,
+	CD_BENEFICIARIO_ISENTO_COLS_DEF		int( 3 ) not null,
 	CD_ORDEM						int( 3 ) not null,
 	
 	VERSION						bigint( 17 ) null,
@@ -1657,7 +1439,7 @@ create table TB_ISENTO_INPUT_SHEET_COLS(
 	
 	constraint PK_TB_ISENTO_INPUT_SHEET_COLS primary key( ID ),
 	
-	constraint UN_TB_ISENTO_INPUT_SHEET_COLS_01 unique key( ID_ISENTO_INPUT_SHEET, ID_ARQUIVO_INPUT_COLS_DEF, CD_BENEFICIARIO_COLS_DEF ),
+	constraint UN_TB_ISENTO_INPUT_SHEET_COLS_01 unique key( ID_ISENTO_INPUT_SHEET, ID_ARQUIVO_INPUT_SHEET_COLS_DEF, CD_BENEFICIARIO_ISENTO_COLS_DEF ),
 	
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
@@ -1689,6 +1471,228 @@ create table TB_EXTERNAL_PROCESS(
 	constraint FK_EXTERNAL_PROCESS_03 foreign key( ID_EMPRESA ) references TB_EMPRESA( ID )	
 );
 
+/**********************************************************************************************************************************************************/
+/**********************************************************************************************************************************************************/
+
+/**
+ * Regra
+ */
+ 
+create table TB_REGRA (
+	ID 						bigint( 17 ) auto_increment,
+	NM_REGRA 				varchar( 40 ) not null,
+	DESCR_REGRA 			varchar( 400 ) null,
+	TP_REGRA				int( 3 ) not null, /* 1 = SIMPLES; 2 = CONDICIONAL */
+	CD_ORDEM				int( 3 ) not null,
+	ID_ARQUIVO_INPUT_SHEET 	bigint( 17 ) not null,
+	
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED		bigint( 17 ) not null,
+	USER_ALTERED 		bigint( 17 ),
+	DT_CREATED			timestamp not null,
+	DT_ALTERED			timestamp not null,	
+	
+	constraint PK_REGRA primary key( ID ),
+	
+	constraint UN_REGRA unique key( NM_REGRA ),
+	
+	constraint FK_REGRA_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
+);
+
+create table TB_REGRA_OPERATION(
+	ID 				bigint( 17 ) auto_increment,
+	ID_REGRA 		bigint( 17 ) not null,
+	TP_OPERATION	int( 3 ) not null, /* 1 = SOMAR, 2 = SUBTRAIR = 3 = MULTIPLICAR, 4 = DIVIDIR */
+	CD_ORDEM		int( 3 ) not null,
+	
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED	bigint( 17 ) not null,
+	USER_ALTERED 	bigint( 17 ),
+	DT_CREATED		timestamp not null,
+	DT_ALTERED		timestamp not null,	
+	
+	constraint PK_REGRA_OPERATION primary key( ID ),
+	
+	constraint FK_REGRA_OPERATION_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_OPERATION_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_OPERATION_03 foreign key( ID_REGRA ) references TB_REGRA( ID )
+);
+
+create table TB_REGRA_FIELD(
+	ID 								bigint( 17 ) auto_increment,
+	ID_REGRA_OPERATION				bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED				bigint( 17 ) not null,
+	USER_ALTERED 				bigint( 17 ),
+	DT_CREATED					timestamp not null,
+	DT_ALTERED					timestamp not null,	
+	
+	constraint PK_REGRA_FIELD primary key( ID ),
+	
+	constraint FK_REGRA_FIELD_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_FIELD_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_FIELD_03 foreign key( ID_REGRA_OPERATION ) references TB_REGRA_OPERATION( ID ),
+	constraint FK_REGRA_FIELD_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+);
+
+create table TB_REGRA_VALOR(
+	ID 						bigint( 17 ) auto_increment,
+	ID_REGRA_OPERATION		bigint( 17 ) not null,
+	VL_REGRA_VALOR			numeric( 17, 2 ) not null,
+
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,	
+	
+	constraint PK_REGRA_VALOR primary key( ID ),
+	
+	constraint FK_REGRA_VALOR_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_VALOR_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_VALOR_03 foreign key( ID_REGRA_OPERATION ) references TB_REGRA_OPERATION( ID )
+);
+
+create table TB_REGRA_RESULT(
+	ID 								bigint( 17 ) auto_increment,
+	ID_REGRA						bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED				bigint( 17 ) not null,
+	USER_ALTERED 				bigint( 17 ),
+	DT_CREATED					timestamp not null,
+	DT_ALTERED					timestamp not null,	
+	
+	constraint PK_REGRA_RESULT primary key( ID ),
+	
+	constraint UN_REGRA_RESULT unique key(  ID_REGRA, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
+	
+	constraint FK_REGRA_RESULT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_RESULT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_RESULT_03 foreign key( ID_REGRA ) references TB_REGRA( ID ),
+	constraint FK_REGRA_RESULT_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+);
+
+create table TB_REGRA_CONDITIONAL (
+	ID 							bigint( 17 ) auto_increment,
+	NM_REGRA_CONDITIONAL		varchar( 400 ) not null,
+	CD_ORDEM					int( 3 ) not null,
+	ID_ARQUIVO_INPUT_SHEET 		bigint( 17 ) not null,
+	
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED			bigint( 17 ) not null,
+	USER_ALTERED 			bigint( 17 ),
+	DT_CREATED				timestamp not null,
+	DT_ALTERED				timestamp not null,	
+	
+	constraint PK_REGRA_CONDITIONAL primary key( ID ),
+	
+	constraint UN_REGRA_CONDITIONAL unique key( NM_REGRA_CONDITIONAL ),
+	
+	constraint FK_REGRA_CONDITIONAL_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
+);
+
+create table TB_REGRA_CONDITIONAL_OPERATION(
+	ID 						bigint( 17 ) auto_increment,
+	ID_REGRA_CONDITIONAL 	bigint( 17 ) not null,
+	TP_OPERATION			int( 3 ) not null, /* 5 = EQUALS, 6 = NOT_EQUALS */
+	CD_ORDEM				int( 3 ) not null,
+	
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED	bigint( 17 ) not null,
+	USER_ALTERED 	bigint( 17 ),
+	DT_CREATED		timestamp not null,
+	DT_ALTERED		timestamp not null,	
+	
+	constraint PK_REGRA_CONDITIONAL_OPERATION primary key( ID ),
+	
+	constraint FK_REGRA_CONDITIONAL_OPERATION_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_OPERATION_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_OPERATION_03 foreign key( ID_REGRA_CONDITIONAL ) references TB_REGRA_CONDITIONAL( ID )
+);
+
+create table TB_REGRA_CONDITIONAL_FIELD(
+	ID 									bigint( 17 ) auto_increment,
+	ID_REGRA_CONDITIONAL_OPERATION		bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF		bigint( 17 ) not null,
+
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED					bigint( 17 ) not null,
+	USER_ALTERED 					bigint( 17 ),
+	DT_CREATED						timestamp not null,
+	DT_ALTERED						timestamp not null,	
+	
+	constraint PK_REGRA_CONDITIONAL_FIELD primary key( ID ),
+	
+	constraint FK_REGRA_CONDITIONAL_FIELD_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_FIELD_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_FIELD_03 foreign key( ID_REGRA_CONDITIONAL_OPERATION ) references TB_REGRA_CONDITIONAL_OPERATION( ID ),
+	constraint FK_REGRA_CONDITIONAL_FIELD_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+);
+
+create table TB_REGRA_CONDITIONAL_VALOR(
+	ID 									bigint( 17 ) auto_increment,
+	ID_REGRA_CONDITIONAL_OPERATION		bigint( 17 ) not null,
+
+	VL_DOUBLE							numeric( 17, 2 ) null,
+	VL_INT								int( 10 ) null,
+	VL_DATE								date null,
+	VL_LONG								bigint( 17 ) null,
+	VL_STRING							varchar( 500 ),
+	
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED						bigint( 17 ) not null,
+	USER_ALTERED 						bigint( 17 ),
+	DT_CREATED							timestamp not null,
+	DT_ALTERED							timestamp not null,	
+	
+	constraint PK_REGRA_CONDITIONAL_VALOR primary key( ID ),
+	
+	constraint FK_REGRA_CONDITIONAL_VALOR_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_VALOR_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_VALOR_03 foreign key( ID_REGRA_CONDITIONAL_OPERATION ) references TB_REGRA_CONDITIONAL_OPERATION( ID )
+);
+
+create table TB_REGRA_CONDITIONAL_RESULT(
+	ID 							bigint( 17 ) auto_increment,
+	ID_REGRA_CONDITIONAL		bigint( 17 ) not null,
+	ID_REGRA_EXECUTION       	bigint( 17 ) not null,
+
+	VERSION		bigint( 17 ) null,
+ 
+	USER_CREATED				bigint( 17 ) not null,
+	USER_ALTERED 				bigint( 17 ),
+	DT_CREATED					timestamp not null,
+	DT_ALTERED					timestamp not null,	
+	
+	constraint PK_REGRA_CONDITIONAL_RESULT primary key( ID ),
+	
+	constraint UN_REGRA_CONDITIONAL_RESULT unique key( ID_REGRA_CONDITIONAL, ID_REGRA_EXECUTION ),
+	
+	constraint FK_REGRA_CONDITIONAL_RESULT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_RESULT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGRA_CONDITIONAL_RESULT_03 foreign key( ID_REGRA_CONDITIONAL ) references TB_REGRA_CONDITIONAL( ID ),
+	constraint FK_REGRA_CONDITIONAL_RESULT_04 foreign key( ID_REGRA_EXECUTION ) references TB_REGRA( ID )
+);
+
+/**********************************************************************************************************************************************************/
+/**********************************************************************************************************************************************************/
 /**
  * edson - 11/10/2018
  */

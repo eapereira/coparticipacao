@@ -15,7 +15,8 @@ public enum IsentoType {
 						CRONICO(5, "CRÔNICOS"),
 						CRONICO_INATIVO(6, "CRONICOS / INATIVO"),
 						VALOR(7, "VALOR"),
-						VALOR_CENTAVO(8, "VALOR CENTAVO");
+						VALOR_CENTAVO(8, "VALOR CENTAVO"),
+						DEMITIDO(9,"DEMITIDO");
 
 	private Integer id;
 
