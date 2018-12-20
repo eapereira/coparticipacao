@@ -39,9 +39,6 @@
 	<field name="dataProcessamentoMMYY" class="java.lang.String">
 		<fieldDescription><![CDATA[dataProcessamentoMMYY]]></fieldDescription>
 	</field>
-	<field name="cdContrato" class="java.lang.String">
-		<fieldDescription><![CDATA[cdContrato]]></fieldDescription>
-	</field>
 	<field name="technitHeaderViewUi" class="br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.TechnitHeaderViewUi">
 		<fieldDescription><![CDATA[technitHeaderViewUi]]></fieldDescription>
 	</field>
@@ -115,7 +112,7 @@
 				<textElement>
 					<font fontName="Calibri"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cdContrato}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{technitHeaderViewUi}.getCdContrato()]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement stretchType="ElementGroupBottom" x="360" y="20" width="140" height="20" uuid="4cffa367-a577-4932-af5b-cc1a0e4961a6"/>

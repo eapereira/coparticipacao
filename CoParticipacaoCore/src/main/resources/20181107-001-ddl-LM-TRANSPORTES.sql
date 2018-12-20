@@ -156,7 +156,7 @@ select
     lmTransportes.NR_SUBFATURA,
 	count(1) QTDE_SEGURADOS,
 	sum( lmTransportes.VL_FATOR_MODERADOR ) VL_ALOCACAO,
-	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_LM_TRANSPORTES ) VL_PROPORCAO,
+	( count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_LM_TRANSPORTES ) * 100 ) VL_PROPORCAO,
 	lmTransportes.VERSION,
 	lmTransportes.USER_CREATED,
 	lmTransportes.USER_ALTERED,

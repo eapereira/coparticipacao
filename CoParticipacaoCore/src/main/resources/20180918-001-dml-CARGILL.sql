@@ -399,6 +399,28 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()
 	);
+
+	call PROC_LOG_MESSAGE('LINHA - 364');
+	insert into TB_CONTRATO(
+		ID_EMPRESA,
+		CD_CONTRATO,	
+	    NM_CONTRATO,
+	    DESCR_CONTRATO,
+	    TP_USE,
+	    
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+	    VAR_ID_EMPRESA,
+		'INATIVO',
+		'INATIVO',
+	    VAR_NM_CONTRATO_ISENTO,
+	    VAR_USE_TYPE_ISENTO,
+	    
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
 		
 	call PROC_LOG_MESSAGE('LINHA - 292');
 	insert into TB_CONTRATO(

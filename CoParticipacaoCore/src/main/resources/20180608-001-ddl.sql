@@ -951,7 +951,7 @@ create table TB_DEPENDENTE(
 	constraint PK_DEPENDENTE primary key( ID ),
 	
 	constraint UN_DEPENDENTE_01 unique key( ID_TITULAR, NM_DEPENDENTE ),
-	constraint UN_DEPENDENTE_02 unique key( NM_DEPENDENTE, NR_CPF ),
+	constraint UN_DEPENDENTE_02 unique key( ID_TITULAR, NM_DEPENDENTE, NR_CPF ),
 	
 	constraint FK_DEPENDENTE_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_DEPENDENTE_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
@@ -1643,10 +1643,10 @@ create table TB_ISENTO_INPUT_SHEET(
 create table TB_ISENTO_INPUT_SHEET_COLS(
 	ID 							bigint( 17 ) auto_increment,	
 
-	ID_ISENTO_INPUT_SHEET		bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
-	CD_BENEFICIARIO_COLS_DEF	int( 3 ) not null,
-	CD_ORDEM					int( 3 ) not null,
+	ID_ISENTO_INPUT_SHEET			bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+	CD_BENEFICIARIO_COLS_DEF		int( 3 ) not null,
+	CD_ORDEM						int( 3 ) not null,
 	
 	VERSION						bigint( 17 ) null,
  
@@ -1661,7 +1661,7 @@ create table TB_ISENTO_INPUT_SHEET_COLS(
 	
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_03 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
+	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_03 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID ),
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_04 foreign key( ID_ISENTO_INPUT_SHEET ) references TB_ISENTO_INPUT_SHEET( ID )
 
 );

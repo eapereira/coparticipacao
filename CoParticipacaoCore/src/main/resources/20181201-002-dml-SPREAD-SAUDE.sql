@@ -321,7 +321,6 @@ BEGIN
 	    NM_CONTRATO,
 	    DESCR_CONTRATO,
         TP_USE,
-        CD_DISPLAY_OUTPUT_RESULT,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -331,7 +330,6 @@ BEGIN
 	    '073828',
 	    VAR_NM_CONTRATO_COPARTICIPACAO,
 	    VAR_USE_TYPE_FATUCOPA,
-	    VAR_FALSE,
 	    
 		VAR_ID_USER,
 		current_timestamp(),

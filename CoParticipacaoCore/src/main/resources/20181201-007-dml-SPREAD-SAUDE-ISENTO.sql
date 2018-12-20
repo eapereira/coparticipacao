@@ -56,7 +56,7 @@ BEGIN
 	declare VAR_ID_COLUMN_002_NR_MATRICULA 				bigint( 17 );
 	declare VAR_ID_COLUMN_003_NM_BENEFICIARIO 			bigint( 17 );
 	declare VAR_ID_COLUMN_004_NR_CPF 					bigint( 17 );
-	declare VAR_ID_COLUMN_005_NR_CD_PLANO 				bigint( 17 );
+	declare VAR_ID_COLUMN_005_CD_PLANO 					bigint( 17 );
 	 	
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
 		
