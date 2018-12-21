@@ -20,6 +20,10 @@ drop function if exists FUNC_CREATE_DATA_COMPETENCIA;
 drop function if exists FUNC_FIND_ARQUIVO_OUTPUT;
 drop function if exists FUNC_FIND_ARQUIVO_INPUT;
 
+drop function if exists FUNC_GET_PARAMETER_AS_INT;
+drop function if exists FUNC_GET_PARAMETER_AS_LONG;
+drop function if exists FUNC_GET_PARAMETER_AS_STRING;
+
 delimiter $$
 
 create procedure PROC_LOG_MESSAGE(PARAM_MESSAGE varchar( 400 ))
@@ -427,8 +431,7 @@ BEGIN
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	
-	call PROC_LOG_MESSAGE('LINHA - 190');
-		
+	call PROC_LOG_MESSAGE('LINHA - 190');		
 	open CURSOR_ARQUIVO_OUTPUT_SHEET;
 	
 	updateSheet: loop
@@ -492,6 +495,128 @@ BEGIN
 END
 $$
 
+/*****************************************************************************************************************************************************/
+delimiter $$
+
+create function FUNC_GET_PARAMETER_AS_INT( PARAM_NM_PARAMETER varchar( 60 ))
+returns int( 3 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para informar o ID_ARQUIVO_INPUT'
+BEGIN
+	declare	VAR_INT_VALUE			int( 3 ) default 0;
+	declare VAR_NOT_FOUND 			int( 3 ) default 0;
+
+	declare CURSOR_PARAMETER cursor for 
+		select 	INT_VALUE  from TB_PARAMETER 
+        where	NM_PARAMETER = PARAM_NM_PARAMETER;
+	
+	declare continue handler for not found set VAR_NOT_FOUND = 1;
+	
+	/*************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 190');		
+	open CURSOR_PARAMETER;
+	
+	updateSheet: loop
+	
+		fetch CURSOR_PARAMETER into VAR_INT_VALUE;
+
+		if VAR_NOT_FOUND = 1 then
+			leave updateSheet;
+		end if;
+				
+	end loop updateSheet;
+	
+	close CURSOR_PARAMETER;			
+		
+	call PROC_LOG_MESSAGE('LINHA - 228');	
+		
+	return VAR_INT_VALUE;
+END
+$$
+
+delimiter $$
+
+create function FUNC_GET_PARAMETER_AS_LONG( PARAM_NM_PARAMETER varchar( 60 ))
+returns bigint( 17 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para informar o ID_ARQUIVO_INPUT'
+BEGIN
+	declare	VAR_LONG_VALUE			bigint( 17 ) default 0;
+	declare VAR_NOT_FOUND 			int( 3 ) default 0;
+
+	declare CURSOR_PARAMETER cursor for 
+		select 	LONG_VALUE  from TB_PARAMETER 
+        where	NM_PARAMETER = PARAM_NM_PARAMETER;
+	
+	declare continue handler for not found set VAR_NOT_FOUND = 1;
+	
+	/*************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 190');		
+	open CURSOR_PARAMETER;
+	
+	updateSheet: loop
+	
+		fetch CURSOR_PARAMETER into VAR_LONG_VALUE;
+
+		if VAR_NOT_FOUND = 1 then
+			leave updateSheet;
+		end if;
+				
+	end loop updateSheet;
+	
+	close CURSOR_PARAMETER;			
+		
+	call PROC_LOG_MESSAGE('LINHA - 228');	
+		
+	return VAR_LONG_VALUE;
+END
+$$
+
+delimiter $$
+
+create function FUNC_GET_PARAMETER_AS_STRING( PARAM_NM_PARAMETER varchar( 60 ))
+returns varchar( 200 )
+LANGUAGE SQL
+DETERMINISTIC
+SQL SECURITY DEFINER
+COMMENT 'Function para informar o ID_ARQUIVO_INPUT'
+BEGIN
+	declare	VAR_STRING_VALUE		int( 3 ) default 0;
+	declare VAR_NOT_FOUND 			int( 3 ) default 0;
+
+	declare CURSOR_PARAMETER cursor for 
+		select 	STRING_VALUE  from TB_PARAMETER 
+        where	NM_PARAMETER = PARAM_NM_PARAMETER;
+	
+	declare continue handler for not found set VAR_NOT_FOUND = 1;
+	
+	/*************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 190');		
+	open CURSOR_PARAMETER;
+	
+	updateSheet: loop
+	
+		fetch CURSOR_PARAMETER into VAR_STRING_VALUE;
+
+		if VAR_NOT_FOUND = 1 then
+			leave updateSheet;
+		end if;
+				
+	end loop updateSheet;
+	
+	close CURSOR_PARAMETER;			
+		
+	call PROC_LOG_MESSAGE('LINHA - 228');	
+		
+	return VAR_STRING_VALUE;
+END
+$$
+
+/*****************************************************************************************************************************************************/
 #call PROC_CLEAR_COPARTICIPACAO( 1010 ); 
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/

@@ -54,6 +54,7 @@ BEGIN
 	
 	declare VAR_ID_ARQUIVO_INPUT_MECSAS 			bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT					bigint( 17 );
+    declare VAR_ID_ARQUIVO_INPUT_SHEET				bigint( 17 );
 	declare VAR_ARQUIVO_INPUT_LAYOUT				bigint( 17 );
 				
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO	bigint( 17 );
@@ -120,6 +121,7 @@ BEGIN
 	declare VAR_TP_ISENTO_DEMITIDO										int( 3 ) default 9;		
 
 	declare VAR_COL_INDEX												int( 5 ) default 0;
+    declare VAR_CD_SHEET												int( 3 ) default 0;
 	declare VAR_CD_ORDEM												int( 3 ) default 0;
 	/***********************************************************************************************************************/
 	
@@ -184,7 +186,7 @@ BEGIN
 	from TB_ARQUIVO_INPUT;
 	
 	/*****************************************************************************************************************************************************/
-	/* TITULARES GESTANTES  */
+	/* ISENTOS  */
 	call PROC_LOG_MESSAGE('LINHA - 234');
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
@@ -196,7 +198,7 @@ BEGIN
 		DT_ALTERED			
 	) values (
 		VAR_ID_ARQUIVO_INPUT,		
-		VAR_CD_SHEET_TITULAR_GESTANTE,
+		VAR_CD_SHEET,
 		VAR_ID_CONTRATO,
 		
 		VAR_ID_USER,
@@ -288,19 +290,17 @@ BEGIN
 	/*****************************************************************************************************************************************************/
 	/* BeneficiarioIsento */
 	
-	call PROC_LOG_MESSAGE('LINHA - 4948');
+	call PROC_LOG_MESSAGE('LINHA - 293');
 	/* MECSAS */
 	insert into TB_ISENTO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT_SHEET,
 		TP_ISENTO,
-		CD_SHEET,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		null,
-		VAR_CD_SHEET_GESTANTE,
 
 		VAR_ID_USER,
 		current_timestamp(),
@@ -310,12 +310,11 @@ BEGIN
 	select max( ID ) into VAR_ID_ISENTO_INPUT_SHEET from TB_ISENTO_INPUT_SHEET;
 	set VAR_CD_ORDEM = 0;
 	
-	call PROC_LOG_MESSAGE('LINHA - 4987');
+	call PROC_LOG_MESSAGE('LINHA - 314');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-		CD_BENEFICIARIO_COLS_DEF,
-		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -323,7 +322,6 @@ BEGIN
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_COLUMN_01_NM_BENEFICIARIO,
 		VAR_CD_ISENTO_COLS_DEF_NM_BENEFICIARIO,
-		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
@@ -332,12 +330,11 @@ BEGIN
 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 4987');	
+	call PROC_LOG_MESSAGE('LINHA - 334');	
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-		CD_BENEFICIARIO_COLS_DEF,
-		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -345,7 +342,6 @@ BEGIN
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_COLUMN_02_NR_CPF,
 		VAR_CD_ISENTO_COLS_DEF_NR_CPF,
-		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
@@ -354,12 +350,11 @@ BEGIN
 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
-	call PROC_LOG_MESSAGE('LINHA - 4987');
+	call PROC_LOG_MESSAGE('LINHA - 354');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-		CD_BENEFICIARIO_COLS_DEF,
-		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -367,7 +362,6 @@ BEGIN
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_COLUMN_03_NM_TP_ISENTO,
 		VAR_CD_ISENTO_COLS_DEF_TP_ISENTO,
-		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),

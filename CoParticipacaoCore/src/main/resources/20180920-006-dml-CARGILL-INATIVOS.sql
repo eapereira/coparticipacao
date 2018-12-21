@@ -12,8 +12,8 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180920-004-dml-CARGILL-00197.sql';
-	declare VAR_NM_SCRIPT					varchar( 400 ) default '20180920-005-dml-CARGILL-ISENTOS.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180920-005-dml-CARGILL-ISENTOS.sql';
+	declare VAR_NM_SCRIPT					varchar( 400 ) default '20180920-006-dml-CARGILL-INATIVOS.sql';
 	
 	DECLARE VAR_CODE CHAR(5) DEFAULT '00000';
   	DECLARE VAR_MSG TEXT;
@@ -54,6 +54,7 @@ BEGIN
 	
 	declare VAR_ID_ARQUIVO_INPUT_MECSAS 			bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT					bigint( 17 );
+	declare VAR_ID_ARQUIVO_INPUT_SHEET				bigint( 17 );
 	declare VAR_ARQUIVO_INPUT_LAYOUT				bigint( 17 );
 			
 	declare VAR_ID_SHEET01_COLUMN_001_NR_MATRICULA						bigint( 17 );
@@ -131,10 +132,22 @@ BEGIN
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA_TITULAR			bigint( 17 ) default 1;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_VL_PRINCIPAL					bigint( 17 ) default 9;
 	
+	declare VAR_CD_SHEET_INATIVOS										int( 3 ) default 0;
+	
 	declare VAR_CD_ORDEM												int( 3 ) default 0;
 	declare VAR_NR_MATRICULA_BASE_00192									bigint( 17 ) default 192000000000000;
 	declare VAR_NR_MATRICULA_BASE_00196									bigint( 17 ) default 196000000000000;
 	declare VAR_NR_MATRICULA_BASE_00197									bigint( 17 ) default 197000000000000;
+
+	declare VAR_TP_ISENTO_GESTANTE										int( 3 ) default 1;
+	declare VAR_TP_ISENTO_FILHOS_ATE_12_MESES							int( 3 ) default 2;
+	declare VAR_TP_ISENTO_ESTAGIARIO									int( 3 ) default 3;
+	declare VAR_TP_ISENTO_DIRETORIA										int( 3 ) default 4;
+	declare VAR_TP_ISENTO_CRONICO										int( 3 ) default 5;
+	declare VAR_TP_ISENTO_CRONICO_INATIVO								int( 3 ) default 6;
+	declare VAR_TP_ISENTO_VALOR											int( 3 ) default 7;
+	declare VAR_TP_ISENTO_VALOR_CENTAVO									int( 3 ) default 8;
+	declare VAR_TP_ISENTO_DEMITIDO										int( 3 ) default 9;		
 
 	/***********************************************************************************************************************/
 	
@@ -193,7 +206,7 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_ARQUIVO_INPUT from TB_ARQUIVO_INPUT;
 	
-	call PROC_LOG_MESSAGE('LINHA - 321');
+	call PROC_LOG_MESSAGE('LINHA - 199');
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
 		CD_SHEET,
@@ -204,7 +217,7 @@ BEGIN
 		DT_ALTERED			
 	) values (
 		VAR_ID_ARQUIVO_INPUT,		
-		CD_SHEET_INATIVOS,
+		VAR_CD_SHEET_INATIVOS,
 		VAR_ID_CONTRATO,
 		
 		VAR_ID_USER,
@@ -455,19 +468,17 @@ BEGIN
 	/*****************************************************************************************************************************************************/	
 	/* BENEFICIARIO ISENTO */
 		
-	call PROC_LOG_MESSAGE('LINHA - 4948');
+	call PROC_LOG_MESSAGE('LINHA - 461');
 	/* MECSAS */
 	insert into TB_ISENTO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT_SHEET,
 		TP_ISENTO,
-		CD_SHEET,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		VAR_TP_ISENTO_DEMITIDO,
-		0,
 
 		VAR_ID_USER,
 		current_timestamp(),
@@ -478,12 +489,11 @@ BEGIN
 	from TB_ISENTO_INPUT_SHEET;
 	set VAR_CD_ORDEM = 3;
 
-	call PROC_LOG_MESSAGE('LINHA - 4987');
+	call PROC_LOG_MESSAGE('LINHA - 482');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
 		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
-		CD_BENEFICIARIO_COLS_DEF,
-		CD_ORDEM,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -491,19 +501,17 @@ BEGIN
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_ID_SHEET01_COLUMN_001_NR_MATRICULA,
 		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA,
-		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()				
 	);
 
-	call PROC_LOG_MESSAGE('LINHA - 4987');
+	call PROC_LOG_MESSAGE('LINHA - 510');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-		CD_BENEFICIARIO_COLS_DEF,
-		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -511,7 +519,6 @@ BEGIN
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_ID_SHEET01_COLUMN_003_NM_BENEFICIARIO,
 		VAR_CD_ISENTO_COLS_DEF_NM_BENEFICIARIO,
-		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
@@ -521,9 +528,8 @@ BEGIN
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-		CD_BENEFICIARIO_COLS_DEF,
-		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -531,7 +537,6 @@ BEGIN
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_ID_SHEET01_COLUMN_002_NR_CPF,
 		VAR_CD_ISENTO_COLS_DEF_NR_CPF,
-		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),
@@ -541,9 +546,8 @@ BEGIN
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_COLS_DEF,
-		CD_BENEFICIARIO_COLS_DEF,
-		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -551,7 +555,6 @@ BEGIN
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_ID_SHEET01_COLUMN_009_DT_DEMISSAO,
 		VAR_CD_ISENTO_COLS_DEF_DT_INICIO,
-		VAR_CD_ORDEM,
 
 		VAR_ID_USER,
 		current_timestamp(),

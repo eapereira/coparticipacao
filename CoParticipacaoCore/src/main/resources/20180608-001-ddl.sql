@@ -4,6 +4,8 @@
  * Edson - 08/06/2018
  */
 
+drop table if exists TB_PARAMETER;
+
 drop table if exists TB_LANCAMENTO_INPUT_SHEET_COLS;
 drop table if exists TB_LANCAMENTO_INPUT_SHEET;
  
@@ -1106,12 +1108,11 @@ create table TB_INPUT_DEPENDENTE_ISENTO_COLS(
 /***********************************************************************************************************************/
 
 create table TB_LANCAMENTO_INPUT(
-	ID 						bigint( 17 ) auto_increment,
-	ID_ARQUIVO_INPUT		bigint( 17 ) not null,
+	ID 							bigint( 17 ) auto_increment,
+	ID_ARQUIVO_INPUT_SHEET		bigint( 17 ) not null,
 	
-	VERSION		bigint( 17 ) null,
-	
-	
+	VERSION						bigint( 17 ) null,
+		
 	USER_CREATED			bigint( 17 ) not null,
 	USER_ALTERED 			bigint( 17 ),
 	DT_CREATED				timestamp not null,
@@ -1119,18 +1120,18 @@ create table TB_LANCAMENTO_INPUT(
 	
 	constraint PK_LANCAMENTO_INPUT primary key( ID ),
 	
-	constraint UN_INPUT_LANCAMNETO_01 unique key( ID_ARQUIVO_INPUT ),
+	constraint UN_INPUT_LANCAMNETO_01 unique key( ID_ARQUIVO_INPUT_SHEET ),
 	
 	constraint FK_LANCAMENTO_INPUT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_LANCAMENTO_INPUT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_LANCAMENTO_INPUT_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
+	constraint FK_LANCAMENTO_INPUT_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
 );
 
 create table TB_LANCAMENTO_INPUT_COLS(
-	ID 							bigint( 17 ) auto_increment,
-	ID_LANCAMENTO_INPUT			bigint( 17 ) not null,
-	CD_LANCAMENTO_COLS_DEF		int( 3 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) not null,
+	ID 								bigint( 17 ) auto_increment,
+	ID_LANCAMENTO_INPUT				bigint( 17 ) not null,
+	CD_LANCAMENTO_COLS_DEF			int( 3 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
 	
 	VERSION		bigint( 17 ) null,
  
@@ -1141,12 +1142,12 @@ create table TB_LANCAMENTO_INPUT_COLS(
 	
 	constraint PK_LANCAMENTO_INPUT_COLS primary key( ID ),
 	
-	constraint UN_INPUT_LANCAMNETO_COLS_01 unique key( CD_LANCAMENTO_COLS_DEF, ID_ARQUIVO_INPUT_COLS_DEF ),
+	constraint UN_INPUT_LANCAMNETO_COLS_01 unique key( CD_LANCAMENTO_COLS_DEF, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
 	
 	constraint FK_LANCAMENTO_INPUT_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_LANCAMENTO_INPUT_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_LANCAMENTO_INPUT_COLS_03 foreign key( ID_LANCAMENTO_INPUT ) references TB_LANCAMENTO_INPUT( ID ),
-	constraint FK_LANCAMENTO_INPUT_COLS_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
+	constraint FK_LANCAMENTO_INPUT_COLS_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
 );
 
 create table TB_DESCONHECIDO(
@@ -1400,10 +1401,8 @@ create table TB_BENEFICIARIO_ISENTO(
 create table TB_ISENTO_INPUT_SHEET(
 	ID 							bigint( 17 ) auto_increment,
 	
-	ID_ARQUIVO_INPUT			bigint( 17 ) not null,	
+	ID_ARQUIVO_INPUT_SHEET		bigint( 17 ) not null,	
 	TP_ISENTO					int( 3 ) null,
-	
-	CD_SHEET					int( 3 ) not null,
 	
 	VERSION						bigint( 17 ) null,
  
@@ -1414,32 +1413,33 @@ create table TB_ISENTO_INPUT_SHEET(
 	
 	constraint PK_ISENTO_INPUT_SHEET primary key( ID ),
 	
-	constraint UN_ISENTO_INPUT_SHEET_01 unique key( ID_ARQUIVO_INPUT, TP_ISENTO, CD_SHEET ),
+	constraint UN_ISENTO_INPUT_SHEET_01 unique key( ID_ARQUIVO_INPUT_SHEET, TP_ISENTO ),
 	
 	constraint FK_ISENTO_INPUT_SHEET_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_ISENTO_INPUT_SHEET_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ISENTO_INPUT_SHEET_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
-			
+	constraint FK_ISENTO_INPUT_SHEET_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
 );
 
 create table TB_ISENTO_INPUT_SHEET_COLS(
-	ID 							bigint( 17 ) auto_increment,	
+	ID 									bigint( 17 ) auto_increment,	
 
-	ID_ISENTO_INPUT_SHEET			bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+	ID_ISENTO_INPUT_SHEET				bigint( 17 ) not null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF		bigint( 17 ) not null,
 	CD_BENEFICIARIO_ISENTO_COLS_DEF		int( 3 ) not null,
-	CD_ORDEM						int( 3 ) not null,
 	
-	VERSION						bigint( 17 ) null,
- 
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,
+	VERSION								bigint( 17 ) null,
+	USER_CREATED						bigint( 17 ) not null,
+	USER_ALTERED 						bigint( 17 ),
+	DT_CREATED							timestamp not null,
+	DT_ALTERED							timestamp not null,
 	
 	constraint PK_TB_ISENTO_INPUT_SHEET_COLS primary key( ID ),
 	
-	constraint UN_TB_ISENTO_INPUT_SHEET_COLS_01 unique key( ID_ISENTO_INPUT_SHEET, ID_ARQUIVO_INPUT_SHEET_COLS_DEF, CD_BENEFICIARIO_ISENTO_COLS_DEF ),
+	constraint UN_TB_ISENTO_INPUT_SHEET_COLS_01 unique key( 
+		ID_ISENTO_INPUT_SHEET, 
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF, 
+		CD_BENEFICIARIO_ISENTO_COLS_DEF
+	),
 	
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
@@ -1812,3 +1812,24 @@ create table TB_SCRIPT(
 
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
+
+create table TB_PARAMETER(
+	ID					bigint( 17 ) auto_increment,
+	
+	NM_PARAMETER		varchar( 60 ) not null,
+	INT_VALUE			int( 3 ) null,
+	LONG_VALUE			bigint( 17 ) null,
+	STRING_VALUE		varchar( 200 ) null,
+
+	VERSION				bigint( 17 ) null,	 
+	USER_CREATED		bigint( 17 ) not null,
+	USER_ALTERED 		bigint( 17 ),
+	DT_CREATED			timestamp not null,
+	DT_ALTERED			timestamp not null,
+
+	constraint PK_PARAMETER primary key( ID ),	
+	constraint UN_PARAMETER_01 unique key( NM_PARAMETER ),
+	
+	constraint FK_PARAMETER_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_PARAMETER_02 foreign key( USER_ALTERED ) references TB_USER( ID )
+);
