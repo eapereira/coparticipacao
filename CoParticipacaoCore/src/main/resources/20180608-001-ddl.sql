@@ -295,33 +295,6 @@ create table TB_ARQUIVO_INPUT(
 	constraint FK_ARQUIVO_INPUT_03 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID )
 );
 
-create table TB_ARQUIVO_INPUT_COLS_DEF(
-	ID 					bigint( 17 ) auto_increment,
-	ID_ARQUIVO_INPUT	bigint( 17 ) not null,
-	
-	NM_COLUMN			varchar( 60 ) not null,
-	CD_TYPE				int( 3 ) not null, 	/* 0 = INT, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
-	VL_LENGTH			int( 5 ) null, 		/* arquivos CSV nao precisa de tamanho de coluna */
-	CD_ORDEM			int( 3 ) not null,
-	CD_FORMAT			varchar( 200 ) null, /* Para usar com datas e números */
-	CD_LOCALE_PATTERN	varchar( 200 ) null, /* Para usar com datas e números */
-	
-	VERSION		bigint( 17 ) null,
-	 
-	USER_CREATED		bigint( 17 ) not null,
-	USER_ALTERED 		bigint( 17 ),
-	DT_CREATED			timestamp not null,
-	DT_ALTERED			timestamp not null,
-	
-	constraint PK_ARQUIVO_INPUT_COLS_DEF primary key( ID ),
-	
-	constraint UN_ARQUIVO_INPUT_COLS_DEF_01 unique key( ID_ARQUIVO_INPUT, NM_COLUMN ),
-	
-	constraint FK_ARQUIVO_INPUT_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_INPUT_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_INPUT_COLS_DEF_03 foreign key( ID_ARQUIVO_INPUT ) references TB_ARQUIVO_INPUT( ID )
-);
-
 create table TB_VIEW_DESTINATION(
 	ID 				bigint( 17 ) auto_increment,
 	NM_VIEW			varchar( 200 ) not null,
@@ -1056,55 +1029,6 @@ create table TB_INPUT_DEPENDENTE_ISENTO(
 	
 );
 
-create table TB_INPUT_TITULAR_ISENTO_COLS(
-	ID 							bigint( 17 ) auto_increment,
-    ID_INPUT_TITULAR_ISENTO		bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF	bigint( 17 ) null,
-	ID_TITULAR_ISENTO_COLS_DEF	bigint( 17 ) not null,
-	TP_ISENTO					int( 3 ) null,
-		
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED				bigint( 17 ) not null,
-	USER_ALTERED 				bigint( 17 ),
-	DT_CREATED					timestamp not null,
-	DT_ALTERED					timestamp not null,
-
-	constraint PK_INPUT_TITULAR_ISENTO_COLS primary key( ID ),
-    
-    constraint UN_INPUT_TITULAR_ISENTO_COLS unique key( ID_INPUT_TITULAR_ISENTO, ID_ARQUIVO_INPUT_COLS_DEF, ID_TITULAR_ISENTO_COLS_DEF ),
-
-	constraint FK_INPUT_TITULAR_ISENTO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_INPUT_TITULAR_ISENTO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_INPUT_TITULAR_ISENTO_COLS_03 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
-	constraint FK_INPUT_TITULAR_ISENTO_COLS_04 foreign key( ID_TITULAR_ISENTO_COLS_DEF ) references TB_TITULAR_ISENTO_COLS_DEF( ID )
-);
-
-create table TB_INPUT_DEPENDENTE_ISENTO_COLS(
-	ID 								bigint( 17 ) auto_increment,
-	ID_INPUT_DEPENDENTE_ISENTO		bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) null,
-	ID_DEPENDENTE_ISENTO_COLS_DEF	bigint( 17 ) not null,
-	TP_ISENTO						int( 3 ) null,
-		
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED					bigint( 17 ) not null,
-	USER_ALTERED 					bigint( 17 ),
-	DT_CREATED						timestamp not null,
-	DT_ALTERED						timestamp not null,
-
-	constraint PK_INPUT_DEPENDENTE_ISENTO_COLS primary key( ID ),
-	
-	constraint UN_INPUT_DEPENDENTE_ISENTO_COLS unique key( ID_INPUT_DEPENDENTE_ISENTO, ID_ARQUIVO_INPUT_COLS_DEF, ID_DEPENDENTE_ISENTO_COLS_DEF ),
-
-	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_03 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID ),
-	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_04 foreign key( ID_DEPENDENTE_ISENTO_COLS_DEF ) references TB_DEPENDENTE_ISENTO_COLS_DEF( ID ),
-	constraint FK_INPUT_DEPENDENTE_ISENTO_COLS_05 foreign key( ID_INPUT_DEPENDENTE_ISENTO ) references TB_INPUT_DEPENDENTE_ISENTO( ID )
-);
-
 /***********************************************************************************************************************/
 
 create table TB_LANCAMENTO_INPUT(
@@ -1350,8 +1274,7 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO_SHEET(
 create table TB_BENEFICIARIO_COLS(
 	ID 								bigint( 17 ) auto_increment,	
 	CD_BENEFICIARIO_COLS_DEF		int( 3 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF bigint( 17 ) null,
-	ID_ARQUIVO_INPUT_COLS_DEF		bigint( 17 ) null,
+	ID_ARQUIVO_INPUT_SHEET_COLS_DEF bigint( 17 ) not null,
 	
 	VERSION							bigint( 17 ) null,
  
@@ -1362,12 +1285,11 @@ create table TB_BENEFICIARIO_COLS(
 	
 	constraint PK_BENEFICIARIO_COLS primary key( ID ),
 	
-	constraint UN_BENEFICIARIO_COLS_01 unique key( CD_BENEFICIARIO_COLS_DEF, ID_ARQUIVO_INPUT_COLS_DEF ),
+	constraint UN_BENEFICIARIO_COLS_01 unique key( CD_BENEFICIARIO_COLS_DEF, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
 	
 	constraint FK_BENEFICIARIO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_BENEFICIARIO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_BENEFICIARIO_COLS_03 foreign key ( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID ),
-	constraint FK_BENEFICIARIO_COLS_04 foreign key( ID_ARQUIVO_INPUT_COLS_DEF ) references TB_ARQUIVO_INPUT_COLS_DEF( ID )
+	constraint FK_BENEFICIARIO_COLS_03 foreign key ( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
 );
 
 /*****************************************************************************************************************************************************/

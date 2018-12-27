@@ -2786,7 +2786,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_093_CID06 
+	select max( ID ) into VAR_ID_COLUMN_094_CID07 
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
