@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
@@ -22,8 +22,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInput;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraField;
@@ -93,16 +91,16 @@ public class UserEntity extends User implements DomainEntity {
 		return super.getArquivoInputsUserAltered();
 	}
 
-	// bi-directional many-to-one association to ArquivoInputColsDef
-	@OneToMany(mappedBy = "userCreated", targetEntity = ArquivoInputColsDefEntity.class)
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserCreated() {
-		return super.getArquivoInputColsDefUserCreated();
+	// bi-directional many-to-one association to ArquivoInputSheetColsDef
+	@OneToMany(mappedBy = "userCreated", targetEntity = ArquivoInputSheetColsDefEntity.class)
+	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserCreated() {
+		return super.getArquivoInputSheetColsDefUserCreated();
 	}
 
-	// bi-directional many-to-one association to ArquivoInputColsDef
-	@OneToMany(mappedBy = "userAltered", targetEntity = ArquivoInputColsDefEntity.class)
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserAltered() {
-		return super.getArquivoInputColsDefUserAltered();
+	// bi-directional many-to-one association to ArquivoInputSheetColsDef
+	@OneToMany(mappedBy = "userAltered", targetEntity = ArquivoInputSheetColsDefEntity.class)
+	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserAltered() {
+		return super.getArquivoInputSheetColsDefUserAltered();
 	}
 
 	// bi-directional many-to-one association to ArquivoOutput
@@ -175,18 +173,6 @@ public class UserEntity extends User implements DomainEntity {
 	@OneToMany(mappedBy = "userAltered", targetEntity = EmpresaEntity.class)
 	public List<Empresa> getEmpresasUserAltered() {
 		return super.getEmpresasUserAltered();
-	}
-
-	// bi-directional many-to-one association to InputLancamento
-	@OneToMany(mappedBy = "userCreated", targetEntity = LancamentoInputEntity.class)
-	public List<LancamentoInput> getInputLancamentosUserCreated() {
-		return super.getInputLancamentosUserCreated();
-	}
-
-	// bi-directional many-to-one association to InputLancamento
-	@OneToMany(mappedBy = "userAltered", targetEntity = LancamentoInputEntity.class)
-	public List<LancamentoInput> getInputLancamentosUserAltered() {
-		return super.getInputLancamentosUserAltered();
 	}
 
 	// bi-directional many-to-one association to Lancamento
@@ -309,34 +295,6 @@ public class UserEntity extends User implements DomainEntity {
 	@OneToMany(mappedBy = "userAltered", targetEntity = ViewDestinationColsDefEntity.class)
 	public List<ViewDestinationColsDef> getViewDestinationColsDefsUserAltered() {
 		return super.getViewDestinationColsDefsUserAltered();
-	}
-
-	@OneToMany(mappedBy = "userCreated", targetEntity = LancamentoInputEntity.class)
-	@Override
-	public List<LancamentoInput> getLancamentoInputUserCreated() {
-		// TODO Auto-generated method stub
-		return super.getLancamentoInputUserCreated();
-	}
-
-	@OneToMany(mappedBy = "userAltered", targetEntity = LancamentoInputEntity.class)
-	@Override
-	public List<LancamentoInput> getLancamentoInputUserAltered() {
-		// TODO Auto-generated method stub
-		return super.getLancamentoInputUserAltered();
-	}
-
-	@OneToMany(mappedBy = "userCreated", targetEntity = LancamentoInputColsEntity.class)
-	@Override
-	public List<LancamentoInputCols> getLancamentoInputColsUserCreated() {
-		// TODO Auto-generated method stub
-		return super.getLancamentoInputColsUserCreated();
-	}
-
-	@OneToMany(mappedBy = "userAltered", targetEntity = LancamentoInputColsEntity.class)
-	@Override
-	public List<LancamentoInputCols> getLancamentoInputColsUserAltered() {
-		// TODO Auto-generated method stub
-		return super.getLancamentoInputColsUserAltered();
 	}
 
 	@OneToMany(

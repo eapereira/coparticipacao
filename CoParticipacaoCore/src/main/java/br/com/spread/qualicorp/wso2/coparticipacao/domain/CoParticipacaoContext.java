@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
@@ -25,11 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputDependenteIsentoColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.InputTitularIsentoColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
@@ -58,10 +53,6 @@ public class CoParticipacaoContext {
 
 	private String fileName;
 
-	private List<ArquivoInputColsDefUi> arquivoInputColsDefUis;
-
-	private List<LancamentoInputColsUi> lancamentoInputColsUis;
-
 	private List<RegraUi> regraUis;
 
 	private List<RegraConditionalUi> regraConditionalUis;
@@ -76,21 +67,11 @@ public class CoParticipacaoContext {
 
 	private List<DependenteUi> dependenteUis;
 
-	private List<InputTitularIsentoColsUi> inputTitularIsentoColsUis;
-
-	private List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis;
-
-	private List<BeneficiarioColsUi> beneficiarioColsUis;
-
 	private Bunker bunker;
 
 	private Integer currentLine;
 
 	private Integer currentSheet;
-
-	List<IsentoInputSheetUi> isentoInputSheetUis;
-
-	private BeneficiarioUi beneficiarioUi;
 
 	private FormulaEvaluator formulaEvaluator;
 
@@ -122,31 +103,22 @@ public class CoParticipacaoContext {
 
 	private Map<Integer, List<BeneficiarioColsUi>> mapBeneficiarioCols;
 
-	private Map<Integer, List<LancamentoInputSheetColsUi>> mapLancamentoInputSheetColsUis;
-
 	private Map<Integer, ArquivoInputSheetUi> mapArquivoInputSheetUi;
 
 	private SpreadsheetContext spreadsheetContext;
 
 	private List<ArquivoOutputUi> arquivoOutputUis;
-	
+
 	private ContratoUi contratoUi;
 
+	private BeneficiarioUi beneficiarioUi;
+
 	public CoParticipacaoContext() {
-		arquivoInputColsDefUis = new ArrayList<ArquivoInputColsDefUi>();
-		lancamentoInputColsUis = new ArrayList<LancamentoInputColsUi>();
 		titularUis = new ArrayList<TitularUi>();
 		dependenteUis = new ArrayList<DependenteUi>();
 
 		regraConditionalUis = new ArrayList<RegraConditionalUi>();
 		regraUis = new ArrayList<RegraUi>();
-
-		inputTitularIsentoColsUis = new ArrayList<InputTitularIsentoColsUi>();
-		inputDependenteIsentoColsUis = new ArrayList<InputDependenteIsentoColsUi>();
-
-		beneficiarioColsUis = new ArrayList<BeneficiarioColsUi>();
-
-		isentoInputSheetUis = new ArrayList<IsentoInputSheetUi>();
 
 		desconhecidoUis = new ArrayList<DesconhecidoUi>();
 		lancamentoInputSheetUis = new ArrayList<LancamentoInputSheetUi>();
@@ -155,7 +127,6 @@ public class CoParticipacaoContext {
 		bunker = new Bunker();
 
 		mapBeneficiarioCols = new HashMap<Integer, List<BeneficiarioColsUi>>();
-		mapLancamentoInputSheetColsUis = new HashMap<Integer, List<LancamentoInputSheetColsUi>>();
 		mapArquivoInputSheetUi = new HashMap<Integer, ArquivoInputSheetUi>();
 
 		arquivoOutputUis = new ArrayList<ArquivoOutputUi>();
@@ -171,14 +142,6 @@ public class CoParticipacaoContext {
 
 	public void setUser(UserUi user) {
 		this.user = user;
-	}
-
-	public List<ArquivoInputColsDefUi> getArquivoInputColsDefUis() {
-		return arquivoInputColsDefUis;
-	}
-
-	public void setArquivoInputColsDefUis(List<ArquivoInputColsDefUi> arquivoInputColsDefUis) {
-		this.arquivoInputColsDefUis = arquivoInputColsDefUis;
 	}
 
 	public List<RegraUi> getRegraUis() {
@@ -305,17 +268,12 @@ public class CoParticipacaoContext {
 		this.ano = ano;
 	}
 
-	public Object getColumnValue(ArquivoInputColsDefUi arquivoInputColsDefUi) {
-		return getMapLine().get(arquivoInputColsDefUi.getNameColumn());
-	}
-
 	public Object getColumnValue(ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi) {
 		return getMapLine().get(arquivoInputSheetColsDefUi.getNameColumn());
 	}
 
-	public void setColumnValue(ArquivoInputColsDef arquivoInputColsDef, Object value) {
-
-		getMapLine().put(arquivoInputColsDef.getNameColumn(), value);
+	public void setColumnValue(ArquivoInputSheetColsDef arquivoInputSheetColsDef, Object value) {
+		getMapLine().put(arquivoInputSheetColsDef.getNameColumn(), value);
 	}
 
 	public List<RegraConditionalUi> getRegraConditionalUis() {
@@ -342,60 +300,12 @@ public class CoParticipacaoContext {
 		getBunker().getDependenteIsentoUis().add(dependenteIsentoUi);
 	}
 
-	public List<InputTitularIsentoColsUi> getInputTitularIsentoColsUis() {
-		return inputTitularIsentoColsUis;
-	}
-
-	public void setInputTitularIsentoColsUis(List<InputTitularIsentoColsUi> inputTitularIsentoColsUis) {
-		this.inputTitularIsentoColsUis = inputTitularIsentoColsUis;
-	}
-
-	public List<InputDependenteIsentoColsUi> getInputDependenteIsentoColsUis() {
-		return inputDependenteIsentoColsUis;
-	}
-
-	public void setInputDependenteIsentoColsUis(List<InputDependenteIsentoColsUi> inputDependenteIsentoColsUis) {
-		this.inputDependenteIsentoColsUis = inputDependenteIsentoColsUis;
-	}
-
-	public List<BeneficiarioColsUi> getBeneficiarioColsUis() {
-		return beneficiarioColsUis;
-	}
-
-	public void setBeneficiarioColsUis(List<BeneficiarioColsUi> beneficiarioColsUis) {
-		this.beneficiarioColsUis = beneficiarioColsUis;
-	}
-
 	public Integer getCurrentSheet() {
 		return currentSheet;
 	}
 
 	public void setCurrentSheet(Integer currentSheet) {
 		this.currentSheet = currentSheet;
-	}
-
-	public List<IsentoInputSheetUi> getIsentoInputSheetUis() {
-		return isentoInputSheetUis;
-	}
-
-	public void setIsentoInputSheetUis(List<IsentoInputSheetUi> isentoInputSheetUis) {
-		this.isentoInputSheetUis = isentoInputSheetUis;
-	}
-
-	public BeneficiarioUi getBeneficiarioUi() {
-		return beneficiarioUi;
-	}
-
-	public void setBeneficiarioUi(BeneficiarioUi beneficiarioUi) {
-		this.beneficiarioUi = beneficiarioUi;
-	}
-
-	public List<LancamentoInputColsUi> getLancamentoInputColsUis() {
-		return lancamentoInputColsUis;
-	}
-
-	public void setLancamentoInputColsUis(List<LancamentoInputColsUi> lancamentoInputColsUis) {
-		this.lancamentoInputColsUis = lancamentoInputColsUis;
 	}
 
 	public FormulaEvaluator getFormulaEvaluator() {
@@ -713,15 +623,6 @@ public class CoParticipacaoContext {
 		this.mapBeneficiarioCols = mapBeneficiarioCols;
 	}
 
-	public Map<Integer, List<LancamentoInputSheetColsUi>> getMapLancamentoInputSheetColsUis() {
-		return mapLancamentoInputSheetColsUis;
-	}
-
-	public void setMapLancamentoInputSheetColsUis(
-			Map<Integer, List<LancamentoInputSheetColsUi>> mapLancamentoInputSheetColsUis) {
-		this.mapLancamentoInputSheetColsUis = mapLancamentoInputSheetColsUis;
-	}
-
 	public Map<Integer, ArquivoInputSheetUi> getMapArquivoInputSheetUi() {
 		return mapArquivoInputSheetUi;
 	}
@@ -825,5 +726,78 @@ public class CoParticipacaoContext {
 
 	public void setContratoUi(ContratoUi contratoUi) {
 		this.contratoUi = contratoUi;
+	}
+
+	public List<BeneficiarioColsUi> listBeneficiarioColsBySheetId(Integer sheetId) {
+		List<BeneficiarioColsUi> beneficiarioColsUis = null;
+		LOGGER.info("BEGIN");
+
+		if (getMapBeneficiarioCols().containsKey(sheetId)) {
+			beneficiarioColsUis = getMapBeneficiarioCols().get(sheetId);
+		} else {
+			LOGGER.debug("Using mapped columns for BeneficiarioCols as Sheet[0]:");
+			beneficiarioColsUis = getMapBeneficiarioCols().get(NumberUtils.INTEGER_ZERO);
+		}
+
+		LOGGER.info("END");
+		return beneficiarioColsUis;
+	}
+
+	public BeneficiarioUi getBeneficiarioUi() {
+		return beneficiarioUi;
+	}
+
+	public void setBeneficiarioUi(BeneficiarioUi beneficiarioUi) {
+		this.beneficiarioUi = beneficiarioUi;
+	}
+
+	public ArquivoInputSheetUi findArquivoInputSheetById(Integer sheetId) {
+		ArquivoInputSheetUi arquivoInputSheetUi = null;
+		LOGGER.info("BEGIN");
+
+		if (getMapArquivoInputSheetUi().containsKey(sheetId)) {
+			arquivoInputSheetUi = getMapArquivoInputSheetUi().get(sheetId);
+		} else {
+			arquivoInputSheetUi = getMapArquivoInputSheetUi().get(NumberUtils.INTEGER_ZERO);
+		}
+
+		LOGGER.info("END");
+		return arquivoInputSheetUi;
+	}
+
+	public List<ArquivoInputSheetColsDef> listArquivoInputSheetColsBySheetId(Integer sheetId) {
+		List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefs = null;
+		ArquivoInputSheetUi arquivoInputSheetUi;
+		LOGGER.info("BEGIN");
+
+		arquivoInputSheetUi = findArquivoInputSheetById(sheetId);
+		arquivoInputSheetColsDefs = arquivoInputSheetUi.getArquivoInputSheetColsDefs();
+
+		LOGGER.info("END");
+		return arquivoInputSheetColsDefs;
+	}
+
+	public List<LancamentoInputSheetCols> listLancamentoInputSheetColsBySheetId(Integer sheetId) {
+		List<LancamentoInputSheetCols> lancamentoInputSheetCols = null;
+		ArquivoInputSheetUi arquivoInputSheetUi;
+		LOGGER.info("BEGIN");
+
+		arquivoInputSheetUi = findArquivoInputSheetById(sheetId);
+		lancamentoInputSheetCols = arquivoInputSheetUi.getLancamentoInputSheet().getLancamentoInputSheetCols();
+
+		LOGGER.info("END");
+		return lancamentoInputSheetCols;
+	}
+
+	public List<IsentoInputSheetCols> listIsentoInputSheetColsBySheetId(Integer sheetId) {
+		List<IsentoInputSheetCols> isentoInputSheetCols = null;
+		ArquivoInputSheetUi arquivoInputSheetUi;
+		LOGGER.info("BEGIN");
+
+		arquivoInputSheetUi = findArquivoInputSheetById(sheetId);
+		isentoInputSheetCols = arquivoInputSheetUi.getIsentoInputSheet().getIsentoInputSheetCols();
+
+		LOGGER.info("END");
+		return isentoInputSheetCols;
 	}
 }

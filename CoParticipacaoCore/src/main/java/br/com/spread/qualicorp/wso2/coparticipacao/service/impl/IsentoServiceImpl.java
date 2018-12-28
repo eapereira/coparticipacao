@@ -18,7 +18,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColT
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
@@ -67,13 +68,15 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 	public boolean hasIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		ArquivoInputUi arquivoInputUi;
+		List<IsentoInputSheetCols> isentoInputSheetCols;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputUi = coParticipacaoContext.getArquivoInputUi();
+			isentoInputSheetCols = coParticipacaoContext
+					.listIsentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
-			if (!arquivoInputUi.getIsentoInputSheets().isEmpty()) {
+			if (!isentoInputSheetCols.isEmpty()) {
 				return true;
 			}
 
@@ -87,27 +90,26 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 	public void processIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		TitularUi titularUi = null;
-		List<IsentoInputSheetUi> isentoInputSheetUis;
+		IsentoInputSheetUi isentoInputSheetUi;
 		List<IsentoInputSheetCols> isentoInputSheetCols;
 		BeneficiarioIsentoUi beneficiarioIsentoUi = null;
 		DependenteUi dependenteUi = null;
 		IsentoType isentoType = null;
+		ArquivoInputSheetUi arquivoInputSheetUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			isentoInputSheetUis = coParticipacaoContext.getIsentoInputSheetUis();
+			isentoInputSheetCols = coParticipacaoContext
+					.listIsentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
-			for (IsentoInputSheetUi isentoInputSheetUi : isentoInputSheetUis) {
-				if (coParticipacaoContext.getCurrentSheet().equals(isentoInputSheetUi.getSheetId())) {
-					isentoInputSheetCols = isentoInputSheetUi.getIsentoInputSheetCols();
-					isentoType = isentoInputSheetUi.getIsentoType();
+			arquivoInputSheetUi = coParticipacaoContext
+					.findArquivoInputSheetById(coParticipacaoContext.getCurrentSheet());
+			isentoInputSheetUi = (IsentoInputSheetUi) arquivoInputSheetUi.getIsentoInputSheet();
+			isentoType = isentoInputSheetUi.getIsentoType();
 
-					beneficiarioIsentoUi = createBeneficiarioIsento(coParticipacaoContext, isentoInputSheetCols);
-					regraService.applyRegras(coParticipacaoContext, beneficiarioIsentoUi, isentoInputSheetCols);
-					break;
-				}
-			}
+			beneficiarioIsentoUi = createBeneficiarioIsento(coParticipacaoContext, isentoInputSheetCols);
+			regraService.applyRegras(coParticipacaoContext, beneficiarioIsentoUi, isentoInputSheetCols);
 
 			if (beneficiarioIsentoUi != null) {
 				LOGGER.info(
@@ -238,7 +240,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 				if (beneficiarioIsentoColType != null) {
 					value = coParticipacaoContext.getColumnValue(
-							(ArquivoInputColsDefUi) beneficiarioIsentoInputCol.getArquivoInputColsDef());
+							(ArquivoInputSheetColsDefUi) beneficiarioIsentoInputCol.getArquivoInputSheetColsDef());
 
 					LOGGER.info(
 							"Transfering value [{}] to BeneficiarioIsento [{}]:",
@@ -444,7 +446,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 	}
 
 	public boolean validateSheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
-		List<IsentoInputSheetUi> isentoInputSheetUis;
+		List<IsentoInputSheetCols> isentoInputSheetCols;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -458,13 +460,12 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 				LOGGER.debug("Reading sheet [{}]:", coParticipacaoContext.getCurrentSheet());
 				return true;
 			} else {
-				isentoInputSheetUis = coParticipacaoContext.getIsentoInputSheetUis();
+				isentoInputSheetCols = coParticipacaoContext
+						.listIsentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
-				for (IsentoInputSheetUi isentoInputSheetUi : isentoInputSheetUis) {
-					if (isentoInputSheetUi.getSheetId().equals(coParticipacaoContext.getCurrentSheet())) {
-						LOGGER.debug("Reading sheet [{}]:", coParticipacaoContext.getCurrentSheet());
-						return true;
-					}
+				if (!isentoInputSheetCols.isEmpty()) {
+					LOGGER.debug("Reading sheet [{}]:", coParticipacaoContext.getCurrentSheet());
+					return true;
 				}
 			}
 

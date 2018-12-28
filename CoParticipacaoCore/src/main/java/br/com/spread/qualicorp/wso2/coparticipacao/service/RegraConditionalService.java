@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
@@ -25,5 +26,7 @@ public interface RegraConditionalService extends AbstractService<RegraConditiona
 			CoParticipacaoContext coParticipacaoContext,
 			BeneficiarioIsentoUi beneficiarioIsentoUi,
 			List<IsentoInputSheetCols> isentoInputSheetCols) throws ServiceException;
+
+	List<RegraConditionalUi> listByArquivoInputSheet(ArquivoInputSheetUi arquivoInputSheetUi) throws ServiceException;
 
 }

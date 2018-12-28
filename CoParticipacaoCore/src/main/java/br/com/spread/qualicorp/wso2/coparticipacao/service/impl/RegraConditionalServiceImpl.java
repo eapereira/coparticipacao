@@ -14,8 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColT
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditional;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalField;
@@ -27,11 +26,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraConditionalEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraConditionalUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalValorUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
@@ -122,20 +123,25 @@ public class RegraConditionalServiceImpl
 
 	public void applyRegras(CoParticipacaoContext coParticipacaoContext, LancamentoDetailUi lancamentoDetailUi)
 			throws ServiceException {
+		List<LancamentoInputSheetCols> lancamentoInputSheetColss;
+
 		try {
 			LOGGER.info("BEGIN");
 
-			for (LancamentoInputCols lancamentoInputCols : coParticipacaoContext.getLancamentoInputColsUis()) {
+			lancamentoInputSheetColss = coParticipacaoContext
+					.listLancamentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
+
+			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
 				for (RegraConditionalUi regraConditionalUi : coParticipacaoContext.getRegraConditionalUis()) {
 					LOGGER.info(
 							"Verifying RegraConditions for column [{}]:",
-							lancamentoInputCols.getArquivoInputColsDef().getNameColumn());
+							lancamentoInputSheetCols.getArquivoInputSheetColsDef().getNameColumn());
 
 					applyRegra(
 							coParticipacaoContext,
 							regraConditionalUi,
 							lancamentoDetailUi,
-							(LancamentoInputColsUi) lancamentoInputCols);
+							(LancamentoInputSheetColsUi) lancamentoInputSheetCols);
 				}
 			}
 
@@ -150,7 +156,7 @@ public class RegraConditionalServiceImpl
 			CoParticipacaoContext coParticipacaoContext,
 			RegraConditionalUi regraConditionalUi,
 			LancamentoDetailUi lancamentoDetailUi,
-			LancamentoInputColsUi lancamentoInputColsUi) throws ServiceException {
+			LancamentoInputSheetColsUi lancamentoInputSheetColsUi) throws ServiceException {
 		List<RegraConditionalOperation> regraConditionalOperations;
 		Object value;
 		Object latestedValue;
@@ -165,7 +171,7 @@ public class RegraConditionalServiceImpl
 			result = false;
 			regraConditionalOperations = regraConditionalUi.getRegraConditionalOperations();
 			latestedValue = null;
-			colDefType = lancamentoInputColsUi.getArquivoInputColsDef().getType();
+			colDefType = lancamentoInputSheetColsUi.getArquivoInputSheetColsDef().getType();
 
 			LOGGER.info("Using Regra [{}]:", regraConditionalUi.getNameRegra());
 
@@ -180,21 +186,21 @@ public class RegraConditionalServiceImpl
 				for (RegraConditionalField regraConditionalField : regraConditionalOperation
 						.getRegraConditionalFields()) {
 
-					if (regraConditionalField.getArquivoInputColsDef().getId()
-							.equals(lancamentoInputColsUi.getArquivoInputColsDef().getId())) {
+					if (regraConditionalField.getArquivoInputSheetColsDef().getId()
+							.equals(lancamentoInputSheetColsUi.getArquivoInputSheetColsDef().getId())) {
 						LOGGER.info(
 								"Applying regra [{}] to field [{}]:",
 								regraConditionalUi.getNameRegra(),
-								regraConditionalField.getArquivoInputColsDef().getNameColumn());
+								regraConditionalField.getArquivoInputSheetColsDef().getNameColumn());
 
 						regraConditionalFieldFound = true;
 
 						value = lancamentoDetailService
-								.getFieldValue(lancamentoDetailUi, lancamentoInputColsUi.getLancamentoColType());
+								.getFieldValue(lancamentoDetailUi, lancamentoInputSheetColsUi.getLancamentoColType());
 
 						LOGGER.info(
 								"Field [{}] has value [{}]:",
-								regraConditionalField.getArquivoInputColsDef().getNameColumn(),
+								regraConditionalField.getArquivoInputSheetColsDef().getNameColumn(),
 								value);
 
 						if (latestedValue == null) {
@@ -251,7 +257,7 @@ public class RegraConditionalServiceImpl
 			CoParticipacaoContext coParticipacaoContext,
 			RegraConditionalUi regraConditionalUi,
 			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
-		LancamentoInputColsUi lancamentoInputColsUi;
+		LancamentoInputSheetColsUi lancamentoInputSheetColsUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -261,15 +267,15 @@ public class RegraConditionalServiceImpl
 				LOGGER.info("Executing Regra [{}]:", regraConditionalResult.getRegraExecution().getNameRegra());
 
 				for (RegraResult regraResult : regraConditionalResult.getRegraExecution().getRegraResults()) {
-					lancamentoInputColsUi = lancamentoDetailService.findByArquivoInputColsDefId(
+					lancamentoInputSheetColsUi = lancamentoDetailService.findByArquivoInputSheetColsDefId(
 							coParticipacaoContext,
-							(ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef());
+							(ArquivoInputSheetColsDefUi) regraResult.getArquivoInputSheetColsDef());
 
 					regraService.applyRegra(
 							coParticipacaoContext,
 							(RegraUi) regraConditionalResult.getRegraExecution(),
 							lancamentoDetailUi,
-							lancamentoInputColsUi);
+							lancamentoInputSheetColsUi);
 				}
 			}
 
@@ -340,7 +346,7 @@ public class RegraConditionalServiceImpl
 		ColDefType colDefType;
 		boolean regraConditionalFieldFound;
 		BeneficiarioIsentoColType beneficiarioIsentoColType;
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -351,7 +357,7 @@ public class RegraConditionalServiceImpl
 
 			for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetColss) {
 				beneficiarioIsentoColType = isentoInputSheetCols.getBeneficiarioIsentoColType();
-				arquivoInputColsDefUi = (ArquivoInputColsDefUi) isentoInputSheetCols.getArquivoInputColsDef();
+				arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) isentoInputSheetCols.getArquivoInputSheetColsDef();
 				colDefType = arquivoInputColsDefUi.getType();
 
 				LOGGER.info("Using Regra [{}]:", regraConditionalUi.getNameRegra());
@@ -367,12 +373,12 @@ public class RegraConditionalServiceImpl
 					for (RegraConditionalField regraConditionalField : regraConditionalOperation
 							.getRegraConditionalFields()) {
 
-						if (regraConditionalField.getArquivoInputColsDef().getId()
+						if (regraConditionalField.getArquivoInputSheetColsDef().getId()
 								.equals(arquivoInputColsDefUi.getId())) {
 							LOGGER.info(
 									"Applying regra [{}] to field [{}]:",
 									regraConditionalUi.getNameRegra(),
-									regraConditionalField.getArquivoInputColsDef().getNameColumn());
+									regraConditionalField.getArquivoInputSheetColsDef().getNameColumn());
 
 							regraConditionalFieldFound = true;
 
@@ -381,7 +387,7 @@ public class RegraConditionalServiceImpl
 
 							LOGGER.info(
 									"Field [{}] has value [{}]:",
-									regraConditionalField.getArquivoInputColsDef().getNameColumn(),
+									regraConditionalField.getArquivoInputSheetColsDef().getNameColumn(),
 									value);
 
 							if (latestedValue == null) {
@@ -444,7 +450,7 @@ public class RegraConditionalServiceImpl
 			RegraConditionalUi regraConditionalUi,
 			List<IsentoInputSheetCols> isentoInputSheetColss,
 			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -454,10 +460,10 @@ public class RegraConditionalServiceImpl
 				LOGGER.info("Executing Regra [{}]:", regraConditionalResult.getRegraExecution().getNameRegra());
 
 				for (RegraResult regraResult : regraConditionalResult.getRegraExecution().getRegraResults()) {
-					arquivoInputColsDefUi = (ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef();
+					arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) regraResult.getArquivoInputSheetColsDef();
 
 					for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetColss) {
-						if (isentoInputSheetCols.getArquivoInputColsDef().getId()
+						if (isentoInputSheetCols.getArquivoInputSheetColsDef().getId()
 								.equals(arquivoInputColsDefUi.getId())) {
 							regraService.applyRegra(
 									coParticipacaoContext,
@@ -470,6 +476,24 @@ public class RegraConditionalServiceImpl
 			}
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<RegraConditionalUi> listByArquivoInputSheet(ArquivoInputSheetUi arquivoInputSheetUi)
+			throws ServiceException {
+		List<RegraConditionalUi> regraConditionalUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			regraConditionalUis = entityToUi(
+					regraConditionalDao.listByArquivoInputSheetId(arquivoInputSheetUi.getId()));
+
+			LOGGER.info("END");
+			return regraConditionalUis;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

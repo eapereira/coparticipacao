@@ -13,11 +13,11 @@ public abstract class Regra extends AbstractDomain {
 	private Integer ordem;
 
 	private String nameRegra;
-	
+
 	private String description;
-	
+
 	private RegraType tpRegra;
-	private ArquivoInput arquivoInput;
+	private ArquivoInputSheet arquivoInputSheet;
 
 	private List<RegraOperation> regraOperations;
 
@@ -54,14 +54,6 @@ public abstract class Regra extends AbstractDomain {
 
 	public void setTpRegra(RegraType tpRegra) {
 		this.tpRegra = tpRegra;
-	}
-
-	public ArquivoInput getArquivoInput() {
-		return this.arquivoInput;
-	}
-
-	public void setArquivoInput(ArquivoInput arquivoInput) {
-		this.arquivoInput = arquivoInput;
 	}
 
 	public List<RegraOperation> getRegraOperations() {
@@ -110,6 +102,14 @@ public abstract class Regra extends AbstractDomain {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public ArquivoInputSheet getArquivoInputSheet() {
+		return arquivoInputSheet;
+	}
+
+	public void setArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		this.arquivoInputSheet = arquivoInputSheet;
 	}
 
 	@Override

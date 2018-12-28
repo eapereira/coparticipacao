@@ -16,6 +16,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 		uses = {
 				UserEntityMapper.class,
 				ArquivoInputEntityMapper.class,
+				RegraEntityMapper.class,
+				RegraConditionalEntityMapper.class,
+				IsentoInputSheetEntityMapper.class,
 				ContratoEntityMapper.class,
 				LancamentoInputSheetEntityMapper.class,
 				BeneficiarioColsEntityMapper.class,

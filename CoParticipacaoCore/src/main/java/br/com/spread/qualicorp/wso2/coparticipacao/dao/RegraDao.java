@@ -13,4 +13,6 @@ public interface RegraDao extends AbstractDao<RegraEntity> {
 
 	List<RegraEntity> listByArquivoInputId(Long id) throws DaoException;
 
+	List<RegraEntity> listByArquivoInputSheetId(Long arquivoInputSheetId) throws DaoException;
+
 }

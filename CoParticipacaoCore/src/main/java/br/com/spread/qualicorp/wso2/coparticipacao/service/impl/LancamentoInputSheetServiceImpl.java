@@ -14,6 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInput
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.LancamentoInputSheetEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.LancamentoInputSheetUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetService;
@@ -75,6 +76,24 @@ public class LancamentoInputSheetServiceImpl
 
 			LOGGER.info("END");
 			return lancamentoInputSheetUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public LancamentoInputSheetUi findByArquivoInputSheet(ArquivoInputSheetUi arquivoInputSheetUi)
+			throws ServiceException {
+		LancamentoInputSheetUi lancamentoInputSheetUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			lancamentoInputSheetUi = entityToUi(
+					lancamentoInputSheetDao.listByArquivoInputSheetId(arquivoInputSheetUi.getId()));
+
+			LOGGER.info("END");
+			return lancamentoInputSheetUi;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

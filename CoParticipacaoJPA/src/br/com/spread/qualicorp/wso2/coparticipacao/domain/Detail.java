@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputColsDefEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputSheetColsDefEntity;
 
 /**
  * 
@@ -24,7 +24,7 @@ public abstract class Detail extends AbstractDomain {
 	 */
 	private static final long serialVersionUID = -8625250104592728626L;
 
-	private ArquivoInputColsDef arquivoInputColsDef;
+	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
 
 	private Integer intValue;
 
@@ -41,14 +41,14 @@ public abstract class Detail extends AbstractDomain {
 	}
 
 	// bi-directional many-to-one association to ViewDestination
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetColsDefEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return arquivoInputSheetColsDef;
 	}
 
-	public void setArquivoInputColsDef(ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
+	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
+		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 	@Column(name = "VL_INT")
@@ -100,7 +100,7 @@ public abstract class Detail extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0 : arquivoInputColsDef.hashCode());
+		result = prime * result + ((arquivoInputSheetColsDef == null) ? 0 : arquivoInputSheetColsDef.hashCode());
 		result = prime * result + ((bigDecimalValue == null) ? 0 : bigDecimalValue.hashCode());
 		result = prime * result + ((dateValue == null) ? 0 : dateValue.hashCode());
 		result = prime * result + ((intValue == null) ? 0 : intValue.hashCode());
@@ -118,10 +118,10 @@ public abstract class Detail extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		Detail other = (Detail) obj;
-		if (arquivoInputColsDef == null) {
-			if (other.arquivoInputColsDef != null)
+		if (arquivoInputSheetColsDef == null) {
+			if (other.arquivoInputSheetColsDef != null)
 				return false;
-		} else if (!arquivoInputColsDef.equals(other.arquivoInputColsDef))
+		} else if (!arquivoInputSheetColsDef.equals(other.arquivoInputSheetColsDef))
 			return false;
 		if (bigDecimalValue == null) {
 			if (other.bigDecimalValue != null)

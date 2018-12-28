@@ -9,7 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.dao.ArquivoInputColsDefDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.dao.ArquivoInputSheetColsDefDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
 
 /**
@@ -21,10 +21,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWeb
 @SpringBootTest
 @ContextConfiguration(classes = { CoParticipacaoWebServiceConfigurationTest.class })
 @Transactional
-public class ArquivoInputColsDefDaoTest {
+public class ArquivoInputSheetColsDefDaoTest {
 	
 	@Autowired
-	private ArquivoInputColsDefDao arquivoInputColsDefDao;
+	private ArquivoInputSheetColsDefDao arquivoInputColsDefDao;
 
 	@Test
 	public void testFindById() throws Exception {

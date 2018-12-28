@@ -1,6 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.io.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -9,8 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.CsvProcessorService;
 
@@ -30,6 +32,7 @@ public class CsvProcessorServiceImpl extends AbstractFileProcessorImpl implement
 		String columnValue;
 		String[] lineColumns;
 		int currentCol = NumberUtils.INTEGER_ZERO;
+		List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefs;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -40,17 +43,25 @@ public class CsvProcessorServiceImpl extends AbstractFileProcessorImpl implement
 
 			LOGGER.debug("Reading line [{}]:", coParticipacaoContext.getLine());
 
-			for (ArquivoInputColsDefUi arquivoInputColsDefUi : coParticipacaoContext.getArquivoInputColsDefUis()) {
+			arquivoInputSheetColsDefs = coParticipacaoContext
+					.listArquivoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
+
+			for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetColsDefs) {
 				if (currentCol < lineColumns.length) {
 					columnValue = lineColumns[currentCol];
 
 					if (StringUtils.isNoneBlank(columnValue)) {
 
-						LOGGER.info("Column [{}] with value [{}]:", arquivoInputColsDefUi.getNameColumn(), columnValue);
+						LOGGER.info(
+								"Column [{}] with value [{}]:",
+								arquivoInputSheetColsDef.getNameColumn(),
+								columnValue);
 
 						mapLine.put(
-								arquivoInputColsDefUi.getNameColumn(),
-								stringToColumnValue(arquivoInputColsDefUi, columnValue));
+								arquivoInputSheetColsDef.getNameColumn(),
+								stringToColumnValue(
+										(ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef,
+										columnValue));
 					}
 				}
 

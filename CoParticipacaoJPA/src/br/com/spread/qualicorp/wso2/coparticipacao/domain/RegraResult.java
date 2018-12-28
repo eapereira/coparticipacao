@@ -14,7 +14,7 @@ public class RegraResult extends AbstractDomain {
 
 	private Regra regra;
 
-	private ArquivoInputColsDef arquivoInputColsDef;
+	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
 
 	public RegraResult() {
 
@@ -28,21 +28,21 @@ public class RegraResult extends AbstractDomain {
 		this.regra = regra;
 	}
 
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return arquivoInputSheetColsDef;
 	}
 
-	public void setArquivoInputColsDef(
-			ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
+	public void setArquivoInputSheetColsDef(
+			ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
+		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0
-				: arquivoInputColsDef.hashCode());
+		result = prime * result + ((arquivoInputSheetColsDef == null) ? 0
+				: arquivoInputSheetColsDef.hashCode());
 		result = prime * result + ((regra == null) ? 0 : regra.hashCode());
 		return result;
 	}
@@ -56,10 +56,10 @@ public class RegraResult extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		RegraResult other = (RegraResult) obj;
-		if (arquivoInputColsDef == null) {
-			if (other.arquivoInputColsDef != null)
+		if (arquivoInputSheetColsDef == null) {
+			if (other.arquivoInputSheetColsDef != null)
 				return false;
-		} else if (!arquivoInputColsDef.equals(other.arquivoInputColsDef))
+		} else if (!arquivoInputSheetColsDef.equals(other.arquivoInputSheetColsDef))
 			return false;
 		if (regra == null) {
 			if (other.regra != null)

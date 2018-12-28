@@ -7,7 +7,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 public abstract class RegraField extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
-	private ArquivoInputColsDef arquivoInputColsDef;
+	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
 
 	private RegraOperation regraOperation;
 
@@ -26,12 +26,12 @@ public abstract class RegraField extends AbstractDomain {
 		this.regraOperation = regraOperation;
 	}
 
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return arquivoInputSheetColsDef;
 	}
 
-	public void setArquivoInputColsDef(ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
+	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
+		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 }

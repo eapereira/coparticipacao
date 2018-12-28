@@ -12,24 +12,22 @@ public abstract class IsentoInputSheetCols extends AbstractDomain {
 	 */
 	private static final long serialVersionUID = -1799537054712694938L;
 
-	private ArquivoInputColsDef arquivoInputColsDef;
+	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
 
 	private BeneficiarioIsentoColType beneficiarioIsentoColType;
 
 	private IsentoInputSheet isentoInputSheet;
-	
-	private Integer ordem;
 
 	public IsentoInputSheetCols() {
 
 	}
 
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return arquivoInputSheetColsDef;
 	}
 
-	public void setArquivoInputColsDef(ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
+	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
+		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 	public BeneficiarioIsentoColType getBeneficiarioIsentoColType() {
@@ -48,22 +46,12 @@ public abstract class IsentoInputSheetCols extends AbstractDomain {
 		this.isentoInputSheet = isentoInputSheet;
 	}
 
-	public Integer getOrdem() {
-		return ordem;
-	}
-
-	public void setOrdem(Integer ordem) {
-		this.ordem = ordem;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0 : arquivoInputColsDef.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((arquivoInputSheetColsDef == null) ? 0 : arquivoInputSheetColsDef.hashCode());
 		result = prime * result + ((beneficiarioIsentoColType == null) ? 0 : beneficiarioIsentoColType.hashCode());
-		result = prime * result + ((isentoInputSheet == null) ? 0 : isentoInputSheet.hashCode());
-		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
 		return result;
 	}
 
@@ -71,28 +59,19 @@ public abstract class IsentoInputSheetCols extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		IsentoInputSheetCols other = (IsentoInputSheetCols) obj;
-		if (arquivoInputColsDef == null) {
-			if (other.arquivoInputColsDef != null)
+		if (arquivoInputSheetColsDef == null) {
+			if (other.arquivoInputSheetColsDef != null)
 				return false;
-		} else if (!arquivoInputColsDef.equals(other.arquivoInputColsDef))
+		} else if (!arquivoInputSheetColsDef.equals(other.arquivoInputSheetColsDef))
 			return false;
 		if (beneficiarioIsentoColType != other.beneficiarioIsentoColType)
 			return false;
-		if (isentoInputSheet == null) {
-			if (other.isentoInputSheet != null)
-				return false;
-		} else if (!isentoInputSheet.equals(other.isentoInputSheet))
-			return false;
-		if (ordem == null) {
-			if (other.ordem != null)
-				return false;
-		} else if (!ordem.equals(other.ordem))
-			return false;
 		return true;
 	}
+
 }

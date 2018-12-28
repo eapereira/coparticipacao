@@ -14,16 +14,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecido;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputDependenteIsento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.InputTitularIsento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ArquivoTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.UseTypeConverter;
@@ -67,18 +62,6 @@ public class ArquivoInputEntity extends ArquivoInput implements DomainEntity {
 		return super.getUseType();
 	}
 
-	// bi-directional many-to-one association to ArquivoInputColsDef
-	@OneToMany(mappedBy = "arquivoInput", targetEntity = ArquivoInputColsDefEntity.class)
-	public List<ArquivoInputColsDef> getArquivoInputColsDefs() {
-		return super.getArquivoInputColsDefs();
-	}
-
-	// bi-directional many-to-one association to Regra
-	@OneToMany(mappedBy = "arquivoInput", targetEntity = RegraEntity.class)
-	public List<Regra> getRegras() {
-		return super.getRegras();
-	}
-
 	// bi-directional many-to-one association to Empresa
 	@OneToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
 	@JoinColumn(name = "ID_CONTRATO")
@@ -120,33 +103,6 @@ public class ArquivoInputEntity extends ArquivoInput implements DomainEntity {
 	public List<ArquivoOutput> getArquivoOutputs() {
 		// TODO Auto-generated method stub
 		return super.getArquivoOutputs();
-	}
-
-	// bi-directional many-to-one association to Empresa
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "arquivoInput", targetEntity = InputTitularIsentoEntity.class)
-	@Override
-	public InputTitularIsento getInputTitularIsento() {
-		// TODO Auto-generated method stub
-		return super.getInputTitularIsento();
-	}
-
-	// bi-directional many-to-one association to Empresa
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "arquivoInput", targetEntity = InputDependenteIsentoEntity.class)
-	@Override
-	public InputDependenteIsento getInputDependenteIsento() {
-		// TODO Auto-generated method stub
-		return super.getInputDependenteIsento();
-	}
-
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			mappedBy = "arquivoInput",
-			targetEntity = IsentoInputSheetEntity.class)
-	@Override
-	public List<IsentoInputSheet> getIsentoInputSheets() {
-		// TODO Auto-generated method stub
-		return super.getIsentoInputSheets();
 	}
 
 	@OneToMany(

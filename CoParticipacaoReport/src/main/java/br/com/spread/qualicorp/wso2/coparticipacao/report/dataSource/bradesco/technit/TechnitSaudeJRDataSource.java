@@ -35,26 +35,35 @@ public class TechnitSaudeJRDataSource extends CoParticipacaoJRDataSource<Technit
 		List<TechnitSaudeReport> technitSaudeReports = new ArrayList<>();
 		TechnitSaudeReport technitSaudeReport = new TechnitSaudeReport();
 		TechnitHeaderViewUi technitHeaderViewUi = new TechnitHeaderViewUi();
-		LocalDate dataReport = DateUtils.stringToDate("14/08/2018", "dd/MM/yyyy");
-		LocalDate currentDate = LocalDate.now();
+		LocalDate dataReport;
+		LocalDate currentDate;
 
-		technitSaudeReports = new ArrayList<>();
-		technitSaudeReport = new TechnitSaudeReport();
-		technitSaudeReport.setMes(currentDate.getMonthValue());
-		technitSaudeReport.setAno(currentDate.getYear());
+		try {
+			dataReport = DateUtils.stringToDate("14/08/2018", "dd/MM/yyyy");
+			currentDate = LocalDate.now();
 
-		technitHeaderViewUi.setTipoRegistro(1);
-		technitHeaderViewUi.setTipoArquivo("PARTIC.SEGURADO");
-		technitHeaderViewUi.setCdContrato("091707");
-		technitHeaderViewUi.setDataCompetencia(dataReport);
-		technitHeaderViewUi.setDataProcessamento(dataReport);
+			technitSaudeReports = new ArrayList<>();
+			technitSaudeReport = new TechnitSaudeReport();
+			technitSaudeReport.setMes(currentDate.getMonthValue());
+			technitSaudeReport.setAno(currentDate.getYear());
 
-		technitSaudeReport.setTechnitHeaderViewUi(technitHeaderViewUi);
-		technitSaudeReport.setTechnitSaudeCoparticipacaoViewUis(new TechnitSaudeCoparticipacaoJRDataSource().getData());
+			technitHeaderViewUi.setTipoRegistro(1);
+			technitHeaderViewUi.setTipoArquivo("PARTIC.SEGURADO");
+			technitHeaderViewUi.setCdContrato("091707");
+			technitHeaderViewUi.setDataCompetencia(dataReport);
+			technitHeaderViewUi.setDataProcessamento(dataReport);
 
-		technitSaudeReports.add(technitSaudeReport);
+			technitSaudeReport.setTechnitHeaderViewUi(technitHeaderViewUi);
+			technitSaudeReport
+					.setTechnitSaudeCoparticipacaoViewUis(new TechnitSaudeCoparticipacaoJRDataSource().getData());
 
-		return technitSaudeReports;
+			technitSaudeReports.add(technitSaudeReport);
+
+			return technitSaudeReports;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new JRException(e);
+		}
 	}
 
 	public static JRDataSource getInstance() throws JRException {

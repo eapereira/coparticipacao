@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 
 /**
  * 
@@ -22,12 +22,12 @@ public interface LancamentoDetailService {
 			throws ServiceException;
 
 	BigDecimal getFieldValueAsBigDecimal(
-			LancamentoInputColsUi lancamentoInputColsUi,
+			LancamentoInputSheetColsUi lancamentoInputSheetColsUi,
 			LancamentoDetailUi lancamentoDetailUi) throws ServiceException;
 
-	LancamentoInputColsUi findByArquivoInputColsDefId(
+	LancamentoInputSheetColsUi findByArquivoInputSheetColsDefId(
 			CoParticipacaoContext coParticipacaoContext,
-			ArquivoInputColsDefUi arquivoInputColsDef) throws ServiceException;
+			ArquivoInputSheetColsDefUi arquivoInputColsDef) throws ServiceException;
 
 	void showLancamentoDetailInfo(LancamentoDetailUi lancamentoDetailUi) throws ServiceException;
 

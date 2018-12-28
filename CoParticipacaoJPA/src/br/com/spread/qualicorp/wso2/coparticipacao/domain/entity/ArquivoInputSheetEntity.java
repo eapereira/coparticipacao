@@ -10,12 +10,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheet;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditional;
 
 /**
  * 
@@ -68,5 +73,49 @@ public class ArquivoInputSheetEntity extends ArquivoInputSheet implements Domain
 	public Contrato getContrato() {
 		// TODO Auto-generated method stub
 		return super.getContrato();
+	}
+
+	@OneToOne(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInputSheet",
+			targetEntity = LancamentoInputSheetEntity.class)
+	@Override
+	public LancamentoInputSheet getLancamentoInputSheet() {
+		// TODO Auto-generated method stub
+		return super.getLancamentoInputSheet();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInputSheet",
+			targetEntity = RegraEntity.class)
+	@Override
+	public List<Regra> getRegras() {
+		// TODO Auto-generated method stub
+		return super.getRegras();
+	}
+
+	@OneToOne(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInputSheet",
+			targetEntity = IsentoInputSheetEntity.class)
+	@Override
+	public IsentoInputSheet getIsentoInputSheet() {
+		// TODO Auto-generated method stub
+		return super.getIsentoInputSheet();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "arquivoInputSheet",
+			targetEntity = RegraConditionalEntity.class)
+	@Override
+	public List<RegraConditional> getRegraConditionals() {
+		// TODO Auto-generated method stub
+		return super.getRegraConditionals();
 	}
 }

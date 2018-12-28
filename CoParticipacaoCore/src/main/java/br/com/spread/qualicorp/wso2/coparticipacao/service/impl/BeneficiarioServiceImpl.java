@@ -26,7 +26,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UFType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
@@ -529,17 +528,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			beneficiarioColsUis = coParticipacaoContext.getBeneficiarioColsUis();
+			beneficiarioColsUis = coParticipacaoContext
+					.listBeneficiarioColsBySheetId(coParticipacaoContext.getCurrentSheet());
 			empresaUi = coParticipacaoContext.getEmpresaUi();
 
-			if (!beneficiarioColsUis.isEmpty()) {
-				beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioColsUis);
-			} else {
-				beneficiarioColsUis = coParticipacaoContext.getMapBeneficiarioCols()
-						.get(coParticipacaoContext.getCurrentSheet());
-
-				beneficiarioUi = createBeneficiarioByArquivoInputSheet(coParticipacaoContext, beneficiarioColsUis);
-			}
+			beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioColsUis);
 
 			LOGGER.info(
 					"Current Beneficiario [{}] with MATRICULA [{}] and CPF[{}]:",
@@ -630,47 +623,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	}
 
-	private BeneficiarioUi createBeneficiario(
-			CoParticipacaoContext coParticipacaoContext,
-			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
-		BeneficiarioUi beneficiarioUi;
-		Object value;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			LOGGER.info("Creating Beneficiario:");
-			beneficiarioUi = new BeneficiarioUi();
-
-			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
-				if (beneficiarioColsUi.getArquivoInputColsDef() != null) {
-					value = coParticipacaoContext
-							.getColumnValue((ArquivoInputColsDefUi) beneficiarioColsUi.getArquivoInputColsDef());
-				} else {
-					throw new ServiceException(
-							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputColsDefUi or ArquivoInputSheetColsDefUi mapped:",
-							beneficiarioColsUi.getBeneficiarioColType().getDescription());
-				}
-
-				LOGGER.info(
-						"Retrieving value [{}] from column [{}]",
-						value,
-						beneficiarioColsUi.getArquivoInputColsDef().getNameColumn());
-
-				if (isNotZero(value)) {
-					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
-				}
-			}
-
-			LOGGER.info("END");
-			return beneficiarioUi;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	private BeneficiarioUi createBeneficiarioByArquivoInputSheet(
+	private BeneficiarioUi createBeneficiarioOld(
 			CoParticipacaoContext coParticipacaoContext,
 			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
@@ -688,7 +641,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							(ArquivoInputSheetColsDefUi) beneficiarioColsUi.getArquivoInputSheetColsDef());
 				} else {
 					throw new ServiceException(
-							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputColsDefUi or ArquivoInputSheetColsDefUi mapped:",
+							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputSheetColsDefUi or ArquivoInputSheetColsDefUi mapped:",
 							beneficiarioColsUi.getBeneficiarioColType().getDescription());
 				}
 
@@ -696,6 +649,44 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						"Retrieving value [{}] from column [{}]",
 						value,
 						beneficiarioColsUi.getArquivoInputSheetColsDef().getNameColumn());
+
+				if (isNotZero(value)) {
+					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
+				}
+			}
+
+			LOGGER.info("END");
+			return beneficiarioUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private BeneficiarioUi createBeneficiario(
+			CoParticipacaoContext coParticipacaoContext,
+			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+		Object value;
+		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			LOGGER.info("Creating Beneficiario:");
+			beneficiarioUi = new BeneficiarioUi();
+
+			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
+				arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) beneficiarioColsUi
+						.getArquivoInputSheetColsDef();
+
+				LOGGER.debug("Using mapped column[{}]:", arquivoInputSheetColsDefUi.getNameColumn());
+				value = coParticipacaoContext.getColumnValue(arquivoInputSheetColsDefUi);
+
+				LOGGER.info(
+						"Retrieving value [{}] from column [{}]",
+						value,
+						arquivoInputSheetColsDefUi.getNameColumn());
 
 				if (isNotZero(value)) {
 					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);

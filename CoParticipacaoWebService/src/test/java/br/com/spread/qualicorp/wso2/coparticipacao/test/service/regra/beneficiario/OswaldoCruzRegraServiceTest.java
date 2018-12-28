@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.test.service.regra.beneficia
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -16,8 +17,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.regra.RegraServiceTest;
@@ -37,11 +41,15 @@ public class OswaldoCruzRegraServiceTest extends RegraServiceTest {
 	@Autowired
 	private RegraService regraService;
 
+	@Autowired
+	private IsentoInputSheetService isentoInputSheetService;
+
 	@Test
 	public void testIsentoUtilizacao() throws Exception {
 		LOGGER.info("BEGIN");
 		CoParticipacaoContext coParticipacaoContext = createCoParticipacaoContext("0444", "ISENTO-UTILIZACAO");
-		List<IsentoInputSheetUi> isentoInputSheetUis = coParticipacaoContext.getIsentoInputSheetUis();
+		List<IsentoInputSheetUi> isentoInputSheetUis = isentoInputSheetService
+				.listByArquivoInputId(coParticipacaoContext.getArquivoInputUi());
 		boolean foundIsentoInputSheet = false;
 
 		BeneficiarioIsentoUi beneficiarioIsentoUi = new BeneficiarioIsentoUi();

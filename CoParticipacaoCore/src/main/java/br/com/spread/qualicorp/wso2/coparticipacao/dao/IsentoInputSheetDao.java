@@ -12,4 +12,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.IsentoInputShee
 public interface IsentoInputSheetDao extends AbstractDao<IsentoInputSheetEntity> {
 
 	List<IsentoInputSheetEntity> listByArquivoInputId(Long arquivoInputId) throws DaoException;
+
+	IsentoInputSheetEntity findByArquivoInputSheet(Long arquivoInputSheetId) throws DaoException;
 }

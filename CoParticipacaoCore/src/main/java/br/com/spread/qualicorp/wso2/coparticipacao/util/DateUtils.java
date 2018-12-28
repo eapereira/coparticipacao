@@ -8,9 +8,12 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 
@@ -20,6 +23,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoExcep
  *
  */
 public abstract class DateUtils {
+	private static final Logger LOGGER = LogManager.getLogger(DateUtils.class);
+
 	public static Date dateToSqlDate(LocalDate date) {
 		if (date != null) {
 			return Date.valueOf(date);
@@ -72,13 +77,20 @@ public abstract class DateUtils {
 		return null;
 	}
 
-	public static LocalDate stringToDate(String value, String format) {
+	public static LocalDate stringToDate(String value, String format) throws CoParticipacaoException {
 		DateTimeFormatter dateTimeFormatter;
 
-		if (StringUtils.isNotBlank(value)) {
-			dateTimeFormatter = DateTimeFormatter.ofPattern(format);
+		try {
+			if (StringUtils.isNotBlank(value)) {
+				dateTimeFormatter = DateTimeFormatter.ofPattern(format);
 
-			return LocalDate.parse(value, dateTimeFormatter);
+				return LocalDate.parse(value, dateTimeFormatter);
+			}
+		} catch (DateTimeParseException e) {
+			LOGGER.error(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new CoParticipacaoException(e);
 		}
 
 		return null;

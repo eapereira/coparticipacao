@@ -7,7 +7,18 @@
 			join fetch lancamentoInputSheetCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
 			join fetch lancamentoInputSheet.arquivoInputSheet arquivoInputSheet			
 			join arquivoInputSheet.arquivoInput arquivoInput
-			where arquivoInput.id = :arquivoInputId			  
+			where arquivoInput.id = :arquivoInputId			
+			order by arquivoInputSheet.sheetId  
+		]]>
+	</query>
+
+	<query id="listByArquivoInputSheetId">
+		<![CDATA[
+			select	lancamentoInputSheet from LancamentoInputSheetEntity lancamentoInputSheet
+			join fetch lancamentoInputSheet.lancamentoInputSheetCols lancamentoInputSheetCols
+			join fetch lancamentoInputSheetCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
+			join fetch lancamentoInputSheet.arquivoInputSheet arquivoInputSheet			
+			where arquivoInputSheet.id = :arquivoInputSheetId			  
 		]]>
 	</query>
 

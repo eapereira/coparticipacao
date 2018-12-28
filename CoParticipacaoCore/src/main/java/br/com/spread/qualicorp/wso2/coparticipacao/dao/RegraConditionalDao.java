@@ -9,10 +9,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public interface RegraConditionalDao
-		extends AbstractDao<RegraConditionalEntity> {
+public interface RegraConditionalDao extends AbstractDao<RegraConditionalEntity> {
 
-	List<RegraConditionalEntity> listByArquivoInput(Long id)
-			throws DaoException;
+	List<RegraConditionalEntity> listByArquivoInput(Long id) throws DaoException;
+
+	List<RegraConditionalEntity> listByArquivoInputSheetId(Long arquivoInputSheetId) throws DaoException;
 
 }

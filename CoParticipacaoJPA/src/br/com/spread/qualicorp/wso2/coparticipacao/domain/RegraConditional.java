@@ -7,7 +7,7 @@ import java.util.List;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public abstract class RegraConditional extends AbstractDomain{
+public abstract class RegraConditional extends AbstractDomain {
 	/**
 	 * 
 	 */
@@ -16,14 +16,14 @@ public abstract class RegraConditional extends AbstractDomain{
 	private Integer ordem;
 
 	private String nameRegra;
-	private ArquivoInput arquivoInput;
+	private ArquivoInputSheet arquivoInputSheet;
 
 	private List<RegraConditionalOperation> regraConditionalOperations;
 
 	private List<RegraConditionalResult> regraConditionalResults;
-	
-	public RegraConditional(){
-		
+
+	public RegraConditional() {
+
 	}
 
 	public Integer getOrdem() {
@@ -42,20 +42,11 @@ public abstract class RegraConditional extends AbstractDomain{
 		this.nameRegra = nameRegra;
 	}
 
-	public ArquivoInput getArquivoInput() {
-		return arquivoInput;
-	}
-
-	public void setArquivoInput(ArquivoInput arquivoInput) {
-		this.arquivoInput = arquivoInput;
-	}
-
 	public List<RegraConditionalOperation> getRegraConditionalOperations() {
 		return regraConditionalOperations;
 	}
 
-	public void setRegraConditionalOperations(
-			List<RegraConditionalOperation> regraConditionalOperations) {
+	public void setRegraConditionalOperations(List<RegraConditionalOperation> regraConditionalOperations) {
 		this.regraConditionalOperations = regraConditionalOperations;
 	}
 
@@ -63,24 +54,26 @@ public abstract class RegraConditional extends AbstractDomain{
 		return regraConditionalResults;
 	}
 
-	public void setRegraConditionalResults(
-			List<RegraConditionalResult> regraConditionalResults) {
+	public void setRegraConditionalResults(List<RegraConditionalResult> regraConditionalResults) {
 		this.regraConditionalResults = regraConditionalResults;
+	}
+
+	public ArquivoInputSheet getArquivoInputSheet() {
+		return arquivoInputSheet;
+	}
+
+	public void setArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		this.arquivoInputSheet = arquivoInputSheet;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
-		result = prime * result
-				+ ((nameRegra == null) ? 0 : nameRegra.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((nameRegra == null) ? 0 : nameRegra.hashCode());
 		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
-		result = prime * result + ((regraConditionalOperations == null) ? 0
-				: regraConditionalOperations.hashCode());
-		result = prime * result + ((regraConditionalResults == null) ? 0
-				: regraConditionalResults.hashCode());
+		result = prime * result + ((regraConditionalOperations == null) ? 0 : regraConditionalOperations.hashCode());
+		result = prime * result + ((regraConditionalResults == null) ? 0 : regraConditionalResults.hashCode());
 		return result;
 	}
 
@@ -88,16 +81,11 @@ public abstract class RegraConditional extends AbstractDomain{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		RegraConditional other = (RegraConditional) obj;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
-				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
-			return false;
 		if (nameRegra == null) {
 			if (other.nameRegra != null)
 				return false;
@@ -111,14 +99,12 @@ public abstract class RegraConditional extends AbstractDomain{
 		if (regraConditionalOperations == null) {
 			if (other.regraConditionalOperations != null)
 				return false;
-		} else if (!regraConditionalOperations
-				.equals(other.regraConditionalOperations))
+		} else if (!regraConditionalOperations.equals(other.regraConditionalOperations))
 			return false;
 		if (regraConditionalResults == null) {
 			if (other.regraConditionalResults != null)
 				return false;
-		} else if (!regraConditionalResults
-				.equals(other.regraConditionalResults))
+		} else if (!regraConditionalResults.equals(other.regraConditionalResults))
 			return false;
 		return true;
 	}

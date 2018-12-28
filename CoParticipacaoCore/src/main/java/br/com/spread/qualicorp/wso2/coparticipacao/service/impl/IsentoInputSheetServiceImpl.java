@@ -14,6 +14,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.IsentoInputShee
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.IsentoInputSheetEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.IsentoInputSheetUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoInputSheetService;
@@ -79,6 +80,22 @@ public class IsentoInputSheetServiceImpl
 	@Override
 	protected AbstractMapper<IsentoInputSheet, IsentoInputSheetEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public IsentoInputSheetUi findByArquivoInputSheet(ArquivoInputSheetUi arquivoInputSheetUi) throws ServiceException {
+		IsentoInputSheetUi isentoInputSheetUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			isentoInputSheetUi = entityToUi(isentoInputSheetDao.findByArquivoInputSheet(arquivoInputSheetUi.getId()));
+
+			LOGGER.info("END");
+			return isentoInputSheetUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

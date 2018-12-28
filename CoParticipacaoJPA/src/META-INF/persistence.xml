@@ -13,7 +13,6 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoExecucaoEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputSheetColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputSheetEntity</class>
@@ -27,22 +26,15 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.BeneficiarioIsentoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ContratoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteIsentoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteIsentoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteResumoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.EmpresaEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExecucaoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExternalProcessEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependenteIsentoColsEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependenteIsentoEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputTitularIsentoColsEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputTitularIsentoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.IsentoInputSheetColsEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.IsentoInputSheetEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputColsEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputSheetColsEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputSheetEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.OperadoraEntity</class>
@@ -59,7 +51,6 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraValorEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RoleEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularResumoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity</class>

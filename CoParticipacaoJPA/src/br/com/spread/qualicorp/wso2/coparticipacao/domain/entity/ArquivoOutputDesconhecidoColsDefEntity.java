@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhecidoColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DesconhecidoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.DesconhecidoColTypeConverter;
@@ -36,12 +36,12 @@ public class ArquivoOutputDesconhecidoColsDefEntity extends ArquivoOutputDesconh
 	}
 
 	// bi-directional many-to-one association to ArquivoInput
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetColsDefEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
 	@Override
-	public ArquivoInputColsDef getArquivoInputColsDef() {
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputColsDef();
+		return super.getArquivoInputSheetColsDef();
 	}
 
 	@Convert(converter = DesconhecidoColTypeConverter.class)

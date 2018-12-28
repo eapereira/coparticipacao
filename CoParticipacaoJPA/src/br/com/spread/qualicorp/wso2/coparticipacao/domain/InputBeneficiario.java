@@ -14,7 +14,7 @@ public abstract class InputBeneficiario extends AbstractDomain {
 	 */
 	private static final long serialVersionUID = 6815423832361622021L;
 
-	private ArquivoInput arquivoInput;
+	private ArquivoInputSheet arquivoInputSheet;
 
 	private List<BeneficiarioCols> inputBeneficiarioBinds;
 
@@ -22,29 +22,27 @@ public abstract class InputBeneficiario extends AbstractDomain {
 
 	}
 
-	public ArquivoInput getArquivoInput() {
-		return arquivoInput;
-	}
-
-	public void setArquivoInput(ArquivoInput arquivoInput) {
-		this.arquivoInput = arquivoInput;
-	}
-
 	public List<BeneficiarioCols> getInputBeneficiarioBinds() {
 		return inputBeneficiarioBinds;
 	}
 
-	public void setInputBeneficiarioBinds(
-			List<BeneficiarioCols> inputBeneficiarioBinds) {
+	public void setInputBeneficiarioBinds(List<BeneficiarioCols> inputBeneficiarioBinds) {
 		this.inputBeneficiarioBinds = inputBeneficiarioBinds;
+	}
+
+	public ArquivoInputSheet getArquivoInputSheet() {
+		return arquivoInputSheet;
+	}
+
+	public void setArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		this.arquivoInputSheet = arquivoInputSheet;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((inputBeneficiarioBinds == null) ? 0
-				: inputBeneficiarioBinds.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((inputBeneficiarioBinds == null) ? 0 : inputBeneficiarioBinds.hashCode());
 		return result;
 	}
 
@@ -52,16 +50,11 @@ public abstract class InputBeneficiario extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		InputBeneficiario other = (InputBeneficiario) obj;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
-				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
-			return false;
 		if (inputBeneficiarioBinds == null) {
 			if (other.inputBeneficiarioBinds != null)
 				return false;
@@ -69,4 +62,5 @@ public abstract class InputBeneficiario extends AbstractDomain {
 			return false;
 		return true;
 	}
+
 }

@@ -1031,49 +1031,6 @@ create table TB_INPUT_DEPENDENTE_ISENTO(
 
 /***********************************************************************************************************************/
 
-create table TB_LANCAMENTO_INPUT(
-	ID 							bigint( 17 ) auto_increment,
-	ID_ARQUIVO_INPUT_SHEET		bigint( 17 ) not null,
-	
-	VERSION						bigint( 17 ) null,
-		
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,
-	
-	constraint PK_LANCAMENTO_INPUT primary key( ID ),
-	
-	constraint UN_INPUT_LANCAMNETO_01 unique key( ID_ARQUIVO_INPUT_SHEET ),
-	
-	constraint FK_LANCAMENTO_INPUT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_LANCAMENTO_INPUT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_LANCAMENTO_INPUT_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
-);
-
-create table TB_LANCAMENTO_INPUT_COLS(
-	ID 								bigint( 17 ) auto_increment,
-	ID_LANCAMENTO_INPUT				bigint( 17 ) not null,
-	CD_LANCAMENTO_COLS_DEF			int( 3 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
-	
-	VERSION		bigint( 17 ) null,
- 
-	USER_CREATED			bigint( 17 ) not null,
-	USER_ALTERED 			bigint( 17 ),
-	DT_CREATED				timestamp not null,
-	DT_ALTERED				timestamp not null,
-	
-	constraint PK_LANCAMENTO_INPUT_COLS primary key( ID ),
-	
-	constraint UN_INPUT_LANCAMNETO_COLS_01 unique key( CD_LANCAMENTO_COLS_DEF, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
-	
-	constraint FK_LANCAMENTO_INPUT_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_LANCAMENTO_INPUT_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_LANCAMENTO_INPUT_COLS_03 foreign key( ID_LANCAMENTO_INPUT ) references TB_LANCAMENTO_INPUT( ID ),
-	constraint FK_LANCAMENTO_INPUT_COLS_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
-);
-
 create table TB_DESCONHECIDO(
 	ID 							bigint( 17 ) auto_increment,
 	ID_CONTRATO					bigint( 17 ) not null,

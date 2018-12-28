@@ -13,4 +13,6 @@ public interface LancamentoInputSheetDao extends AbstractDao<LancamentoInputShee
 
 	List<LancamentoInputSheetEntity> listByArquivoInputId(Long arquivoInputId) throws DaoException;
 
+	LancamentoInputSheetEntity listByArquivoInputSheetId(Long arquivoInputSheetId) throws DaoException;
+
 }

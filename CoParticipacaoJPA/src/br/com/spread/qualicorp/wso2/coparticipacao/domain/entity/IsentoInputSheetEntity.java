@@ -8,12 +8,12 @@ import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoType;
@@ -57,18 +57,11 @@ public class IsentoInputSheetEntity extends IsentoInputSheet implements DomainEn
 		return super.getIsentoType();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT")
+	@OneToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET")
 	@Override
-	public ArquivoInput getArquivoInput() {
+	public ArquivoInputSheet getArquivoInputSheet() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInput();
-	}
-
-	@Column(name = "CD_SHEET")
-	@Override
-	public Integer getSheetId() {
-		// TODO Auto-generated method stub
-		return super.getSheetId();
+		return super.getArquivoInputSheet();
 	}
 }

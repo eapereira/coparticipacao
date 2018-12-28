@@ -3,8 +3,9 @@
 	<query id="listByArquivoInputId">
 		<![CDATA[
 			select beneficiarioCols from BeneficiarioColsEntity beneficiarioCols
-			join fetch beneficiarioCols.arquivoInputColsDef arquivoInputColsDef
-			join fetch arquivoInputColsDef.arquivoInput arquivoInput
+			join fetch beneficiarioCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
+			join fetch arquivoInputSheetColsDef.arquivoInputSheet arquivoInputSheet
+			join fetch arquivoInputSheet.arquivoInput arquivoInput
 			where arquivoInput.id = :arquivoInputId	
 			order by beneficiarioCols.id
 		]]>

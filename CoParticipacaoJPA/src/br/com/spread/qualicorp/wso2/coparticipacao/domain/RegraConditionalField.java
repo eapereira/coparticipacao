@@ -12,7 +12,7 @@ public abstract class RegraConditionalField extends AbstractDomain{
 	 */
 	private static final long serialVersionUID = -7079838001281846490L;
 
-	private ArquivoInputColsDef arquivoInputColsDef;
+	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
 
 	private RegraConditionalOperation regraConditionalOperation;
 
@@ -20,12 +20,12 @@ public abstract class RegraConditionalField extends AbstractDomain{
 
 	}
 
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return arquivoInputSheetColsDef;
 	}
 
-	public void setArquivoInputColsDef(ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
+	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
+		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 	public RegraConditionalOperation getRegraConditionalOperation() {
@@ -41,8 +41,8 @@ public abstract class RegraConditionalField extends AbstractDomain{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0
-				: arquivoInputColsDef.hashCode());
+		result = prime * result + ((arquivoInputSheetColsDef == null) ? 0
+				: arquivoInputSheetColsDef.hashCode());
 		result = prime * result + ((regraConditionalOperation == null) ? 0
 				: regraConditionalOperation.hashCode());
 		return result;
@@ -57,10 +57,10 @@ public abstract class RegraConditionalField extends AbstractDomain{
 		if (getClass() != obj.getClass())
 			return false;
 		RegraConditionalField other = (RegraConditionalField) obj;
-		if (arquivoInputColsDef == null) {
-			if (other.arquivoInputColsDef != null)
+		if (arquivoInputSheetColsDef == null) {
+			if (other.arquivoInputSheetColsDef != null)
 				return false;
-		} else if (!arquivoInputColsDef.equals(other.arquivoInputColsDef))
+		} else if (!arquivoInputSheetColsDef.equals(other.arquivoInputSheetColsDef))
 			return false;
 		if (regraConditionalOperation == null) {
 			if (other.regraConditionalOperation != null)

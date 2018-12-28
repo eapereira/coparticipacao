@@ -18,18 +18,15 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
  *
  */
 @Repository
-public class RegraConditionalDaoImpl extends
-		AbstractDaoImpl<RegraConditionalEntity> implements RegraConditionalDao {
+public class RegraConditionalDaoImpl extends AbstractDaoImpl<RegraConditionalEntity> implements RegraConditionalDao {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(RegraConditionalDaoImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(RegraConditionalDaoImpl.class);
 
 	public RegraConditionalDaoImpl() throws DaoException {
 		super();
 	}
 
-	public List<RegraConditionalEntity> listByArquivoInput(Long id)
-			throws DaoException {
+	public List<RegraConditionalEntity> listByArquivoInput(Long id) throws DaoException {
 		List<RegraConditionalEntity> regraConditionalEntities;
 		Query query;
 
@@ -38,6 +35,26 @@ public class RegraConditionalDaoImpl extends
 
 			query = createQuery("listByArquivoInputId");
 			query.setParameter("arquivoInputId", id);
+
+			regraConditionalEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return regraConditionalEntities;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
+
+	public List<RegraConditionalEntity> listByArquivoInputSheetId(Long arquivoInputSheetId) throws DaoException {
+		List<RegraConditionalEntity> regraConditionalEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByArquivoInputSheetId");
+			query.setParameter("arquivoInputSheetId", arquivoInputSheetId);
 
 			regraConditionalEntities = query.getResultList();
 

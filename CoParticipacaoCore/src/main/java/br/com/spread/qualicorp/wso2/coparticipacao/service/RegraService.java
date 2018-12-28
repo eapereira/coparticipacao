@@ -4,11 +4,12 @@ import java.util.List;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 
 /**
@@ -30,7 +31,7 @@ public interface RegraService extends AbstractService<RegraUi> {
 			CoParticipacaoContext coParticipacaoContext,
 			RegraUi regraUi,
 			LancamentoDetailUi lancamentoDetailUi,
-			LancamentoInputColsUi lancamentoInputColsUi) throws ServiceException;
+			LancamentoInputSheetColsUi lancamentoInputSheetColsUi) throws ServiceException;
 
 	void applyRegra(
 			CoParticipacaoContext coParticipacaoContext,
@@ -45,5 +46,7 @@ public interface RegraService extends AbstractService<RegraUi> {
 			RegraUi regraUi,
 			IsentoInputSheetColsUi isentoInputSheetColsUi,
 			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException;
+
+	List<RegraUi> listByArquivoInputSheet(ArquivoInputSheetUi arquivoInputSheetUi) throws ServiceException;
 
 }

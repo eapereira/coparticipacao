@@ -24,29 +24,12 @@ public abstract class ArquivoInput extends AbstractDomain {
 
 	private List<ArquivoOutput> arquivoOutputs;
 
-	private List<ArquivoInputColsDef> arquivoInputColsDefs;
-	private List<Regra> regras;
-
 	private ArquivoOutputDesconhecido arquivoOutputDesconhecido;
-
-	private List<InputBeneficiario> inputBeneficiarios;
-
-	private InputTitularIsento inputTitularIsento;
-
-	private InputDependenteIsento inputDependenteIsento;
-
-	private List<IsentoInputSheet> isentoInputSheets;
 
 	private List<ArquivoInputSheet> arquivoInputSheets;
 
 	public ArquivoInput() {
-		arquivoInputColsDefs = new ArrayList<>();
-		regras = new ArrayList<>();
-		inputBeneficiarios = new ArrayList<>();
-
-		isentoInputSheets = new ArrayList<>();
 		arquivoOutputs = new ArrayList<>();
-		arquivoInputSheets = new ArrayList<>();
 	}
 
 	public String getDescrArquivo() {
@@ -105,60 +88,12 @@ public abstract class ArquivoInput extends AbstractDomain {
 		this.defaultLineLength = defaultLineLength;
 	}
 
-	public List<ArquivoInputColsDef> getArquivoInputColsDefs() {
-		return arquivoInputColsDefs;
-	}
-
-	public void setArquivoInputColsDefs(List<ArquivoInputColsDef> arquivoInputColsDefs) {
-		this.arquivoInputColsDefs = arquivoInputColsDefs;
-	}
-
-	public List<Regra> getRegras() {
-		return regras;
-	}
-
-	public void setRegras(List<Regra> regras) {
-		this.regras = regras;
-	}
-
 	public ArquivoOutputDesconhecido getArquivoOutputDesconhecido() {
 		return arquivoOutputDesconhecido;
 	}
 
 	public void setArquivoOutputDesconhecido(ArquivoOutputDesconhecido arquivoOutputDesconhecido) {
 		this.arquivoOutputDesconhecido = arquivoOutputDesconhecido;
-	}
-
-	public List<InputBeneficiario> getInputBeneficiarios() {
-		return inputBeneficiarios;
-	}
-
-	public void setInputBeneficiarios(List<InputBeneficiario> inputBeneficiarios) {
-		this.inputBeneficiarios = inputBeneficiarios;
-	}
-
-	public InputTitularIsento getInputTitularIsento() {
-		return inputTitularIsento;
-	}
-
-	public void setInputTitularIsento(InputTitularIsento inputTitularIsento) {
-		this.inputTitularIsento = inputTitularIsento;
-	}
-
-	public InputDependenteIsento getInputDependenteIsento() {
-		return inputDependenteIsento;
-	}
-
-	public void setInputDependenteIsento(InputDependenteIsento inputDependenteIsento) {
-		this.inputDependenteIsento = inputDependenteIsento;
-	}
-
-	public List<IsentoInputSheet> getIsentoInputSheets() {
-		return isentoInputSheets;
-	}
-
-	public void setIsentoInputSheets(List<IsentoInputSheet> isentoInputSheets) {
-		this.isentoInputSheets = isentoInputSheets;
 	}
 
 	public List<ArquivoOutput> getArquivoOutputs() {
@@ -201,19 +136,13 @@ public abstract class ArquivoInput extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((arquivoInputColsDefs == null) ? 0 : arquivoInputColsDefs.hashCode());
 		result = prime * result + ((arquivoInputSheets == null) ? 0 : arquivoInputSheets.hashCode());
 		result = prime * result + ((arquivoOutputDesconhecido == null) ? 0 : arquivoOutputDesconhecido.hashCode());
 		result = prime * result + ((arquivoOutputs == null) ? 0 : arquivoOutputs.hashCode());
 		result = prime * result + ((arquivoType == null) ? 0 : arquivoType.hashCode());
 		result = prime * result + ((defaultLineLength == null) ? 0 : defaultLineLength.hashCode());
 		result = prime * result + ((descrArquivo == null) ? 0 : descrArquivo.hashCode());
-		result = prime * result + ((inputBeneficiarios == null) ? 0 : inputBeneficiarios.hashCode());
-		result = prime * result + ((inputDependenteIsento == null) ? 0 : inputDependenteIsento.hashCode());
-		result = prime * result + ((inputTitularIsento == null) ? 0 : inputTitularIsento.hashCode());
-		result = prime * result + ((isentoInputSheets == null) ? 0 : isentoInputSheets.hashCode());
 		result = prime * result + ((nameArquivoRegexp == null) ? 0 : nameArquivoRegexp.hashCode());
-		result = prime * result + ((regras == null) ? 0 : regras.hashCode());
 		result = prime * result + ((skipLines == null) ? 0 : skipLines.hashCode());
 		result = prime * result + ((useType == null) ? 0 : useType.hashCode());
 		return result;
@@ -228,11 +157,6 @@ public abstract class ArquivoInput extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoInput other = (ArquivoInput) obj;
-		if (arquivoInputColsDefs == null) {
-			if (other.arquivoInputColsDefs != null)
-				return false;
-		} else if (!arquivoInputColsDefs.equals(other.arquivoInputColsDefs))
-			return false;
 		if (arquivoInputSheets == null) {
 			if (other.arquivoInputSheets != null)
 				return false;
@@ -260,35 +184,10 @@ public abstract class ArquivoInput extends AbstractDomain {
 				return false;
 		} else if (!descrArquivo.equals(other.descrArquivo))
 			return false;
-		if (inputBeneficiarios == null) {
-			if (other.inputBeneficiarios != null)
-				return false;
-		} else if (!inputBeneficiarios.equals(other.inputBeneficiarios))
-			return false;
-		if (inputDependenteIsento == null) {
-			if (other.inputDependenteIsento != null)
-				return false;
-		} else if (!inputDependenteIsento.equals(other.inputDependenteIsento))
-			return false;
-		if (inputTitularIsento == null) {
-			if (other.inputTitularIsento != null)
-				return false;
-		} else if (!inputTitularIsento.equals(other.inputTitularIsento))
-			return false;
-		if (isentoInputSheets == null) {
-			if (other.isentoInputSheets != null)
-				return false;
-		} else if (!isentoInputSheets.equals(other.isentoInputSheets))
-			return false;
 		if (nameArquivoRegexp == null) {
 			if (other.nameArquivoRegexp != null)
 				return false;
 		} else if (!nameArquivoRegexp.equals(other.nameArquivoRegexp))
-			return false;
-		if (regras == null) {
-			if (other.regras != null)
-				return false;
-		} else if (!regras.equals(other.regras))
 			return false;
 		if (skipLines == null) {
 			if (other.skipLines != null)

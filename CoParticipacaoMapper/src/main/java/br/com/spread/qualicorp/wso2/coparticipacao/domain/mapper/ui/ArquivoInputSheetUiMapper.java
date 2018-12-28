@@ -16,6 +16,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi
 		uses = {
 				UserUiMapper.class,
 				ArquivoInputUiMapper.class,
+				RegraUiMapper.class,
+				RegraConditionalUiMapper.class,
+				IsentoInputSheetUiMapper.class,
 				ContratoUiMapper.class,
 				LancamentoInputSheetUiMapper.class,
 				BeneficiarioColsUiMapper.class,

@@ -12,8 +12,6 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 	 */
 	private static final long serialVersionUID = -7383404930745300753L;
 
-	private ArquivoInputColsDef arquivoInputColsDef;
-
 	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
 
 	private BeneficiarioColType beneficiarioColType;
@@ -22,12 +20,12 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 
 	}
 
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return arquivoInputSheetColsDef;
 	}
 
-	public void setArquivoInputColsDef(ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
+	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
+		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 	public BeneficiarioColType getBeneficiarioColType() {
@@ -41,8 +39,8 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0 : arquivoInputColsDef.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((arquivoInputSheetColsDef == null) ? 0 : arquivoInputSheetColsDef.hashCode());
 		result = prime * result + ((beneficiarioColType == null) ? 0 : beneficiarioColType.hashCode());
 		return result;
 	}
@@ -51,27 +49,19 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		BeneficiarioCols other = (BeneficiarioCols) obj;
-		if (arquivoInputColsDef == null) {
-			if (other.arquivoInputColsDef != null)
+		if (arquivoInputSheetColsDef == null) {
+			if (other.arquivoInputSheetColsDef != null)
 				return false;
-		} else if (!arquivoInputColsDef.equals(other.arquivoInputColsDef))
+		} else if (!arquivoInputSheetColsDef.equals(other.arquivoInputSheetColsDef))
 			return false;
 		if (beneficiarioColType != other.beneficiarioColType)
 			return false;
 		return true;
-	}
-
-	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
-		return arquivoInputSheetColsDef;
-	}
-
-	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
-		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 }

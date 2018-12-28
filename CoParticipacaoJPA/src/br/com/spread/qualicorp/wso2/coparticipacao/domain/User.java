@@ -18,8 +18,8 @@ public abstract class User extends AbstractDomain {
 
 	private List<ArquivoInput> arquivoInputsUserCreated;
 	private List<ArquivoInput> arquivoInputsUserAltered;
-	private List<ArquivoInputColsDef> arquivoInputColsDefUserCreated;
-	private List<ArquivoInputColsDef> arquivoInputColsDefUserAltered;
+	private List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserCreated;
+	private List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserAltered;
 	private List<ArquivoOutput> arquivoOutputsUserCreated;
 	private List<ArquivoOutput> arquivoOutputsUserAltered;
 	private List<ArquivoOutputSheet> arquivoOutputSheetsUserCreated;
@@ -32,15 +32,8 @@ public abstract class User extends AbstractDomain {
 	private List<DependenteIsento> dependenteIsentosUserAltered;
 	private List<Empresa> empresasUserCreated;
 	private List<Empresa> empresasUserAltered;
-	private List<LancamentoInput> inputLancamentosUserCreated;
-	private List<LancamentoInput> inputLancamentosUserAltered;
 	private List<Lancamento> lancamentosUserCreated;
 	private List<Lancamento> lancamentosUserAltered;
-
-	private List<LancamentoInput> lancamentoInputUserCreated;
-	private List<LancamentoInput> lancamentoInputUserAltered;
-	private List<LancamentoInputCols> lancamentoInputColsUserCreated;
-	private List<LancamentoInputCols> lancamentoInputColsUserAltered;
 
 	private List<Operadora> operadorasUserCreated;
 	private List<Operadora> operadorasUserAltered;
@@ -156,50 +149,54 @@ public abstract class User extends AbstractDomain {
 		return arquivoInputsUserAltered;
 	}
 
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserCreated() {
-		return this.arquivoInputColsDefUserCreated;
+	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserCreated() {
+		return this.arquivoInputSheetColsDefUserCreated;
 	}
 
-	public void setArquivoInputColsDefUserCreated(List<ArquivoInputColsDef> arquivoInputColsDefUserCreated) {
-		this.arquivoInputColsDefUserCreated = arquivoInputColsDefUserCreated;
+	public void setArquivoInputSheetColsDefUserCreated(
+			List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserCreated) {
+		this.arquivoInputSheetColsDefUserCreated = arquivoInputSheetColsDefUserCreated;
 	}
 
-	public ArquivoInputColsDef addArquivoInputColsDefUserCreated(ArquivoInputColsDef arquivoInputColsDefUserCreated) {
-		getArquivoInputColsDefUserCreated().add(arquivoInputColsDefUserCreated);
-		arquivoInputColsDefUserCreated.setUserCreated(this);
+	public ArquivoInputSheetColsDef addArquivoInputSheetColsDefUserCreated(
+			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserCreated) {
+		getArquivoInputSheetColsDefUserCreated().add(arquivoInputSheetColsDefUserCreated);
+		arquivoInputSheetColsDefUserCreated.setUserCreated(this);
 
-		return arquivoInputColsDefUserCreated;
+		return arquivoInputSheetColsDefUserCreated;
 	}
 
-	public ArquivoInputColsDef removeArquivoInputColsDefUserCreated(
-			ArquivoInputColsDef arquivoInputColsDefUserCreated) {
-		getArquivoInputColsDefUserCreated().remove(arquivoInputColsDefUserCreated);
-		arquivoInputColsDefUserCreated.setUserCreated(null);
+	public ArquivoInputSheetColsDef removeArquivoInputSheetColsDefUserCreated(
+			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserCreated) {
+		getArquivoInputSheetColsDefUserCreated().remove(arquivoInputSheetColsDefUserCreated);
+		arquivoInputSheetColsDefUserCreated.setUserCreated(null);
 
-		return arquivoInputColsDefUserCreated;
+		return arquivoInputSheetColsDefUserCreated;
 	}
 
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserAltered() {
-		return this.arquivoInputColsDefUserAltered;
+	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserAltered() {
+		return this.arquivoInputSheetColsDefUserAltered;
 	}
 
-	public void setArquivoInputColsDefUserAltered(List<ArquivoInputColsDef> arquivoInputColsDefUserAltered) {
-		this.arquivoInputColsDefUserAltered = arquivoInputColsDefUserAltered;
+	public void setArquivoInputSheetColsDefUserAltered(
+			List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserAltered) {
+		this.arquivoInputSheetColsDefUserAltered = arquivoInputSheetColsDefUserAltered;
 	}
 
-	public ArquivoInputColsDef addArquivoInputColsDefUserAltered(ArquivoInputColsDef arquivoInputColsDefUserAltered) {
-		getArquivoInputColsDefUserAltered().add(arquivoInputColsDefUserAltered);
-		arquivoInputColsDefUserAltered.setUserAltered(this);
+	public ArquivoInputSheetColsDef addArquivoInputSheetColsDefUserAltered(
+			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserAltered) {
+		getArquivoInputSheetColsDefUserAltered().add(arquivoInputSheetColsDefUserAltered);
+		arquivoInputSheetColsDefUserAltered.setUserAltered(this);
 
-		return arquivoInputColsDefUserAltered;
+		return arquivoInputSheetColsDefUserAltered;
 	}
 
-	public ArquivoInputColsDef removeArquivoInputColsDefUserAltered(
-			ArquivoInputColsDef arquivoInputColsDefUserAltered) {
-		getArquivoInputColsDefUserAltered().remove(arquivoInputColsDefUserAltered);
-		arquivoInputColsDefUserAltered.setUserAltered(null);
+	public ArquivoInputSheetColsDef removeArquivoInputSheetColsDefUserAltered(
+			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserAltered) {
+		getArquivoInputSheetColsDefUserAltered().remove(arquivoInputSheetColsDefUserAltered);
+		arquivoInputSheetColsDefUserAltered.setUserAltered(null);
 
-		return arquivoInputColsDefUserAltered;
+		return arquivoInputSheetColsDefUserAltered;
 	}
 
 	public List<ArquivoOutput> getArquivoOutputsUserCreated() {
@@ -464,50 +461,6 @@ public abstract class User extends AbstractDomain {
 		empresasUserAltered.setUserAltered(null);
 
 		return empresasUserAltered;
-	}
-
-	public List<LancamentoInput> getInputLancamentosUserCreated() {
-		return this.inputLancamentosUserCreated;
-	}
-
-	public void setInputLancamentosUserCreated(List<LancamentoInput> inputLancamentosUserCreated) {
-		this.inputLancamentosUserCreated = inputLancamentosUserCreated;
-	}
-
-	public LancamentoInput addInputLancamentosUserCreated(LancamentoInput inputLancamentosUserCreated) {
-		getInputLancamentosUserCreated().add(inputLancamentosUserCreated);
-		inputLancamentosUserCreated.setUserCreated(this);
-
-		return inputLancamentosUserCreated;
-	}
-
-	public LancamentoInput removeInputLancamentosUserCreated(LancamentoInput inputLancamentosUserCreated) {
-		getInputLancamentosUserCreated().remove(inputLancamentosUserCreated);
-		inputLancamentosUserCreated.setUserCreated(null);
-
-		return inputLancamentosUserCreated;
-	}
-
-	public List<LancamentoInput> getInputLancamentosUserAltered() {
-		return this.inputLancamentosUserAltered;
-	}
-
-	public void setInputLancamentosUserAltered(List<LancamentoInput> inputLancamentosUserAltered) {
-		this.inputLancamentosUserAltered = inputLancamentosUserAltered;
-	}
-
-	public LancamentoInput addInputLancamentosUserAltered(LancamentoInput inputLancamentosUserAltered) {
-		getInputLancamentosUserAltered().add(inputLancamentosUserAltered);
-		inputLancamentosUserAltered.setUserAltered(this);
-
-		return inputLancamentosUserAltered;
-	}
-
-	public LancamentoInput removeInputLancamentosUserAltered(LancamentoInput inputLancamentosUserAltered) {
-		getInputLancamentosUserAltered().remove(inputLancamentosUserAltered);
-		inputLancamentosUserAltered.setUserAltered(null);
-
-		return inputLancamentosUserAltered;
 	}
 
 	public List<Lancamento> getLancamentosUserCreated() {
@@ -953,78 +906,6 @@ public abstract class User extends AbstractDomain {
 		tbViewDestinationColsDefsUserAltered.setUserAltered(null);
 
 		return tbViewDestinationColsDefsUserAltered;
-	}
-
-	public List<LancamentoInput> getLancamentoInputUserCreated() {
-		return lancamentoInputUserCreated;
-	}
-
-	public void setLancamentoInputUserCreated(List<LancamentoInput> lancamentoInputUserCreated) {
-		this.lancamentoInputUserCreated = lancamentoInputUserCreated;
-	}
-
-	public List<LancamentoInput> getLancamentoInputUserAltered() {
-		return lancamentoInputUserAltered;
-	}
-
-	public void setLancamentoInputUserAltered(List<LancamentoInput> lancamentoInputUserAltered) {
-		this.lancamentoInputUserAltered = lancamentoInputUserAltered;
-	}
-
-	public List<LancamentoInputCols> getLancamentoInputColsUserCreated() {
-		return lancamentoInputColsUserCreated;
-	}
-
-	public void setLancamentoInputColsUserCreated(List<LancamentoInputCols> lancamentoInputColsUserCreated) {
-		this.lancamentoInputColsUserCreated = lancamentoInputColsUserCreated;
-	}
-
-	public List<LancamentoInputCols> getLancamentoInputColsUserAltered() {
-		return lancamentoInputColsUserAltered;
-	}
-
-	public void setLancamentoInputColsUserAltered(List<LancamentoInputCols> lancamentoInputColsUserAltered) {
-		this.lancamentoInputColsUserAltered = lancamentoInputColsUserAltered;
-	}
-
-	public void addLancamentoInputUserAltered(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserAltered().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
-	}
-
-	public void removeLancamentoInputUserAltered(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserAltered().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
-	}
-
-	public void addLancamentoInputUserCreated(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserCreated().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
-	}
-
-	public void removeLancamentoInputUserCreated(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserCreated().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
-	}
-
-	public void addLancamentoInputColsUserAltered(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserAltered().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
-	}
-
-	public void removeLancamentoInputColsUserAltered(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserAltered().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
-	}
-
-	public void addLancamentoInputColsUserCreated(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserCreated().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
-	}
-
-	public void removeLancamentoInputColsUserCreated(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserCreated().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
 	}
 
 	public List<UserRole> getUserRoles() {

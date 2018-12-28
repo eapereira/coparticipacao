@@ -35,27 +35,35 @@ public class TechnitOdontoJRDataSource extends CoParticipacaoJRDataSource<Techni
 		List<TechnitOdontoReport> technitOdontoReports = new ArrayList<>();
 		TechnitOdontoReport technitOdontoReport = new TechnitOdontoReport();
 		TechnitHeaderViewUi technitHeaderViewUi = new TechnitHeaderViewUi();
-		LocalDate dataReport = DateUtils.stringToDate("14/08/2018", "dd/MM/yyyy");
-		LocalDate currentDate = LocalDate.now();
+		LocalDate dataReport;
+		LocalDate currentDate;
 
-		technitOdontoReports = new ArrayList<>();
-		technitOdontoReport = new TechnitOdontoReport();
-		technitOdontoReport.setMes(currentDate.getMonthValue());
-		technitOdontoReport.setAno(currentDate.getYear());
+		try {
+			dataReport = DateUtils.stringToDate("14/08/2018", "dd/MM/yyyy");
+			currentDate = LocalDate.now();
 
-		technitHeaderViewUi.setTipoRegistro(1);
-		technitHeaderViewUi.setTipoArquivo("PARTIC.SEGURADO");
-		technitHeaderViewUi.setCdContrato("091707");
-		technitHeaderViewUi.setDataCompetencia(dataReport);
-		technitHeaderViewUi.setDataProcessamento(dataReport);
+			technitOdontoReports = new ArrayList<>();
+			technitOdontoReport = new TechnitOdontoReport();
+			technitOdontoReport.setMes(currentDate.getMonthValue());
+			technitOdontoReport.setAno(currentDate.getYear());
 
-		technitOdontoReport.setTechnitHeaderViewUi(technitHeaderViewUi);
-		technitOdontoReport
-				.setTechnitOdontoCoparticipacaoViewUis(new TechnitOdontoCoparticipacaoJRDataSource().getData());
+			technitHeaderViewUi.setTipoRegistro(1);
+			technitHeaderViewUi.setTipoArquivo("PARTIC.SEGURADO");
+			technitHeaderViewUi.setCdContrato("091707");
+			technitHeaderViewUi.setDataCompetencia(dataReport);
+			technitHeaderViewUi.setDataProcessamento(dataReport);
 
-		technitOdontoReports.add(technitOdontoReport);
+			technitOdontoReport.setTechnitHeaderViewUi(technitHeaderViewUi);
+			technitOdontoReport
+					.setTechnitOdontoCoparticipacaoViewUis(new TechnitOdontoCoparticipacaoJRDataSource().getData());
 
-		return technitOdontoReports;
+			technitOdontoReports.add(technitOdontoReport);
+
+			return technitOdontoReports;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new JRException(e);
+		}
 	}
 
 	public static JRDataSource getInstance() throws JRException {

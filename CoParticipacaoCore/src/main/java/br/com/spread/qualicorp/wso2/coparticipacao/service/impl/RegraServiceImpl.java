@@ -15,8 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.OperationType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraField;
@@ -29,11 +28,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraResultUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
@@ -107,10 +108,15 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 	public void applyRegras(CoParticipacaoContext coParticipacaoContext, LancamentoDetailUi lancamentoDetailUi)
 			throws ServiceException {
 		BigDecimal valorPrincipal;
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
+		List<LancamentoInputSheetCols> lancamentoInputSheetColss;
+		LancamentoInputSheetColsUi lancamentoInputSheetColsUi;
 
 		try {
 			LOGGER.info("BEGIN");
+
+			lancamentoInputSheetColss = coParticipacaoContext
+					.listLancamentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
 			if (lancamentoDetailUi.getValorType() != null) {
 				if (ValorType.NEGATIVO.equals(lancamentoDetailUi.getValorType())) {
@@ -120,16 +126,18 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 				}
 			}
 
-			for (LancamentoInputColsUi lancamentoInputColsUi : coParticipacaoContext.getLancamentoInputColsUis()) {
-				arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
+			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
+				lancamentoInputSheetColsUi = (LancamentoInputSheetColsUi) lancamentoInputSheetCols;
+				arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetColsUi
+						.getArquivoInputSheetColsDef();
 
 				for (RegraUi regraUi : coParticipacaoContext.getRegraUis()) {
 
 					LOGGER.info("Checking if we have a Regra for column [{}]:", arquivoInputColsDefUi.getNameColumn());
 
 					if (RegraType.SIMPLES.equals(regraUi.getTpRegra())) {
-						if (isLancamentoDetailAcceptable(regraUi, lancamentoInputColsUi)) {
-							applyRegra(coParticipacaoContext, regraUi, lancamentoDetailUi, lancamentoInputColsUi);
+						if (isLancamentoDetailAcceptable(regraUi, lancamentoInputSheetColsUi)) {
+							applyRegra(coParticipacaoContext, regraUi, lancamentoDetailUi, lancamentoInputSheetColsUi);
 						}
 					}
 				}
@@ -143,18 +151,19 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 		}
 	}
 
-	private boolean isLancamentoDetailAcceptable(RegraUi regraUi, LancamentoInputColsUi lancamentoInputColsUi)
+	private boolean isLancamentoDetailAcceptable(RegraUi regraUi, LancamentoInputSheetColsUi lancamentoInputSheetColsUi)
 			throws ServiceException {
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
+			arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetColsUi
+					.getArquivoInputSheetColsDef();
 
 			for (RegraOperation regraOperation : regraUi.getRegraOperations()) {
 				for (RegraField regraField : regraOperation.getRegraFields()) {
-					if (regraField.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+					if (regraField.getArquivoInputSheetColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
 						LOGGER.info("END");
 						LOGGER.info(
 								"This Regra can process that LancamentoDetail with field[{}]",
@@ -177,18 +186,21 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 			CoParticipacaoContext coParticipacaoContext,
 			RegraUi regraUi,
 			LancamentoDetailUi lancamentoDetailUi,
-			LancamentoInputColsUi lancamentoInputColsUi) throws ServiceException {
+			LancamentoInputSheetColsUi lancamentoInputSheetColsUi) throws ServiceException {
 		List<RegraOperation> regraOperatios;
 		BigDecimal value;
 		BigDecimal result;
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
 		LancamentoColType lancamentoColType;
+		List<LancamentoInputSheetCols> lancamentoInputSheetColss;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			result = BigDecimal.ZERO;
 			regraOperatios = regraUi.getRegraOperations();
+			lancamentoInputSheetColss = coParticipacaoContext
+					.listLancamentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
 			LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
 
@@ -199,14 +211,14 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 					LOGGER.info(
 							"Applying regra [{}] to field [{}]:",
 							regraUi.getNameRegra(),
-							regraField.getArquivoInputColsDef().getNameColumn());
+							regraField.getArquivoInputSheetColsDef().getNameColumn());
 
 					value = lancamentoDetailService
-							.getFieldValueAsBigDecimal(lancamentoInputColsUi, lancamentoDetailUi);
+							.getFieldValueAsBigDecimal(lancamentoInputSheetColsUi, lancamentoDetailUi);
 
 					LOGGER.info(
 							"Field [{}] has value [{}]:",
-							regraField.getArquivoInputColsDef().getNameColumn(),
+							regraField.getArquivoInputSheetColsDef().getNameColumn(),
 							value);
 
 					if (!BigDecimal.ZERO.equals(value)) {
@@ -230,24 +242,25 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 			LOGGER.info("Final result after all RegraOperations value is [{}]:", result);
 
 			for (RegraResult regraResult : regraUi.getRegraResults()) {
-				arquivoInputColsDefUi = (ArquivoInputColsDefUi) regraResult.getArquivoInputColsDef();
+				arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) regraResult.getArquivoInputSheetColsDef();
 
-				for (LancamentoInputCols lancamentoInputCols : coParticipacaoContext.getLancamentoInputColsUis()) {
+				for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
 
-					if (lancamentoInputCols.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+					if (lancamentoInputSheetCols.getArquivoInputSheetColsDef().getId()
+							.equals(arquivoInputColsDefUi.getId())) {
 						LOGGER.info(
 								"Sending calculated value [{}] to lancamento field [{}]",
 								result,
-								regraResult.getArquivoInputColsDef().getNameColumn());
+								regraResult.getArquivoInputSheetColsDef().getNameColumn());
 
-						lancamentoColType = lancamentoInputCols.getLancamentoColType();
+						lancamentoColType = lancamentoInputSheetCols.getLancamentoColType();
 
-						if (ColDefType.DOUBLE.equals(regraResult.getArquivoInputColsDef().getType())) {
+						if (ColDefType.DOUBLE.equals(regraResult.getArquivoInputSheetColsDef().getType())) {
 							lancamentoDetailService.setFieldValue(lancamentoDetailUi, lancamentoColType, result);
-						} else if (ColDefType.LONG.equals(regraResult.getArquivoInputColsDef().getType())) {
+						} else if (ColDefType.LONG.equals(regraResult.getArquivoInputSheetColsDef().getType())) {
 							lancamentoDetailService
 									.setFieldValue(lancamentoDetailUi, lancamentoColType, result.longValue());
-						} else if (ColDefType.INT.equals(regraResult.getArquivoInputColsDef().getType())) {
+						} else if (ColDefType.INT.equals(regraResult.getArquivoInputSheetColsDef().getType())) {
 							lancamentoDetailService
 									.setFieldValue(lancamentoDetailUi, lancamentoColType, result.intValue());
 						}
@@ -348,7 +361,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 		List<RegraOperation> regraOperatios;
 		BigDecimal value = null;
 		BigDecimal result;
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -362,13 +375,14 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 
 				for (RegraField regraField : regraOperation.getRegraFields()) {
 					for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetColss) {
-						arquivoInputColsDefUi = (ArquivoInputColsDefUi) isentoInputSheetCols.getArquivoInputColsDef();
+						arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) isentoInputSheetCols
+								.getArquivoInputSheetColsDef();
 
-						if (regraField.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+						if (regraField.getArquivoInputSheetColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
 							LOGGER.info(
 									"Applying regra [{}] to field [{}]:",
 									regraUi.getNameRegra(),
-									regraField.getArquivoInputColsDef().getNameColumn());
+									regraField.getArquivoInputSheetColsDef().getNameColumn());
 
 							value = isentoService.getFieldValueAsBigDecimal(
 									isentoInputSheetCols.getBeneficiarioIsentoColType(),
@@ -376,7 +390,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 
 							LOGGER.info(
 									"Field [{}] has value [{}]:",
-									regraField.getArquivoInputColsDef().getNameColumn(),
+									regraField.getArquivoInputSheetColsDef().getNameColumn(),
 									value);
 
 							if (!BigDecimal.ZERO.equals(value)) {
@@ -405,14 +419,15 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 
 			for (RegraResult regraResult : regraUi.getRegraResults()) {
 				for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetColss) {
-					arquivoInputColsDefUi = (ArquivoInputColsDefUi) isentoInputSheetCols.getArquivoInputColsDef();
+					arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) isentoInputSheetCols
+							.getArquivoInputSheetColsDef();
 
-					if (regraResult.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+					if (regraResult.getArquivoInputSheetColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
 
 						LOGGER.info(
 								"Sending calculated value [{}] to lancamento field [{}]",
 								result,
-								regraResult.getArquivoInputColsDef().getNameColumn());
+								regraResult.getArquivoInputSheetColsDef().getNameColumn());
 
 						isentoService.setFieldValueAsBigDecimal(
 								isentoInputSheetCols.getBeneficiarioIsentoColType(),
@@ -439,7 +454,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 		List<RegraOperation> regraOperatios;
 		BigDecimal value = null;
 		BigDecimal result;
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -452,13 +467,14 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 			for (RegraOperation regraOperation : regraOperatios) {
 
 				for (RegraField regraField : regraOperation.getRegraFields()) {
-					arquivoInputColsDefUi = (ArquivoInputColsDefUi) isentoInputSheetColsUi.getArquivoInputColsDef();
+					arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) isentoInputSheetColsUi
+							.getArquivoInputSheetColsDef();
 
-					if (regraField.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+					if (regraField.getArquivoInputSheetColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
 						LOGGER.info(
 								"Applying regra [{}] to field [{}]:",
 								regraUi.getNameRegra(),
-								regraField.getArquivoInputColsDef().getNameColumn());
+								regraField.getArquivoInputSheetColsDef().getNameColumn());
 
 						value = isentoService.getFieldValueAsBigDecimal(
 								isentoInputSheetColsUi.getBeneficiarioIsentoColType(),
@@ -466,7 +482,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 
 						LOGGER.info(
 								"Field [{}] has value [{}]:",
-								regraField.getArquivoInputColsDef().getNameColumn(),
+								regraField.getArquivoInputSheetColsDef().getNameColumn(),
 								value);
 
 						if (!BigDecimal.ZERO.equals(value)) {
@@ -491,14 +507,15 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 			LOGGER.info("Final result after all RegraOperations value is [{}]:", result);
 
 			for (RegraResult regraResult : regraUi.getRegraResults()) {
-				arquivoInputColsDefUi = (ArquivoInputColsDefUi) isentoInputSheetColsUi.getArquivoInputColsDef();
+				arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) isentoInputSheetColsUi
+						.getArquivoInputSheetColsDef();
 
-				if (regraResult.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+				if (regraResult.getArquivoInputSheetColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
 
 					LOGGER.info(
 							"Sending calculated value [{}] to lancamento field [{}]",
 							result,
-							regraResult.getArquivoInputColsDef().getNameColumn());
+							regraResult.getArquivoInputSheetColsDef().getNameColumn());
 
 					isentoService.setFieldValueAsBigDecimal(
 							isentoInputSheetColsUi.getBeneficiarioIsentoColType(),
@@ -508,6 +525,22 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 			}
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<RegraUi> listByArquivoInputSheet(ArquivoInputSheetUi arquivoInputSheetUi) throws ServiceException {
+		List<RegraUi> regraUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			regraUis = entityToUi(regraDao.listByArquivoInputSheetId(arquivoInputSheetUi.getId()));
+
+			LOGGER.info("END");
+			return regraUis;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

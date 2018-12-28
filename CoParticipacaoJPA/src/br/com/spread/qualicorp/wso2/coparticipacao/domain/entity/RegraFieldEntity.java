@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraField;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraOperation;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraFieldUi;
@@ -41,10 +41,10 @@ public class RegraFieldEntity extends RegraField implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to RegraOperation
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return super.getArquivoInputColsDef();
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetColsDefEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
+	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+		return super.getArquivoInputSheetColsDef();
 	}
 
 }

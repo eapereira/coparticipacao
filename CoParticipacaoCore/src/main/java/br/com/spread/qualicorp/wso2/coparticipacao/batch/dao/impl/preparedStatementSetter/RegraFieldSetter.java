@@ -13,7 +13,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraFieldEntit
 public class RegraFieldSetter extends PreparedStatementSetterAdapter<RegraFieldEntity> {
 
 	private static final int COL_ID_REGRA_OPERATION = 1;
-	private static final int COL_ID_ARQUIVO_INPUT_COLS_DEF = 2;
+	private static final int COL_ID_ARQUIVO_INPUT_SHEET_COLS_DEF = 2;
 
 	private static final int COL_USER_CREATED = 3;
 	private static final int COL_USER_ALTERED = 3;
@@ -26,14 +26,14 @@ public class RegraFieldSetter extends PreparedStatementSetterAdapter<RegraFieldE
 	@Override
 	protected void setValuesForInsert(PreparedStatement ps) throws SQLException {
 		ps.setLong(COL_ID_REGRA_OPERATION, getEntity().getRegraOperation().getId());
-		ps.setLong(COL_ID_ARQUIVO_INPUT_COLS_DEF, getEntity().getArquivoInputColsDef().getId());
+		ps.setLong(COL_ID_ARQUIVO_INPUT_SHEET_COLS_DEF, getEntity().getArquivoInputSheetColsDef().getId());
 		ps.setLong(COL_USER_CREATED, getEntity().getUserCreated().getId());
 	}
 
 	@Override
 	protected void setValuesForUpdate(PreparedStatement ps) throws SQLException {
 		ps.setLong(COL_ID_REGRA_OPERATION, getEntity().getRegraOperation().getId());
-		ps.setLong(COL_ID_ARQUIVO_INPUT_COLS_DEF, getEntity().getArquivoInputColsDef().getId());
+		ps.setLong(COL_ID_ARQUIVO_INPUT_SHEET_COLS_DEF, getEntity().getArquivoInputSheetColsDef().getId());
 		ps.setLong(COL_USER_ALTERED, getEntity().getUserAltered().getId());
 	}
 

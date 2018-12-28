@@ -15,7 +15,7 @@ public class RegraSetter extends PreparedStatementSetterAdapter<RegraEntity> {
 	private static final int COL_NM_REGRA = 1;
 	private static final int COL_TP_REGRA = 2;
 	private static final int COL_CD_ORDEM = 3;
-	private static final int COL_ID_ARQUIVO_INPUT = 4;
+	private static final int COL_ID_ARQUIVO_INPUT_SHEET = 4;
 
 	private static final int COL_USER_CREATED = 5;
 	private static final int COL_USER_ALTERED = 5;
@@ -30,7 +30,7 @@ public class RegraSetter extends PreparedStatementSetterAdapter<RegraEntity> {
 		ps.setString(COL_NM_REGRA, getEntity().getNameRegra());
 		ps.setInt(COL_TP_REGRA, getEntity().getTpRegra().getId());
 		ps.setInt(COL_CD_ORDEM, getEntity().getOrdem());
-		ps.setLong(COL_ID_ARQUIVO_INPUT, getEntity().getArquivoInput().getId());
+		ps.setLong(COL_ID_ARQUIVO_INPUT_SHEET, getEntity().getArquivoInputSheet().getId());
 		ps.setLong(COL_USER_CREATED, getEntity().getUserCreated().getId());
 	}
 
@@ -39,7 +39,7 @@ public class RegraSetter extends PreparedStatementSetterAdapter<RegraEntity> {
 		ps.setString(COL_NM_REGRA, getEntity().getNameRegra());
 		ps.setInt(COL_TP_REGRA, getEntity().getTpRegra().getId());
 		ps.setInt(COL_CD_ORDEM, getEntity().getOrdem());
-		ps.setLong(COL_ID_ARQUIVO_INPUT, getEntity().getArquivoInput().getId());
+		ps.setLong(COL_ID_ARQUIVO_INPUT_SHEET, getEntity().getArquivoInputSheet().getId());
 		ps.setLong(COL_USER_ALTERED, getEntity().getUserAltered().getId());
 	}
 

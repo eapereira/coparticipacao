@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ValorType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
@@ -143,7 +142,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 	}
 
 	public BigDecimal getFieldValueAsBigDecimal(
-			LancamentoInputColsUi lancamentoInputColsUi,
+			LancamentoInputSheetColsUi lancamentoInputColsUi,
 			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
 		BigDecimal value;
 		LancamentoColType lancamentoColType;
@@ -171,17 +170,23 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 		}
 	}
 
-	public LancamentoInputColsUi findByArquivoInputColsDefId(
+	public LancamentoInputSheetColsUi findByArquivoInputSheetColsDefId(
 			CoParticipacaoContext coParticipacaoContext,
-			ArquivoInputColsDefUi arquivoInputColsDefUi) throws ServiceException {
+			ArquivoInputSheetColsDefUi arquivoInputColsDefUi) throws ServiceException {
+		List<LancamentoInputSheetCols> lancamentoInputSheetColss;
+
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Searching for column[{}] in LancamentoInputCols:", arquivoInputColsDefUi.getNameColumn());
 
-			for (LancamentoInputColsUi lancamentoInputColsUi : coParticipacaoContext.getLancamentoInputColsUis()) {
-				if (lancamentoInputColsUi.getArquivoInputColsDef().getId().equals(arquivoInputColsDefUi.getId())) {
+			lancamentoInputSheetColss = coParticipacaoContext
+					.listLancamentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
+
+			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
+				if (lancamentoInputSheetCols.getArquivoInputSheetColsDef().getId()
+						.equals(arquivoInputColsDefUi.getId())) {
 					LOGGER.info("END");
-					return lancamentoInputColsUi;
+					return (LancamentoInputSheetColsUi) lancamentoInputSheetCols;
 				}
 			}
 
@@ -230,20 +235,16 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 
 	public LancamentoDetailUi create(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		LancamentoDetailUi lancamentoDetailUi;
-		List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis;
+		List<LancamentoInputSheetCols> lancamentoInputSheetCols;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			if (!coParticipacaoContext.getLancamentoInputColsUis().isEmpty()) {
-				lancamentoDetailUi = createFromLancamentoInput(
-						coParticipacaoContext,
-						coParticipacaoContext.getLancamentoInputColsUis());
-			} else if (!coParticipacaoContext.getMapLancamentoInputSheetColsUis().isEmpty()) {
-				lancamentoInputSheetColsUis = coParticipacaoContext.getMapLancamentoInputSheetColsUis()
-						.get(coParticipacaoContext.getCurrentSheet());
+			lancamentoInputSheetCols = coParticipacaoContext
+					.listLancamentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
-				lancamentoDetailUi = createFromLancamentoInputSheet(coParticipacaoContext, lancamentoInputSheetColsUis);
+			if (!lancamentoInputSheetCols.isEmpty()) {
+				lancamentoDetailUi = createFromLancamentoInput(coParticipacaoContext, lancamentoInputSheetCols);
 			} else {
 				LOGGER.info(
 						"There's no registers in LancamentoInputCols mapping to ArquivoInput, so we can read and store Lancamentos:");
@@ -279,11 +280,11 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 		}
 	}
 
-	private LancamentoDetailUi createFromLancamentoInput(
+	private LancamentoDetailUi createFromLancamentoInputOld(
 			CoParticipacaoContext coParticipacaoContext,
-			List<LancamentoInputColsUi> lancamentoInputColsUis) throws ServiceException {
+			List<LancamentoInputSheetCols> lancamentoInputSheetColss) throws ServiceException {
 		LancamentoDetailUi lancamentoDetailUi;
-		ArquivoInputColsDefUi arquivoInputColsDefUi;
+		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
 		Object value;
 
 		try {
@@ -292,18 +293,19 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 			lancamentoDetailUi = new LancamentoDetailUi();
 
 			// Processando uma linha do arquivo:
-			for (LancamentoInputColsUi lancamentoInputColsUi : lancamentoInputColsUis) {
+			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
 				LOGGER.info(
 						"Using LancamentoInputCols[{}]",
-						lancamentoInputColsUi.getLancamentoColType().getDescription());
+						lancamentoInputSheetCols.getLancamentoColType().getDescription());
 
-				arquivoInputColsDefUi = (ArquivoInputColsDefUi) lancamentoInputColsUi.getArquivoInputColsDef();
+				arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetCols
+						.getArquivoInputSheetColsDef();
 
 				value = coParticipacaoContext.getMapLine().get(arquivoInputColsDefUi.getNameColumn());
 
 				LOGGER.debug("Column [{}] with value [{}]:", arquivoInputColsDefUi.getNameColumn(), value);
 
-				setFieldValue(lancamentoDetailUi, lancamentoInputColsUi.getLancamentoColType(), value);
+				setFieldValue(lancamentoDetailUi, lancamentoInputSheetCols.getLancamentoColType(), value);
 			}
 
 			LOGGER.info("END");
@@ -314,9 +316,9 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 		}
 	}
 
-	private LancamentoDetailUi createFromLancamentoInputSheet(
+	private LancamentoDetailUi createFromLancamentoInput(
 			CoParticipacaoContext coParticipacaoContext,
-			List<LancamentoInputSheetColsUi> lancamentoInputSheetColsUis) throws ServiceException {
+			List<LancamentoInputSheetCols> lancamentoInputSheetColss) throws ServiceException {
 		LancamentoDetailUi lancamentoDetailUi;
 		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
 		Object value;
@@ -326,20 +328,20 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 
 			lancamentoDetailUi = new LancamentoDetailUi();
 
-			for (LancamentoInputSheetColsUi lancamentoInputSheetColsUi : lancamentoInputSheetColsUis) {
+			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
 				// Processando uma linha do arquivo:
 				LOGGER.info(
 						"Using LancamentoInputCols[{}]",
-						lancamentoInputSheetColsUi.getLancamentoColType().getDescription());
+						lancamentoInputSheetCols.getLancamentoColType().getDescription());
 
-				arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetColsUi
+				arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetCols
 						.getArquivoInputSheetColsDef();
 
 				value = coParticipacaoContext.getMapLine().get(arquivoInputSheetColsDefUi.getNameColumn());
 
 				LOGGER.debug("Column [{}] with value [{}]:", arquivoInputSheetColsDefUi.getNameColumn(), value);
 
-				setFieldValue(lancamentoDetailUi, lancamentoInputSheetColsUi.getLancamentoColType(), value);
+				setFieldValue(lancamentoDetailUi, lancamentoInputSheetCols.getLancamentoColType(), value);
 			}
 
 			LOGGER.info("END");

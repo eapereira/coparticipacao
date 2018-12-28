@@ -3,7 +3,7 @@
 	<query id="listByRegraOperationId">
 		<![CDATA[
 			select regraField from RegraFieldEntity regraField
-			join fetch regraField.arquivoInputColsDef arquivoInputColsDef 
+			join fetch regraField.arquivoInputSheetColsDef arquivoInputSheetColsDef 
 			join fetch regraField.regraOperation regraOperation
 			where  regraOperation.id = :regraOperationId
 		]]>

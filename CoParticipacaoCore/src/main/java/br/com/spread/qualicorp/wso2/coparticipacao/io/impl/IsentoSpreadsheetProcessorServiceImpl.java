@@ -1,6 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.io.impl;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -11,10 +12,9 @@ import org.apache.poi.ss.usermodel.Row;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.IsentoSpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -38,49 +38,45 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 		Map<String, Object> mapLine;
 		String columnName = StringUtils.EMPTY;
 		Object value;
-		ArquivoInputColsDef arquivoInputColsDef;
+		ArquivoInputSheetColsDef arquivoInputSheetColsDef;
+		List<IsentoInputSheetCols> isentoInputSheetColss;
 		Cell cell;
 
 		try {
 			LOGGER.info("BEGIN");
 			mapLine = new HashMap<String, Object>();
 
-			for (IsentoInputSheetUi isentoInputSheetUi : coParticipacaoContext.getIsentoInputSheetUis()) {
-				if (isAcceptSheet(coParticipacaoContext, isentoInputSheetUi.getSheetId())) {
-					LOGGER.info(
-							"Isento sheet [{}] is mapped and will be loaded:",
-							coParticipacaoContext.getCurrentSheet());
+			isentoInputSheetColss = coParticipacaoContext
+					.listIsentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
-					for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetUi.getIsentoInputSheetCols()) {
-						LOGGER.debug(
-								"Checking column[{}] with BeneficiarioIsentoColType[{}]:",
-								isentoInputSheetCols.getArquivoInputColsDef().getNameColumn(),
-								isentoInputSheetCols.getBeneficiarioIsentoColType());
+			if (!isentoInputSheetColss.isEmpty()) {
+				LOGGER.info("Isento sheet [{}] is mapped and will be loaded:", coParticipacaoContext.getCurrentSheet());
 
-						if (isentoInputSheetCols.getBeneficiarioIsentoColType() != null) {
-							arquivoInputColsDef = isentoInputSheetCols.getArquivoInputColsDef();
+				for (IsentoInputSheetCols isentoInputSheetCols : isentoInputSheetColss) {
+					LOGGER.debug(
+							"Checking column[{}] with BeneficiarioIsentoColType[{}]:",
+							isentoInputSheetCols.getArquivoInputSheetColsDef().getNameColumn(),
+							isentoInputSheetCols.getBeneficiarioIsentoColType());
 
-							LOGGER.debug("Loading Isento column [{}]", arquivoInputColsDef.getNameColumn());
+					if (isentoInputSheetCols.getBeneficiarioIsentoColType() != null) {
+						arquivoInputSheetColsDef = isentoInputSheetCols.getArquivoInputSheetColsDef();
 
-							// cell =
-							// row.getCell(arquivoInputColsDef.getOrdem());
-							cell = row.getCell(isentoInputSheetCols.getOrdem());
+						LOGGER.debug("Loading Isento column [{}]", arquivoInputSheetColsDef.getNameColumn());
 
-							if (cell != null) {
-								columnName = arquivoInputColsDef.getNameColumn();
+						cell = row.getCell(arquivoInputSheetColsDef.getOrdem());
 
-								LOGGER.info("Retrieving cell value for column [{}]:", columnName);
-								value = getCellValue(spreadsheetContext, cell, arquivoInputColsDef);
+						if (cell != null) {
+							columnName = arquivoInputSheetColsDef.getNameColumn();
 
-								LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
-								mapLine.put(columnName, value);
-							} else {
-								break;
-							}
+							LOGGER.info("Retrieving cell value for column [{}]:", columnName);
+							value = getCellValue(spreadsheetContext, cell, arquivoInputSheetColsDef);
+
+							LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
+							mapLine.put(columnName, value);
+						} else {
+							break;
 						}
 					}
-
-					break;
 				}
 			}
 
@@ -90,23 +86,5 @@ public class IsentoSpreadsheetProcessorServiceImpl extends SpreadsheetProcessorS
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
 		}
-	}
-
-	private boolean isAcceptSheet(CoParticipacaoContext coParticipacaoContext, int sheetId) throws ServiceException {
-		try {
-			LOGGER.info("BEGIN");
-
-			if (coParticipacaoContext.getCurrentSheet().equals(sheetId)
-					|| Boolean.TRUE.equals(coParticipacaoContext.getContratoUi().isSpreadsheetAllPages())) {
-				return true;
-			}
-
-			LOGGER.info("END");
-			return false;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e);
-		}
-
 	}
 }

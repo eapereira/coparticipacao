@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorService;
@@ -79,6 +79,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 				LOGGER.debug(line);
 
 				coParticipacaoContext.setLine(line);
+				coParticipacaoContext.setCurrentSheet(NumberUtils.INTEGER_ZERO);
 
 				if (processorListener.validateLine(line, coParticipacaoContext)) {
 					if (isLineAccepted(coParticipacaoContext)) {
@@ -113,7 +114,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 	protected abstract Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext)
 			throws ArquivoInputException;
 
-	protected Object stringToColumnValue(ArquivoInputColsDefUi arquivoInputColsDefUi, String columnValue)
+	protected Object stringToColumnValue(ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi, String columnValue)
 			throws ServiceException {
 		Object value = null;
 		String tmp;
@@ -124,14 +125,14 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		tmp = tmp.trim();
 
 		if (StringUtils.isNotBlank(tmp)) {
-			if (ColDefType.INT.equals(arquivoInputColsDefUi.getType())) {
+			if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
 				value = Integer.parseInt(tmp);
-			} else if (ColDefType.LONG.equals(arquivoInputColsDefUi.getType())) {
-				value = stringToLong(tmp, arquivoInputColsDefUi);
-			} else if (ColDefType.DOUBLE.equals(arquivoInputColsDefUi.getType())) {
-				value = stringToBigDecimal(tmp, arquivoInputColsDefUi);
-			} else if (ColDefType.DATE.equals(arquivoInputColsDefUi.getType())) {
-				value = stringToDate(tmp, arquivoInputColsDefUi);
+			} else if (ColDefType.LONG.equals(arquivoInputSheetColsDefUi.getType())) {
+				value = stringToLong(tmp, arquivoInputSheetColsDefUi);
+			} else if (ColDefType.DOUBLE.equals(arquivoInputSheetColsDefUi.getType())) {
+				value = stringToBigDecimal(tmp, arquivoInputSheetColsDefUi);
+			} else if (ColDefType.DATE.equals(arquivoInputSheetColsDefUi.getType())) {
+				value = stringToDate(tmp, arquivoInputSheetColsDefUi);
 			} else {
 				value = tmp.trim();
 			}
@@ -141,15 +142,16 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		return value;
 	}
 
-	protected Long stringToLong(String value, ArquivoInputColsDefUi arquivoInputColsDefUi) throws ServiceException {
+	protected Long stringToLong(String value, ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi)
+			throws ServiceException {
 		Long longValue = null;
 		DecimalFormat decimalFormat;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
-				decimalFormat = new DecimalFormat(arquivoInputColsDefUi.getFormat());
+			if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getFormat())) {
+				decimalFormat = new DecimalFormat(arquivoInputSheetColsDefUi.getFormat());
 
 				longValue = decimalFormat.parse(value).longValue();
 			} else {
@@ -164,7 +166,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		}
 	}
 
-	protected BigDecimal stringToBigDecimal(String value, ArquivoInputColsDefUi arquivoInputColsDefUi)
+	protected BigDecimal stringToBigDecimal(String value, ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi)
 			throws ServiceException {
 		BigDecimal bdValue = null;
 		DecimalFormat decimalFormat;
@@ -175,8 +177,8 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 
 			tmp = StringUtils.replaceAll(value, ",", ".");
 
-			if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
-				decimalFormat = new DecimalFormat(arquivoInputColsDefUi.getFormat());
+			if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getFormat())) {
+				decimalFormat = new DecimalFormat(arquivoInputSheetColsDefUi.getFormat());
 				bdValue = BigDecimal.valueOf(decimalFormat.parse(tmp).doubleValue());
 			} else {
 				bdValue = new BigDecimal(tmp);
@@ -190,7 +192,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		}
 	}
 
-	protected LocalDate stringToDate(String value, ArquivoInputColsDefUi arquivoInputColsDefUi)
+	protected LocalDate stringToDate(String value, ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi)
 			throws ServiceException {
 		DateTimeFormatter dateTimeFormatter;
 		String formatPattern = "dd/MM/yyyy";
@@ -200,8 +202,8 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (StringUtils.isNotBlank(arquivoInputColsDefUi.getFormat())) {
-				formatPattern = arquivoInputColsDefUi.getFormat();
+			if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getFormat())) {
+				formatPattern = arquivoInputSheetColsDefUi.getFormat();
 			}
 
 			/*
