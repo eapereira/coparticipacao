@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -26,6 +27,13 @@ public class AutomindCoparticipacaoViewEntity extends AutomindCoparticipacaoView
 
 	public AutomindCoparticipacaoViewEntity() {
 		super();
+	}
+
+	@Column(name = "NR_SUBFATURA")
+	@Override
+	public String getSubFatura() {
+		// TODO Auto-generated method stub
+		return super.getSubFatura();
 	}
 
 }

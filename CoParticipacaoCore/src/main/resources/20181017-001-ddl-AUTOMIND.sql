@@ -77,10 +77,11 @@ select
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
     contrato.CD_CONTRATO,
-	lpad( titular.NR_MATRICULA, 7, '0' ) NR_CERTIFICADO,
-	lpad( titular.NR_MATRICULA_EMPRESA, 10, '0' ) NR_MATRICULA,	
-	titular.NR_SUBFATURA,
+	lpad( ifnull( titular.NR_MATRICULA, 0 ), 7, '0' ) NR_CERTIFICADO,
+	lpad( ifnull( titular.NR_MATRICULA_EMPRESA, 0 ), 10, '0' ) NR_MATRICULA,	
+	lpad( titular.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
 	titular.NM_TITULAR,
+	lancamento.VL_PARTICIPACAO,
 	titular.VL_FATOR_MODERADOR,
 	titular.NR_MATRICULA_ESPECIAL,
 	titular.DESCR_PROFISSAO,
@@ -98,7 +99,7 @@ from	TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
 where	empresa.CD_EMPRESA			= '074210'
-and		titular.VL_FATOR_MODERADOR 	> 0;
+and		lancamento.VL_PARTICIPACAO 	> 0;
 
 create view VW_COPARTICIPACAO_AUTOMIND as
 select
@@ -112,6 +113,7 @@ select
 	automind.NM_TITULAR,
 	automind.NR_SUBFATURA,
 	automind.VL_FATOR_MODERADOR,
+	sum( automind.VL_PARTICIPACAO ) VL_PARTICIPACAO,
 	automind.NR_MATRICULA_ESPECIAL,
 	automind.DESCR_PROFISSAO,
 	automind.CD_EMPRESA,
@@ -152,8 +154,8 @@ select
     automind.CD_EMPRESA,
     automind.NR_SUBFATURA,
 	count(1) QTDE_SEGURADOS,
-	sum( automind.VL_FATOR_MODERADOR ) VL_ALOCACAO,
-	count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_AUTOMIND ) VL_PROPORCAO,
+	sum( automind.VL_PARTICIPACAO ) VL_ALOCACAO,
+	( count( 1 ) / ( select count( 1 ) from VW_COPARTICIPACAO_AUTOMIND )) * 100 VL_PROPORCAO,
 	automind.VERSION,
 	automind.USER_CREATED,
 	automind.USER_ALTERED,

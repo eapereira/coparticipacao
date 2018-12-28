@@ -315,86 +315,90 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 		try {
 			LOGGER.info("BEGIN");
 
-			LOGGER.info(
-					"Using ArquivoInput [{}] to find ArquivoOutputDesconhecido need data:",
-					coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
+			if (isDesconhecidoEnabled(coParticipacaoContext)) {
+				LOGGER.info(
+						"Using ArquivoInput [{}] to find ArquivoOutputDesconhecido need data:",
+						coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 
-			spreadsheetBuilder = new SpreadsheetBuilder<DynamicEntity>();
+				spreadsheetBuilder = new SpreadsheetBuilder<DynamicEntity>();
 
-			arquivoOutputDesconhecidoUi = arquivoOutputDesconhecidoService
-					.findByContratoId(coParticipacaoContext.getContratoUi());
+				arquivoOutputDesconhecidoUi = arquivoOutputDesconhecidoService
+						.findByContratoId(coParticipacaoContext.getContratoUi());
 
-			if (arquivoOutputDesconhecidoUi != null) {
-				nameOutputFile = arquivoOutputDesconhecidoUi.getNameArquivoFormat();
+				if (arquivoOutputDesconhecidoUi != null) {
+					nameOutputFile = arquivoOutputDesconhecidoUi.getNameArquivoFormat();
 
-				LOGGER.info("Creating ArquivoExecucaoUi for Desconhecidos data:");
-				arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
-				arquivoExecucaoUi = arquivoExecucaoService
-						.createArquivoExecucao(coParticipacaoContext, UseType.NAO_LOCALIZADO);
+					LOGGER.info("Creating ArquivoExecucaoUi for Desconhecidos data:");
+					arquivoExecucaoUiTmp = coParticipacaoContext.getArquivoExecucaoUi();
+					arquivoExecucaoUi = arquivoExecucaoService
+							.createArquivoExecucao(coParticipacaoContext, UseType.NAO_LOCALIZADO);
 
-				coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
-				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
-				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
+					coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUi);
+					arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.STARTED);
+					arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.RUNNING);
 
-				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
-					if (UseType.FATUCOPA.equals(contrato.getUseType())) {
-						LOGGER.info("Configuring sheet [{}] for Desconhecidos:", contrato.getCdContrato());
+					for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
+						if (UseType.FATUCOPA.equals(contrato.getUseType())) {
+							LOGGER.info("Configuring sheet [{}] for Desconhecidos:", contrato.getCdContrato());
 
-						if (contrato.getArquivoInput() != null) {
-							arquivoOutputDesconhecidoSheetUis = arquivoOutputDesconhecidoSheetService
-									.listByArquivoInputId((ArquivoInputUi) contrato.getArquivoInput());
+							if (contrato.getArquivoInput() != null) {
+								arquivoOutputDesconhecidoSheetUis = arquivoOutputDesconhecidoSheetService
+										.listByArquivoInputId((ArquivoInputUi) contrato.getArquivoInput());
 
-							if (!arquivoOutputDesconhecidoSheetUis.isEmpty()) {
-								for (ArquivoOutputDesconhecidoSheetUi arquivoOutputDesconhecidoSheetUi : arquivoOutputDesconhecidoSheetUis) {
+								if (!arquivoOutputDesconhecidoSheetUis.isEmpty()) {
+									for (ArquivoOutputDesconhecidoSheetUi arquivoOutputDesconhecidoSheetUi : arquivoOutputDesconhecidoSheetUis) {
 
-									viewDestinationUi = (ViewDestinationUi) arquivoOutputDesconhecidoSheetUi
-											.getViewDestination();
-									viewDestinationColsDefUis = viewDestinationColsDefService
-											.listByViewDestinationId(viewDestinationUi);
+										viewDestinationUi = (ViewDestinationUi) arquivoOutputDesconhecidoSheetUi
+												.getViewDestination();
+										viewDestinationColsDefUis = viewDestinationColsDefService
+												.listByViewDestinationId(viewDestinationUi);
 
+										LOGGER.info(
+												"Creating the report for the ViewDestination [{}]:",
+												viewDestinationUi.getNameView());
+										dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
+												viewDestinationUi,
+												(ContratoUi) contrato,
+												coParticipacaoContext.getMes(),
+												coParticipacaoContext.getAno());
+
+										spreadsheetBuilder.addSpreadsheetListener(
+												new DesconhecidoSpreadsheetListener(
+														viewDestinationColsDefUis,
+														dynamicEntities,
+														(ContratoUi) contrato,
+														coParticipacaoContext));
+									}
+								} else {
 									LOGGER.info(
-											"Creating the report for the ViewDestination [{}]:",
-											viewDestinationUi.getNameView());
-									dynamicEntities = viewDestinationService.listByContratoAndMesAndAno(
-											viewDestinationUi,
-											(ContratoUi) contrato,
-											coParticipacaoContext.getMes(),
-											coParticipacaoContext.getAno());
-
-									spreadsheetBuilder.addSpreadsheetListener(
-											new DesconhecidoSpreadsheetListener(
-													viewDestinationColsDefUis,
-													dynamicEntities,
-													(ContratoUi) contrato,
-													coParticipacaoContext));
+											"Contrato [{}] doesn't have an OutputFile mapped:",
+											contrato.getCdContrato());
 								}
 							} else {
 								LOGGER.info(
-										"Contrato [{}] doesn't have an OutputFile mapped:",
+										"Contrato [{}] doesn't have an ArquivoInput mapped:",
 										contrato.getCdContrato());
 							}
-						} else {
-							LOGGER.info("Contrato [{}] doesn't have an ArquivoInput mapped:", contrato.getCdContrato());
 						}
 					}
+
+					LOGGER.info("Writing spreadsheet to filesystem:");
+					spreadsheetBuilder.setSpreadsheetFileName(nameOutputFile);
+					spreadsheetBuilder.writeSpreadsheet(coParticipacaoContext);
+
+					LOGGER.info("Updating ArquivoExecucaoUi with SUCCESS information:");
+					arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);
+					coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUiTmp);
+				} else {
+					LOGGER.info(
+							"The ArquivoInput[{}] and Contrato [{}] does not have a ArquivoOutput defined to it:",
+							coParticipacaoContext.getArquivoInputUi().getDescrArquivo(),
+							coParticipacaoContext.getContratoUi().getCdContrato());
+
+					LOGGER.info(
+							"There is no ArquivoOutputDesconhecidoUi defined for ContratoUi[{}]:",
+							coParticipacaoContext.getContratoUi());
 				}
-
-				LOGGER.info("Writing spreadsheet to filesystem:");
-				spreadsheetBuilder.setSpreadsheetFileName(nameOutputFile);
-				spreadsheetBuilder.writeSpreadsheet(coParticipacaoContext);
-
-				LOGGER.info("Updating ArquivoExecucaoUi with SUCCESS information:");
-				arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.SUCCESS);
-				coParticipacaoContext.setArquivoExecucaoUi(arquivoExecucaoUiTmp);
-			} else {
-				LOGGER.info(
-						"The ArquivoInput[{}] and Contrato [{}] does not have a ArquivoOutput defined to it:",
-						coParticipacaoContext.getArquivoInputUi().getDescrArquivo(),
-						coParticipacaoContext.getContratoUi().getCdContrato());
-
-				LOGGER.info(
-						"There is no ArquivoOutputDesconhecidoUi defined for ContratoUi[{}]:",
-						coParticipacaoContext.getContratoUi());
 			}
 
 			LOGGER.info("END");
@@ -404,6 +408,29 @@ public class DesconhecidoServiceImpl extends AbstractServiceImpl<DesconhecidoUi,
 			coParticipacaoContext.getArquivoExecucaoUi().setErrorMessage(e.getMessage());
 			arquivoExecucaoService.updateStatus(coParticipacaoContext, StatusExecucaoType.ERROR);
 
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private boolean isDesconhecidoEnabled(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
+				if (UseType.NAO_LOCALIZADO.equals(contrato.getUseType())) {
+					if (!contrato.isEnabled()) {
+						LOGGER.info(
+								"ContratoUi[{}] is disabled and cannot generate OutputFile:",
+								contrato.getCdContrato());
+						return false;
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return true;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}

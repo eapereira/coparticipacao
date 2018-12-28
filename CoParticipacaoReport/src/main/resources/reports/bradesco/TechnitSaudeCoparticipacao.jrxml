@@ -132,7 +132,7 @@
 			<staticText>
 				<reportElement mode="Opaque" x="760" y="0" width="300" height="20" backcolor="#D1CFCF" uuid="62764905-215c-493e-a570-b4a858d995ff"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nome do Usuário]]></text>
 			</staticText>
@@ -171,7 +171,7 @@
 			<textField>
 				<reportElement x="760" y="0" width="300" height="20" uuid="3295f5c7-2147-46e8-af35-470733c549f2"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Calibri"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nameBeneficiario}]]></textFieldExpression>
 			</textField>

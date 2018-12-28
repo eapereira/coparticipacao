@@ -224,7 +224,7 @@ select
 	technit.IND_EVENTO,
 	technit.VL_ALIQUOTA_INSS,
 	technit.VL_PRINCIPAL,
-	technit.VL_PARTICIPACAO,
+	sum( technit.VL_PARTICIPACAO ) VL_PARTICIPACAO,
 	technit.VERSION,
 	technit.USER_CREATED,
 	technit.USER_ALTERED,
@@ -242,7 +242,6 @@ group by
 	technit.NM_TITULAR,
 	technit.NM_BENEFICIARIO,
 	technit.NR_SUBFATURA,
-	technit.VL_FATOR_MODERADOR,
 	technit.VL_FATOR_MODERADOR_INSS,
 	technit.NR_MATRICULA_ESPECIAL,
 	technit.DESCR_PROFISSAO,
@@ -251,15 +250,13 @@ group by
 	technit.VL_LIQUIDO_SINISTRO,
 	technit.IND_EVENTO,
 	technit.VL_ALIQUOTA_INSS,
-	technit.VL_PRINCIPAL,
-	technit.VL_PARTICIPACAO,
 	technit.VERSION,
 	technit.USER_CREATED,
 	technit.USER_ALTERED,
 	technit.DT_CREATED,
 	technit.DT_ALTERED				
 order by
-	technit.NR_SUBFATURA, technit.NM_TITULAR;
+	technit.NM_TITULAR, technit.NM_BENEFICIARIO;
 	
 create view VW_COPARTICIPACAO_RESUMO_TECHNIT_SAUDE as
 select

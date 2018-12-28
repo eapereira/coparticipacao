@@ -115,7 +115,8 @@ from TB_TITULAR titular
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA			= '091707'
-and		titular.NR_SUBFATURA in ( 1, 3, 5, 6 );
+and		titular.NR_SUBFATURA in ( 1, 3, 5, 6 )
+and		titular.VL_FATOR_MODERADOR > 0;
 
 create view VW_COPARTICIPACAO_TECHNIT_ODONTO as
 select
@@ -169,7 +170,7 @@ group by
 	technit.DT_CREATED,
 	technit.DT_ALTERED				
 order by
-	technit.NR_SUBFATURA, technit.NM_TITULAR;
+	technit.NM_TITULAR;
 	
 create view VW_COPARTICIPACAO_RESUMO_TECHNIT_ODONTO as
 select

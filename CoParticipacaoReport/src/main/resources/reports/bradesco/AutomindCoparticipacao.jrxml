@@ -11,6 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Coparticipação"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\bradesco\AutomindCoparticipacaoDataAdapter.xml"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -40,6 +41,9 @@
 	</field>
 	<field name="idContrato" class="java.lang.Long">
 		<fieldDescription><![CDATA[idContrato]]></fieldDescription>
+	</field>
+	<field name="subFatura" class="java.lang.String">
+		<fieldDescription><![CDATA[subFatura]]></fieldDescription>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -104,7 +108,7 @@
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{cdEmpresa}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{subFatura}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="100" y="0" width="120" height="20" uuid="d49e1648-cb50-4eda-bca7-2df550d9abd6"/>

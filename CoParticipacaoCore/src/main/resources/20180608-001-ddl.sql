@@ -243,6 +243,7 @@ create table TB_CONTRATO(
 	NM_CONTRATO			varchar( 60 ) not null,
 	DESCR_CONTRATO		varchar( 400 ) not null,
 	TP_USE				int( 3 ) not null,
+	CD_ENABLED			int( 1 ) not null default 1,
 
 	ID_CONTRATO_PARENT bigint( 17 ) null,
 			

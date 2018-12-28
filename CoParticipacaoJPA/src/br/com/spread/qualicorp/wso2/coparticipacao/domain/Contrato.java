@@ -52,6 +52,8 @@ public abstract class Contrato extends AbstractDomain {
 	private List<ArquivoInputSheet> arquivoInputSheets;
 	
 	private boolean displayOutputResult;
+	
+	private boolean enabled;
 
 	public Contrato() {
 		lancamentos = new ArrayList<>();
@@ -389,6 +391,14 @@ public abstract class Contrato extends AbstractDomain {
 		if (useType != other.useType)
 			return false;
 		return true;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 }

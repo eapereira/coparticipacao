@@ -217,7 +217,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{indicadorEvento}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="1120" y="0" width="180" height="20" uuid="82a12d4b-40e8-482c-bda0-cfb699a3e2f7"/>
 				<textElement textAlignment="Left">
 					<font fontName="Calibri" size="11"/>
@@ -231,7 +231,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matriculaEspecial}]]></textFieldExpression>
 			</textField>
-			<textField isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="1430" y="0" width="130" height="20" uuid="7d4b2546-655a-4015-9169-a3025bb70ea1"/>
 				<textElement textAlignment="Left">
 					<font fontName="Calibri" size="11"/>

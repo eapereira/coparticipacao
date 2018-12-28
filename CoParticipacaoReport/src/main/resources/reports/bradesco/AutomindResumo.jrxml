@@ -103,7 +103,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorAlocacao}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00#" isBlankWhenNull="true">
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
 				<reportElement x="240" y="0" width="100" height="20" uuid="c8525f26-e386-4057-bb3f-b9e1f5ae5a55"/>
 				<textElement>
 					<font fontName="Calibri"/>
@@ -142,7 +142,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{VAR_totalQtdeSegurados}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00#">
+			<textField pattern="#,##0.00">
 				<reportElement x="240" y="0" width="100" height="20" uuid="b323af48-502e-4d8e-9dda-f40368220a86"/>
 				<textElement>
 					<font fontName="Calibri"/>

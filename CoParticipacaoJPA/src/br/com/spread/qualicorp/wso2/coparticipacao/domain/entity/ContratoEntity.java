@@ -165,4 +165,11 @@ public class ContratoEntity extends Contrato implements DomainEntity {
 		return super.isDisplayOutputResult();
 	}
 
+	@Column(name = "CD_ENABLED")
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return super.isEnabled();
+	}
+
 }
