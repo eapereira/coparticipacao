@@ -40,6 +40,8 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 	private String descrUtilizacao;
 
 	private BigDecimal valorPrincipal;
+	
+	private BigDecimal valorParticipacao;
 
 	private BigDecimal valorIsento;
 
@@ -171,6 +173,14 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 		this.plano = plano;
 	}
 
+	public BigDecimal getValorParticipacao() {
+		return valorParticipacao;
+	}
+
+	public void setValorParticipacao(BigDecimal valorParticipacao) {
+		this.valorParticipacao = valorParticipacao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -189,6 +199,7 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 		result = prime * result + ((tpIsento == null) ? 0 : tpIsento.hashCode());
 		result = prime * result + ((tpUtilizacao == null) ? 0 : tpUtilizacao.hashCode());
 		result = prime * result + ((valorIsento == null) ? 0 : valorIsento.hashCode());
+		result = prime * result + ((valorParticipacao == null) ? 0 : valorParticipacao.hashCode());
 		result = prime * result + ((valorPrincipal == null) ? 0 : valorPrincipal.hashCode());
 		return result;
 	}
@@ -271,6 +282,11 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 			if (other.valorIsento != null)
 				return false;
 		} else if (!valorIsento.equals(other.valorIsento))
+			return false;
+		if (valorParticipacao == null) {
+			if (other.valorParticipacao != null)
+				return false;
+		} else if (!valorParticipacao.equals(other.valorParticipacao))
 			return false;
 		if (valorPrincipal == null) {
 			if (other.valorPrincipal != null)

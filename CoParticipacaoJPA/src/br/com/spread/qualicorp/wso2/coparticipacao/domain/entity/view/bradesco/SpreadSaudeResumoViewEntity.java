@@ -76,4 +76,11 @@ public class SpreadSaudeResumoViewEntity extends SpreadSaudeResumoView {
 		// TODO Auto-generated method stub
 		return super.getSubFatura();
 	}
+
+	@Column(name="VL_PARTICIPACAO")
+	@Override
+	public BigDecimal getValorParticipacao() {
+		// TODO Auto-generated method stub
+		return super.getValorParticipacao();
+	}
 }

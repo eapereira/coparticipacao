@@ -266,6 +266,12 @@ BEGIN
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
 	and 	CD_CONTRATO = 'NAO-LOCALIZADO'; 
 
+    call PROC_LOG_MESSAGE('LINHA - 269');
+	select ID into VAR_ID_CONTRATO_FATUCOPA
+	from 	TB_CONTRATO
+	where	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '073828'; 
+
     call PROC_LOG_MESSAGE('LINHA - 261');	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		

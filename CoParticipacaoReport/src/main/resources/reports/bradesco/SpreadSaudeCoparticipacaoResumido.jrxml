@@ -36,8 +36,14 @@
 	<field name="nameEmpresa" class="java.lang.String">
 		<fieldDescription><![CDATA[nameEmpresa]]></fieldDescription>
 	</field>
+	<field name="valorParticipacao" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorParticipacao]]></fieldDescription>
+	</field>
 	<variable name="VAR_totalValorPrincipal" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{valorPrincipal}]]></variableExpression>
+	</variable>
+	<variable name="VAR_totalValorParticipacao" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorParticipacao}]]></variableExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
@@ -47,42 +53,42 @@
 			<staticText>
 				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#FFC300" uuid="3cd9985c-74d8-4073-a57a-96d241f4e5d0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SubFatura]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="100" y="0" width="100" height="20" backcolor="#FFC300" uuid="c9d3ee18-a4a9-473a-82d2-0d2640eb1d7b"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Matricula]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="200" y="0" width="300" height="20" backcolor="#FFC300" uuid="99e5d4b2-2a24-4644-b327-51cbfe65d6ac"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Empresa]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="500" y="0" width="300" height="20" backcolor="#FFC300" uuid="7d392f14-39f3-4e3c-b000-409da6f61f32"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Títular]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="800" y="0" width="100" height="20" backcolor="#FFC300" uuid="8295eb44-a716-4e5f-a53f-60232d9fad28"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Plano]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="900" y="0" width="100" height="20" backcolor="#FFC300" uuid="1780eb53-3043-4f8d-a13c-959f4ef30c65"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
@@ -93,44 +99,44 @@
 			<textField>
 				<reportElement x="0" y="0" width="100" height="20" uuid="9f4e1b5d-527c-45fa-ba94-913749b54d17"/>
 				<textElement>
-					<font fontName="Calibri"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{subFatura}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="100" y="0" width="100" height="20" uuid="72167d5b-4bb2-471f-92cd-91e57d50db82"/>
 				<textElement>
-					<font fontName="Calibri"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matriculaEspecial}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="200" y="0" width="300" height="20" uuid="5827ceb1-a92d-4325-81f7-6fbba040683b"/>
 				<textElement>
-					<font fontName="Calibri"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nameEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="500" y="0" width="300" height="20" uuid="4cfefaab-9f9d-48e3-839c-0d648dad6064"/>
 				<textElement>
-					<font fontName="Calibri"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nameTitular}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="800" y="0" width="100" height="20" uuid="14efc68c-9d48-427e-b128-97ab11887b58"/>
 				<textElement>
-					<font fontName="Calibri"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{plano}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#">
 				<reportElement x="900" y="0" width="100" height="20" uuid="b398d972-5bde-47c1-8e8f-d965bc5a949c"/>
 				<textElement textAlignment="Right">
-					<font fontName="Calibri"/>
+					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{valorPrincipal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorParticipacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -146,9 +152,9 @@
 			<textField pattern="#,##0.00#">
 				<reportElement mode="Opaque" x="900" y="0" width="100" height="20" backcolor="#FFC300" uuid="44ce7685-f060-4d57-973d-c194bbf3bfc2"/>
 				<textElement textAlignment="Right">
-					<font fontName="Calibri" isBold="true"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$V{VAR_totalValorPrincipal}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$V{VAR_totalValorParticipacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

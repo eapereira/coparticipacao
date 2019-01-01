@@ -27,6 +27,8 @@ public abstract class Lancamento extends AbstractDomain {
 	private BigDecimal valorParticipacao;
 
 	private LocalDate dtUtilizacao;
+	
+	private String descrUtilizacao;
 
 	public Lancamento() {
 		super();
@@ -108,13 +110,21 @@ public abstract class Lancamento extends AbstractDomain {
 		this.dtUtilizacao = dtUtilizacao;
 	}
 
+	public String getDescrUtilizacao() {
+		return descrUtilizacao;
+	}
+
+	public void setDescrUtilizacao(String descrUtilizacao) {
+		this.descrUtilizacao = descrUtilizacao;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((ano == null) ? 0 : ano.hashCode());
-		result = prime * result + ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result + ((dependente == null) ? 0 : dependente.hashCode());
+		result = prime * result + ((descrUtilizacao == null) ? 0 : descrUtilizacao.hashCode());
 		result = prime * result + ((dtUtilizacao == null) ? 0 : dtUtilizacao.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
@@ -138,15 +148,15 @@ public abstract class Lancamento extends AbstractDomain {
 				return false;
 		} else if (!ano.equals(other.ano))
 			return false;
-		if (contrato == null) {
-			if (other.contrato != null)
-				return false;
-		} else if (!contrato.equals(other.contrato))
-			return false;
 		if (dependente == null) {
 			if (other.dependente != null)
 				return false;
 		} else if (!dependente.equals(other.dependente))
+			return false;
+		if (descrUtilizacao == null) {
+			if (other.descrUtilizacao != null)
+				return false;
+		} else if (!descrUtilizacao.equals(other.descrUtilizacao))
 			return false;
 		if (dtUtilizacao == null) {
 			if (other.dtUtilizacao != null)

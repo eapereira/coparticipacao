@@ -88,7 +88,7 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 		List<DependenteUi> dependenteUis;
 		List<DesconhecidoUi> desconhecidoUis;
 		List<LancamentoUi> lancamentoUis;
-		EmpresaUi empresaUi = empresaService.findByName("TECHNIT-SAUDE");
+		EmpresaUi empresaUi = empresaService.findByName("TECHINT-SAUDE");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 
 		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201807);

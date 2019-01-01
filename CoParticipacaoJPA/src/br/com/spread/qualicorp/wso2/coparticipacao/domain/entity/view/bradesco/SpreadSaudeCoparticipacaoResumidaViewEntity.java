@@ -99,4 +99,12 @@ public class SpreadSaudeCoparticipacaoResumidaViewEntity extends SpreadSaudeCopa
 		// TODO Auto-generated method stub
 		return super.getPlano();
 	}
+	
+	@Column(name="VL_PARTICIPACAO")
+	@Override
+	public BigDecimal getValorParticipacao() {
+		// TODO Auto-generated method stub
+		return super.getValorParticipacao();
+	}
+	
 }

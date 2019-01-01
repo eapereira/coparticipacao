@@ -27,6 +27,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UFType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
@@ -540,10 +541,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.getMatricula(),
 					beneficiarioUi.getCpf());
 
-			if (coParticipacaoContext.getContratoSheetRegisters() != null) {
-				beneficiarioUi.setContrato(coParticipacaoContext.getContratoSheetRegisters());
-				beneficiarioUi.setCdContrato(coParticipacaoContext.getContratoSheetRegisters().getCdContrato());
-			}
+			defineContrato(coParticipacaoContext, beneficiarioUi);
 
 			if (isTitular(coParticipacaoContext, beneficiarioUi)) {
 				LOGGER.info(
@@ -621,6 +619,49 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throw new ServiceException(e.getMessage(), e);
 		}
 
+	}
+
+	private void defineContrato(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
+			throws ServiceException {
+		ContratoUi contratoUi = null;
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			/*
+			 * Se a pasta possuir informações do ContratoUi para ser utilizado
+			 * com o BeneficiarioUi, então iremos carrega-lo no BeneficiarioUi,
+			 * caso contrário devemos usar o ContratoUi expecifido no
+			 * ArquivoInputSheetUi que esta sendo usado pela pasta da planilha:
+			 */
+			if (StringUtils.isNotBlank(beneficiarioUi.getCdContrato())) {
+				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
+					if (contrato.getCdContrato().equals(beneficiarioUi.getCdContrato())) {
+						contratoUi = (ContratoUi) contrato;
+						break;
+					}
+				}
+			}
+
+			if (contratoUi == null) {
+				arquivoInputSheetUi = coParticipacaoContext
+						.findArquivoInputSheetById(coParticipacaoContext.getCurrentSheet());
+				contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
+			}
+
+			/*
+			 * Agora vamos usar o ContratoUi que deve ser definido ao
+			 * BeneficiarioUi:
+			 */
+			beneficiarioUi.setCdContrato(contratoUi.getCdContrato());
+			beneficiarioUi.setContrato(contratoUi);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 	private BeneficiarioUi createBeneficiarioOld(
@@ -730,6 +771,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						 * ele próprio é um Títular, pois não foi encontrado
 						 * pelo processo MECSAS e FATUCOPA:
 						 */
+						if (beneficiarioUi.getNameBeneficiario() == null) {
+							throw new BeneficiarioNotFoundException("The column[NM_BENEFICIARIO] must be defined:");
+						}
+
 						if (beneficiarioUi.getNameBeneficiario().equals(beneficiarioUi.getNameTitular())) {
 							beneficiarioUi.setType(BeneficiarioType.TITULAR);
 
@@ -844,11 +889,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								}
 							}
 
+							titularUi.setContrato(beneficiarioUi.getContrato());
 							titularUi.setMatricula(beneficiarioUi.getMatricula());
 							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
-							titularUi.setContrato(beneficiarioUi.getContrato());
 							titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 							titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
 

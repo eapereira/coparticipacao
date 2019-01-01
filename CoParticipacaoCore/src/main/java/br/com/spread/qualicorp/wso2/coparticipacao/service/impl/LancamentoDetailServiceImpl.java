@@ -74,6 +74,8 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					lancamentoDetailUi.setDtUtilizacao((LocalDate) value);
 				} else if (LancamentoColType.NR_SUBFATURA.equals(lancamentoColType)) {
 					lancamentoDetailUi.setSubFatura((Integer) value);
+				} else if (LancamentoColType.DESCR_UTILIZACAO.equals(lancamentoColType)) {
+					lancamentoDetailUi.setDescrUtilizacao((String) value);					
 				} else {
 					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 				}

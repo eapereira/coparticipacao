@@ -34,8 +34,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputExcepti
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
-import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.NumberUtils2;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
@@ -124,6 +124,14 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 						 * habilitadas:
 						 */
 						coParticipacaoContext.setCurrentSheet(sheetId);
+
+						if (coParticipacaoContext.getCurrentSheet() > NumberUtils.INTEGER_ZERO
+								&& !coParticipacaoContext.getContratoUi().isSpreadsheetAllPages()) {
+							LOGGER.info(
+									"ContratoUi[{}] only process the first sheet:",
+									coParticipacaoContext.getContratoUi().getCdContrato());
+							break;
+						}
 
 						if (processorListener instanceof SpreadsheetProcessorListener) {
 							if (!((SpreadsheetProcessorListener) processorListener)
@@ -300,7 +308,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Long clearMask(Object value) {
+	protected String clearMask(Object value) {
 		String strValue;
 
 		if (value instanceof String) {
@@ -308,13 +316,13 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 			if (StringUtils.isNotBlank(strValue)) {
 				strValue = StringUtils.replaceAll(strValue, "(\\.|\\-|\\'|/|\\W)", StringUtils.EMPTY);
-				return Long.valueOf(strValue);
+				return strValue;
+			} else {
+				return NumberUtils.INTEGER_ZERO.toString();
 			}
-
-			return NumberUtils.LONG_ZERO;
 		}
 
-		return Double.valueOf(value.toString()).longValue();
+		return value.toString();
 	}
 
 	protected Double clearDoubleMask(Object value) throws CoParticipacaoException {
@@ -369,15 +377,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			if (arquivoInputSheetUi != null) {
 				LOGGER.info("Processing sheet[{}] columns:", spreadsheetContext.getSheetName());
 
-				contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
-
-				if (contratoUi != null) {
-					LOGGER.info(
-							"Using default ContratoUi[{}] for all registers in this ArquivoInputSheet:",
-							contratoUi.getCdContrato());
-					coParticipacaoContext.setContratoSheetRegisters(contratoUi);
-				}
-
 				for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi
 						.getArquivoInputSheetColsDefs()) {
 					arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef;
@@ -394,8 +393,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 						mapLine.put(columnName, value);
 
 						// cellId++;
-					} else {
-						break;
 					}
 				}
 			}
@@ -459,15 +456,15 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 			if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
 				value = clearMask(value);
 
-				if (NumberUtils.isDigits(value.toString())) {
-					value = Integer.parseInt(value.toString());
+				if (NumberUtils2.isNumber(value.toString())) {
+					value = (int) Double.parseDouble(value.toString());
 				} else {
 					return NumberUtils.INTEGER_ZERO;
 				}
 			} else if (ColDefType.LONG.equals(arquivoInputSheetColsDefUi.getType())) {
 				value = clearMask(value);
 
-				if (NumberUtils.isDigits(value.toString())) {
+				if (NumberUtils2.isNumber(value.toString())) {
 					value = (long) Double.parseDouble(value.toString());
 				} else {
 					return NumberUtils.LONG_ZERO;

@@ -248,7 +248,7 @@ create table TB_CONTRATO(
 	ID_CONTRATO_PARENT bigint( 17 ) null,
 			
 	/* notifica o processo para ler todas as pastas de uma planilha de entrada */
-	CD_SPREADSHEET_ALL_PAGES	int( 3 ) null, 
+	CD_SPREADSHEET_ALL_PAGES	int( 1 ) not null default 1, 
 	CD_DISPLAY_OUTPUT_RESULT 	int( 1 ) not null default 1,
 	
 	VERSION		bigint( 17 ) null,

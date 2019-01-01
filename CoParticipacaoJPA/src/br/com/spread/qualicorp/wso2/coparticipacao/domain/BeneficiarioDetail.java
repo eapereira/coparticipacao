@@ -148,7 +148,7 @@ public class BeneficiarioDetail implements Serializable {
 	private String cdUsuario;
 	
 	private Long certificado;
-
+	
 	public BeneficiarioDetail() {
 		super();
 
@@ -1194,6 +1194,7 @@ public class BeneficiarioDetail implements Serializable {
 			return false;
 		return true;
 	}
+
 
 
 }

@@ -97,8 +97,6 @@ public class CoParticipacaoContext {
 
 	private List<DesconhecidoUi> desconhecidoUis;
 
-	private ContratoUi contratoSheetRegisters;
-
 	private List<LancamentoInputSheetUi> lancamentoInputSheetUis;
 
 	private Map<Integer, List<BeneficiarioColsUi>> mapBeneficiarioCols;
@@ -597,14 +595,6 @@ public class CoParticipacaoContext {
 
 		LOGGER.info("END");
 		return null;
-	}
-
-	public ContratoUi getContratoSheetRegisters() {
-		return contratoSheetRegisters;
-	}
-
-	public void setContratoSheetRegisters(ContratoUi contratoSheetRegisters) {
-		this.contratoSheetRegisters = contratoSheetRegisters;
 	}
 
 	public List<LancamentoInputSheetUi> getLancamentoInputSheetUis() {

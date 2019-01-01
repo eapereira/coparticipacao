@@ -98,4 +98,11 @@ public class LancamentoEntity extends Lancamento implements DomainEntity {
 		return super.getDtUtilizacao();
 	}
 
+	@Column(name = "DESCR_UTILIZACAO")
+	@Override
+	public String getDescrUtilizacao() {
+		// TODO Auto-generated method stub
+		return super.getDescrUtilizacao();
+	}
+
 }

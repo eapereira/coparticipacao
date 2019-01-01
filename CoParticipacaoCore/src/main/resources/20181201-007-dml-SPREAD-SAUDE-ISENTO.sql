@@ -274,7 +274,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 261');	
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
-	/* NAO-LOCALIZADO */
+	/* ISENTOS */
 	
 	call PROC_LOG_MESSAGE('LINHA - 266');
 	insert into TB_ARQUIVO_INPUT(
@@ -534,7 +534,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ISENTO_INPUT_SHEET,
-		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
+		VAR_ID_COLUMN_004_NR_CPF,
 		VAR_CD_ISENTO_COLS_DEF_NR_CPF,
 
 		VAR_ID_USER,

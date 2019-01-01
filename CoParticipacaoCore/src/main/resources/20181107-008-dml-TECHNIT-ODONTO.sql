@@ -186,10 +186,10 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
-		'TECHNIT-ODONTO',
+		'TECHINT-ODONTO',
 		'091707',
 		VAR_FALSE,
-		'/coparticipacao/output-reports/bradesco/technit-odonto/',
+		'/coparticipacao/output-reports/bradesco/techint-odonto/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',

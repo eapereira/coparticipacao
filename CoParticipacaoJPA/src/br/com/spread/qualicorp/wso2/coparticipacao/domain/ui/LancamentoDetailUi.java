@@ -45,6 +45,8 @@ public class LancamentoDetailUi implements Serializable {
 	private LocalDate dtUtilizacao;
 	
 	private Integer subFatura;
+	
+	private String descrUtilizacao;
 
 	public LancamentoDetailUi() {
 		super();
@@ -208,6 +210,14 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setSubFatura(Integer subFatura) {
 		this.subFatura = subFatura;
+	}
+
+	public String getDescrUtilizacao() {
+		return descrUtilizacao;
+	}
+
+	public void setDescrUtilizacao(String utilizacao) {
+		this.descrUtilizacao = utilizacao;
 	}
 
 }

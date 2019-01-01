@@ -188,10 +188,10 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_OPERADORA,
-		'TECHNIT-SAUDE',
+		'TECHINT-SAUDE',
 		'180831',
 		VAR_FALSE,
-		'/coparticipacao/output-reports/bradesco/technit-saude/',
+		'/coparticipacao/output-reports/bradesco/techint-saude/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',

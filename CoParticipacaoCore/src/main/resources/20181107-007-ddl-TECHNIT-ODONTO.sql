@@ -58,7 +58,7 @@ from TB_LANCAMENTO lancamento
 		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where	empresa.CD_EMPRESA = 'TECHNIT_ODONTO'
+where	empresa.CD_EMPRESA = '091707'
 and		(( titular.VL_FATOR_MODERADOR is null or titular.VL_FATOR_MODERADOR <= 0 ) or 
 		( titular.VL_FATOR_MODERADOR_INSS is null or titular.VL_FATOR_MODERADOR_INSS <= 0 ));
 	

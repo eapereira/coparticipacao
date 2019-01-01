@@ -152,10 +152,11 @@ select
     titular.CD_PLANO,
     lancamento.DESCR_UTILIZACAO,    
     lancamento.VL_PRINCIPAL,
+    lancamento.VL_PARTICIPACAO,
     ifnull( isento.TP_ISENTO, '' ) TP_ISENTO,
     case
-		when isento.TP_ISENTO is not null then lancamento.VL_PRINCIPAL 
-        else 0.0
+		when isento.TP_ISENTO is not null then 0.0 
+        else lancamento.VL_PARTICIPACAO
     end VL_ISENTO,
 	0 VERSION,
 	1 USER_CREATED,
@@ -195,10 +196,11 @@ select
     titular.CD_PLANO,
     lancamento.DESCR_UTILIZACAO,    
     lancamento.VL_PRINCIPAL,
+    lancamento.VL_PARTICIPACAO,
     ifnull( isento.TP_ISENTO, '' ) TP_ISENTO,
     case
-		when isento.TP_ISENTO is not null then lancamento.VL_PRINCIPAL 
-        else 0.0
+		when isento.TP_ISENTO is not null then 0.0  
+        else lancamento.VL_PARTICIPACAO
     end VL_ISENTO,
 	0 VERSION,
 	1 USER_CREATED,
@@ -242,6 +244,7 @@ select
 	spread.CD_PLANO,
 	spread.DESCR_UTILIZACAO,
 	sum( spread.VL_PRINCIPAL ) VL_PRINCIPAL,
+	sum( spread.VL_PARTICIPACAO ) VL_PARTICIPACAO,
 	spread.TP_ISENTO,
 	sum( spread.VL_ISENTO ) VL_ISENTO,	
 	spread.VERSION,
@@ -288,6 +291,7 @@ select
 	spread.NM_TITULAR,
 	spread.CD_PLANO,
 	sum( spread.VL_PRINCIPAL ) VL_PRINCIPAL,
+	sum( spread.VL_PARTICIPACAO ) VL_PARTICIPACAO,
 	sum( spread.VL_ISENTO ) VL_ISENTO,	
 	spread.VERSION,
 	spread.USER_CREATED,
@@ -325,6 +329,7 @@ select
     spread.NR_SUBFATURA,
 	spread.NM_EMPRESA,
     sum( spread.VL_PRINCIPAL ) VL_PRINCIPAL,
+    sum( spread.VL_PARTICIPACAO ) VL_PARTICIPACAO,
     sum( spread.VL_ISENTO ) VL_ISENTO,
 	spread.VERSION,
 	spread.USER_CREATED,

@@ -70,4 +70,23 @@ public abstract class NumberUtils2 {
 			throw new CoParticipacaoException(e);
 		}
 	}
+
+	public static boolean isNumber(String value) {
+		Double doubleValue;
+
+		try {
+			if (StringUtils.isNotBlank(value)) {
+				doubleValue = stringToDouble(value);
+
+				if (doubleValue != null) {
+					return true;
+				}
+			}
+
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 }
