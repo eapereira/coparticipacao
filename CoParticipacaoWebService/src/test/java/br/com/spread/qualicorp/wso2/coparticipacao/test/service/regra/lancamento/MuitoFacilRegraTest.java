@@ -53,7 +53,7 @@ public class MuitoFacilRegraTest extends RegraServiceTest {
 		lancamentoDetailUi.setValorType(ValorType.POSITIVO);
 		lancamentoDetailUi.setValorPrincipal(VL_PRINCIPAL_01);
 
-		regraService.applyRegras(coParticipacaoContext, lancamentoDetailUi);
+		regraService.applyRegras(coParticipacaoContext);
 
 		Assert.assertEquals(VL_PRINCIPAL_01_EXPECTED, lancamentoDetailUi.getValorPrincipal());
 
@@ -61,7 +61,7 @@ public class MuitoFacilRegraTest extends RegraServiceTest {
 		lancamentoDetailUi.setValorType(ValorType.NEGATIVO);
 		lancamentoDetailUi.setValorPrincipal(VL_PRINCIPAL_02);
 
-		regraService.applyRegras(coParticipacaoContext, lancamentoDetailUi);
+		regraService.applyRegras(coParticipacaoContext);
 
 		Assert.assertEquals(VL_PRINCIPAL_02_EXPECTED, lancamentoDetailUi.getValorPrincipal());
 	}
@@ -75,7 +75,7 @@ public class MuitoFacilRegraTest extends RegraServiceTest {
 		lancamentoDetailUi.setValorType(ValorType.POSITIVO);
 		lancamentoDetailUi.setValorPrincipal(VL_PRINCIPAL_01);
 
-		regraService.applyRegras(coParticipacaoContext, lancamentoDetailUi);
+		regraService.applyRegras(coParticipacaoContext);
 
 		Assert.assertEquals(VL_PRINCIPAL_01_EXPECTED, lancamentoDetailUi.getValorPrincipal());
 
@@ -83,7 +83,7 @@ public class MuitoFacilRegraTest extends RegraServiceTest {
 		lancamentoDetailUi.setValorType(ValorType.NEGATIVO);
 		lancamentoDetailUi.setValorPrincipal(VL_PRINCIPAL_02);
 
-		regraService.applyRegras(coParticipacaoContext, lancamentoDetailUi);
+		regraService.applyRegras(coParticipacaoContext);
 
 		Assert.assertEquals(VL_PRINCIPAL_02_EXPECTED, lancamentoDetailUi.getValorPrincipal());
 	}

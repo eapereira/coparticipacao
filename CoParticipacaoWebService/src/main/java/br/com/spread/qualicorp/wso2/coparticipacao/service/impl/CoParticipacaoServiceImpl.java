@@ -19,7 +19,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExecucaoType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
@@ -40,7 +39,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.CsvProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FixedLengthProcessorService;
-import br.com.spread.qualicorp.wso2.coparticipacao.io.IsentoSpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.search.DependenteByCpfAndNameMapKeyBuilder;
@@ -99,7 +97,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	@Autowired
 	private CsvProcessorService csvProcessorService;
 
-	@Qualifier("SpreadsheetProcessorService")
 	@Autowired
 	private SpreadsheetProcessorService spreadsheetProcessorService;
 
@@ -123,10 +120,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private IsentoInputSheetService isentoInputSheetService;
-
-	@Qualifier("IsentoSpreadsheetProcessorService")
-	@Autowired
-	private IsentoSpreadsheetProcessorService isentoSpreadsheetProcessorService;
 
 	@Qualifier("NaoLocalizadoService")
 	@Autowired
@@ -527,7 +520,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				} else if (ArquivoType.CSV.equals(arquivoInputUi.getArquivoType())) {
 					csvProcessorService.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
 				} else if (ArquivoType.SPREADSHEET.equals(arquivoInputUi.getArquivoType())) {
-					isentoSpreadsheetProcessorService
+					spreadsheetProcessorService
 							.readInputStream(coParticipacaoContext, (ProcessorListener) isentoService);
 				}
 			} else if (UseType.NAO_LOCALIZADO.equals(arquivoInputUi.getUseType())) {
@@ -711,6 +704,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		try {
 			LOGGER.info("BEGIN");
 
+			// Caregando as regras para o arquivo:
+			loadRegraInfo(coParticipacaoContext);
+
 			for (ArquivoInputSheet arquivoInputSheet : coParticipacaoContext.getArquivoInputUi()
 					.getArquivoInputSheets()) {
 				isentoInputSheetUi = isentoInputSheetService
@@ -759,7 +755,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 				if (lancamentoInputSheetUi != null) {
 					arquivoInputSheetUi = coParticipacaoContext
-							.findArquivoInputSheetById(arquivoInputSheetUi.getSheetId());
+							.findArquivoInputSheetById(arquivoInputSheet.getSheetId());
 
 					arquivoInputSheetUi.setLancamentoInputSheet(lancamentoInputSheetUi);
 				} else {
@@ -801,7 +797,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 						regraConditionalUis.size(),
 						coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 
-				arquivoInputSheetUi = coParticipacaoContext.findArquivoInputSheetById(arquivoInputSheetUi.getSheetId());
+				arquivoInputSheetUi = coParticipacaoContext.findArquivoInputSheetById(arquivoInputSheet.getSheetId());
 
 				for (RegraUi regraUi : regraUis) {
 					arquivoInputSheetUi.addRegra(regraUi);

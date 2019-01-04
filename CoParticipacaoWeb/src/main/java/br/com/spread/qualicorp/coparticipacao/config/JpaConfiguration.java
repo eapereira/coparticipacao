@@ -159,6 +159,7 @@ public class JpaConfiguration {
 
 			hikariConfig = new HikariConfig();
 			hikariConfig.setDataSource(dataSource);
+			hikariConfig.setPoolName("JPA-DataSource.Web");
 			hikariDataSource = new HikariDataSource(hikariConfig);
 
 			LOGGER.info("END");

@@ -138,6 +138,19 @@ BEGIN
 	declare VAR_NR_MATRICULA_BASE_00192									bigint( 17 ) default 192000000000000;
 	declare VAR_NR_MATRICULA_BASE_00196									bigint( 17 ) default 196000000000000;
 	declare VAR_NR_MATRICULA_BASE_00197									bigint( 17 ) default 197000000000000;
+	
+	declare VAR_DIVISOR_MATRICULA										bigint( 17 ) default 100000000000;
+	declare VAR_BASE_DIVISOR											bigint( 17 ) default 10000;
+	declare VAR_CD_CONTRATO_00192										int( 3 ) default 192;
+	declare VAR_CD_CONTRATO_00196										int( 3 ) default 196;
+	declare VAR_CD_CONTRATO_00197										int( 3 ) default 197;
+	
+	declare VAR_ID_REGRA_TITULAR_00192									bigint( 17 );
+	declare VAR_ID_REGRA_TITULAR_00196									bigint( 17 );
+	declare VAR_ID_REGRA_TITULAR_00197									bigint( 17 );
+	declare VAR_ID_REGRA_DEPENDENTE_00192								bigint( 17 );
+	declare VAR_ID_REGRA_DEPENDENTE_00196								bigint( 17 );
+	declare VAR_ID_REGRA_DEPENDENTE_00197								bigint( 17 );
 
 	/***********************************************************************************************************************/
 	
@@ -286,7 +299,7 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'COLUMN_003_NR_CARTAO_DEPENDENTE',
-		VAR_COL_VARCHAR,
+		VAR_COL_LONG,
 		null,
 		VAR_CD_ORDEM,
 		
@@ -461,9 +474,105 @@ BEGIN
 	
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/
-	/* REGRAS  */
+	/* REGRAS  */		
 	
+	set VAR_CD_ORDEM = 0;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1360');
+    insert into TB_REGRA(
+        NM_REGRA,
+        DESCR_REGRA,
+        TP_REGRA,
+        CD_ORDEM,
+        ID_ARQUIVO_INPUT_SHEET,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        'REGRA_MATRICULA.ISENTO.01',
+        'Regra para extrair o código do contrato do número composto da matricula',
+        VAR_TP_REGRA_SIMPLES,
+        VAR_CD_ORDEM,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA from TB_REGRA;
+    
+    insert into TB_REGRA_OPERATION(
+        ID_REGRA,
+        TP_OPERATION,
+        CD_ORDEM,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA,
+        VAR_TP_REGRA_OPERATION_DIVIDE,
+        VAR_CD_ORDEM,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+    
+    call PROC_LOG_MESSAGE('LINHA - 1403');
+    insert into TB_REGRA_FIELD(
+        ID_REGRA_OPERATION,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_OPERATION,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    call PROC_LOG_MESSAGE('LINHA - 1014');
+    insert into TB_REGRA_VALOR(
+        ID_REGRA_OPERATION,
+        VL_REGRA_VALOR,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_OPERATION,
+        VAR_DIVISOR_MATRICULA,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    call PROC_LOG_MESSAGE('LINHA - 1030');
+    insert into TB_REGRA_RESULT(
+        ID_REGRA,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+    
+    /*****************************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 820');
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
 	insert into TB_REGRA(
 		NM_REGRA,
 		DESCR_REGRA,
@@ -475,9 +584,9 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		'REGRA.CARGILL.ISENTO.01',
-		'CARGILL.00192 - Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 19200000000000',
-		VAR_TP_REGRA_SIMPLES,
-		0,
+		'CARGILL.ISENTO.00192 - Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 19200000000000',
+		VAR_TP_REGRA_CONDITIONAL,
+		VAR_CD_ORDEM,
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,
@@ -485,9 +594,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	select max( ID ) into VAR_ID_REGRA from TB_REGRA;
+	select max( ID ) into VAR_ID_REGRA_TITULAR_00192
+	from TB_REGRA;
 	
-	call PROC_LOG_MESSAGE('LINHA - 842');
+	call PROC_LOG_MESSAGE('LINHA - 502');
 	insert into TB_REGRA_OPERATION(
 		ID_REGRA,
 		TP_OPERATION,
@@ -496,7 +606,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_TITULAR_00192,
 		VAR_TP_REGRA_OPERATION_SUBSTRACT,
 		0,
 		
@@ -516,7 +626,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -548,7 +658,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_TITULAR_00192,
 		VAR_TP_REGRA_OPERATION_DIVIDE,
 		1,
 		
@@ -568,7 +678,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -584,7 +694,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		1000,
+		VAR_BASE_DIVISOR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -599,8 +709,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_REGRA_TITULAR_00192,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -609,6 +719,8 @@ BEGIN
 				
 	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 911');
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
 	insert into TB_REGRA(
 		NM_REGRA,
 		DESCR_REGRA,
@@ -620,9 +732,9 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		'REGRA.CARGILL.ISENTO.02',
-		'CARGILL.00192 - Regra para subtrair o NR_MATRICULA_DEPENDENTE do beneficiário por 192000000000000',
-		VAR_TP_REGRA_SIMPLES,
-		0,
+		'CARGILL.ISENTO.00192 - Regra para subtrair o NR_MATRICULA_DEPENDENTE do beneficiário por 192000000000000',
+		VAR_TP_REGRA_CONDITIONAL,
+		VAR_CD_ORDEM,
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,
@@ -630,9 +742,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	select max( ID ) into VAR_ID_REGRA from TB_REGRA;
+	select max( ID ) into VAR_ID_REGRA_DEPENDENTE_00192
+	from TB_REGRA;
 	
-	call PROC_LOG_MESSAGE('LINHA - 842');
+	call PROC_LOG_MESSAGE('LINHA - 648');
 	insert into TB_REGRA_OPERATION(
 		ID_REGRA,
 		TP_OPERATION,
@@ -641,7 +754,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_DEPENDENTE_00192,
 		VAR_TP_REGRA_OPERATION_SUBSTRACT,
 		0,
 		
@@ -661,7 +774,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -693,7 +806,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_DEPENDENTE_00192,
 		VAR_TP_REGRA_OPERATION_DIVIDE,
 		1,
 		
@@ -713,7 +826,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -729,7 +842,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		10000,
+		VAR_BASE_DIVISOR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -744,8 +857,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_REGRA_DEPENDENTE_00192,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -753,9 +866,9 @@ BEGIN
 	);
 
 	/*****************************************************************************************************************************************************/
-	/*****************************************************************************************************************************************************/
-	
 	call PROC_LOG_MESSAGE('LINHA - 820');
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
 	insert into TB_REGRA(
 		NM_REGRA,
 		DESCR_REGRA,
@@ -767,9 +880,9 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		'REGRA.CARGILL.ISENTO.03',
-		'CARGILL.00196 - Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 19600000000000',
-		VAR_TP_REGRA_SIMPLES,
-		0,
+		'CARGILL.ISENTO.00196 - Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 19600000000000',
+		VAR_TP_REGRA_CONDITIONAL,
+		VAR_CD_ORDEM,
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,
@@ -777,9 +890,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	select max( ID ) into VAR_ID_REGRA from TB_REGRA;
+	select max( ID ) into VAR_ID_REGRA_TITULAR_00196
+	from TB_REGRA;
 	
-	call PROC_LOG_MESSAGE('LINHA - 842');
+	call PROC_LOG_MESSAGE('LINHA - 794');
 	insert into TB_REGRA_OPERATION(
 		ID_REGRA,
 		TP_OPERATION,
@@ -788,7 +902,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_TITULAR_00196,
 		VAR_TP_REGRA_OPERATION_SUBSTRACT,
 		0,
 		
@@ -808,7 +922,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -840,7 +954,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_TITULAR_00196,
 		VAR_TP_REGRA_OPERATION_DIVIDE,
 		1,
 		
@@ -851,7 +965,7 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
 	
-	call PROC_LOG_MESSAGE('LINHA - 815');
+	call PROC_LOG_MESSAGE('LINHA - 562');
 	insert into TB_REGRA_FIELD(
 		ID_REGRA_OPERATION,
 		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
@@ -860,7 +974,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -876,7 +990,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		1000,
+		VAR_BASE_DIVISOR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -891,8 +1005,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_REGRA_TITULAR_00196,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -901,6 +1015,8 @@ BEGIN
 				
 	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 911');
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
 	insert into TB_REGRA(
 		NM_REGRA,
 		DESCR_REGRA,
@@ -912,9 +1028,9 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		'REGRA.CARGILL.ISENTO.04',
-		'CARGILL.00196 - Regra para subtrair o NR_MATRICULA_DEPENDENTE do beneficiário por 196000000000000',
-		VAR_TP_REGRA_SIMPLES,
-		0,
+		'CARGILL.ISENTO.00196 - Regra para subtrair o NR_MATRICULA_DEPENDENTE do beneficiário por 196000000000000',
+		VAR_TP_REGRA_CONDITIONAL,
+		VAR_CD_ORDEM,
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,
@@ -922,9 +1038,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	select max( ID ) into VAR_ID_REGRA from TB_REGRA;
+	select max( ID ) into VAR_ID_REGRA_DEPENDENTE_00196
+	from TB_REGRA;
 	
-	call PROC_LOG_MESSAGE('LINHA - 842');
+	call PROC_LOG_MESSAGE('LINHA - 940');
 	insert into TB_REGRA_OPERATION(
 		ID_REGRA,
 		TP_OPERATION,
@@ -933,7 +1050,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_DEPENDENTE_00196,
 		VAR_TP_REGRA_OPERATION_SUBSTRACT,
 		0,
 		
@@ -953,7 +1070,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -985,7 +1102,7 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
+		VAR_ID_REGRA_DEPENDENTE_00196,
 		VAR_TP_REGRA_OPERATION_DIVIDE,
 		1,
 		
@@ -1005,7 +1122,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1021,7 +1138,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		10000,
+		VAR_BASE_DIVISOR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1036,15 +1153,852 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_REGRA_DEPENDENTE_00196,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
 		
-	call PROC_LOG_MESSAGE('LINHA - 4948');		
+	call PROC_LOG_MESSAGE('LINHA - 4948');	
+	/*********************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 820');
+	insert into TB_REGRA(
+		NM_REGRA,
+		DESCR_REGRA,
+		TP_REGRA,
+		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'REGRA.CARGILL.ISENTO.05',
+		'CARGILL.ISENTO.00197 - Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 19700000000000',
+		VAR_TP_REGRA_CONDITIONAL,
+		0,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_TITULAR_00197
+	from TB_REGRA;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1087');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_TITULAR_00197,
+		VAR_TP_REGRA_OPERATION_SUBSTRACT,
+		0,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+	
+	call PROC_LOG_MESSAGE('LINHA - 815');
+	insert into TB_REGRA_FIELD(
+		ID_REGRA_OPERATION,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3896');
+	insert into TB_REGRA_VALOR(
+		ID_REGRA_OPERATION,
+		VL_REGRA_VALOR,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_NR_MATRICULA_BASE_00197,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 919');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_TITULAR_00197,
+		VAR_TP_REGRA_OPERATION_DIVIDE,
+		1,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+	
+	call PROC_LOG_MESSAGE('LINHA - 562');
+	insert into TB_REGRA_FIELD(
+		ID_REGRA_OPERATION,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3896');
+	insert into TB_REGRA_VALOR(
+		ID_REGRA_OPERATION,
+		VL_REGRA_VALOR,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_BASE_DIVISOR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3912');
+	insert into TB_REGRA_RESULT(
+		ID_REGRA,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_TITULAR_00197,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+				
+	/*********************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 911');
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	insert into TB_REGRA(
+		NM_REGRA,
+		DESCR_REGRA,
+		TP_REGRA,
+		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'REGRA.CARGILL.ISENTO.06',
+		'CARGILL.ISENTO.00197 - Regra para subtrair o NR_MATRICULA_DEPENDENTE do beneficiário por 197000000000000',
+		VAR_TP_REGRA_CONDITIONAL,
+		VAR_CD_ORDEM,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_DEPENDENTE_00197
+	from TB_REGRA;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1233');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_DEPENDENTE_00197,
+		VAR_TP_REGRA_OPERATION_SUBSTRACT,
+		0,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+	
+	call PROC_LOG_MESSAGE('LINHA - 853');
+	insert into TB_REGRA_FIELD(
+		ID_REGRA_OPERATION,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3896');
+	insert into TB_REGRA_VALOR(
+		ID_REGRA_OPERATION,
+		VL_REGRA_VALOR,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_NR_MATRICULA_BASE_00197,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 919');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_DEPENDENTE_00197,
+		VAR_TP_REGRA_OPERATION_DIVIDE,
+		1,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+	
+	call PROC_LOG_MESSAGE('LINHA - 815');
+	insert into TB_REGRA_FIELD(
+		ID_REGRA_OPERATION,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3896');
+	insert into TB_REGRA_VALOR(
+		ID_REGRA_OPERATION,
+		VL_REGRA_VALOR,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_BASE_DIVISOR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3912');
+	insert into TB_REGRA_RESULT(
+		ID_REGRA,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_DEPENDENTE_00197,
+		VAR_ID_COLUMN_003_NR_CARTAO_DEPENDENTE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 1353');
+	/*****************************************************************************************************************************************************/	
+	/*****************************************************************************************************************************************************/
+	/* REGRA CONDICIONAL */
+    
+    call PROC_LOG_MESSAGE('LINHA - 1046');
+    set VAR_CD_ORDEM = 0;
+        
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;    
+    insert into TB_REGRA_CONDITIONAL(
+        NM_REGRA_CONDITIONAL,
+        CD_ORDEM,
+        ID_ARQUIVO_INPUT_SHEET,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        'Regra para chamar a regra de extração das matriculas que começam com 192 do TITULAR',
+        VAR_CD_ORDEM,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL from TB_REGRA_CONDITIONAL;
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+    
+    call PROC_LOG_MESSAGE('LINHA - 1171');
+    insert into TB_REGRA_CONDITIONAL_OPERATION(
+        ID_REGRA_CONDITIONAL,
+        TP_OPERATION,
+        CD_ORDEM,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_TP_REGRA_OPERATION_EQUALS,
+        0,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL_OPERATION from TB_REGRA_CONDITIONAL_OPERATION;
+    
+    insert into TB_REGRA_CONDITIONAL_FIELD(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_VALOR(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        VL_LONG,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_CD_CONTRATO_00192,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_RESULT(
+        ID_REGRA_CONDITIONAL,
+        ID_REGRA_EXECUTION,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_ID_REGRA_TITULAR_00192,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+  		
+  	call PROC_LOG_MESSAGE('LINHA - 1236');
+  	/*****************************************************************************************************************************************************/
+    call PROC_LOG_MESSAGE('LINHA - 1046');
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+    
+    insert into TB_REGRA_CONDITIONAL(
+        NM_REGRA_CONDITIONAL,
+        CD_ORDEM,
+        ID_ARQUIVO_INPUT_SHEET,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        'Regra para chamar a regra de extração das matriculas que começam com 196 do TITULAR',
+        VAR_CD_ORDEM,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL from TB_REGRA_CONDITIONAL;
+    
+    call PROC_LOG_MESSAGE('LINHA - 1171');
+    insert into TB_REGRA_CONDITIONAL_OPERATION(
+        ID_REGRA_CONDITIONAL,
+        TP_OPERATION,
+        CD_ORDEM,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_TP_REGRA_OPERATION_EQUALS,
+        0,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL_OPERATION from TB_REGRA_CONDITIONAL_OPERATION;
+    
+    insert into TB_REGRA_CONDITIONAL_FIELD(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_VALOR(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        VL_LONG,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_CD_CONTRATO_00196,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_RESULT(
+        ID_REGRA_CONDITIONAL,
+        ID_REGRA_EXECUTION,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_ID_REGRA_TITULAR_00196,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+  		
+  	call PROC_LOG_MESSAGE('LINHA - 1236');  	
+  	
+	/*****************************************************************************************************************************************************/
+    call PROC_LOG_MESSAGE('LINHA - 1046');
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+    
+    insert into TB_REGRA_CONDITIONAL(
+        NM_REGRA_CONDITIONAL,
+        CD_ORDEM,
+        ID_ARQUIVO_INPUT_SHEET,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        'Regra para chamar a regra de extração das matriculas que começam com 197 do TITULAR',
+        VAR_CD_ORDEM,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL from TB_REGRA_CONDITIONAL;
+    
+    call PROC_LOG_MESSAGE('LINHA - 1171');
+    insert into TB_REGRA_CONDITIONAL_OPERATION(
+        ID_REGRA_CONDITIONAL,
+        TP_OPERATION,
+        CD_ORDEM,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_TP_REGRA_OPERATION_EQUALS,
+        0,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL_OPERATION from TB_REGRA_CONDITIONAL_OPERATION;
+    
+    insert into TB_REGRA_CONDITIONAL_FIELD(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_VALOR(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        VL_LONG,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_CD_CONTRATO_00197,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_RESULT(
+        ID_REGRA_CONDITIONAL,
+        ID_REGRA_EXECUTION,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_ID_REGRA_TITULAR_00197,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+  		
+  	call PROC_LOG_MESSAGE('LINHA - 1236');  	
+  	
+  	/*****************************************************************************************************************************************************/
+    call PROC_LOG_MESSAGE('LINHA - 1046');
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+    
+    insert into TB_REGRA_CONDITIONAL(
+        NM_REGRA_CONDITIONAL,
+        CD_ORDEM,
+        ID_ARQUIVO_INPUT_SHEET,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        'Regra para chamar a regra de extração das matriculas que começam com 192 do DEPENDENTE',
+        VAR_CD_ORDEM,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL from TB_REGRA_CONDITIONAL;
+    
+    call PROC_LOG_MESSAGE('LINHA - 1171');
+    insert into TB_REGRA_CONDITIONAL_OPERATION(
+        ID_REGRA_CONDITIONAL,
+        TP_OPERATION,
+        CD_ORDEM,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_TP_REGRA_OPERATION_EQUALS,
+        0,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL_OPERATION from TB_REGRA_CONDITIONAL_OPERATION;
+    
+    insert into TB_REGRA_CONDITIONAL_FIELD(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_VALOR(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        VL_LONG,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_CD_CONTRATO_00192,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_RESULT(
+        ID_REGRA_CONDITIONAL,
+        ID_REGRA_EXECUTION,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_ID_REGRA_DEPENDENTE_00192,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+  		
+  	call PROC_LOG_MESSAGE('LINHA - 1236');
+  	/*****************************************************************************************************************************************************/
+    call PROC_LOG_MESSAGE('LINHA - 1046');
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+    
+    insert into TB_REGRA_CONDITIONAL(
+        NM_REGRA_CONDITIONAL,
+        CD_ORDEM,
+        ID_ARQUIVO_INPUT_SHEET,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        'Regra para chamar a regra de extração das matriculas que começam com 196 do DEPENDENTE',
+        VAR_CD_ORDEM,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL from TB_REGRA_CONDITIONAL;
+    
+    call PROC_LOG_MESSAGE('LINHA - 1171');
+    insert into TB_REGRA_CONDITIONAL_OPERATION(
+        ID_REGRA_CONDITIONAL,
+        TP_OPERATION,
+        CD_ORDEM,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_TP_REGRA_OPERATION_EQUALS,
+        0,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL_OPERATION from TB_REGRA_CONDITIONAL_OPERATION;
+    
+    insert into TB_REGRA_CONDITIONAL_FIELD(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_VALOR(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        VL_LONG,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_CD_CONTRATO_00196,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_RESULT(
+        ID_REGRA_CONDITIONAL,
+        ID_REGRA_EXECUTION,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_ID_REGRA_DEPENDENTE_00196,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+  		
+  	call PROC_LOG_MESSAGE('LINHA - 1236');  	
+  	
+	/*****************************************************************************************************************************************************/
+    call PROC_LOG_MESSAGE('LINHA - 1046');
+    set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+    
+    insert into TB_REGRA_CONDITIONAL(
+        NM_REGRA_CONDITIONAL,
+        CD_ORDEM,
+        ID_ARQUIVO_INPUT_SHEET,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        'Regra para chamar a regra de extração das matriculas que começam com 197 do DEPENDENTE',
+        VAR_CD_ORDEM,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL from TB_REGRA_CONDITIONAL;
+    
+    call PROC_LOG_MESSAGE('LINHA - 1171');
+    insert into TB_REGRA_CONDITIONAL_OPERATION(
+        ID_REGRA_CONDITIONAL,
+        TP_OPERATION,
+        CD_ORDEM,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_TP_REGRA_OPERATION_EQUALS,
+        0,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    select max( ID ) into VAR_ID_REGRA_CONDITIONAL_OPERATION from TB_REGRA_CONDITIONAL_OPERATION;
+    
+    insert into TB_REGRA_CONDITIONAL_FIELD(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_ID_COLUMN_001_NR_CHAVE,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_VALOR(
+        ID_REGRA_CONDITIONAL_OPERATION,
+        VL_LONG,
+
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL_OPERATION,
+        VAR_CD_CONTRATO_00197,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+
+    insert into TB_REGRA_CONDITIONAL_RESULT(
+        ID_REGRA_CONDITIONAL,
+        ID_REGRA_EXECUTION,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_REGRA_CONDITIONAL,
+        VAR_ID_REGRA_DEPENDENTE_00197,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()		
+    );
+  		
+  	call PROC_LOG_MESSAGE('LINHA - 1236');   	
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/	
 	/* BENEFICIARIO ISENTO */
@@ -1079,7 +2033,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_ISENTO_INPUT_SHEET,
-		VAR_ID_COLUMN_001_NR_CHAVE,
+		VAR_ID_COLUMN_002_NR_CARTAO_TITULAR,
 		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA,
 
 		VAR_ID_USER,

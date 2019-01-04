@@ -42,51 +42,31 @@ public class TitularSetter extends BeneficiarioSetter<TitularEntity> {
 	protected void setValuesForInsert(PreparedStatement ps) throws SQLException {
 		setCommonValues(ps);
 
-		ps.setLong(COL_USER_CREATED, getEntity().getUserCreated().getId());
+		setLong(ps, COL_USER_CREATED, getEntity().getUserCreated().getId());
 	}
 
 	@Override
 	protected void setValuesForUpdate(PreparedStatement ps) throws SQLException {
 		setCommonValues(ps);
 
-		ps.setLong(COL_USER_ALTERED, getEntity().getUserAltered().getId());
-
-		ps.setLong(COL_ID, getEntity().getId());
+		setLong(ps, COL_USER_ALTERED, getEntity().getUserAltered().getId());
+		setLong(ps, COL_ID, getEntity().getId());
 	}
 
 	protected void setCommonValues(PreparedStatement ps) throws SQLException {
-		ps.setLong(COL_ID_CONTRATO, getEntity().getContrato().getId());
-		ps.setLong(COL_NR_MATRICULA, getEntity().getMatricula());
-		ps.setString(COL_NM_TITULAR, getEntity().getNameTitular());
-		ps.setLong(COL_NR_CPF, getEntity().getCpf());
-		ps.setDate(COL_DT_NASCIMENTO, DateUtils.dateToSqlDate(getEntity().getDtNascimento()));
-		ps.setDate(COL_DT_ADMISSAO, DateUtils.dateToSqlDate(getEntity().getDtAdmissao()));
-
-		if (StringUtils.isNotBlank(getEntity().getLabel())) {
-			ps.setString(COL_NM_LABEL, getEntity().getLabel());
-		} else {
-			ps.setNull(COL_NM_LABEL, Types.VARCHAR);
-		}
-
-		if (getEntity().getReferenceCode() != null) {
-			ps.setLong(COL_NR_REF_CODE, getEntity().getReferenceCode());
-		} else {
-			ps.setNull(COL_NR_REF_CODE, Types.BIGINT);
-		}
-
-		if (getEntity().getMatriculaEmpresa() != null) {
-			ps.setLong(COL_NR_MATRICULA_EMPRESA, getEntity().getMatriculaEmpresa());
-		} else {
-			ps.setNull(COL_NR_MATRICULA_EMPRESA, Types.BIGINT);
-		}
+		setLong(ps, COL_ID_CONTRATO, getEntity().getContrato().getId());
+		setLong(ps, COL_NR_MATRICULA, getEntity().getMatricula());
+		setString(ps, COL_NM_TITULAR, getEntity().getNameTitular());
+		setLong(ps, COL_NR_CPF, getEntity().getCpf());
+		setDate(ps, COL_DT_NASCIMENTO, getEntity().getDtNascimento());
+		setDate(ps, COL_DT_ADMISSAO, getEntity().getDtAdmissao());
+		setString(ps, COL_NM_LABEL, getEntity().getLabel());
+		setLong(ps, COL_NR_REF_CODE, getEntity().getReferenceCode());
+		setLong(ps, COL_NR_MATRICULA_EMPRESA, getEntity().getMatriculaEmpresa());
 
 		setBeneficiarioDetailValues(ps, getEntity().getBeneficiarioDetail());
 
-		if (getEntity().getDtDemissao() != null) {
-			ps.setDate(COL_DT_DEMISSAO, DateUtils.dateToSqlDate(getEntity().getDtDemissao()));
-		} else {
-			ps.setNull(COL_DT_DEMISSAO, Types.DATE);
-		}
+		setDate(ps, COL_DT_DEMISSAO, getEntity().getDtDemissao());
 	}
 
 }

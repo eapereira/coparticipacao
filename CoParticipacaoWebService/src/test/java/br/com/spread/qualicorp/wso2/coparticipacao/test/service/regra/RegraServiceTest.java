@@ -7,9 +7,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
@@ -48,14 +51,25 @@ public class RegraServiceTest extends CoParticipacaoTest {
 		CoParticipacaoContext coParticipacaoContext = new CoParticipacaoContext();
 		ArquivoInputUi arquivoInputUi = arquivoInputService.findByEmpresaAndCdContrato(empresaUi, cdContrato);
 		List<ArquivoInputSheetUi> arquivoInputSheetUis = arquivoInputSheetService.listByArquivoInput(arquivoInputUi);
+		List<RegraUi> regraUis;
+		List<RegraConditionalUi> regraConditionalUis;
 
 		for (ArquivoInputSheetUi arquivoInputSheetUi : arquivoInputSheetUis) {
 			coParticipacaoContext.getMapArquivoInputSheetUi()
 					.put(arquivoInputSheetUi.getSheetId(), arquivoInputSheetUi);
-		}
 
-		coParticipacaoContext.setRegraUis(regraService.listByArquivoInputId(arquivoInputUi));
-		coParticipacaoContext.setRegraConditionalUis(regraConditionalService.listByArquivoInputId(arquivoInputUi));
+			regraUis = regraService.listByArquivoInputId(arquivoInputUi);
+			regraConditionalUis = regraConditionalService.listByArquivoInputId(arquivoInputUi);
+
+			for (RegraUi regraUi : regraUis) {
+				arquivoInputSheetUi.getRegras().add(regraUi);
+			}
+
+			for (RegraConditionalUi regraConditionalUi : regraConditionalUis) {
+				arquivoInputSheetUi.getRegraConditionals().add(regraConditionalUi);
+			}
+
+		}
 
 		LOGGER.info("END");
 		return coParticipacaoContext;

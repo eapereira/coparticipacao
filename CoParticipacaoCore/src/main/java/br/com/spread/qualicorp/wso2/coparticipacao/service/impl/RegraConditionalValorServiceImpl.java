@@ -1,5 +1,8 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraConditionalValorEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraConditionalValorUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalOperationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalValorUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalValorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -23,12 +27,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  *
  */
 @Service
-public class RegraConditionalValorServiceImpl extends
-		AbstractServiceImpl<RegraConditionalValorUi, RegraConditionalValorEntity, RegraConditionalValor>
+public class RegraConditionalValorServiceImpl
+		extends AbstractServiceImpl<RegraConditionalValorUi, RegraConditionalValorEntity, RegraConditionalValor>
 		implements RegraConditionalValorService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(RegraConditionalValorServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(RegraConditionalValorServiceImpl.class);
 
 	@Autowired
 	private RegraConditionalValorDao regraConditionalValorDao;
@@ -68,24 +71,21 @@ public class RegraConditionalValorServiceImpl extends
 		return entityMapper;
 	}
 
-	public Object getValor(
-			RegraConditionalValorUi regraConditionalValorUi,
-			ColDefType colDefType) throws ServiceException {
+	public Object getValor(RegraConditionalValorUi regraConditionalValorUi, ColDefType colDefType)
+			throws ServiceException {
 		Object value = null;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			if (ColDefType.INT.equals(colDefType)) {
-				value = regraConditionalValorUi.getIntValue();
+				value = BigDecimal.valueOf(regraConditionalValorUi.getIntValue());
 			} else if (ColDefType.LONG.equals(colDefType)) {
-				value = regraConditionalValorUi.getLongValue();
+				value = BigDecimal.valueOf(regraConditionalValorUi.getLongValue());
 			} else if (ColDefType.DOUBLE.equals(colDefType)) {
 				value = regraConditionalValorUi.getBigDecimalValue();
-			} else if (ColDefType.DATE.equals(colDefType)) {
-				value = regraConditionalValorUi.getDateValue();
 			} else if (ColDefType.STRING.equals(colDefType)) {
-				value = regraConditionalValorUi.getStringValue();
+				value = regraConditionalValorUi.getBigDecimalValue();				
 			} else {
 				LOGGER.info("Unkown type for column RegraConditionalValor:");
 				throw new ServiceException(
@@ -94,6 +94,24 @@ public class RegraConditionalValorServiceImpl extends
 
 			LOGGER.info("END");
 			return value;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public List<RegraConditionalValorUi> listByRegraConditionalOperation(
+			RegraConditionalOperationUi regraConditionalOperationUi) throws ServiceException {
+		List<RegraConditionalValorUi> regraConditionalValorUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			regraConditionalValorUis = entityToUi(
+					regraConditionalValorDao.listByRegraConditionalOperationId(regraConditionalOperationUi.getId()));
+
+			LOGGER.info("END");
+			return regraConditionalValorUis;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

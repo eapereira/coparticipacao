@@ -21,7 +21,6 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
@@ -45,7 +44,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
  * @author <a href="edson.apereira@spread.com.br">Edson Alves Pereira</a>
  *
  */
-@Qualifier(value = "SpreadsheetProcessorService")
 @Service
 public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl implements SpreadsheetProcessorService {
 

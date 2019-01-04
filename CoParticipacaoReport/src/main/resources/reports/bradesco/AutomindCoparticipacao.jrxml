@@ -11,7 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Coparticipação"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\bradesco\AutomindCoparticipacaoDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/bradesco/AutomindCoparticipacaoDataAdapter.xml"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -45,56 +45,56 @@
 	<field name="subFatura" class="java.lang.String">
 		<fieldDescription><![CDATA[subFatura]]></fieldDescription>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<variable name="VAR_totalFatorModerador" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{fatorModerador}]]></variableExpression>
+	</variable>
 	<columnHeader>
-		<band height="30" splitType="Stretch">
+		<band height="21" splitType="Stretch">
 			<staticText>
-				<reportElement mode="Opaque" x="0" y="0" width="100" height="30" backcolor="#D1CFCF" uuid="3df6d0cc-087c-4d05-8d0c-b1ae1d295a7c"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" backcolor="#D1CFCF" uuid="3df6d0cc-087c-4d05-8d0c-b1ae1d295a7c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Número SubFatura]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="100" y="0" width="120" height="30" backcolor="#D1CFCF" uuid="2451d0cf-0f9e-4c88-bc7b-b44704518f89"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="100" y="0" width="120" height="20" backcolor="#D1CFCF" uuid="2451d0cf-0f9e-4c88-bc7b-b44704518f89"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Número do Certificado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="220" y="0" width="120" height="30" backcolor="#D1CFCF" uuid="c2a74bc1-93b1-43a8-9f1f-dffe1c8f6b41"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="220" y="0" width="120" height="20" backcolor="#D1CFCF" uuid="c2a74bc1-93b1-43a8-9f1f-dffe1c8f6b41"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Número da Matricula]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="340" y="0" width="280" height="30" backcolor="#D1CFCF" uuid="d0f40b38-9629-4303-986b-16676b6ba36f"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="340" y="0" width="280" height="20" backcolor="#D1CFCF" uuid="d0f40b38-9629-4303-986b-16676b6ba36f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nome do Segurado]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="620" y="0" width="130" height="30" backcolor="#D1CFCF" uuid="60f5ac11-34f9-4190-834a-e4741d65ba37"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="620" y="0" width="190" height="20" backcolor="#D1CFCF" uuid="60f5ac11-34f9-4190-834a-e4741d65ba37"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Valor do Fator Moderador]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="750" y="0" width="130" height="30" backcolor="#D1CFCF" uuid="3e9f47b5-0484-4e61-8fb7-b8005d858cad"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="810" y="0" width="130" height="20" backcolor="#D1CFCF" uuid="3e9f47b5-0484-4e61-8fb7-b8005d858cad"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Matricula Especial]]></text>
 			</staticText>
 			<staticText>
-				<reportElement mode="Opaque" x="880" y="0" width="170" height="30" backcolor="#D1CFCF" uuid="cc0063e5-5c2d-4b6c-9f5e-efc54c7168b0"/>
-				<textElement textAlignment="Center">
+				<reportElement mode="Opaque" x="940" y="0" width="170" height="20" backcolor="#D1CFCF" uuid="cc0063e5-5c2d-4b6c-9f5e-efc54c7168b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Cargo do Segurado]]></text>
@@ -104,54 +104,86 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField isBlankWhenNull="true">
-				<reportElement x="0" y="0" width="100" height="20" uuid="99a3c927-07be-4e3d-82ee-5778d142c722"/>
-				<textElement>
+				<reportElement x="0" y="-1" width="100" height="20" uuid="99a3c927-07be-4e3d-82ee-5778d142c722"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{subFatura}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="100" y="0" width="120" height="20" uuid="d49e1648-cb50-4eda-bca7-2df550d9abd6"/>
-				<textElement>
+				<reportElement x="100" y="-1" width="120" height="20" uuid="d49e1648-cb50-4eda-bca7-2df550d9abd6"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{certificado}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="220" y="0" width="120" height="20" uuid="efc5e9b4-fda4-4a64-8374-dd109b0a5912"/>
-				<textElement>
+				<reportElement x="220" y="-1" width="120" height="20" uuid="efc5e9b4-fda4-4a64-8374-dd109b0a5912"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="340" y="0" width="280" height="20" uuid="377d9079-c953-45d8-81a2-8cb38a283105"/>
-				<textElement>
+				<reportElement x="340" y="-1" width="280" height="20" uuid="377d9079-c953-45d8-81a2-8cb38a283105"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomeTitular}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00" isBlankWhenNull="true">
-				<reportElement x="620" y="0" width="130" height="20" uuid="82a12d4b-40e8-482c-bda0-cfb699a3e2f7"/>
-				<textElement>
+				<reportElement x="620" y="-1" width="190" height="20" uuid="82a12d4b-40e8-482c-bda0-cfb699a3e2f7"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fatorModerador}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="750" y="0" width="130" height="20" uuid="7572fc37-cf15-43c9-8228-47929d7d573f"/>
-				<textElement>
+				<reportElement x="810" y="-1" width="130" height="20" uuid="7572fc37-cf15-43c9-8228-47929d7d573f"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{matriculaEspecial}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="880" y="0" width="170" height="20" uuid="67c18194-7712-4dcc-b285-4d0787094c11"/>
-				<textElement>
+				<reportElement x="940" y="-1" width="170" height="20" uuid="67c18194-7712-4dcc-b285-4d0787094c11"/>
+				<textElement verticalAlignment="Middle">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{profissao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
+	<summary>
+		<band height="19">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="-1" width="340" height="20" backcolor="#D1CFCF" uuid="8cf4bdf1-83ac-4b04-9597-23913e86aaa3"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="340" y="-1" width="280" height="20" backcolor="#D1CFCF" uuid="3bf68e9b-1ce9-4124-b081-c049226ad5c6"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="620" y="-1" width="190" height="20" backcolor="#D1CFCF" uuid="5d4f1451-b538-4de2-9d36-5eeb7009d7c1"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{VAR_totalFatorModerador}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="810" y="-1" width="300" height="20" backcolor="#D1CFCF" uuid="3729397e-dfb9-493a-9b8a-4ce90c45132b"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<text><![CDATA[]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>

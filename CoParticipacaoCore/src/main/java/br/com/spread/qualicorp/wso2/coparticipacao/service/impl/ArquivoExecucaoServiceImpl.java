@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.ArquivoExecucaoBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.ArquivoExecucaoDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
@@ -60,9 +59,6 @@ public class ArquivoExecucaoServiceImpl
 	private ExternalProcessService externalProcessService;
 
 	private static final String UPLOAD_DIR = ".coparticipacao/upload";
-
-	@Autowired
-	private ArquivoExecucaoBatchService arquivoExecucaoBatchService;
 
 	public List<ArquivoExecucaoUi> listByEmpresaIdAndMesAndAno(EmpresaUi empresaUi, Integer mes, Integer ano)
 			throws ServiceException {
@@ -138,7 +134,7 @@ public class ArquivoExecucaoServiceImpl
 				arquivoExecucaoUi = coParticipacaoContext.getArquivoExecucaoUi();
 			}
 
-			if (StatusExecucaoType.STARTED.equals(statusExecucaoType)) {
+			if (StatusExecucaoType.RUNNING.equals(statusExecucaoType)) {
 				arquivoExecucaoUi.setStarted(LocalDateTime.now());
 			} else if (StatusExecucaoType.SUCCESS.equals(statusExecucaoType)) {
 				arquivoExecucaoUi.setFinnished(LocalDateTime.now());

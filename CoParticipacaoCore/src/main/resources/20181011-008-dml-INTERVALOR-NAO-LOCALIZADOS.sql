@@ -42,20 +42,42 @@ BEGIN
 	declare VAR_ARQUIVO_TYPE_SPREADSHEET	int( 3 ) default 3;
 	
 	declare VAR_ID_OPERADORA_SULAMERICA		bigint( 17 ) default 1;
-	DECLARE VAR_ID_USER 					bigint( 17 ) default 1;
-	DECLARE VAR_ID_EMPRESA 					bigint( 17 );
-	DECLARE VAR_ID_CONTRATO 				bigint( 17 );
+	declare VAR_ID_USER 					bigint( 17 ) default 1;
+	declare VAR_ID_EMPRESA 					bigint( 17 );
+	declare VAR_ID_CONTRATO 						bigint( 17 );
+	declare VAR_ID_CONTRATO_8EAPM 					bigint( 17 );
+	declare VAR_ID_CONTRATO_8EAQG 					bigint( 17 );
+	declare VAR_ID_CONTRATO_8EAQR 					bigint( 17 );
+	declare VAR_ID_CONTRATO_8EAQS 					bigint( 17 );
 			
 	declare VAR_ID_ARQUIVO_INPUT 					bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT_SHEET				bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT_ISENTOS			bigint( 17 );
 	declare VAR_ARQUIVO_INPUT_LAYOUT				bigint( 17 );
 			
-	declare VAR_COLUMN_01_NR_MATRICULA				bigint( 17 );
-	declare VAR_COLUMN_02_NM_BENEFICIARIO			bigint( 17 );
-	declare VAR_COLUMN_03_NR_CPF					bigint( 17 );
-	declare VAR_COLUMN_04_DT_NASCIMENTO				bigint( 17 );
-	declare VAR_COLUMN_05_NM_TITULAR				bigint( 17 );
+	declare VAR_SHEET01_COLUMN_01_NR_MATRICULA				bigint( 17 );
+	declare VAR_SHEET01_COLUMN_02_NM_BENEFICIARIO			bigint( 17 );
+	declare VAR_SHEET01_COLUMN_03_NR_CPF					bigint( 17 );
+	declare VAR_SHEET01_COLUMN_04_DT_NASCIMENTO				bigint( 17 );
+	declare VAR_SHEET01_COLUMN_05_NM_TITULAR				bigint( 17 );
+
+	declare VAR_SHEET02_COLUMN_01_NR_MATRICULA				bigint( 17 );
+	declare VAR_SHEET02_COLUMN_02_NM_BENEFICIARIO			bigint( 17 );
+	declare VAR_SHEET02_COLUMN_03_NR_CPF					bigint( 17 );
+	declare VAR_SHEET02_COLUMN_04_DT_NASCIMENTO				bigint( 17 );
+	declare VAR_SHEET02_COLUMN_05_NM_TITULAR				bigint( 17 );
+
+	declare VAR_SHEET03_COLUMN_01_NR_MATRICULA				bigint( 17 );
+	declare VAR_SHEET03_COLUMN_02_NM_BENEFICIARIO			bigint( 17 );
+	declare VAR_SHEET03_COLUMN_03_NR_CPF					bigint( 17 );
+	declare VAR_SHEET03_COLUMN_04_DT_NASCIMENTO				bigint( 17 );
+	declare VAR_SHEET03_COLUMN_05_NM_TITULAR				bigint( 17 );
+
+	declare VAR_SHEET04_COLUMN_01_NR_MATRICULA				bigint( 17 );
+	declare VAR_SHEET04_COLUMN_02_NM_BENEFICIARIO			bigint( 17 );
+	declare VAR_SHEET04_COLUMN_03_NR_CPF					bigint( 17 );
+	declare VAR_SHEET04_COLUMN_04_DT_NASCIMENTO				bigint( 17 );
+	declare VAR_SHEET04_COLUMN_05_NM_TITULAR				bigint( 17 );
 					
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_BENEFICIARIO				bigint( 17 ) default 1;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
@@ -85,7 +107,10 @@ BEGIN
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_VL_PRINCIPAL					bigint( 17 ) default 9;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CPF_TITULAR					bigint( 17 ) default 7;
 	
-	declare VAR_CD_SHEET												bigint( 17 ) default 0;
+	declare VAR_CD_SHEET_8EAPM											bigint( 17 ) default 0;
+	declare VAR_CD_SHEET_8EAQG											bigint( 17 ) default 1;
+	declare VAR_CD_SHEET_8EAQR											bigint( 17 ) default 2;
+	declare VAR_CD_SHEET_8EAQS											bigint( 17 ) default 3;
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -110,9 +135,34 @@ BEGIN
     where CD_EMPRESA = 'INTERVALOR';
         
  	call PROC_LOG_MESSAGE('LINHA - 120');
-	select ID into VAR_ID_CONTRATO from TB_CONTRATO
+	select ID into VAR_ID_CONTRATO
+	from TB_CONTRATO
 	where 	ID_EMPRESA	= VAR_ID_EMPRESA
 	and 	CD_CONTRATO = 'NAO-LOCALIZADO'; 
+
+ 	call PROC_LOG_MESSAGE('LINHA - 122');
+	select ID into VAR_ID_CONTRATO_8EAPM
+	from TB_CONTRATO
+	where 	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '8EAPM'; 
+
+ 	call PROC_LOG_MESSAGE('LINHA - 122');
+	select ID into VAR_ID_CONTRATO_8EAQG
+	from TB_CONTRATO
+	where 	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '8EAQG'; 
+
+ 	call PROC_LOG_MESSAGE('LINHA - 122');
+	select ID into VAR_ID_CONTRATO_8EAQR
+	from TB_CONTRATO
+	where 	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '8EAQR'; 
+
+ 	call PROC_LOG_MESSAGE('LINHA - 122');
+	select ID into VAR_ID_CONTRATO_8EAQS
+	from TB_CONTRATO
+	where 	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '8EAQS'; 
 	
 	/***********************************************************************************************************************/
 	/* MECSAS */	
@@ -158,8 +208,8 @@ BEGIN
 		DT_ALTERED			
 	) values (
 		VAR_ID_ARQUIVO_INPUT,		
-		VAR_CD_SHEET,
-		VAR_ID_CONTRATO,
+		VAR_CD_SHEET_8EAPM,
+		VAR_ID_CONTRATO_8EAPM,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -169,8 +219,8 @@ BEGIN
 	select max( ID ) into VAR_ID_ARQUIVO_INPUT_SHEET
 	from TB_ARQUIVO_INPUT_SHEET; 
 	set VAR_CD_ORDEM = 0;	
-
-	/*****************************************************************************************************************************************************/	
+	
+	/*****************************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 174');
 	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
 		ID_ARQUIVO_INPUT_SHEET,
@@ -193,7 +243,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_01_NR_MATRICULA from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	select max( ID ) into VAR_SHEET01_COLUMN_01_NR_MATRICULA from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1; 
 	
 	call PROC_LOG_MESSAGE('LINHA - 165');
@@ -218,7 +268,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_02_NM_BENEFICIARIO from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	select max( ID ) into VAR_SHEET01_COLUMN_02_NM_BENEFICIARIO from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
 	call PROC_LOG_MESSAGE('LINHA - 165');
@@ -243,7 +293,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_03_NR_CPF
+	select max( ID ) into VAR_SHEET01_COLUMN_03_NR_CPF
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
@@ -271,7 +321,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_04_DT_NASCIMENTO
+	select max( ID ) into VAR_SHEET01_COLUMN_04_DT_NASCIMENTO
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
@@ -297,13 +347,481 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_05_NM_TITULAR
+	select max( ID ) into VAR_SHEET01_COLUMN_05_NM_TITULAR
 	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 		
 	/*****************************************************************************************************************************************************/
-	/***********************************************************************************************************************/
-	/* Beneficiário */	
+	/* FATUCOPA  */
+	call PROC_LOG_MESSAGE('LINHA - 150');
+	insert into TB_ARQUIVO_INPUT_SHEET(
+		ID_ARQUIVO_INPUT,
+		CD_SHEET,
+		ID_CONTRATO,
+
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED			
+	) values (
+		VAR_ID_ARQUIVO_INPUT,		
+		VAR_CD_SHEET_8EAQG,
+		VAR_ID_CONTRATO_8EAQG,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	select max( ID ) into VAR_ID_ARQUIVO_INPUT_SHEET
+	from TB_ARQUIVO_INPUT_SHEET; 
+	set VAR_CD_ORDEM = 0;	
+	
+	/*****************************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 174');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_01_NR_MATRICULA',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET02_COLUMN_01_NR_MATRICULA from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1; 
+	
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_02_NM_BENEFICIARIO',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET02_COLUMN_02_NM_BENEFICIARIO from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_03_NR_CPF',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET02_COLUMN_03_NR_CPF
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_FORMAT,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_04_DT_NASCIMENTO',
+		VAR_COL_DATE,
+		null,
+		VAR_DT_FORMAT,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET02_COLUMN_04_DT_NASCIMENTO
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 190');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_05_NM_TITULAR',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET02_COLUMN_05_NM_TITULAR
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+		
+	/*****************************************************************************************************************************************************/
+	/* FATUCOPA  */
+	call PROC_LOG_MESSAGE('LINHA - 150');
+	insert into TB_ARQUIVO_INPUT_SHEET(
+		ID_ARQUIVO_INPUT,
+		CD_SHEET,
+		ID_CONTRATO,
+
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED			
+	) values (
+		VAR_ID_ARQUIVO_INPUT,		
+		VAR_CD_SHEET_8EAQR,
+		VAR_ID_CONTRATO_8EAQR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	select max( ID ) into VAR_ID_ARQUIVO_INPUT_SHEET
+	from TB_ARQUIVO_INPUT_SHEET; 
+	set VAR_CD_ORDEM = 0;	
+	
+	/*****************************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 174');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_01_NR_MATRICULA',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET03_COLUMN_01_NR_MATRICULA from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1; 
+	
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_02_NM_BENEFICIARIO',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET03_COLUMN_02_NM_BENEFICIARIO from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_03_NR_CPF',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET03_COLUMN_03_NR_CPF
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_FORMAT,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_04_DT_NASCIMENTO',
+		VAR_COL_DATE,
+		null,
+		VAR_DT_FORMAT,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET03_COLUMN_04_DT_NASCIMENTO
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 190');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_05_NM_TITULAR',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET03_COLUMN_05_NM_TITULAR
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+		
+	/*****************************************************************************************************************************************************/
+	/* FATUCOPA  */
+	call PROC_LOG_MESSAGE('LINHA - 150');
+	insert into TB_ARQUIVO_INPUT_SHEET(
+		ID_ARQUIVO_INPUT,
+		CD_SHEET,
+		ID_CONTRATO,
+
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED			
+	) values (
+		VAR_ID_ARQUIVO_INPUT,		
+		VAR_CD_SHEET_8EAQS,
+		VAR_ID_CONTRATO_8EAQS,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	select max( ID ) into VAR_ID_ARQUIVO_INPUT_SHEET
+	from TB_ARQUIVO_INPUT_SHEET; 
+	set VAR_CD_ORDEM = 0;	
+	
+	/*****************************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 174');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_01_NR_MATRICULA',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET04_COLUMN_01_NR_MATRICULA from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1; 
+	
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_02_NM_BENEFICIARIO',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET04_COLUMN_02_NM_BENEFICIARIO from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_03_NR_CPF',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET04_COLUMN_03_NR_CPF
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 165');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_FORMAT,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_04_DT_NASCIMENTO',
+		VAR_COL_DATE,
+		null,
+		VAR_DT_FORMAT,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET04_COLUMN_04_DT_NASCIMENTO
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 190');
+	insert into TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'COLUMN_05_NM_TITULAR',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_SHEET04_COLUMN_05_NM_TITULAR
+	from TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+										
+	/*****************************************************************************************************************************************************/
+	/*****************************************************************************************************************************************************/
+	/* BENEFICIÁRIO */	
 	call PROC_LOG_MESSAGE('LINHA - 481');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
@@ -313,7 +831,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
-		VAR_COLUMN_01_NR_MATRICULA,
+		VAR_SHEET01_COLUMN_01_NR_MATRICULA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -329,7 +847,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
-		VAR_COLUMN_03_NR_CPF,
+		VAR_SHEET01_COLUMN_03_NR_CPF,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -345,7 +863,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR,
-		VAR_COLUMN_05_NM_TITULAR,
+		VAR_SHEET01_COLUMN_05_NM_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -361,7 +879,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
-		VAR_COLUMN_02_NM_BENEFICIARIO,
+		VAR_SHEET01_COLUMN_02_NM_BENEFICIARIO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -377,7 +895,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_NASCIMENTO,
-		VAR_COLUMN_04_DT_NASCIMENTO,
+		VAR_SHEET01_COLUMN_04_DT_NASCIMENTO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -385,6 +903,258 @@ BEGIN
 	);
 	
 	call PROC_LOG_MESSAGE('LINHA - 440');
+	
+	/*****************************************************************************************************************************************************/
+	/* BENEFICIÁRIO */	
+	call PROC_LOG_MESSAGE('LINHA - 481');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
+		VAR_SHEET02_COLUMN_01_NR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 361');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
+		VAR_SHEET02_COLUMN_03_NR_CPF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 376');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR,
+		VAR_SHEET02_COLUMN_05_NM_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+		
+	call PROC_LOG_MESSAGE('LINHA - 382');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
+		VAR_SHEET02_COLUMN_02_NM_BENEFICIARIO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 382');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_NASCIMENTO,
+		VAR_SHEET02_COLUMN_04_DT_NASCIMENTO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 440');
+	
+	/*****************************************************************************************************************************************************/
+	/* BENEFICIÁRIO */	
+	call PROC_LOG_MESSAGE('LINHA - 481');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
+		VAR_SHEET03_COLUMN_01_NR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 361');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
+		VAR_SHEET03_COLUMN_03_NR_CPF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 376');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR,
+		VAR_SHEET03_COLUMN_05_NM_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+		
+	call PROC_LOG_MESSAGE('LINHA - 382');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
+		VAR_SHEET03_COLUMN_02_NM_BENEFICIARIO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 382');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_NASCIMENTO,
+		VAR_SHEET03_COLUMN_04_DT_NASCIMENTO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 440');
+	
+	/*****************************************************************************************************************************************************/
+	/* BENEFICIÁRIO */	
+	call PROC_LOG_MESSAGE('LINHA - 481');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
+		VAR_SHEET04_COLUMN_01_NR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 361');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
+		VAR_SHEET04_COLUMN_03_NR_CPF,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 376');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR,
+		VAR_SHEET04_COLUMN_05_NM_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+		
+	call PROC_LOG_MESSAGE('LINHA - 382');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
+		VAR_SHEET04_COLUMN_02_NM_BENEFICIARIO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 382');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_DT_NASCIMENTO,
+		VAR_SHEET04_COLUMN_04_DT_NASCIMENTO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 440');			
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/
 

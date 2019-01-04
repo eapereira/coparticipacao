@@ -12,7 +12,9 @@ drop view if exists VW_COPARTICIPACAO_LEVEL01_CARGILL;
 drop view if exists VW_COPARTICIPACAO_LEVEL02_CARGILL;
 
 drop view if exists VW_TITULAR_ISENTO_CARGILL;
+drop view if exists VW_TITULAR_ISENTO_LEVEL01_CARGILL;
 drop view if exists VW_DEPENDENTE_ISENTO_CARGILL;
+drop view if exists VW_DEPENDENTE_ISENTO_LEVEL01_CARGILL;
 
 drop view if exists VW_COPARTICIPACAO_CARGILL;
 drop view if exists VW_PRN_CARGILL;
@@ -68,15 +70,30 @@ create view VW_DESCONHECIDO_CARGILL as
 
 /**************************************************************************************************************************/
 
+create view VW_TITULAR_ISENTO_LEVEL01_CARGILL as
+select
+		isento.ID_TITULAR,
+		isento.DT_INICIO,
+		ifnull( isento.DT_FIM, current_date( )) DT_FIM 		
+from	TB_TITULAR_ISENTO isento
+where current_date( ) between isento.DT_INICIO and isento.DT_FIM;
+
+create view VW_DEPENDENTE_ISENTO_LEVEL01_CARGILL as
+select
+		isento.ID_DEPENDENTE,
+		isento.DT_INICIO,
+		ifnull( isento.DT_FIM, current_date( )) DT_FIM 		
+from	TB_DEPENDENTE_ISENTO isento
+where current_date( ) between isento.DT_INICIO and isento.DT_FIM;
+
 create view VW_TITULAR_ISENTO_CARGILL as
 select
 	titular.ID ID_TITULAR,
 	titular.NR_MATRICULA,
 	titular.NM_TITULAR
 from TB_TITULAR titular
-	join TB_TITULAR_ISENTO isento on
-		isento.ID_TITULAR = titular.ID
-where current_date( ) between isento.DT_INICIO and isento.DT_FIM;
+	join VW_TITULAR_ISENTO_LEVEL01_CARGILL isento on
+		isento.ID_TITULAR = titular.ID;
 
 create view VW_DEPENDENTE_ISENTO_CARGILL as
 select
@@ -84,9 +101,8 @@ select
 	dependente.NR_MATRICULA,
 	dependente.NM_DEPENDENTE
 from TB_DEPENDENTE dependente
-	join TB_DEPENDENTE_ISENTO isento on
-		isento.ID_DEPENDENTE = dependente.ID
-where current_date( ) between isento.DT_INICIO and isento.DT_FIM;
+	join VW_DEPENDENTE_ISENTO_LEVEL01_CARGILL isento on
+		isento.ID_DEPENDENTE = dependente.ID;
 
 
 /**************************************************************************************************************************/	

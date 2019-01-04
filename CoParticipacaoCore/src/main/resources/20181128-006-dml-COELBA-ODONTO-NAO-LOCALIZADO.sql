@@ -247,14 +247,20 @@ BEGIN
 	call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 252');
+	call PROC_LOG_MESSAGE('LINHA - 250');
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
     where CD_EMPRESA = '180612';
 	
-    call PROC_LOG_MESSAGE('LINHA - 256');
+    call PROC_LOG_MESSAGE('LINHA - 254');
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
 	and 	CD_CONTRATO = 'NAO-LOCALIZADO'; 
+
+    call PROC_LOG_MESSAGE('LINHA - 259');
+	select ID into VAR_ID_CONTRATO_FATUCOPA 
+	from TB_CONTRATO
+	where	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '180612'; 
 
     call PROC_LOG_MESSAGE('LINHA - 261');	
 	/***********************************************************************************************************************/
@@ -302,7 +308,7 @@ BEGIN
 		DT_ALTERED			
 	) values (
 		VAR_ID_ARQUIVO_INPUT,	
-		VAR_ID_CONTRATO,
+		VAR_ID_CONTRATO_FATUCOPA,
 		CD_SHEET_TITULAR,
 		
 		VAR_ID_USER,

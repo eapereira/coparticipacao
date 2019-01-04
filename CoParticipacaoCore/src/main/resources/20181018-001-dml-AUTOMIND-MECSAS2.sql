@@ -216,6 +216,7 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL           	bigint( 17 ) default 105;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR              	bigint( 17 ) default 106;
 	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO     		         	bigint( 17 ) default 107;
+	declare VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA              			bigint( 17 ) default 108;
 	
 	declare VAR_TP_REGRA_SIMPLES											int( 3 )  default 1;
 	declare VAR_TP_REGRA_CONDITIONAL										int( 3 )  default 2;
@@ -649,22 +650,6 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 1479');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR,
-		VAR_ID_SHEET01_COLUMN_006_NM_BENEFICIARIO,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
 
 	call PROC_LOG_MESSAGE('LINHA - 1479');
 	insert into TB_BENEFICIARIO_COLS(
@@ -730,6 +715,22 @@ BEGIN
 		current_timestamp()		
 	);		
 	
+	call PROC_LOG_MESSAGE('LINHA - 1527');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_NR_SUBFATURA,
+		VAR_ID_SHEET01_COLUMN_003_NR_SUBFATURA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);		
+		
 	call PROC_LOG_MESSAGE('LINHA - 1559');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	

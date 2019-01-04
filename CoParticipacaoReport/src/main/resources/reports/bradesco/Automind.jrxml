@@ -35,13 +35,10 @@
 	<field name="automindResumoViewUis" class="java.util.List">
 		<fieldDescription><![CDATA[automindResumoViewUis]]></fieldDescription>
 	</field>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
 	<detail>
 		<band height="140" splitType="Stretch">
 			<subreport>
-				<reportElement x="1" y="0" width="1199" height="60" uuid="be2da39b-0166-45d4-82f4-2352168f13e2">
+				<reportElement x="0" y="0" width="1199" height="60" uuid="be2da39b-0166-45d4-82f4-2352168f13e2">
 					<property name="com.jaspersoft.studio.element.name" value="Coparticipação"/>
 					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$F{sheetNameCoparticipacao}]]></propertyExpression>
 				</reportElement>
@@ -52,7 +49,7 @@
 				<reportElement x="0" y="74" width="93" height="1" uuid="68744d19-e222-48a2-b26d-2c986ce15995"/>
 			</break>
 			<subreport>
-				<reportElement x="-10" y="90" width="1200" height="50" uuid="fe534c14-d4e0-4c43-9185-c5c3a8df050c">
+				<reportElement x="0" y="90" width="1200" height="50" uuid="fe534c14-d4e0-4c43-9185-c5c3a8df050c">
 					<property name="com.jaspersoft.studio.element.name" value="Rateio"/>
 					<propertyExpression name="net.sf.jasperreports.export.xls.sheet.name"><![CDATA[$F{sheetNameRateio}]]></propertyExpression>
 				</reportElement>

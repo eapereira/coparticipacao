@@ -30,7 +30,8 @@ BEGIN
 	declare VAR_COL_LONG					int( 3 ) default 5;
 	declare VAR_COL_DOUBLE					int( 3 ) default 2;
 	
-	declare VAR_DT_FORMAT_DDMMYYYY			varchar( 40 ) default 'dd/MM/yyyy';
+	declare VAR_DT_FORMAT_DDMMYYYY			varchar( 40 ) default 'd/M/yyyy';
+	declare VAR_DT_FORMAT_MMYYYY			varchar( 40 ) default 'MM/yyyy';
 	
 	declare VAR_ARQUIVO_TYPE_FLATFILE		int( 3 ) default 1;
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
@@ -314,6 +315,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -323,6 +325,7 @@ BEGIN
 		'COLUMN_004_DT_NASCIMENTO',
 		VAR_COL_DATE,
 		null,
+		VAR_DT_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -340,6 +343,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -349,6 +353,7 @@ BEGIN
 		'COLUMN_005_DT_ADMISSAO',
 		VAR_COL_DATE,
 		null,
+		VAR_DT_FORMAT_DDMMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -444,6 +449,7 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		CD_FORMAT,
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -453,6 +459,7 @@ BEGIN
 		'COLUMN_009_DT_DEMISSAO',
 		VAR_COL_DATE,
 		null,
+		VAR_DT_FORMAT_MMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

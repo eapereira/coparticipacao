@@ -53,10 +53,6 @@ public class CoParticipacaoContext {
 
 	private String fileName;
 
-	private List<RegraUi> regraUis;
-
-	private List<RegraConditionalUi> regraConditionalUis;
-
 	private Map<String, Object> mapLine;
 
 	private ArquivoInputUi arquivoInputUi;
@@ -115,9 +111,6 @@ public class CoParticipacaoContext {
 		titularUis = new ArrayList<TitularUi>();
 		dependenteUis = new ArrayList<DependenteUi>();
 
-		regraConditionalUis = new ArrayList<RegraConditionalUi>();
-		regraUis = new ArrayList<RegraUi>();
-
 		desconhecidoUis = new ArrayList<DesconhecidoUi>();
 		lancamentoInputSheetUis = new ArrayList<LancamentoInputSheetUi>();
 
@@ -143,11 +136,14 @@ public class CoParticipacaoContext {
 	}
 
 	public List<RegraUi> getRegraUis() {
-		return regraUis;
-	}
+		List<RegraUi> regraUis = new ArrayList<RegraUi>();
+		ArquivoInputSheetUi arquivoInputSheetUi = getArquivoInputSheet();
 
-	public void setRegraUis(List<RegraUi> regraUis) {
-		this.regraUis = regraUis;
+		for (Regra regra : arquivoInputSheetUi.getRegras()) {
+			regraUis.add((RegraUi) regra);
+		}
+
+		return regraUis;
 	}
 
 	public FileInputStream getFileInputStream() {
@@ -275,11 +271,15 @@ public class CoParticipacaoContext {
 	}
 
 	public List<RegraConditionalUi> getRegraConditionalUis() {
-		return regraConditionalUis;
-	}
+		List<RegraConditionalUi> regraConditionalUis = new ArrayList<RegraConditionalUi>();
 
-	public void setRegraConditionalUis(List<RegraConditionalUi> regraConditionalUis) {
-		this.regraConditionalUis = regraConditionalUis;
+		ArquivoInputSheetUi arquivoInputSheetUi = getArquivoInputSheet();
+
+		for (RegraConditional regraConditional : arquivoInputSheetUi.getRegraConditionals()) {
+			regraConditionalUis.add((RegraConditionalUi) regraConditional);
+		}
+
+		return regraConditionalUis;
 	}
 
 	public String getFileName() {
@@ -790,4 +790,118 @@ public class CoParticipacaoContext {
 		LOGGER.info("END");
 		return isentoInputSheetCols;
 	}
+
+	public ArquivoInputSheetUi getArquivoInputSheet() {
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
+		LOGGER.info("BEGIN");
+
+		arquivoInputSheetUi = findArquivoInputSheetById(getCurrentSheet());
+
+		LOGGER.info("END");
+		return arquivoInputSheetUi;
+	}
+
+	private TitularIsentoUi findTitularIsentoByNameAndCpf(TitularUi titularUi) {
+		LOGGER.info("BEGIN");
+
+		for (TitularIsentoUi titularIsentoUi : getBunker().getTitularIsentoUis()) {
+			if (titularIsentoUi.getTitular().getCpf().equals(titularUi.getCpf())
+					&& titularIsentoUi.getTitular().getNameTitular().equals(titularUi.getNameTitular())) {
+				return titularIsentoUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	private TitularIsentoUi findTitularIsentoByNameAndMatricula(TitularUi titularUi) {
+		LOGGER.info("BEGIN");
+
+		for (TitularIsentoUi titularIsentoUi : getBunker().getTitularIsentoUis()) {
+			if (titularIsentoUi.getTitular().getMatricula().equals(titularUi.getMatricula())
+					&& titularIsentoUi.getTitular().getNameTitular().equals(titularUi.getNameTitular())) {
+				return titularIsentoUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	private DependenteIsentoUi findDependenteIsentoByNameAndCpf(DependenteUi dependenteUi) {
+		LOGGER.info("BEGIN");
+
+		for (DependenteIsentoUi dependenteIsentoUi : getBunker().getDependenteIsentoUis()) {
+			if (dependenteIsentoUi.getDependente().getCpf() != null) {
+				if (dependenteIsentoUi.getDependente().getCpf().equals(dependenteUi.getCpf()) && dependenteIsentoUi
+						.getDependente().getNameDependente().equals(dependenteUi.getNameDependente())) {
+					return dependenteIsentoUi;
+				}
+			} else {
+				if (dependenteIsentoUi.getDependente().getNameDependente().equals(dependenteUi.getNameDependente())) {
+					return dependenteIsentoUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public List<ArquivoInputSheetColsDefUi> getArquivoInputSheetColsDefs() {
+		List<ArquivoInputSheetColsDefUi> arquivoInputSheetColsDefUis = new ArrayList<ArquivoInputSheetColsDefUi>();
+		ArquivoInputSheetUi arquivoInputSheetUi = getArquivoInputSheet();
+
+		LOGGER.info("BEGIN");
+
+		for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi.getArquivoInputSheetColsDefs()) {
+			arquivoInputSheetColsDefUis.add((ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef);
+		}
+
+		LOGGER.info("END");
+		return arquivoInputSheetColsDefUis;
+	}
+
+	private DependenteIsentoUi findDependenteIsentoByNameAndMatricula(DependenteUi dependenteUi) {
+		LOGGER.info("BEGIN");
+
+		for (DependenteIsentoUi dependenteIsentoUi : getBunker().getDependenteIsentoUis()) {
+			if (dependenteIsentoUi.getDependente().getMatricula().equals(dependenteUi.getMatricula())
+					&& dependenteIsentoUi.getDependente().getNameDependente()
+							.equals(dependenteUi.getNameDependente())) {
+				return dependenteIsentoUi;
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public DependenteIsentoUi findDependenteIsento(DependenteUi dependenteUi) {
+		DependenteIsentoUi dependenteIsentoUi;
+
+		if (dependenteUi.getCpf() != null) {
+			dependenteIsentoUi = findDependenteIsentoByNameAndCpf(dependenteUi);
+		} else {
+			dependenteIsentoUi = findDependenteIsentoByNameAndMatricula(dependenteUi);
+		}
+
+		return dependenteIsentoUi;
+	}
+
+	public TitularIsentoUi findTitularIsento(TitularUi titularUi) {
+		TitularIsentoUi titularIsentoUi;
+
+		if (titularUi.getCpf() != null) {
+			titularIsentoUi = findTitularIsentoByNameAndCpf(titularUi);
+		} else {
+			titularIsentoUi = findTitularIsentoByNameAndMatricula(titularUi);
+		}
+
+		return titularIsentoUi;
+
+	}
+
 }

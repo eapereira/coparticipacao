@@ -645,8 +645,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			}
 
 			if (contratoUi == null) {
-				arquivoInputSheetUi = coParticipacaoContext
-						.findArquivoInputSheetById(coParticipacaoContext.getCurrentSheet());
+				arquivoInputSheetUi = coParticipacaoContext.getArquivoInputSheet();
 				contratoUi = (ContratoUi) arquivoInputSheetUi.getContrato();
 			}
 
@@ -658,46 +657,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.setContrato(contratoUi);
 
 			LOGGER.info("END");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	private BeneficiarioUi createBeneficiarioOld(
-			CoParticipacaoContext coParticipacaoContext,
-			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
-		BeneficiarioUi beneficiarioUi;
-		Object value;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			LOGGER.info("Creating Beneficiario:");
-			beneficiarioUi = new BeneficiarioUi();
-
-			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
-				if (beneficiarioColsUi.getArquivoInputSheetColsDef() != null) {
-					value = coParticipacaoContext.getColumnValue(
-							(ArquivoInputSheetColsDefUi) beneficiarioColsUi.getArquivoInputSheetColsDef());
-				} else {
-					throw new ServiceException(
-							"The column BeneficiarioColsUi.[{}] does not has an ArquivoInputSheetColsDefUi or ArquivoInputSheetColsDefUi mapped:",
-							beneficiarioColsUi.getBeneficiarioColType().getDescription());
-				}
-
-				LOGGER.info(
-						"Retrieving value [{}] from column [{}]",
-						value,
-						beneficiarioColsUi.getArquivoInputSheetColsDef().getNameColumn());
-
-				if (isNotZero(value)) {
-					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
-				}
-			}
-
-			LOGGER.info("END");
-			return beneficiarioUi;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -879,13 +838,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								titularUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
 							}
 
-							if (empresaUi.isAcceptTitularWithoutCpf()) {
-								titularUi.setCpf(beneficiarioUi.getCpf());
-							} else if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+							if (beneficiarioUi.getCpf() != null
+									&& !NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 								if (beneficiarioUi.getDigitoCpf() != null) {
 									titularUi.setCpf(concatTitularCpf(beneficiarioUi));
 								} else {
 									titularUi.setCpf(beneficiarioUi.getCpf());
+								}
+							} else {
+								if (empresaUi.isAcceptTitularWithoutCpf()) {
+									titularUi.setCpf(NumberUtils.LONG_ZERO);
 								}
 							}
 

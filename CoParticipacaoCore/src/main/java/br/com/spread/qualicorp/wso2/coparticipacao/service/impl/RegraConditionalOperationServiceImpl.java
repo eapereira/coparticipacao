@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,14 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraConditionalOperationEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraConditionalOperationUiMapper;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalFieldUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalOperationUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalValorUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalFieldService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalOperationService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalValorService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
  * 
@@ -21,10 +30,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalOpe
  */
 @Service
 public class RegraConditionalOperationServiceImpl extends
-		AbstractServiceImpl<RegraConditionalOperationUi, RegraConditionalOperationEntity, RegraConditionalOperation> {
+		AbstractServiceImpl<RegraConditionalOperationUi, RegraConditionalOperationEntity, RegraConditionalOperation>
+		implements RegraConditionalOperationService {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(RegraConditionalOperationServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(RegraConditionalOperationServiceImpl.class);
 
 	@Autowired
 	private RegraConditionalOperationDao regraConditionalOperationDao;
@@ -34,6 +43,12 @@ public class RegraConditionalOperationServiceImpl extends
 
 	@Autowired
 	private RegraConditionalOperationEntityMapper entityMapper;
+
+	@Autowired
+	private RegraConditionalFieldService regraConditionalFieldService;
+
+	@Autowired
+	private RegraConditionalValorService regraConditionalValorService;
 
 	public RegraConditionalOperationServiceImpl() {
 		// TODO Auto-generated constructor stub
@@ -62,6 +77,36 @@ public class RegraConditionalOperationServiceImpl extends
 	@Override
 	protected AbstractMapper<RegraConditionalOperation, RegraConditionalOperationEntity> getEntityMapper() {
 		return entityMapper;
+	}
+
+	public List<RegraConditionalOperationUi> listByRegraConditional(RegraConditionalUi regraConditionalUi)
+			throws ServiceException {
+		List<RegraConditionalOperationUi> regraConditionalOperationUis;
+		List<RegraConditionalFieldUi> regraConditionalFieldUis;
+		List<RegraConditionalValorUi> regraConditionalValorUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			regraConditionalOperationUis = entityToUi(
+					regraConditionalOperationDao.listByRegraConditionalId(regraConditionalUi.getId()));
+
+			for (RegraConditionalOperationUi regraConditionalOperationUi : regraConditionalOperationUis) {
+				regraConditionalFieldUis = regraConditionalFieldService
+						.listByRegraConditionalOperation(regraConditionalOperationUi);
+				regraConditionalValorUis = regraConditionalValorService
+						.listByRegraConditionalOperation(regraConditionalOperationUi);
+
+				regraConditionalOperationUi.getRegraConditionalFields().addAll(regraConditionalFieldUis);
+				regraConditionalOperationUi.getRegraConditionalValors().addAll(regraConditionalValorUis);
+			}
+
+			LOGGER.info("END");
+			return regraConditionalOperationUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

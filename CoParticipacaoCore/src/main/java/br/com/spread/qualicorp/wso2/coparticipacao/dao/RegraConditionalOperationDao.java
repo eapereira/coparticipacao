@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.dao;
 
+import java.util.List;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditionalOperationEntity;
 
 /**
@@ -7,7 +9,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public interface RegraConditionalOperationDao
-		extends AbstractDao<RegraConditionalOperationEntity> {
+public interface RegraConditionalOperationDao extends AbstractDao<RegraConditionalOperationEntity> {
+
+	List<RegraConditionalOperationEntity> listByRegraConditionalId(Long regraConditionalId) throws DaoException;
 
 }

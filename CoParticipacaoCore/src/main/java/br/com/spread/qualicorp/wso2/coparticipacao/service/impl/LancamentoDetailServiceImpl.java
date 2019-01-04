@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -75,7 +76,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 				} else if (LancamentoColType.NR_SUBFATURA.equals(lancamentoColType)) {
 					lancamentoDetailUi.setSubFatura((Integer) value);
 				} else if (LancamentoColType.DESCR_UTILIZACAO.equals(lancamentoColType)) {
-					lancamentoDetailUi.setDescrUtilizacao((String) value);					
+					lancamentoDetailUi.setDescrUtilizacao((String) value);
 				} else {
 					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 				}
@@ -238,6 +239,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 	public LancamentoDetailUi create(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		LancamentoDetailUi lancamentoDetailUi;
 		List<LancamentoInputSheetCols> lancamentoInputSheetCols;
+		BigDecimal valorPrincipal;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -274,40 +276,12 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 
 			coParticipacaoContext.setLancamentoDetailUi(lancamentoDetailUi);
 
-			LOGGER.info("END");
-			return lancamentoDetailUi;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	private LancamentoDetailUi createFromLancamentoInputOld(
-			CoParticipacaoContext coParticipacaoContext,
-			List<LancamentoInputSheetCols> lancamentoInputSheetColss) throws ServiceException {
-		LancamentoDetailUi lancamentoDetailUi;
-		ArquivoInputSheetColsDefUi arquivoInputColsDefUi;
-		Object value;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			lancamentoDetailUi = new LancamentoDetailUi();
-
-			// Processando uma linha do arquivo:
-			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
-				LOGGER.info(
-						"Using LancamentoInputCols[{}]",
-						lancamentoInputSheetCols.getLancamentoColType().getDescription());
-
-				arquivoInputColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetCols
-						.getArquivoInputSheetColsDef();
-
-				value = coParticipacaoContext.getMapLine().get(arquivoInputColsDefUi.getNameColumn());
-
-				LOGGER.debug("Column [{}] with value [{}]:", arquivoInputColsDefUi.getNameColumn(), value);
-
-				setFieldValue(lancamentoDetailUi, lancamentoInputSheetCols.getLancamentoColType(), value);
+			if (lancamentoDetailUi.getValorType() != null) {
+				if (ValorType.NEGATIVO.equals(lancamentoDetailUi.getValorType())) {
+					valorPrincipal = lancamentoDetailUi.getValorPrincipal()
+							.multiply(BigDecimal.valueOf(NumberUtils.INTEGER_MINUS_ONE));
+					lancamentoDetailUi.setValorPrincipal(valorPrincipal);
+				}
 			}
 
 			LOGGER.info("END");

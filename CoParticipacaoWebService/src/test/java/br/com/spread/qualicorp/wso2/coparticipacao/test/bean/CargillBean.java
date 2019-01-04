@@ -50,7 +50,7 @@ public class CargillBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807 = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201807 = 0;
 
-	private static final int NUM_TOTAL_TITULARES_201807_AFTER_USER_RETURN = 978;
+	private static final int NUM_TOTAL_TITULARES_201807_AFTER_USER_RETURN = 976;
 	private static final int NUM_TOTAL_DEPENDENTES_201807_AFTER_USER_RETURN = 1183;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201807_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201807_AFTER_USER_RETURN = 110;
@@ -64,6 +64,7 @@ public class CargillBean {
 	private static final String CD_CONTRATO_00197 = "00197";
 	private static final String CD_CONTRATO_NAO_LOCALIZADO = "NAO-LOCALIZADO";
 	private static final String CD_CONTRATO_ISENTO = "ISENTO";
+	private static final String CD_CONTRATO_INATIVO = "INATIVO";
 
 	private static final String MECSAS_201810 = "cargill/input/CARGILL.MECSAS.201810.001.csv";
 	private static final String MECSAS2_201810 = "cargill/input/CARGILL.MECSAS2.201810.002.xlsx";
@@ -79,6 +80,7 @@ public class CargillBean {
 	private static final String FATUCOPA_00197_201811 = "cargill/input/CARGILL.00197.201811.006.CSV";
 	private static final String NAO_LOCALIZADO_201811 = "cargill/input/CARGILL.NAO-LOCALIZADO.201811.003.xlsx";
 	private static final String ISENTO_201811 = "cargill/input/CARGILL.ISENTO.201811.003.xlsx";
+	private static final String INATIVO_201811 = "cargill/input/CARGILL.INATIVO.201811.004.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_201810 = 995;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 1196;
@@ -98,15 +100,15 @@ public class CargillBean {
 	private static final int NUM_TOTAL_DEPENDENTES_201811 = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201811 = 2;
 	private static final int NUM_TOTAL_LANCAMENTOS_201811 = 131;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 2;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 1;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 7;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 5;
 
 	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 997;
 	private static final int NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201811_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201811_AFTER_USER_RETURN = 133;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 2;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 1;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 7;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 5;
 
 	@Autowired
 	private TitularService titularService;
@@ -358,6 +360,7 @@ public class CargillBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201811);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201811);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTO_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_INATIVO, INATIVO_201811);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201811);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201811);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201811);
@@ -401,6 +404,9 @@ public class CargillBean {
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201811);
 
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTO_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_INATIVO, INATIVO_201811);
+		
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201811);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201811);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201811);

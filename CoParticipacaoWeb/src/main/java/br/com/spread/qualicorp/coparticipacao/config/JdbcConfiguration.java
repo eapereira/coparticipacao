@@ -65,6 +65,8 @@ public class JdbcConfiguration {
 
 			hikariConfig = new HikariConfig();
 			hikariConfig.setDataSource(dataSource);
+			hikariConfig.setPoolName("JDBC-DataSource.Web");
+			
 			hikariDataSource = new HikariDataSource(hikariConfig);
 
 			LOGGER.info("END");

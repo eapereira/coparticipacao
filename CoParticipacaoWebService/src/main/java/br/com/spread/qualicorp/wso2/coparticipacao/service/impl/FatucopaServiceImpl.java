@@ -77,6 +77,9 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 		try {
 			LOGGER.info("BEGIN");
 
+			// Aplicamdo regras do arquivo se existirem:
+			regraService.applyRegras(coParticipacaoContext);
+
 			lancamentoDetailUi = lancamentoDetailService.create(coParticipacaoContext);
 
 			if (!coParticipacaoContext.isFirstLineProcecessed()) {
@@ -85,9 +88,6 @@ public class FatucopaServiceImpl implements FatucopaService, ProcessorListener {
 
 				beforeProcess(coParticipacaoContext);
 			}
-
-			// Aplicamdo regras do arquivo se existirem:
-			regraService.applyRegras(coParticipacaoContext, lancamentoDetailUi);
 
 			if (beneficiarioService.validateBeneficiario(coParticipacaoContext, lancamentoDetailUi)) {
 				lancamentoUi = createLancamento(coParticipacaoContext, lancamentoDetailUi);

@@ -41,8 +41,9 @@ BEGIN
 	
 	declare VAR_ID_OPERADORA_SULAMERICA		bigint( 17 ) default 1;
 	DECLARE VAR_ID_USER 					bigint( 17 ) default 1;
-	DECLARE VAR_ID_EMPRESA 					bigint( 17 );
-	DECLARE VAR_ID_CONTRATO 				bigint( 17 );
+	declare VAR_ID_EMPRESA 					bigint( 17 );
+	declare VAR_ID_CONTRATO 				bigint( 17 );
+	declare VAR_ID_CONTRATO_FATUCOPA 		bigint( 17 );
 			
 	declare VAR_ID_ARQUIVO_INPUT 					bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT_SHEET 				bigint( 17 );
@@ -203,6 +204,12 @@ BEGIN
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
 	where	ID_EMPRESA 	= VAR_ID_EMPRESA
 	and		CD_CONTRATO = 'NAO-LOCALIZADO';
+
+ 	call PROC_LOG_MESSAGE('LINHA - 207');
+	select ID into VAR_ID_CONTRATO_FATUCOPA 
+	from TB_CONTRATO
+	where	ID_EMPRESA 	= VAR_ID_EMPRESA
+	and		CD_CONTRATO = '8B1LR';
 	
 	/***********************************************************************************************************************/
 	/* MECSAS */	
@@ -248,7 +255,7 @@ BEGIN
 	) values (
 		VAR_ID_ARQUIVO_INPUT,		
 		VAR_CD_SHEET,
-		VAR_ID_CONTRATO,
+		VAR_ID_CONTRATO_FATUCOPA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
