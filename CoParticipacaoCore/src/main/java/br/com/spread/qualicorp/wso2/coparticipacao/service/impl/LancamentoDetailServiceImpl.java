@@ -13,7 +13,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ValorType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
@@ -173,9 +173,9 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 		}
 	}
 
-	public LancamentoInputSheetColsUi findByArquivoInputSheetColsDefId(
+	public LancamentoInputSheetColsUi findByRegisterColumnId(
 			CoParticipacaoContext coParticipacaoContext,
-			ArquivoInputSheetColsDefUi arquivoInputColsDefUi) throws ServiceException {
+			RegisterColumnUi arquivoInputColsDefUi) throws ServiceException {
 		List<LancamentoInputSheetCols> lancamentoInputSheetColss;
 
 		try {
@@ -186,7 +186,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					.listLancamentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
 			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
-				if (lancamentoInputSheetCols.getArquivoInputSheetColsDef().getId()
+				if (lancamentoInputSheetCols.getRegisterColumn().getId()
 						.equals(arquivoInputColsDefUi.getId())) {
 					LOGGER.info("END");
 					return (LancamentoInputSheetColsUi) lancamentoInputSheetCols;
@@ -296,7 +296,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 			CoParticipacaoContext coParticipacaoContext,
 			List<LancamentoInputSheetCols> lancamentoInputSheetColss) throws ServiceException {
 		LancamentoDetailUi lancamentoDetailUi;
-		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
+		RegisterColumnUi RegisterColumnUi;
 		Object value;
 
 		try {
@@ -310,12 +310,12 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 						"Using LancamentoInputCols[{}]",
 						lancamentoInputSheetCols.getLancamentoColType().getDescription());
 
-				arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) lancamentoInputSheetCols
-						.getArquivoInputSheetColsDef();
+				RegisterColumnUi = (RegisterColumnUi) lancamentoInputSheetCols
+						.getRegisterColumn();
 
-				value = coParticipacaoContext.getMapLine().get(arquivoInputSheetColsDefUi.getNameColumn());
+				value = coParticipacaoContext.getMapLine().get(RegisterColumnUi.getNameColumn());
 
-				LOGGER.debug("Column [{}] with value [{}]:", arquivoInputSheetColsDefUi.getNameColumn(), value);
+				LOGGER.debug("Column [{}] with value [{}]:", RegisterColumnUi.getNameColumn(), value);
 
 				setFieldValue(lancamentoDetailUi, lancamentoInputSheetCols.getLancamentoColType(), value);
 			}

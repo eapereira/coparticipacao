@@ -3,7 +3,7 @@
 	<query id="listByRegraConditionalOperationId">
 		<![CDATA[
 			select distinct regraConditionalField from RegraConditionalFieldEntity regraConditionalField
-			join fetch regraConditionalField.arquivoInputSheetColsDef rquivoInputSheetColsDef
+			join fetch regraConditionalField.registerColumn rquivoInputSheetColsDef
 			join fetch regraConditionalField.regraConditionalOperation regraConditionalOperation
 			where regraConditionalOperation.id = :regraConditionalOperationId
 		]]>

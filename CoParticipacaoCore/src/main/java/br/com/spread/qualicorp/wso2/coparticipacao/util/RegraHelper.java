@@ -7,7 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -20,21 +20,21 @@ public abstract class RegraHelper {
 
 	public static void setFieldValueAsBigDecimal(
 			CoParticipacaoContext coParticipacaoContext,
-			ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi,
+			RegisterColumnUi RegisterColumnUi,
 			BigDecimal result) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (ColDefType.DOUBLE.equals(arquivoInputSheetColsDefUi.getType())) {
-				coParticipacaoContext.setColumnValue(arquivoInputSheetColsDefUi, result);
-			} else if (ColDefType.LONG.equals(arquivoInputSheetColsDefUi.getType())) {
-				coParticipacaoContext.setColumnValue(arquivoInputSheetColsDefUi, result.longValue());
-			} else if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
-				coParticipacaoContext.setColumnValue(arquivoInputSheetColsDefUi, result.intValue());
+			if (ColDefType.DOUBLE.equals(RegisterColumnUi.getType())) {
+				coParticipacaoContext.setColumnValue(RegisterColumnUi, result);
+			} else if (ColDefType.LONG.equals(RegisterColumnUi.getType())) {
+				coParticipacaoContext.setColumnValue(RegisterColumnUi, result.longValue());
+			} else if (ColDefType.INT.equals(RegisterColumnUi.getType())) {
+				coParticipacaoContext.setColumnValue(RegisterColumnUi, result.intValue());
 			} else {
 				throw new ServiceException(
 						"The column[%s] must be a number type to use in RegraService:",
-						arquivoInputSheetColsDefUi.getNameColumn());
+						RegisterColumnUi.getNameColumn());
 			}
 
 			LOGGER.info("END");
@@ -44,26 +44,25 @@ public abstract class RegraHelper {
 		}
 	}
 
-	public static Object getFieldValue(
-			CoParticipacaoContext coParticipacaoContext,
-			ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi) throws ServiceException {
+	public static Object getFieldValue(CoParticipacaoContext coParticipacaoContext, RegisterColumnUi RegisterColumnUi)
+			throws ServiceException {
 		Object value = null;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			if (ColDefType.DOUBLE.equals(arquivoInputSheetColsDefUi.getType())) {
-				value = (BigDecimal) coParticipacaoContext.getColumnValue(arquivoInputSheetColsDefUi);
-			} else if (ColDefType.LONG.equals(arquivoInputSheetColsDefUi.getType())) {
-				value = BigDecimal.valueOf((Long) coParticipacaoContext.getColumnValue(arquivoInputSheetColsDefUi));
-			} else if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
-				value = BigDecimal.valueOf((Integer) coParticipacaoContext.getColumnValue(arquivoInputSheetColsDefUi));
-			} else if (ColDefType.STRING.equals(arquivoInputSheetColsDefUi.getType())) {
-				value = (String) coParticipacaoContext.getColumnValue(arquivoInputSheetColsDefUi);
+			if (ColDefType.DOUBLE.equals(RegisterColumnUi.getType())) {
+				value = (BigDecimal) coParticipacaoContext.getColumnValue(RegisterColumnUi);
+			} else if (ColDefType.LONG.equals(RegisterColumnUi.getType())) {
+				value = BigDecimal.valueOf((Long) coParticipacaoContext.getColumnValue(RegisterColumnUi));
+			} else if (ColDefType.INT.equals(RegisterColumnUi.getType())) {
+				value = BigDecimal.valueOf((Integer) coParticipacaoContext.getColumnValue(RegisterColumnUi));
+			} else if (ColDefType.STRING.equals(RegisterColumnUi.getType())) {
+				value = (String) coParticipacaoContext.getColumnValue(RegisterColumnUi);
 			} else {
 				throw new ServiceException(
 						"The column[%s] must be a number type to use in RegraService:",
-						arquivoInputSheetColsDefUi.getNameColumn());
+						RegisterColumnUi.getNameColumn());
 			}
 
 			LOGGER.info("END");

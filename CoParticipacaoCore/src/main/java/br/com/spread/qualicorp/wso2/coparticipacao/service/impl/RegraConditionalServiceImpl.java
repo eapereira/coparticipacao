@@ -23,7 +23,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditiona
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraConditionalEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraConditionalUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalOperationUi;
@@ -203,7 +203,7 @@ public class RegraConditionalServiceImpl
 		OperationType operationType;
 		ColDefType colDefType = null;
 		boolean regraConditionalFieldFound;
-		List<ArquivoInputSheetColsDefUi> arquivoInputSheetColsDefUis;
+		List<RegisterColumnUi> RegisterColumnUis;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -211,7 +211,7 @@ public class RegraConditionalServiceImpl
 			result = false;
 			regraConditionalOperations = regraConditionalUi.getRegraConditionalOperations();
 			latestedValue = null;
-			arquivoInputSheetColsDefUis = coParticipacaoContext.getArquivoInputSheetColsDefs();
+			RegisterColumnUis = coParticipacaoContext.getRegisterColumns();
 
 			LOGGER.info("Using Regra [{}]:", regraConditionalUi.getNameRegra());
 
@@ -225,24 +225,24 @@ public class RegraConditionalServiceImpl
 				for (RegraConditionalField regraConditionalField : regraConditionalOperation
 						.getRegraConditionalFields()) {
 
-					for (ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi : arquivoInputSheetColsDefUis) {
-						colDefType = arquivoInputSheetColsDefUi.getType();
+					for (RegisterColumnUi RegisterColumnUi : RegisterColumnUis) {
+						colDefType = RegisterColumnUi.getType();
 
-						if (regraConditionalField.getArquivoInputSheetColsDef().getId()
-								.equals(arquivoInputSheetColsDefUi.getId())) {
+						if (regraConditionalField.getRegisterColumn().getId()
+								.equals(RegisterColumnUi.getId())) {
 							LOGGER.info(
 									"Applying regra [{}] to field [{}]:",
 									regraConditionalUi.getNameRegra(),
-									regraConditionalField.getArquivoInputSheetColsDef().getNameColumn());
+									regraConditionalField.getRegisterColumn().getNameColumn());
 
 							regraConditionalFieldFound = true;
 
 							value = RegraHelper
-									.getFieldValue(coParticipacaoContext, arquivoInputSheetColsDefUi);
+									.getFieldValue(coParticipacaoContext, RegisterColumnUi);
 
 							LOGGER.info(
 									"Field [{}] has value [{}]:",
-									regraConditionalField.getArquivoInputSheetColsDef().getNameColumn(),
+									regraConditionalField.getRegisterColumn().getNameColumn(),
 									value);
 
 							if (latestedValue == null) {
@@ -305,23 +305,23 @@ public class RegraConditionalServiceImpl
 
 	private void executeRegraResult(CoParticipacaoContext coParticipacaoContext, RegraConditionalUi regraConditionalUi)
 			throws ServiceException {
-		ArquivoInputSheetColsDefUi regraColumn;
-		List<ArquivoInputSheetColsDefUi> arquivoInputSheetColsDefUis;
+		RegisterColumnUi regraColumn;
+		List<RegisterColumnUi> RegisterColumnUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputSheetColsDefUis = coParticipacaoContext.getArquivoInputSheetColsDefs();
+			RegisterColumnUis = coParticipacaoContext.getRegisterColumns();
 
 			for (RegraConditionalResult regraConditionalResult : regraConditionalUi.getRegraConditionalResults()) {
 
 				LOGGER.info("Executing Regra [{}]:", regraConditionalResult.getRegraExecution().getNameRegra());
 
 				for (RegraResult regraResult : regraConditionalResult.getRegraExecution().getRegraResults()) {
-					regraColumn = (ArquivoInputSheetColsDefUi) regraResult.getArquivoInputSheetColsDef();
+					regraColumn = (RegisterColumnUi) regraResult.getRegisterColumn();
 
-					for (ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi : arquivoInputSheetColsDefUis) {
-						if (arquivoInputSheetColsDefUi.getId().equals(regraColumn.getId())) {
+					for (RegisterColumnUi RegisterColumnUi : RegisterColumnUis) {
+						if (RegisterColumnUi.getId().equals(regraColumn.getId())) {
 							regraService.applyRegra(
 									coParticipacaoContext,
 									(RegraUi) regraConditionalResult.getRegraExecution());

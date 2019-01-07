@@ -17,7 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputShee
 				UserUiMapper.class,
 				ArquivoInputSheetUiMapper.class,
 				LancamentoInputSheetUiMapper.class,
-				ArquivoInputSheetColsDefUiMapper.class })
+				RegisterColumnUiMapper.class })
 public abstract class LancamentoInputSheetColsUiMapper
 		extends AbstractMapper<LancamentoInputSheetCols, LancamentoInputSheetColsUi> {
 

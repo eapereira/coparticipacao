@@ -18,7 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColT
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
@@ -254,7 +254,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 				if (beneficiarioIsentoColType != null) {
 					value = coParticipacaoContext.getColumnValue(
-							(ArquivoInputSheetColsDefUi) beneficiarioIsentoInputCol.getArquivoInputSheetColsDef());
+							(RegisterColumnUi) beneficiarioIsentoInputCol.getRegisterColumn());
 
 					LOGGER.info(
 							"Transfering value [{}] to BeneficiarioIsento [{}]:",

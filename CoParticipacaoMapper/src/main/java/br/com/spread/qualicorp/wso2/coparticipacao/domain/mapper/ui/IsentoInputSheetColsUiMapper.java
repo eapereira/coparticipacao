@@ -16,7 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetCol
 		uses = {
 				UserUiMapper.class,
 				ArquivoInputSheetUiMapper.class,
-				ArquivoInputSheetColsDefUiMapper.class,
+				RegisterColumnUiMapper.class,
 				IsentoInputSheetUiMapper.class })
 public abstract class IsentoInputSheetColsUiMapper
 		extends AbstractMapper<IsentoInputSheetCols, IsentoInputSheetColsUi> {

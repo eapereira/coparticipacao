@@ -12,7 +12,7 @@ public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain {
 	 */
 	private static final long serialVersionUID = -5744067170574192256L;
 
-	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
+	private RegisterColumn registerColumn;
 
 	private DesconhecidoColType desconhecidoColType;
 
@@ -21,14 +21,6 @@ public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain {
 	private String label;
 
 	public ArquivoOutputDesconhecidoColsDef() {
-	}
-
-	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
-		return arquivoInputSheetColsDef;
-	}
-
-	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
-		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 	public DesconhecidoColType getDesconhecidoColType() {
@@ -59,10 +51,10 @@ public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((arquivoInputSheetColsDef == null) ? 0 : arquivoInputSheetColsDef.hashCode());
 		result = prime * result + ((desconhecidoColType == null) ? 0 : desconhecidoColType.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
+		result = prime * result + ((registerColumn == null) ? 0 : registerColumn.hashCode());
 		return result;
 	}
 
@@ -75,11 +67,6 @@ public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoOutputDesconhecidoColsDef other = (ArquivoOutputDesconhecidoColsDef) obj;
-		if (arquivoInputSheetColsDef == null) {
-			if (other.arquivoInputSheetColsDef != null)
-				return false;
-		} else if (!arquivoInputSheetColsDef.equals(other.arquivoInputSheetColsDef))
-			return false;
 		if (desconhecidoColType != other.desconhecidoColType)
 			return false;
 		if (label == null) {
@@ -92,7 +79,20 @@ public abstract class ArquivoOutputDesconhecidoColsDef extends AbstractDomain {
 				return false;
 		} else if (!ordem.equals(other.ordem))
 			return false;
+		if (registerColumn == null) {
+			if (other.registerColumn != null)
+				return false;
+		} else if (!registerColumn.equals(other.registerColumn))
+			return false;
 		return true;
+	}
+
+	public RegisterColumn getRegisterColumn() {
+		return registerColumn;
+	}
+
+	public void setRegisterColumn(RegisterColumn registerColumn) {
+		this.registerColumn = registerColumn;
 	}
 
 }

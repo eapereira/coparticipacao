@@ -15,12 +15,10 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheet;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditional;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Register;
 
 /**
  * 
@@ -60,11 +58,11 @@ public class ArquivoInputSheetEntity extends ArquivoInputSheet implements Domain
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY,
 			mappedBy = "arquivoInputSheet",
-			targetEntity = ArquivoInputSheetColsDefEntity.class)
+			targetEntity = RegisterEntity.class)
 	@Override
-	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefs() {
+	public List<Register> getRegisters() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputSheetColsDefs();
+		return super.getRegisters();
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
@@ -86,17 +84,6 @@ public class ArquivoInputSheetEntity extends ArquivoInputSheet implements Domain
 		return super.getLancamentoInputSheet();
 	}
 
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			mappedBy = "arquivoInputSheet",
-			targetEntity = RegraEntity.class)
-	@Override
-	public List<Regra> getRegras() {
-		// TODO Auto-generated method stub
-		return super.getRegras();
-	}
-
 	@OneToOne(
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY,
@@ -106,16 +93,5 @@ public class ArquivoInputSheetEntity extends ArquivoInputSheet implements Domain
 	public IsentoInputSheet getIsentoInputSheet() {
 		// TODO Auto-generated method stub
 		return super.getIsentoInputSheet();
-	}
-
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			mappedBy = "arquivoInputSheet",
-			targetEntity = RegraConditionalEntity.class)
-	@Override
-	public List<RegraConditional> getRegraConditionals() {
-		// TODO Auto-generated method stub
-		return super.getRegraConditionals();
 	}
 }

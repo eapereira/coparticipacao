@@ -4,10 +4,10 @@
 		<![CDATA[
 			select isentoInputSheet from IsentoInputSheetEntity isentoInputSheet
 			join fetch isentoInputSheet.isentoInputSheetCols isentoInputSheetCols
-			join fetch isentoInputSheetCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
+			join fetch isentoInputSheetCols.registerColumn registerColumn
 			join fetch isentoInputSheet.arquivoInputSheet arquivoInputSheet
 			where arquivoInput.id = :arquivoInputId
-			order by isentoInputSheet.sheetId, arquivoInputSheetColsDef.ordem
+			order by isentoInputSheet.sheetId, registerColumn.ordem
 		]]>
 	</query>
 
@@ -15,10 +15,10 @@
 		<![CDATA[
 			select isentoInputSheet from IsentoInputSheetEntity isentoInputSheet
 			join fetch isentoInputSheet.isentoInputSheetCols isentoInputSheetCols
-			join fetch isentoInputSheetCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
+			join fetch isentoInputSheetCols.registerColumn registerColumn
 			join fetch isentoInputSheet.arquivoInputSheet arquivoInputSheet
 			where arquivoInputSheet.id = :arquivoInputSheetId
-			order by arquivoInputSheetColsDef.ordem
+			order by registerColumn.ordem
 		]]>
 	</query>
 

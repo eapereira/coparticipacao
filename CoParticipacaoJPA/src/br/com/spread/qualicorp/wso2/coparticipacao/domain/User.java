@@ -18,8 +18,8 @@ public abstract class User extends AbstractDomain {
 
 	private List<ArquivoInput> arquivoInputsUserCreated;
 	private List<ArquivoInput> arquivoInputsUserAltered;
-	private List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserCreated;
-	private List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserAltered;
+	private List<RegisterColumn> RegisterColumnUserCreated;
+	private List<RegisterColumn> RegisterColumnUserAltered;
 	private List<ArquivoOutput> arquivoOutputsUserCreated;
 	private List<ArquivoOutput> arquivoOutputsUserAltered;
 	private List<ArquivoOutputSheet> arquivoOutputSheetsUserCreated;
@@ -149,54 +149,54 @@ public abstract class User extends AbstractDomain {
 		return arquivoInputsUserAltered;
 	}
 
-	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserCreated() {
-		return this.arquivoInputSheetColsDefUserCreated;
+	public List<RegisterColumn> getRegisterColumnUserCreated() {
+		return this.RegisterColumnUserCreated;
 	}
 
-	public void setArquivoInputSheetColsDefUserCreated(
-			List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserCreated) {
-		this.arquivoInputSheetColsDefUserCreated = arquivoInputSheetColsDefUserCreated;
+	public void setRegisterColumnUserCreated(
+			List<RegisterColumn> RegisterColumnUserCreated) {
+		this.RegisterColumnUserCreated = RegisterColumnUserCreated;
 	}
 
-	public ArquivoInputSheetColsDef addArquivoInputSheetColsDefUserCreated(
-			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserCreated) {
-		getArquivoInputSheetColsDefUserCreated().add(arquivoInputSheetColsDefUserCreated);
-		arquivoInputSheetColsDefUserCreated.setUserCreated(this);
+	public RegisterColumn addRegisterColumnUserCreated(
+			RegisterColumn RegisterColumnUserCreated) {
+		getRegisterColumnUserCreated().add(RegisterColumnUserCreated);
+		RegisterColumnUserCreated.setUserCreated(this);
 
-		return arquivoInputSheetColsDefUserCreated;
+		return RegisterColumnUserCreated;
 	}
 
-	public ArquivoInputSheetColsDef removeArquivoInputSheetColsDefUserCreated(
-			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserCreated) {
-		getArquivoInputSheetColsDefUserCreated().remove(arquivoInputSheetColsDefUserCreated);
-		arquivoInputSheetColsDefUserCreated.setUserCreated(null);
+	public RegisterColumn removeRegisterColumnUserCreated(
+			RegisterColumn RegisterColumnUserCreated) {
+		getRegisterColumnUserCreated().remove(RegisterColumnUserCreated);
+		RegisterColumnUserCreated.setUserCreated(null);
 
-		return arquivoInputSheetColsDefUserCreated;
+		return RegisterColumnUserCreated;
 	}
 
-	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserAltered() {
-		return this.arquivoInputSheetColsDefUserAltered;
+	public List<RegisterColumn> getRegisterColumnUserAltered() {
+		return this.RegisterColumnUserAltered;
 	}
 
-	public void setArquivoInputSheetColsDefUserAltered(
-			List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefUserAltered) {
-		this.arquivoInputSheetColsDefUserAltered = arquivoInputSheetColsDefUserAltered;
+	public void setRegisterColumnUserAltered(
+			List<RegisterColumn> RegisterColumnUserAltered) {
+		this.RegisterColumnUserAltered = RegisterColumnUserAltered;
 	}
 
-	public ArquivoInputSheetColsDef addArquivoInputSheetColsDefUserAltered(
-			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserAltered) {
-		getArquivoInputSheetColsDefUserAltered().add(arquivoInputSheetColsDefUserAltered);
-		arquivoInputSheetColsDefUserAltered.setUserAltered(this);
+	public RegisterColumn addRegisterColumnUserAltered(
+			RegisterColumn RegisterColumnUserAltered) {
+		getRegisterColumnUserAltered().add(RegisterColumnUserAltered);
+		RegisterColumnUserAltered.setUserAltered(this);
 
-		return arquivoInputSheetColsDefUserAltered;
+		return RegisterColumnUserAltered;
 	}
 
-	public ArquivoInputSheetColsDef removeArquivoInputSheetColsDefUserAltered(
-			ArquivoInputSheetColsDef arquivoInputSheetColsDefUserAltered) {
-		getArquivoInputSheetColsDefUserAltered().remove(arquivoInputSheetColsDefUserAltered);
-		arquivoInputSheetColsDefUserAltered.setUserAltered(null);
+	public RegisterColumn removeRegisterColumnUserAltered(
+			RegisterColumn RegisterColumnUserAltered) {
+		getRegisterColumnUserAltered().remove(RegisterColumnUserAltered);
+		RegisterColumnUserAltered.setUserAltered(null);
 
-		return arquivoInputSheetColsDefUserAltered;
+		return RegisterColumnUserAltered;
 	}
 
 	public List<ArquivoOutput> getArquivoOutputsUserCreated() {

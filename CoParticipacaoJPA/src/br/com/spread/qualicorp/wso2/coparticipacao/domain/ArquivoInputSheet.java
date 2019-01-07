@@ -25,7 +25,7 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 	 */
 	private Contrato contrato;
 
-	private List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefs;
+	private List<Register> registers;
 
 	private LancamentoInputSheet lancamentoInputSheet;
 
@@ -39,6 +39,7 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 
 		regras = new ArrayList<>();
 		regraConditionals = new ArrayList<>();
+		registers = new ArrayList<>();
 	}
 
 	public ArquivoInput getArquivoInput() {
@@ -55,24 +56,6 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 
 	public void setSheetId(Integer sheetId) {
 		this.sheetId = sheetId;
-	}
-
-	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefs() {
-		return arquivoInputSheetColsDefs;
-	}
-
-	public void setArquivoInputSheetColsDefs(List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefs) {
-		this.arquivoInputSheetColsDefs = arquivoInputSheetColsDefs;
-	}
-
-	public void addArquivoInputSheetColsDefs(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
-		getArquivoInputSheetColsDefs().add(arquivoInputSheetColsDef);
-		arquivoInputSheetColsDef.setArquivoInputSheet(this);
-	}
-
-	public void removeArquivoInputSheetColsDefs(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
-		getArquivoInputSheetColsDefs().remove(arquivoInputSheetColsDef);
-		arquivoInputSheetColsDef.setArquivoInputSheet(null);
 	}
 
 	/**
@@ -146,10 +129,10 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((arquivoInputSheetColsDefs == null) ? 0 : arquivoInputSheetColsDefs.hashCode());
 		result = prime * result + ((contrato == null) ? 0 : contrato.hashCode());
 		result = prime * result + ((isentoInputSheet == null) ? 0 : isentoInputSheet.hashCode());
 		result = prime * result + ((lancamentoInputSheet == null) ? 0 : lancamentoInputSheet.hashCode());
+		result = prime * result + ((registers == null) ? 0 : registers.hashCode());
 		result = prime * result + ((regraConditionals == null) ? 0 : regraConditionals.hashCode());
 		result = prime * result + ((regras == null) ? 0 : regras.hashCode());
 		result = prime * result + ((sheetId == null) ? 0 : sheetId.hashCode());
@@ -165,11 +148,6 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoInputSheet other = (ArquivoInputSheet) obj;
-		if (arquivoInputSheetColsDefs == null) {
-			if (other.arquivoInputSheetColsDefs != null)
-				return false;
-		} else if (!arquivoInputSheetColsDefs.equals(other.arquivoInputSheetColsDefs))
-			return false;
 		if (contrato == null) {
 			if (other.contrato != null)
 				return false;
@@ -184,6 +162,11 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 			if (other.lancamentoInputSheet != null)
 				return false;
 		} else if (!lancamentoInputSheet.equals(other.lancamentoInputSheet))
+			return false;
+		if (registers == null) {
+			if (other.registers != null)
+				return false;
+		} else if (!registers.equals(other.registers))
 			return false;
 		if (regraConditionals == null) {
 			if (other.regraConditionals != null)
@@ -201,6 +184,24 @@ public abstract class ArquivoInputSheet extends AbstractDomain {
 		} else if (!sheetId.equals(other.sheetId))
 			return false;
 		return true;
+	}
+
+	public List<Register> getRegisters() {
+		return registers;
+	}
+
+	public void setRegisters(List<Register> registers) {
+		this.registers = registers;
+	}
+
+	public void addRegister(Register register) {
+		getRegisters().add(register);
+		register.setArquivoInputSheet(this);
+	}
+
+	public void removeRegister(Register register) {
+		getRegisters().remove(register);
+		register.setArquivoInputSheet(null);
 	}
 
 }

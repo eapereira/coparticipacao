@@ -14,7 +14,7 @@ public abstract class LancamentoInputSheetCols extends AbstractDomain {
 
 	private LancamentoInputSheet lancamentoInputSheet;
 
-	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
+	private RegisterColumn registerColumn;
 
 	private LancamentoColType lancamentoColType;
 
@@ -30,19 +30,47 @@ public abstract class LancamentoInputSheetCols extends AbstractDomain {
 		this.lancamentoInputSheet = lancamentoInputSheet;
 	}
 
-	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
-		return arquivoInputSheetColsDef;
-	}
-
-	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
-		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
-	}
-
 	public LancamentoColType getLancamentoColType() {
 		return lancamentoColType;
 	}
 
 	public void setLancamentoColType(LancamentoColType lancamentoColType) {
 		this.lancamentoColType = lancamentoColType;
+	}
+
+	public RegisterColumn getRegisterColumn() {
+		return registerColumn;
+	}
+
+	public void setRegisterColumn(RegisterColumn registerColumn) {
+		this.registerColumn = registerColumn;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((lancamentoColType == null) ? 0 : lancamentoColType.hashCode());
+		result = prime * result + ((registerColumn == null) ? 0 : registerColumn.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		LancamentoInputSheetCols other = (LancamentoInputSheetCols) obj;
+		if (lancamentoColType != other.lancamentoColType)
+			return false;
+		if (registerColumn == null) {
+			if (other.registerColumn != null)
+				return false;
+		} else if (!registerColumn.equals(other.registerColumn))
+			return false;
+		return true;
 	}
 }

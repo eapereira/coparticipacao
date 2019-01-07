@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
@@ -27,6 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
@@ -262,12 +262,12 @@ public class CoParticipacaoContext {
 		this.ano = ano;
 	}
 
-	public Object getColumnValue(ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi) {
-		return getMapLine().get(arquivoInputSheetColsDefUi.getNameColumn());
+	public Object getColumnValue(RegisterColumnUi RegisterColumnUi) {
+		return getMapLine().get(RegisterColumnUi.getNameColumn());
 	}
 
-	public void setColumnValue(ArquivoInputSheetColsDef arquivoInputSheetColsDef, Object value) {
-		getMapLine().put(arquivoInputSheetColsDef.getNameColumn(), value);
+	public void setColumnValue(RegisterColumn RegisterColumn, Object value) {
+		getMapLine().put(RegisterColumn.getNameColumn(), value);
 	}
 
 	public List<RegraConditionalUi> getRegraConditionalUis() {
@@ -755,18 +755,6 @@ public class CoParticipacaoContext {
 		return arquivoInputSheetUi;
 	}
 
-	public List<ArquivoInputSheetColsDef> listArquivoInputSheetColsBySheetId(Integer sheetId) {
-		List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefs = null;
-		ArquivoInputSheetUi arquivoInputSheetUi;
-		LOGGER.info("BEGIN");
-
-		arquivoInputSheetUi = findArquivoInputSheetById(sheetId);
-		arquivoInputSheetColsDefs = arquivoInputSheetUi.getArquivoInputSheetColsDefs();
-
-		LOGGER.info("END");
-		return arquivoInputSheetColsDefs;
-	}
-
 	public List<LancamentoInputSheetCols> listLancamentoInputSheetColsBySheetId(Integer sheetId) {
 		List<LancamentoInputSheetCols> lancamentoInputSheetCols = null;
 		ArquivoInputSheetUi arquivoInputSheetUi;
@@ -850,18 +838,30 @@ public class CoParticipacaoContext {
 		return null;
 	}
 
-	public List<ArquivoInputSheetColsDefUi> getArquivoInputSheetColsDefs() {
-		List<ArquivoInputSheetColsDefUi> arquivoInputSheetColsDefUis = new ArrayList<ArquivoInputSheetColsDefUi>();
+	public List<RegisterColumnUi> getRegisterColumns() {
+		List<RegisterColumnUi> registerColumnUis = new ArrayList<RegisterColumnUi>();
 		ArquivoInputSheetUi arquivoInputSheetUi = getArquivoInputSheet();
 
 		LOGGER.info("BEGIN");
 
-		for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi.getArquivoInputSheetColsDefs()) {
-			arquivoInputSheetColsDefUis.add((ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef);
+		for (Register register : arquivoInputSheetUi.getRegisters()) {
+			if (getSpreadsheetContext().getCdRegister() != null) {
+				if (register.getCdRegister().equals(getSpreadsheetContext().getCdRegister())) {
+					for (RegisterColumn registerColumn : register.getRegisterColumns()) {
+						registerColumnUis.add((RegisterColumnUi) registerColumn);
+					}
+
+					break;
+				}
+			} else {
+				for (RegisterColumn registerColumn : register.getRegisterColumns()) {
+					registerColumnUis.add((RegisterColumnUi) registerColumn);
+				}
+			}
 		}
 
 		LOGGER.info("END");
-		return arquivoInputSheetColsDefUis;
+		return registerColumnUis;
 	}
 
 	private DependenteIsentoUi findDependenteIsentoByNameAndMatricula(DependenteUi dependenteUi) {

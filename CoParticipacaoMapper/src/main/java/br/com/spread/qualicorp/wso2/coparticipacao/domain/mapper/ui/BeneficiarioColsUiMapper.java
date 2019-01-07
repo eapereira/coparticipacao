@@ -17,8 +17,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 				UserUiMapper.class,
 				ArquivoInputUiMapper.class,
 				ArquivoInputSheetUiMapper.class,
-				ArquivoInputSheetColsDefUiMapper.class,
-				ArquivoInputSheetColsDefUiMapper.class })
+				RegisterColumnUiMapper.class,
+				RegisterColumnUiMapper.class })
 public abstract class BeneficiarioColsUiMapper extends AbstractMapper<BeneficiarioCols, BeneficiarioColsUi> {
 
 }

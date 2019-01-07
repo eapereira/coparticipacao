@@ -10,9 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FixedLengthProcessorService;
@@ -32,28 +32,27 @@ public class FixedLengthProcessorServiceImpl extends AbstractFileProcessorImpl i
 		Map<String, Object> mapLine;
 		String columnValue;
 		int pos = NumberUtils.INTEGER_ZERO;
-		List<ArquivoInputSheetColsDef> arquivoInputSheetColsDefs;
+		List<RegisterColumnUi> registerColumnUis;
 
 		try {
 			LOGGER.info("BEGIN");
 			mapLine = new HashMap<String, Object>();
 
-			arquivoInputSheetColsDefs = coParticipacaoContext
-					.listArquivoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
+			registerColumnUis = coParticipacaoContext.getRegisterColumns();
 
-			for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetColsDefs) {
+			for (RegisterColumnUi registerColumnUi : registerColumnUis) {
 				columnValue = coParticipacaoContext.getLine()
-						.substring(pos, pos + arquivoInputSheetColsDef.getLength());
+						.substring(pos, pos + registerColumnUi.getLength());
 
-				LOGGER.debug("Column [{}] with value [{}]:", arquivoInputSheetColsDef.getNameColumn(), columnValue);
+				LOGGER.debug("Column [{}] with value [{}]:", registerColumnUi.getNameColumn(), columnValue);
 
 				mapLine.put(
-						arquivoInputSheetColsDef.getNameColumn(),
+						registerColumnUi.getNameColumn(),
 						stringToColumnValue(
-								(ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef,
+								(RegisterColumnUi) registerColumnUi,
 								StringUtils.trim(columnValue)));
 
-				pos += arquivoInputSheetColsDef.getLength();
+				pos += registerColumnUi.getLength();
 			}
 
 			LOGGER.info("END");

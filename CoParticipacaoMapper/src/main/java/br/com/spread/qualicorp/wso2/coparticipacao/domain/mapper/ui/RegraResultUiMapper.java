@@ -15,7 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraResultUi;
 		componentModel = "spring",
 		uses = {
 				UserUiMapper.class,
-				ArquivoInputSheetColsDefUiMapper.class,
+				RegisterColumnUiMapper.class,
 				RegraUiMapper.class })
 public abstract class RegraResultUiMapper
 		extends AbstractMapper<RegraResult, RegraResultUi> {

@@ -51,9 +51,11 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				TitularResumoEntityMapper.class,
 				DependenteResumoEntityMapper.class,
 				ArquivoInputSheetEntityMapper.class,
-				ArquivoInputSheetColsDefEntityMapper.class,
+				RegisterColumnEntityMapper.class,
 				LancamentoInputSheetEntityMapper.class,
 				LancamentoInputSheetColsEntityMapper.class,
+				RegisterEntityMapper.class,
+				RegisterColumnEntityMapper.class,
 				ExecucaoEntityMapper.class })
 public abstract class UserEntityMapper extends AbstractMapper<User, UserEntity> {
 	public static final UserEntityMapper MAPPER = Mappers.getMapper(UserEntityMapper.class);

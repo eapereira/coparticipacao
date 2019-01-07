@@ -77,7 +77,9 @@ drop table if exists TB_ARQUIVO_OUTPUT;
 drop table if exists TB_VIEW_DESTINATION_COLS_DEF;
 drop table if exists TB_VIEW_DESTINATION;
 
-drop table if exists TB_ARQUIVO_INPUT_SHEET_COLS_DEF;
+drop table if exists TB_REGISTER_COLUMN;
+drop table if exists TB_REGISTER;
+drop table if exists TB_REGISTER_COLUMN;
 drop table if exists TB_ARQUIVO_INPUT_SHEET;
 
 drop table if exists TB_ARQUIVO_INPUT_COLS_DEF;
@@ -741,9 +743,31 @@ create table TB_ARQUIVO_INPUT_SHEET(
 	constraint FK_ARQUIVO_INPUT_SHEET_04 foreign key( ID_CONTRATO ) references TB_CONTRATO( ID )
 );
 
-create table TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
+create table TB_REGISTER(
 	ID 							bigint( 17 ) auto_increment,
+	
 	ID_ARQUIVO_INPUT_SHEET		bigint( 17 ) not null,
+	NM_REGISTER					varchar( 60 ) not null,		
+	CD_REGISTER					int( 3 ) not null,
+	
+	VERSION						bigint( 17 ) null,
+	USER_CREATED				bigint( 17 ) not null,
+	USER_ALTERED 				bigint( 17 ),
+	DT_CREATED					timestamp not null,
+	DT_ALTERED					timestamp not null,
+	
+	constraint PK_REGISTER primary key( ID ),
+	
+	constraint UN_REGISTER_01 unique key( ID_ARQUIVO_INPUT_SHEET, CD_REGISTER ),
+	
+	constraint FK_REGISTER_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGISTER_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGISTER_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )	
+);
+
+create table TB_REGISTER_COLUMN(
+	ID 							bigint( 17 ) auto_increment,
+	ID_REGISTER					bigint( 17 ) not null,
 	
 	NM_COLUMN					varchar( 60 ) not null,
 	CD_TYPE						int( 3 ) not null, 	/* 0 = INT, 1 = VARCHAR, 2 = DATE, 3, DATETIME, 4 = DOUBLE, 5 = CLOB */
@@ -760,13 +784,13 @@ create table TB_ARQUIVO_INPUT_SHEET_COLS_DEF(
 	DT_CREATED					timestamp not null,
 	DT_ALTERED					timestamp not null,
 	
-	constraint PK_ARQUIVO_INPUT_SHEET_COLS_DEF primary key( ID ),
+	constraint PK_REGISTER_COLUMN primary key( ID ),
 	
-	constraint UN_ARQUIVO_INPUT_SHEET_COLS_DEF_01 unique key( ID_ARQUIVO_INPUT_SHEET, NM_COLUMN ),
+	constraint UN_REGISTER_COLUMN_01 unique key( ID_REGISTER, NM_COLUMN ),
 	
-	constraint FK_ARQUIVO_INPUT_SHEET_COLS_DEF_01 foreign key( USER_CREATED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_INPUT_SHEET_COLS_DEF_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_ARQUIVO_INPUT_SHEET_COLS_DEF_03 foreign key( ID_ARQUIVO_INPUT_SHEET ) references TB_ARQUIVO_INPUT_SHEET( ID )
+	constraint FK_REGISTER_COLUMN_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_REGISTER_COLUMN_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
+	constraint FK_REGISTER_COLUMN_03 foreign key( ID_REGISTER ) references TB_REGISTER( ID )
 );	
 
 /**************************************************************************************************************************************************/
@@ -846,7 +870,7 @@ create table TB_LANCAMENTO_INPUT_SHEET_COLS(
 	ID 								bigint( 17 ) auto_increment,
 	ID_LANCAMENTO_INPUT_SHEET		bigint( 17 ) not null,
 	CD_LANCAMENTO_COLS_DEF			int( 3 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+	ID_REGISTER_COLUMN				bigint( 17 ) not null,
 	
 	VERSION					bigint( 17 ) null,
  
@@ -857,12 +881,12 @@ create table TB_LANCAMENTO_INPUT_SHEET_COLS(
 	
 	constraint PK_LANCAMENTO_INPUT_SHEET_COLS primary key( ID ),
 	
-	constraint UN_INPUT_LANCAMNETO_COLS_01 unique key( CD_LANCAMENTO_COLS_DEF, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
+	constraint UN_INPUT_LANCAMNETO_COLS_01 unique key( CD_LANCAMENTO_COLS_DEF, ID_REGISTER_COLUMN ),
 	
 	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_03 foreign key( ID_LANCAMENTO_INPUT_SHEET ) references TB_LANCAMENTO_INPUT_SHEET( ID ),
-	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+	constraint FK_LANCAMENTO_INPUT_SHEET_COLS_04 foreign key( ID_REGISTER_COLUMN ) references TB_REGISTER_COLUMN( ID )
 );
 
 create table TB_SUBFATURA(
@@ -1232,7 +1256,7 @@ create table TB_ARQUIVO_OUTPUT_DESCONHECIDO_SHEET(
 create table TB_BENEFICIARIO_COLS(
 	ID 								bigint( 17 ) auto_increment,	
 	CD_BENEFICIARIO_COLS_DEF		int( 3 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF bigint( 17 ) not null,
+	ID_REGISTER_COLUMN 				bigint( 17 ) not null,
 	
 	VERSION							bigint( 17 ) null,
  
@@ -1243,11 +1267,11 @@ create table TB_BENEFICIARIO_COLS(
 	
 	constraint PK_BENEFICIARIO_COLS primary key( ID ),
 	
-	constraint UN_BENEFICIARIO_COLS_01 unique key( CD_BENEFICIARIO_COLS_DEF, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
+	constraint UN_BENEFICIARIO_COLS_01 unique key( CD_BENEFICIARIO_COLS_DEF, ID_REGISTER_COLUMN ),
 	
 	constraint FK_BENEFICIARIO_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_BENEFICIARIO_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_BENEFICIARIO_COLS_03 foreign key ( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+	constraint FK_BENEFICIARIO_COLS_03 foreign key ( ID_REGISTER_COLUMN ) references TB_REGISTER_COLUMN( ID )
 );
 
 /*****************************************************************************************************************************************************/
@@ -1304,7 +1328,7 @@ create table TB_ISENTO_INPUT_SHEET_COLS(
 	ID 									bigint( 17 ) auto_increment,	
 
 	ID_ISENTO_INPUT_SHEET				bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF		bigint( 17 ) not null,
+	ID_REGISTER_COLUMN					bigint( 17 ) not null,
 	CD_BENEFICIARIO_ISENTO_COLS_DEF		int( 3 ) not null,
 	
 	VERSION								bigint( 17 ) null,
@@ -1317,13 +1341,13 @@ create table TB_ISENTO_INPUT_SHEET_COLS(
 	
 	constraint UN_TB_ISENTO_INPUT_SHEET_COLS_01 unique key( 
 		ID_ISENTO_INPUT_SHEET, 
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF, 
+		ID_REGISTER_COLUMN, 
 		CD_BENEFICIARIO_ISENTO_COLS_DEF
 	),
 	
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
-	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_03 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID ),
+	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_03 foreign key( ID_REGISTER_COLUMN ) references TB_REGISTER_COLUMN( ID ),
 	constraint FK_TB_ISENTO_INPUT_SHEET_COLS_04 foreign key( ID_ISENTO_INPUT_SHEET ) references TB_ISENTO_INPUT_SHEET( ID )
 
 );
@@ -1405,7 +1429,7 @@ create table TB_REGRA_OPERATION(
 create table TB_REGRA_FIELD(
 	ID 								bigint( 17 ) auto_increment,
 	ID_REGRA_OPERATION				bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+	ID_REGISTER_COLUMN	bigint( 17 ) not null,
 
 	VERSION		bigint( 17 ) null,
  
@@ -1419,7 +1443,7 @@ create table TB_REGRA_FIELD(
 	constraint FK_REGRA_FIELD_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_REGRA_FIELD_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_REGRA_FIELD_03 foreign key( ID_REGRA_OPERATION ) references TB_REGRA_OPERATION( ID ),
-	constraint FK_REGRA_FIELD_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+	constraint FK_REGRA_FIELD_04 foreign key( ID_REGISTER_COLUMN ) references TB_REGISTER_COLUMN( ID )
 );
 
 create table TB_REGRA_VALOR(
@@ -1444,7 +1468,7 @@ create table TB_REGRA_VALOR(
 create table TB_REGRA_RESULT(
 	ID 								bigint( 17 ) auto_increment,
 	ID_REGRA						bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF	bigint( 17 ) not null,
+	ID_REGISTER_COLUMN	bigint( 17 ) not null,
 
 	VERSION		bigint( 17 ) null,
  
@@ -1455,12 +1479,12 @@ create table TB_REGRA_RESULT(
 	
 	constraint PK_REGRA_RESULT primary key( ID ),
 	
-	constraint UN_REGRA_RESULT unique key(  ID_REGRA, ID_ARQUIVO_INPUT_SHEET_COLS_DEF ),
+	constraint UN_REGRA_RESULT unique key(  ID_REGRA, ID_REGISTER_COLUMN ),
 	
 	constraint FK_REGRA_RESULT_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_REGRA_RESULT_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_REGRA_RESULT_03 foreign key( ID_REGRA ) references TB_REGRA( ID ),
-	constraint FK_REGRA_RESULT_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+	constraint FK_REGRA_RESULT_04 foreign key( ID_REGISTER_COLUMN ) references TB_REGISTER_COLUMN( ID )
 );
 
 create table TB_REGRA_CONDITIONAL (
@@ -1508,7 +1532,7 @@ create table TB_REGRA_CONDITIONAL_OPERATION(
 create table TB_REGRA_CONDITIONAL_FIELD(
 	ID 									bigint( 17 ) auto_increment,
 	ID_REGRA_CONDITIONAL_OPERATION		bigint( 17 ) not null,
-	ID_ARQUIVO_INPUT_SHEET_COLS_DEF		bigint( 17 ) not null,
+	ID_REGISTER_COLUMN					bigint( 17 ) not null,
 
 	VERSION		bigint( 17 ) null,
  
@@ -1522,7 +1546,7 @@ create table TB_REGRA_CONDITIONAL_FIELD(
 	constraint FK_REGRA_CONDITIONAL_FIELD_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_REGRA_CONDITIONAL_FIELD_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_REGRA_CONDITIONAL_FIELD_03 foreign key( ID_REGRA_CONDITIONAL_OPERATION ) references TB_REGRA_CONDITIONAL_OPERATION( ID ),
-	constraint FK_REGRA_CONDITIONAL_FIELD_04 foreign key( ID_ARQUIVO_INPUT_SHEET_COLS_DEF ) references TB_ARQUIVO_INPUT_SHEET_COLS_DEF( ID )
+	constraint FK_REGRA_CONDITIONAL_FIELD_04 foreign key( ID_REGISTER_COLUMN ) references TB_REGISTER_COLUMN( ID )
 );
 
 create table TB_REGRA_CONDITIONAL_VALOR(

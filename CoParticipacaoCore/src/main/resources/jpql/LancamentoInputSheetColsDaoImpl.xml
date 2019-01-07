@@ -4,7 +4,7 @@
 		<![CDATA[
 			select lancamentoInputSheetCols from LancamentoInputSheetColsEntity lancamentoInputSheetCols
 			join fetch lancamentoInputSheetCols.lancamentoInputSheet lancamentoInputSheet
-			join fetch lancamentoInputSheetCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
+			join fetch lancamentoInputSheetCols.registerColumn registerColumn
 			join lancamentoInputSheet.arquivoInputSheet arquivoInputSheet
 			where arquivoInputSheet.id = :arquivoInputSheetId
 			order by lancamentoInputSheetCols.id

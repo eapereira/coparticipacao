@@ -16,6 +16,8 @@ public class SpreadsheetContext {
 	
 	private String sheetName;
 	
+	private Integer cdRegister;
+	
 	public SpreadsheetContext() {
 		
 	}
@@ -43,4 +45,14 @@ public class SpreadsheetContext {
 	public void setSheetName(String sheetName) {
 		this.sheetName = sheetName;
 	}
+
+	public Integer getCdRegister() {
+		return cdRegister;
+	}
+
+	public void setCdRegister(Integer cdRegister) {
+		this.cdRegister = cdRegister;
+	}
+
+	
 }

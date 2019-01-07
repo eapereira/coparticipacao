@@ -12,20 +12,12 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 	 */
 	private static final long serialVersionUID = -7383404930745300753L;
 
-	private ArquivoInputSheetColsDef arquivoInputSheetColsDef;
+	private RegisterColumn registerColumn;
 
 	private BeneficiarioColType beneficiarioColType;
 
 	public BeneficiarioCols() {
 
-	}
-
-	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
-		return arquivoInputSheetColsDef;
-	}
-
-	public void setArquivoInputSheetColsDef(ArquivoInputSheetColsDef arquivoInputSheetColsDef) {
-		this.arquivoInputSheetColsDef = arquivoInputSheetColsDef;
 	}
 
 	public BeneficiarioColType getBeneficiarioColType() {
@@ -40,8 +32,8 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((arquivoInputSheetColsDef == null) ? 0 : arquivoInputSheetColsDef.hashCode());
 		result = prime * result + ((beneficiarioColType == null) ? 0 : beneficiarioColType.hashCode());
+		result = prime * result + ((registerColumn == null) ? 0 : registerColumn.hashCode());
 		return result;
 	}
 
@@ -54,14 +46,22 @@ public abstract class BeneficiarioCols extends AbstractDomain {
 		if (getClass() != obj.getClass())
 			return false;
 		BeneficiarioCols other = (BeneficiarioCols) obj;
-		if (arquivoInputSheetColsDef == null) {
-			if (other.arquivoInputSheetColsDef != null)
-				return false;
-		} else if (!arquivoInputSheetColsDef.equals(other.arquivoInputSheetColsDef))
-			return false;
 		if (beneficiarioColType != other.beneficiarioColType)
 			return false;
+		if (registerColumn == null) {
+			if (other.registerColumn != null)
+				return false;
+		} else if (!registerColumn.equals(other.registerColumn))
+			return false;
 		return true;
+	}
+
+	public RegisterColumn getRegisterColumn() {
+		return registerColumn;
+	}
+
+	public void setRegisterColumn(RegisterColumn registerColumn) {
+		this.registerColumn = registerColumn;
 	}
 
 }

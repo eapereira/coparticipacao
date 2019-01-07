@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalField;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalOperation;
 
@@ -38,9 +38,9 @@ public class RegraConditionalFieldEntity extends RegraConditionalField implement
 	}
 
 	// bi-directional many-to-one association to RegraConditionalOperation
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
-	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
-		return super.getArquivoInputSheetColsDef();
+	public RegisterColumn getRegisterColumn() {
+		return super.getRegisterColumn();
 	}
 }

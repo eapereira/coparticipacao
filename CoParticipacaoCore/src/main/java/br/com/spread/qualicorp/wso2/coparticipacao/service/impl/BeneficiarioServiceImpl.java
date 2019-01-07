@@ -26,7 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UFType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
@@ -668,7 +668,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		Object value;
-		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
+		RegisterColumnUi RegisterColumnUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -677,16 +677,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi = new BeneficiarioUi();
 
 			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
-				arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) beneficiarioColsUi
-						.getArquivoInputSheetColsDef();
+				RegisterColumnUi = (RegisterColumnUi) beneficiarioColsUi
+						.getRegisterColumn();
 
-				LOGGER.debug("Using mapped column[{}]:", arquivoInputSheetColsDefUi.getNameColumn());
-				value = coParticipacaoContext.getColumnValue(arquivoInputSheetColsDefUi);
+				LOGGER.debug("Using mapped column[{}]:", RegisterColumnUi.getNameColumn());
+				value = coParticipacaoContext.getColumnValue(RegisterColumnUi);
 
 				LOGGER.info(
 						"Retrieving value [{}] from column [{}]",
 						value,
-						arquivoInputSheetColsDefUi.getNameColumn());
+						RegisterColumnUi.getNameColumn());
 
 				if (isNotZero(value)) {
 					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);

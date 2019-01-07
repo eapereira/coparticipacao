@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheetCols;
@@ -42,12 +42,12 @@ public class LancamentoInputSheetColsEntity extends LancamentoInputSheetCols {
 		return super.getLancamentoInputSheet();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
 	@Override
-	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+	public RegisterColumn getRegisterColumn() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputSheetColsDef();
+		return super.getRegisterColumn();
 	}
 
 	@Column(name = "CD_LANCAMENTO_COLS_DEF")

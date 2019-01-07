@@ -13,10 +13,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Register;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDefTypeConverter;
 
 /**
@@ -25,16 +25,16 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDe
  *
  */
 @Entity
-@Table(name = "TB_ARQUIVO_INPUT_SHEET_COLS_DEF")
-@NamedQuery(name = "ArquivoInputSheetColsDefEntity.findAll", query = "SELECT a FROM ArquivoInputSheetColsDefEntity a")
-public class ArquivoInputSheetColsDefEntity extends ArquivoInputSheetColsDef implements DomainEntity {
+@Table(name = "TB_REGISTER_COLUMMN")
+@NamedQuery(name = "RegisterColumnEntity.findAll", query = "SELECT o FROM RegisterColumnEntity o")
+public class RegisterColumnEntity extends RegisterColumn implements DomainEntity {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -6258336005890943176L;
+	private static final long serialVersionUID = 7931394552751743248L;
 
-	public ArquivoInputSheetColsDefEntity() {
+	public RegisterColumnEntity() {
 		super();
 	}
 
@@ -74,12 +74,12 @@ public class ArquivoInputSheetColsDefEntity extends ArquivoInputSheetColsDef imp
 	}
 
 	// bi-directional many-to-one association to ArquivoInput
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET")
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterEntity.class)
+	@JoinColumn(name = "ID_REGISTER")
 	@Override
-	public ArquivoInputSheet getArquivoInputSheet() {
+	public Register getRegister() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputSheet();
+		return super.getRegister();
 	}
 
 	@Column(name = "CD_RESTRICTED_VALUE")

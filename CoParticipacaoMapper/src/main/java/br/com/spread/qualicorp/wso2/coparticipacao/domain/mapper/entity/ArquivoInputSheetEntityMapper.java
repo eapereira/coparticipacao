@@ -22,7 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 				ContratoEntityMapper.class,
 				LancamentoInputSheetEntityMapper.class,
 				BeneficiarioColsEntityMapper.class,
-				ArquivoInputSheetColsDefEntityMapper.class })
+				RegisterColumnEntityMapper.class })
 public abstract class ArquivoInputSheetEntityMapper extends AbstractMapper<ArquivoInputSheet, ArquivoInputSheetEntity> {
 
 }

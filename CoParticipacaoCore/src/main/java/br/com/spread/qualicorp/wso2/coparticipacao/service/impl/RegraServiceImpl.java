@@ -22,7 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
@@ -197,14 +197,14 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 		List<RegraOperation> regraOperatios;
 		Object value = null;
 		BigDecimal result;
-		List<ArquivoInputSheetColsDefUi> arquivoInputSheetColsDefUis;
+		List<RegisterColumnUi> RegisterColumnUis;
 
 		try {
 			LOGGER.info("BEGIN");
 
 			result = BigDecimal.ZERO;
 			regraOperatios = regraUi.getRegraOperations();
-			arquivoInputSheetColsDefUis = coParticipacaoContext.getArquivoInputSheetColsDefs();
+			RegisterColumnUis = coParticipacaoContext.getRegisterColumns();
 
 			LOGGER.info("Using Regra [{}]:", regraUi.getNameRegra());
 
@@ -214,24 +214,24 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 					LOGGER.debug(
 							"RegraUi[{}] with RegraField[{}]",
 							regraUi.getNameRegra(),
-							regraField.getArquivoInputSheetColsDef().getNameColumn());
+							regraField.getRegisterColumn().getNameColumn());
 
-					for (ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi : arquivoInputSheetColsDefUis) {
-						LOGGER.debug("Mapped column[{}] to be used:", arquivoInputSheetColsDefUi.getNameColumn());
+					for (RegisterColumnUi RegisterColumnUi : RegisterColumnUis) {
+						LOGGER.debug("Mapped column[{}] to be used:", RegisterColumnUi.getNameColumn());
 
-						if (regraField.getArquivoInputSheetColsDef().getId()
-								.equals(arquivoInputSheetColsDefUi.getId())) {
+						if (regraField.getRegisterColumn().getId()
+								.equals(RegisterColumnUi.getId())) {
 							LOGGER.info(
 									"Applying regra [{}] to field [{}]:",
 									regraUi.getNameRegra(),
-									regraField.getArquivoInputSheetColsDef().getNameColumn());
+									regraField.getRegisterColumn().getNameColumn());
 
 							value = RegraHelper
-									.getFieldValue(coParticipacaoContext, arquivoInputSheetColsDefUi);
+									.getFieldValue(coParticipacaoContext, RegisterColumnUi);
 
 							LOGGER.info(
 									"Field [{}] has value [{}]:",
-									regraField.getArquivoInputSheetColsDef().getNameColumn(),
+									regraField.getRegisterColumn().getNameColumn(),
 									value);
 
 							if (!BigDecimal.ZERO.equals(value)) {
@@ -259,15 +259,15 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 			LOGGER.info("Final result after all RegraOperations value is [{}]:", result);
 
 			for (RegraResult regraResult : regraUi.getRegraResults()) {
-				for (ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi : arquivoInputSheetColsDefUis) {
-					if (regraResult.getArquivoInputSheetColsDef().getId().equals(arquivoInputSheetColsDefUi.getId())) {
+				for (RegisterColumnUi RegisterColumnUi : RegisterColumnUis) {
+					if (regraResult.getRegisterColumn().getId().equals(RegisterColumnUi.getId())) {
 						LOGGER.info(
 								"Sending calculated value [{}] to lancamento field [{}]",
 								result,
-								regraResult.getArquivoInputSheetColsDef().getNameColumn());
+								regraResult.getRegisterColumn().getNameColumn());
 
 						RegraHelper
-								.setFieldValueAsBigDecimal(coParticipacaoContext, arquivoInputSheetColsDefUi, result);
+								.setFieldValueAsBigDecimal(coParticipacaoContext, RegisterColumnUi, result);
 						break;
 					}
 				}

@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
@@ -91,16 +91,16 @@ public class UserEntity extends User implements DomainEntity {
 		return super.getArquivoInputsUserAltered();
 	}
 
-	// bi-directional many-to-one association to ArquivoInputSheetColsDef
-	@OneToMany(mappedBy = "userCreated", targetEntity = ArquivoInputSheetColsDefEntity.class)
-	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserCreated() {
-		return super.getArquivoInputSheetColsDefUserCreated();
+	// bi-directional many-to-one association to RegisterColumn
+	@OneToMany(mappedBy = "userCreated", targetEntity = RegisterColumnEntity.class)
+	public List<RegisterColumn> getRegisterColumnUserCreated() {
+		return super.getRegisterColumnUserCreated();
 	}
 
-	// bi-directional many-to-one association to ArquivoInputSheetColsDef
-	@OneToMany(mappedBy = "userAltered", targetEntity = ArquivoInputSheetColsDefEntity.class)
-	public List<ArquivoInputSheetColsDef> getArquivoInputSheetColsDefUserAltered() {
-		return super.getArquivoInputSheetColsDefUserAltered();
+	// bi-directional many-to-one association to RegisterColumn
+	@OneToMany(mappedBy = "userAltered", targetEntity = RegisterColumnEntity.class)
+	public List<RegisterColumn> getRegisterColumnUserAltered() {
+		return super.getRegisterColumnUserAltered();
 	}
 
 	// bi-directional many-to-one association to ArquivoOutput

@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
@@ -34,12 +34,12 @@ public class IsentoInputSheetColsEntity extends IsentoInputSheetCols implements 
 
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetColsDefEntity.class)
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
 	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
 	@Override
-	public ArquivoInputSheetColsDef getArquivoInputSheetColsDef() {
+	public RegisterColumn getRegisterColumn() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputSheetColsDef();
+		return super.getRegisterColumn();
 	}
 
 	@Convert(converter = BeneficiarioIsentoColTypeConverter.class)

@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.io.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,12 +24,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheetColsDef;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetColsDefUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
@@ -154,7 +155,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 							}
 
 							LOGGER.info("Transforming line into Map:");
-							mapLine = readLine(spreadsheetContext, row, coParticipacaoContext);
+							validateRegisters(coParticipacaoContext, row);
+
+							mapLine = readLine(coParticipacaoContext, row);
 
 							if (!mapLine.isEmpty()) {
 								LOGGER.info("Sending line to be processed by ProcessorListener:");
@@ -189,6 +192,45 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
+	private void validateRegisters(CoParticipacaoContext coParticipacaoContext, Row row) throws ServiceException {
+		Cell cell;
+		Integer cdRegister;
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoInputSheetUi = coParticipacaoContext.getArquivoInputSheet();
+
+			/**
+			 * Se a pasta atual possuir mais de uma registro, devemos verificar
+			 * se a linha que estamos lendo é a que representa este registro,
+			 * para isto devemos utilizar a primeira coluna da pasta da
+			 * planilha, se a coluna tiver o valor do CD-REGISTER do registro,
+			 * vamos utiliza-lo.
+			 */
+			if (arquivoInputSheetUi.getRegisters().size() > NumberUtils.INTEGER_ONE) {
+				LOGGER.debug("Spreadsheet has multiple RegisterUi:");
+				cell = row.getCell(NumberUtils.INTEGER_ZERO);
+
+				if (CellType.NUMERIC.equals(cell.getCellTypeEnum())) {
+					cdRegister = (int) cell.getNumericCellValue();
+					coParticipacaoContext.getSpreadsheetContext().setCdRegister(cdRegister);
+
+					LOGGER.debug("Identifying RegisterUi with CD_REGISTER[{}]", cdRegister);
+				}
+			} else {
+				LOGGER.debug("Spreadsheet with single RegisterUi");
+				coParticipacaoContext.getSpreadsheetContext().setCdRegister(null);
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
 	private boolean isEmptyLine(Row row) throws ServiceException {
 		Cell cell;
 
@@ -213,10 +255,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected Object getCellValue(
-			SpreadsheetContext spreadsheetContext,
-			Cell cell,
-			ArquivoInputSheetColsDef arquivoInputSheetColsDef) throws ServiceException {
+	protected Object getCellValue(SpreadsheetContext spreadsheetContext, Cell cell, RegisterColumn RegisterColumn)
+			throws ServiceException {
 		Object value;
 
 		try {
@@ -253,9 +293,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				break;
 			}
 
-			LOGGER.debug("Reading cell for field[{}] with value[{}]:", arquivoInputSheetColsDef.getNameColumn(), value);
+			LOGGER.debug("Reading cell for field[{}] with value[{}]:", RegisterColumn.getNameColumn(), value);
 
-			if (ColDefType.INT.equals(arquivoInputSheetColsDef.getType())) {
+			if (ColDefType.INT.equals(RegisterColumn.getType())) {
 				value = clearMask(value);
 
 				if (NumberUtils.isNumber(value.toString())) {
@@ -263,7 +303,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				} else {
 					return NumberUtils.INTEGER_ZERO;
 				}
-			} else if (ColDefType.LONG.equals(arquivoInputSheetColsDef.getType())) {
+			} else if (ColDefType.LONG.equals(RegisterColumn.getType())) {
 				value = clearMask(value);
 
 				if (NumberUtils.isNumber(value.toString())) {
@@ -271,7 +311,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				} else {
 					return NumberUtils.LONG_ZERO;
 				}
-			} else if (ColDefType.DOUBLE.equals(arquivoInputSheetColsDef.getType())) {
+			} else if (ColDefType.DOUBLE.equals(RegisterColumn.getType())) {
 				value = clearDoubleMask(value);
 
 				if (NumberUtils.isNumber(value.toString())) {
@@ -279,22 +319,22 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				} else {
 					return BigDecimal.ZERO;
 				}
-			} else if (ColDefType.DATE.equals(arquivoInputSheetColsDef.getType())) {
+			} else if (ColDefType.DATE.equals(RegisterColumn.getType())) {
 				cell.setCellStyle(spreadsheetContext.getCellStyleDate());
 
 				if (value instanceof String) {
-					if (StringUtils.isNotBlank(arquivoInputSheetColsDef.getLocalePattern())) {
+					if (StringUtils.isNotBlank(RegisterColumn.getLocalePattern())) {
 						value = DateUtils.stringToDate(
 								(String) value,
-								arquivoInputSheetColsDef.getFormat(),
-								arquivoInputSheetColsDef.getLocalePattern());
+								RegisterColumn.getFormat(),
+								RegisterColumn.getLocalePattern());
 					} else {
-						value = DateUtils.stringToDate((String) value, arquivoInputSheetColsDef.getFormat());
+						value = DateUtils.stringToDate((String) value, RegisterColumn.getFormat());
 					}
 				} else if (value instanceof Date) {
 					value = DateUtils.dateToLocalDate((Date) value);
 				}
-			} else if (ColDefType.STRING.equals(arquivoInputSheetColsDef.getType())) {
+			} else if (ColDefType.STRING.equals(RegisterColumn.getType())) {
 				value = value.toString().trim().toUpperCase();
 			}
 
@@ -349,43 +389,40 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		return null;
 	}
 
-	protected Map<String, Object> readLine(
-			SpreadsheetContext spreadsheetContext,
-			Row row,
-			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext, Row row)
+			throws ServiceException {
 		Map<String, Object> mapLine;
 		// int cellId = NumberUtils.INTEGER_ZERO;
 		String columnName = StringUtils.EMPTY;
 		Object value;
-		ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi;
 		Cell cell;
 		ContratoUi contratoUi;
 		ArquivoInputSheetUi arquivoInputSheetUi;
+		List<RegisterColumnUi> registerColumnUis;
+		SpreadsheetContext spreadsheetContext;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			arquivoInputSheetUi = coParticipacaoContext.getMapArquivoInputSheetUi()
-					.get(coParticipacaoContext.getCurrentSheet());
+			arquivoInputSheetUi = coParticipacaoContext.getArquivoInputSheet();
+			spreadsheetContext = coParticipacaoContext.getSpreadsheetContext();
 
 			mapLine = new HashMap<String, Object>();
 
 			// cellId = NumberUtils.INTEGER_ZERO;
+			registerColumnUis = coParticipacaoContext.getRegisterColumns();
 
 			if (arquivoInputSheetUi != null) {
 				LOGGER.info("Processing sheet[{}] columns:", spreadsheetContext.getSheetName());
 
-				for (ArquivoInputSheetColsDef arquivoInputSheetColsDef : arquivoInputSheetUi
-						.getArquivoInputSheetColsDefs()) {
-					arquivoInputSheetColsDefUi = (ArquivoInputSheetColsDefUi) arquivoInputSheetColsDef;
-
-					cell = row.getCell(arquivoInputSheetColsDefUi.getOrdem());
+				for (RegisterColumnUi registerColumnUi : registerColumnUis) {
+					cell = row.getCell(registerColumnUi.getOrdem());
 
 					if (cell != null) {
-						columnName = arquivoInputSheetColsDefUi.getNameColumn();
+						columnName = registerColumnUi.getNameColumn();
 
 						LOGGER.info("Retrieving cell value for column [{}]:", columnName);
-						value = getExtendedCellValue(spreadsheetContext, cell, arquivoInputSheetColsDefUi);
+						value = getExtendedCellValue(spreadsheetContext, cell, registerColumnUi);
 
 						LOGGER.info("Cell [{}] has value [{}]:", columnName, value);
 						mapLine.put(columnName, value);
@@ -409,7 +446,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 	protected Object getExtendedCellValue(
 			SpreadsheetContext spreadsheetContext,
 			Cell cell,
-			ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi) throws ServiceException {
+			RegisterColumnUi registerColumnUi) throws ServiceException {
 		Object value;
 
 		try {
@@ -442,16 +479,16 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				break;
 			}
 
-			if (!validateRestrictedValue(arquivoInputSheetColsDefUi, value)) {
+			if (!validateRestrictedValue(registerColumnUi, value)) {
 				throw new RestrictedValueException(
 						"Ignoring line for restricted acceptable value[%s] at column[%s]:",
 						value,
-						arquivoInputSheetColsDefUi.getNameColumn());
+						registerColumnUi.getNameColumn());
 			}
 
 			LOGGER.debug("Converting value[{}]:", value);
 
-			if (ColDefType.INT.equals(arquivoInputSheetColsDefUi.getType())) {
+			if (ColDefType.INT.equals(registerColumnUi.getType())) {
 				value = clearMask(value);
 
 				if (NumberUtils2.isNumber(value.toString())) {
@@ -459,7 +496,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				} else {
 					return NumberUtils.INTEGER_ZERO;
 				}
-			} else if (ColDefType.LONG.equals(arquivoInputSheetColsDefUi.getType())) {
+			} else if (ColDefType.LONG.equals(registerColumnUi.getType())) {
 				value = clearMask(value);
 
 				if (NumberUtils2.isNumber(value.toString())) {
@@ -467,26 +504,26 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				} else {
 					return NumberUtils.LONG_ZERO;
 				}
-			} else if (ColDefType.DOUBLE.equals(arquivoInputSheetColsDefUi.getType())) {
-				if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getFormat())) {
-					value = NumberUtils2.stringToDouble(value.toString(), arquivoInputSheetColsDefUi.getFormat());
+			} else if (ColDefType.DOUBLE.equals(registerColumnUi.getType())) {
+				if (StringUtils.isNotBlank(registerColumnUi.getFormat())) {
+					value = NumberUtils2.stringToDouble(value.toString(), registerColumnUi.getFormat());
 				} else {
 					value = clearDoubleMask(value);
 				}
 
 				value = BigDecimal.valueOf((Double) value);
-			} else if (ColDefType.DATE.equals(arquivoInputSheetColsDefUi.getType())) {
+			} else if (ColDefType.DATE.equals(registerColumnUi.getType())) {
 				cell.setCellStyle(spreadsheetContext.getCellStyleDate());
 
 				if (value instanceof String) {
 					if (DateUtils.isNotZeroDate((String) value)) {
-						if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getLocalePattern())) {
+						if (StringUtils.isNotBlank(registerColumnUi.getLocalePattern())) {
 							value = DateUtils.stringToDate(
 									(String) value,
-									arquivoInputSheetColsDefUi.getFormat(),
-									arquivoInputSheetColsDefUi.getLocalePattern());
+									registerColumnUi.getFormat(),
+									registerColumnUi.getLocalePattern());
 						} else {
-							value = DateUtils.stringToDate((String) value, arquivoInputSheetColsDefUi.getFormat());
+							value = DateUtils.stringToDate((String) value, registerColumnUi.getFormat());
 						}
 					} else {
 						value = null;
@@ -494,7 +531,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				} else if (value instanceof Date) {
 					value = DateUtils.dateToLocalDate((Date) value);
 				}
-			} else if (ColDefType.STRING.equals(arquivoInputSheetColsDefUi.getType())) {
+			} else if (ColDefType.STRING.equals(registerColumnUi.getType())) {
 				value = value.toString().trim().toUpperCase();
 			}
 
@@ -509,17 +546,16 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected boolean validateRestrictedValue(ArquivoInputSheetColsDefUi arquivoInputSheetColsDefUi, Object value)
-			throws ServiceException {
+	protected boolean validateRestrictedValue(RegisterColumnUi registerColumnUi, Object value) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (StringUtils.isNotBlank(arquivoInputSheetColsDefUi.getRestrictedValue())) {
-				if (!arquivoInputSheetColsDefUi.getRestrictedValue().equals(value.toString())) {
+			if (StringUtils.isNotBlank(registerColumnUi.getRestrictedValue())) {
+				if (!registerColumnUi.getRestrictedValue().equals(value.toString())) {
 					LOGGER.info(
 							"Ignoring line for restricted acceptable value[{}] at column[{}]:",
 							value,
-							arquivoInputSheetColsDefUi.getNameColumn());
+							registerColumnUi.getNameColumn());
 					return false;
 				}
 			}
