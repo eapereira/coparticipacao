@@ -43,7 +43,7 @@ public class LancamentoInputSheetColsEntity extends LancamentoInputSheetCols {
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
+	@JoinColumn(name = "ID_REGISTER_COLUMN")
 	@Override
 	public RegisterColumn getRegisterColumn() {
 		// TODO Auto-generated method stub

@@ -2,7 +2,7 @@
 <queries>
 	<query id="listByRegisterId">
 		<![CDATA[
-			select registerColumn from RegisterColumnEntity registerColumn
+			select distinct registerColumn from RegisterColumnEntity registerColumn
 			join fetch registerColumn.register register 
 			where	register.id = registerId
 			order by register.ordem

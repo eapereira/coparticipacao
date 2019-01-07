@@ -3,9 +3,10 @@
 	<query id="listByArquivoInputId">
 		<![CDATA[
 			select beneficiarioCols from BeneficiarioColsEntity beneficiarioCols
-			join fetch beneficiarioCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
-			join fetch arquivoInputSheetColsDef.arquivoInputSheet arquivoInputSheet
-			join fetch arquivoInputSheet.arquivoInput arquivoInput
+			join fetch beneficiarioCols.registerColumn registerColumn
+			join fetch registerColumn.register register
+			join fetch register.arquivoInputSheet arquivoInputSheet
+			join arquivoInputSheet.arquivoInput arquivoInput
 			where arquivoInput.id = :arquivoInputId	
 			order by beneficiarioCols.id
 		]]>
@@ -14,8 +15,9 @@
 	<query id="listByArquivoInputSheetId">
 		<![CDATA[
 			select beneficiarioCols from BeneficiarioColsEntity beneficiarioCols
-			join fetch beneficiarioCols.arquivoInputSheetColsDef arquivoInputSheetColsDef
-			join fetch arquivoInputSheetColsDef.arquivoInputSheet arquivoInputSheet
+			join fetch beneficiarioCols.registerColumn registerColumn
+			join fetch registerColumn.register register
+			join fetch register.arquivoInputSheet arquivoInputSheet
 			where arquivoInputSheet.id = :arquivoInputSheetId	
 			order by beneficiarioCols.id
 		]]>

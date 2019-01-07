@@ -231,7 +231,7 @@ BEGIN
 	
 	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
 	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER	_REG01										bigint( 17 ) default 2;
+	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 2;
 	
 	/***********************************************************************************************************************/
 	
@@ -301,29 +301,6 @@ BEGIN
 	
 	select max( ID ) into VAR_ID_ARQUIVO_INPUT from TB_ARQUIVO_INPUT;		
 	/*****************************************************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 234');
-	insert into TB_REGISTER(
-		ID_ARQUIVO_INPUT_SHEET,
-		NM_REGISTER,
-		CD_REGISTER,
-
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED			
-	) values (
-		VAR_ID_ARQUIVO_INPUT,
-		'REG_01',		
-		VAR_CD_REGISTER_REG01,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);	
-
-	select max( ID ) into VAR_ID_REGISTER
-	from TB_ARQUIVO_INPUT_SHEET; 
-	set VAR_CD_ORDEM = 0;
-
 	call PROC_LOG_MESSAGE('LINHA - 321');
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
@@ -347,7 +324,30 @@ BEGIN
 	from TB_ARQUIVO_INPUT_SHEET; 
 	set VAR_CD_ORDEM = 0;
 	
-	/***********************************************************************************************************************/		
+	/*****************************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 304');
+	insert into TB_REGISTER(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_REGISTER,
+		CD_REGISTER,
+
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED			
+	) values (
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'REG_01',		
+		VAR_CD_REGISTER_REG01,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	select max( ID ) into VAR_ID_REGISTER
+	from TB_REGISTER; 
+	set VAR_CD_ORDEM = 0;
+		
 	call PROC_LOG_MESSAGE('LINHA - 294');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
@@ -512,7 +512,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 455');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -528,7 +528,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 471');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -544,7 +544,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 487');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -560,7 +560,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 503');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -576,7 +576,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 519');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -592,7 +592,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 535');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,

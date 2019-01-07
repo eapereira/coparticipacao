@@ -252,8 +252,8 @@ BEGIN
 	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
 	declare VAR_CD_FORMAT_VL_ORIGINAL										varchar( 10 ) default "#,000.00";
 	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER	_REG01										bigint( 17 ) default 1;
-	declare	VAR_CD_REGISTER	_REG02										bigint( 17 ) default 2;
+	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 1;
+	declare	VAR_CD_REGISTER_REG02										bigint( 17 ) default 2;
 	
 	/***********************************************************************************************************************/
 	
@@ -350,7 +350,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED			
 	) values (
-		VAR_ID_ARQUIVO_INPUT,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'REG_01',		
 		VAR_CD_REGISTER_REG01,
 		
@@ -360,7 +360,7 @@ BEGIN
 	);	
 
 	select max( ID ) into VAR_ID_REGISTER
-	from TB_ARQUIVO_INPUT_SHEET; 
+	from TB_REGISTER; 
 	set VAR_CD_ORDEM = 0;
 	
 	call PROC_LOG_MESSAGE('LINHA - 343');
@@ -876,12 +876,12 @@ BEGIN
 	
     call PROC_LOG_MESSAGE('LINHA - 814');
     insert into TB_LANCAMENTO_INPUT_SHEET (
-        ID_REGISTER,
+        ID_ARQUIVO_INPUT_SHEET,
         
         USER_CREATED,
         DT_CREATED,
         DT_ALTERED ) values (
-        VAR_ID_REGISTER,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
         
         VAR_ID_USER,
         current_timestamp(),
@@ -895,7 +895,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -914,7 +914,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -932,7 +932,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -950,7 +950,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -968,7 +968,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -986,7 +986,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,

@@ -37,7 +37,7 @@ public class ArquivoOutputDesconhecidoColsDefEntity extends ArquivoOutputDesconh
 
 	// bi-directional many-to-one association to ArquivoInput
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
+	@JoinColumn(name = "ID_REGISTER_COLUMN")
 	@Override
 	public RegisterColumn getRegisterColumn() {
 		// TODO Auto-generated method stub

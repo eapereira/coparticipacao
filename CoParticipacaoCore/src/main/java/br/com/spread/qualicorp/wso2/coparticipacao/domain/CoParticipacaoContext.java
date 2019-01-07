@@ -845,7 +845,7 @@ public class CoParticipacaoContext {
 		LOGGER.info("BEGIN");
 
 		for (Register register : arquivoInputSheetUi.getRegisters()) {
-			if (getSpreadsheetContext().getCdRegister() != null) {
+			if (getSpreadsheetContext() != null && getSpreadsheetContext().getCdRegister() != null) {
 				if (register.getCdRegister().equals(getSpreadsheetContext().getCdRegister())) {
 					for (RegisterColumn registerColumn : register.getRegisterColumns()) {
 						registerColumnUis.add((RegisterColumnUi) registerColumn);

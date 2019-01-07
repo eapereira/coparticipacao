@@ -299,7 +299,7 @@ BEGIN
 	declare	VAR_CD_SHEET												int( 3 ) default 0;
     declare	VAR_CD_ORDEM												int( 3 ) default 0;
 	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER	_REG01										bigint( 17 ) default 0;
+	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
     
 	/***********************************************************************************************************************/
 	
@@ -2730,7 +2730,7 @@ BEGIN
     call PROC_LOG_MESSAGE( 'LINHA - 2527' );
     insert into TB_BENEFICIARIO_COLS(
         CD_BENEFICIARIO_COLS_DEF,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
 
         USER_CREATED,
         DT_CREATED,
@@ -2746,7 +2746,7 @@ BEGIN
 	call PROC_LOG_MESSAGE( 'LINHA - 2543' );
     insert into TB_BENEFICIARIO_COLS(
         CD_BENEFICIARIO_COLS_DEF,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
 
         USER_CREATED,
         DT_CREATED,
@@ -2762,7 +2762,7 @@ BEGIN
 	call PROC_LOG_MESSAGE( 'LINHA - 2575' );
     insert into TB_BENEFICIARIO_COLS(
         CD_BENEFICIARIO_COLS_DEF,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
 
         USER_CREATED,
         DT_CREATED,
@@ -2778,7 +2778,7 @@ BEGIN
 	call PROC_LOG_MESSAGE( 'LINHA - 2607' );
     insert into TB_BENEFICIARIO_COLS(
         CD_BENEFICIARIO_COLS_DEF,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
 
         USER_CREATED,
         DT_CREATED,
@@ -2794,7 +2794,7 @@ BEGIN
     call PROC_LOG_MESSAGE( 'LINHA - 2639' );
     insert into TB_BENEFICIARIO_COLS(
         CD_BENEFICIARIO_COLS_DEF,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
 
         USER_CREATED,
         DT_CREATED,
@@ -2810,7 +2810,7 @@ BEGIN
     call PROC_LOG_MESSAGE( 'LINHA - 2671' );
     insert into TB_BENEFICIARIO_COLS(
         CD_BENEFICIARIO_COLS_DEF,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
 
         USER_CREATED,
         DT_CREATED,

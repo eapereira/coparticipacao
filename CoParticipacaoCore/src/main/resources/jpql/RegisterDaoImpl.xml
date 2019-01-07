@@ -2,11 +2,11 @@
 <queries>
 	<query id="listByArquivoInputSheetId">
 		<![CDATA[
-			select register from RegisterEntity register
+			select distinct register from RegisterEntity register
 			join fetch register.arquivoInputSheet arquivoInputSheet
 			join fetch register.registerColumns registerColumns
 			where	arquivoInputSheet.id = :arquivoInputSheetId
-			order by register.ordem
+			order by registerColumns.ordem
 		]]>
 	</query>
 

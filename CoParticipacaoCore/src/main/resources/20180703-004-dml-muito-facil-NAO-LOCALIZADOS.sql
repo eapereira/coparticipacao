@@ -189,7 +189,7 @@ BEGIN
 	declare	VAR_CD_SHEET_8CH5Y											int( 3 ) default 0;
 	declare	VAR_CD_SHEET_8CHE8											int( 3 ) default 1;
 	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER	_REG01										bigint( 17 ) default 0;
+	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
 	
 	/***********************************************************************************************************************/
 	
@@ -266,7 +266,7 @@ BEGIN
 	/*****************************************************************************************************************************************************/
 	/*****************************************************************************************************************************************************/
 	/* FATUCOPA  */
-	call PROC_LOG_MESSAGE('LINHA - 234');
+	call PROC_LOG_MESSAGE('LINHA - 269');
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
 		CD_SHEET,
@@ -289,7 +289,31 @@ BEGIN
 	from TB_ARQUIVO_INPUT_SHEET; 
 	set VAR_CD_ORDEM = 0;
 	
-	call PROC_LOG_MESSAGE('LINHA - 162');
+	/*****************************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 293');
+	insert into TB_REGISTER(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_REGISTER,
+		CD_REGISTER,
+
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED			
+	) values (
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'REG_01',		
+		VAR_CD_REGISTER_REG01,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	select max( ID ) into VAR_ID_REGISTER
+	from TB_REGISTER; 
+	set VAR_CD_ORDEM = 0;
+	
+	call PROC_LOG_MESSAGE('LINHA - 316');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -312,32 +336,8 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_SHEET01_COLUMN_01_NR_MATRICULA from TB_REGISTER_COLUMN;
-	
-	/*****************************************************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 234');
-	insert into TB_REGISTER(
-		ID_ARQUIVO_INPUT_SHEET,
-		NM_REGISTER,
-		CD_REGISTER,
-
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED			
-	) values (
-		VAR_ID_ARQUIVO_INPUT,
-		'REG_01',		
-		VAR_CD_REGISTER_REG01,
 		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);	
-
-	select max( ID ) into VAR_ID_REGISTER
-	from TB_ARQUIVO_INPUT_SHEET; 
-	set VAR_CD_ORDEM = 0;
-	
-	call PROC_LOG_MESSAGE('LINHA - 198');
+	call PROC_LOG_MESSAGE('LINHA - 364');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -361,7 +361,7 @@ BEGIN
 	
 	select max( ID ) into VAR_SHEET01_COLUMN_02_NM_BENEFICIARIO from TB_REGISTER_COLUMN;
 
-	call PROC_LOG_MESSAGE('LINHA - 222');
+	call PROC_LOG_MESSAGE('LINHA - 388');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -385,7 +385,7 @@ BEGIN
 	
 	select max( ID ) into VAR_SHEET01_COLUMN_03_NR_CPF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 246');
+	call PROC_LOG_MESSAGE('LINHA - 412');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -412,7 +412,7 @@ BEGIN
 	/*****************************************************************************************************************************************************/
 	/*****************************************************************************************************************************************************/
 	/* FATUCOPA  */
-	call PROC_LOG_MESSAGE('LINHA - 234');
+	call PROC_LOG_MESSAGE('LINHA - 439');
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
 		CD_SHEET,
@@ -435,7 +435,31 @@ BEGIN
 	from TB_ARQUIVO_INPUT_SHEET; 
 	set VAR_CD_ORDEM = 0;
 	
-	call PROC_LOG_MESSAGE('LINHA - 162');
+	/*****************************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 234');
+	insert into TB_REGISTER(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_REGISTER,
+		CD_REGISTER,
+
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED			
+	) values (
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'REG_01',		
+		VAR_CD_REGISTER_REG01,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	select max( ID ) into VAR_ID_REGISTER
+	from TB_REGISTER; 
+	set VAR_CD_ORDEM = 0;
+	
+	call PROC_LOG_MESSAGE('LINHA - 438');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -459,7 +483,7 @@ BEGIN
 	
 	select max( ID ) into VAR_SHEET02_COLUMN_01_NR_MATRICULA from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 198');
+	call PROC_LOG_MESSAGE('LINHA - 486');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -483,7 +507,7 @@ BEGIN
 	
 	select max( ID ) into VAR_SHEET02_COLUMN_02_NM_BENEFICIARIO from TB_REGISTER_COLUMN;
 
-	call PROC_LOG_MESSAGE('LINHA - 222');
+	call PROC_LOG_MESSAGE('LINHA - 510');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -507,7 +531,7 @@ BEGIN
 	
 	select max( ID ) into VAR_SHEET02_COLUMN_03_NR_CPF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 246');
+	call PROC_LOG_MESSAGE('LINHA - 534');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -534,10 +558,10 @@ BEGIN
 	/*****************************************************************************************************************************************************/
 	/*****************************************************************************************************************************************************/
 	/* BENEFICIÁRIO */	
-	call PROC_LOG_MESSAGE('LINHA - 481');
+	call PROC_LOG_MESSAGE('LINHA - 561');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -550,10 +574,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 481');
+	call PROC_LOG_MESSAGE('LINHA - 577');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -566,10 +590,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 542');
+	call PROC_LOG_MESSAGE('LINHA - 593');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -582,10 +606,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 290');
+	call PROC_LOG_MESSAGE('LINHA - 609');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -598,14 +622,14 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 306');
+	call PROC_LOG_MESSAGE('LINHA - 625');
 	
 	/*****************************************************************************************************************************************************/
 	/* BENEFICIÁRIO */	
-	call PROC_LOG_MESSAGE('LINHA - 481');
+	call PROC_LOG_MESSAGE('LINHA - 629');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -618,10 +642,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 481');
+	call PROC_LOG_MESSAGE('LINHA - 645');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -634,10 +658,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 542');
+	call PROC_LOG_MESSAGE('LINHA - 661');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -650,10 +674,10 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 290');
+	call PROC_LOG_MESSAGE('LINHA - 677');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -666,7 +690,7 @@ BEGIN
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 306');			
+	call PROC_LOG_MESSAGE('LINHA - 693');			
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/
 

@@ -42,7 +42,7 @@ public class RegraFieldEntity extends RegraField implements DomainEntity {
 
 	// bi-directional many-to-one association to RegraOperation
 	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET_COLS_DEF")
+	@JoinColumn(name = "ID_REGISTER_COLUMN")
 	public RegisterColumn getRegisterColumn() {
 		return super.getRegisterColumn();
 	}

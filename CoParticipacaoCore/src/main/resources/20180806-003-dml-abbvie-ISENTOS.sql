@@ -124,7 +124,7 @@ BEGIN
     declare VAR_CD_SHEET												int( 3 ) default 0;
 	declare VAR_CD_ORDEM												int( 3 ) default 0;
 	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER	_REG01										bigint( 17 ) default 0;
+	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
 	
 	/***********************************************************************************************************************/
 	
@@ -224,7 +224,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED			
 	) values (
-		VAR_ID_ARQUIVO_INPUT,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
 		'REG_01',		
 		VAR_CD_REGISTER_REG01,
 		
@@ -234,7 +234,7 @@ BEGIN
 	);	
 
 	select max( ID ) into VAR_ID_REGISTER
-	from TB_ARQUIVO_INPUT_SHEET; 
+	from TB_REGISTER; 
 	set VAR_CD_ORDEM = 0;
 	
 	call PROC_LOG_MESSAGE('LINHA - 1379');
@@ -320,13 +320,13 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 293');
 	/* MECSAS */
 	insert into TB_ISENTO_INPUT_SHEET(
-		ID_REGISTER,
+		ID_ARQUIVO_INPUT_SHEET,
 		TP_ISENTO,
 		
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_ID_REGISTER,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
 		null,
 
 		VAR_ID_USER,
@@ -340,7 +340,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 314');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
@@ -360,7 +360,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 334');	
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,
@@ -380,7 +380,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 354');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		CD_BENEFICIARIO_ISENTO_COLS_DEF,
 		
 		USER_CREATED,

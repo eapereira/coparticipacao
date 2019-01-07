@@ -236,7 +236,7 @@ BEGIN
     declare VAR_CD_SHEET                    							bigint( 17 ) default 0;		
     declare VAR_CD_ORDEM                    							bigint( 17 ) default 0;		
 	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER	_REG01										bigint( 17 ) default 0;
+	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
     
 	/***********************************************************************************************************************/
 	
@@ -298,7 +298,7 @@ BEGIN
 
 	/*****************************************************************************************************************************************************/
 	/* FATUCOPA  */
-	call PROC_LOG_MESSAGE('LINHA - 234');
+	call PROC_LOG_MESSAGE('LINHA - 301');
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
 		CD_SHEET,
@@ -321,7 +321,31 @@ BEGIN
 	from TB_ARQUIVO_INPUT_SHEET; 
 	set VAR_CD_ORDEM = 0;
 
-	call PROC_LOG_MESSAGE('LINHA - 176');
+	/*****************************************************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 325');
+	insert into TB_REGISTER(
+		ID_ARQUIVO_INPUT_SHEET,
+		NM_REGISTER,
+		CD_REGISTER,
+
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED			
+	) values (
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		'REG_01',		
+		VAR_CD_REGISTER_REG01,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	select max( ID ) into VAR_ID_REGISTER
+	from TB_REGISTER; 
+	set VAR_CD_ORDEM = 0;
+
+	call PROC_LOG_MESSAGE('LINHA - 348');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -344,31 +368,7 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_ID_COLUMN_01 from TB_REGISTER_COLUMN; 
-	
-	/*****************************************************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 234');
-	insert into TB_REGISTER(
-		ID_ARQUIVO_INPUT_SHEET,
-		NM_REGISTER,
-		CD_REGISTER,
-
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED			
-	) values (
-		VAR_ID_ARQUIVO_INPUT,
-		'REG_01',		
-		VAR_CD_REGISTER_REG01,
 		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);	
-
-	select max( ID ) into VAR_ID_REGISTER
-	from TB_ARQUIVO_INPUT_SHEET; 
-	set VAR_CD_ORDEM = 0;
-	
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -822,14 +822,14 @@ BEGIN
 	/***********************************************************************************************************************/
 	/* FATU-COPA.1 */
 	    
-    call PROC_LOG_MESSAGE('LINHA - 760');
+    call PROC_LOG_MESSAGE('LINHA - 825');
     insert into TB_LANCAMENTO_INPUT_SHEET (
-        ID_REGISTER,
+        ID_ARQUIVO_INPUT_SHEET,
         
         USER_CREATED,
         DT_CREATED,
         DT_ALTERED ) values (
-        VAR_ID_REGISTER,
+        VAR_ID_ARQUIVO_INPUT_SHEET,
         
         VAR_ID_USER,
         current_timestamp(),
@@ -838,11 +838,11 @@ BEGIN
     
     select max( ID ) into VAR_ID_LANCAMENTO_INPUT_SHEET from TB_LANCAMENTO_INPUT_SHEET;
 	
-    call PROC_LOG_MESSAGE('LINHA - 718');
+    call PROC_LOG_MESSAGE('LINHA - 841');
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -861,7 +861,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -879,7 +879,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -897,7 +897,7 @@ BEGIN
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
 		CD_LANCAMENTO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -914,7 +914,7 @@ BEGIN
  	call PROC_LOG_MESSAGE('LINHA - 299');
     insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
         ID_LANCAMENTO_INPUT_SHEET,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
         CD_LANCAMENTO_COLS_DEF,
         
         USER_CREATED,
@@ -932,7 +932,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 317');
     insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
         ID_LANCAMENTO_INPUT_SHEET,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
         CD_LANCAMENTO_COLS_DEF,
         
         USER_CREATED,
@@ -950,7 +950,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 335');
     insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
         ID_LANCAMENTO_INPUT_SHEET,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
         CD_LANCAMENTO_COLS_DEF,
         
         USER_CREATED,
@@ -968,7 +968,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 353');
     insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
         ID_LANCAMENTO_INPUT_SHEET,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
         CD_LANCAMENTO_COLS_DEF,
         
         USER_CREATED,
@@ -986,7 +986,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 353');
     insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
         ID_LANCAMENTO_INPUT_SHEET,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
         CD_LANCAMENTO_COLS_DEF,
         
         USER_CREATED,
@@ -1001,10 +1001,10 @@ BEGIN
         current_timestamp()	
     );
     
-    call PROC_LOG_MESSAGE('LINHA - 773');
+    call PROC_LOG_MESSAGE('LINHA - 1004');
     insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
         ID_LANCAMENTO_INPUT_SHEET,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
         CD_LANCAMENTO_COLS_DEF,
         
         USER_CREATED,
@@ -1019,10 +1019,10 @@ BEGIN
         current_timestamp()	
     );
 
-    call PROC_LOG_MESSAGE('LINHA - 313');
+    call PROC_LOG_MESSAGE('LINHA - 1022');
     insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
         ID_LANCAMENTO_INPUT_SHEET,
-        ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+        ID_REGISTER_COLUMN,
         CD_LANCAMENTO_COLS_DEF,
         
         USER_CREATED,
@@ -1041,13 +1041,13 @@ BEGIN
 	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/
 
-	call PROC_LOG_MESSAGE('LINHA - 773');
+	call PROC_LOG_MESSAGE('LINHA - 1044');
 	insert into TB_REGRA(
 		NM_REGRA,
 		DESCR_REGRA,
 		TP_REGRA,
 		CD_ORDEM,
-		ID_REGISTER,
+		ID_ARQUIVO_INPUT_SHEET,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1056,7 +1056,7 @@ BEGIN
 		'MARJAN.8C5Z8 - Regra para Valor do Arquivo FATUCOPA MARJAN dividido por 100',
 		1, /* SIMPLES */
 		0,
-		VAR_ID_REGISTER,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1088,7 +1088,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 815');
 	insert into TB_REGRA_FIELD(
 		ID_REGRA_OPERATION,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1120,7 +1120,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 3912');
 	insert into TB_REGRA_RESULT(
 		ID_REGRA,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -1141,7 +1141,7 @@ BEGIN
 		DESCR_REGRA,
 		TP_REGRA,
 		CD_ORDEM,
-		ID_REGISTER,
+		ID_ARQUIVO_INPUT_SHEET,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1150,7 +1150,7 @@ BEGIN
 		'MARJAN.8C5Z8 - Regra para multiplicar o VL_PRINCIPAL por ( -1 ) se o valor da coluna COLUMN_13_POSITIVO_NEGATIVO for igual a ( - )',
 		2, /* CONDICIONAL */
 		0,
-		VAR_ID_REGISTER,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1182,7 +1182,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 3972');
 	insert into TB_REGRA_FIELD(
 		ID_REGRA_OPERATION,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1214,7 +1214,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 4004');
 	insert into TB_REGRA_RESULT(
 		ID_REGRA,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 		
 		USER_CREATED,
 		DT_CREATED,
@@ -1231,14 +1231,14 @@ BEGIN
 	insert into TB_REGRA_CONDITIONAL(
 		NM_REGRA_CONDITIONAL,
 		CD_ORDEM,
-		ID_REGISTER,
+		ID_ARQUIVO_INPUT_SHEET,
 	
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
 		'MARJAN.8C5Z8 - Regra para mudar o sinal do campo VL_PRINCIPAL dependendo do valor (+/-) do campo VL_NEGATIVO_POSITIVO',
 		0,
-		VAR_ID_REGISTER,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1270,7 +1270,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 4060');
 	insert into TB_REGRA_CONDITIONAL_FIELD(
 		ID_REGRA_CONDITIONAL_OPERATION,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1323,7 +1323,7 @@ BEGIN
     call PROC_LOG_MESSAGE('LINHA - 1848');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1339,7 +1339,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 1879');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1355,7 +1355,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 4834');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1371,7 +1371,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 4850');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,
@@ -1387,7 +1387,7 @@ BEGIN
 	call PROC_LOG_MESSAGE('LINHA - 1111');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
-		ID_ARQUIVO_INPUT_SHEET_COLS_DEF,
+		ID_REGISTER_COLUMN,
 	
 		USER_CREATED,
 		DT_CREATED,

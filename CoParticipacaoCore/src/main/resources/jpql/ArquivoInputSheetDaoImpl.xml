@@ -5,9 +5,9 @@
 			select distinct arquivoInputSheet from ArquivoInputSheetEntity arquivoInputSheet
 			join fetch arquivoInputSheet.arquivoInput arquivoInput
 			left outer join fetch arquivoInputSheet.contrato contrato
-			join fetch arquivoInputSheet.registerColumns registerColumns
+			join fetch arquivoInputSheet.registers registers
 			where	arquivoInput.id	= :arquivoInputId
-			order by arquivoInputSheet.sheetId, registerColumns.ordem
+			order by arquivoInputSheet.sheetId
 		]]>
 	</query>
 

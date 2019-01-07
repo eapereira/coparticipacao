@@ -33,6 +33,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -63,6 +64,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetC
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.NaoLocalizadoService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegisterService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraConditionalService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
@@ -154,6 +156,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private ContratoService contratoService;
+
+	@Autowired
+	private RegisterService registerService;
 
 	private static final Long USER_ADMIN_ID = 1l;
 
@@ -644,6 +649,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 				coParticipacaoContext.setMapDependenteUiByMatricula(mapDependenteUi);
 			}
 
+			loadRegisterInfo(coParticipacaoContext);
+
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);
 			coParticipacaoContext.setDesconhecidoUis(desconhecidoUis);
@@ -653,7 +660,31 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
 		}
+	}
 
+	private void loadRegisterInfo(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		List<RegisterUi> registerUis;
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (ArquivoInputSheet arquivoInputSheet : coParticipacaoContext.getArquivoInputUi()
+					.getArquivoInputSheets()) {
+				arquivoInputSheetUi = coParticipacaoContext.findArquivoInputSheetById(arquivoInputSheet.getSheetId());
+
+				registerUis = registerService.listByArquivoInputSheet(arquivoInputSheetUi);
+				arquivoInputSheetUi.getRegisters().clear();
+				arquivoInputSheetUi.getRegisters().addAll(registerUis);
+
+				LOGGER.debug("Sheet[{}] has [{}] RegisterUis:", arquivoInputSheetUi.getSheetId(), registerUis.size());
+			}
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 	private void loadBeneficiarioCols(CoParticipacaoContext coParticipacaoContext) throws ServiceException {

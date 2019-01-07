@@ -749,6 +749,7 @@ create table TB_REGISTER(
 	ID_ARQUIVO_INPUT_SHEET		bigint( 17 ) not null,
 	NM_REGISTER					varchar( 60 ) not null,		
 	CD_REGISTER					int( 3 ) not null,
+	CD_ORDEM					int( 3 ) not null default 0,
 	
 	VERSION						bigint( 17 ) null,
 	USER_CREATED				bigint( 17 ) not null,

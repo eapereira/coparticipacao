@@ -25,7 +25,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ColDe
  *
  */
 @Entity
-@Table(name = "TB_REGISTER_COLUMMN")
+@Table(name = "TB_REGISTER_COLUMN")
 @NamedQuery(name = "RegisterColumnEntity.findAll", query = "SELECT o FROM RegisterColumnEntity o")
 public class RegisterColumnEntity extends RegisterColumn implements DomainEntity {
 
