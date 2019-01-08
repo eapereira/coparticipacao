@@ -47,6 +47,8 @@ public class LancamentoDetailUi implements Serializable {
 	private Integer subFatura;
 	
 	private String descrUtilizacao;
+	
+	private String matriculaEspecial;
 
 	public LancamentoDetailUi() {
 		super();
@@ -218,6 +220,14 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setDescrUtilizacao(String utilizacao) {
 		this.descrUtilizacao = utilizacao;
+	}
+
+	public String getMatriculaEspecial() {
+		return matriculaEspecial;
+	}
+
+	public void setMatriculaEspecial(String matriculaEspecial) {
+		this.matriculaEspecial = matriculaEspecial;
 	}
 
 }

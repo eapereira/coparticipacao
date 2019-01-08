@@ -13,9 +13,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ValorType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoInputSheetColsUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoDetailService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
@@ -77,6 +77,8 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					lancamentoDetailUi.setSubFatura((Integer) value);
 				} else if (LancamentoColType.DESCR_UTILIZACAO.equals(lancamentoColType)) {
 					lancamentoDetailUi.setDescrUtilizacao((String) value);
+				} else if (LancamentoColType.NR_MATRICULA_ESPECIAL.equals(lancamentoColType)) {
+					lancamentoDetailUi.setMatriculaEspecial((String) value);
 				} else {
 					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 				}
@@ -186,8 +188,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					.listLancamentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
 
 			for (LancamentoInputSheetCols lancamentoInputSheetCols : lancamentoInputSheetColss) {
-				if (lancamentoInputSheetCols.getRegisterColumn().getId()
-						.equals(arquivoInputColsDefUi.getId())) {
+				if (lancamentoInputSheetCols.getRegisterColumn().getId().equals(arquivoInputColsDefUi.getId())) {
 					LOGGER.info("END");
 					return (LancamentoInputSheetColsUi) lancamentoInputSheetCols;
 				}
@@ -310,8 +311,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 						"Using LancamentoInputCols[{}]",
 						lancamentoInputSheetCols.getLancamentoColType().getDescription());
 
-				RegisterColumnUi = (RegisterColumnUi) lancamentoInputSheetCols
-						.getRegisterColumn();
+				RegisterColumnUi = (RegisterColumnUi) lancamentoInputSheetCols.getRegisterColumn();
 
 				value = coParticipacaoContext.getMapLine().get(RegisterColumnUi.getNameColumn());
 

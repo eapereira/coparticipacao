@@ -10,10 +10,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FixedLengthProcessorService;
 

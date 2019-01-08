@@ -32,6 +32,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.EndProcessException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
@@ -186,6 +187,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 			LOGGER.info("Total of lines processed [{}]:", currentLine);
 			LOGGER.info("END");
+		} catch (EndProcessException e) {
+			LOGGER.info("Task has ended for not being possible to process register:");
+			LOGGER.info(e.getMessage());
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
@@ -194,7 +198,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 	private void validateRegisters(CoParticipacaoContext coParticipacaoContext, Row row) throws ServiceException {
 		Cell cell;
-		Integer cdRegister;
+		Integer cdRegister = null;
 		ArquivoInputSheetUi arquivoInputSheetUi;
 
 		try {
@@ -215,6 +219,13 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				if (CellType.NUMERIC.equals(cell.getCellTypeEnum())) {
 					cdRegister = (int) cell.getNumericCellValue();
+				} else if (CellType.STRING.equals(cell.getCellTypeEnum())) {
+					if (NumberUtils2.isNumber(cell.getStringCellValue())) {
+						cdRegister = NumberUtils.toInt(cell.getStringCellValue());
+					}
+				}
+
+				if (cdRegister != null) {
 					coParticipacaoContext.getSpreadsheetContext().setCdRegister(cdRegister);
 
 					LOGGER.debug("Identifying RegisterUi with CD_REGISTER[{}]", cdRegister);

@@ -26,7 +26,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UFType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioColsUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
@@ -35,6 +34,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoundException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
@@ -185,6 +185,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			beneficiarioUi.getBeneficiarioDetail().setCdUsuario(lancamentoDetailUi.getCdUsuario());
 			beneficiarioUi.getBeneficiarioDetail().setSubFatura(lancamentoDetailUi.getSubFatura());
+			beneficiarioUi.getBeneficiarioDetail().setMatriculaEspecial(lancamentoDetailUi.getMatriculaEspecial());
 
 			LOGGER.info("END");
 			return beneficiarioUi;
@@ -677,16 +678,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi = new BeneficiarioUi();
 
 			for (BeneficiarioColsUi beneficiarioColsUi : beneficiarioColsUis) {
-				RegisterColumnUi = (RegisterColumnUi) beneficiarioColsUi
-						.getRegisterColumn();
+				RegisterColumnUi = (RegisterColumnUi) beneficiarioColsUi.getRegisterColumn();
 
 				LOGGER.debug("Using mapped column[{}]:", RegisterColumnUi.getNameColumn());
 				value = coParticipacaoContext.getColumnValue(RegisterColumnUi);
 
-				LOGGER.info(
-						"Retrieving value [{}] from column [{}]",
-						value,
-						RegisterColumnUi.getNameColumn());
+				LOGGER.info("Retrieving value [{}] from column [{}]", value, RegisterColumnUi.getNameColumn());
 
 				if (isNotZero(value)) {
 					setValueField(beneficiarioColsUi.getBeneficiarioColType(), beneficiarioUi, value);
@@ -1057,12 +1054,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							 * automaticamente, vamos transformá-lo em Titular:
 							 */
 							LOGGER.info(
-									"BeneficiarioUi [{}] with CPF [{}] and Matricula [{}] cannot be created as a DependenteUi:",
+									"BeneficiarioUi [{}] with CPF [{}] and Matricula [{}] cannot be created as a DependenteUi, no TitularUi found:",
 									beneficiarioUi.getNameBeneficiario(),
 									beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
 							throw new BeneficiarioNotFoundException(
-									"BeneficiarioUi [%s] with CPF [%s] and Matricula [%s] cannot be created as a DependenteUi:",
+									"BeneficiarioUi [%s] with CPF [%s] and Matricula [%s] cannot be created as a DependenteUi, no TitularUi found:",
 									beneficiarioUi.getNameBeneficiario(),
 									beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());

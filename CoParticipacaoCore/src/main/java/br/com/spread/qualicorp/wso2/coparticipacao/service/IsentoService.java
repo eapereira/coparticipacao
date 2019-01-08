@@ -4,17 +4,14 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColT
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 
 /**
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public interface IsentoService {
-
-	boolean hasIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException;
-
-	void processIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException;
+public interface IsentoService extends SpreadsheetProcessorListener {
 
 	void saveIsentos(CoParticipacaoContext coParticipacaoContext) throws ServiceException;
 

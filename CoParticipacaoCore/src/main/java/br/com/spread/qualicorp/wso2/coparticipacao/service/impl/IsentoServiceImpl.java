@@ -18,7 +18,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColT
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoType;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
@@ -26,9 +25,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.IsentoInputSheetUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.EndProcessException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
@@ -43,7 +43,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
  *
  */
 @Service
-public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorListener {
+public class IsentoServiceImpl implements IsentoService {
 
 	private static final Logger LOGGER = LogManager.getLogger(IsentoServiceImpl.class);
 
@@ -65,28 +65,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 	@Autowired
 	private BeneficiarioService beneficiarioService;
 
-	public boolean hasIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
-		List<IsentoInputSheetCols> isentoInputSheetCols;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			isentoInputSheetCols = coParticipacaoContext
-					.listIsentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
-
-			if (!isentoInputSheetCols.isEmpty()) {
-				return true;
-			}
-
-			LOGGER.info("END");
-			return false;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	public void processIsento(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		TitularUi titularUi = null;
 		IsentoInputSheetUi isentoInputSheetUi;
 		List<IsentoInputSheetCols> isentoInputSheetCols;
@@ -97,6 +76,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info("Stating Isento processing:");
 
 			isentoInputSheetCols = coParticipacaoContext
 					.listIsentoInputSheetColsBySheetId(coParticipacaoContext.getCurrentSheet());
@@ -115,6 +95,12 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 						beneficiarioIsentoUi.getMatricula(),
 						beneficiarioIsentoUi.getCpf());
 
+				if (StringUtils.isBlank(beneficiarioIsentoUi.getName())
+						&& StringUtils.isBlank(beneficiarioIsentoUi.getNameTitular())) {
+					throw new EndProcessException(
+							"Found a BeneficiarioIsentoUi without DependenteUi.NAME nad TitularUi.NAME, closing task.");
+				}
+
 				if (beneficiarioIsentoUi.getIsentoType() != null) {
 					isentoType = beneficiarioIsentoUi.getIsentoType();
 				} else {
@@ -123,7 +109,7 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 
 				if (isentoType == null) {
 					throw new ServiceException(
-							"There is no ISENTO_TYPE defined for BeneficiarioIsentoUi[{}]:",
+							"There is no ISENTO_TYPE defined for BeneficiarioIsentoUi[{%s]:",
 							beneficiarioIsentoUi.getName());
 				}
 
@@ -155,6 +141,9 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 			}
 
 			LOGGER.info("END");
+		} catch (EndProcessException e) {
+			LOGGER.info(e.getMessage());
+			throw e;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -253,8 +242,8 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 				beneficiarioIsentoColType = beneficiarioIsentoInputCol.getBeneficiarioIsentoColType();
 
 				if (beneficiarioIsentoColType != null) {
-					value = coParticipacaoContext.getColumnValue(
-							(RegisterColumnUi) beneficiarioIsentoInputCol.getRegisterColumn());
+					value = coParticipacaoContext
+							.getColumnValue((RegisterColumnUi) beneficiarioIsentoInputCol.getRegisterColumn());
 
 					LOGGER.info(
 							"Transfering value [{}] to BeneficiarioIsento [{}]:",
@@ -387,19 +376,6 @@ public class IsentoServiceImpl implements IsentoService, SpreadsheetProcessorLis
 			LOGGER.info("Removing all Isentos in this month:");
 			dependenteIsentoService.deleteByMesAndAno(empresaUi, mes, ano);
 			titularIsentoService.deleteByMesAndAno(empresaUi, mes, ano);
-
-			LOGGER.info("END");
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
-		try {
-			LOGGER.info("BEGIN");
-			LOGGER.info("Stating Isento processing:");
-			processIsento(coParticipacaoContext);
 
 			LOGGER.info("END");
 		} catch (Exception e) {

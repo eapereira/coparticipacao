@@ -143,7 +143,8 @@ select
 	lancamento.CPF_DEPENDENTE,
 	lancamento.NR_MATRICULA_DEPENDENTE,
 	lancamento.NR_LOCAL
-from VW_LANCAMENTO_LEVEL01_HOC lancamento;
+from VW_LANCAMENTO_LEVEL01_HOC lancamento
+where lancamento.VL_PRINCIPAL > 0;
 
 create view VW_ISENCAO_GESTANTES_LEVEL01_HOC as
 select

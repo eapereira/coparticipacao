@@ -60,7 +60,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.FatucopaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.IsentoService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetColsService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoInputSheetService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.NaoLocalizadoService;
@@ -147,9 +146,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 	@Autowired
 	private LancamentoInputSheetService lancamentoInputSheetService;
-
-	@Autowired
-	private LancamentoInputSheetColsService lancamentoInputSheetColsService;
 
 	@Autowired
 	private ArquivoOutputService arquivoOutputService;
