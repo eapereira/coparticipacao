@@ -175,7 +175,7 @@ BEGIN
 	declare VAR_TP_ISENTO_VALOR_CENTAVO									int( 3 ) default 8;
 	declare VAR_TP_ISENTO_DEMITIDO										int( 3 ) default 9;		
 	
-	
+	declare VAR_CD_FORMAT_DMYYYY										varchar( 20 ) default 'd/M/yyyy';
 	declare VAR_CD_FORMAT_DDMMYY										varchar( 20 ) default 'dd/MM/yy';
 	declare VAR_CD_FORMAT_DDMMYYYY										varchar( 20 ) default 'dd/MM/yyyy';
 	declare VAR_CD_ORDEM												int( 3 ) default 0;
@@ -878,7 +878,7 @@ BEGIN
 		'COLUMN_006_DT_NASCIMENTO',
 		VAR_COL_DATE,
 		null,
-		VAR_CD_FORMAT_DDMMYYYY,
+		VAR_CD_FORMAT_DMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

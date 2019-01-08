@@ -469,7 +469,11 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				}
 				break;
 			case FORMULA:
-				value = cell.getNumericCellValue();
+				if (DateUtil.isCellDateFormatted(cell)) {
+					value = DateUtils.dateToLocalDate(cell.getDateCellValue());
+				} else {
+					value = cell.getNumericCellValue();
+				}
 				break;
 			case BLANK:
 				value = StringUtils.EMPTY;
