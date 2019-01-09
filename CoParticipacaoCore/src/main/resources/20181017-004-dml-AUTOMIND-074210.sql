@@ -254,8 +254,8 @@ BEGIN
 	
 	declare VAR_TP_REGRA_OPERATION_ADD										int( 3 )  default 1;
 	declare VAR_TP_REGRA_OPERATION_SUBSTRACT								int( 3 )  default 2;
-	declare VAR_TP_REGRA_OPERATION_DIVIDE									int( 3 )  default 3;
-	declare VAR_TP_REGRA_OPERATION_MULTIPLY									int( 3 )  default 4;
+	declare VAR_TP_REGRA_OPERATION_MULTIPLY									int( 3 )  default 3;
+	declare VAR_TP_REGRA_OPERATION_DIVIDE									int( 3 )  default 4;
 	declare VAR_TP_REGRA_OPERATION_EQUALS									int( 3 )  default 5;
 	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS								int( 3 )  default 6;
 	
@@ -1477,6 +1477,24 @@ BEGIN
 		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_NR_MATRICULA_ESPECIAL,
 		VAR_ID_SHEET01_REG01_COLUMN_011_NR_MATRICULA_ESPECIAL,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);	
+
+	call PROC_LOG_MESSAGE('LINHA - 1484');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
+		CD_LANCAMENTO_COLS_DEF,
+		ID_REGISTER_COLUMN,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
+		VAR_COL_LANCAMENTO_NM_BENEFICIARIO,
+		VAR_ID_SHEET01_REG01_COLUMN_004_NM_TITULAR,
 		
 		VAR_ID_USER,
 		current_timestamp(),

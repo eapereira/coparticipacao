@@ -76,7 +76,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				coParticipacaoContext.setBeneficiarioUi(beneficiarioUi);
 
 				LOGGER.info(
-						"Validating Dependente[{}] with NR_CPF[{}] and using NR_MATRICULA[{}]:",
+						"Validating Beneficiario[{}] with NR_CPF[{}] and using NR_MATRICULA[{}]:",
 						beneficiarioUi.getNameBeneficiario(),
 						beneficiarioUi.getCpf(),
 						beneficiarioUi.getMatricula());
@@ -186,6 +186,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.getBeneficiarioDetail().setCdUsuario(lancamentoDetailUi.getCdUsuario());
 			beneficiarioUi.getBeneficiarioDetail().setSubFatura(lancamentoDetailUi.getSubFatura());
 			beneficiarioUi.getBeneficiarioDetail().setMatriculaEspecial(lancamentoDetailUi.getMatriculaEspecial());
+
+			if (beneficiarioUi.getMatricula() == null) {
+				beneficiarioUi.setMatricula(beneficiarioUi.getMatriculaTitular());
+			}
 
 			LOGGER.info("END");
 			return beneficiarioUi;
