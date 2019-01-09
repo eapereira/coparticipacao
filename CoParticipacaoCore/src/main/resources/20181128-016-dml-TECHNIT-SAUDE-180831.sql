@@ -262,8 +262,8 @@ BEGIN
 	
 	declare VAR_TP_REGRA_OPERATION_ADD										int( 3 )  default 1;
 	declare VAR_TP_REGRA_OPERATION_SUBSTRACT								int( 3 )  default 2;
-	declare VAR_TP_REGRA_OPERATION_DIVIDE									int( 3 )  default 3;
-	declare VAR_TP_REGRA_OPERATION_MULTIPLY									int( 3 )  default 4;
+	declare VAR_TP_REGRA_OPERATION_MULTIPLY									int( 3 )  default 3;
+	declare VAR_TP_REGRA_OPERATION_DIVIDE									int( 3 )  default 4;
 	declare VAR_TP_REGRA_OPERATION_EQUALS									int( 3 )  default 5;
 	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS								int( 3 )  default 6;
 	

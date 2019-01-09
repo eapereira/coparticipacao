@@ -1322,12 +1322,24 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
 				titularUi = coParticipacaoContext
 						.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameTitular());
+
+				if (titularUi == null) {
+					titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
+							beneficiarioUi.getMatricula(),
+							beneficiarioUi.getNameTitular());
+				}
 			}
 
 			if (titularUi == null) {
 				if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
 					titularUi = coParticipacaoContext
 							.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
+
+					if (titularUi == null) {
+						titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getNameBeneficiario());
+					}
 				}
 			}
 
