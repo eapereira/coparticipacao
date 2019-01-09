@@ -748,7 +748,9 @@ public class CoParticipacaoContext {
 		if (getMapArquivoInputSheetUi().containsKey(sheetId)) {
 			arquivoInputSheetUi = getMapArquivoInputSheetUi().get(sheetId);
 		} else {
-			arquivoInputSheetUi = getMapArquivoInputSheetUi().get(NumberUtils.INTEGER_ZERO);
+			if (getContratoUi().isSpreadsheetAllPages()) {
+				arquivoInputSheetUi = getMapArquivoInputSheetUi().get(NumberUtils.INTEGER_ZERO);
+			}
 		}
 
 		LOGGER.info("END");

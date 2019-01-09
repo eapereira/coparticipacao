@@ -51,4 +51,22 @@ public class OswaldoCruzTest extends CoParticipacaoTest {
 		LOGGER.info("END");
 	}
 
+	@Test
+	public void testCoparticipacao201810() throws Exception {
+		LOGGER.info("BEGIN");
+
+		hocBean.testCoparticipacao201810(this);
+
+		LOGGER.info("END");
+	}
+
+	@Test
+	public void testCoparticipacao201810AfterUserValidation() throws Exception {
+		LOGGER.info("BEGIN");
+
+		hocBean.testCoparticipacao201810AfterUserValidation(this);
+
+		LOGGER.info("END");
+	}
+	
 }

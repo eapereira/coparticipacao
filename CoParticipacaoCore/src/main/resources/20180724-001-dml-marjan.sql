@@ -37,7 +37,7 @@ BEGIN
 	
 	declare VAR_TP_REPORT_QUERY_BY_CONTRATO_AND_PERIODO		int( 3 ) default 0;
 	declare VAR_TP_REPORT_QUERY_BY_PERIODO_ONLY				int( 3 ) default 1;
-	declare VAR_TP_REPORT_QUERY_BY_CD_CONTRATO				int( 3 ) default 2;
+	declare VAR_TP_REPORT_QUERY_BY_SINGLE_CONTRATO			int( 3 ) default 2;
 	
 	declare VAR_ARQUIVO_TYPE_FLATFILE		int( 3 ) default 1;
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
@@ -194,7 +194,7 @@ BEGIN
         '/home/eapereira/desenv/work/coparticipacao/output/',
         VAR_FALSE,
         VAR_FALSE,		
-        VAR_TP_REPORT_QUERY_BY_CD_CONTRATO,
+        VAR_TP_REPORT_QUERY_BY_CONTRATO_AND_PERIODO,
 		
 		VAR_ID_USER,
 		current_timestamp(),

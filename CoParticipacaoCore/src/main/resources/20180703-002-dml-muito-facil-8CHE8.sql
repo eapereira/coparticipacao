@@ -268,27 +268,10 @@ BEGIN
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
     where NM_EMPRESA = 'MUITO-FACIL';
     	
-	call PROC_LOG_MESSAGE('LINHA - 157');
-    insert into TB_CONTRATO(
-        ID_EMPRESA,
-        CD_CONTRATO,	
-        NM_CONTRATO,
-        DESCR_CONTRATO,
-        TP_USE,
-        
-        USER_CREATED, 
-        DT_CREATED,
-        DT_ALTERED ) values (	
-        VAR_ID_EMPRESA,
-        '8CHE8',
-        '8CHE8',
-        VAR_NM_CONTRATO_COPARTICIPACAO,
-        VAR_USE_TYPE_FATUCOPA,
-        
-        VAR_ID_USER,
-        current_timestamp(),
-        current_timestamp()
-    );
+    call PROC_LOG_MESSAGE('LINHA - 157');
+	select ID into VAR_ID_CONTRATO from TB_CONTRATO
+	where	ID_EMPRESA	= VAR_ID_EMPRESA
+	and		CD_CONTRATO = '8CHE8';    	
 
     select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;    
 

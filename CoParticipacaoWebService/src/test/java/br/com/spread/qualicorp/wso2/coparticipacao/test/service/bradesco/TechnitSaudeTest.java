@@ -40,10 +40,10 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 	private static final String FATUCOPA_201812 = "technit-saude/input/180831.180831.201812.004.xlsx";
 	private static final String NAO_LOCALIZADO_201812 = "technit-saude/input/180831.NAO-LOCALIZADO.201812.002.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 346;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 158;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 1919;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 310;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 358;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 2259;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";

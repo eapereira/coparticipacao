@@ -28,7 +28,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
@@ -67,6 +66,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		CellStyle cellStyleDate;
 		SpreadsheetContext spreadsheetContext;
 		int sheetId = NumberUtils.INTEGER_MINUS_ONE;
+		int validRegisterLine = NumberUtils.INTEGER_ZERO;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -139,6 +139,11 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 								LOGGER.info("Ignoring sheet [{}]:", sheet.getSheetName());
 								continue;
 							}
+						} else {
+							if (!validateSheet(coParticipacaoContext)) {
+								LOGGER.info("Ignoring sheet [{}]:", sheet.getSheetName());
+								continue;
+							}
 						}
 
 						LOGGER.info("Processing sheet [{}]:", sheet.getSheetName());
@@ -167,15 +172,22 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 								coParticipacaoContext.setCurrentLine(currentLine);
 
 								processorListener.processLine(coParticipacaoContext);
+
+								validRegisterLine++;
 							}
 
 							currentLine++;
 						}
+
+						LOGGER.info(
+								"Spreadsheet[{}] reading completed:",
+								coParticipacaoContext.getSpreadsheetContext().getSheetName());
 					} else {
 						LOGGER.debug("Hidden sheet found [{}]:", sheet.getSheetName());
 					}
 				}
 
+				LOGGER.info("Total of registers processed[{}]:", validRegisterLine);
 				processorListener.afterProcess(coParticipacaoContext);
 			} else {
 				LOGGER.info(
@@ -190,6 +202,38 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		} catch (EndProcessException e) {
 			LOGGER.info("Task has ended for not being possible to process register:");
 			LOGGER.info(e.getMessage());
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	private boolean validateSheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			arquivoInputSheetUi = coParticipacaoContext
+					.findArquivoInputSheetById(coParticipacaoContext.getCurrentSheet());
+
+			LOGGER.info(
+					"Validating if we have to read the sheet[{}]:",
+					coParticipacaoContext.getSpreadsheetContext().getSheetName());
+
+			/*
+			 * Se não existir um ArquivoInputSheetUi para controlar a sheet da
+			 * planilha, não deveremos carregar as linhas desta pasta:
+			 */
+			if (arquivoInputSheetUi != null) {
+				LOGGER.info("Accepted sheet[{}]:", coParticipacaoContext.getSpreadsheetContext().getSheetName());
+				LOGGER.info("END");
+				return true;
+			}
+
+			LOGGER.info("Ignoring sheet[{}]:", coParticipacaoContext.getSpreadsheetContext().getSheetName());
+			LOGGER.info("END");
+			return false;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e);
@@ -403,11 +447,9 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext, Row row)
 			throws ServiceException {
 		Map<String, Object> mapLine;
-		// int cellId = NumberUtils.INTEGER_ZERO;
 		String columnName = StringUtils.EMPTY;
 		Object value;
 		Cell cell;
-		ContratoUi contratoUi;
 		ArquivoInputSheetUi arquivoInputSheetUi;
 		List<RegisterColumnUi> registerColumnUis;
 		SpreadsheetContext spreadsheetContext;

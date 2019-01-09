@@ -735,7 +735,14 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							throw new BeneficiarioNotFoundException("The column[NM_BENEFICIARIO] must be defined:");
 						}
 
-						if (beneficiarioUi.getNameBeneficiario().equals(beneficiarioUi.getNameTitular())) {
+						if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+							if (beneficiarioUi.getNameBeneficiario().equals(beneficiarioUi.getNameTitular())) {
+								beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+								LOGGER.info("END");
+								return true;
+							}
+						} else {
 							beneficiarioUi.setType(BeneficiarioType.TITULAR);
 
 							LOGGER.info("END");

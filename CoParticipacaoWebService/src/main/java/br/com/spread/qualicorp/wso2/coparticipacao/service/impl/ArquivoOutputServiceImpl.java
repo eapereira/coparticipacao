@@ -99,6 +99,7 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 
 	public void writeOutputFile(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		List<ArquivoOutputUi> arquivoOutputUis;
+		ContratoUi parent;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -114,13 +115,15 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 			} else {
 				writeCoparticipacaoOutputFile(coParticipacaoContext);
 
-				arquivoOutputUis = listByEmpresaIdAndUseType(coParticipacaoContext.getEmpresaUi(), UseType.EXTRA_FILE);
+				parent = coParticipacaoContext.getContratoUi();
 
-				for (ArquivoOutputUi arquivoOutputUi : arquivoOutputUis) {
-					LOGGER.info(
-							"Creating addictional output file for Contrato[{}]:",
-							arquivoOutputUi.getArquivoInput().getContrato().getCdContrato());
-					flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi);
+				if (!parent.getChildren().isEmpty()) {
+					for (Contrato contrato : parent.getChildren()) {
+						for (ArquivoOutput arquivoOutput : contrato.getArquivoInput().getArquivoOutputs()) {
+							LOGGER.info("Creating addictional output file for Contrato[{}]:", contrato.getCdContrato());
+							flatFileWriterService.write(coParticipacaoContext, (ArquivoOutputUi) arquivoOutput);
+						}
+					}
 				}
 			}
 

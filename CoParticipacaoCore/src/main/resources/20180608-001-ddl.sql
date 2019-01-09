@@ -201,7 +201,13 @@ create table TB_EMPRESA(
 	 * 0 - QUERY_BY_CONTRATO		- Usar ID_CONTRATO nas queryes p/ criar as planilhas de saída;
 	 * 1 - QUERY_BY_PERIODO_ONLY	- Usar apenas mês e ano;
 	 */
-	TP_REPORT_QUERY int( 3 ) null,
+	TP_REPORT_QUERY 						int( 3 ) null,
+	
+	/**
+	 * 0 - MULTIPLE_CONTRATO 	- Imprime todos os contratos da empresa num único arquivo, uma pasta por contrato;
+	 * 1 - SINGLE_CONTRATO		- Imprime apenas um único contrato por arquivo 
+	 */
+	TP_REPORT_LAYOUT_TYPE					int( 3 ) not null default 0,						
 	
 	CD_AUTOMATIC_CREATE_BENEFICIARIO		int( 3 ) not null default 0,
 	CD_INPUT_DIR 							varchar( 800 ) not null,
