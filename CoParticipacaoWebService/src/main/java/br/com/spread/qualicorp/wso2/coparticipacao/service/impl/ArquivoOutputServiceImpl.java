@@ -119,12 +119,24 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 				parent = coParticipacaoContext.getContratoUi();
 
 				if (!parent.getChildren().isEmpty()) {
+					LOGGER.info(
+							"ContratoUi[{}] has children contratos and they will generate ArquivoOutputUis:",
+							parent.getCdContrato());
+
 					for (Contrato contrato : parent.getChildren()) {
 						arquivoOutputUis = listByContrato((ContratoUi) contrato);
 
-						for (ArquivoOutputUi arquivoOutputUi : arquivoOutputUis) {
-							LOGGER.info("Creating addictional output file for Contrato[{}]:", contrato.getCdContrato());
-							flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi);
+						if (!arquivoOutputUis.isEmpty()) {
+							for (ArquivoOutputUi arquivoOutputUi : arquivoOutputUis) {
+								LOGGER.info(
+										"Creating addictional output file for Contrato[{}]:",
+										contrato.getCdContrato());
+								flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi);
+							}
+						} else {
+							throw new ServiceException(
+									"Must be defined an ArquivoOutputUi for child ContratoUi[{}]",
+									contrato.getCdContrato());
 						}
 					}
 				}

@@ -272,7 +272,8 @@ BEGIN
     select ID into VAR_ID_EMPRESA from TB_EMPRESA
     where CD_EMPRESA = '0444';
     
-	select ID into VAR_ID_CONTRATO from TB_CONTRATO
+	select ID into VAR_ID_CONTRATO
+	from TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
 	and 	CD_CONTRATO = '0444'; 
 
@@ -1241,10 +1242,7 @@ BEGIN
 	
 	select ID into VAR_ID_VIEW_DESTINATION_ISENCAO_VALOR_HOC from TB_VIEW_DESTINATION
 	where NM_VIEW = 'VW_ISENCAO_VALOR_HOC';
-	
-	select ID into VAR_ID_VIEW_DESTINATION_PRN_HOC from TB_VIEW_DESTINATION
-	where NM_VIEW = 'VW_PRN_HOC';
-	            		
+		            		
 	/*********************************************************************************************************************************************/
 	
 	call PROC_LOG_MESSAGE('LINHA - 1179');
@@ -1482,50 +1480,6 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION_PRN_HOC,
 		'PRN',
 		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);	
-			
-	/*********************************************************************************************************************************************/
-	/*********************************************************************************************************************************************/
-	/* PRN */
-		
-	call PROC_LOG_MESSAGE('LINHA - 188');
-	insert into TB_ARQUIVO_OUTPUT(
-		ID_ARQUIVO_INPUT,
-		NM_ARQUIVO_FORMAT,
-		DESCR_ARQUIVO,
-		TP_ARQUIVO,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_ARQUIVO_INPUT,
-		'HOC-SAS_(Saúde)_Coparticipacao_({YYYY}_{MM}).prn',
-		'Arquivo de saída para a carga dos lançamentos FATU COPA',
-		VAR_ARQUIVO_TYPE_FLATFILE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	select max( ID ) into VAR_ID_ARQUIVO_OUTPUT from TB_ARQUIVO_OUTPUT;
-	
-    call PROC_LOG_MESSAGE('LINHA - 374');
-	insert into TB_ARQUIVO_OUTPUT_SHEET(
-		ID_ARQUIVO_OUTPUT,
-		ID_VIEW_DESTINATION,
-		NM_SHEET,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_ARQUIVO_OUTPUT,
-		VAR_ID_VIEW_DESTINATION_PRN_HOC,
-		'PRN',
 		
 		VAR_ID_USER,
 		current_timestamp(),

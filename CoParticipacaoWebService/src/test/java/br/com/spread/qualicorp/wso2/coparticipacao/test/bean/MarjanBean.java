@@ -75,6 +75,13 @@ public class MarjanBean {
 	private static final String FATUCOPA_8C7XX_201810 = "marjan/input/MARJAN.8C7XX.201810.006.TXT";
 	private static final String NAO_LOCALIZADO_201810 = "marjan/input/MARJAN.NAO-LOCALIZADO.201810.004.xlsx";
 
+	private static final String MECSAS_201811 = "marjan/input/MARJAN.MECSAS.201811.001.csv";
+	private static final String MECSAS2_201811 = "marjan/input/MARJAN.MECSAS2.201811.002.xlsx";
+	private static final String ISENTOS_201811 = "marjan/input/MARJAN.ISENTO.201811.004.xlsx";
+	private static final String FATUCOPA_8C5Z8_201811 = "marjan/input/MARJAN.8C5Z8.201811.005.txt";
+	private static final String FATUCOPA_8C7XX_201811 = "marjan/input/MARJAN.8C7XX.201811.006.txt";
+	private static final String NAO_LOCALIZADO_201811 = "marjan/input/MARJAN.NAO-LOCALIZADO.201811.003.xlsx";
+
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 481;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201802 = 565;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 18;
@@ -122,6 +129,20 @@ public class MarjanBean {
 	private static final int NUM_TOTAL_FATUCOPA_201810_AFTER_USER_RETURN = 167;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN = 19;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 14;
+
+	private static final int NUM_TOTAL_TITULARES_201811 = 741;
+	private static final int NUM_TOTAL_DEPENDENTES_201811 = 644;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201811 = 10;
+	private static final int NUM_TOTAL_FATUCOPA_201811 = 205;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 19;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 7;
+
+	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 745;
+	private static final int NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN = 654;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201811_AFTER_USER_RETURN = 0;
+	private static final int NUM_TOTAL_FATUCOPA_201811_AFTER_USER_RETURN = 215;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 19;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 7;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";
@@ -454,6 +475,89 @@ public class MarjanBean {
 		Assert.assertEquals(NUM_TOTAL_FATUCOPA_201810_AFTER_USER_RETURN, lancamentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN, titularIsentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN, dependenteIsentoUis.size());
+	}
+
+	public void testCoparticipacao201811(CoParticipacaoTest coParticipacaoTest) throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		List<TitularIsentoUi> titularIsentoUis;
+		List<DependenteIsentoUi> dependenteIsentoUis;
+		EmpresaUi empresaUi = empresaService.findByName("Marjan");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201811);
+
+		coParticipacaoTest.processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
+		dependenteIsentoUis = dependenteIsentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
+		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_201811, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_201811, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_201811, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_FATUCOPA_201811, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201811, titularIsentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201811, dependenteIsentoUis.size());
+	}
+
+	public void testCoparticipacao201811AfterUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		List<TitularIsentoUi> titularIsentoUis;
+		List<DependenteIsentoUi> dependenteIsentoUis;
+		EmpresaUi empresaUi = empresaService.findByName("Marjan");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		testCoparticipacao201811(coParticipacaoTest);
+
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C5Z8, FATUCOPA_8C5Z8_201811);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8C7XX, FATUCOPA_8C7XX_201811);
+
+		coParticipacaoTest.processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
+		dependenteIsentoUis = dependenteIsentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("After user's validation:");
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
+		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_201811_AFTER_USER_RETURN, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_FATUCOPA_201811_AFTER_USER_RETURN, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN, titularIsentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN, dependenteIsentoUis.size());
 	}
 
 }

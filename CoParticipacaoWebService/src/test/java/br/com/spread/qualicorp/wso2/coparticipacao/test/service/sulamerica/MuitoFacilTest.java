@@ -64,4 +64,13 @@ public class MuitoFacilTest extends CoParticipacaoTest {
 		LOGGER.info("END");
 	}
 
+	@Test
+	public void testCoparticipacao201901() throws Exception {
+		LOGGER.info("BEGIN");
+
+		muitoFacilBean.testCoparticipacao201901(this);
+
+		LOGGER.info("END");
+	}
+
 }

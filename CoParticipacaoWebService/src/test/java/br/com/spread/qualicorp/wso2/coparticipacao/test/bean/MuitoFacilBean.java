@@ -61,8 +61,12 @@ public class MuitoFacilBean {
 
 	private static final String FATUCOPA_8CHE8_201809 = "muito-facil/input/MUITO-FACIL.8CHE8.201809.002.TXT";
 	private static final String FATUCOPA_8CH5Y_201809 = "muito-facil/input/MUITO-FACIL.8CH5Y.201809.002.TXT";
-
 	private static final String NAO_LOCALIZADO_201809 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201809.002.xlsx";
+
+	private static final String MECSAS_201901 = "muito-facil/input/MUITO-FACIL.MECSAS.201901.001.csv";
+	private static final String FATUCOPA_8CHE8_201901 = "muito-facil/input/MUITO-FACIL.8CHE8.201901.002.txt";
+	private static final String FATUCOPA_8CH5Y_201901 = "muito-facil/input/MUITO-FACIL.8CH5Y.201901.002.txt";
+	private static final String NAO_LOCALIZADO_201901 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201901.002.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201809 = 263;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201809 = 16;
@@ -73,6 +77,11 @@ public class MuitoFacilBean {
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201809_AFTER_USER_VALIDATION = 17;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201809_AFTER_USER_VALIDATION = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809_AFTER_USER_VALIDATION = 83;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201901 = 231;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201901 = 13;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201901 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201901 = 82;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_8CH5Y = "8CH5Y";
@@ -250,6 +259,36 @@ public class MuitoFacilBean {
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201809_AFTER_USER_VALIDATION, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201809_AFTER_USER_VALIDATION, desconhecidoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809_AFTER_USER_VALIDATION, lancamentoUis.size());
+	}
+
+	public void testCoparticipacao201901(CoParticipacaoTest coParticipacaoTest) throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		EmpresaUi empresaUi = empresaService.findByName("MUITO-FACIL");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201901);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201901);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201901);
+
+		coParticipacaoTest.processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201901, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201901, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201901, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201901, lancamentoUis.size());
 	}
 
 }

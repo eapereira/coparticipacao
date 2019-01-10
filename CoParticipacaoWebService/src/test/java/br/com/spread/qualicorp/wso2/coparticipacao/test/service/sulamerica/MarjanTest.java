@@ -92,4 +92,22 @@ public class MarjanTest extends CoParticipacaoTest {
 		LOGGER.info("END");
 	}
 
+	@Test
+	public void testCoparticipacao201811() throws Exception {
+		LOGGER.info("BEGIN");
+
+		marjanBean.testCoparticipacao201811(this);
+
+		LOGGER.info("END");
+	}
+
+	@Test
+	public void testCoparticipacao201811AfterUserReturn() throws Exception {
+		LOGGER.info("BEGIN");
+
+		marjanBean.testCoparticipacao201811AfterUserReturn(this);
+
+		LOGGER.info("END");
+	}
+	
 }

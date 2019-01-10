@@ -39,12 +39,12 @@ public class AutomindTest extends CoParticipacaoTest {
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 88;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 102;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 629;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 691;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 88;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 113;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 102;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 629;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 691;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";
