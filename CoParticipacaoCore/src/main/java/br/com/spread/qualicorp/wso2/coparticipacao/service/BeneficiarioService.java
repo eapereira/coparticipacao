@@ -36,4 +36,7 @@ public interface BeneficiarioService {
 	TitularUi findTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
 			throws ServiceException;
 
+	boolean isTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
+			throws ServiceException;
+
 }

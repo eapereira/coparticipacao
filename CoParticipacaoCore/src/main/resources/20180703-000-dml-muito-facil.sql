@@ -130,6 +130,8 @@ BEGIN
 	declare VAR_NM_CONTRATO_MECSAS2										varchar( 400 ) default 'Base de Ativos do Cliente';
 	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção';
 	
+	declare VAR_TP_REPORT_LAYOUT_TYPE_MULTIPLE_CONTRATO					int( 3 ) default 0;
+	declare VAR_TP_REPORT_LAYOUT_TYPE_SINGLE_CONTRATO					int( 3 ) default 1;
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception

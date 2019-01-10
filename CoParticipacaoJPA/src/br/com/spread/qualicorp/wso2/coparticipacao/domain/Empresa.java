@@ -57,6 +57,8 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean updateBeneficiarioFromFatucopa;
 	
 	private boolean enabled;
+	
+	private ReportLayoutType reportLayoutType;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -406,6 +408,14 @@ public abstract class Empresa extends AbstractDomain {
 		if (useJasperReports != other.useJasperReports)
 			return false;
 		return true;
+	}
+
+	public ReportLayoutType getReportLayoutType() {
+		return reportLayoutType;
+	}
+
+	public void setReportLayoutType(ReportLayoutType reportLayoutType) {
+		this.reportLayoutType = reportLayoutType;
 	}
 
 

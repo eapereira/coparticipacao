@@ -29,6 +29,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularIsentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.EndProcessException;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteIsentoService;
@@ -65,14 +66,14 @@ public class IsentoServiceImpl implements IsentoService {
 	@Autowired
 	private BeneficiarioService beneficiarioService;
 
-	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
-		TitularUi titularUi = null;
+	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		IsentoInputSheetUi isentoInputSheetUi;
 		List<IsentoInputSheetCols> isentoInputSheetCols;
 		BeneficiarioIsentoUi beneficiarioIsentoUi = null;
 		DependenteUi dependenteUi = null;
 		IsentoType isentoType = null;
 		ArquivoInputSheetUi arquivoInputSheetUi;
+		ProcessLineResult processLineResult = ProcessLineResult.READ_NEXT;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -113,10 +114,8 @@ public class IsentoServiceImpl implements IsentoService {
 							beneficiarioIsentoUi.getName());
 				}
 
-				titularUi = beneficiarioService.findTitular(coParticipacaoContext, beneficiarioIsentoUi);
-
-				if (titularUi != null) {
-					createTitularIsento(titularUi, beneficiarioIsentoUi, isentoType, coParticipacaoContext);
+				if (beneficiarioService.isTitular(coParticipacaoContext, beneficiarioIsentoUi)) {
+					createTitularIsento(coParticipacaoContext, beneficiarioIsentoUi, isentoType);
 				} else {
 					LOGGER.info(
 							"BeneficiárioIsento [{}] user of CPF[{}] is not a titular:",
@@ -141,9 +140,10 @@ public class IsentoServiceImpl implements IsentoService {
 			}
 
 			LOGGER.info("END");
+			return processLineResult;
 		} catch (EndProcessException e) {
 			LOGGER.info(e.getMessage());
-			throw e;
+			return ProcessLineResult.END_OF_SHEET;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -188,14 +188,16 @@ public class IsentoServiceImpl implements IsentoService {
 	}
 
 	private void createTitularIsento(
-			TitularUi titularUi,
+			CoParticipacaoContext coParticipacaoContext,
 			BeneficiarioIsentoUi beneficiarioIsentoUi,
-			IsentoType isentoType,
-			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+			IsentoType isentoType) throws ServiceException {
 		TitularIsentoUi titularIsentoUi;
+		TitularUi titularUi;
 
 		try {
 			LOGGER.info("BEGIN");
+
+			titularUi = beneficiarioService.findTitular(coParticipacaoContext, beneficiarioIsentoUi);
 
 			titularIsentoUi = coParticipacaoContext.findTitularIsento(titularUi);
 

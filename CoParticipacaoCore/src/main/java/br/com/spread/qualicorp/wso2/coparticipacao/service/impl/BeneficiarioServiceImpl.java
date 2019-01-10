@@ -1454,4 +1454,26 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}
+
+	public boolean isTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
+			throws ServiceException {
+		TitularUi titularUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			titularUi = findTitular(coParticipacaoContext, beneficiarioIsentoUi);
+
+			if (titularUi != null && titularUi.getNameTitular().equals(beneficiarioIsentoUi.getName())) {
+				LOGGER.info("END");
+				return true;
+			}
+
+			LOGGER.info("END");
+			return false;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
 }

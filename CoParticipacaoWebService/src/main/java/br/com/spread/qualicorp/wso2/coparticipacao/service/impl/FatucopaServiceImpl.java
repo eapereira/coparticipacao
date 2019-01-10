@@ -18,6 +18,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoDetailUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.LancamentoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoOutputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
@@ -67,11 +68,12 @@ public class FatucopaServiceImpl implements FatucopaService {
 	@Autowired
 	private DesconhecidoBatchService desconhecidoBatchService;
 
-	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		LancamentoUi lancamentoUi;
 		TitularUi titularUi;
 		DependenteUi dependenteUi;
 		LancamentoDetailUi lancamentoDetailUi;
+		ProcessLineResult processLineResult = ProcessLineResult.READ_NEXT;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -121,6 +123,7 @@ public class FatucopaServiceImpl implements FatucopaService {
 			}
 
 			LOGGER.info("END");
+			return processLineResult;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

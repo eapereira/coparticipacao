@@ -22,6 +22,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoun
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularNotFoundException;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
@@ -54,10 +55,11 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 	@Autowired
 	private DesconhecidoBatchService desconhecidoBatchService;
 
-	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
 		TitularUi titularUi = null;
+		ProcessLineResult processLineResult = ProcessLineResult.READ_NEXT;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -99,14 +101,19 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 			}
 
 			LOGGER.info("END");
+			return processLineResult;
 		} catch (DependenteDuplicated e) {
 			LOGGER.info(e.getMessage());
+			return processLineResult;
 		} catch (TitularDuplicated e) {
 			LOGGER.info(e.getMessage());
+			return processLineResult;
 		} catch (BeneficiarioNotFoundException e) {
 			LOGGER.debug(e.getMessage());
+			return processLineResult;
 		} catch (TitularNotFoundException e) {
 			LOGGER.debug(e.getMessage());
+			return processLineResult;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

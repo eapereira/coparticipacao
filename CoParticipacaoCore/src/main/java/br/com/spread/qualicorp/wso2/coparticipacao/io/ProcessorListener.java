@@ -10,7 +10,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
  */
 public interface ProcessorListener {
 
-	void processLine(CoParticipacaoContext coParticipacaoContext)
+	ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext)
 			throws ServiceException;
 
 	void beforeProcess(CoParticipacaoContext coParticipacaoContext)

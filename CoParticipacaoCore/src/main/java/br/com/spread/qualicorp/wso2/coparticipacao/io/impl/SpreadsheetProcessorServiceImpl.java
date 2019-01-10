@@ -33,6 +33,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputExcepti
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.EndProcessException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
@@ -67,6 +68,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		SpreadsheetContext spreadsheetContext;
 		int sheetId = NumberUtils.INTEGER_MINUS_ONE;
 		int validRegisterLine = NumberUtils.INTEGER_ZERO;
+		ProcessLineResult processLineResult;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -171,7 +173,11 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 								coParticipacaoContext.setMapLine(mapLine);
 								coParticipacaoContext.setCurrentLine(currentLine);
 
-								processorListener.processLine(coParticipacaoContext);
+								processLineResult = processorListener.processLine(coParticipacaoContext);
+
+								if (ProcessLineResult.END_OF_SHEET.equals(processLineResult)) {
+									break;
+								}
 
 								validRegisterLine++;
 							}

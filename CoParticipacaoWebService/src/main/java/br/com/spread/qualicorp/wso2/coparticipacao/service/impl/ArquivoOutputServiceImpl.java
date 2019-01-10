@@ -15,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DynamicEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportLayoutType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputEntity;
@@ -119,9 +120,11 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 
 				if (!parent.getChildren().isEmpty()) {
 					for (Contrato contrato : parent.getChildren()) {
-						for (ArquivoOutput arquivoOutput : contrato.getArquivoInput().getArquivoOutputs()) {
+						arquivoOutputUis = listByContrato((ContratoUi) contrato);
+
+						for (ArquivoOutputUi arquivoOutputUi : arquivoOutputUis) {
 							LOGGER.info("Creating addictional output file for Contrato[{}]:", contrato.getCdContrato());
-							flatFileWriterService.write(coParticipacaoContext, (ArquivoOutputUi) arquivoOutput);
+							flatFileWriterService.write(coParticipacaoContext, arquivoOutputUi);
 						}
 					}
 				}
@@ -179,8 +182,8 @@ public class ArquivoOutputServiceImpl extends AbstractServiceImpl<ArquivoOutputU
 							"Validating Contrato [{}] if is a FATUCOPA to generate reports:",
 							contrato.getCdContrato());
 
-					if (ReportQueryType.QUERY_BY_SINGLE_CONTRATO
-							.equals(coParticipacaoContext.getEmpresaUi().getReportQueryType())) {
+					if (ReportLayoutType.SINGLE_CONTRATO
+							.equals(coParticipacaoContext.getEmpresaUi().getReportLayoutType())) {
 						if (!coParticipacaoContext.getArquivoInputUi().getContrato().getId().equals(contrato.getId())) {
 							continue;
 						}

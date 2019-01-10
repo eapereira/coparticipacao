@@ -20,7 +20,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExternalProcess;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportLayoutType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportLayoutTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportQueryTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.listener.EmpresaEntityListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
@@ -218,6 +220,14 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	public boolean isEnabled() {
 		// TODO Auto-generated method stub
 		return super.isEnabled();
+	}
+
+	@Convert(converter = ReportLayoutTypeConverter.class)
+	@Column(name = "TP_REPORT_LAYOUT_TYPE")	
+	@Override
+	public ReportLayoutType getReportLayoutType() {
+		// TODO Auto-generated method stub
+		return super.getReportLayoutType();
 	}
 
 }

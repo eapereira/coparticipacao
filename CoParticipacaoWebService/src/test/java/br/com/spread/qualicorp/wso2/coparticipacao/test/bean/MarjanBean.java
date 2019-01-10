@@ -100,28 +100,28 @@ public class MarjanBean {
 	private static final int NUM_TOTAL_DESCONHECIDOS_201808 = 7;
 	private static final int NUM_TOTAL_FATUCOPA_201808 = 160;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808 = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 24;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 14;
 
 	private static final int NUM_TOTAL_TITULARES_201808_AFTER_USER_RETURN = 513;
 	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 621;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201808_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_201808_AFTER_USER_RETURN = 167;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN = 24;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN = 14;
 
 	private static final int NUM_TOTAL_TITULARES_201810 = 511;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 614;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810 = 7;
 	private static final int NUM_TOTAL_FATUCOPA_201810 = 160;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810 = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 24;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 14;
 
 	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 513;
 	private static final int NUM_TOTAL_DEPENDENTES_201810_AFTER_USER_RETURN = 621;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_201810_AFTER_USER_RETURN = 167;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 24;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 14;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";

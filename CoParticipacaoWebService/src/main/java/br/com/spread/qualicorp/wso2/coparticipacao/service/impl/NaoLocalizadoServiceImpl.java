@@ -15,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
@@ -40,11 +41,12 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 	private BeneficiarioService beneficiarioService;
 
 	@Override
-	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
 		TitularUi titularUi;
 		DesconhecidoUi desconhecidoUi;
+		ProcessLineResult processLineResult = ProcessLineResult.READ_NEXT;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -94,10 +96,13 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 			}
 
 			LOGGER.info("END");
+			return processLineResult;
 		} catch (TitularDuplicated e) {
 			LOGGER.info(e.getMessage());
+			return processLineResult;
 		} catch (DependenteDuplicated e) {
 			LOGGER.info(e.getMessage());
+			return processLineResult;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

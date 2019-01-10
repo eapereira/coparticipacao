@@ -255,7 +255,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_CONTRATO_00197
+	select max( ID ) into VAR_ID_CONTRATO
 	from TB_CONTRATO;
 	
 	call PROC_LOG_MESSAGE('LINHA - 262');
@@ -280,7 +280,8 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_CONTRATO from TB_CONTRATO;
+	select max( ID ) into VAR_ID_CONTRATO_00197 
+	from TB_CONTRATO;
 
 	call PROC_LOG_MESSAGE('LINHA - 262');
 	insert into TB_CONTRATO(
