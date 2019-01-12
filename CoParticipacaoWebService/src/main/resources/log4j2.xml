@@ -17,7 +17,12 @@
 			<Policies>
 				<TimeBasedTriggeringPolicy interval="2" modulate="true" />
 			</Policies>
-			<DefaultRolloverStrategy max="10" />			
+			<DefaultRolloverStrategy>
+		        <Delete basePath="${app.home}/logs" maxDepth="2">
+		          <IfFileName glob="*/CoParticipacaoWebService*.log.gz" />
+		          <IfLastModified age="30d" />
+		        </Delete>
+			</DefaultRolloverStrategy>						
 		</RollingFile>
 
 		<Console name="consoleAppender" target="SYSTEM_OUT" follow="true">
