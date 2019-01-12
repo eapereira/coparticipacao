@@ -130,19 +130,19 @@ public class MarjanBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN = 19;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 14;
 
-	private static final int NUM_TOTAL_TITULARES_201811 = 741;
-	private static final int NUM_TOTAL_DEPENDENTES_201811 = 644;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201811 = 10;
-	private static final int NUM_TOTAL_FATUCOPA_201811 = 205;
+	private static final int NUM_TOTAL_TITULARES_201811 = 1133;
+	private static final int NUM_TOTAL_DEPENDENTES_201811 = 725;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201811 = 5;
+	private static final int NUM_TOTAL_FATUCOPA_201811 = 210;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 7;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 13;
 
-	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 745;
-	private static final int NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN = 654;
+	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 1136;
+	private static final int NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN = 728;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201811_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_FATUCOPA_201811_AFTER_USER_RETURN = 215;
+	private static final int NUM_TOTAL_FATUCOPA_201811_AFTER_USER_RETURN = 213;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 7;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 13;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";

@@ -40,21 +40,66 @@ drop view if exists VW_TITULAR_RDP_HOC;
 /**********************************************************************************************************************/
 create view VW_DESCONHECIDO_HOC as
 select distinct
-	desconhecido.CD_MES,
-	desconhecido.CD_ANO,
-	desconhecido.ID_CONTRATO,
-    desconhecido.NR_MATRICULA,
-    desconhecido.NM_BENEFICIARIO,
-    FUNC_GET_CPF( desconhecido.NR_CPF ) NR_CPF,
-    desconhecido.VL_PRINCIPAL
-from TB_DESCONHECIDO desconhecido
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_CONTRATO,
+	empresa.ID ID_EMPRESA,
+	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
+	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_DEPENDENTE,
+	titular.NM_TITULAR NM_BENEFICIARIO,
+	FUNC_GET_CPF( titular.NR_CPF ) NR_CPF,
+	titular.NR_LOCAL,
+	titular.NR_RDP,
+	titular.DT_NASCIMENTO,
+	titular.DT_ADMISSAO,
+	lancamento.VL_PRINCIPAL
+from	TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
 	join TB_CONTRATO contrato on
-		contrato.ID = desconhecido.ID_CONTRATO
+		contrato.ID = titular.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where empresa.CD_EMPRESA = '0444'
-order by desconhecido.NM_BENEFICIARIO;
-	
+where 	lancamento.ID_DEPENDENTE is null
+and 	empresa.CD_EMPRESA = '0444'
+and (	titular.NR_MATRICULA is null or
+		titular.NR_CPF is null or
+		titular.NR_CPF = 0 or 
+		titular.NR_LOCAL is null or
+		titular.NR_RDP is null )
+union all
+select distinct
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_CONTRATO,
+	empresa.ID ID_EMPRESA,
+	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
+	FUNC_GET_MATRICULA_HOC( dependente.NR_MATRICULA, dependente.NR_RDP ) COD_DEPENDENTE,
+	dependente.NM_DEPENDENTE NM_BENEFICIARIO,
+	FUNC_GET_CPF( dependente.NR_CPF ) NR_CPF,
+	dependente.NR_LOCAL,
+	dependente.NR_RDP,
+	dependente.DT_NASCIMENTO,
+	titular.DT_ADMISSAO,
+	lancamento.VL_PRINCIPAL
+from	TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+	join TB_DEPENDENTE dependente on
+		dependente.ID 			= dependente.ID_TITULAR and
+        dependente.ID_TITULAR 	= titular.ID
+	join TB_CONTRATO contrato on
+		contrato.ID = titular.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where 	lancamento.ID_DEPENDENTE is not null
+and 	empresa.CD_EMPRESA = '0444'
+and (	dependente.NR_MATRICULA is null or
+		dependente.NR_CPF is null or
+		dependente.NR_CPF = 0 or 
+		dependente.NR_LOCAL is null or
+		dependente.NR_RDP is null );
+		
 /**********************************************************************************************************************/
 /**********************************************************************************************************************/
 
@@ -223,51 +268,25 @@ from VW_LANCAMENTO_HOC lanc_hoc
 where lanc_hoc.ID_DEPENDENTE is not null;
 
 create view VW_DESLIGADOS_LEVEL01_HOC as
-select
-	lancamento.CD_MES,
-	lancamento.CD_ANO,
-	lancamento.ID_EMPRESA,
-	lancamento.ID_CONTRATO,
-	lancamento.COD_TITULAR,
-	lancamento.COD_DEPENDENTE,
-	lancamento.NM_USUARIO,
-	lancamento.VL_PRINCIPAL TOTAL_COPART,
-	lancamento.NR_LOCAL,
-	lancamento.DT_NASCIMENTO,
-	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
-from VW_LANCAMENTO_HOC lancamento
-where lancamento.NR_MATRICULA_DEPENDENTE in (
-	select 
-		desconhecido.NR_MATRICULA
-	from VW_DESCONHECIDO_HOC desconhecido
-    where desconhecido.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE
-    and desconhecido.CD_MES 		= lancamento.CD_MES
-    and desconhecido.CD_ANO 		= lancamento.CD_ANO )
-and lancamento.ID_DEPENDENTE is null    
-union all    
-select
-	lancamento.CD_MES,
-	lancamento.CD_ANO,
-	lancamento.ID_EMPRESA,
-	lancamento.ID_CONTRATO,
-	lancamento.COD_TITULAR,
-	lancamento.COD_DEPENDENTE,
-	lancamento.NM_USUARIO,
-	lancamento.VL_PRINCIPAL TOTAL_COPART,
-	lancamento.NR_LOCAL,
-	lancamento.DT_NASCIMENTO,
-	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
-from VW_LANCAMENTO_HOC lancamento    
-where lancamento.NR_MATRICULA_DEPENDENTE in (
-	select 
-		desconhecido.NR_MATRICULA
-	from VW_DESCONHECIDO_HOC desconhecido
-    where desconhecido.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE
-    and desconhecido.CD_MES 		= lancamento.CD_MES
-    and desconhecido.CD_ANO 		= lancamento.CD_ANO )
-and lancamento.ID_DEPENDENTE is not null;
+select distinct
+	desligados.CD_MES,
+	desligados.CD_ANO,
+	empresa.ID ID_EMPRESA,
+	desligados.ID_CONTRATO,
+	FUNC_GET_MATRICULA_HOC( desligados.NR_MATRICULA, 1 ) COD_TITULAR,
+    FUNC_GET_MATRICULA_HOC( desligados.NR_MATRICULA, desligados.NR_RDP ) COD_DEPENDENTE,
+	desligados.NM_BENEFICIARIO NM_USUARIO,
+	desligados.VL_PRINCIPAL TOTAL_COPART,
+	desligados.NR_LOCAL,
+	desligados.DT_NASCIMENTO,
+	desligados.NR_CPF CPF_DEPENDENTE,
+	desligados.NR_MATRICULA NR_MATRICULA
+from TB_DESCONHECIDO desligados
+	join TB_CONTRATO contrato on
+		contrato.ID = desligados.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where contrato.CD_CONTRATO = '0444';
 
 /**********************************************************************************************************************/
 	

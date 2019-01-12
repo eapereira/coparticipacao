@@ -7,7 +7,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco;
  */
 public enum TechnitOdonto {
 
-							SEDE(1, "SEDE", new String[] { "001", "005", "006" }),
+							SEDE(1, "SEDE", new String[] { "001", "002","005", "006" }),
 							DUTRA(2, "DUTRA", new String[] { "003" });
 
 	private int id;

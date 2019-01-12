@@ -5,6 +5,7 @@
 			select titular from TitularEntity titular
 			join fetch titular.contrato contrato
 			join fetch contrato.empresa empresa
+			join fetch titular.dependentes dependentes
 			where titular.cpf = :cpf
 		]]>
 	</query>
@@ -14,6 +15,7 @@
 			select titular from TitularEntity titular
 			join fetch titular.contrato contrato
 			join fetch contrato.empresa empresa
+			left outer join fetch titular.dependentes dependentes
 			where empresa.id = :empresaId
 			order by titular.nameTitular
 		]]>
@@ -24,6 +26,7 @@
 			select titular from TitularEntity titular
 			join fetch titular.contrato contrato
 			join fetch contrato.empresa empresa
+			left outer join fetch titular.dependentes dependentes
 			where empresa.id = :empresaId
 			and titular.cpf is not null
 			order by titular.cpf, titular.nameTitular
@@ -35,6 +38,7 @@
 			select titular from TitularEntity titular
 			join fetch titular.contrato contrato
 			join fetch contrato.empresa empresa
+			left outer join fetch titular.dependentes dependentes
 			where empresa.id = :empresaId
 			order by titular.matricula, titular.nameTitular
 		]]>

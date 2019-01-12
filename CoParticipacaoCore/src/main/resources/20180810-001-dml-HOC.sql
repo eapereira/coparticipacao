@@ -99,8 +99,10 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NM_DEPENDENTE							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF									int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_NM_LOCAL								int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_NR_LOCAL								int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_NR_RDP									int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DT_NASCIMENTO							int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_DT_ADMISSAO								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_LABEL								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA							int( 3 ) default 20;
 
@@ -443,6 +445,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 225');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
@@ -662,6 +665,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 496');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
@@ -781,6 +785,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = 0;
 	
+	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 583');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
@@ -1000,6 +1005,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 225');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
@@ -1133,7 +1139,7 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION,
 		'NR_LOCAL',
 		VAR_COL_INT,
-		VAR_COL_VIEW_LENGTH_NM_LOCAL,
+		VAR_COL_VIEW_LENGTH_NR_LOCAL,
 		VAR_CD_ORDEM,
 		'LOCAL',
 		
@@ -1219,6 +1225,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 225');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
@@ -1352,7 +1359,7 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION,
 		'NR_LOCAL',
 		VAR_COL_INT,
-		VAR_COL_VIEW_LENGTH_NM_LOCAL,
+		VAR_COL_VIEW_LENGTH_NR_LOCAL,
 		VAR_CD_ORDEM,
 		'LOCAL',
 		
@@ -1438,6 +1445,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	/*********************************************************************************************************************************************/
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
 		NM_TITLE_LABEL,
@@ -1571,7 +1579,7 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION,
 		'NR_LOCAL',
 		VAR_COL_INT,
-		VAR_COL_VIEW_LENGTH_NM_LOCAL,
+		VAR_COL_VIEW_LENGTH_NR_LOCAL,
 		VAR_CD_ORDEM,
 		'LOCAL',
 		
@@ -1657,6 +1665,7 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	/*********************************************************************************************************************************************/
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
 		NM_TITLE_LABEL,
@@ -1789,7 +1798,7 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION,
 		'NR_LOCAL',
 		VAR_COL_INT,
-		VAR_COL_VIEW_LENGTH_NM_LOCAL,
+		VAR_COL_VIEW_LENGTH_NR_LOCAL,
 		VAR_CD_ORDEM,
 		'LOCAL',
 		
@@ -1875,6 +1884,7 @@ BEGIN
 		
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 225');
 	insert into TB_VIEW_DESTINATION(
 		NM_VIEW,
@@ -1945,130 +1955,6 @@ BEGIN
 	);			
 
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-	/*********************************************************************************************************************************************/
-	/* NAO-LOCALIZADOS */
-	
-	call PROC_LOG_MESSAGE('LINHA - 1522');
-	insert into TB_VIEW_DESTINATION(
-		NM_VIEW,
-		NM_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		'VW_DESCONHECIDO_HOC',
-		'Desligados',
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);	
-	
-	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;
-	set VAR_CD_ORDEM = 0;
-
-	call PROC_LOG_MESSAGE('LINHA - 1540');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'NR_MATRICULA',
-		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
-		VAR_CD_ORDEM,
-		'MATRICULA',
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);			
-
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-	call PROC_LOG_MESSAGE('LINHA - 1566');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		NM_COL_TITLE_LABEL,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'NR_CPF',
-		'CPF',
-		VAR_COL_VARCHAR,
-		VAR_COL_VIEW_LENGTH_NR_CPF,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);			
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-	call PROC_LOG_MESSAGE('LINHA - 1592');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		NM_COL_TITLE_LABEL,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'NM_BENEFICIARIO',
-		'NOME BENEFICIÁRIO',
-		VAR_COL_VARCHAR,
-		VAR_COL_VIEW_LENGTH_NM_DEPENDENTE,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);			
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-	
-	call PROC_LOG_MESSAGE('LINHA - 1618');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		NM_COL_TITLE_LABEL,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'VL_PRINCIPAL',
-		'VALOR PRINCIPAL',
-		VAR_COL_DOUBLE,
-		VAR_COL_VIEW_LENGTH_VL_PRINCIPAL,
-		VAR_CD_ORDEM,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);			
 	
 	/*********************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 182');
@@ -2208,7 +2094,7 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION,
 		'NR_LOCAL',
 		VAR_COL_INT,
-		VAR_COL_VIEW_LENGTH_NM_LOCAL,
+		VAR_COL_VIEW_LENGTH_NR_LOCAL,
 		VAR_CD_ORDEM,
 		'LOCAL',
 		
@@ -2295,7 +2181,262 @@ BEGIN
 		current_timestamp()		
 	);				
 	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;	
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/
+	/* NAO-LOCALIZADOS */
+	
+	call PROC_LOG_MESSAGE('LINHA - 1522');
+	insert into TB_VIEW_DESTINATION(
+		NM_VIEW,
+		NM_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'VW_DESCONHECIDO_HOC',
+		'Não Localizados',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);	
+	
+	select max( ID ) into VAR_ID_VIEW_DESTINATION from TB_VIEW_DESTINATION;
+	set VAR_CD_ORDEM = 0;
+
+	call PROC_LOG_MESSAGE('LINHA - 1540');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'COD_TITULAR',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
+		VAR_CD_ORDEM,
+		'COD-TITULAR',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1540');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'COD_DEPENDENTE',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
+		VAR_CD_ORDEM,
+		'COD-DEPENDENTE',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;	
+	call PROC_LOG_MESSAGE('LINHA - 1566');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_CPF',
+		'CPF',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NR_CPF,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;	
+	call PROC_LOG_MESSAGE('LINHA - 1566');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_LOCAL',
+		'LOCAL',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NR_LOCAL,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;	
+	call PROC_LOG_MESSAGE('LINHA - 2313');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_RDP',
+		'RDP',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NR_RDP,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1592');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NM_BENEFICIARIO',
+		'NOME BENEFICIÁRIO',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_DEPENDENTE,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 1592');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'DT_NASCIMENTO',
+		'DT NASCIMENTO',
+		VAR_COL_DATE,
+		VAR_COL_VIEW_LENGTH_DT_NASCIMENTO,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 1592');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'DT_ADMISSAO',
+		'DT ADMISSAO',
+		VAR_COL_DATE,
+		VAR_COL_VIEW_LENGTH_DT_ADMISSAO,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1618');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'VL_PRINCIPAL',
+		'VALOR PRINCIPAL',
+		VAR_COL_DOUBLE,
+		VAR_COL_VIEW_LENGTH_VL_PRINCIPAL,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
 	
 	call PROC_LOG_MESSAGE('LINHA - 2248');	
 	/*********************************************************************************************************************************************/

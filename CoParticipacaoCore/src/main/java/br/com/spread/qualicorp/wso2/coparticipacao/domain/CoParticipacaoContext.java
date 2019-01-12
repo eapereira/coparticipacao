@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -562,9 +563,17 @@ public class CoParticipacaoContext {
 		LOGGER.info("BEGIN");
 
 		for (DesconhecidoUi desconhecidoUi : getDesconhecidoUis()) {
-			if (desconhecidoUi.getNameBeneficiario().equals(beneficiarioUi.getNameBeneficiario())) {
-				if (UseType.FATUCOPA.equals(desconhecidoUi.getContrato().getUseType())) {
-					return desconhecidoUi;
+			if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
+				if (beneficiarioUi.getNameBeneficiario().equals(desconhecidoUi.getNameBeneficiario())) {
+					if (UseType.FATUCOPA.equals(desconhecidoUi.getContrato().getUseType())) {
+						return desconhecidoUi;
+					}
+				}
+			} else if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+				if (beneficiarioUi.getNameTitular().equals(desconhecidoUi.getNameTitular())) {
+					if (UseType.FATUCOPA.equals(desconhecidoUi.getContrato().getUseType())) {
+						return desconhecidoUi;
+					}
 				}
 			}
 		}

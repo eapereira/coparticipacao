@@ -91,7 +91,8 @@ public class IsentoServiceImpl implements IsentoService {
 
 			if (beneficiarioIsentoUi != null) {
 				LOGGER.info(
-						"Validating BeneficiarioIsentoUi with NM_BENEFICIARIO[{}], NR_MATRICULA[{}] and NR_CPF[{}]:",
+						"Validating BeneficiarioIsentoUi NM_TITULAR[{}] and NM_BENEFICIARIO[{}], NR_MATRICULA[{}] and NR_CPF[{}]:",
+						beneficiarioIsentoUi.getNameTitular(),
 						beneficiarioIsentoUi.getName(),
 						beneficiarioIsentoUi.getMatricula(),
 						beneficiarioIsentoUi.getCpf());

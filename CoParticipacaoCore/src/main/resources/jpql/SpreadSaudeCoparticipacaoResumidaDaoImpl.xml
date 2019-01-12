@@ -5,6 +5,8 @@
 			select view from SpreadSaudeCoparticipacaoResumidaViewEntity view
 			where	view.mes = :mes
 			and 	view.ano = :ano
+			and 	view.subFatura in ( :subFaturaAtivos )
+			and 	view.subFatura not in ( :subFaturaInativos )
 		]]>
 	</query>
 </queries>

@@ -433,7 +433,7 @@ from VW_DESCONHECIDO_MARJAN_LEVEL01 marjan
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
 where empresa.CD_EMPRESA = 'MARJAN'
-order by marjan.NM_DEPENDENTE;
+order by marjan.NM_TITULAR, marjan.NM_DEPENDENTE;
 
 /*********************************************************************************************************************/
 /*********************************************************************************************************************/

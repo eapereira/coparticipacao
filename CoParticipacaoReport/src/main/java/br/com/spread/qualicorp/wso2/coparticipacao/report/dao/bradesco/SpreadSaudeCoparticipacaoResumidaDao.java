@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.SpreadSaudeCoparticipacaoResumidaViewEntity;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.SpreadSaude;
 
 /**
  * 
@@ -13,5 +14,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.S
  */
 public interface SpreadSaudeCoparticipacaoResumidaDao extends AbstractDao<SpreadSaudeCoparticipacaoResumidaViewEntity> {
 
-	List<SpreadSaudeCoparticipacaoResumidaViewEntity> listByMesAndAno(Integer mes, Integer ano) throws DaoException;
+	List<SpreadSaudeCoparticipacaoResumidaViewEntity> listByMesAndAno(
+			Integer mes,
+			Integer ano,
+			List<SpreadSaude> ativos,
+			List<SpreadSaude> inativos) throws DaoException;
 }

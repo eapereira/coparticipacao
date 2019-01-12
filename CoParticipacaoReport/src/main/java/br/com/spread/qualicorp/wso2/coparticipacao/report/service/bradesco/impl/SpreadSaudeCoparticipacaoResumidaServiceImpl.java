@@ -15,6 +15,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.view.bradesc
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.view.bradesco.SpreadSaudeCoparticipacaoResumidaViewUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.SpreadSaudeCoparticipacaoResumidaView;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.dao.bradesco.SpreadSaudeCoparticipacaoResumidaDao;
+import br.com.spread.qualicorp.wso2.coparticipacao.report.domain.bradesco.SpreadSaude;
 import br.com.spread.qualicorp.wso2.coparticipacao.report.service.bradesco.SpreadSaudeCoparticipacaoResumidaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.AbstractServiceImpl;
@@ -49,7 +50,8 @@ public class SpreadSaudeCoparticipacaoResumidaServiceImpl extends
 			LOGGER.info("BEGIN");
 
 			spreadSaudeCoparticipacaoResumidaViewUis = entityToUi(
-					spreadSaudeCoparticipacaoResumidaDao.listByMesAndAno(mes, ano));
+					spreadSaudeCoparticipacaoResumidaDao
+							.listByMesAndAno(mes, ano, SpreadSaude.getAtivos(), SpreadSaude.getInativos()));
 
 			LOGGER.info("END");
 			return spreadSaudeCoparticipacaoResumidaViewUis;

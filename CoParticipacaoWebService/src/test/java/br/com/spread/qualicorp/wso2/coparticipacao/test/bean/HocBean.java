@@ -42,7 +42,7 @@ public class HocBean {
 	private static final String ISENTO_VALOR_CENTAVOS_201804 = "oswaldo-cruz/input/0444.ISENTO-CENTAVOS.201804.003.xlsx";
 	private static final String ISENTO_VALOR_201804 = "oswaldo-cruz/input/0444.ISENTO-UTILIZACAO.201804.004.xlsx";
 	private static final String FATUCOPA_201803 = "oswaldo-cruz/input/0444.0444.201803.005.csv";
-	private static final String NAO_LOCALIZADOS_201808 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201808.005.xlsx";
+	private static final String NAO_LOCALIZADOS_201803 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201803.005.xlsx";
 
 	private static final String MECSAS_201807 = "oswaldo-cruz/input/0444.MECSAS.201807.001.csv";
 	private static final String GESTANTES_201807 = "oswaldo-cruz/input/0444.ISENTO.201807.002.xlsx";
@@ -58,7 +58,7 @@ public class HocBean {
 	private static final String FATUCOPA_201810 = "oswaldo-cruz/input/0444.0444.201810.005.csv";
 	private static final String NAO_LOCALIZADOS_201810 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201810.005.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 3034;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 4948;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3909;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201803 = 1;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201803 = 2377;
@@ -86,7 +86,7 @@ public class HocBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807_AFTER_USER_VALIDATION = 321;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201807_AFTER_USER_VALIDATION = 5;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201810 = 2901;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201810 = 4749;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201810 = 3789;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201810 = 9;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201810 = 2506;
@@ -186,7 +186,7 @@ public class HocBean {
 		testCoparticipacao201803(coParticipacaoTest);
 
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201808);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
 		coParticipacaoTest

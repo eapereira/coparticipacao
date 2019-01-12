@@ -96,18 +96,18 @@ public class CargillBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 0;
 
-	private static final int NUM_TOTAL_TITULARES_201811 = 995;
+	private static final int NUM_TOTAL_TITULARES_201811 = 1616;
 	private static final int NUM_TOTAL_DEPENDENTES_201811 = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201811 = 2;
 	private static final int NUM_TOTAL_LANCAMENTOS_201811 = 131;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 5;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 6;
 
-	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 997;
+	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 1618;
 	private static final int NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201811_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201811_AFTER_USER_RETURN = 133;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 7;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 6;
 
 	@Autowired

@@ -79,6 +79,8 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					lancamentoDetailUi.setDescrUtilizacao((String) value);
 				} else if (LancamentoColType.NR_MATRICULA_ESPECIAL.equals(lancamentoColType)) {
 					lancamentoDetailUi.setMatriculaEspecial((String) value);
+				} else if (LancamentoColType.NR_LOCAL.equals(lancamentoColType)) {
+					lancamentoDetailUi.setLocal((Integer) value);
 				} else {
 					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 				}

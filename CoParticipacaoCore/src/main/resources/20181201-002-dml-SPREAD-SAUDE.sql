@@ -276,13 +276,13 @@ BEGIN
 		NM_EMPRESA,	
 		CD_EMPRESA,
 		CD_AUTOMATIC_CREATE_BENEFICIARIO,
+		CD_ACCEPT_TITULAR_WITHOUT_CPF,
+		CD_CREATE_BENEFICIARIO_FRON_MECSAS2,				
 		CD_OUTPUT_REPORT_DIR,		
         CD_INPUT_DIR,
         CD_FAILURE_DIR,
         CD_OUTPUT_DIR,
-        CD_CREATE_BENEFICIARIO_FRON_MECSAS2,
         CD_GENERATE_OUTPUT_FILE_NOFATUCOPA,
-        CD_ACCEPT_TITULAR_WITHOUT_CPF,
         TP_SAVE_MECSAS_DETAIL,
 		TP_SAVE_BENEFICIARIO_DETAIL,	
 		CD_USE_JASPER_REPORTS,			
@@ -294,14 +294,15 @@ BEGIN
 		VAR_ID_OPERADORA,
 		'SPREAD-SAUDE',
 		'073828',
-		VAR_FALSE,
+        VAR_TRUE,		
+        VAR_TRUE,		
+        VAR_TRUE,		
+		
 		'/coparticipacao/output-reports/bradesco/spread-saude/',
         '/coparticipacao/input/',
         '/coparticipacao/failure/',
 		'/coparticipacao/output/',
-		VAR_TRUE,
 		VAR_FALSE,
-		VAR_TRUE,
         VAR_FALSE,
         VAR_FALSE,
         VAR_TRUE,		
@@ -422,6 +423,7 @@ BEGIN
 	    DESCR_CONTRATO,
 	    CD_SPREADSHEET_ALL_PAGES,
 	    TP_USE,
+	    CD_ENABLED,
 	    
 		USER_CREATED, 
 		DT_CREATED,
@@ -432,6 +434,7 @@ BEGIN
 	    VAR_NM_CONTRATO_NAO_LOCALIZADO,
 	    VAR_FALSE,
 	    VAR_USE_TYPE_NAO_LOCALIZADO,
+	    VAR_FALSE,
 	    
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1047,6 +1050,7 @@ BEGIN
 	insert into TB_SUBFATURA( ID_EMPRESA, NR_SUBFATURA, NM_SUBFATURA, USER_CREATED, DT_CREATED, DT_ALTERED ) values ( VAR_ID_EMPRESA, 180, 'Spread Sistemas e Automação (Petrobrás)', VAR_ID_USER,    current_timestamp(),	current_timestamp());
 	insert into TB_SUBFATURA( ID_EMPRESA, NR_SUBFATURA, NM_SUBFATURA, USER_CREATED, DT_CREATED, DT_ALTERED ) values ( VAR_ID_EMPRESA, 186, 'NL', VAR_ID_USER,    current_timestamp(),	current_timestamp());
 	insert into TB_SUBFATURA( ID_EMPRESA, NR_SUBFATURA, NM_SUBFATURA, USER_CREATED, DT_CREATED, DT_ALTERED ) values ( VAR_ID_EMPRESA, 193, 'Spread Comercio de Equipamentos', VAR_ID_USER,    current_timestamp(),	current_timestamp());
+	insert into TB_SUBFATURA( ID_EMPRESA, NR_SUBFATURA, NM_SUBFATURA, USER_CREATED, DT_CREATED, DT_ALTERED ) values ( VAR_ID_EMPRESA, 202, 'Spread Sistemas de Automação Ltda.', VAR_ID_USER,    current_timestamp(),	current_timestamp());
 	insert into TB_SUBFATURA( ID_EMPRESA, NR_SUBFATURA, NM_SUBFATURA, USER_CREATED, DT_CREATED, DT_ALTERED ) values ( VAR_ID_EMPRESA, 300, 'Spread Tecnologia em Sistemas (Diretoria)', VAR_ID_USER,    current_timestamp(),	current_timestamp());
 	insert into TB_SUBFATURA( ID_EMPRESA, NR_SUBFATURA, NM_SUBFATURA, USER_CREATED, DT_CREATED, DT_ALTERED ) values ( VAR_ID_EMPRESA, 851, 'Extensão Inativos (Demitidos)', VAR_ID_USER,    current_timestamp(),	current_timestamp());
 	insert into TB_SUBFATURA( ID_EMPRESA, NR_SUBFATURA, NM_SUBFATURA, USER_CREATED, DT_CREATED, DT_ALTERED ) values ( VAR_ID_EMPRESA, 852, 'Extensão Inativos (Aposentados)', VAR_ID_USER,    current_timestamp(),	current_timestamp());

@@ -6,7 +6,8 @@ import java.util.List;
 /**
  * Enumerado com as <code>SUBFATURAS</code> utilizadas pela Spread para
  * diferenciar as empresas que devem ser listadas nos relatórios de
- * Coparticipação do sistema.
+ * Coparticipação do sistema. Ao alterar este enum, não se esqueça de modificar
+ * a tabela <code><b>TB_SUBFATURAS<b></code> para ter os registros das empresa.
  * 
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
@@ -33,6 +34,7 @@ public enum SpreadSaude {
 							SPREAD_TECNOLOGIA_SISTEMAS_180(180, "Spread Sistemas e Automação (Petrobrás)"),
 							NL_186(186, "NL"),
 							SPREAD_EQUIPAMENTOS_193(193, "Spread Comercio de Equipamentos"),
+							SPREAD_AUTOMACAO_202(202, "Spread Sistemas de Automação Ltda."),
 							SPREAD_TECNOLOGIA_SISTEMAS_300(300, "Spread Tecnologia em Sistemas (Diretoria)"),
 							SPREAD_DEMITIDOS_851(851, "Extensão Inativos (Demitidos)"),
 							SPREAD_APOSENTADOS_852(852, "Extensão Inativos (Aposentados)");
@@ -85,6 +87,7 @@ public enum SpreadSaude {
 		spreadSaudes.add(SPREAD_TECNOLOGIA_SISTEMAS_180);
 		spreadSaudes.add(NL_186);
 		spreadSaudes.add(SPREAD_EQUIPAMENTOS_193);
+		spreadSaudes.add(SPREAD_AUTOMACAO_202);
 		spreadSaudes.add(SPREAD_TECNOLOGIA_SISTEMAS_300);
 
 		return spreadSaudes;

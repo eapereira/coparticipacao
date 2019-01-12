@@ -24,6 +24,7 @@
 				NR_CERTIFICADO,	
 				CD_PLANO,
 				NR_CARTEIRA_IDENT,
+				NR_LOCAL,
 								
 				USER_CREATED,
 				DT_CREATED,
@@ -50,6 +51,7 @@
 				?,
 				?,
 				?,/* 19 */
+				?,
 								
 				?,
 				CURRENT_TIMESTAMP(),
@@ -82,7 +84,8 @@
 				CD_USUARIO						= ?,		
 				NR_CERTIFICADO					= ?,	
 				CD_PLANO						= ?,
-				NR_CARTEIRA_IDENT				= ?,				
+				NR_CARTEIRA_IDENT				= ?,	
+				NR_LOCAL						= ?, /* 20 */			
 								
 				USER_CREATED					= ?,
 				DT_CREATED						= CURRENT_TIMESTAMP(),

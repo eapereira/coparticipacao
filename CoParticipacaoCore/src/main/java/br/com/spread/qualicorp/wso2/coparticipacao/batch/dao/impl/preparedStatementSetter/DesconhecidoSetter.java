@@ -33,11 +33,12 @@ public class DesconhecidoSetter extends PreparedStatementSetterAdapter<Desconhec
 	private static final int COL_NR_CERTIFICADO = 17;
 	private static final int COL_CD_PLANO = 18;
 	private static final int COL_NR_CARTEIRA_IDENT = 19;
+	private static final int COL_NR_LOCAL = 20;
 
-	private static final int COL_USER_CREATED = 20;
-	private static final int COL_USER_ALTERED = 20;
+	private static final int COL_USER_CREATED = 21;
+	private static final int COL_USER_ALTERED = 21;
 
-	private static final int COL_ID = 21;
+	private static final int COL_ID = 22;
 
 	public DesconhecidoSetter(SetterAdapterType setterAdapterType, DesconhecidoEntity entity) {
 		super(setterAdapterType, entity);
@@ -82,5 +83,7 @@ public class DesconhecidoSetter extends PreparedStatementSetterAdapter<Desconhec
 		setLong(ps, COL_NR_CERTIFICADO, getEntity().getBeneficiarioDetail().getCertificado());
 		setString(ps, COL_CD_PLANO, getEntity().getBeneficiarioDetail().getPlano());
 		setString(ps, COL_NR_CARTEIRA_IDENT, getEntity().getBeneficiarioDetail().getCarteiraIdentificacao());
+
+		setInt(ps, COL_NR_LOCAL, getEntity().getBeneficiarioDetail().getLocal());
 	}
 }

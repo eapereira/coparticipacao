@@ -17,6 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.EnderecoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.GrauEscolaridadeType;
@@ -186,6 +187,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.getBeneficiarioDetail().setCdUsuario(lancamentoDetailUi.getCdUsuario());
 			beneficiarioUi.getBeneficiarioDetail().setSubFatura(lancamentoDetailUi.getSubFatura());
 			beneficiarioUi.getBeneficiarioDetail().setMatriculaEspecial(lancamentoDetailUi.getMatriculaEspecial());
+			beneficiarioUi.getBeneficiarioDetail().setLocal(lancamentoDetailUi.getLocal());
 
 			if (beneficiarioUi.getMatricula() == null) {
 				beneficiarioUi.setMatricula(beneficiarioUi.getMatriculaTitular());
@@ -541,7 +543,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioColsUis);
 
 			LOGGER.info(
-					"Current Beneficiario [{}] with MATRICULA [{}] and CPF[{}]:",
+					"Current Titular[{}] and Beneficiario [{}] with MATRICULA [{}] and CPF[{}]:",
+					beneficiarioUi.getNameTitular(),
 					beneficiarioUi.getNameBeneficiario(),
 					beneficiarioUi.getMatricula(),
 					beneficiarioUi.getCpf());
@@ -550,7 +553,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			if (isTitular(coParticipacaoContext, beneficiarioUi)) {
 				LOGGER.info(
-						"Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Titular:",
+						"TitularUi[{}] and Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Titular:",
+						beneficiarioUi.getNameTitular(),
 						beneficiarioUi.getNameBeneficiario(),
 						beneficiarioUi.getMatricula(),
 						beneficiarioUi.getCpf());
@@ -561,6 +565,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
 				}
 			} else {
+				LOGGER.info(
+						"Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Dependente:",
+						beneficiarioUi.getNameBeneficiario(),
+						beneficiarioUi.getMatricula(),
+						beneficiarioUi.getCpf());
+
 				if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					beneficiarioUi.setType(BeneficiarioType.OUTROS);
 				}
@@ -592,8 +602,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			if (beneficiarioUi.getContrato() != null) {
 				LOGGER.debug(
-						"Using ContratoUi[{}] for Beneficiario[{}] with NR_MATRICULA[{}] and NR_CPF[{}]:",
+						"Using ContratoUi[{}] for TitularUi[{}] and Beneficiario[{}] with NR_MATRICULA[{}] and NR_CPF[{}]:",
 						beneficiarioUi.getContrato().getCdContrato(),
+						beneficiarioUi.getNameTitular(),
 						beneficiarioUi.getNameBeneficiario(),
 						beneficiarioUi.getMatricula(),
 						beneficiarioUi.getCpf());
@@ -630,9 +641,14 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throws ServiceException {
 		ContratoUi contratoUi = null;
 		ArquivoInputSheetUi arquivoInputSheetUi;
+		String cdContrato = null;
 
 		try {
 			LOGGER.info("BEGIN");
+
+			if (beneficiarioUi.getCdContrato() != null) {
+				cdContrato = beneficiarioUi.getCdContrato().toUpperCase();
+			}
 
 			/*
 			 * Se a pasta possuir informações do ContratoUi para ser utilizado
@@ -642,7 +658,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 */
 			if (StringUtils.isNotBlank(beneficiarioUi.getCdContrato())) {
 				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
-					if (contrato.getCdContrato().equals(beneficiarioUi.getCdContrato())) {
+					if (contrato.getCdContrato().equals(cdContrato) || contrato.getNameContrato().equals(cdContrato)) {
 						contratoUi = (ContratoUi) contrato;
 						break;
 					}
@@ -716,7 +732,20 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			if (UseType.MECSAS.equals(contratoUi.getUseType()) || (UseType.MECSAS2.equals(contratoUi.getUseType())
 					&& empresaUi.isCreateBeneficiarioFromMecsas2())) {
-				if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType()) || beneficiarioUi.getType() == null) {
+				if (beneficiarioUi.getType() == null) {
+					if (StringUtils.isBlank(beneficiarioUi.getNameTitular())) {
+						beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+						LOGGER.info("END");
+						return true;
+					} else if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())
+							|| StringUtils.isBlank(beneficiarioUi.getNameBeneficiario())) {
+						beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+						LOGGER.info("END");
+						return true;
+					}
+				} else if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
 					LOGGER.info("END");
 					return true;
 				}
@@ -793,12 +822,22 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					 * dependente:
 					 */
 					if (titularUi != null) {
-						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-							beneficiarioUi.setType(BeneficiarioType.TITULAR);
+						if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
+							if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+								beneficiarioUi.setType(BeneficiarioType.TITULAR);
 
-							LOGGER.info("END");
-							return true;
+								LOGGER.info("END");
+								return true;
+							}
+						} else {
+							if (titularUi.getNameTitular().equals(beneficiarioUi.getNameTitular())) {
+								beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+								LOGGER.info("END");
+								return true;
+							}
 						}
+
 					}
 				}
 			}
@@ -864,6 +903,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
+							titularUi.setDtDemissao(beneficiarioUi.getDtDemissao());
 							titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 							titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
 
@@ -1218,6 +1258,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
 				}
 
+				if (beneficiarioUi.getDtDemissao() != null) {
+					LOGGER.debug("Updating Titular field DT_DEMISSAO with value [{}]:", beneficiarioUi.getDtDemissao());
+					titularUi.setDtDemissao(beneficiarioUi.getDtDemissao());
+				}
+
 				if (StringUtils.isNotBlank(beneficiarioUi.getLabel())) {
 					LOGGER.debug("Updating Titular field LABEL with value [{}]:", beneficiarioUi.getLabel());
 					titularUi.setLabel(beneficiarioUi.getLabel());
@@ -1369,6 +1414,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throws ServiceException {
 		DependenteUi dependenteUi = null;
 		ContratoUi contratoUi;
+		TitularUi titularUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -1393,6 +1439,19 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
 							beneficiarioUi.getMatricula(),
 							beneficiarioUi.getNameBeneficiario());
+				}
+			}
+
+			if (dependenteUi == null) {
+				titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
+
+				if (titularUi != null) {
+					for (Dependente dependente : titularUi.getDependentes()) {
+						if (dependente.getNameDependente().equals(beneficiarioUi.getNameBeneficiario())) {
+							dependenteUi = (DependenteUi) dependente;
+							break;
+						}
+					}
 				}
 			}
 
@@ -1457,14 +1516,19 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	public boolean isTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
 			throws ServiceException {
-		TitularUi titularUi;
+		BeneficiarioUi beneficiarioUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			titularUi = findTitular(coParticipacaoContext, beneficiarioIsentoUi);
+			beneficiarioUi = new BeneficiarioUi();
+			beneficiarioUi.setNameBeneficiario(beneficiarioIsentoUi.getName());
+			beneficiarioUi.setNameTitular(beneficiarioIsentoUi.getNameTitular());
+			beneficiarioUi.setCpf(beneficiarioIsentoUi.getCpf());
+			beneficiarioUi.setMatricula(beneficiarioIsentoUi.getMatricula());
+			beneficiarioUi.setMatriculaEmpresa(beneficiarioIsentoUi.getMatriculaEmpresa());
 
-			if (titularUi != null && titularUi.getNameTitular().equals(beneficiarioIsentoUi.getName())) {
+			if (isTitular(coParticipacaoContext, beneficiarioUi)) {
 				LOGGER.info("END");
 				return true;
 			}

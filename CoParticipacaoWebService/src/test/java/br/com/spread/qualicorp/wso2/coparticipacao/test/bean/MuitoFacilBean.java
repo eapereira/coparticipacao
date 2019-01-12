@@ -42,17 +42,17 @@ public class MuitoFacilBean {
 
 	private static final String NAO_LOCALIZADO_201808 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201808.002.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 276;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 277;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 19;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807 = 93;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807_USER_RETURN = 276;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807_USER_RETURN = 277;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807_USER_RETURN = 19;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807_USER_RETURN = 93;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 312;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 314;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 25;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806 = 98;
@@ -68,17 +68,17 @@ public class MuitoFacilBean {
 	private static final String FATUCOPA_8CH5Y_201901 = "muito-facil/input/MUITO-FACIL.8CH5Y.201901.002.txt";
 	private static final String NAO_LOCALIZADO_201901 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201901.002.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201809 = 263;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201809 = 264;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201809 = 16;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201809 = 1;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809 = 82;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201809_AFTER_USER_VALIDATION = 264;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201809_AFTER_USER_VALIDATION = 265;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201809_AFTER_USER_VALIDATION = 17;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201809_AFTER_USER_VALIDATION = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201809_AFTER_USER_VALIDATION = 83;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201901 = 231;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201901 = 232;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201901 = 13;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201901 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201901 = 82;

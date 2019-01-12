@@ -50,6 +50,8 @@ public class LancamentoDetailUi implements Serializable {
 	
 	private String matriculaEspecial;
 
+	private Integer local;
+	
 	public LancamentoDetailUi() {
 		super();
 	}
@@ -228,6 +230,14 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setMatriculaEspecial(String matriculaEspecial) {
 		this.matriculaEspecial = matriculaEspecial;
+	}
+
+	public Integer getLocal() {
+		return local;
+	}
+
+	public void setLocal(Integer local) {
+		this.local = local;
 	}
 
 }

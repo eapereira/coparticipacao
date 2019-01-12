@@ -111,8 +111,15 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_NM_BENEFICIARIO							bigint( 17 ) default 10;
 	declare VAR_COL_LANCAMENTO_NM_TITULAR								bigint( 17 ) default 11;
 	declare VAR_COL_LANCAMENTO_DT_NASCIMENTO							bigint( 17 ) default 12;
+	declare VAR_COL_LANCAMENTO_VL_REEMBOLSO								bigint( 17 ) default 13;
+	declare VAR_COL_LANCAMENTO_VL_PARTICIPACAO							bigint( 17 ) default 14;
+	declare VAR_COL_LANCAMENTO_CD_USUARIO								bigint( 17 ) default 15;
+	declare VAR_COL_LANCAMENTO_DT_UTILIZACAO							bigint( 17 ) default 16;
+	declare VAR_COL_LANCAMENTO_NR_SUBFATURA								bigint( 17 ) default 17;
+	declare VAR_COL_LANCAMENTO_DESCR_UTILIZACAO							bigint( 17 ) default 18;
+	declare VAR_COL_LANCAMENTO_NR_LOCAL									bigint( 17 ) default 20;
 
-	declare VAR_ID_LANCAMENTO_INPUT_SHEET										bigint( 17 );
+	declare VAR_ID_LANCAMENTO_INPUT_SHEET								bigint( 17 );
     
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NM_DEPENDENTE					bigint( 17 ) default 4;
@@ -866,6 +873,47 @@ BEGIN
     );
     	
 	call PROC_LOG_MESSAGE('LINHA - 759');
+
+    call PROC_LOG_MESSAGE('LINHA - 331');
+    insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+        ID_LANCAMENTO_INPUT_SHEET,
+        ID_REGISTER_COLUMN,
+        CD_LANCAMENTO_COLS_DEF,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_LANCAMENTO_INPUT_SHEET,
+		VAR_ID_COLUMN_09_LOCAL,
+		VAR_COL_LANCAMENTO_NR_LOCAL,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()	
+    );
+    	
+	call PROC_LOG_MESSAGE('LINHA - 759');
+
+    call PROC_LOG_MESSAGE('LINHA - 331');
+    insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+        ID_LANCAMENTO_INPUT_SHEET,
+        ID_REGISTER_COLUMN,
+        CD_LANCAMENTO_COLS_DEF,
+        
+        USER_CREATED,
+        DT_CREATED,
+        DT_ALTERED ) values (
+        VAR_ID_LANCAMENTO_INPUT_SHEET,
+		VAR_ID_COLUMN_10_DT_NASCIMENTO,
+		VAR_COL_LANCAMENTO_DT_NASCIMENTO,
+        
+        VAR_ID_USER,
+        current_timestamp(),
+        current_timestamp()	
+    );
+    	
+	call PROC_LOG_MESSAGE('LINHA - 759');
+	
 	/*****************************************************************************************************************************************************/	
 	/*****************************************************************************************************************************************************/		
 	/* NAO-LOCALIZADOS */

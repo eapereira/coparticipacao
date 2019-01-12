@@ -117,7 +117,8 @@ from TB_TITULAR_ISENTO isento
 		contrato.ID = titular.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA		
-where	empresa.CD_EMPRESA = '073828';
+where	empresa.CD_EMPRESA = '073828'
+and		titular.CD_PLANO = 'FXE1';
 		
 create view VW_DEPENDENTE_ISENTO_SPREAD_SAUDE as
 select
@@ -133,7 +134,8 @@ from TB_DEPENDENTE_ISENTO isento
 		contrato.ID = titular.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA		
-where	empresa.CD_EMPRESA = '073828';
+where	empresa.CD_EMPRESA = '073828'
+and		titular.CD_PLANO = 'FXE1';
 		
 /****************************************************************************************************************************************************/
 
@@ -176,17 +178,12 @@ from TB_LANCAMENTO lancamento
 		isento.ID_TITULAR = titular.ID
 where	empresa.CD_EMPRESA = '073828' 
 and		lancamento.ID_DEPENDENTE is null
-and titular.NR_MATRICULA not in (
-	select
-		desconhecido.NR_MATRICULA
-	from VW_DESCONHECIDO_SPREAD_SAUDE desconhecido
-	where desconhecido.NR_MATRICULA = titular.NR_MATRICULA )
 union all
 select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,	
-	dependente.NR_MATRICULA_ESPECIAL,
+	titular.NR_MATRICULA_ESPECIAL,
 	lpad( subfatura.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
     concat( lpad( subfatura.NR_SUBFATURA, 3, '0' ), ' - ', subfatura.NM_SUBFATURA ) NM_EMPRESA,
     titular.NM_TITULAR,
@@ -221,12 +218,7 @@ from TB_LANCAMENTO lancamento
 	left outer join VW_DEPENDENTE_ISENTO_SPREAD_SAUDE isento on
 		isento.ID_DEPENDENTE = dependente.ID
 where	empresa.CD_EMPRESA = '073828' 
-and		lancamento.ID_DEPENDENTE is not null
-and dependente.NR_MATRICULA not in (
-	select
-		desconhecido.NR_MATRICULA
-	from VW_DESCONHECIDO_SPREAD_SAUDE desconhecido
-	where desconhecido.NR_MATRICULA = dependente.NR_MATRICULA );
+and		lancamento.ID_DEPENDENTE is not null;
 
 create view VW_COPARTICIPACAO_SPREAD_SAUDE as
 select
