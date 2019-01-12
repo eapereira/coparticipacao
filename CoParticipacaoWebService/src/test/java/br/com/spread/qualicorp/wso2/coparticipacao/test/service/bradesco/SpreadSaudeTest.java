@@ -61,18 +61,18 @@ public class SpreadSaudeTest extends CoParticipacaoTest {
 	private static final String ISENTO_201812 = "spread-saude/input/073828.ISENTO.201812.004.xlsx";
 	private static final String NAO_LOCALIZADO_201812 = "spread-saude/input/073828.NAO-LOCALIZADO.201812.003.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201812 = 1191;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201812 = 619;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201812 = 1164;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201812 = 606;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201812 = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201812 = 3776;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201812 = 4246;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812 = 131;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812 = 0;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812 = 954;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201812 = 618;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812 = 1164;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201812 = 606;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201812 = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201812 = 5485;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_AFTER_USER_RETURN_201812 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201812 = 4246;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_AFTER_USER_RETURN_201812 = 115;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_AFTER_USER_RETURN_201812 = 0;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
@@ -236,4 +236,52 @@ public class SpreadSaudeTest extends CoParticipacaoTest {
 
 		LOGGER.info("END");
 	}
+	
+
+	@Test
+	public void testCoparticipacao201812AfterUserReturn() throws Exception {
+		LOGGER.info("BEGIN");
+
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		List<TitularIsentoUi> titularIsentoUis;
+		List<DependenteIsentoUi> dependenteIsentoUis;
+
+		EmpresaUi empresaUi = empresaService.findByName("SPREAD-SAUDE");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		testCoparticipacao201812();
+
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201812);
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTO_201812);
+		createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201812);
+
+		processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
+		dependenteIsentoUis = dependenteIsentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("After user´s validation:");
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
+		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201812, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201812, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201812, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_AFTER_USER_RETURN_201812, titularIsentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_AFTER_USER_RETURN_201812, dependenteIsentoUis.size());
+
+		LOGGER.info("END");
+	}	
 }

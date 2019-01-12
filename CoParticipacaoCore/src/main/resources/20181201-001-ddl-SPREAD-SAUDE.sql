@@ -28,6 +28,7 @@ select
     desconhecido.NM_TITULAR,
     desconhecido.CD_PLANO,
     desconhecido.NR_MATRICULA,
+    desconhecido.NR_MATRICULA_EMPRESA,
     desconhecido.NR_MATRICULA_ESPECIAL
 from TB_DESCONHECIDO desconhecido
 	join TB_CONTRATO contrato on
@@ -47,6 +48,7 @@ select
 	titular.NM_TITULAR,
     titular.CD_PLANO,
     titular.NR_MATRICULA,
+    titular.NR_MATRICULA_EMPRESA,
     titular.NR_MATRICULA_ESPECIAL
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -57,7 +59,7 @@ from TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA = '073828'
 and		lancamento.ID_DEPENDENTE is null
-and		( titular.NR_MATRICULA_ESPECIAL is null or
+and		( titular.NR_MATRICULA_EMPRESA is null or
 		  titular.CD_PLANO is null )
 union all
 select
@@ -71,6 +73,7 @@ select
 	titular.NM_TITULAR,
     dependente.CD_PLANO,
     dependente.NR_MATRICULA,
+    dependente.NR_MATRICULA_EMPRESA,
     dependente.NR_MATRICULA_ESPECIAL    
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -83,7 +86,7 @@ from TB_LANCAMENTO lancamento
 		dependente.ID = lancamento.ID_DEPENDENTE
 where	empresa.CD_EMPRESA = '073828'
 and		lancamento.ID_DEPENDENTE is not null
-and		( dependente.NR_MATRICULA_ESPECIAL is null or
+and		( dependente.NR_MATRICULA_EMPRESA is null or
 		  dependente.CD_PLANO is null );
 	
 create view VW_DESCONHECIDO_SPREAD_SAUDE as
@@ -98,6 +101,7 @@ select distinct
     desconhecido.NM_TITULAR,
     desconhecido.CD_PLANO,
     desconhecido.NR_MATRICULA,
+    desconhecido.NR_MATRICULA_EMPRESA,
     desconhecido.NR_MATRICULA_ESPECIAL
 from VW_DESCONHECIDO_LEVEL01_SPREAD_SAUDE desconhecido
 order by 
@@ -144,6 +148,8 @@ select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,	
+	titular.NR_MATRICULA,
+	titular.NR_MATRICULA_EMPRESA,
 	titular.NR_MATRICULA_ESPECIAL,
 	lpad( subfatura.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
     concat( lpad( subfatura.NR_SUBFATURA, 3, '0' ), ' - ', subfatura.NM_SUBFATURA ) NM_EMPRESA,
@@ -152,13 +158,13 @@ select
     'Títular' TP_UTILIZACAO,
     lancamento.DT_UTILIZACAO,
     titular.CD_PLANO,
-    lancamento.DESCR_UTILIZACAO,    
-    lancamento.VL_PRINCIPAL,
-    lancamento.VL_PARTICIPACAO,
+    ifnull( lancamento.DESCR_UTILIZACAO, '' ) DESCR_UTILIZACAO,    
+    ifnull( lancamento.VL_PRINCIPAL, 0.0 ) VL_PRINCIPAL,
+    ifnull( lancamento.VL_PARTICIPACAO, 0.0 ) VL_PARTICIPACAO,
     ifnull( isento.TP_ISENTO, '' ) TP_ISENTO,
     case
 		when isento.TP_ISENTO is not null then 0.0 
-        else lancamento.VL_PARTICIPACAO
+        else ifnull( lancamento.VL_PARTICIPACAO, 0.0 )
     end VL_ISENTO,
 	0 VERSION,
 	1 USER_CREATED,
@@ -183,6 +189,8 @@ select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,	
+	titular.NR_MATRICULA,
+	titular.NR_MATRICULA_EMPRESA,
 	titular.NR_MATRICULA_ESPECIAL,
 	lpad( subfatura.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
     concat( lpad( subfatura.NR_SUBFATURA, 3, '0' ), ' - ', subfatura.NM_SUBFATURA ) NM_EMPRESA,
@@ -191,13 +199,13 @@ select
     'Dependente' TP_UTILIZACAO,
     lancamento.DT_UTILIZACAO,
     titular.CD_PLANO,
-    lancamento.DESCR_UTILIZACAO,    
-    lancamento.VL_PRINCIPAL,
-    lancamento.VL_PARTICIPACAO,
+    ifnull( lancamento.DESCR_UTILIZACAO, '' ) DESCR_UTILIZACAO,    
+    ifnull( lancamento.VL_PRINCIPAL, 0.0 ) VL_PRINCIPAL,
+    ifnull( lancamento.VL_PARTICIPACAO, 0.0 ) VL_PARTICIPACAO,
     ifnull( isento.TP_ISENTO, '' ) TP_ISENTO,
     case
 		when isento.TP_ISENTO is not null then 0.0  
-        else lancamento.VL_PARTICIPACAO
+        else ifnull( lancamento.VL_PARTICIPACAO, 0.0 )
     end VL_ISENTO,
 	0 VERSION,
 	1 USER_CREATED,
@@ -226,6 +234,8 @@ select
 	spread.CD_MES,
     spread.CD_ANO,
     spread.ID_CONTRATO,
+    spread.NR_MATRICULA,
+    spread.NR_MATRICULA_EMPRESA,
 	spread.NR_MATRICULA_ESPECIAL,
 	spread.NR_SUBFATURA,
 	spread.NM_EMPRESA,
@@ -249,6 +259,8 @@ group by
 	spread.CD_MES,
     spread.CD_ANO,
     spread.ID_CONTRATO,
+    spread.NR_MATRICULA,
+    spread.NR_MATRICULA_EMPRESA,
 	spread.NR_MATRICULA_ESPECIAL,
 	spread.NR_SUBFATURA,
 	spread.NM_EMPRESA,
@@ -277,6 +289,8 @@ select
 	spread.CD_MES,
     spread.CD_ANO,
     spread.ID_CONTRATO,
+    spread.NR_MATRICULA,
+    spread.NR_MATRICULA_EMPRESA,
 	spread.NR_MATRICULA_ESPECIAL,
 	spread.NR_SUBFATURA,
 	spread.NM_EMPRESA,
@@ -295,6 +309,8 @@ group by
 	spread.CD_MES,
     spread.CD_ANO,
     spread.ID_CONTRATO,
+    spread.NR_MATRICULA,
+    spread.NR_MATRICULA_EMPRESA,
 	spread.NR_MATRICULA_ESPECIAL,
 	spread.NR_SUBFATURA,
 	spread.NM_EMPRESA,

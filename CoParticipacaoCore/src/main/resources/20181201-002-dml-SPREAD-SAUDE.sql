@@ -67,6 +67,7 @@ BEGIN
     declare VAR_COL_VIEW_LENGTH_NR_SUBFATURA							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_CERTIFICADO							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA							int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA_EMPRESA					int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_NM_BENEFICIARIO							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_FATOR_MODERADOR						int( 3 ) default 20;
@@ -88,6 +89,7 @@ BEGIN
     declare VAR_COL_LABEL_NR_SUBFATURA									varchar( 40 ) default 'SUBFATURA';
 	declare VAR_COL_LABEL_NR_CERTIFICADO								varchar( 40 ) default 'CERTIFICADO';
 	declare VAR_COL_LABEL_NR_MATRICULA									varchar( 40 ) default 'MATRICULA';
+	declare VAR_COL_LABEL_NR_MATRICULA_EMPRESA							varchar( 40 ) default 'MATRICULA';
 	declare VAR_COL_LABEL_NM_TITULAR									varchar( 40 ) default 'NOME TÍTULAR';
 	declare VAR_COL_LABEL_NM_BENEFICIARIO								varchar( 40 ) default 'NOME BENEFICIÁRIO';
 	declare VAR_COL_LABEL_VL_FATOR_MODERADOR							varchar( 40 ) default 'FATOR MODERADOR';
@@ -434,7 +436,7 @@ BEGIN
 	    VAR_NM_CONTRATO_NAO_LOCALIZADO,
 	    VAR_FALSE,
 	    VAR_USE_TYPE_NAO_LOCALIZADO,
-	    VAR_FALSE,
+	    VAR_TRUE,
 	    
 		VAR_ID_USER,
 		current_timestamp(),
@@ -926,6 +928,31 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
+	call PROC_LOG_MESSAGE('LINHA - 735');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NR_MATRICULA',
+		VAR_COL_LONG,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NR_CERTIFICADO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);				
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	call PROC_LOG_MESSAGE('LINHA - 865');
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
 		ID_VIEW_DESTINATION	,
@@ -965,66 +992,16 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_VIEW_DESTINATION,
-		'NR_MATRICULA_ESPECIAL',
+		'NR_MATRICULA_EMPRESA',
 		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_NR_MATRICULA_ESPECIAL,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA_EMPRESA,
 		VAR_CD_ORDEM,
-		VAR_COL_LABEL_NR_MATRICULA_ESPECIAL,
+		VAR_COL_LABEL_NR_MATRICULA_EMPRESA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);					
-		
-	call PROC_LOG_MESSAGE('LINHA - 735');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'NR_MATRICULA',
-		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
-		VAR_CD_ORDEM,
-		VAR_COL_LABEL_NR_CERTIFICADO,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);				
-	
-	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
-
-	call PROC_LOG_MESSAGE('LINHA - 735');
-	insert into TB_VIEW_DESTINATION_COLS_DEF(
-		ID_VIEW_DESTINATION	,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		NM_COL_TITLE_LABEL,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_VIEW_DESTINATION,
-		'CD_CONTRATO',
-		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_CD_CONTRATO,
-		VAR_CD_ORDEM,
-		VAR_COL_LABEL_CD_CONTRATO,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);				
 			
 	call PROC_LOG_MESSAGE('LINHA - 950');
 	/*********************************************************************************************************************************************/

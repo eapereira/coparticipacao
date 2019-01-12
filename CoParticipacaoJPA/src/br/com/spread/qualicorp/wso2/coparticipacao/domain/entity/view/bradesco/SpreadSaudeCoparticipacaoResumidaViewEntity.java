@@ -106,5 +106,19 @@ public class SpreadSaudeCoparticipacaoResumidaViewEntity extends SpreadSaudeCopa
 		// TODO Auto-generated method stub
 		return super.getValorParticipacao();
 	}
+
+	@Column(name = "NR_MATRICULA")
+	@Override
+	public Long getMatricula() {
+		// TODO Auto-generated method stub
+		return super.getMatricula();
+	}
+
+	@Column(name = "NR_MATRICULA_EMPRESA")
+	@Override
+	public Long getMatriculaEmpresa() {
+		// TODO Auto-generated method stub
+		return super.getMatriculaEmpresa();
+	}
 	
 }

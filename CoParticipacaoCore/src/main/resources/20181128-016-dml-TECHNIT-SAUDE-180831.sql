@@ -130,6 +130,7 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_CD_USUARIO								bigint( 17 ) default 15;
 	declare VAR_COL_LANCAMENTO_DT_UTILIZACAO							bigint( 17 ) default 16;
 	declare VAR_COL_LANCAMENTO_NR_SUBFATURA								bigint( 17 ) default 17;
+	declare VAR_COL_LANCAMENTO_DESCR_UTILIZACAO							bigint( 17 ) default 18;
 	declare VAR_COL_LANCAMENTO_NR_MATRICULA_ESPECIAL					bigint( 17 ) default 19;
 
 	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );

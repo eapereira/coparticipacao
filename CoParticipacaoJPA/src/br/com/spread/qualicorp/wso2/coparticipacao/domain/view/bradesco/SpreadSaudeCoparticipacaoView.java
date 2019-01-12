@@ -23,6 +23,10 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 	
 	private Long idContrato;
 
+	private Long matricula;
+	
+	private Long matriculaEmpresa;
+	
 	private Long matriculaEspecial;
 
 	private String subFatura;
@@ -189,6 +193,8 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 		result = prime * result + ((descrUtilizacao == null) ? 0 : descrUtilizacao.hashCode());
 		result = prime * result + ((dtUtilizacao == null) ? 0 : dtUtilizacao.hashCode());
 		result = prime * result + ((idContrato == null) ? 0 : idContrato.hashCode());
+		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
+		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
 		result = prime * result + ((matriculaEspecial == null) ? 0 : matriculaEspecial.hashCode());
 		result = prime * result + ((mes == null) ? 0 : mes.hashCode());
 		result = prime * result + ((nameBeneficiario == null) ? 0 : nameBeneficiario.hashCode());
@@ -232,6 +238,16 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 			if (other.idContrato != null)
 				return false;
 		} else if (!idContrato.equals(other.idContrato))
+			return false;
+		if (matricula == null) {
+			if (other.matricula != null)
+				return false;
+		} else if (!matricula.equals(other.matricula))
+			return false;
+		if (matriculaEmpresa == null) {
+			if (other.matriculaEmpresa != null)
+				return false;
+		} else if (!matriculaEmpresa.equals(other.matriculaEmpresa))
 			return false;
 		if (matriculaEspecial == null) {
 			if (other.matriculaEspecial != null)
@@ -294,6 +310,22 @@ public abstract class SpreadSaudeCoparticipacaoView extends AbstractDomain {
 		} else if (!valorPrincipal.equals(other.valorPrincipal))
 			return false;
 		return true;
+	}
+
+	public Long getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(Long matricula) {
+		this.matricula = matricula;
+	}
+
+	public Long getMatriculaEmpresa() {
+		return matriculaEmpresa;
+	}
+
+	public void setMatriculaEmpresa(Long matriculaEmpresa) {
+		this.matriculaEmpresa = matriculaEmpresa;
 	}
 
 }

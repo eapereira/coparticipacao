@@ -39,6 +39,12 @@
 	<field name="valorParticipacao" class="java.math.BigDecimal">
 		<fieldDescription><![CDATA[valorParticipacao]]></fieldDescription>
 	</field>
+	<field name="matricula" class="java.lang.Long">
+		<fieldDescription><![CDATA[matricula]]></fieldDescription>
+	</field>
+	<field name="matriculaEmpresa" class="java.lang.Long">
+		<fieldDescription><![CDATA[matriculaEmpresa]]></fieldDescription>
+	</field>
 	<variable name="VAR_totalValorPrincipal" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{valorPrincipal}]]></variableExpression>
 	</variable>
@@ -108,7 +114,7 @@
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{matriculaEspecial}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{matriculaEmpresa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="200" y="0" width="300" height="20" uuid="5827ceb1-a92d-4325-81f7-6fbba040683b"/>
