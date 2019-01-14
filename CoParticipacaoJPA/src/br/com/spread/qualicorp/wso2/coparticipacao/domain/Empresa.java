@@ -59,6 +59,8 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean enabled;
 	
 	private ReportLayoutType reportLayoutType;
+	
+	private boolean createBeneficiarioFromIsento;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -295,6 +297,7 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + (automaticCreateTitular ? 1231 : 1237);
 		result = prime * result + ((cdEmpresa == null) ? 0 : cdEmpresa.hashCode());
 		result = prime * result + ((contratos == null) ? 0 : contratos.hashCode());
+		result = prime * result + (createBeneficiarioFromIsento ? 1231 : 1237);
 		result = prime * result + (createBeneficiarioFromMecsas2 ? 1231 : 1237);
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + (enabledExternalProcess ? 1231 : 1237);
@@ -304,9 +307,9 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + (generateOutputFileWithoutFatucopa ? 1231 : 1237);
 		result = prime * result + ((inputDir == null) ? 0 : inputDir.hashCode());
 		result = prime * result + ((nameEmpresa == null) ? 0 : nameEmpresa.hashCode());
-		result = prime * result + ((operadora == null) ? 0 : operadora.hashCode());
 		result = prime * result + ((outputDir == null) ? 0 : outputDir.hashCode());
 		result = prime * result + ((outputReportDir == null) ? 0 : outputReportDir.hashCode());
+		result = prime * result + ((reportLayoutType == null) ? 0 : reportLayoutType.hashCode());
 		result = prime * result + ((reportQueryType == null) ? 0 : reportQueryType.hashCode());
 		result = prime * result + (saveBeneficiarioDetails ? 1231 : 1237);
 		result = prime * result + (saveMecsasDetails ? 1231 : 1237);
@@ -342,6 +345,8 @@ public abstract class Empresa extends AbstractDomain {
 				return false;
 		} else if (!contratos.equals(other.contratos))
 			return false;
+		if (createBeneficiarioFromIsento != other.createBeneficiarioFromIsento)
+			return false;
 		if (createBeneficiarioFromMecsas2 != other.createBeneficiarioFromMecsas2)
 			return false;
 		if (enabled != other.enabled)
@@ -375,11 +380,6 @@ public abstract class Empresa extends AbstractDomain {
 				return false;
 		} else if (!nameEmpresa.equals(other.nameEmpresa))
 			return false;
-		if (operadora == null) {
-			if (other.operadora != null)
-				return false;
-		} else if (!operadora.equals(other.operadora))
-			return false;
 		if (outputDir == null) {
 			if (other.outputDir != null)
 				return false;
@@ -389,6 +389,8 @@ public abstract class Empresa extends AbstractDomain {
 			if (other.outputReportDir != null)
 				return false;
 		} else if (!outputReportDir.equals(other.outputReportDir))
+			return false;
+		if (reportLayoutType != other.reportLayoutType)
 			return false;
 		if (reportQueryType != other.reportQueryType)
 			return false;
@@ -416,6 +418,14 @@ public abstract class Empresa extends AbstractDomain {
 
 	public void setReportLayoutType(ReportLayoutType reportLayoutType) {
 		this.reportLayoutType = reportLayoutType;
+	}
+
+	public boolean isCreateBeneficiarioFromIsento() {
+		return createBeneficiarioFromIsento;
+	}
+
+	public void setCreateBeneficiarioFromIsento(boolean createBeneficiarioFromIsento) {
+		this.createBeneficiarioFromIsento = createBeneficiarioFromIsento;
 	}
 
 

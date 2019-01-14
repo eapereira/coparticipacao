@@ -279,7 +279,8 @@ BEGIN
 		CD_EMPRESA,
 		CD_AUTOMATIC_CREATE_BENEFICIARIO,
 		CD_ACCEPT_TITULAR_WITHOUT_CPF,
-		CD_CREATE_BENEFICIARIO_FRON_MECSAS2,				
+		CD_CREATE_BENEFICIARIO_FROM_MECSAS2,		
+		CD_CREATE_BENEFICIARIO_FROM_ISENTO,		
 		CD_OUTPUT_REPORT_DIR,		
         CD_INPUT_DIR,
         CD_FAILURE_DIR,
@@ -299,6 +300,7 @@ BEGIN
         VAR_TRUE,		
         VAR_TRUE,		
         VAR_TRUE,		
+        VAR_FALSE,
 		
 		'/coparticipacao/output-reports/bradesco/spread-saude/',
         '/coparticipacao/input/',

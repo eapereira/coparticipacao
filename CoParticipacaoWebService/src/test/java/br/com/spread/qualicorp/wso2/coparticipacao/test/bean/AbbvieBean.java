@@ -37,12 +37,12 @@ public class AbbvieBean {
 	private static final String FATUCOPA_201808 = "abbvie/input/ABBVIE.8B1LR.201802.004.TXT";
 	private static final String NAO_LOCALIZADO_201808 = "abbvie/input/ABBVIE.NAO-LOCALIZADO.201802.004.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 302;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 527;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 449;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 19;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 114;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 321;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 546;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 465;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 133;

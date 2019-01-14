@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteIsentoBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularIsentoBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
@@ -66,12 +68,16 @@ public class IsentoServiceImpl implements IsentoService {
 	@Autowired
 	private BeneficiarioService beneficiarioService;
 
+	@Autowired
+	private TitularBatchService titularBatchService;
+
+	@Autowired
+	private DependenteBatchService dependenteBatchService;
+
 	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		IsentoInputSheetUi isentoInputSheetUi;
 		List<IsentoInputSheetCols> isentoInputSheetCols;
 		BeneficiarioIsentoUi beneficiarioIsentoUi = null;
-		DependenteUi dependenteUi = null;
-		IsentoType isentoType = null;
 		ArquivoInputSheetUi arquivoInputSheetUi;
 		ProcessLineResult processLineResult = ProcessLineResult.READ_NEXT;
 
@@ -103,37 +109,25 @@ public class IsentoServiceImpl implements IsentoService {
 							"Found a BeneficiarioIsentoUi without DependenteUi.NAME nad TitularUi.NAME, closing task.");
 				}
 
-				if (beneficiarioIsentoUi.getIsentoType() != null) {
-					isentoType = beneficiarioIsentoUi.getIsentoType();
-				} else {
-					isentoType = isentoInputSheetUi.getIsentoType();
+				if (beneficiarioIsentoUi.getIsentoType() == null) {
+					beneficiarioIsentoUi.setIsentoType(isentoInputSheetUi.getIsentoType());
 				}
 
-				if (isentoType == null) {
+				if (beneficiarioIsentoUi.getIsentoType() == null) {
 					throw new ServiceException(
 							"There is no ISENTO_TYPE defined for BeneficiarioIsentoUi[{%s]:",
 							beneficiarioIsentoUi.getName());
 				}
 
 				if (beneficiarioService.isTitular(coParticipacaoContext, beneficiarioIsentoUi)) {
-					createTitularIsento(coParticipacaoContext, beneficiarioIsentoUi, isentoType);
+					createTitularIsento(coParticipacaoContext, beneficiarioIsentoUi);
 				} else {
 					LOGGER.info(
 							"BeneficiárioIsento [{}] user of CPF[{}] is not a titular:",
 							beneficiarioIsentoUi.getName(),
 							beneficiarioIsentoUi.getCpf());
 
-					dependenteUi = beneficiarioService.findDependente(coParticipacaoContext, beneficiarioIsentoUi);
-
-					if (dependenteUi != null) {
-						createDependenteIsento(dependenteUi, beneficiarioIsentoUi, isentoType, coParticipacaoContext);
-					} else {
-						LOGGER.info(
-								"BeneficiárioIsento [{}] user of CPF[{}] is not a Dependente:",
-								beneficiarioIsentoUi.getName(),
-								beneficiarioIsentoUi.getCpf());
-						LOGGER.info("Beneficiario not exists in database:");
-					}
+					createDependenteIsento(coParticipacaoContext, beneficiarioIsentoUi);
 				}
 			} else {
 				LOGGER.info(
@@ -152,33 +146,48 @@ public class IsentoServiceImpl implements IsentoService {
 	}
 
 	private void createDependenteIsento(
-			DependenteUi dependenteUi,
-			BeneficiarioIsentoUi beneficiarioIsentoUi,
-			IsentoType isentoType,
-			CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
 		DependenteIsentoUi dependenteIsentoUi;
+		DependenteUi dependenteUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			dependenteIsentoUi = coParticipacaoContext.findDependenteIsento(dependenteUi);
+			dependenteUi = beneficiarioService.findDependente(coParticipacaoContext, beneficiarioIsentoUi);
 
-			if (dependenteIsentoUi == null) {
-				dependenteIsentoUi = new DependenteIsentoUi();
-				dependenteIsentoUi.setDependente(dependenteUi);
-				dependenteIsentoUi.setIsentoType(isentoType);
+			if (dependenteUi == null) {
+				if (coParticipacaoContext.getEmpresaUi().isCreateBeneficiarioFromIsento()) {
+					dependenteUi = beneficiarioService.createDependente(coParticipacaoContext, beneficiarioIsentoUi);
+				}
+			}
 
-				dependenteIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
-				dependenteIsentoUi.setMes(coParticipacaoContext.getMes());
-				dependenteIsentoUi.setAno(coParticipacaoContext.getAno());
+			if (dependenteUi != null) {
+				dependenteIsentoUi = coParticipacaoContext.findDependenteIsento(dependenteUi);
 
-				dependenteIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
-				dependenteIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
+				if (dependenteIsentoUi == null) {
+					dependenteIsentoUi = new DependenteIsentoUi();
+					dependenteIsentoUi.setDependente(dependenteUi);
+					dependenteIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
 
-				dependenteIsentoUi.setUserCreated(coParticipacaoContext.getUser());
-				dependenteIsentoUi.setUserAltered(coParticipacaoContext.getUser());
+					dependenteIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
+					dependenteIsentoUi.setMes(coParticipacaoContext.getMes());
+					dependenteIsentoUi.setAno(coParticipacaoContext.getAno());
 
-				coParticipacaoContext.addDependenteIsento(dependenteIsentoUi);
+					dependenteIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
+					dependenteIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
+
+					dependenteIsentoUi.setUserCreated(coParticipacaoContext.getUser());
+					dependenteIsentoUi.setUserAltered(coParticipacaoContext.getUser());
+
+					coParticipacaoContext.addDependenteIsento(dependenteIsentoUi);
+				}
+			} else {
+				LOGGER.info(
+						"BeneficiárioIsento [{}] user of CPF[{}] is not a Dependente:",
+						beneficiarioIsentoUi.getName(),
+						beneficiarioIsentoUi.getCpf());
+				LOGGER.info("Beneficiario not exists in database:");
 			}
 
 			LOGGER.info("END");
@@ -190,8 +199,7 @@ public class IsentoServiceImpl implements IsentoService {
 
 	private void createTitularIsento(
 			CoParticipacaoContext coParticipacaoContext,
-			BeneficiarioIsentoUi beneficiarioIsentoUi,
-			IsentoType isentoType) throws ServiceException {
+			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
 		TitularIsentoUi titularIsentoUi;
 		TitularUi titularUi;
 
@@ -200,26 +208,34 @@ public class IsentoServiceImpl implements IsentoService {
 
 			titularUi = beneficiarioService.findTitular(coParticipacaoContext, beneficiarioIsentoUi);
 
-			titularIsentoUi = coParticipacaoContext.findTitularIsento(titularUi);
+			if (titularUi == null) {
+				if (coParticipacaoContext.getEmpresaUi().isCreateBeneficiarioFromIsento()) {
+					titularUi = beneficiarioService.createTitular(coParticipacaoContext, beneficiarioIsentoUi);
+				}
+			}
 
-			if (titularIsentoUi == null) {
-				titularIsentoUi = new TitularIsentoUi();
+			if (titularUi != null) {
+				titularIsentoUi = coParticipacaoContext.findTitularIsento(titularUi);
 
-				titularIsentoUi.setTitular(titularUi);
-				titularIsentoUi.setIsentoType(isentoType);
+				if (titularIsentoUi == null) {
+					titularIsentoUi = new TitularIsentoUi();
 
-				titularIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
-				titularIsentoUi.setMes(coParticipacaoContext.getMes());
-				titularIsentoUi.setAno(coParticipacaoContext.getAno());
-				titularIsentoUi.setValorIsencao(beneficiarioIsentoUi.getValorIsencao());
+					titularIsentoUi.setTitular(titularUi);
+					titularIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
 
-				titularIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
-				titularIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
+					titularIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
+					titularIsentoUi.setMes(coParticipacaoContext.getMes());
+					titularIsentoUi.setAno(coParticipacaoContext.getAno());
+					titularIsentoUi.setValorIsencao(beneficiarioIsentoUi.getValorIsencao());
 
-				titularIsentoUi.setUserCreated(coParticipacaoContext.getUser());
-				titularIsentoUi.setUserAltered(coParticipacaoContext.getUser());
+					titularIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
+					titularIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
 
-				coParticipacaoContext.addTitularIsento(titularIsentoUi);
+					titularIsentoUi.setUserCreated(coParticipacaoContext.getUser());
+					titularIsentoUi.setUserAltered(coParticipacaoContext.getUser());
+
+					coParticipacaoContext.addTitularIsento(titularIsentoUi);
+				}
 			}
 
 			LOGGER.info("END");
@@ -423,6 +439,14 @@ public class IsentoServiceImpl implements IsentoService {
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Process ending and sending data to database:");
+
+			if (coParticipacaoContext.getEmpresaUi().isCreateBeneficiarioFromIsento()) {
+				LOGGER.info("Creating Beneficiarios that we dont have at database:");
+
+				titularBatchService.saveBatch(coParticipacaoContext, coParticipacaoContext.getBunker().getTitularUis());
+				dependenteBatchService
+						.saveBatch(coParticipacaoContext, coParticipacaoContext.getBunker().getDependenteUis());
+			}
 
 			LOGGER.info("Storing Isentos to database:");
 			saveIsentos(coParticipacaoContext);

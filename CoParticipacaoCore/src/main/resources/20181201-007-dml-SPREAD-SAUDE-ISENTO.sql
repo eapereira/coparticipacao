@@ -237,6 +237,8 @@ BEGIN
 	declare VAR_CD_ISENTO_COLS_DEF_NM_BENEFICIARIO						bigint( 17 ) default 3;
 	declare VAR_CD_ISENTO_COLS_DEF_DT_NASCIMENTO						bigint( 17 ) default 4;
 	declare VAR_CD_ISENTO_COLS_DEF_NR_CPF								bigint( 17 ) default 5;	
+	declare VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_EMPRESA					bigint( 17 ) default 9;
+	declare VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_ESPECIAL				bigint( 17 ) default 12;
 	
 	declare VAR_CD_RESTRICTED_VALUE											varchar( 10 ) default "2";
 	
@@ -274,6 +276,12 @@ BEGIN
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
 	where	ID_EMPRESA	= VAR_ID_EMPRESA
 	and 	CD_CONTRATO = 'ISENTO'; 
+
+    call PROC_LOG_MESSAGE('LINHA - 242');
+	select 	ID into VAR_ID_CONTRATO_FATUCOPA
+	from 	TB_CONTRATO
+	where	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = '073828'; 
 
     call PROC_LOG_MESSAGE('LINHA - 261');	
 	/***********************************************************************************************************************/
@@ -322,7 +330,7 @@ BEGIN
 	) values (
 		VAR_ID_ARQUIVO_INPUT,		
 		VAR_CD_SHEET,
-		VAR_ID_CONTRATO,
+		VAR_ID_CONTRATO_FATUCOPA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -523,7 +531,7 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_ISENTO_INPUT_SHEET,
 		VAR_ID_COLUMN_002_NR_MATRICULA,
-		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA,
+		VAR_CD_ISENTO_COLS_DEF_NR_MATRICULA_ESPECIAL,
 
 		VAR_ID_USER,
 		current_timestamp(),

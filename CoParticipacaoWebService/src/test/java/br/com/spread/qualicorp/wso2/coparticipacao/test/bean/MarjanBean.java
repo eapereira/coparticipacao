@@ -82,7 +82,7 @@ public class MarjanBean {
 	private static final String FATUCOPA_8C7XX_201811 = "marjan/input/MARJAN.8C7XX.201811.006.txt";
 	private static final String NAO_LOCALIZADO_201811 = "marjan/input/MARJAN.NAO-LOCALIZADO.201811.003.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 481;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 807;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201802 = 565;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 18;
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201802 = 143;
@@ -97,33 +97,33 @@ public class MarjanBean {
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201806_AFTER_USER_RETURN = 174;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 468;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 830;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 565;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 3;
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201807 = 154;
 
-	private static final int NUM_TOTAL_TITULARES_201808 = 511;
+	private static final int NUM_TOTAL_TITULARES_201808 = 831;
 	private static final int NUM_TOTAL_DEPENDENTES_201808 = 614;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201808 = 7;
 	private static final int NUM_TOTAL_FATUCOPA_201808 = 160;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808 = 19;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 14;
 
-	private static final int NUM_TOTAL_TITULARES_201808_AFTER_USER_RETURN = 513;
+	private static final int NUM_TOTAL_TITULARES_201808_AFTER_USER_RETURN = 891;
 	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 621;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201808_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_201808_AFTER_USER_RETURN = 167;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808_AFTER_USER_RETURN = 19;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN = 14;
 
-	private static final int NUM_TOTAL_TITULARES_201810 = 511;
+	private static final int NUM_TOTAL_TITULARES_201810 = 831;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 614;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810 = 7;
 	private static final int NUM_TOTAL_FATUCOPA_201810 = 160;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810 = 19;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 14;
 
-	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 513;
+	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 831;
 	private static final int NUM_TOTAL_DEPENDENTES_201810_AFTER_USER_RETURN = 621;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_201810_AFTER_USER_RETURN = 167;

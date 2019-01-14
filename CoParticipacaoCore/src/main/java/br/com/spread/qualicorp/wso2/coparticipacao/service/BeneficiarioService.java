@@ -39,4 +39,11 @@ public interface BeneficiarioService {
 	boolean isTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
 			throws ServiceException;
 
+	TitularUi createTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi)
+			throws ServiceException;
+
+	DependenteUi createDependente(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException;
+
 }

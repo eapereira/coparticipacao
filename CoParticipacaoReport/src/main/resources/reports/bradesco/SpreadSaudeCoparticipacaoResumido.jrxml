@@ -142,7 +142,7 @@
 				<textElement textAlignment="Right">
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{valorParticipacao}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{valorIsento}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

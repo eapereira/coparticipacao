@@ -140,9 +140,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						LOGGER.info("END");
 						return true;
 					} else {
-						if (beneficiarioUi.getCpf() != null && !NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
-							LOGGER.info("END");
-							return true;
+						if (beneficiarioUi.getCpf() != null) {
+							if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
+								LOGGER.info("END");
+								return true;
+							}
 						}
 					}
 				}
@@ -730,8 +732,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			contratoUi = coParticipacaoContext.getContratoUi();
 			empresaUi = coParticipacaoContext.getEmpresaUi();
 
-			if (UseType.MECSAS.equals(contratoUi.getUseType()) || (UseType.MECSAS2.equals(contratoUi.getUseType())
-					&& empresaUi.isCreateBeneficiarioFromMecsas2())) {
+			if (UseType.MECSAS.equals(contratoUi.getUseType())
+					|| (UseType.MECSAS2.equals(contratoUi.getUseType()) && empresaUi.isCreateBeneficiarioFromMecsas2())
+					|| (UseType.ISENTO.equals(contratoUi.getUseType()) && empresaUi.isCreateBeneficiarioFromIsento())) {
 				if (beneficiarioUi.getType() == null) {
 					if (StringUtils.isBlank(beneficiarioUi.getNameTitular())) {
 						beneficiarioUi.setType(BeneficiarioType.TITULAR);
@@ -898,8 +901,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								}
 							}
 
+							if (beneficiarioUi.getMatricula() == null) {
+								titularUi.setMatricula(NumberUtils.LONG_ZERO);
+							} else {
+								titularUi.setMatricula(beneficiarioUi.getMatricula());
+							}
+
 							titularUi.setContrato(beneficiarioUi.getContrato());
-							titularUi.setMatricula(beneficiarioUi.getMatricula());
 							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 							titularUi.setDtAdmissao(beneficiarioUi.getDtAdmissao());
@@ -1535,6 +1543,81 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			LOGGER.info("END");
 			return false;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public TitularUi createTitular(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+		TitularUi titularUi = null;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioIsentoUi);
+
+			titularUi = createTitular(coParticipacaoContext, beneficiarioUi);
+
+			LOGGER.info("END");
+			return titularUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+
+	}
+
+	public DependenteUi createDependente(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+		DependenteUi dependenteUi = null;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioIsentoUi);
+
+			dependenteUi = createDependente(coParticipacaoContext, beneficiarioUi);
+
+			LOGGER.info("END");
+			return dependenteUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private BeneficiarioUi createBeneficiario(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			beneficiarioUi = new BeneficiarioUi();
+			beneficiarioUi.setNameBeneficiario(beneficiarioIsentoUi.getName());
+
+			if (StringUtils.isNotBlank(beneficiarioIsentoUi.getNameTitular())) {
+				beneficiarioUi.setNameTitular(beneficiarioIsentoUi.getNameTitular());
+			} else {
+				beneficiarioUi.setNameTitular(beneficiarioIsentoUi.getName());
+			}
+
+			beneficiarioUi.setContrato(coParticipacaoContext.getArquivoInputSheet().getContrato());
+			beneficiarioUi.setCpf(beneficiarioIsentoUi.getCpf());
+			beneficiarioUi.setMatricula(beneficiarioIsentoUi.getMatricula());
+			beneficiarioUi.setMatriculaEmpresa(beneficiarioIsentoUi.getMatriculaEmpresa());
+
+			beneficiarioUi.getBeneficiarioDetail().setPlano(beneficiarioIsentoUi.getPlano());
+
+			LOGGER.info("END");
+			return beneficiarioUi;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

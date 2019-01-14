@@ -59,8 +59,7 @@ from TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA = '073828'
 and		lancamento.ID_DEPENDENTE is null
-and		( titular.NR_MATRICULA_EMPRESA is null or
-		  titular.CD_PLANO is null )
+and		titular.CD_PLANO is null
 union all
 select
 	lancamento.CD_MES,
@@ -71,7 +70,7 @@ select
 	dependente.NM_DEPENDENTE NM_BENEFICIARIO,
 	dependente.NR_CPF,
 	titular.NM_TITULAR,
-    dependente.CD_PLANO,
+    titular.CD_PLANO,
     dependente.NR_MATRICULA,
     dependente.NR_MATRICULA_EMPRESA,
     dependente.NR_MATRICULA_ESPECIAL    
@@ -86,8 +85,7 @@ from TB_LANCAMENTO lancamento
 		dependente.ID = lancamento.ID_DEPENDENTE
 where	empresa.CD_EMPRESA = '073828'
 and		lancamento.ID_DEPENDENTE is not null
-and		( dependente.NR_MATRICULA_EMPRESA is null or
-		  dependente.CD_PLANO is null );
+and		( titular.CD_PLANO is null or dependente.NR_MATRICULA_EMPRESA is null );
 	
 create view VW_DESCONHECIDO_SPREAD_SAUDE as
 select distinct
@@ -149,7 +147,10 @@ select
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,	
 	titular.NR_MATRICULA,
-	titular.NR_MATRICULA_EMPRESA,
+	case
+		when titular.NR_MATRICULA_EMPRESA is null then titular.NR_MATRICULA_ESPECIAL
+		else titular.NR_MATRICULA_EMPRESA
+	end NR_MATRICULA_EMPRESA,
 	titular.NR_MATRICULA_ESPECIAL,
 	lpad( subfatura.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
     concat( lpad( subfatura.NR_SUBFATURA, 3, '0' ), ' - ', subfatura.NM_SUBFATURA ) NM_EMPRESA,
@@ -157,7 +158,7 @@ select
     titular.NM_TITULAR NM_BENEFICIARIO,
     'Títular' TP_UTILIZACAO,
     lancamento.DT_UTILIZACAO,
-    titular.CD_PLANO,
+    ifnull( titular.CD_PLANO, '' ) CD_PLANO,
     ifnull( lancamento.DESCR_UTILIZACAO, '' ) DESCR_UTILIZACAO,    
     ifnull( lancamento.VL_PRINCIPAL, 0.0 ) VL_PRINCIPAL,
     ifnull( lancamento.VL_PARTICIPACAO, 0.0 ) VL_PARTICIPACAO,
@@ -190,7 +191,10 @@ select
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,	
 	titular.NR_MATRICULA,
-	titular.NR_MATRICULA_EMPRESA,
+	case
+		when titular.NR_MATRICULA_EMPRESA is null then titular.NR_MATRICULA_ESPECIAL
+		else titular.NR_MATRICULA_EMPRESA
+	end NR_MATRICULA_EMPRESA,
 	titular.NR_MATRICULA_ESPECIAL,
 	lpad( subfatura.NR_SUBFATURA, 3, '0' ) NR_SUBFATURA,
     concat( lpad( subfatura.NR_SUBFATURA, 3, '0' ), ' - ', subfatura.NM_SUBFATURA ) NM_EMPRESA,
@@ -198,7 +202,7 @@ select
     dependente.NM_DEPENDENTE NM_BENEFICIARIO,
     'Dependente' TP_UTILIZACAO,
     lancamento.DT_UTILIZACAO,
-    titular.CD_PLANO,
+    ifnull( titular.CD_PLANO, '' ) CD_PLANO,
     ifnull( lancamento.DESCR_UTILIZACAO, '' ) DESCR_UTILIZACAO,    
     ifnull( lancamento.VL_PRINCIPAL, 0.0 ) VL_PRINCIPAL,
     ifnull( lancamento.VL_PARTICIPACAO, 0.0 ) VL_PARTICIPACAO,

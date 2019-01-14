@@ -194,7 +194,7 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.isGenerateOutputFileWithoutFatucopa();
 	}
 
-	@Column(name = "CD_CREATE_BENEFICIARIO_FRON_MECSAS2")
+	@Column(name = "CD_CREATE_BENEFICIARIO_FROM_MECSAS2")
 	@Override
 	public boolean isCreateBeneficiarioFromMecsas2() {
 		// TODO Auto-generated method stub
@@ -228,6 +228,13 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	public ReportLayoutType getReportLayoutType() {
 		// TODO Auto-generated method stub
 		return super.getReportLayoutType();
+	}
+
+	@Column(name = "CD_CREATE_BENEFICIARIO_FROM_ISENTO")
+	@Override
+	public boolean isCreateBeneficiarioFromIsento() {
+		// TODO Auto-generated method stub
+		return super.isCreateBeneficiarioFromIsento();
 	}
 
 }

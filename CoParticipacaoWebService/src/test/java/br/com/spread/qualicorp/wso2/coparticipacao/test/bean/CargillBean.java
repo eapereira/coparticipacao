@@ -43,14 +43,14 @@ public class CargillBean {
 	private static final String FATUCOPA_00197_201807 = "cargill/input/CARGILL.00197.201807.005.CSV";
 	private static final String NAO_LOCALIZADO_201807 = "cargill/input/CARGILL.NAO-LOCALIZADO.201807.003.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_201807 = 975;
+	private static final int NUM_TOTAL_TITULARES_201807 = 1582;
 	private static final int NUM_TOTAL_DEPENDENTES_201807 = 1181;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201807 = 3;
 	private static final int NUM_TOTAL_LANCAMENTOS_201807 = 107;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201807 = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201807 = 0;
 
-	private static final int NUM_TOTAL_TITULARES_201807_AFTER_USER_RETURN = 976;
+	private static final int NUM_TOTAL_TITULARES_201807_AFTER_USER_RETURN = 1584;
 	private static final int NUM_TOTAL_DEPENDENTES_201807_AFTER_USER_RETURN = 1183;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201807_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201807_AFTER_USER_RETURN = 110;
@@ -82,14 +82,14 @@ public class CargillBean {
 	private static final String ISENTO_201811 = "cargill/input/CARGILL.ISENTO.201811.003.xlsx";
 	private static final String INATIVO_201811 = "cargill/input/CARGILL.INATIVO.201811.004.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_201810 = 995;
+	private static final int NUM_TOTAL_TITULARES_201810 = 1616;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810 = 2;
 	private static final int NUM_TOTAL_LANCAMENTOS_201810 = 131;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810 = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 0;
 
-	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 997;
+	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 1618;
 	private static final int NUM_TOTAL_DEPENDENTES_201810_AFTER_USER_RETURN = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201810_AFTER_USER_RETURN = 133;
