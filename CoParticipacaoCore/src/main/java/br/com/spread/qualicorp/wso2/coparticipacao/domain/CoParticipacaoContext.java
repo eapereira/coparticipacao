@@ -35,8 +35,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.SpreadsheetContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.search.MapKey;
-import br.com.spread.qualicorp.wso2.coparticipacao.search.PartitionMap;
 
 /**
  * 
@@ -77,12 +75,6 @@ public class CoParticipacaoContext {
 	private int dia;
 	private int mes;
 	private int ano;
-
-	private PartitionMap<TitularUi> mapTitularUiByCpf;
-	private PartitionMap<DependenteUi> mapDependenteUiByCpf;
-
-	private PartitionMap<TitularUi> mapTitularUiByMatricula;
-	private PartitionMap<DependenteUi> mapDependenteUiByMatricula;
 
 	private ArquivoExecucaoUi arquivoExecucaoUi;
 
@@ -324,144 +316,136 @@ public class CoParticipacaoContext {
 	}
 
 	public TitularUi findTitularByCpfAndName(Long cpf, String name) {
-		TitularUi titularUiTmp = null;
 		LOGGER.info("BEGIN");
 
-		if (getMapTitularUiByCpf() != null) {
-			LOGGER.info("END");
-			titularUiTmp = getMapTitularUiByCpf().get(new MapKey(cpf, name));
-		}
+		for (TitularUi titularUi : getTitularUis()) {
 
-		if (titularUiTmp == null) {
-			for (TitularUi titularUi : getTitularUis()) {
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
 
-				LOGGER.trace(
-						"Comparing with Titular [{}] with CPF [{}]:",
-						titularUi.getNameTitular(),
-						titularUi.getCpf());
+			if (titularUi.getCpf().equals(cpf)) {
+				if (titularUi.getNameTitular().equals(name)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
 
-				if (titularUi.getCpf().equals(cpf)) {
-					if (titularUi.getNameTitular().equals(name)) {
-						LOGGER.info(
-								"Titular [{}] with CPF [{}] found:",
-								titularUi.getNameTitular(),
-								titularUi.getCpf());
-						titularUiTmp = titularUi;
-						break;
-					}
+					LOGGER.info("END");
+					return titularUi;
 				}
 			}
 		}
 
 		LOGGER.info("END");
-		return titularUiTmp;
+		return null;
 	}
 
 	public TitularUi findTitularByMatriculaAndName(Long matricula, String name) {
-		TitularUi titularUiTmp = null;
-		LOGGER.info("BEGIN");
+		for (TitularUi titularUi : getTitularUis()) {
 
-		if (getMapTitularUiByMatricula() != null) {
-			titularUiTmp = getMapTitularUiByMatricula().get(new MapKey(matricula, name));
-		}
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
 
-		if (titularUiTmp == null) {
-			for (TitularUi titularUi : getTitularUis()) {
+			if (titularUi.getMatricula().equals(matricula)) {
+				if (titularUi.getNameTitular().equals(name)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
 
-				LOGGER.trace(
-						"Comparing with Titular [{}] with CPF [{}]:",
-						titularUi.getNameTitular(),
-						titularUi.getCpf());
-
-				if (titularUi.getMatricula().equals(matricula)) {
-					if (titularUi.getNameTitular().equals(name)) {
-						LOGGER.info(
-								"Titular [{}] with CPF [{}] found:",
-								titularUi.getNameTitular(),
-								titularUi.getCpf());
-						titularUiTmp = titularUi;
-						break;
-					}
+					LOGGER.info("END");
+					return titularUi;
 				}
 			}
 		}
 
 		LOGGER.info("END");
-		return titularUiTmp;
+		return null;
+	}
+
+	public TitularUi findTitularByMatriculaEmpresaAndName(Long matriculaEmpresa, String name) {
+		for (TitularUi titularUi : getTitularUis()) {
+
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+
+			if (titularUi.getMatriculaEmpresa() != null && titularUi.getMatriculaEmpresa().equals(matriculaEmpresa)) {
+				if (titularUi.getNameTitular().equals(name)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+
+					LOGGER.info("END");
+					return titularUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
 	}
 
 	public DependenteUi findDependenteByCpfAndName(Long cpf, String nameDependente) {
-		DependenteUi dependenteUiTmp = null;
-		LOGGER.info("BEGIN");
+		for (DependenteUi dependenteUi : getDependenteUis()) {
+			if (dependenteUi.getCpf() != null) {
+				LOGGER.trace(
+						"Comparing with Dependente [{}] with Matricula [{}]:",
+						dependenteUi.getNameDependente(),
+						dependenteUi.getMatricula());
 
-		if (cpf != null) {
-			if (getMapDependenteUiByCpf() != null) {
-				LOGGER.info("END");
-				dependenteUiTmp = getMapDependenteUiByCpf().get(new MapKey(cpf, nameDependente));
-			}
-
-			if (dependenteUiTmp == null) {
-				for (DependenteUi dependenteUi : getDependenteUis()) {
-					if (dependenteUi.getCpf() != null) {
-						LOGGER.trace(
-								"Comparing with Dependente [{}] with Matricula [{}]:",
+				if (dependenteUi.getCpf().equals(cpf)) {
+					if (dependenteUi.getNameDependente().equals(nameDependente)) {
+						LOGGER.info(
+								"Dependente [{}] with CPF [{}] found:",
 								dependenteUi.getNameDependente(),
-								dependenteUi.getMatricula());
+								dependenteUi.getCpf());
 
-						if (dependenteUi.getCpf().equals(cpf)) {
-							if (dependenteUi.getNameDependente().equals(nameDependente)) {
-								LOGGER.info(
-										"Dependente [{}] with CPF [{}] found:",
-										dependenteUi.getNameDependente(),
-										dependenteUi.getCpf());
-
-								dependenteUiTmp = dependenteUi;
-								break;
-							}
-						}
+						LOGGER.info("END");
+						return dependenteUi;
 					}
 				}
 			}
 		}
 
 		LOGGER.info("END");
-		return dependenteUiTmp;
+		return null;
 	}
 
 	public DependenteUi findDependenteByMatriculaAndName(Long matricula, String nameDependente) {
-		DependenteUi dependenteUiTmp = null;
+		for (DependenteUi dependenteUi : getDependenteUis()) {
+			LOGGER.trace(
+					"Comparing with Dependente [{}] with Matricula [{}]:",
+					dependenteUi.getNameDependente(),
+					dependenteUi.getMatricula());
 
-		LOGGER.info("BEGIN");
-
-		if (matricula != null) {
-			if (getMapDependenteUiByMatricula() != null) {
-				dependenteUiTmp = getMapDependenteUiByMatricula().get(new MapKey(matricula, nameDependente));
-			}
-
-			if (dependenteUiTmp == null) {
-				for (DependenteUi dependenteUi : getDependenteUis()) {
-					LOGGER.trace(
-							"Comparing with Dependente [{}] with Matricula [{}]:",
+			if (dependenteUi.getMatricula().equals(matricula)) {
+				if (dependenteUi.getNameDependente().equals(nameDependente)) {
+					LOGGER.info(
+							"Dependente [{}] with CPF [{}] found:",
 							dependenteUi.getNameDependente(),
-							dependenteUi.getMatricula());
+							dependenteUi.getCpf());
 
-					if (dependenteUi.getMatricula().equals(matricula)) {
-						if (dependenteUi.getNameDependente().equals(nameDependente)) {
-							LOGGER.info(
-									"Dependente [{}] with CPF [{}] found:",
-									dependenteUi.getNameDependente(),
-									dependenteUi.getCpf());
-
-							dependenteUiTmp = dependenteUi;
-							break;
-						}
-					}
+					LOGGER.info("END");
+					return dependenteUi;
 				}
 			}
 		}
 
 		LOGGER.info("END");
-		return dependenteUiTmp;
+		return null;
+	}
+
+	public DependenteUi findDependenteByMatriculaEmpresaAndName(Long matricula, String nameDependente) {
+		for (DependenteUi dependenteUi : getDependenteUis()) {
+			LOGGER.trace(
+					"Comparing with Dependente [{}] with Matricula [{}]:",
+					dependenteUi.getNameDependente(),
+					dependenteUi.getMatricula());
+
+			if (dependenteUi.getMatriculaEmpresa() != null && dependenteUi.getMatriculaEmpresa().equals(matricula)) {
+				if (dependenteUi.getNameDependente().equals(nameDependente)) {
+					LOGGER.info(
+							"Dependente [{}] with CPF [{}] found:",
+							dependenteUi.getNameDependente(),
+							dependenteUi.getCpf());
+
+					LOGGER.info("END");
+					return dependenteUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
 	}
 
 	public TitularUi findTitularByMatricula(Long matricula) {
@@ -485,38 +469,6 @@ public class CoParticipacaoContext {
 
 		LOGGER.info("END");
 		return null;
-	}
-
-	public PartitionMap<TitularUi> getMapTitularUiByCpf() {
-		return mapTitularUiByCpf;
-	}
-
-	public void setMapTitularUiByCpf(PartitionMap<TitularUi> mapTitularUiByCpf) {
-		this.mapTitularUiByCpf = mapTitularUiByCpf;
-	}
-
-	public PartitionMap<DependenteUi> getMapDependenteUiByCpf() {
-		return mapDependenteUiByCpf;
-	}
-
-	public void setMapDependenteUiByCpf(PartitionMap<DependenteUi> mapDependenteUiByCpf) {
-		this.mapDependenteUiByCpf = mapDependenteUiByCpf;
-	}
-
-	public PartitionMap<TitularUi> getMapTitularUiByMatricula() {
-		return mapTitularUiByMatricula;
-	}
-
-	public void setMapTitularUiByMatricula(PartitionMap<TitularUi> mapTitularUiByMatricula) {
-		this.mapTitularUiByMatricula = mapTitularUiByMatricula;
-	}
-
-	public PartitionMap<DependenteUi> getMapDependenteUiByMatricula() {
-		return mapDependenteUiByMatricula;
-	}
-
-	public void setMapDependenteUiByMatricula(PartitionMap<DependenteUi> mapDependenteUiByMatricula) {
-		this.mapDependenteUiByMatricula = mapDependenteUiByMatricula;
 	}
 
 	public ArquivoExecucaoUi getArquivoExecucaoUi() {
@@ -914,5 +866,4 @@ public class CoParticipacaoContext {
 		return titularIsentoUi;
 
 	}
-
 }

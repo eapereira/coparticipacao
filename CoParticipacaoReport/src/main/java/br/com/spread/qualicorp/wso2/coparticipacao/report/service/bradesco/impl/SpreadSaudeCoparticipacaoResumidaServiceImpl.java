@@ -50,8 +50,7 @@ public class SpreadSaudeCoparticipacaoResumidaServiceImpl extends
 			LOGGER.info("BEGIN");
 
 			spreadSaudeCoparticipacaoResumidaViewUis = entityToUi(
-					spreadSaudeCoparticipacaoResumidaDao
-							.listByMesAndAno(mes, ano, SpreadSaude.getAtivos(), SpreadSaude.getInativos()));
+					spreadSaudeCoparticipacaoResumidaDao.listByMesAndAno(mes, ano, SpreadSaude.getAtivos()));
 
 			LOGGER.info("END");
 			return spreadSaudeCoparticipacaoResumidaViewUis;

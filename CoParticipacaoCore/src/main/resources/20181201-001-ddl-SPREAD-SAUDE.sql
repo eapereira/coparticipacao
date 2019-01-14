@@ -59,7 +59,7 @@ from TB_LANCAMENTO lancamento
 		empresa.ID = contrato.ID_EMPRESA
 where	empresa.CD_EMPRESA = '073828'
 and		lancamento.ID_DEPENDENTE is null
-and		titular.CD_PLANO is null
+and		( titular.CD_PLANO is null or ( titular.NR_MATRICULA_EMPRESA is null and titular.NR_MATRICULA_ESPECIAL is null ))
 union all
 select
 	lancamento.CD_MES,
@@ -85,7 +85,7 @@ from TB_LANCAMENTO lancamento
 		dependente.ID = lancamento.ID_DEPENDENTE
 where	empresa.CD_EMPRESA = '073828'
 and		lancamento.ID_DEPENDENTE is not null
-and		( titular.CD_PLANO is null or dependente.NR_MATRICULA_EMPRESA is null );
+and		( titular.CD_PLANO is null or ( dependente.NR_MATRICULA_EMPRESA is null and dependente.NR_MATRICULA_ESPECIAL is null ));
 	
 create view VW_DESCONHECIDO_SPREAD_SAUDE as
 select distinct
@@ -184,6 +184,7 @@ from TB_LANCAMENTO lancamento
 	left outer join VW_TITULAR_ISENTO_SPREAD_SAUDE isento on
 		isento.ID_TITULAR = titular.ID
 where	empresa.CD_EMPRESA = '073828' 
+and		lancamento.DESCR_UTILIZACAO is not null
 and		lancamento.ID_DEPENDENTE is null
 union all
 select
@@ -230,6 +231,7 @@ from TB_LANCAMENTO lancamento
 	left outer join VW_DEPENDENTE_ISENTO_SPREAD_SAUDE isento on
 		isento.ID_DEPENDENTE = dependente.ID
 where	empresa.CD_EMPRESA = '073828' 
+and		lancamento.DESCR_UTILIZACAO is not null
 and		lancamento.ID_DEPENDENTE is not null;
 
 create view VW_COPARTICIPACAO_SPREAD_SAUDE as

@@ -118,5 +118,28 @@ public class DependenteDaoImpl extends AbstractDaoImpl<DependenteEntity> impleme
 			throw new DaoException(e.getMessage(), e);
 		}
 	}
+
+	public List<DependenteEntity> listByEmpresaIdOrderByMatriculaEmpresaAndName(Long empresaId) throws DaoException {
+		List<DependenteEntity> dependenteEntities;
+		Query query;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			query = createQuery("listByEmpresaIdOrderByMatriculaEmpresaAndName");
+			query.setParameter("empresaId", empresaId);
+
+			dependenteEntities = query.getResultList();
+
+			LOGGER.info("END");
+			return dependenteEntities;
+		} catch (NoResultException e) {
+			LOGGER.info(e.getMessage());
+			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new DaoException(e.getMessage(), e);
+		}
+	}
 	
 }

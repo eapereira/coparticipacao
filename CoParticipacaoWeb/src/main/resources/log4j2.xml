@@ -19,7 +19,7 @@
 			</Policies>
 			<DefaultRolloverStrategy>
 		        <Delete basePath="${app.home}/logs" maxDepth="2">
-		          <IfFileName glob="*/CoParticipacaoWeb*.log.gz" />
+		          <IfFileName glob="*/CoParticipacaoWeb*.log*" />
 		          <IfLastModified age="30d" />
 		        </Delete>
 			</DefaultRolloverStrategy>			

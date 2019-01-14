@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SpreadSaudeCoparticipacao" pageWidth="2400" pageHeight="999999" columnWidth="2400" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="4ffbecd3-77f9-41c6-adad-e911f877de10">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="target/classes/dataAdapter/bradesco/SpreadSaudeCoparticipacaoDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/bradesco/SpreadSaudeCoparticipacaoDataAdapter.xml"/>
 	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="false"/>
 	<queryString>
 		<![CDATA[]]>
@@ -184,7 +184,7 @@
 				<textFieldExpression><![CDATA[$F{nameBeneficiario}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="1000" y="0" width="240" height="20" uuid="caed67a8-3308-4bf8-9446-22887eecd32b"/>
+				<reportElement x="1000" y="0" width="140" height="20" uuid="caed67a8-3308-4bf8-9446-22887eecd32b"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
@@ -224,6 +224,13 @@
 					<font fontName="Calibri" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorIsento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="1140" y="0" width="100" height="20" uuid="63c7b991-1d9c-4f16-b925-7766dbf51f3b"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dtUtilizacao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -17,6 +17,5 @@ public interface SpreadSaudeCoparticipacaoResumidaDao extends AbstractDao<Spread
 	List<SpreadSaudeCoparticipacaoResumidaViewEntity> listByMesAndAno(
 			Integer mes,
 			Integer ano,
-			List<SpreadSaude> ativos,
-			List<SpreadSaude> inativos) throws DaoException;
+			List<SpreadSaude> ativos) throws DaoException;
 }

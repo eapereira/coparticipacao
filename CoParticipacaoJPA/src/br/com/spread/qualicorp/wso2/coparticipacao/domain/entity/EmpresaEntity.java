@@ -230,11 +230,11 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.getReportLayoutType();
 	}
 
-	@Column(name = "CD_CREATE_BENEFICIARIO_FROM_ISENTO")
+	@Column(name = "CD_UPDATE_BENEFICIARIO_FROM_ISENTO")
 	@Override
-	public boolean isCreateBeneficiarioFromIsento() {
+	public boolean isUpdateBeneficiarioFromIsento() {
 		// TODO Auto-generated method stub
-		return super.isCreateBeneficiarioFromIsento();
+		return super.isUpdateBeneficiarioFromIsento();
 	}
 
 }

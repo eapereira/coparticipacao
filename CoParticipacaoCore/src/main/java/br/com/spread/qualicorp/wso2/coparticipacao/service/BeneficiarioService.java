@@ -46,4 +46,14 @@ public interface BeneficiarioService {
 			CoParticipacaoContext coParticipacaoContext,
 			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException;
 
+	void updateTitular(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi,
+			TitularUi titularUi) throws ServiceException;
+
+	void updateDependente(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi,
+			DependenteUi dependenteUi) throws ServiceException;
+
 }

@@ -136,4 +136,21 @@ public class DependenteServiceImpl extends AbstractServiceImpl<DependenteUi, Dep
 		LOGGER.debug("DT_NASCIMENTO:.....................[{}]", dependenteUi.getDtNascimento());
 		LOGGER.debug("TP_DEPENDENTE:.....................[{}]", dependenteUi.getTpDependente().getDescription());
 	}
+
+	public List<DependenteUi> listByEmpresaIdOrderByMatriculaEmpresaAndName(EmpresaUi empresaUi)
+			throws ServiceException {
+		List<DependenteUi> dependenteUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			dependenteUis = entityToUi(dependenteDao.listByEmpresaIdOrderByMatriculaEmpresaAndName(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return dependenteUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
 }

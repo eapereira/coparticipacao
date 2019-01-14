@@ -16,7 +16,9 @@ public interface TitularDao extends AbstractDao<TitularEntity> {
 	List<TitularEntity> listByEmpresaId(Long id) throws DaoException;
 
 	List<TitularEntity> listByEmpresaIdOrderByCpfAndName(Long empresaId) throws DaoException;
-	
+
 	List<TitularEntity> listByEmpresaIdOrderByMatriculaAndName(Long empresaId) throws DaoException;
+
+	List<TitularEntity> listByEmpresaIdOrderByMatriculaEmpresaAndName(Long empresaId) throws DaoException;
 
 }

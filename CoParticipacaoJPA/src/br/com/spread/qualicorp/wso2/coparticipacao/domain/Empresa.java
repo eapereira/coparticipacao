@@ -53,14 +53,14 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean createBeneficiarioFromMecsas2;
 
 	private boolean useJasperReports;
-	
+
 	private boolean updateBeneficiarioFromFatucopa;
-	
+
 	private boolean enabled;
-	
+
 	private ReportLayoutType reportLayoutType;
-	
-	private boolean createBeneficiarioFromIsento;
+
+	private boolean updateBeneficiarioFromIsento;
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -297,7 +297,7 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + (automaticCreateTitular ? 1231 : 1237);
 		result = prime * result + ((cdEmpresa == null) ? 0 : cdEmpresa.hashCode());
 		result = prime * result + ((contratos == null) ? 0 : contratos.hashCode());
-		result = prime * result + (createBeneficiarioFromIsento ? 1231 : 1237);
+		result = prime * result + (updateBeneficiarioFromIsento ? 1231 : 1237);
 		result = prime * result + (createBeneficiarioFromMecsas2 ? 1231 : 1237);
 		result = prime * result + (enabled ? 1231 : 1237);
 		result = prime * result + (enabledExternalProcess ? 1231 : 1237);
@@ -345,7 +345,7 @@ public abstract class Empresa extends AbstractDomain {
 				return false;
 		} else if (!contratos.equals(other.contratos))
 			return false;
-		if (createBeneficiarioFromIsento != other.createBeneficiarioFromIsento)
+		if (updateBeneficiarioFromIsento != other.updateBeneficiarioFromIsento)
 			return false;
 		if (createBeneficiarioFromMecsas2 != other.createBeneficiarioFromMecsas2)
 			return false;
@@ -420,13 +420,12 @@ public abstract class Empresa extends AbstractDomain {
 		this.reportLayoutType = reportLayoutType;
 	}
 
-	public boolean isCreateBeneficiarioFromIsento() {
-		return createBeneficiarioFromIsento;
+	public boolean isUpdateBeneficiarioFromIsento() {
+		return updateBeneficiarioFromIsento;
 	}
 
-	public void setCreateBeneficiarioFromIsento(boolean createBeneficiarioFromIsento) {
-		this.createBeneficiarioFromIsento = createBeneficiarioFromIsento;
+	public void setUpdateBeneficiarioFromIsento(boolean updateBeneficiarioFromIsento) {
+		this.updateBeneficiarioFromIsento = updateBeneficiarioFromIsento;
 	}
-
 
 }

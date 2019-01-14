@@ -65,7 +65,7 @@ public class SpreadSaudeTest extends CoParticipacaoTest {
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201812 = 606;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201812 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201812 = 4246;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812 = 131;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812 = 150;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812 = 0;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812 = 1164;

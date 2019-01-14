@@ -734,7 +734,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			if (UseType.MECSAS.equals(contratoUi.getUseType())
 					|| (UseType.MECSAS2.equals(contratoUi.getUseType()) && empresaUi.isCreateBeneficiarioFromMecsas2())
-					|| (UseType.ISENTO.equals(contratoUi.getUseType()) && empresaUi.isCreateBeneficiarioFromIsento())) {
+					|| (UseType.ISENTO.equals(contratoUi.getUseType()) && empresaUi.isUpdateBeneficiarioFromIsento())) {
 				if (beneficiarioUi.getType() == null) {
 					if (StringUtils.isBlank(beneficiarioUi.getNameTitular())) {
 						beneficiarioUi.setType(BeneficiarioType.TITULAR);
@@ -918,7 +918,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setUserAltered(coParticipacaoContext.getUser());
 							titularUi.setUserCreated(coParticipacaoContext.getUser());
 
-							coParticipacaoContext.getTitularUis().add(titularUi);
 							coParticipacaoContext.addTitular(titularUi);
 
 							LOGGER.info(
@@ -1103,7 +1102,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							dependenteUi.setUserCreated(coParticipacaoContext.getUser());
 
 							titularUi.addDependente(dependenteUi);
-							coParticipacaoContext.getDependenteUis().add(dependenteUi);
 							coParticipacaoContext.addDependente(dependenteUi);
 						} else {
 							/*
@@ -1139,14 +1137,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					if (!dependenteUi.isMarkedForUpdated() && dependenteUi.getId() != null) {
 						dependenteUi.setMarkedForUpdated(true);
 						updateDependente(coParticipacaoContext, dependenteUi, beneficiarioUi);
-						coParticipacaoContext.addDependente(dependenteUi);
 					} else {
 						throw new DependenteDuplicated(beneficiarioUi);
 					}
 				} else {
 					if (isFatucopaEnabledToUpdateBeneficiario(coParticipacaoContext)) {
 						updateDependente(coParticipacaoContext, dependenteUi, beneficiarioUi);
-						coParticipacaoContext.addDependente(dependenteUi);
 					}
 				}
 			}
@@ -1246,7 +1242,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())
 					|| UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
 					|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())
-					|| isFatucopaEnabledToUpdateBeneficiario(coParticipacaoContext)) {
+					|| isFatucopaEnabledToUpdateBeneficiario(coParticipacaoContext)
+					|| isIsentoEnabledToUpdateBeneficiario(coParticipacaoContext)) {
 				if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					if (NumberUtils2.isNotZero(beneficiarioUi.getCpf())) {
 						LOGGER.debug("Updating Titular field CPF with value [{}]:", beneficiarioUi.getCpf());
@@ -1301,9 +1298,34 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						beneficiarioUi.getBeneficiarioDetail());
 
 				titularUi.setUserAltered(coParticipacaoContext.getUser());
+
+				coParticipacaoContext.addTitular(titularUi);
 			}
 
 			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private boolean isIsentoEnabledToUpdateBeneficiario(CoParticipacaoContext coParticipacaoContext)
+			throws ServiceException {
+		EmpresaUi empresaUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			empresaUi = coParticipacaoContext.getEmpresaUi();
+
+			if (UseType.ISENTO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+				if (empresaUi.isUpdateBeneficiarioFromIsento()) {
+					return true;
+				}
+			}
+
+			LOGGER.info("END");
+			return false;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -1363,6 +1385,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						beneficiarioUi.getBeneficiarioDetail());
 
 				dependenteUi.setUserAltered(coParticipacaoContext.getUser());
+
+				coParticipacaoContext.addDependente(dependenteUi);
 			}
 
 			LOGGER.info("END");
@@ -1387,6 +1411,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
 							beneficiarioUi.getMatricula(),
 							beneficiarioUi.getNameTitular());
+
+					if (titularUi == null) {
+						titularUi = coParticipacaoContext.findTitularByMatriculaEmpresaAndName(
+								beneficiarioUi.getMatriculaEmpresa(),
+								beneficiarioUi.getNameTitular());
+					}
 				}
 			}
 
@@ -1399,6 +1429,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
 								beneficiarioUi.getMatricula(),
 								beneficiarioUi.getNameBeneficiario());
+
+						if (titularUi == null) {
+							titularUi = coParticipacaoContext.findTitularByMatriculaEmpresaAndName(
+									beneficiarioUi.getMatriculaEmpresa(),
+									beneficiarioUi.getNameBeneficiario());
+						}
 					}
 				}
 			}
@@ -1623,4 +1659,45 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throw new ServiceException(e.getMessage(), e);
 		}
 	}
+
+	public void updateTitular(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi,
+			TitularUi titularUi) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioIsentoUi);
+
+			updateTitular(coParticipacaoContext, titularUi, beneficiarioUi);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	public void updateDependente(
+			CoParticipacaoContext coParticipacaoContext,
+			BeneficiarioIsentoUi beneficiarioIsentoUi,
+			DependenteUi dependenteUi) throws ServiceException {
+		BeneficiarioUi beneficiarioUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioIsentoUi);
+
+			updateDependente(coParticipacaoContext, dependenteUi, beneficiarioUi);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
 }

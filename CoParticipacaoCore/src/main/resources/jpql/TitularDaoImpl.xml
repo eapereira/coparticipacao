@@ -44,5 +44,16 @@
 		]]>
 	</query>
 
+	<query id="listByEmpresaIdOrderByMatriculaEmpresaAndName">	
+		<![CDATA[
+			select titular from TitularEntity titular
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa
+			left outer join fetch titular.dependentes dependentes
+			where empresa.id = :empresaId
+			order by titular.matriculaEmpresa, titular.nameTitular
+		]]>
+	</query>
+
 </queries>
 	

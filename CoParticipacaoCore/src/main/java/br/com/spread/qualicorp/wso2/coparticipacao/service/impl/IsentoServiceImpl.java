@@ -156,13 +156,11 @@ public class IsentoServiceImpl implements IsentoService {
 
 			dependenteUi = beneficiarioService.findDependente(coParticipacaoContext, beneficiarioIsentoUi);
 
-			if (dependenteUi == null) {
-				if (coParticipacaoContext.getEmpresaUi().isCreateBeneficiarioFromIsento()) {
-					dependenteUi = beneficiarioService.createDependente(coParticipacaoContext, beneficiarioIsentoUi);
-				}
-			}
-
 			if (dependenteUi != null) {
+				if (coParticipacaoContext.getEmpresaUi().isUpdateBeneficiarioFromIsento()) {
+					beneficiarioService.updateDependente(coParticipacaoContext, beneficiarioIsentoUi, dependenteUi);
+				}
+
 				dependenteIsentoUi = coParticipacaoContext.findDependenteIsento(dependenteUi);
 
 				if (dependenteIsentoUi == null) {
@@ -208,13 +206,11 @@ public class IsentoServiceImpl implements IsentoService {
 
 			titularUi = beneficiarioService.findTitular(coParticipacaoContext, beneficiarioIsentoUi);
 
-			if (titularUi == null) {
-				if (coParticipacaoContext.getEmpresaUi().isCreateBeneficiarioFromIsento()) {
-					titularUi = beneficiarioService.createTitular(coParticipacaoContext, beneficiarioIsentoUi);
-				}
-			}
-
 			if (titularUi != null) {
+				if (coParticipacaoContext.getEmpresaUi().isUpdateBeneficiarioFromIsento()) {
+					beneficiarioService.updateTitular(coParticipacaoContext, beneficiarioIsentoUi, titularUi);
+				}
+
 				titularIsentoUi = coParticipacaoContext.findTitularIsento(titularUi);
 
 				if (titularIsentoUi == null) {
@@ -321,6 +317,10 @@ public class IsentoServiceImpl implements IsentoService {
 				beneficiarioIsentoUi.setDtInicio((LocalDate) value);
 			} else if (BeneficiarioIsentoColType.DT_FIM.equals(beneficiarioIsentoColType)) {
 				beneficiarioIsentoUi.setDtFim((LocalDate) value);
+			} else if (BeneficiarioIsentoColType.NR_MATRICULA_ESPECIAL.equals(beneficiarioIsentoColType)) {
+				beneficiarioIsentoUi.setMatriculaEspecial((String) value);
+			} else if (BeneficiarioIsentoColType.CD_PLANO.equals(beneficiarioIsentoColType)) {
+				beneficiarioIsentoUi.setPlano((String) value);
 			}
 
 			LOGGER.info("END");
@@ -440,7 +440,7 @@ public class IsentoServiceImpl implements IsentoService {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Process ending and sending data to database:");
 
-			if (coParticipacaoContext.getEmpresaUi().isCreateBeneficiarioFromIsento()) {
+			if (coParticipacaoContext.getEmpresaUi().isUpdateBeneficiarioFromIsento()) {
 				LOGGER.info("Creating Beneficiarios that we dont have at database:");
 
 				titularBatchService.saveBatch(coParticipacaoContext, coParticipacaoContext.getBunker().getTitularUis());

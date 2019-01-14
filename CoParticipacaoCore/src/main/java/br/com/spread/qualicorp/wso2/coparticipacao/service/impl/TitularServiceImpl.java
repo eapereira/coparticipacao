@@ -153,4 +153,20 @@ public class TitularServiceImpl extends AbstractServiceImpl<TitularUi, TitularEn
 		LOGGER.debug("DT_NASCIMENTO:.....................[{}]", titularUi.getDtNascimento());
 		LOGGER.debug("DT_ADMISSAO:.......................[{}]", titularUi.getDtAdmissao());
 	}
+
+	public List<TitularUi> listByEmpresaIdOrderByMatriculaEmpresaAndName(EmpresaUi empresaUi) throws ServiceException {
+		List<TitularUi> titularUis;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			titularUis = entityToUi(titularDao.listByEmpresaIdOrderByMatriculaEmpresaAndName(empresaUi.getId()));
+
+			LOGGER.info("END");
+			return titularUis;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
 }

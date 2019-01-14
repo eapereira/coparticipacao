@@ -15,9 +15,11 @@ public interface DependenteService extends AbstractService<DependenteUi> {
 	DependenteUi findByCpf(String cpf) throws ServiceException;
 
 	List<DependenteUi> listByEmpresaId(EmpresaUi empresaUi) throws ServiceException;
-	
+
 	List<DependenteUi> listByEmpresaIdOrderByCpfAndName(EmpresaUi empresaUi) throws ServiceException;
-	
+
 	List<DependenteUi> listByEmpresaIdOrderByMatriculaAndName(EmpresaUi empresaUi) throws ServiceException;
+
+	List<DependenteUi> listByEmpresaIdOrderByMatriculaEmpresaAndName(EmpresaUi empresaUi) throws ServiceException;
 
 }

@@ -41,6 +41,17 @@
 			order by dependente.matricula, dependente.nameDependente
 		]]>
 	</query>
+
+	<query id="listByEmpresaIdOrderByMatriculaEmpresaAndName">	
+		<![CDATA[
+			select dependente from DependenteEntity dependente
+			join fetch dependente.titular titular
+			join fetch titular.contrato contrato
+			join fetch contrato.empresa empresa			
+			where empresa.id = :empresaId
+			order by dependente.matriculaEmpresa, dependente.nameDependente
+		]]>
+	</query>
 	
 </queries>
 	

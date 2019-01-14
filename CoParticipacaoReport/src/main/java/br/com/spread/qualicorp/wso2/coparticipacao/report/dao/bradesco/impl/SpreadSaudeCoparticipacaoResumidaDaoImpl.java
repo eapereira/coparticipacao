@@ -36,8 +36,7 @@ public class SpreadSaudeCoparticipacaoResumidaDaoImpl extends
 	public List<SpreadSaudeCoparticipacaoResumidaViewEntity> listByMesAndAno(
 			Integer mes,
 			Integer ano,
-			List<SpreadSaude> ativos,
-			List<SpreadSaude> inativos) throws DaoException {
+			List<SpreadSaude> ativos) throws DaoException {
 		List<SpreadSaudeCoparticipacaoResumidaViewEntity> spreadSaudeCoparticipacaoResumidaViewEntities;
 		Query query;
 		List<String> subfaturaAtivos;
@@ -54,15 +53,10 @@ public class SpreadSaudeCoparticipacaoResumidaDaoImpl extends
 
 			subfaturaInativos = new ArrayList<>();
 
-			for (SpreadSaude spreadSaude : inativos) {
-				subfaturaInativos.add(StringUtils.leftPad(spreadSaude.getId().toString(), 3, "0"));
-			}
-
 			query = createQuery("listByMesAndAno");
 			query.setParameter("mes", mes);
 			query.setParameter("ano", ano);
 			query.setParameter("subFaturaAtivos", subfaturaAtivos);
-			query.setParameter("subFaturaInativos", subfaturaInativos);
 
 			spreadSaudeCoparticipacaoResumidaViewEntities = query.getResultList();
 

@@ -42,11 +42,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.io.CsvProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.FixedLengthProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorService;
-import br.com.spread.qualicorp.wso2.coparticipacao.search.DependenteByCpfAndNameMapKeyBuilder;
-import br.com.spread.qualicorp.wso2.coparticipacao.search.DependenteByMatriculaAndNameMapKeyBuilder;
-import br.com.spread.qualicorp.wso2.coparticipacao.search.PartitionMap;
-import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByCpfAndNameMapKeyBuilder;
-import br.com.spread.qualicorp.wso2.coparticipacao.search.TitularByMatriculaAndNameMapKeyBuilder;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoInputSheetService;
@@ -595,8 +590,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
 		EmpresaUi empresaUi;
-		PartitionMap<TitularUi> mapTitularUi;
-		PartitionMap<DependenteUi> mapDependenteUi;
 		List<DesconhecidoUi> desconhecidoUis;
 
 		try {
@@ -615,35 +608,7 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 			titularUis = titularService.listByEmpresaIdOrderByCpfAndName(empresaUi);
 			dependenteUis = dependenteService.listByEmpresaIdOrderByCpfAndName(empresaUi);
 
-			if (!titularUis.isEmpty()) {
-				mapTitularUi = new PartitionMap<TitularUi>(titularUis, new TitularByCpfAndNameMapKeyBuilder());
-				coParticipacaoContext.setMapTitularUiByCpf(mapTitularUi);
-			}
-
-			if (!dependenteUis.isEmpty()) {
-				mapDependenteUi = new PartitionMap<DependenteUi>(
-						dependenteUis,
-						new DependenteByCpfAndNameMapKeyBuilder());
-				coParticipacaoContext.setMapDependenteUiByCpf(mapDependenteUi);
-			}
-
 			desconhecidoUis = desconhecidoService.listByEmpresaId(empresaUi);
-
-			LOGGER.info("Loading Beneficiários data by Matricula and Name:");
-			titularUis = titularService.listByEmpresaIdOrderByMatriculaAndName(empresaUi);
-			dependenteUis = dependenteService.listByEmpresaIdOrderByMatriculaAndName(empresaUi);
-
-			if (!titularUis.isEmpty()) {
-				mapTitularUi = new PartitionMap<TitularUi>(titularUis, new TitularByMatriculaAndNameMapKeyBuilder());
-				coParticipacaoContext.setMapTitularUiByMatricula(mapTitularUi);
-			}
-
-			if (!dependenteUis.isEmpty()) {
-				mapDependenteUi = new PartitionMap<DependenteUi>(
-						dependenteUis,
-						new DependenteByMatriculaAndNameMapKeyBuilder());
-				coParticipacaoContext.setMapDependenteUiByMatricula(mapDependenteUi);
-			}
 
 			loadRegisterInfo(coParticipacaoContext);
 

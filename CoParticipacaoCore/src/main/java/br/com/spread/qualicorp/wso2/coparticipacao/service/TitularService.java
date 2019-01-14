@@ -19,4 +19,6 @@ public interface TitularService extends AbstractService<TitularUi> {
 
 	List<TitularUi> listByEmpresaIdOrderByMatriculaAndName(EmpresaUi empresaUi) throws ServiceException;
 
+	List<TitularUi> listByEmpresaIdOrderByMatriculaEmpresaAndName(EmpresaUi empresaUi) throws ServiceException;
+
 }
