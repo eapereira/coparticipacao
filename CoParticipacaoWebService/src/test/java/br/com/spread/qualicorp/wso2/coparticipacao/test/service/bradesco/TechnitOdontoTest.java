@@ -46,7 +46,7 @@ public class TechnitOdontoTest extends CoParticipacaoTest {
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201810 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201810 = 0;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201812 = 280;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201812 = 443;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201812 = 323;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201812 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201812 = 0;

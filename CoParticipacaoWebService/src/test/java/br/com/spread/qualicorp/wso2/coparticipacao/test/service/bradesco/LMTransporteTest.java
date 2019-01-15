@@ -36,7 +36,7 @@ public class LMTransporteTest extends CoParticipacaoTest {
 	private static final String FATUCOPA_201810 = "lm-transportes/input/073179.073179.201810.004.xlsx";
 	private static final String NAO_LOCALIZADO_201808 = "lm-transportes/input/073179.NAO-LOCALIZADO.201810.002.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 1;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 3;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 3;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 0;

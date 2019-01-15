@@ -40,7 +40,7 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 	private static final String FATUCOPA_201812 = "technit-saude/input/180831.180831.201812.004.xlsx";
 	private static final String NAO_LOCALIZADO_201812 = "technit-saude/input/180831.NAO-LOCALIZADO.201812.002.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 310;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 484;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 358;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 2259;
@@ -50,17 +50,17 @@ public class TechnitSaudeTest extends CoParticipacaoTest {
 	private static final String CD_CONTRATO_FATUCOPA = "180831";
 	private static final String CD_CONTRATO_NAO_LOCALIZADO = "NAO-LOCALIZADO";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 310;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 484;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 358;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 2259;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201812 = 301;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201812 = 462;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201812 = 336;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201812 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201812 = 2476;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812 = 301;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201812 = 462;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201812 = 336;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201812 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201812 = 2476;

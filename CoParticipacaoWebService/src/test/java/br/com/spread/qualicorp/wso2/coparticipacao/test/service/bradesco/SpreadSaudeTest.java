@@ -41,15 +41,15 @@ public class SpreadSaudeTest extends CoParticipacaoTest {
 	private static final String ISENTO_201810 = "spread-saude/input/073828.ISENTO.201810.004.xlsx";
 	private static final String NAO_LOCALIZADO_201810 = "spread-saude/input/073828.NAO-LOCALIZADO.201810.003.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201810 = 939;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201810 = 601;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201810 = 220;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201810 = 1205;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201810 = 624;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201810 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201810 = 5265;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810 = 0;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 0;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201810 = 954;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201810 = 618;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201810 = 1205;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201810 = 624;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201810 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201810 = 5485;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_AFTER_USER_RETURN_201810 = 0;
