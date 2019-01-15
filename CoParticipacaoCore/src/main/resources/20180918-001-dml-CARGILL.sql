@@ -73,6 +73,7 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_CD_PLANO								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF									int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
+	declare VAR_COL_VIEW_LENGTH_NM_BENEFICIARIO							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DT_ADMISSAO								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_TP_SINAL								int( 3 ) default 10;
@@ -83,6 +84,7 @@ BEGIN
 	declare VAR_COL_LABEL_CD_PLANO										varchar( 40 ) default 'PLANO';
 	declare VAR_COL_LABEL_NR_CPF										varchar( 40 ) default 'CPF';
 	declare VAR_COL_LABEL_NM_TITULAR									varchar( 40 ) default 'NOME TÍTULAR';
+	declare VAR_COL_LABEL_NM_BENEFICIARIO								varchar( 40 ) default 'BENEFICIÁRIO';
 	declare VAR_COL_LABEL_VL_PRINCIPAL									varchar( 40 ) default 'TOTAL';
 	declare VAR_COL_LABEL_DT_ADMISSAO									varchar( 40 ) default 'DT ADMISSÃO';
 	declare VAR_COL_LABEL_TP_SINAL										varchar( 40 ) default 'SINAL';
@@ -1060,6 +1062,32 @@ BEGIN
 	);					
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 872');	
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		NM_COL_TITLE_LABEL,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NM_TITULAR',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_TITULAR,
+		VAR_CD_ORDEM,
+		VAR_COL_LABEL_NM_TITULAR,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);					
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
 	call PROC_LOG_MESSAGE('LINHA - 872');	
 	insert into TB_VIEW_DESTINATION_COLS_DEF(
@@ -1076,9 +1104,9 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION,
 		'NM_BENEFICIARIO',
 		VAR_COL_VARCHAR,
-		VAR_COL_VIEW_LENGTH_NM_TITULAR,
+		VAR_COL_VIEW_LENGTH_NM_BENEFICIARIO,
 		VAR_CD_ORDEM,
-		VAR_COL_LABEL_NM_TITULAR,
+		VAR_COL_LABEL_NM_BENEFICIARIO,
 		
 		VAR_ID_USER,
 		current_timestamp(),

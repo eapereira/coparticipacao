@@ -82,5 +82,23 @@ public class CargillTest extends CoParticipacaoTest {
 
 		LOGGER.info("END");
 	}
+
+	@Test
+	public void testCoparticipacao201901() throws Exception {
+		LOGGER.info("BEGIN");
+
+		cargillBean.testCoparticipacao201901(this);
+
+		LOGGER.info("END");
+	}
+
+	@Test
+	public void testCoparticipacao201901AfterUserReturn() throws Exception {
+		LOGGER.info("BEGIN");
+
+		cargillBean.testCoparticipacao201901AfterUserReturn(this);
+
+		LOGGER.info("END");
+	}
 	
 }
