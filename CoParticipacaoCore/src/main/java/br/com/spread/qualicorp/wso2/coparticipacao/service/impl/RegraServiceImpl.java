@@ -22,9 +22,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.RegraEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.RegraUiMapper;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraOperationUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraResultUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
@@ -161,6 +161,9 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 				regraOperationUis = regraOperationService.listByRegraId(regraUi);
 				regraResultUis = regraResultService.listByRegraId(regraUi);
 
+				regraUi.getRegraOperations().clear();
+				regraUi.getRegraResults().clear();
+
 				regraUi.getRegraOperations().addAll(regraOperationUis);
 				regraUi.getRegraResults().addAll(regraResultUis);
 			}
@@ -210,48 +213,63 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 
 			for (RegraOperation regraOperation : regraOperatios) {
 
-				for (RegraField regraField : regraOperation.getRegraFields()) {
-					LOGGER.debug(
-							"RegraUi[{}] with RegraField[{}]",
-							regraUi.getNameRegra(),
-							regraField.getRegisterColumn().getNameColumn());
+				if (!regraOperation.getRegraFields().isEmpty()) {
+					for (RegraField regraField : regraOperation.getRegraFields()) {
+						LOGGER.debug(
+								"RegraUi[{}] with RegraField[{}]",
+								regraUi.getNameRegra(),
+								regraField.getRegisterColumn().getNameColumn());
 
-					for (RegisterColumnUi RegisterColumnUi : RegisterColumnUis) {
-						LOGGER.debug("Mapped column[{}] to be used:", RegisterColumnUi.getNameColumn());
+						for (RegisterColumnUi registerColumnUi : RegisterColumnUis) {
+							LOGGER.debug("Validating mapped column[{}]:", registerColumnUi.getNameColumn());
 
-						if (regraField.getRegisterColumn().getId()
-								.equals(RegisterColumnUi.getId())) {
-							LOGGER.info(
-									"Applying regra [{}] to field [{}]:",
-									regraUi.getNameRegra(),
-									regraField.getRegisterColumn().getNameColumn());
+							if (regraField.getRegisterColumn().getId().equals(registerColumnUi.getId())) {
+								LOGGER.info(
+										"Applying regra [{}] to field [{}]:",
+										regraUi.getNameRegra(),
+										regraField.getRegisterColumn().getNameColumn());
 
-							value = RegraHelper
-									.getFieldValue(coParticipacaoContext, RegisterColumnUi);
+								value = RegraHelper.getFieldValue(coParticipacaoContext, registerColumnUi);
 
-							LOGGER.info(
-									"Field [{}] has value [{}]:",
-									regraField.getRegisterColumn().getNameColumn(),
-									value);
+								LOGGER.info("Field [{}] has value [{}]:", registerColumnUi.getNameColumn(), value);
 
-							if (!BigDecimal.ZERO.equals(value)) {
-								if (BigDecimal.ZERO.equals(result)) {
-									result = (BigDecimal) value;
+								if (!BigDecimal.ZERO.equals(value)) {
+									if (BigDecimal.ZERO.equals(result)) {
+										result = (BigDecimal) value;
+									}
+
+									LOGGER.info("Result value [{}]:", result);
+
+									if (!regraOperation.getRegraValors().isEmpty()) {
+										for (RegraValor regraValor : regraOperation.getRegraValors()) {
+											value = regraValor.getValor();
+
+											LOGGER.info("Field value for RegraValor has value [{}]:", value);
+
+											result = executeOperation(
+													regraOperation.getTpOperation(),
+													(BigDecimal) value,
+													result);
+										}
+									} else {
+										result = executeOperation(
+												regraOperation.getTpOperation(),
+												(BigDecimal) value,
+												result);
+									}
 								}
 
-								LOGGER.info("Result value [{}]:", result);
-
-								for (RegraValor regraValor : regraOperation.getRegraValors()) {
-									value = regraValor.getValor();
-
-									LOGGER.info("Field value for RegraValor has value [{}]:", value);
-
-									result = executeOperation(regraOperation.getTpOperation(), (BigDecimal) value, result);
-								}
+								break;
 							}
-
-							break;
 						}
+					}
+				} else {
+					for (RegraValor regraValor : regraOperation.getRegraValors()) {
+						value = regraValor.getValor();
+
+						LOGGER.info("Field value for RegraValor has value [{}]:", value);
+
+						result = executeOperation(regraOperation.getTpOperation(), (BigDecimal) value, result);
 					}
 				}
 			}
@@ -266,8 +284,7 @@ public class RegraServiceImpl extends AbstractServiceImpl<RegraUi, RegraEntity, 
 								result,
 								regraResult.getRegisterColumn().getNameColumn());
 
-						RegraHelper
-								.setFieldValueAsBigDecimal(coParticipacaoContext, RegisterColumnUi, result);
+						RegraHelper.setFieldValueAsBigDecimal(coParticipacaoContext, RegisterColumnUi, result);
 						break;
 					}
 				}

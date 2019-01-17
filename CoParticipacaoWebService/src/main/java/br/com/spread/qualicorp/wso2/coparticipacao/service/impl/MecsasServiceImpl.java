@@ -27,6 +27,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListen
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 
 /**
@@ -55,6 +56,9 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 	@Autowired
 	private DesconhecidoBatchService desconhecidoBatchService;
 
+	@Autowired
+	private RegraService regraService;
+
 	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
@@ -63,6 +67,9 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 
 		try {
 			LOGGER.info("BEGIN");
+
+			// Aplicamdo regras do arquivo se existirem:
+			regraService.applyRegras(coParticipacaoContext);
 
 			beneficiarioUi = beneficiarioService.createBeneficiarioFromMecsas(coParticipacaoContext);
 

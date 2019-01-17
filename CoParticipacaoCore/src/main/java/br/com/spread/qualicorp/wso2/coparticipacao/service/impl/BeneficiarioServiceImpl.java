@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -55,6 +56,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.BeneficiarioDetailHelper
 public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioServiceImpl.class);
+
+	private static final int NUM_NAME_MATCHED = 1;
 
 	@Autowired
 	private EmpresaService empresaService;
@@ -1464,9 +1467,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 */
 			if (titularUi == null) {
 				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-					titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getMatriculaEmpresa());
+					if (beneficiarioUi.getMatriculaEmpresa() != null) {
+						titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getMatriculaEmpresa());
+					} else {
+						titularUi = findTitularByMatriculaAndName(
+								coParticipacaoContext,
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getNameBeneficiario());
+					}
 				}
 			}
 
@@ -1517,14 +1527,120 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 */
 			if (dependenteUi == null) {
 				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getMatriculaEmpresa());
+					if (beneficiarioUi.getMatriculaEmpresa() != null) {
+						dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getMatriculaEmpresa());
+					} else {
+						dependenteUi = findDependenteByMatriculaAndName(
+								coParticipacaoContext,
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getNameBeneficiario());
+					}
 				}
 			}
 
 			LOGGER.info("END");
 			return dependenteUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private DependenteUi findDependenteByMatriculaAndName(
+			CoParticipacaoContext coParticipacaoContext,
+			Long matricula,
+			String nameBeneficiario) throws ServiceException {
+		StringTokenizer stringTokenizerBeneficiario;
+		StringTokenizer stringTokenizerDependente;
+		String nameDependente;
+		String nameBeneficiarioTmp;
+		int nameMatched = NumberUtils.INTEGER_ZERO;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			stringTokenizerBeneficiario = new StringTokenizer(nameBeneficiario);
+
+			for (DependenteUi dependenteUi : coParticipacaoContext.getDependenteUis()) {
+				if (dependenteUi.getMatricula().equals(matricula)) {
+					LOGGER.debug(
+							"Found DependenteUi[{}] to be comparate with BeneficiarioUi[{}]:",
+							dependenteUi.getNameDependente(),
+							nameBeneficiario);
+
+					nameMatched = NumberUtils.INTEGER_ZERO;
+
+					stringTokenizerDependente = new StringTokenizer(dependenteUi.getNameDependente());
+
+					while (stringTokenizerDependente.hasMoreTokens() && stringTokenizerBeneficiario.hasMoreTokens()) {
+						nameDependente = stringTokenizerDependente.nextToken();
+						nameBeneficiarioTmp = stringTokenizerBeneficiario.nextToken();
+
+						if (nameDependente.equals(nameBeneficiarioTmp)) {
+							nameMatched++;
+						}
+					}
+
+					if (nameMatched > NUM_NAME_MATCHED) {
+						LOGGER.info("END");
+						return dependenteUi;
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return null;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private TitularUi findTitularByMatriculaAndName(
+			CoParticipacaoContext coParticipacaoContext,
+			Long matricula,
+			String nameBeneficiario) throws ServiceException {
+		StringTokenizer stringTokenizerBeneficiario;
+		StringTokenizer stringTokenizerTitular;
+		String nameTitular;
+		String nameBeneficiarioTmp;
+		int nameMatched = NumberUtils.INTEGER_ZERO;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			stringTokenizerBeneficiario = new StringTokenizer(nameBeneficiario);
+
+			for (TitularUi titularUi : coParticipacaoContext.getTitularUis()) {
+				if (titularUi.getMatricula().equals(matricula)) {
+					LOGGER.debug(
+							"Found TitularUi[{}] to be comparate with BeneficiarioUi[{}]:",
+							titularUi.getNameTitular(),
+							nameBeneficiario);
+					nameMatched = NumberUtils.INTEGER_ZERO;
+
+					stringTokenizerTitular = new StringTokenizer(titularUi.getNameTitular());
+
+					while (stringTokenizerTitular.hasMoreTokens() && stringTokenizerBeneficiario.hasMoreTokens()) {
+						nameTitular = stringTokenizerTitular.nextToken();
+						nameBeneficiarioTmp = stringTokenizerBeneficiario.nextToken();
+
+						if (nameTitular.equals(nameBeneficiarioTmp)) {
+							nameMatched++;
+						}
+					}
+
+					if (nameMatched > NUM_NAME_MATCHED) {
+						LOGGER.info("END");
+						return titularUi;
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return null;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);

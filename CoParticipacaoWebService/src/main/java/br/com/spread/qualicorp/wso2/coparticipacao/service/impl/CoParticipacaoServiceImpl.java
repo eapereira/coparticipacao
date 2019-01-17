@@ -612,6 +612,9 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 
 			loadRegisterInfo(coParticipacaoContext);
 
+			// Caregando as regras para o arquivo:
+			loadRegraInfo(coParticipacaoContext);
+
 			coParticipacaoContext.setTitularUis(titularUis);
 			coParticipacaoContext.setDependenteUis(dependenteUis);
 			coParticipacaoContext.setDesconhecidoUis(desconhecidoUis);
@@ -696,9 +699,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 		try {
 			LOGGER.info("BEGIN");
 
-			// Caregando as regras para o arquivo:
-			loadRegraInfo(coParticipacaoContext);
-
 			for (ArquivoInputSheet arquivoInputSheet : coParticipacaoContext.getArquivoInputUi()
 					.getArquivoInputSheets()) {
 				isentoInputSheetUi = isentoInputSheetService
@@ -719,9 +719,6 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 	private void loadFatucopaDefinitions(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
-
-			// Caregando as regras para o arquivo:
-			loadRegraInfo(coParticipacaoContext);
 
 			loadLancamentoInfo(coParticipacaoContext);
 
@@ -790,6 +787,8 @@ public class CoParticipacaoServiceImpl implements CoParticipacaoService {
 						coParticipacaoContext.getArquivoInputUi().getDescrArquivo());
 
 				arquivoInputSheetUi = coParticipacaoContext.findArquivoInputSheetById(arquivoInputSheet.getSheetId());
+				arquivoInputSheetUi.getRegras().clear();
+				arquivoInputSheetUi.getRegraConditionals().clear();
 
 				for (RegraUi regraUi : regraUis) {
 					arquivoInputSheetUi.addRegra(regraUi);

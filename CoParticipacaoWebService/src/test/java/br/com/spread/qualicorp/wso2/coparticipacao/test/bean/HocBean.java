@@ -37,33 +37,33 @@ public class HocBean {
 
 	private static final Logger LOGGER = LogManager.getLogger(HocBean.class);
 
-	private static final String MECSAS_201803 = "oswaldo-cruz/input/0444.MECSAS.201803.001.csv";
-	private static final String GESTANTES_201803 = "oswaldo-cruz/input/0444.ISENTO.201803.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201804 = "oswaldo-cruz/input/0444.ISENTO-CENTAVOS.201804.003.xlsx";
-	private static final String ISENTO_VALOR_201804 = "oswaldo-cruz/input/0444.ISENTO-UTILIZACAO.201804.004.xlsx";
-	private static final String FATUCOPA_201803 = "oswaldo-cruz/input/0444.0444.201803.005.csv";
-	private static final String NAO_LOCALIZADOS_201803 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201803.005.xlsx";
+	private static final String MECSAS_201803 = "haoc/input/0444.MECSAS.201803.001.csv";
+	private static final String GESTANTES_201803 = "haoc/input/0444.ISENTO.201803.002.xlsx";
+	private static final String ISENTO_VALOR_CENTAVOS_201804 = "haoc/input/0444.ISENTO-CENTAVOS.201804.003.xlsx";
+	private static final String ISENTO_VALOR_201804 = "haoc/input/0444.ISENTO-UTILIZACAO.201804.004.xlsx";
+	private static final String FATUCOPA_201803 = "haoc/input/0444.0444.201803.005.csv";
+	private static final String NAO_LOCALIZADOS_201803 = "haoc/input/0444.NAO-LOCALIZADO.201803.005.xlsx";
 
-	private static final String MECSAS_201807 = "oswaldo-cruz/input/0444.MECSAS.201807.001.csv";
-	private static final String GESTANTES_201807 = "oswaldo-cruz/input/0444.ISENTO.201807.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201807 = "oswaldo-cruz/input/0444.ISENTO-CENTAVOS.201807.003.xlsx";
-	private static final String ISENTO_VALOR_UTILIZACAO_201807 = "oswaldo-cruz/input/0444.ISENTO-UTILIZACAO.201807.004.xlsx";
-	private static final String FATUCOPA_201807 = "oswaldo-cruz/input/0444.0444.201807.005.csv";
-	private static final String NAO_LOCALIZADOS_201807 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201807.005.xlsx";
+	private static final String MECSAS_201807 = "haoc/input/0444.MECSAS.201807.001.csv";
+	private static final String GESTANTES_201807 = "haoc/input/0444.ISENTO.201807.002.xlsx";
+	private static final String ISENTO_VALOR_CENTAVOS_201807 = "haoc/input/0444.ISENTO-CENTAVOS.201807.003.xlsx";
+	private static final String ISENTO_VALOR_UTILIZACAO_201807 = "haoc/input/0444.ISENTO-UTILIZACAO.201807.004.xlsx";
+	private static final String FATUCOPA_201807 = "haoc/input/0444.0444.201807.005.csv";
+	private static final String NAO_LOCALIZADOS_201807 = "haoc/input/0444.NAO-LOCALIZADO.201807.005.xlsx";
 
-	private static final String MECSAS_201810 = "oswaldo-cruz/input/0444.MECSAS.201810.001.csv";
-	private static final String GESTANTES_201810 = "oswaldo-cruz/input/0444.ISENTO.201810.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201810 = "oswaldo-cruz/input/0444.ISENTO-CENTAVOS.201810.003.xlsx";
-	private static final String ISENTO_VALOR_UTILIZACAO_201810 = "oswaldo-cruz/input/0444.ISENTO-UTILIZACAO.201810.004.xlsx";
-	private static final String FATUCOPA_201810 = "oswaldo-cruz/input/0444.0444.201810.005.csv";
-	private static final String NAO_LOCALIZADOS_201810 = "oswaldo-cruz/input/0444.NAO-LOCALIZADO.201810.005.xlsx";
+	private static final String MECSAS_201810 = "haoc/input/0444.MECSAS.201810.001.csv";
+	private static final String GESTANTES_201810 = "haoc/input/0444.ISENTO.201810.002.xlsx";
+	private static final String ISENTO_VALOR_CENTAVOS_201810 = "haoc/input/0444.ISENTO-CENTAVOS.201810.003.xlsx";
+	private static final String ISENTO_VALOR_UTILIZACAO_201810 = "haoc/input/0444.ISENTO-UTILIZACAO.201810.004.xlsx";
+	private static final String FATUCOPA_201810 = "haoc/input/0444.0444.201810.005.csv";
+	private static final String NAO_LOCALIZADOS_201810 = "haoc/input/0444.NAO-LOCALIZADO.201810.005.xlsx";
 
-	private static final String MECSAS_201901 = "oswaldo-cruz/input/201901/0444.MECSAS.201901.001.csv";
-	private static final String GESTANTES_201901 = "oswaldo-cruz/input/201901/0444.ISENTO.201901.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201901 = "oswaldo-cruz/input/201901/0444.ISENTO-CENTAVOS.201901.003.xlsx";
-	private static final String ISENTO_VALOR_UTILIZACAO_201901 = "oswaldo-cruz/input/201901/0444.ISENTO-UTILIZACAO.201901.004.xlsx";
-	private static final String FATUCOPA_201901 = "oswaldo-cruz/input/201901/0444.0444.201901.005.csv";
-	private static final String NAO_LOCALIZADOS_201901 = "oswaldo-cruz/input/201901/0444.NAO-LOCALIZADO.201901.005.xlsx";
+	private static final String MECSAS_201901 = "haoc/input/201901/0444.MECSAS.201901.001.csv";
+	private static final String GESTANTES_201901 = "haoc/input/201901/0444.ISENTO.201901.002.xlsx";
+	private static final String ISENTO_VALOR_CENTAVOS_201901 = "haoc/input/201901/0444.ISENTO-CENTAVOS.201901.003.xlsx";
+	private static final String ISENTO_VALOR_UTILIZACAO_201901 = "haoc/input/201901/0444.ISENTO-UTILIZACAO.201901.004.xlsx";
+	private static final String FATUCOPA_201901 = "haoc/input/201901/0444.0444.201901.005.csv";
+	private static final String NAO_LOCALIZADOS_201901 = "haoc/input/201901/0444.NAO-LOCALIZADO.201901.005.xlsx";
 	
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 4948;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3909;
@@ -107,12 +107,12 @@ public class HocBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_VALIDATION = 524;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_VALIDATION = 6;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201901 = 4749;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201901 = 3789;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201901 = 4735;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201901 = 3773;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201901 = 9;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201901 = 2506;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201901 = 520;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201901 = 5;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201901 = 544;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201901 = 9;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201901_AFTER_USER_VALIDATION = 4749;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201901_AFTER_USER_VALIDATION = 3791;
