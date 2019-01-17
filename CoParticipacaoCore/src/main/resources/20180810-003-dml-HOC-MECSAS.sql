@@ -125,6 +125,7 @@ BEGIN
 	declare VAR_ID_COLUMN_74_NM_BENEF_COMPLETO 		bigint( 17 );
 	declare VAR_ID_COLUMN_75_CD_OPERACAO	 		bigint( 17 );
 	declare VAR_ID_COLUMN_76	 					bigint( 17 );
+	declare VAR_ID_COLUMN_77_NR_MATRICULA_EMPRESA	bigint( 17 );
 	
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
 		
@@ -285,15 +286,17 @@ BEGIN
 	
 	declare VAR_TP_REGRA_OPERATION_ADD										int( 3 )  default 1;
 	declare VAR_TP_REGRA_OPERATION_SUBSTRACT								int( 3 )  default 2;
-	declare VAR_TP_REGRA_OPERATION_DIVIDE									int( 3 )  default 3;
-	declare VAR_TP_REGRA_OPERATION_MULTIPLY									int( 3 )  default 4;
+	declare VAR_TP_REGRA_OPERATION_MULTIPLY									int( 3 )  default 3;
+	declare VAR_TP_REGRA_OPERATION_DIVIDE									int( 3 )  default 4;
 	declare VAR_TP_REGRA_OPERATION_EQUALS									int( 3 )  default 5;
 	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS								int( 3 )  default 6;
 	
-	declare VAR_CD_SHEET												bigint( 17 ) default 0;	
-	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
+	declare VAR_CD_SHEET													bigint( 17 ) default 0;	
+	declare	VAR_ID_REGISTER													bigint( 17 );
+	declare	VAR_CD_REGISTER_REG01											bigint( 17 ) default 0;
 	
+	declare VAR_NR_MATRICULA_BASE											bigint( 17 ) default 44400000000000;
+	declare VAR_NUM_DIVISOR_MATRICULA										bigint( 17 ) default 1000;
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -2239,6 +2242,31 @@ BEGIN
 	select max( ID ) into VAR_ID_COLUMN_76 from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'COLUMN_77_NR_MATRICULA_EMPRESA',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_77_NR_MATRICULA_EMPRESA 
+	from TB_REGISTER_COLUMN;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	/* BENEFICIÁRIO */
@@ -2253,6 +2281,22 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
 		VAR_ID_COLUMN_03_NR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+    call PROC_LOG_MESSAGE('LINHA - 1848');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_REGISTER_COLUMN,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
+		VAR_ID_COLUMN_77_NR_MATRICULA_EMPRESA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -2388,6 +2432,178 @@ BEGIN
     );
     
 	call PROC_LOG_MESSAGE('LINHA - 1559');	
+	/*********************************************************************************************************************************************/
+	/*********************************************************************************************************************************************/	
+	/* REGRAS */
+	
+	call PROC_LOG_MESSAGE('LINHA - 820');
+	insert into TB_REGRA(
+		NM_REGRA,
+		DESCR_REGRA,
+		TP_REGRA,
+		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'REGRA.MECSAS.01',
+		'HOC.MECSAS - Regra para transformar a NR_MATRICULA do beneficiário em NR_MATRICULA_EMPRESA 44400000000000',
+		VAR_TP_REGRA_SIMPLES,
+		0,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA from TB_REGRA;
+
+	/*********************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 842');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA,
+		VAR_TP_REGRA_OPERATION_MULTIPLY,
+		0,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+	
+	call PROC_LOG_MESSAGE('LINHA - 815');
+	insert into TB_REGRA_FIELD(
+		ID_REGRA_OPERATION,
+		ID_REGISTER_COLUMN,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_ID_COLUMN_03_NR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3896');
+	insert into TB_REGRA_VALOR(
+		ID_REGRA_OPERATION,
+		VL_REGRA_VALOR,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_NUM_DIVISOR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+	/*********************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 919');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA,
+		VAR_TP_REGRA_OPERATION_ADD,
+		1,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+	
+	call PROC_LOG_MESSAGE('LINHA - 815');
+	insert into TB_REGRA_FIELD(
+		ID_REGRA_OPERATION,
+		ID_REGISTER_COLUMN,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_ID_COLUMN_05_RDP,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+			
+	/*********************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 2529');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA,
+		VAR_TP_REGRA_OPERATION_ADD,
+		3,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
+		
+	call PROC_LOG_MESSAGE('LINHA - 3896');
+	insert into TB_REGRA_VALOR(
+		ID_REGRA_OPERATION,
+		VL_REGRA_VALOR,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_NR_MATRICULA_BASE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 3912');
+	insert into TB_REGRA_RESULT(
+		ID_REGRA,
+		ID_REGISTER_COLUMN,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA,
+		VAR_ID_COLUMN_77_NR_MATRICULA_EMPRESA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 2684');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
 	call PROC_UPDATE_SCRIPT( VAR_NM_SCRIPT );

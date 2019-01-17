@@ -252,9 +252,9 @@ BEGIN
 	
 	declare VAR_NR_MATRICULA_BASE											bigint( 17 ) default 44400000000000;
 	
-	declare VAR_CD_SHEET												bigint( 17 ) default 0;	
-	declare	VAR_ID_REGISTER												bigint( 17 );
-	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
+	declare VAR_CD_SHEET													bigint( 17 ) default 0;	
+	declare	VAR_ID_REGISTER													bigint( 17 );
+	declare	VAR_CD_REGISTER_REG01											bigint( 17 ) default 0;
 	
 	/***********************************************************************************************************************/
 	
@@ -762,26 +762,7 @@ BEGIN
     );
     
     select max( ID ) into VAR_ID_LANCAMENTO_INPUT_SHEET from TB_LANCAMENTO_INPUT_SHEET;
-	
-	call PROC_LOG_MESSAGE('LINHA - 730');
-	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
-		ID_LANCAMENTO_INPUT_SHEET,
-		CD_LANCAMENTO_COLS_DEF,
-		ID_REGISTER_COLUMN,
 		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED 
-	) values (
-		VAR_ID_LANCAMENTO_INPUT_SHEET,
-		VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE,
-		VAR_ID_COLUMN_05_COD_DEPENDENTE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);
-	
 	call PROC_LOG_MESSAGE('LINHA - 730');
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
@@ -1125,151 +1106,6 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_REGRA,
 		VAR_ID_COLUMN_04_COD_TITULAR,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-				
-	/*********************************************************************************************************************************************/
-	call PROC_LOG_MESSAGE('LINHA - 911');
-	insert into TB_REGRA(
-		NM_REGRA,
-		DESCR_REGRA,
-		TP_REGRA,
-		CD_ORDEM,
-		ID_ARQUIVO_INPUT_SHEET,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		'REGRA.0444.02',
-		'HOC.8C5Z8 - Regra para subtrair o NR_MATRICULA_DEPENDENTE do beneficiário por 44400000000000',
-		VAR_TP_REGRA_SIMPLES,
-		0,
-		VAR_ID_ARQUIVO_INPUT_SHEET,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	select max( ID ) into VAR_ID_REGRA from TB_REGRA;
-	
-	call PROC_LOG_MESSAGE('LINHA - 842');
-	insert into TB_REGRA_OPERATION(
-		ID_REGRA,
-		TP_OPERATION,
-		CD_ORDEM,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_TP_REGRA_OPERATION_SUBSTRACT,
-		0,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
-	
-	call PROC_LOG_MESSAGE('LINHA - 853');
-	insert into TB_REGRA_FIELD(
-		ID_REGRA_OPERATION,
-		ID_REGISTER_COLUMN,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_05_COD_DEPENDENTE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 3896');
-	insert into TB_REGRA_VALOR(
-		ID_REGRA_OPERATION,
-		VL_REGRA_VALOR,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA_OPERATION,
-		VAR_NR_MATRICULA_BASE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 919');
-	insert into TB_REGRA_OPERATION(
-		ID_REGRA,
-		TP_OPERATION,
-		CD_ORDEM,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_TP_REGRA_OPERATION_DIVIDE,
-		1,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
-	
-	call PROC_LOG_MESSAGE('LINHA - 815');
-	insert into TB_REGRA_FIELD(
-		ID_REGRA_OPERATION,
-		ID_REGISTER_COLUMN,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_05_COD_DEPENDENTE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 3896');
-	insert into TB_REGRA_VALOR(
-		ID_REGRA_OPERATION,
-		VL_REGRA_VALOR,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA_OPERATION,
-		1000,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 3912');
-	insert into TB_REGRA_RESULT(
-		ID_REGRA,
-		ID_REGISTER_COLUMN,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_ID_COLUMN_05_COD_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),
