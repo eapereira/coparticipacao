@@ -55,6 +55,7 @@ BEGIN
 	declare VAR_ID_COLUMN_03_CD_LOCAL				bigint( 17 );
 	declare VAR_ID_COLUMN_04_NR_MATRICULA			bigint( 17 );
 	declare VAR_ID_COLUMN_05_VL_ISENCAO				bigint( 17 );
+	declare VAR_ID_COLUMN_06_NR_MATRICULA_EMPRESA	bigint( 17 );
 	
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
 		
@@ -107,8 +108,8 @@ BEGIN
 	
 	declare VAR_TP_REGRA_OPERATION_ADD									int( 3 )  default 1;
 	declare VAR_TP_REGRA_OPERATION_SUBSTRACT							int( 3 )  default 2;
-	declare VAR_TP_REGRA_OPERATION_DIVIDE								int( 3 )  default 3;
-	declare VAR_TP_REGRA_OPERATION_MULTIPLY								int( 3 )  default 4;
+	declare VAR_TP_REGRA_OPERATION_MULTIPLY								int( 3 )  default 3;
+	declare VAR_TP_REGRA_OPERATION_DIVIDE								int( 3 )  default 4;
 	declare VAR_TP_REGRA_OPERATION_EQUALS								int( 3 )  default 5;
 	declare VAR_TP_REGRA_OPERATION_NOT_EQUALS							int( 3 )  default 6;
 		
@@ -123,7 +124,7 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO					bigint( 17 ) default 6;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_LABEL						bigint( 17 ) default 7;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_REF_CODE						bigint( 17 ) default 8;
-	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA			bigint( 17 ) default 10;
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA			bigint( 17 ) default 9;
 	
 	declare VAR_CD_SHEET_TITULAR_GESTANTE								int( 3 ) default 0;
 	declare VAR_CD_SHEET_DEPENDENTE_GESTANTE							int( 3 ) default 1;
@@ -372,6 +373,32 @@ BEGIN
 	select max( ID ) into VAR_ID_COLUMN_05_VL_ISENCAO from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	call PROC_LOG_MESSAGE('LINHA - 270');
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'COLUMN_06_NR_MATRICULA_EMPRESA',
+		VAR_COL_LONG,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_06_NR_MATRICULA_EMPRESA
+	from TB_REGISTER_COLUMN;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
 	call PROC_LOG_MESSAGE('LINHA - 288');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	
@@ -476,6 +503,26 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
+	call PROC_LOG_MESSAGE('LINHA - 379');
+	insert into TB_ISENTO_INPUT_SHEET_COLS(
+		ID_ISENTO_INPUT_SHEET,
+		ID_REGISTER_COLUMN,
+		CD_BENEFICIARIO_ISENTO_COLS_DEF,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_ISENTO_INPUT_SHEET,
+		VAR_ID_COLUMN_06_NR_MATRICULA_EMPRESA,
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
+
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
 	call PROC_LOG_MESSAGE('LINHA - 401');
 	insert into TB_ISENTO_INPUT_SHEET_COLS(
 		ID_ISENTO_INPUT_SHEET,
@@ -513,9 +560,107 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		'REGRA.ISENTO-VALOR.01',
+		'HOC.ISENTO-VALOR - Regra salvar a MATRICULA_EMPRESA',
+		VAR_TP_REGRA_SIMPLES,
+		0,
+		VAR_ID_ARQUIVO_INPUT_SHEET,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA from TB_REGRA;
+	set VAR_CD_ORDEM = 0;
+	
+	call PROC_LOG_MESSAGE('LINHA - 842');
+	insert into TB_REGRA_OPERATION(
+		ID_REGRA,
+		TP_OPERATION,
+		CD_ORDEM,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA,
+		VAR_TP_REGRA_OPERATION_ADD,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	select max( ID ) into VAR_ID_REGRA_OPERATION
+	from TB_REGRA_OPERATION;
+	
+	call PROC_LOG_MESSAGE('LINHA - 299');
+	insert into TB_REGRA_FIELD(
+		ID_REGRA_OPERATION,
+		ID_REGISTER_COLUMN,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		VAR_ID_COLUMN_04_NR_MATRICULA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 315');
+	insert into TB_REGRA_VALOR(
+		ID_REGRA_OPERATION,
+		VL_REGRA_VALOR,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA_OPERATION,
+		0,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+	
+	call PROC_LOG_MESSAGE('LINHA - 383');
+	insert into TB_REGRA_RESULT(
+		ID_REGRA,
+		ID_REGISTER_COLUMN,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_REGRA,
+		VAR_ID_COLUMN_06_NR_MATRICULA_EMPRESA,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+				
+	call PROC_LOG_MESSAGE('LINHA - 542');	
+	/*********************************************************************************************************************************************/	
+	call PROC_LOG_MESSAGE('LINHA - 257');
+	insert into TB_REGRA(
+		NM_REGRA,
+		DESCR_REGRA,
+		TP_REGRA,
+		CD_ORDEM,
+		ID_ARQUIVO_INPUT_SHEET,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'REGRA.ISENTO-VALOR.02',
 		'HOC.ISENTO-VALOR - Regra para subtrair o NR_MATRICULA_TITULAR do beneficiário por 44400000000000',
 		VAR_TP_REGRA_SIMPLES,
-		VAR_CD_ORDEM,
+		1,
 		VAR_ID_ARQUIVO_INPUT_SHEET,
 		
 		VAR_ID_USER,

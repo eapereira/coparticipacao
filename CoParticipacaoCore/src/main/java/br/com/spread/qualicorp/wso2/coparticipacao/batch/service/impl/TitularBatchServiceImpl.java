@@ -120,8 +120,9 @@ public class TitularBatchServiceImpl extends AbstractBatchServiceImpl<TitularUi,
 
 			for (TitularUi titularUi : titularUis) {
 				for (TitularResumoUi titularResumoUi : titularResumoUis) {
-					if (titularUi.getCpf().equals(titularResumoUi.getCpf())) {
+					if (titularUi.getMatricula().equals(titularResumoUi.getMatricula())) {
 						titularUi.setId(titularResumoUi.getId());
+						break;
 					}
 				}
 			}

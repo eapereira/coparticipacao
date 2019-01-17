@@ -105,6 +105,7 @@ public class DependenteBatchServiceImpl extends AbstractBatchServiceImpl<Depende
 					if (dependenteUi.getMatricula().equals(dependenteResumoUi.getMatricula())) {
 						if (dependenteUi.getNameDependente().equals(dependenteResumoUi.getNameBeneficiario())) {
 							dependenteUi.setId(dependenteResumoUi.getId());
+							break;
 						}
 					}
 				}

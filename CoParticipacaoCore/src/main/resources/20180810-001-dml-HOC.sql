@@ -141,6 +141,9 @@ BEGIN
 	declare VAR_NM_CONTRATO_ISENTO										varchar( 400 ) default 'Base de Isenção';
 	
     declare VAR_NM_CONTRATO_PRN											varchar( 400 ) default '0444-PRN';
+    
+    declare VAR_TP_CREATE_BENEFICIARIO_ADD								int( 3 ) default 0;
+    declare VAR_TP_CREATE_BENEFICIARIO_ADD_AS_DEMITIDO					int( 3 ) default 1;
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -167,6 +170,9 @@ BEGIN
 		NM_EMPRESA,	
 		CD_EMPRESA,
 		CD_AUTOMATIC_CREATE_BENEFICIARIO,
+		CD_CREATE_BENEFICIARIO_FROM_FATUCOPA,
+		TP_CREATE_BENEFICIARIO,
+		CD_ACCEPT_TITULAR_WITHOUT_CPF,
 		CD_OUTPUT_REPORT_DIR,		
         CD_INPUT_DIR,
         CD_FAILURE_DIR,
@@ -182,6 +188,9 @@ BEGIN
 		VAR_ID_OPERADORA_SULAMERICA,
 		'Hospital Oswaldo Cruz',
 		'0444',
+		VAR_TRUE,
+		VAR_TRUE,
+		VAR_TP_CREATE_BENEFICIARIO_ADD_AS_DEMITIDO,
 		VAR_TRUE,
 		'/home/eapereira/desenv/work/coparticipacao/output-reports/sulamerica/hoc/',
         '/home/eapereira/desenv/work/coparticipacao/input/',

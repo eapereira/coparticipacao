@@ -16,12 +16,14 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.CreateBeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExternalProcess;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportLayoutType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ReportQueryType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.CreateBeneficiarioTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportLayoutTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ReportQueryTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.listener.EmpresaEntityListener;
@@ -223,7 +225,7 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	}
 
 	@Convert(converter = ReportLayoutTypeConverter.class)
-	@Column(name = "TP_REPORT_LAYOUT_TYPE")	
+	@Column(name = "TP_REPORT_LAYOUT_TYPE")
 	@Override
 	public ReportLayoutType getReportLayoutType() {
 		// TODO Auto-generated method stub
@@ -235,6 +237,21 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 	public boolean isUpdateBeneficiarioFromIsento() {
 		// TODO Auto-generated method stub
 		return super.isUpdateBeneficiarioFromIsento();
+	}
+
+	@Column(name = "TP_CREATE_BENEFICIARIO")
+	@Convert(converter = CreateBeneficiarioTypeConverter.class)
+	@Override
+	public CreateBeneficiarioType getCreateBeneficiarioType() {
+		// TODO Auto-generated method stub
+		return super.getCreateBeneficiarioType();
+	}
+
+	@Column(name = "CD_CREATE_BENEFICIARIO_FROM_FATUCOPA")
+	@Override
+	public boolean isCreateBeneficiarioFromFatucopa() {
+		// TODO Auto-generated method stub
+		return super.isCreateBeneficiarioFromFatucopa();
 	}
 
 }

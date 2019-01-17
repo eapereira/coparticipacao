@@ -2,7 +2,7 @@
 <queries>
 	<query id="listByArquivoInputId">
 		<![CDATA[
-			select regraConditional from RegraConditionalEntity regraConditional
+			select distinct regraConditional from RegraConditionalEntity regraConditional
 			join fetch regraConditional.regraConditionalOperations regraConditionalOperations
 			join fetch regraConditional.arquivoInputSheet arquivoInputSheet
 			join fetch arquivoInputSheet.arquivoInput arquivoInput
@@ -13,7 +13,7 @@
 
 	<query id="listByArquivoInputSheetId">
 		<![CDATA[
-			select regraConditional from RegraConditionalEntity regraConditional
+			select distinct regraConditional from RegraConditionalEntity regraConditional
 			join fetch regraConditional.regraConditionalOperations regraConditionalOperations
 			join fetch regraConditional.arquivoInputSheet arquivoInputSheet
 			where arquivoInputSheet.id = :arquivoInputSheetId

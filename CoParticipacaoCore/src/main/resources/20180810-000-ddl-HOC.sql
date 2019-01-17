@@ -32,13 +32,14 @@ drop view if exists VW_RESUMO_EMPTY_HOC;
 drop view if exists VW_RESUMO_LEVEL01_HOC;
 drop view if exists VW_RESUMO_HOC;
 
+drop view if exists VW_DESCONHECIDO_LEVEL01_HOC ;
 drop view if exists VW_DESCONHECIDO_HOC ;
 
 drop view if exists VW_DEPENDENTE_RDP_HOC;
 drop view if exists VW_TITULAR_RDP_HOC;
 
 /**********************************************************************************************************************/
-create view VW_DESCONHECIDO_HOC as
+create view VW_DESCONHECIDO_LEVEL01_HOC as
 select distinct
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
@@ -100,6 +101,24 @@ and (	dependente.NR_MATRICULA is null or
 		dependente.NR_LOCAL is null or
 		dependente.NR_RDP is null );
 		
+create view VW_DESCONHECIDO_HOC as
+select distinct
+	desconhecido.CD_MES,
+	desconhecido.CD_ANO,
+	desconhecido.ID_CONTRATO,
+	desconhecido.ID_EMPRESA,
+	desconhecido.COD_TITULAR,
+	desconhecido.COD_DEPENDENTE,
+	desconhecido.NM_BENEFICIARIO,
+	desconhecido.NR_CPF,
+	desconhecido.NR_LOCAL,
+	desconhecido.NR_RDP,
+	desconhecido.DT_NASCIMENTO,
+	desconhecido.DT_ADMISSAO,
+	desconhecido.VL_PRINCIPAL
+from	VW_DESCONHECIDO_LEVEL01_HOC desconhecido
+order by desconhecido.NM_BENEFICIARIO;
+
 /**********************************************************************************************************************/
 /**********************************************************************************************************************/
 
@@ -258,25 +277,57 @@ from VW_LANCAMENTO_HOC lanc_hoc
 where lanc_hoc.ID_DEPENDENTE is not null;
 
 create view VW_DESLIGADOS_LEVEL01_HOC as
-select distinct
-	desligados.CD_MES,
-	desligados.CD_ANO,
+select
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
 	empresa.ID ID_EMPRESA,
-	desligados.ID_CONTRATO,
-	FUNC_GET_MATRICULA_HOC( desligados.NR_MATRICULA, 1 ) COD_TITULAR,
-    FUNC_GET_MATRICULA_HOC( desligados.NR_MATRICULA, desligados.NR_RDP ) COD_DEPENDENTE,
-	desligados.NM_BENEFICIARIO NM_USUARIO,
-	desligados.VL_PRINCIPAL TOTAL_COPART,
-	desligados.NR_LOCAL,
-	desligados.DT_NASCIMENTO,
-	desligados.NR_CPF CPF_DEPENDENTE,
-	desligados.NR_MATRICULA NR_MATRICULA
-from TB_DESCONHECIDO desligados
+	lancamento.ID_CONTRATO,
+	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
+    FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, titular.NR_RDP ) COD_DEPENDENTE,
+	titular.NM_TITULAR NM_USUARIO,
+	lancamento.VL_PRINCIPAL TOTAL_COPART,
+	titular.NR_LOCAL,
+	titular.DT_NASCIMENTO,
+	titular.NR_CPF CPF_DEPENDENTE,
+	titular.NR_MATRICULA NR_MATRICULA
+from TB_LANCAMENTO lancamento
 	join TB_CONTRATO contrato on
-		contrato.ID = desligados.ID_CONTRATO
+		contrato.ID = lancamento.ID_CONTRATO
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA
-where contrato.CD_CONTRATO = '0444';
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+where contrato.CD_CONTRATO = '0444'
+and	 lancamento.ID_DEPENDENTE is null
+and titular.DT_DEMISSAO is not null
+and titular.NR_LOCAL <> 100
+union all
+select
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	empresa.ID ID_EMPRESA,
+	lancamento.ID_CONTRATO,
+	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
+    FUNC_GET_MATRICULA_HOC( dependente.NR_MATRICULA, dependente.NR_RDP ) COD_DEPENDENTE,
+	dependente.NM_DEPENDENTE NM_USUARIO,
+	lancamento.VL_PRINCIPAL TOTAL_COPART,
+	dependente.NR_LOCAL,
+	dependente.DT_NASCIMENTO,
+	dependente.NR_CPF CPF_DEPENDENTE,
+	dependente.NR_MATRICULA NR_MATRICULA
+from TB_LANCAMENTO lancamento
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+	join TB_TITULAR titular on
+		titular.ID = lancamento.ID_TITULAR
+	join TB_DEPENDENTE dependente on
+		dependente.ID = lancamento.ID_DEPENDENTE
+where contrato.CD_CONTRATO = '0444'
+and	 lancamento.ID_DEPENDENTE is not null
+and titular.NR_LOCAL <> 100
+and titular.DT_DEMISSAO is not null;
 
 /**********************************************************************************************************************/
 	
@@ -492,36 +543,6 @@ select
 	lancamento.CPF_DEPENDENTE,
 	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
 from VW_LANCAMENTO_HOC lancamento
-where lancamento.NR_MATRICULA_DEPENDENTE not in (
-	select
-			isencao_gestantes.NR_MATRICULA
-	from VW_ISENCAO_GESTANTES_HOC isencao_gestantes
-	where isencao_gestantes.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE )
-and lancamento.NR_MATRICULA_DEPENDENTE not in (
-	select
-		conselheiros.NR_MATRICULA
-	from VW_ISENCAO_CONSELHEIROS_HOC conselheiros
-	where conselheiros.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE )
-and lancamento.NR_MATRICULA_DEPENDENTE not in (
-	select
-		afastados.NR_MATRICULA
-	from VW_AFASTADOS_HOC afastados
-	where afastados.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE )
-and lancamento.NR_MATRICULA_DEPENDENTE not in (
-	select
-		agregados.NR_MATRICULA
-	from VW_AGREGADOS_HOC agregados
-	where agregados.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE )
-and lancamento.NR_MATRICULA_DEPENDENTE not in (
-	select
-		desligados.NR_MATRICULA
-	from VW_DESLIGADOS_HOC desligados
-	where desligados.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE )
-and lancamento.NR_MATRICULA_DEPENDENTE not in (
-	select
-		plano_extensao.NR_MATRICULA
-	from VW_PLANO_EXTENSAO_HOC plano_extensao
-	where plano_extensao.NR_MATRICULA = lancamento.NR_MATRICULA_DEPENDENTE )
 group by	lancamento.COD_TITULAR,
 		    lancamento.CD_MES,
 		    lancamento.CD_ANO,
@@ -783,6 +804,36 @@ select
 	resumo_empty.TOTAL_COPART
 from VW_RESUMO_EMPTY_HOC resumo_empty
 union all
+select
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	isencao_gestantes.CD_MES,
+	isencao_gestantes.CD_ANO,
+	isencao_gestantes.ID_EMPRESA,
+	isencao_gestantes.ID_CONTRATO,
+	isencao_gestantes.TOTAL_COPART * -1 TOTAL_COPART
+from VW_ISENCAO_GESTANTES_HOC isencao_gestantes
+union all
+select
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	isencao.CD_MES,
+	isencao.CD_ANO,
+	isencao.ID_EMPRESA,
+	isencao.ID_CONTRATO,
+	isencao.TOTAL_COPART * -1 TOTAL_COPART
+from VW_ISENCAO_VALOR_HOC isencao
+union all
+select
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	isencao_conselheiros.CD_MES,
+	isencao_conselheiros.CD_ANO,
+	isencao_conselheiros.ID_EMPRESA,
+	isencao_conselheiros.ID_CONTRATO,
+	isencao_conselheiros.TOTAL_COPART * -1 TOTAL_COPART
+from VW_ISENCAO_CONSELHEIROS_HOC isencao_conselheiros
+union all
 select 
 	'Total' NM_LABEL,
     10 ID_RESUMO,
@@ -841,7 +892,7 @@ select
 	resumo.CD_ANO,
 	resumo.ID_EMPRESA,
 	resumo.ID_CONTRATO,
-	sum( resumo.TOTAL_COPART ) TOTAL_COPART
+	sum( resumo.TOTAL_COPART ) TOTAL_COPART 
 from VW_RESUMO_LEVEL01_HOC resumo
 group by
 	resumo.ID_RESUMO,

@@ -105,18 +105,13 @@ public class EmpresaServiceImpl extends AbstractServiceImpl<EmpresaUi, EmpresaEn
 					|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 				LOGGER.info("END");
 				return true;
-			} else if (UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())) {
-				if (empresaUi.isCreateBeneficiarioFromMecsas2()) {
-					LOGGER.info("END");
-					return true;
-				}
 			} else {
 				if (empresaUi.isAutomaticCreateBeneficiario()) {
 					LOGGER.info("END");
 					return true;
 				} else {
-					if (BeneficiarioType.TITULAR.equals(coParticipacaoContext.getBeneficiarioUi().getType())) {
-						if (empresaUi.isAutomaticCreateTitular()) {
+					if (empresaUi.isAutomaticCreateTitular()) {
+						if (BeneficiarioType.TITULAR.equals(coParticipacaoContext.getBeneficiarioUi().getType())) {
 							LOGGER.info("END");
 							return true;
 						}

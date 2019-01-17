@@ -774,25 +774,6 @@ BEGIN
 		DT_ALTERED 
 	) values (
 		VAR_ID_LANCAMENTO_INPUT_SHEET,
-		VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE,
-		VAR_ID_COLUMN_05_COD_DEPENDENTE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()	
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 730');
-	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
-		ID_LANCAMENTO_INPUT_SHEET,
-		CD_LANCAMENTO_COLS_DEF,
-		ID_REGISTER_COLUMN,
-		
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED 
-	) values (
-		VAR_ID_LANCAMENTO_INPUT_SHEET,
 		VAR_COL_LANCAMENTO_NR_MATRICULA_EMPRESA,
 		VAR_ID_COLUMN_05_COD_DEPENDENTE,
 		
@@ -800,7 +781,7 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()	
 	);
-		
+						
     call PROC_LOG_MESSAGE('LINHA - 607');
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,
@@ -1166,7 +1147,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA,
-		VAR_TP_REGRA_OPERATION_SUBSTRACT,
+		VAR_TP_REGRA_OPERATION_ADD,
 		0,
 		
 		VAR_ID_USER,
@@ -1201,59 +1182,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_ID_REGRA_OPERATION,
-		VAR_NR_MATRICULA_BASE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 919');
-	insert into TB_REGRA_OPERATION(
-		ID_REGRA,
-		TP_OPERATION,
-		CD_ORDEM,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA,
-		VAR_TP_REGRA_OPERATION_DIVIDE,
-		1,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	select max( ID ) into VAR_ID_REGRA_OPERATION from TB_REGRA_OPERATION;
-	
-	call PROC_LOG_MESSAGE('LINHA - 815');
-	insert into TB_REGRA_FIELD(
-		ID_REGRA_OPERATION,
-		ID_REGISTER_COLUMN,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA_OPERATION,
-		VAR_ID_COLUMN_05_COD_DEPENDENTE,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-	
-	call PROC_LOG_MESSAGE('LINHA - 3896');
-	insert into TB_REGRA_VALOR(
-		ID_REGRA_OPERATION,
-		VL_REGRA_VALOR,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_ID_REGRA_OPERATION,
-		1000,
+		0,
 		
 		VAR_ID_USER,
 		current_timestamp(),

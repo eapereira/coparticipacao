@@ -51,6 +51,8 @@ public abstract class Empresa extends AbstractDomain {
 	private boolean generateOutputFileWithoutFatucopa;
 
 	private boolean createBeneficiarioFromMecsas2;
+	
+	private boolean createBeneficiarioFromFatucopa;
 
 	private boolean useJasperReports;
 
@@ -61,6 +63,8 @@ public abstract class Empresa extends AbstractDomain {
 	private ReportLayoutType reportLayoutType;
 
 	private boolean updateBeneficiarioFromIsento;
+	
+	private CreateBeneficiarioType createBeneficiarioType; 
 
 	public Empresa() {
 		titulars = new ArrayList<>();
@@ -426,6 +430,22 @@ public abstract class Empresa extends AbstractDomain {
 
 	public void setUpdateBeneficiarioFromIsento(boolean updateBeneficiarioFromIsento) {
 		this.updateBeneficiarioFromIsento = updateBeneficiarioFromIsento;
+	}
+
+	public CreateBeneficiarioType getCreateBeneficiarioType() {
+		return createBeneficiarioType;
+	}
+
+	public void setCreateBeneficiarioType(CreateBeneficiarioType createBeneficiarioType) {
+		this.createBeneficiarioType = createBeneficiarioType;
+	}
+
+	public boolean isCreateBeneficiarioFromFatucopa() {
+		return createBeneficiarioFromFatucopa;
+	}
+
+	public void setCreateBeneficiarioFromFatucopa(boolean createBeneficiarioFromFatucopa) {
+		this.createBeneficiarioFromFatucopa = createBeneficiarioFromFatucopa;
 	}
 
 }

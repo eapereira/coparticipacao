@@ -3,6 +3,7 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -16,6 +17,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.CreateBeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco;
@@ -55,6 +57,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.BeneficiarioDetailHelper
 public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioServiceImpl.class);
+
+	private static final int NUM_NAME_MATCHED = 2;
 
 	@Autowired
 	private EmpresaService empresaService;
@@ -725,6 +729,96 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			throws ServiceException {
 		ContratoUi contratoUi;
 		TitularUi titularUi;
+		DependenteUi dependenteUi;
+		EmpresaUi empresaUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			contratoUi = coParticipacaoContext.getContratoUi();
+			empresaUi = coParticipacaoContext.getEmpresaUi();
+
+			if (UseType.MECSAS.equals(contratoUi.getUseType())
+					|| (UseType.MECSAS2.equals(contratoUi.getUseType()) && empresaUi.isCreateBeneficiarioFromMecsas2())
+					|| (UseType.ISENTO.equals(contratoUi.getUseType()) && empresaUi.isUpdateBeneficiarioFromIsento())) {
+				if (beneficiarioUi.getType() == null) {
+					if (StringUtils.isBlank(beneficiarioUi.getNameTitular())) {
+						beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+						LOGGER.info("END");
+						return true;
+					} else if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())
+							|| StringUtils.isBlank(beneficiarioUi.getNameBeneficiario())) {
+						beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+						LOGGER.info("END");
+						return true;
+					}
+				} else if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
+					LOGGER.info("END");
+					return true;
+				}
+			} else {
+				if (UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
+					/*
+					 * Se o Beneficiário não for um Titular e não existe no
+					 * banco de dados e também não possuir um Títular, então ele
+					 * próprio é um Títular, pois não foi encontrado pelo
+					 * processo MECSAS e FATUCOPA:
+					 */
+					if (beneficiarioUi.getNameBeneficiario() == null) {
+						throw new BeneficiarioNotFoundException("The column[NM_BENEFICIARIO] must be defined:");
+					}
+				}
+
+				titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
+				dependenteUi = findDependente(coParticipacaoContext, beneficiarioUi);
+
+				if (dependenteUi == null) {
+					if (titularUi != null) {
+						if (titularUi.getMatriculaEmpresa() != null && beneficiarioUi.getMatriculaEmpresa() != null) {
+							if (titularUi.getMatriculaEmpresa().equals(beneficiarioUi.getMatriculaEmpresa())) {
+								LOGGER.info("END");
+								return true;
+							}
+						} else if (empresaUi.isSearchBeneficiarioWithoutName()) {
+							if (isNameBeneficiarioMatched(
+									titularUi.getNameTitular(),
+									beneficiarioUi.getNameBeneficiario())) {
+								LOGGER.info("END");
+								return true;
+							}
+						} else if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+							LOGGER.info("END");
+							return true;
+						}
+					} else {
+						if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+							if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+								LOGGER.info("END");
+								return true;
+							}
+						} else {
+							LOGGER.info("END");
+							return true;
+						}
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return false;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+
+	}
+
+	private boolean isTitularOld(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
+			throws ServiceException {
+		ContratoUi contratoUi;
+		TitularUi titularUi;
 		EmpresaUi empresaUi;
 
 		try {
@@ -811,14 +905,14 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								LOGGER.info("END");
 								return true;
 							}
+						} else {
+							if (empresaUi.isCreateBeneficiarioFromFatucopa()) {
+								LOGGER.info("END");
+								return true;
+							}
 						}
 					} else {
-						if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-							beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-							LOGGER.info("END");
-							return true;
-						} else if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
 							beneficiarioUi.setType(BeneficiarioType.TITULAR);
 
 							LOGGER.info("END");
@@ -885,12 +979,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						 */
 						if (!isTitularCpfInUse(coParticipacaoContext, beneficiarioUi)
 								&& !isMatriculaInUse(coParticipacaoContext, beneficiarioUi)) {
-							LOGGER.info(
-									"Titular [{}] with CPF [{}] and Matricula [{}] will be created:",
-									beneficiarioUi.getNameTitular(),
-									beneficiarioUi.getCpf(),
-									beneficiarioUi.getMatricula());
-
 							titularUi = new TitularUi();
 
 							if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
@@ -918,6 +1006,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								titularUi.setMatricula(beneficiarioUi.getMatricula());
 							}
 
+							LOGGER.info(
+									"Titular [{}] with CPF [{}] and Matricula [{}] will be created:",
+									titularUi.getNameTitular(),
+									titularUi.getCpf(),
+									titularUi.getMatricula());
+
 							titularUi.setContrato(beneficiarioUi.getContrato());
 							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 							titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
@@ -925,6 +1019,23 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setDtDemissao(beneficiarioUi.getDtDemissao());
 							titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 							titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
+
+							/*
+							 * Se a empresa estiver configurada para adicionar
+							 * beneficiários a partir dos arquivos FATUCOPA,
+							 * existe a opção de marcar este beneficiário como
+							 * demitidos se for o caso, assim teremos como
+							 * diferenciar que eles não foram encontrados no
+							 * MECSAS. Usado pelo processo HAOC:
+							 */
+							if (UseType.FATUCOPA.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+								if (empresaUi.isCreateBeneficiarioFromFatucopa()) {
+									if (CreateBeneficiarioType.ADD_AS_DEMITIDO
+											.equals(empresaUi.getCreateBeneficiarioType())) {
+										titularUi.setDtDemissao(LocalDate.now());
+									}
+								}
+							}
 
 							titularUi.setUserAltered(coParticipacaoContext.getUser());
 							titularUi.setUserCreated(coParticipacaoContext.getUser());
@@ -1464,9 +1575,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 */
 			if (titularUi == null) {
 				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-					titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getMatriculaEmpresa());
+					if (beneficiarioUi.getMatriculaEmpresa() != null) {
+						titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getMatriculaEmpresa());
+					} else {
+						titularUi = findTitularByMatriculaAndName(
+								coParticipacaoContext,
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getNameBeneficiario());
+					}
 				}
 			}
 
@@ -1517,9 +1635,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 */
 			if (dependenteUi == null) {
 				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getMatriculaEmpresa());
+					if (beneficiarioUi.getMatriculaEmpresa() != null) {
+						dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getMatriculaEmpresa());
+					} else {
+						dependenteUi = findDependenteByMatriculaAndName(
+								coParticipacaoContext,
+								beneficiarioUi.getMatricula(),
+								beneficiarioUi.getNameBeneficiario());
+					}
 				}
 			}
 
@@ -1724,4 +1849,147 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
+	private DependenteUi findDependenteByMatriculaAndName(
+			CoParticipacaoContext coParticipacaoContext,
+			Long matricula,
+			String nameBeneficiario) throws ServiceException {
+		StringTokenizer stringTokenizerBeneficiario;
+		StringTokenizer stringTokenizerDependente;
+		String nameDependente;
+		String nameBeneficiarioTmp;
+		int nameMatched = NumberUtils.INTEGER_ZERO;
+		int selectedNameMatched = NUM_NAME_MATCHED;
+		DependenteUi selectedDependenteUi = null;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (DependenteUi dependenteUi : coParticipacaoContext.getDependenteUis()) {
+				if (dependenteUi.getMatricula().equals(matricula)) {
+					LOGGER.debug(
+							"Found DependenteUi[{}] to be comparate with BeneficiarioUi[{}]:",
+							dependenteUi.getNameDependente(),
+							nameBeneficiario);
+
+					nameMatched = NumberUtils.INTEGER_ZERO;
+
+					stringTokenizerBeneficiario = new StringTokenizer(nameBeneficiario);
+					stringTokenizerDependente = new StringTokenizer(dependenteUi.getNameDependente());
+
+					while (stringTokenizerDependente.hasMoreTokens() && stringTokenizerBeneficiario.hasMoreTokens()) {
+						nameDependente = stringTokenizerDependente.nextToken();
+						nameBeneficiarioTmp = stringTokenizerBeneficiario.nextToken();
+
+						if (nameDependente.equals(nameBeneficiarioTmp)) {
+							nameMatched++;
+						} else {
+							break;
+						}
+					}
+
+					if (nameMatched > selectedNameMatched) {
+						selectedDependenteUi = dependenteUi;
+						selectedNameMatched = nameMatched;
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return selectedDependenteUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private TitularUi findTitularByMatriculaAndName(
+			CoParticipacaoContext coParticipacaoContext,
+			Long matricula,
+			String nameBeneficiario) throws ServiceException {
+		StringTokenizer stringTokenizerBeneficiario;
+		StringTokenizer stringTokenizerTitular;
+		String nameTitular;
+		String nameBeneficiarioTmp;
+		int nameMatched = NumberUtils.INTEGER_ZERO;
+		int selectedNameMatched = NUM_NAME_MATCHED;
+		TitularUi selectedTitularUi = null;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			for (TitularUi titularUi : coParticipacaoContext.getTitularUis()) {
+				if (titularUi.getMatricula().equals(matricula)) {
+					LOGGER.debug(
+							"Found TitularUi[{}] to be comparate with BeneficiarioUi[{}]:",
+							titularUi.getNameTitular(),
+							nameBeneficiario);
+					nameMatched = NumberUtils.INTEGER_ZERO;
+
+					stringTokenizerBeneficiario = new StringTokenizer(nameBeneficiario);
+					stringTokenizerTitular = new StringTokenizer(titularUi.getNameTitular());
+
+					while (stringTokenizerTitular.hasMoreTokens() && stringTokenizerBeneficiario.hasMoreTokens()) {
+						nameTitular = stringTokenizerTitular.nextToken();
+						nameBeneficiarioTmp = stringTokenizerBeneficiario.nextToken();
+
+						if (nameTitular.equals(nameBeneficiarioTmp)) {
+							nameMatched++;
+						} else {
+							break;
+						}
+					}
+
+					if (nameMatched > selectedNameMatched) {
+						selectedNameMatched = nameMatched;
+						selectedTitularUi = titularUi;
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return selectedTitularUi;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	private boolean isNameBeneficiarioMatched(String nameBeneficiarioOrigin, String nameBeneficiarioDestine)
+			throws ServiceException {
+		StringTokenizer stringTokenizerDestine;
+		StringTokenizer stringTokenizerOrigin;
+		String nameTitular;
+		String nameBeneficiarioTmp;
+		int nameMatched = NumberUtils.INTEGER_ZERO;
+		int selectedNameMatched = NUM_NAME_MATCHED;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			stringTokenizerDestine = new StringTokenizer(nameBeneficiarioDestine);
+			stringTokenizerOrigin = new StringTokenizer(nameBeneficiarioOrigin);
+
+			while (stringTokenizerOrigin.hasMoreTokens() && stringTokenizerDestine.hasMoreTokens()) {
+				nameTitular = stringTokenizerOrigin.nextToken();
+				nameBeneficiarioTmp = stringTokenizerDestine.nextToken();
+
+				if (nameTitular.equals(nameBeneficiarioTmp)) {
+					nameMatched++;
+				} else {
+					break;
+				}
+			}
+
+			if (nameMatched > selectedNameMatched) {
+				LOGGER.info("END");
+				return true;
+			}
+
+			LOGGER.info("END");
+			return false;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
 }

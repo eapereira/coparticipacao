@@ -2,7 +2,7 @@
 <queries>
 	<query id="listByRegraId">
 		<![CDATA[
-			select regraResult from RegraResultEntity regraResult
+			select distinct regraResult from RegraResultEntity regraResult
 			join fetch regraResult.registerColumn registerColumn
 			join fetch regraResult.regra regra
 			where regra.id = :regraId
