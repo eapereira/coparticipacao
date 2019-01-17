@@ -25,7 +25,8 @@ public enum LancamentoColType {
 								NR_SUBFATURA(17, "NR_SUBFATURA"),
 								DESCR_UTILIZACAO(18, "DESCR_UTILIZACAO"),
 								NR_MATRICULA_ESPECIAL(19, "NR_MATRICULA_ESPECIAL"),
-								NR_LOCAL(20,"NR_LOCAL");
+								NR_LOCAL(20,"NR_LOCAL"),
+								NR_MATRICULA_EMPRESA(21, "NR_MATRICULA_EMPRESA");
 
 	private Integer id;
 

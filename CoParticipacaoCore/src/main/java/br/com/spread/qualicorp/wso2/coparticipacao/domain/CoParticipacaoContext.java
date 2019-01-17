@@ -866,4 +866,73 @@ public class CoParticipacaoContext {
 		return titularIsentoUi;
 
 	}
+
+	public TitularUi findTitularByCpf(Long cpf) {
+		LOGGER.info("BEGIN");
+
+		if (cpf != null) {
+			for (TitularUi titularUi : getTitularUis()) {
+
+				LOGGER.trace(
+						"Comparing with Titular [{}] with CPF [{}]:",
+						titularUi.getNameTitular(),
+						titularUi.getCpf());
+
+				if (titularUi.getCpf().equals(cpf)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+					LOGGER.info("END");
+					return titularUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public TitularUi findTitularByMatriculaAndMatriculaEmpresa(Long matricula, Long matriculaEmpresa) {
+		for (TitularUi titularUi : getTitularUis()) {
+
+			LOGGER.trace("Comparing with Titular [{}] with CPF [{}]:", titularUi.getNameTitular(), titularUi.getCpf());
+
+			if (titularUi.getMatricula().equals(matricula)) {
+				if (titularUi.getMatriculaEmpresa() != null
+						&& titularUi.getMatriculaEmpresa().equals(matriculaEmpresa)) {
+					LOGGER.info("Titular [{}] with CPF [{}] found:", titularUi.getNameTitular(), titularUi.getCpf());
+
+					LOGGER.info("END");
+					return titularUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
+
+	public DependenteUi findDependenteByMatriculaAndMatriculaEmpresa(Long matricula, Long matriculaEmpresa) {
+		for (DependenteUi dependenteUi : getDependenteUis()) {
+
+			LOGGER.trace(
+					"Comparing with Dependente [{}] with CPF [{}]:",
+					dependenteUi.getNameDependente(),
+					dependenteUi.getCpf());
+
+			if (dependenteUi.getMatricula().equals(matricula)) {
+				if (dependenteUi.getMatriculaEmpresa() != null
+						&& dependenteUi.getMatriculaEmpresa().equals(matriculaEmpresa)) {
+					LOGGER.info(
+							"Dependente [{}] with CPF [{}] found:",
+							dependenteUi.getNameDependente(),
+							dependenteUi.getCpf());
+
+					LOGGER.info("END");
+					return dependenteUi;
+				}
+			}
+		}
+
+		LOGGER.info("END");
+		return null;
+	}
 }

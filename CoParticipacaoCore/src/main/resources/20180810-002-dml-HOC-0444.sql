@@ -118,6 +118,7 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_NR_SUBFATURA								bigint( 17 ) default 17;
 	declare VAR_COL_LANCAMENTO_DESCR_UTILIZACAO							bigint( 17 ) default 18;
 	declare VAR_COL_LANCAMENTO_NR_LOCAL									bigint( 17 ) default 20;
+	declare VAR_COL_LANCAMENTO_NR_MATRICULA_EMPRESA						bigint( 17 ) default 21;
 
 	declare VAR_ID_LANCAMENTO_INPUT_SHEET								bigint( 17 );
     
@@ -781,6 +782,25 @@ BEGIN
 		current_timestamp()	
 	);
 	
+	call PROC_LOG_MESSAGE('LINHA - 730');
+	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
+		ID_LANCAMENTO_INPUT_SHEET,
+		CD_LANCAMENTO_COLS_DEF,
+		ID_REGISTER_COLUMN,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED 
+	) values (
+		VAR_ID_LANCAMENTO_INPUT_SHEET,
+		VAR_COL_LANCAMENTO_NR_MATRICULA_EMPRESA,
+		VAR_ID_COLUMN_05_COD_DEPENDENTE,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()	
+	);
+		
     call PROC_LOG_MESSAGE('LINHA - 607');
 	insert into TB_LANCAMENTO_INPUT_SHEET_COLS (
 		ID_LANCAMENTO_INPUT_SHEET,

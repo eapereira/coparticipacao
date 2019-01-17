@@ -19,10 +19,12 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ColDefType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessorService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ArquivoExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.NumberUtils2;
 
 /**
  * 
@@ -114,7 +116,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 	protected abstract Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext)
 			throws ArquivoInputException;
 
-	protected Object stringToColumnValue(RegisterColumnUi RegisterColumnUi, String columnValue)
+	protected Object stringToColumnValue(RegisterColumnUi registerColumnUi, String columnValue)
 			throws ServiceException {
 		Object value = null;
 		String tmp;
@@ -125,14 +127,14 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		tmp = tmp.trim();
 
 		if (StringUtils.isNotBlank(tmp)) {
-			if (ColDefType.INT.equals(RegisterColumnUi.getType())) {
+			if (ColDefType.INT.equals(registerColumnUi.getType())) {
 				value = Integer.parseInt(tmp);
-			} else if (ColDefType.LONG.equals(RegisterColumnUi.getType())) {
-				value = stringToLong(tmp, RegisterColumnUi);
-			} else if (ColDefType.DOUBLE.equals(RegisterColumnUi.getType())) {
-				value = stringToBigDecimal(tmp, RegisterColumnUi);
-			} else if (ColDefType.DATE.equals(RegisterColumnUi.getType())) {
-				value = stringToDate(tmp, RegisterColumnUi);
+			} else if (ColDefType.LONG.equals(registerColumnUi.getType())) {
+				value = stringToLong(tmp, registerColumnUi);
+			} else if (ColDefType.DOUBLE.equals(registerColumnUi.getType())) {
+				value = stringToBigDecimal(tmp, registerColumnUi);
+			} else if (ColDefType.DATE.equals(registerColumnUi.getType())) {
+				value = stringToDate(tmp, registerColumnUi);
 			} else {
 				value = tmp.trim();
 			}
@@ -142,16 +144,15 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		return value;
 	}
 
-	protected Long stringToLong(String value, RegisterColumnUi RegisterColumnUi)
-			throws ServiceException {
+	protected Long stringToLong(String value, RegisterColumnUi registerColumnUi) throws ServiceException {
 		Long longValue = null;
 		DecimalFormat decimalFormat;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			if (StringUtils.isNotBlank(RegisterColumnUi.getFormat())) {
-				decimalFormat = new DecimalFormat(RegisterColumnUi.getFormat());
+			if (StringUtils.isNotBlank(registerColumnUi.getFormat())) {
+				decimalFormat = new DecimalFormat(registerColumnUi.getFormat());
 
 				longValue = decimalFormat.parse(value).longValue();
 			} else {
@@ -166,10 +167,8 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		}
 	}
 
-	protected BigDecimal stringToBigDecimal(String value, RegisterColumnUi RegisterColumnUi)
-			throws ServiceException {
+	protected BigDecimal stringToBigDecimal(String value, RegisterColumnUi registerColumnUi) throws ServiceException {
 		BigDecimal bdValue = null;
-		DecimalFormat decimalFormat;
 		String tmp;
 
 		try {
@@ -177,9 +176,8 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 
 			tmp = StringUtils.replaceAll(value, ",", ".");
 
-			if (StringUtils.isNotBlank(RegisterColumnUi.getFormat())) {
-				decimalFormat = new DecimalFormat(RegisterColumnUi.getFormat());
-				bdValue = BigDecimal.valueOf(decimalFormat.parse(tmp).doubleValue());
+			if (StringUtils.isNotBlank(registerColumnUi.getFormat())) {
+				bdValue = BigDecimal.valueOf(NumberUtils2.stringToDouble(value, registerColumnUi.getFormat()));
 			} else {
 				bdValue = new BigDecimal(tmp);
 			}
@@ -192,8 +190,7 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		}
 	}
 
-	protected LocalDate stringToDate(String value, RegisterColumnUi RegisterColumnUi)
-			throws ServiceException {
+	protected LocalDate stringToDate(String value, RegisterColumnUi registerColumnUi) throws ServiceException {
 		DateTimeFormatter dateTimeFormatter;
 		String formatPattern = "dd/MM/yyyy";
 		LocalDate localDate;
@@ -202,8 +199,8 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (StringUtils.isNotBlank(RegisterColumnUi.getFormat())) {
-				formatPattern = RegisterColumnUi.getFormat();
+			if (StringUtils.isNotBlank(registerColumnUi.getFormat())) {
+				formatPattern = registerColumnUi.getFormat();
 			}
 
 			/*
@@ -222,5 +219,42 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 			return null;
 		}
 
+	}
+
+	protected String clearMask(Object value) {
+		String strValue;
+
+		if (value instanceof String) {
+			strValue = ((String) value).trim();
+
+			if (StringUtils.isNotBlank(strValue)) {
+				strValue = StringUtils.replaceAll(strValue, "(\\.|\\-|\\'|/|\\W)", StringUtils.EMPTY);
+				return strValue;
+			} else {
+				return NumberUtils.INTEGER_ZERO.toString();
+			}
+		}
+
+		return value.toString();
+	}
+
+	protected Double clearDoubleMask(Object value) throws CoParticipacaoException {
+		String strValue;
+
+		LOGGER.debug("clearDoubleMask received value[{}]:", value);
+
+		if (value instanceof String) {
+			strValue = ((String) value).trim();
+
+			if (StringUtils.isNotBlank(strValue)) {
+				strValue = StringUtils.replaceAll(strValue, "(\\'|/)", StringUtils.EMPTY);
+
+				return NumberUtils2.stringToDouble((String) value);
+			}
+
+			return NumberUtils.DOUBLE_ZERO;
+		}
+
+		return Double.valueOf(value.toString());
 	}
 }

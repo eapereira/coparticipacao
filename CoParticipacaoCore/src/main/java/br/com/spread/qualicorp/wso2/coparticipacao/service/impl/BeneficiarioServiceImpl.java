@@ -176,6 +176,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			beneficiarioUi.setCpf(lancamentoDetailUi.getCpf());
 			beneficiarioUi.setMatricula(lancamentoDetailUi.getMatriculaDependente());
 			beneficiarioUi.setMatriculaTitular(lancamentoDetailUi.getMatriculaTitular());
+			beneficiarioUi.setMatriculaEmpresa(lancamentoDetailUi.getMatriculaEmpresa());
 			beneficiarioUi.setNameBeneficiario(lancamentoDetailUi.getNameBeneficiario());
 			beneficiarioUi.setNameTitular(lancamentoDetailUi.getNameTitular());
 			beneficiarioUi.setDtNascimento(lancamentoDetailUi.getDtNascimento());
@@ -812,7 +813,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							}
 						}
 					} else {
-						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+						if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
+							beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+							LOGGER.info("END");
+							return true;
+						} else if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
 							beneficiarioUi.setType(BeneficiarioType.TITULAR);
 
 							LOGGER.info("END");
@@ -825,19 +831,24 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					 * dependente:
 					 */
 					if (titularUi != null) {
-						if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
-							if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-								beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-								LOGGER.info("END");
-								return true;
-							}
+						if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
+							LOGGER.info("END");
+							return true;
 						} else {
-							if (titularUi.getNameTitular().equals(beneficiarioUi.getNameTitular())) {
-								beneficiarioUi.setType(BeneficiarioType.TITULAR);
+							if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
+								if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+									beneficiarioUi.setType(BeneficiarioType.TITULAR);
 
-								LOGGER.info("END");
-								return true;
+									LOGGER.info("END");
+									return true;
+								}
+							} else {
+								if (titularUi.getNameTitular().equals(beneficiarioUi.getNameTitular())) {
+									beneficiarioUi.setType(BeneficiarioType.TITULAR);
+
+									LOGGER.info("END");
+									return true;
+								}
 							}
 						}
 
@@ -1445,6 +1456,20 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						beneficiarioUi.getCdContrato());
 			}
 
+			/*
+			 * Em caso que existam diferenças nos nomes dos beneficiários entro
+			 * os arquivos de entrada, mas o valor do NR_CPF e NR_MATRICULA
+			 * estejam corretos, preferencialmente existam diferenças entre os
+			 * CPFs dos dependentes, podesse usar este recurso:
+			 */
+			if (titularUi == null) {
+				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
+					titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
+							beneficiarioUi.getMatricula(),
+							beneficiarioUi.getMatriculaEmpresa());
+				}
+			}
+
 			LOGGER.info("END");
 			return titularUi;
 		} catch (Exception e) {
@@ -1457,33 +1482,18 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 	public DependenteUi findDependente(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
 			throws ServiceException {
 		DependenteUi dependenteUi = null;
-		ContratoUi contratoUi;
 		TitularUi titularUi;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			contratoUi = coParticipacaoContext.getContratoUi();
+			dependenteUi = coParticipacaoContext
+					.findDependenteByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
 
-			if (coParticipacaoContext.getEmpresaUi().isSearchDependentesWithoutName()
-					&& (UseType.ISENTO.equals(contratoUi.getUseType())
-							|| UseType.MECSAS2.equals(contratoUi.getUseType()))) {
-				dependenteUi = coParticipacaoContext.findDependenteByCpf(beneficiarioUi.getCpf());
-
-				if (dependenteUi == null) {
-					dependenteUi = coParticipacaoContext.findDependenteByMatricula(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getMatriculaEmpresa());
-				}
-			} else {
-				dependenteUi = coParticipacaoContext
-						.findDependenteByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
-
-				if (dependenteUi == null) {
-					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getNameBeneficiario());
-				}
+			if (dependenteUi == null) {
+				dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
+						beneficiarioUi.getMatricula(),
+						beneficiarioUi.getNameBeneficiario());
 			}
 
 			if (dependenteUi == null) {
@@ -1496,6 +1506,20 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							break;
 						}
 					}
+				}
+			}
+
+			/*
+			 * Em caso que existam diferenças nos nomes dos beneficiários entro
+			 * os arquivos de entrada, mas o valor do NR_CPF e NR_MATRICULA
+			 * estejam corretos, preferencialmente existam diferenças entre os
+			 * CPFs dos dependentes, podesse usar este recurso:
+			 */
+			if (dependenteUi == null) {
+				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
+					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
+							beneficiarioUi.getMatricula(),
+							beneficiarioUi.getMatriculaEmpresa());
 				}
 			}
 

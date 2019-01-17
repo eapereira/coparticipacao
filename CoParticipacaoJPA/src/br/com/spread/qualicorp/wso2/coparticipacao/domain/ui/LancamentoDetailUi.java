@@ -52,6 +52,8 @@ public class LancamentoDetailUi implements Serializable {
 
 	private Integer local;
 	
+	private Long matriculaEmpresa;
+	
 	public LancamentoDetailUi() {
 		super();
 	}
@@ -238,6 +240,14 @@ public class LancamentoDetailUi implements Serializable {
 
 	public void setLocal(Integer local) {
 		this.local = local;
+	}
+
+	public Long getMatriculaEmpresa() {
+		return matriculaEmpresa;
+	}
+
+	public void setMatriculaEmpresa(Long matriculaEmpresa) {
+		this.matriculaEmpresa = matriculaEmpresa;
 	}
 
 }

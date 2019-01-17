@@ -116,7 +116,7 @@ select
     lancamento.CD_MES,
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
-    lancamento.VL_PRINCIPAL - ifnull( isento.VL_ISENCAO, 0.0 ) VL_PRINCIPAL,
+    lancamento.VL_PRINCIPAL,
 	dependente.DT_NASCIMENTO,	
 	lpad( dependente.NR_CPF, 11, '0' ) CPF_DEPENDENTE,
 	dependente.NR_MATRICULA NR_MATRICULA_DEPENDENTE,
@@ -130,11 +130,6 @@ join TB_EMPRESA empresa on
 	empresa.ID = contrato.ID_EMPRESA
 join TB_DEPENDENTE dependente on
 	dependente.ID = lancamento.ID_DEPENDENTE
-left join TB_DEPENDENTE_ISENTO isento on
-	isento.ID_DEPENDENTE	= lancamento.ID_DEPENDENTE and
-	isento.CD_MES 			= lancamento.CD_MES and
-	isento.CD_ANO 			= lancamento.CD_ANO and
-	isento.TP_ISENTO 		= 7
 where	lancamento.ID_DEPENDENTE is not null
 and		empresa.CD_EMPRESA = '0444'
 union all
@@ -150,7 +145,7 @@ select
     lancamento.CD_MES,
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
-    lancamento.VL_PRINCIPAL - ifnull( isento.VL_ISENCAO, 0.0 ) VL_PRINCIPAL,
+    lancamento.VL_PRINCIPAL,
 	titular.DT_NASCIMENTO,	
 	lpad( titular.NR_CPF, 11, '0' ) CPF_DEPENDENTE,
 	titular.NR_MATRICULA NR_MATRICULA_DEPENDENTE,
@@ -162,11 +157,6 @@ join TB_CONTRATO contrato on
 	contrato.ID = lancamento.ID_CONTRATO
 join TB_EMPRESA empresa on
 	empresa.ID = contrato.ID_EMPRESA
-left join TB_TITULAR_ISENTO isento on
-	isento.ID_TITULAR	= lancamento.ID_TITULAR and
-	isento.CD_MES 		= lancamento.CD_MES and
-	isento.CD_ANO 		= lancamento.CD_ANO and
-	isento.TP_ISENTO 	= 7	
 where 	lancamento.ID_DEPENDENTE is null
 and		empresa.CD_EMPRESA = '0444';
 

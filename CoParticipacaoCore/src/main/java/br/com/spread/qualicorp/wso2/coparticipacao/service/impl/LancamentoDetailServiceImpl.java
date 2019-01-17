@@ -81,6 +81,8 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 					lancamentoDetailUi.setMatriculaEspecial((String) value);
 				} else if (LancamentoColType.NR_LOCAL.equals(lancamentoColType)) {
 					lancamentoDetailUi.setLocal((Integer) value);
+				} else if (LancamentoColType.NR_MATRICULA_EMPRESA.equals(lancamentoColType)) {
+					lancamentoDetailUi.setMatriculaEmpresa((Long) value);
 				} else {
 					throw new ServiceException("The column LancamentoInputColsUi[{}] is not recognized:");
 				}
@@ -299,7 +301,7 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 			CoParticipacaoContext coParticipacaoContext,
 			List<LancamentoInputSheetCols> lancamentoInputSheetColss) throws ServiceException {
 		LancamentoDetailUi lancamentoDetailUi;
-		RegisterColumnUi RegisterColumnUi;
+		RegisterColumnUi registerColumnUi;
 		Object value;
 
 		try {
@@ -313,11 +315,11 @@ public class LancamentoDetailServiceImpl implements LancamentoDetailService {
 						"Using LancamentoInputCols[{}]",
 						lancamentoInputSheetCols.getLancamentoColType().getDescription());
 
-				RegisterColumnUi = (RegisterColumnUi) lancamentoInputSheetCols.getRegisterColumn();
+				registerColumnUi = (RegisterColumnUi) lancamentoInputSheetCols.getRegisterColumn();
 
-				value = coParticipacaoContext.getMapLine().get(RegisterColumnUi.getNameColumn());
+				value = coParticipacaoContext.getMapLine().get(registerColumnUi.getNameColumn());
 
-				LOGGER.debug("Column [{}] with value [{}]:", RegisterColumnUi.getNameColumn(), value);
+				LOGGER.debug("Column [{}] with value [{}]:", registerColumnUi.getNameColumn(), value);
 
 				setFieldValue(lancamentoDetailUi, lancamentoInputSheetCols.getLancamentoColType(), value);
 			}

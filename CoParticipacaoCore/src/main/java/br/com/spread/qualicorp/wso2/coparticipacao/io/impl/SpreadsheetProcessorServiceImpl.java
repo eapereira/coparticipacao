@@ -407,43 +407,6 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 		}
 	}
 
-	protected String clearMask(Object value) {
-		String strValue;
-
-		if (value instanceof String) {
-			strValue = ((String) value).trim();
-
-			if (StringUtils.isNotBlank(strValue)) {
-				strValue = StringUtils.replaceAll(strValue, "(\\.|\\-|\\'|/|\\W)", StringUtils.EMPTY);
-				return strValue;
-			} else {
-				return NumberUtils.INTEGER_ZERO.toString();
-			}
-		}
-
-		return value.toString();
-	}
-
-	protected Double clearDoubleMask(Object value) throws CoParticipacaoException {
-		String strValue;
-
-		LOGGER.debug("clearDoubleMask received value[{}]:", value);
-
-		if (value instanceof String) {
-			strValue = ((String) value).trim();
-
-			if (StringUtils.isNotBlank(strValue)) {
-				strValue = StringUtils.replaceAll(strValue, "(\\'|/)", StringUtils.EMPTY);
-
-				return NumberUtils2.stringToDouble((String) value);
-			}
-
-			return NumberUtils.DOUBLE_ZERO;
-		}
-
-		return Double.valueOf(value.toString());
-	}
-
 	@Override
 	protected Map<String, Object> readLine(CoParticipacaoContext coParticipacaoContext) throws ArquivoInputException {
 		// TODO Auto-generated method stub

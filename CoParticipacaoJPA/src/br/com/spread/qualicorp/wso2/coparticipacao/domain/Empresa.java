@@ -44,7 +44,7 @@ public abstract class Empresa extends AbstractDomain {
 
 	private boolean automaticCreateTitular;
 
-	private boolean searchDependentesWithoutName;
+	private boolean searchBeneficiarioWithoutName;
 
 	private boolean acceptTitularWithoutCpf;
 
@@ -232,12 +232,12 @@ public abstract class Empresa extends AbstractDomain {
 		this.automaticCreateTitular = automaticCreateTitular;
 	}
 
-	public boolean isSearchDependentesWithoutName() {
-		return searchDependentesWithoutName;
+	public boolean isSearchBeneficiarioWithoutName() {
+		return searchBeneficiarioWithoutName;
 	}
 
-	public void setSearchDependentesWithoutName(boolean searchDependentesWithoutName) {
-		this.searchDependentesWithoutName = searchDependentesWithoutName;
+	public void setSearchBeneficiarioWithoutName(boolean searchBeneficiarioWithoutName) {
+		this.searchBeneficiarioWithoutName = searchBeneficiarioWithoutName;
 	}
 
 	public boolean isAcceptTitularWithoutCpf() {
@@ -313,7 +313,7 @@ public abstract class Empresa extends AbstractDomain {
 		result = prime * result + ((reportQueryType == null) ? 0 : reportQueryType.hashCode());
 		result = prime * result + (saveBeneficiarioDetails ? 1231 : 1237);
 		result = prime * result + (saveMecsasDetails ? 1231 : 1237);
-		result = prime * result + (searchDependentesWithoutName ? 1231 : 1237);
+		result = prime * result + (searchBeneficiarioWithoutName ? 1231 : 1237);
 		result = prime * result + ((titulars == null) ? 0 : titulars.hashCode());
 		result = prime * result + (updateBeneficiarioFromFatucopa ? 1231 : 1237);
 		result = prime * result + (useJasperReports ? 1231 : 1237);
@@ -398,7 +398,7 @@ public abstract class Empresa extends AbstractDomain {
 			return false;
 		if (saveMecsasDetails != other.saveMecsasDetails)
 			return false;
-		if (searchDependentesWithoutName != other.searchDependentesWithoutName)
+		if (searchBeneficiarioWithoutName != other.searchBeneficiarioWithoutName)
 			return false;
 		if (titulars == null) {
 			if (other.titulars != null)

@@ -121,15 +121,15 @@ public class CargillBean {
 
 	private static final int NUM_TOTAL_TITULARES_201901 = 1702;
 	private static final int NUM_TOTAL_DEPENDENTES_201901 = 1235;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201901 = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_201901 = 5;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201901 = 3;
+	private static final int NUM_TOTAL_LANCAMENTOS_201901 = 86;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201901 = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201901 = 5;
 
-	private static final int NUM_TOTAL_TITULARES_201901_AFTER_USER_RETURN = 1702;
-	private static final int NUM_TOTAL_DEPENDENTES_201901_AFTER_USER_RETURN = 1235;
+	private static final int NUM_TOTAL_TITULARES_201901_AFTER_USER_RETURN = 1704;
+	private static final int NUM_TOTAL_DEPENDENTES_201901_AFTER_USER_RETURN = 1237;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201901_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_201901_AFTER_USER_RETURN = 5;
+	private static final int NUM_TOTAL_LANCAMENTOS_201901_AFTER_USER_RETURN = 89;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201901_AFTER_USER_RETURN = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201901_AFTER_USER_RETURN = 5;
 
