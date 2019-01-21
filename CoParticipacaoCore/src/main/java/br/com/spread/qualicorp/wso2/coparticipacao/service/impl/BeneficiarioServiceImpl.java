@@ -1887,7 +1887,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						}
 					}
 
-					if (nameMatched > selectedNameMatched) {
+					if (nameMatched >= selectedNameMatched) {
 						selectedDependenteUi = dependenteUi;
 						selectedNameMatched = nameMatched;
 					}
@@ -1939,7 +1939,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						}
 					}
 
-					if (nameMatched > selectedNameMatched) {
+					if (nameMatched >= selectedNameMatched) {
 						selectedNameMatched = nameMatched;
 						selectedTitularUi = titularUi;
 					}

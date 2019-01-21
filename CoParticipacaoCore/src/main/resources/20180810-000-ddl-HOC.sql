@@ -46,13 +46,14 @@ select distinct
 	lancamento.ID_CONTRATO,
 	empresa.ID ID_EMPRESA,
 	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
-	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_DEPENDENTE,
+	titular.NR_MATRICULA_EMPRESA COD_DEPENDENTE,
 	titular.NM_TITULAR NM_BENEFICIARIO,
 	FUNC_GET_CPF( titular.NR_CPF ) NR_CPF,
 	titular.NR_LOCAL,
 	titular.NR_RDP,
 	titular.DT_NASCIMENTO,
 	titular.DT_ADMISSAO,
+	titular.DT_DEMISSAO,
 	lancamento.VL_PRINCIPAL
 from	TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -64,6 +65,7 @@ from	TB_LANCAMENTO lancamento
 where 	lancamento.ID_DEPENDENTE is null
 and 	empresa.CD_EMPRESA = '0444'
 and (	titular.NR_MATRICULA is null or
+		titular.NR_MATRICULA_EMPRESA is null or
 		titular.NR_CPF is null or
 		titular.NR_CPF = 0 or 
 		titular.NR_LOCAL is null or
@@ -75,13 +77,14 @@ select distinct
 	lancamento.ID_CONTRATO,
 	empresa.ID ID_EMPRESA,
 	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
-	FUNC_GET_MATRICULA_HOC( dependente.NR_MATRICULA, dependente.NR_RDP ) COD_DEPENDENTE,
+	dependente.NR_MATRICULA_EMPRESA COD_DEPENDENTE,
 	dependente.NM_DEPENDENTE NM_BENEFICIARIO,
 	FUNC_GET_CPF( dependente.NR_CPF ) NR_CPF,
 	dependente.NR_LOCAL,
 	dependente.NR_RDP,
 	dependente.DT_NASCIMENTO,
 	titular.DT_ADMISSAO,
+	titular.DT_DEMISSAO,
 	lancamento.VL_PRINCIPAL
 from	TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -96,6 +99,7 @@ from	TB_LANCAMENTO lancamento
 where 	lancamento.ID_DEPENDENTE is not null
 and 	empresa.CD_EMPRESA = '0444'
 and (	dependente.NR_MATRICULA is null or
+		dependente.NR_MATRICULA_EMPRESA is null or
 		dependente.NR_CPF is null or
 		dependente.NR_CPF = 0 or 
 		dependente.NR_LOCAL is null or
@@ -115,6 +119,7 @@ select distinct
 	desconhecido.NR_RDP,
 	desconhecido.DT_NASCIMENTO,
 	desconhecido.DT_ADMISSAO,
+	desconhecido.DT_DEMISSAO,
 	desconhecido.VL_PRINCIPAL
 from	VW_DESCONHECIDO_LEVEL01_HOC desconhecido
 order by desconhecido.NM_BENEFICIARIO;
@@ -903,3 +908,4 @@ group by
 	resumo.ID_EMPRESA
 order by resumo.ID_RESUMO;
 /**********************************************************************************************************************/
+

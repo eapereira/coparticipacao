@@ -103,6 +103,7 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NR_RDP									int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DT_NASCIMENTO							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DT_ADMISSAO								int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_DT_DEMISSAO								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_LABEL								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA							int( 3 ) default 20;
 
@@ -2416,6 +2417,32 @@ BEGIN
 		'DT ADMISSAO',
 		VAR_COL_DATE,
 		VAR_COL_VIEW_LENGTH_DT_ADMISSAO,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 1592');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'DT_DEMISSAO',
+		'DT DEMISSAO',
+		VAR_COL_DATE,
+		VAR_COL_VIEW_LENGTH_DT_DEMISSAO,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

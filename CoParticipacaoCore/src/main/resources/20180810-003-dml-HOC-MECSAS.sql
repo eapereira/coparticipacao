@@ -2286,7 +2286,7 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-
+/*
     call PROC_LOG_MESSAGE('LINHA - 1848');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
@@ -2301,7 +2301,7 @@ BEGIN
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
-	);
+	);*/
 	
 	call PROC_LOG_MESSAGE('LINHA - 1879');
 	insert into TB_BENEFICIARIO_COLS(
