@@ -40,7 +40,7 @@ drop view if exists VW_TITULAR_RDP_HOC;
 
 /**********************************************************************************************************************/
 create view VW_DESCONHECIDO_LEVEL01_HOC as
-select distinct
+select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,
@@ -71,7 +71,7 @@ and (	titular.NR_MATRICULA is null or
 		titular.NR_LOCAL is null or
 		titular.NR_RDP is null )
 union all
-select distinct
+select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,
@@ -90,7 +90,7 @@ from	TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
 		titular.ID = lancamento.ID_TITULAR
 	join TB_DEPENDENTE dependente on
-		dependente.ID 			= dependente.ID_TITULAR and
+		dependente.ID 			= lancamento.ID_DEPENDENTE and
         dependente.ID_TITULAR 	= titular.ID
 	join TB_CONTRATO contrato on
 		contrato.ID = titular.ID_CONTRATO
@@ -136,7 +136,7 @@ select
     dependente.ID ID_DEPENDENTE,
     titular.NM_TITULAR,
     dependente.NM_DEPENDENTE NM_USUARIO,
-    FUNC_GET_MATRICULA_HOC( dependente.NR_MATRICULA, dependente.NR_RDP ) COD_DEPENDENTE,
+    lpad( dependente.NR_MATRICULA_EMPRESA, 15, '0' ) COD_DEPENDENTE,
     lancamento.CD_MES,
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
@@ -165,7 +165,7 @@ select
     null ID_DEPENDENTE,
     titular.NM_TITULAR,
     titular.NM_TITULAR NM_USUARIO,
-    FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, titular.NR_RDP ) COD_DEPENDENTE,
+    lpad( titular.NR_MATRICULA_EMPRESA, 15, '0' ) COD_DEPENDENTE,
     lancamento.CD_MES,
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
@@ -334,6 +334,7 @@ and	 lancamento.ID_DEPENDENTE is not null
 and titular.NR_LOCAL <> 100
 and titular.DT_DEMISSAO is not null;
 
+/**********************************************************************************************************************/
 /**********************************************************************************************************************/
 	
 create view VW_ISENCAO_GESTANTES_HOC as
@@ -576,6 +577,8 @@ group by
 	original_hoc.ID_EMPRESA,
 	original_hoc.ID_CONTRATO,
 	original_hoc.NR_MATRICULA;
+
+/**********************************************************************************************************************/
 
 create view VW_MESES_ANO as
 select

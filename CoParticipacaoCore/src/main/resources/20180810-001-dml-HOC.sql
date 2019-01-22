@@ -99,8 +99,8 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NM_DEPENDENTE							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF									int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_NR_LOCAL								int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_NR_RDP									int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_NR_LOCAL								int( 3 ) default 10;
+	declare VAR_COL_VIEW_LENGTH_NR_RDP									int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_DT_NASCIMENTO							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DT_ADMISSAO								int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_DT_DEMISSAO								int( 3 ) default 20;

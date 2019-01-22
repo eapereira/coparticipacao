@@ -774,31 +774,29 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
 				dependenteUi = findDependente(coParticipacaoContext, beneficiarioUi);
 
-				if (dependenteUi == null) {
-					if (titularUi != null) {
-						if (titularUi.getMatriculaEmpresa() != null && beneficiarioUi.getMatriculaEmpresa() != null) {
-							if (titularUi.getMatriculaEmpresa().equals(beneficiarioUi.getMatriculaEmpresa())) {
-								LOGGER.info("END");
-								return true;
-							}
-						} else if (empresaUi.isSearchBeneficiarioWithoutName()) {
-							if (isNameBeneficiarioMatched(
-									titularUi.getNameTitular(),
-									beneficiarioUi.getNameBeneficiario())) {
-								LOGGER.info("END");
-								return true;
-							}
-						} else if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+				if (titularUi != null) {
+					if (titularUi.getMatriculaEmpresa() != null && beneficiarioUi.getMatriculaEmpresa() != null) {
+						if (titularUi.getMatriculaEmpresa().equals(beneficiarioUi.getMatriculaEmpresa())) {
+							LOGGER.info("END");
+							return true;
+						}
+					} else if (empresaUi.isSearchBeneficiarioWithoutName()) {
+						if (isNameBeneficiarioMatched(titularUi, beneficiarioUi.getNameBeneficiario())) {
+							LOGGER.info("END");
+							return true;
+						}
+					} else if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+						LOGGER.info("END");
+						return true;
+					}
+				} else {
+					if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+						if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
 							LOGGER.info("END");
 							return true;
 						}
 					} else {
-						if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
-							if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-								LOGGER.info("END");
-								return true;
-							}
-						} else {
+						if (dependenteUi == null) {
 							LOGGER.info("END");
 							return true;
 						}
@@ -1639,11 +1637,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
 								beneficiarioUi.getMatricula(),
 								beneficiarioUi.getMatriculaEmpresa());
-					} else {
-						dependenteUi = findDependenteByMatriculaAndName(
-								coParticipacaoContext,
-								beneficiarioUi.getMatricula(),
-								beneficiarioUi.getNameBeneficiario());
+
+						if (dependenteUi == null) {
+							dependenteUi = findDependenteByMatriculaAndName(
+									coParticipacaoContext,
+									beneficiarioUi.getMatricula(),
+									beneficiarioUi.getNameBeneficiario());
+						}
 					}
 				}
 			}
@@ -1954,8 +1954,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private boolean isNameBeneficiarioMatched(String nameBeneficiarioOrigin, String nameBeneficiarioDestine)
-			throws ServiceException {
+	private boolean isNameBeneficiarioMatched(TitularUi titularUi, String nameBeneficiario) throws ServiceException {
 		StringTokenizer stringTokenizerDestine;
 		StringTokenizer stringTokenizerOrigin;
 		String nameTitular;
@@ -1966,8 +1965,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			stringTokenizerDestine = new StringTokenizer(nameBeneficiarioDestine);
-			stringTokenizerOrigin = new StringTokenizer(nameBeneficiarioOrigin);
+			stringTokenizerDestine = new StringTokenizer(nameBeneficiario);
+			stringTokenizerOrigin = new StringTokenizer(titularUi.getNameTitular());
 
 			while (stringTokenizerOrigin.hasMoreTokens() && stringTokenizerDestine.hasMoreTokens()) {
 				nameTitular = stringTokenizerOrigin.nextToken();
@@ -1980,9 +1979,20 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 			}
 
-			if (nameMatched > selectedNameMatched) {
+			if (nameMatched >= selectedNameMatched) {
 				LOGGER.info("END");
 				return true;
+			} else {
+				/*
+				 * Uma última tentativa, talves o beneficiário esteja usando o
+				 * NM_BENEFICIARIO_COMPLETO:
+				 */
+				if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getNameCompletoBeneficiario())) {
+					if (titularUi.getBeneficiarioDetail().getNameCompletoBeneficiario().equals(nameBeneficiario)) {
+						LOGGER.info("END");
+						return true;
+					}
+				}
 			}
 
 			LOGGER.info("END");

@@ -167,6 +167,7 @@ public class IsentoServiceImpl implements IsentoService {
 					dependenteIsentoUi = new DependenteIsentoUi();
 					dependenteIsentoUi.setDependente(dependenteUi);
 					dependenteIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
+					dependenteIsentoUi.setValorIsencao(beneficiarioIsentoUi.getValorIsencao());
 
 					dependenteIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
 					dependenteIsentoUi.setMes(coParticipacaoContext.getMes());
