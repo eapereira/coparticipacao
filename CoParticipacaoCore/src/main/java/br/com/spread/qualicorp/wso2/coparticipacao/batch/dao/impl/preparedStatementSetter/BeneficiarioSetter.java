@@ -121,6 +121,10 @@ public abstract class BeneficiarioSetter<ENTITY extends AbstractDomain> extends 
 	private static final int COL_CD_USUARIO = 110;
 	private static final int COL_NR_CERTIFICADO = 111;
 
+	private static final int COL_NM_ALIAS_01 = 112;
+	private static final int COL_NM_ALIAS_02 = 113;
+	private static final int COL_NM_ALIAS_03 = 114;
+
 	public BeneficiarioSetter(SetterAdapterType setterAdapterType, ENTITY entity) {
 		super(setterAdapterType, entity);
 	}
@@ -230,6 +234,10 @@ public abstract class BeneficiarioSetter<ENTITY extends AbstractDomain> extends 
 			setInt(ps, COL_IND_EVENTO, beneficiarioDetail.getIndicadorEvento());
 			setString(ps, COL_CD_USUARIO, beneficiarioDetail.getCdUsuario());
 			setLong(ps, COL_NR_CERTIFICADO, beneficiarioDetail.getCertificado());
+
+			setString(ps, COL_NM_ALIAS_01, beneficiarioDetail.getAlias01());
+			setString(ps, COL_NM_ALIAS_02, beneficiarioDetail.getAlias02());
+			setString(ps, COL_NM_ALIAS_03, beneficiarioDetail.getAlias03());
 		}
 	}
 

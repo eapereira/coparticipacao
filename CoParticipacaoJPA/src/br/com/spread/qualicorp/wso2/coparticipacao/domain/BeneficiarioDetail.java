@@ -149,6 +149,10 @@ public class BeneficiarioDetail implements Serializable {
 	
 	private Long certificado;
 	
+	private String alias01;
+	private String alias02;
+	private String alias03;
+	
 	public BeneficiarioDetail() {
 		super();
 
@@ -777,6 +781,9 @@ public class BeneficiarioDetail implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((alias01 == null) ? 0 : alias01.hashCode());
+		result = prime * result + ((alias02 == null) ? 0 : alias02.hashCode());
+		result = prime * result + ((alias03 == null) ? 0 : alias03.hashCode());
 		result = prime * result + ((bloqEmpresaInadimplencia == null) ? 0 : bloqEmpresaInadimplencia.hashCode());
 		result = prime * result + ((cardif == null) ? 0 : cardif.hashCode());
 		result = prime * result + ((carteiraIdentificacao == null) ? 0 : carteiraIdentificacao.hashCode());
@@ -858,6 +865,21 @@ public class BeneficiarioDetail implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		BeneficiarioDetail other = (BeneficiarioDetail) obj;
+		if (alias01 == null) {
+			if (other.alias01 != null)
+				return false;
+		} else if (!alias01.equals(other.alias01))
+			return false;
+		if (alias02 == null) {
+			if (other.alias02 != null)
+				return false;
+		} else if (!alias02.equals(other.alias02))
+			return false;
+		if (alias03 == null) {
+			if (other.alias03 != null)
+				return false;
+		} else if (!alias03.equals(other.alias03))
+			return false;
 		if (bloqEmpresaInadimplencia == null) {
 			if (other.bloqEmpresaInadimplencia != null)
 				return false;
@@ -1193,6 +1215,33 @@ public class BeneficiarioDetail implements Serializable {
 		} else if (!valorLiquidoSinistro.equals(other.valorLiquidoSinistro))
 			return false;
 		return true;
+	}
+
+	@Column(name = "NM_ALIAS_01")
+	public String getAlias01() {
+		return alias01;
+	}
+
+	public void setAlias01(String alias01) {
+		this.alias01 = alias01;
+	}
+
+	@Column(name = "NM_ALIAS_02")
+	public String getAlias02() {
+		return alias02;
+	}
+
+	public void setAlias02(String alias02) {
+		this.alias02 = alias02;
+	}
+
+	@Column(name = "NM_ALIAS_03")
+	public String getAlias03() {
+		return alias03;
+	}
+
+	public void setAlias03(String alias03) {
+		this.alias03 = alias03;
 	}
 
 

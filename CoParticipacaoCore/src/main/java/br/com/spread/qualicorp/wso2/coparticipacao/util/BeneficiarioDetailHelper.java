@@ -303,6 +303,18 @@ public class BeneficiarioDetailHelper {
 				beneficiarioDetailDest.setCertificado(beneficiarioDetailOrigin.getCertificado());
 			}
 
+			if (beneficiarioDetailOrigin.getAlias01() != null) {
+				beneficiarioDetailDest.setAlias01(beneficiarioDetailOrigin.getAlias01());
+			}
+
+			if (beneficiarioDetailOrigin.getAlias02() != null) {
+				beneficiarioDetailDest.setAlias02(beneficiarioDetailOrigin.getAlias02());
+			}
+
+			if (beneficiarioDetailOrigin.getAlias03() != null) {
+				beneficiarioDetailDest.setAlias03(beneficiarioDetailOrigin.getAlias03());
+			}
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);

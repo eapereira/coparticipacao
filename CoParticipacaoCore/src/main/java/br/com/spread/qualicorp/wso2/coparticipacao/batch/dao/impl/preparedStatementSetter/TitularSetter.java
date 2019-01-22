@@ -26,12 +26,12 @@ public class TitularSetter extends BeneficiarioSetter<TitularEntity> {
 	private static final int COL_NR_REF_CODE = 8;
 	private static final int COL_NR_MATRICULA_EMPRESA = 9;
 
-	private static final int COL_DT_DEMISSAO = 112;
+	private static final int COL_DT_DEMISSAO = 115;
 
-	private static final int COL_USER_CREATED = 113;
-	private static final int COL_USER_ALTERED = 113;
+	private static final int COL_USER_CREATED = 116;
+	private static final int COL_USER_ALTERED = 116;
 
-	private static final int COL_ID = 114;
+	private static final int COL_ID = 117;
 
 	public TitularSetter(SetterAdapterType setterAdapterType, TitularEntity entity) {
 		super(setterAdapterType, entity);

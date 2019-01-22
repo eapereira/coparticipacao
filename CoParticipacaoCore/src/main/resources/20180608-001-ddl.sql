@@ -581,6 +581,9 @@ create table TB_TITULAR(
 	IND_EVENTO				int( 5 ) null,
 	CD_USUARIO				varchar( 20 ) null,
 	NR_CERTIFICADO			bigint( 17 ) null,
+	NM_ALIAS_01				varchar( 200 ) CHARACTER SET latin1 COLLATE latin1_bin null,
+	NM_ALIAS_02				varchar( 200 ) CHARACTER SET latin1 COLLATE latin1_bin null,
+	NM_ALIAS_03				varchar( 200 ) CHARACTER SET latin1 COLLATE latin1_bin null,
     	
 	VERSION					bigint( 17 ) null,
 	 
@@ -714,6 +717,9 @@ create table TB_DEPENDENTE(
 	IND_EVENTO				int( 5 ) null,
 	CD_USUARIO				varchar( 20 ) null,
 	NR_CERTIFICADO			bigint( 17 ) null,
+	NM_ALIAS_01				varchar( 200 ) CHARACTER SET latin1 COLLATE latin1_bin null,
+	NM_ALIAS_02				varchar( 200 ) CHARACTER SET latin1 COLLATE latin1_bin null,
+	NM_ALIAS_03				varchar( 200 ) CHARACTER SET latin1 COLLATE latin1_bin null,	
     	
 	VERSION					bigint( 17 ) null,
  

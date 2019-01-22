@@ -56,10 +56,11 @@ BEGIN
 	declare VAR_COLUMN_04_NR_LOCAL					bigint( 17 );
 	declare VAR_COLUMN_05_NR_RDP					bigint( 17 );
 	declare VAR_COLUMN_06_NM_DEPENDENTE				bigint( 17 );
-	declare VAR_COLUMN_07_DT_NASCIMENTO				bigint( 17 );
-	declare VAR_COLUMN_08_DT_ADMISSAO				bigint( 17 );
-	declare VAR_COLUMN_09_DT_DEMISSAO				bigint( 17 );
-	declare VAR_COLUMN_10_VL_PRINCIPAL				bigint( 17 );
+	declare VAR_COLUMN_07_NM_ALIAS_01				bigint( 17 );
+	declare VAR_COLUMN_08_DT_NASCIMENTO				bigint( 17 );
+	declare VAR_COLUMN_09_DT_ADMISSAO				bigint( 17 );
+	declare VAR_COLUMN_10_DT_DEMISSAO				bigint( 17 );
+	declare VAR_COLUMN_11_VL_PRINCIPAL				bigint( 17 );
 					
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_BENEFICIARIO				bigint( 17 ) default 1;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
@@ -173,6 +174,9 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS      				bigint( 17 ) default 110;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_INSS              				bigint( 17 ) default 111;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_LIQUIDO_SINISTRO              	bigint( 17 ) default 112;	
+	declare VAR_CD_BENEFICIARIO_COLS_NM_ALIAS_01           			   	bigint( 17 ) default 116;
+	declare VAR_CD_BENEFICIARIO_COLS_NM_ALIAS_02           			   	bigint( 17 ) default 117;
+	declare VAR_CD_BENEFICIARIO_COLS_NM_ALIAS_03           			   	bigint( 17 ) default 118;
 	
 	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );
 	
@@ -464,6 +468,32 @@ BEGIN
 	from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
+	call PROC_LOG_MESSAGE('LINHA - 201');
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'COLUMN_07_NM_DEPENDENTE',
+		VAR_COL_VARCHAR,
+		null,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_COLUMN_07_NM_ALIAS_01 
+	from TB_REGISTER_COLUMN;
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
 	call PROC_LOG_MESSAGE('LINHA - 465');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
@@ -477,7 +507,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_07_DT_NASCIMENTO',
+		'COLUMN_08_DT_NASCIMENTO',
 		VAR_COL_DATE,
 		null,
 		VAR_CD_FORMAT_DDMMYYYY,
@@ -488,7 +518,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_07_DT_NASCIMENTO
+	select max( ID ) into VAR_COLUMN_08_DT_NASCIMENTO
 	from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
@@ -505,7 +535,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_08_DT_ADMISSAO',
+		'COLUMN_09_DT_ADMISSAO',
 		VAR_COL_DATE,
 		null,
 		VAR_CD_FORMAT_DDMMYYYY,
@@ -516,7 +546,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_08_DT_ADMISSAO
+	select max( ID ) into VAR_COLUMN_09_DT_ADMISSAO
 	from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
@@ -533,7 +563,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_09_DT_DEMISSAO',
+		'COLUMN_10_DT_DEMISSAO',
 		VAR_COL_DATE,
 		null,
 		VAR_CD_FORMAT_DDMMYYYY,
@@ -544,7 +574,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_09_DT_DEMISSAO
+	select max( ID ) into VAR_COLUMN_10_DT_DEMISSAO
 	from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 
@@ -560,7 +590,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_10_VL_PRINCIPAL',
+		'COLUMN_11_VL_PRINCIPAL',
 		VAR_COL_DOUBLE,
 		null,
 		VAR_CD_ORDEM,
@@ -570,7 +600,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_COLUMN_10_VL_PRINCIPAL 
+	select max( ID ) into VAR_COLUMN_11_VL_PRINCIPAL 
 	from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 		
@@ -682,7 +712,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_NASCIMENTO,
-		VAR_COLUMN_07_DT_NASCIMENTO,
+		VAR_COLUMN_08_DT_NASCIMENTO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -698,7 +728,7 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO,
-		VAR_COLUMN_08_DT_ADMISSAO,
+		VAR_COLUMN_09_DT_ADMISSAO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -714,7 +744,25 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_DEMISSAO,
-		VAR_COLUMN_09_DT_DEMISSAO,
+		VAR_COLUMN_10_DT_DEMISSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 294');
+
+	call PROC_LOG_MESSAGE('LINHA - 278');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_REGISTER_COLUMN,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_NM_ALIAS_01,
+		VAR_COLUMN_07_NM_ALIAS_01,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -736,3 +784,4 @@ END
 $$
 
 call PROC_CREATE_HOC(); 
+

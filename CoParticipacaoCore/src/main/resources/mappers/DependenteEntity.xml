@@ -112,10 +112,14 @@
 				VL_FATOR_MODERADOR_INSS, /* 105 */				
 				VL_ALIQUOTA_INSS,
 				VL_INSS,
-				VL_LIQUIDO_SINISTRO, /* 108 */		
-				IND_EVENTO,	/* 109 */	
+				VL_LIQUIDO_SINISTRO, 		/* 108 */		
+				IND_EVENTO,					/* 109 */	
 				CD_USUARIO,	        
-				NR_CERTIFICADO, /* 111 */
+				NR_CERTIFICADO, 			/* 111 */
+				
+				NM_ALIAS_01, 				/* 112 */
+				NM_ALIAS_02,
+				NM_ALIAS_03,				/* 114 */
 				
 				USER_CREATED,
 				DT_ALTERED,
@@ -232,8 +236,11 @@
 				?,
 				?,
 				?,
+				?, /* 110 */
 				?,
 				?,
+				?,
+				?, /* 114 */
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -357,8 +364,12 @@
 				VL_INSS						= ?,
 				VL_LIQUIDO_SINISTRO			= ?, 	/* 108 */		
 				IND_EVENTO					= ?,	/* 109 */		   
-				CD_USUARIO					= ?,     		
-				NR_CERTIFICADO				= ?,		  
+				CD_USUARIO					= ?,	/* 110 */     		
+				NR_CERTIFICADO				= ?,		 
+				
+				NM_ALIAS_01					= ?, 
+				NM_ALIAS_02					= ?,
+				NM_ALIAS_03					= ?,	/* 114 */				
 				
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

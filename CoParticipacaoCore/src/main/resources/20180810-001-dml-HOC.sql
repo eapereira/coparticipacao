@@ -97,6 +97,7 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_ID_DEPENDENTE							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_DEPENDENTE							int( 3 ) default 40;
+	declare VAR_COL_VIEW_LENGTH_NM_ALIAS_01								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF									int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_LOCAL								int( 3 ) default 10;
@@ -2365,6 +2366,32 @@ BEGIN
 		'NOME BENEFICIÁRIO',
 		VAR_COL_VARCHAR,
 		VAR_COL_VIEW_LENGTH_NM_DEPENDENTE,
+		VAR_CD_ORDEM,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);			
+	
+	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
+
+	call PROC_LOG_MESSAGE('LINHA - 1592');
+	insert into TB_VIEW_DESTINATION_COLS_DEF(
+		ID_VIEW_DESTINATION	,
+		NM_COLUMN,
+		NM_COL_TITLE_LABEL,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_ID_VIEW_DESTINATION,
+		'NM_ALIAS_01',
+		'APELIDO',
+		VAR_COL_VARCHAR,
+		VAR_COL_VIEW_LENGTH_NM_ALIAS_01,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

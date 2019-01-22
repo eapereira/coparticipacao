@@ -115,8 +115,11 @@
 				IND_EVENTO,				        
 				CD_USUARIO,
 				NR_CERTIFICADO,
+				NM_ALIAS_01, 				/* 112 */
+				NM_ALIAS_02,
+				NM_ALIAS_03,
 								
-				DT_DEMISSAO, 				/* 112 */
+				DT_DEMISSAO, 				/* 115 */
 								
 				USER_CREATED,
 				DT_ALTERED,
@@ -228,15 +231,18 @@
 				?,
 				?,								
 				?,
+				?, /* 105 */
 				?,
 				?,
 				?,
+				?,
+				?, /* 110 */
 				?,
 				?,
 				?,
 				?,
 				
-				?, /* 112 */
+				?, /* 115 */
 				
 				?,
 				CURRENT_TIMESTAMP(),
@@ -359,10 +365,13 @@
 				VL_INSS						= ?,
 				VL_LIQUIDO_SINISTRO			= ?, /* 108 */		
 				IND_EVENTO					= ?,		        
-				CD_USUARIO					= ?,
+				CD_USUARIO					= ?, /* 110 */
 				NR_CERTIFICADO				= ?,
+				NM_ALIAS_01					= ?, /* 112 */
+				NM_ALIAS_02					= ?,
+				NM_ALIAS_03					= ?,
 											
-				DT_DEMISSAO					= ?, /* 112 */
+				DT_DEMISSAO					= ?, /* 115 */
 
 				USER_ALTERED 				= ?,
 				DT_ALTERED 					= CURRENT_TIMESTAMP()

@@ -3,7 +3,6 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -525,6 +524,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				beneficiarioDetail.setCdUsuario((String) value);
 			} else if (BeneficiarioColType.NR_CERTIFICADO.equals(beneficiarioColType)) {
 				beneficiarioDetail.setCertificado((Long) value);
+			} else if (BeneficiarioColType.NM_ALIAS_01.equals(beneficiarioColType)) {
+				beneficiarioDetail.setAlias01((String) value);
+			} else if (BeneficiarioColType.NM_ALIAS_02.equals(beneficiarioColType)) {
+				beneficiarioDetail.setAlias02((String) value);
+			} else if (BeneficiarioColType.NM_ALIAS_03.equals(beneficiarioColType)) {
+				beneficiarioDetail.setAlias03((String) value);
 			}
 
 			LOGGER.info("END");
@@ -780,12 +785,33 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							LOGGER.info("END");
 							return true;
 						}
-					} else if (empresaUi.isSearchBeneficiarioWithoutName()) {
-						if (isNameBeneficiarioMatched(titularUi, beneficiarioUi.getNameBeneficiario())) {
+					}
+
+					if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias01())) {
+						if (titularUi.getBeneficiarioDetail().getAlias01()
+								.equals(beneficiarioUi.getNameBeneficiario())) {
 							LOGGER.info("END");
 							return true;
 						}
-					} else if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+					}
+
+					if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias02())) {
+						if (titularUi.getBeneficiarioDetail().getAlias02()
+								.equals(beneficiarioUi.getNameBeneficiario())) {
+							LOGGER.info("END");
+							return true;
+						}
+					}
+
+					if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias03())) {
+						if (titularUi.getBeneficiarioDetail().getAlias03()
+								.equals(beneficiarioUi.getNameBeneficiario())) {
+							LOGGER.info("END");
+							return true;
+						}
+					}
+
+					if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
 						LOGGER.info("END");
 						return true;
 					}
@@ -795,155 +821,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							LOGGER.info("END");
 							return true;
 						}
-					} else {
-						if (dependenteUi == null) {
-							LOGGER.info("END");
-							return true;
-						}
 					}
-				}
-			}
 
-			LOGGER.info("END");
-			return false;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-
-	}
-
-	private boolean isTitularOld(CoParticipacaoContext coParticipacaoContext, BeneficiarioUi beneficiarioUi)
-			throws ServiceException {
-		ContratoUi contratoUi;
-		TitularUi titularUi;
-		EmpresaUi empresaUi;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			contratoUi = coParticipacaoContext.getContratoUi();
-			empresaUi = coParticipacaoContext.getEmpresaUi();
-
-			if (UseType.MECSAS.equals(contratoUi.getUseType())
-					|| (UseType.MECSAS2.equals(contratoUi.getUseType()) && empresaUi.isCreateBeneficiarioFromMecsas2())
-					|| (UseType.ISENTO.equals(contratoUi.getUseType()) && empresaUi.isUpdateBeneficiarioFromIsento())) {
-				if (beneficiarioUi.getType() == null) {
-					if (StringUtils.isBlank(beneficiarioUi.getNameTitular())) {
-						beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
+					if (dependenteUi == null) {
 						LOGGER.info("END");
 						return true;
-					} else if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())
-							|| StringUtils.isBlank(beneficiarioUi.getNameBeneficiario())) {
-						beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-						LOGGER.info("END");
-						return true;
-					}
-				} else if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
-					LOGGER.info("END");
-					return true;
-				}
-			} else {
-				titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
-
-				if (UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
-					if (titularUi == null) {
-						/*
-						 * Se o Beneficiário não for um Titular e não existe no
-						 * banco de dados e também não possuir um Títular, então
-						 * ele próprio é um Títular, pois não foi encontrado
-						 * pelo processo MECSAS e FATUCOPA:
-						 */
-						if (beneficiarioUi.getNameBeneficiario() == null) {
-							throw new BeneficiarioNotFoundException("The column[NM_BENEFICIARIO] must be defined:");
-						}
-
-						if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
-							if (beneficiarioUi.getNameBeneficiario().equals(beneficiarioUi.getNameTitular())) {
-								beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-								LOGGER.info("END");
-								return true;
-							}
-						} else {
-							beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-							LOGGER.info("END");
-							return true;
-						}
-					} else {
-						if (beneficiarioUi.getCpf() == null) {
-							beneficiarioUi.setCpf(titularUi.getCpf());
-						}
-
-						if (beneficiarioUi.getMatricula() == null) {
-							beneficiarioUi.setMatricula(titularUi.getMatricula());
-							beneficiarioUi.setMatriculaTitular(titularUi.getMatricula());
-						}
-
-						if (StringUtils.isBlank(beneficiarioUi.getNameTitular())) {
-							beneficiarioUi.setNameTitular(titularUi.getNameTitular());
-						}
-
-						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-							beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-							LOGGER.info("END");
-							return true;
-						}
-					}
-				} else if (UseType.FATUCOPA.equals(contratoUi.getUseType())) {
-					if (titularUi == null) {
-						if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
-							if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-								beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-								LOGGER.info("END");
-								return true;
-							}
-						} else {
-							if (empresaUi.isCreateBeneficiarioFromFatucopa()) {
-								LOGGER.info("END");
-								return true;
-							}
-						}
-					} else {
-						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-							beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-							LOGGER.info("END");
-							return true;
-						}
-					}
-				} else {
-					/*
-					 * Se o beneficiario tiver um títular, então ele é
-					 * dependente:
-					 */
-					if (titularUi != null) {
-						if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-							LOGGER.info("END");
-							return true;
-						} else {
-							if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
-								if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-									beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-									LOGGER.info("END");
-									return true;
-								}
-							} else {
-								if (titularUi.getNameTitular().equals(beneficiarioUi.getNameTitular())) {
-									beneficiarioUi.setType(BeneficiarioType.TITULAR);
-
-									LOGGER.info("END");
-									return true;
-								}
-							}
-						}
-
 					}
 				}
 			}
@@ -1572,17 +1454,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 * CPFs dos dependentes, podesse usar este recurso:
 			 */
 			if (titularUi == null) {
-				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-					if (beneficiarioUi.getMatriculaEmpresa() != null) {
-						titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
-								beneficiarioUi.getMatricula(),
-								beneficiarioUi.getMatriculaEmpresa());
-					} else {
-						titularUi = findTitularByMatriculaAndName(
-								coParticipacaoContext,
-								beneficiarioUi.getMatricula(),
-								beneficiarioUi.getNameBeneficiario());
-					}
+				if (beneficiarioUi.getMatriculaEmpresa() != null) {
+					titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
+							beneficiarioUi.getMatricula(),
+							beneficiarioUi.getMatriculaEmpresa());
 				}
 			}
 
@@ -1620,6 +1495,24 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						if (dependente.getNameDependente().equals(beneficiarioUi.getNameBeneficiario())) {
 							dependenteUi = (DependenteUi) dependente;
 							break;
+						} else if (StringUtils.isNotBlank(beneficiarioUi.getBeneficiarioDetail().getAlias01())) {
+							if (beneficiarioUi.getBeneficiarioDetail().getAlias01()
+									.equals(dependente.getBeneficiarioDetail().getAlias01())) {
+								dependenteUi = (DependenteUi) dependente;
+								break;
+							}
+						} else if (StringUtils.isNotBlank(beneficiarioUi.getBeneficiarioDetail().getAlias02())) {
+							if (beneficiarioUi.getBeneficiarioDetail().getAlias02()
+									.equals(dependente.getBeneficiarioDetail().getAlias02())) {
+								dependenteUi = (DependenteUi) dependente;
+								break;
+							}
+						} else if (StringUtils.isNotBlank(beneficiarioUi.getBeneficiarioDetail().getAlias03())) {
+							if (beneficiarioUi.getBeneficiarioDetail().getAlias03()
+									.equals(dependente.getBeneficiarioDetail().getAlias03())) {
+								dependenteUi = (DependenteUi) dependente;
+								break;
+							}
 						}
 					}
 				}
@@ -1632,19 +1525,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 * CPFs dos dependentes, podesse usar este recurso:
 			 */
 			if (dependenteUi == null) {
-				if (coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioWithoutName()) {
-					if (beneficiarioUi.getMatriculaEmpresa() != null) {
-						dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
-								beneficiarioUi.getMatricula(),
-								beneficiarioUi.getMatriculaEmpresa());
-
-						if (dependenteUi == null) {
-							dependenteUi = findDependenteByMatriculaAndName(
-									coParticipacaoContext,
-									beneficiarioUi.getMatricula(),
-									beneficiarioUi.getNameBeneficiario());
-						}
-					}
+				if (beneficiarioUi.getMatriculaEmpresa() != null) {
+					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
+							beneficiarioUi.getMatricula(),
+							beneficiarioUi.getMatriculaEmpresa());
 				}
 			}
 
@@ -1849,157 +1733,4 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private DependenteUi findDependenteByMatriculaAndName(
-			CoParticipacaoContext coParticipacaoContext,
-			Long matricula,
-			String nameBeneficiario) throws ServiceException {
-		StringTokenizer stringTokenizerBeneficiario;
-		StringTokenizer stringTokenizerDependente;
-		String nameDependente;
-		String nameBeneficiarioTmp;
-		int nameMatched = NumberUtils.INTEGER_ZERO;
-		int selectedNameMatched = NUM_NAME_MATCHED;
-		DependenteUi selectedDependenteUi = null;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			for (DependenteUi dependenteUi : coParticipacaoContext.getDependenteUis()) {
-				if (dependenteUi.getMatricula().equals(matricula)) {
-					LOGGER.debug(
-							"Found DependenteUi[{}] to be comparate with BeneficiarioUi[{}]:",
-							dependenteUi.getNameDependente(),
-							nameBeneficiario);
-
-					nameMatched = NumberUtils.INTEGER_ZERO;
-
-					stringTokenizerBeneficiario = new StringTokenizer(nameBeneficiario);
-					stringTokenizerDependente = new StringTokenizer(dependenteUi.getNameDependente());
-
-					while (stringTokenizerDependente.hasMoreTokens() && stringTokenizerBeneficiario.hasMoreTokens()) {
-						nameDependente = stringTokenizerDependente.nextToken();
-						nameBeneficiarioTmp = stringTokenizerBeneficiario.nextToken();
-
-						if (nameDependente.equals(nameBeneficiarioTmp)) {
-							nameMatched++;
-						} else {
-							break;
-						}
-					}
-
-					if (nameMatched >= selectedNameMatched) {
-						selectedDependenteUi = dependenteUi;
-						selectedNameMatched = nameMatched;
-					}
-				}
-			}
-
-			LOGGER.info("END");
-			return selectedDependenteUi;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	private TitularUi findTitularByMatriculaAndName(
-			CoParticipacaoContext coParticipacaoContext,
-			Long matricula,
-			String nameBeneficiario) throws ServiceException {
-		StringTokenizer stringTokenizerBeneficiario;
-		StringTokenizer stringTokenizerTitular;
-		String nameTitular;
-		String nameBeneficiarioTmp;
-		int nameMatched = NumberUtils.INTEGER_ZERO;
-		int selectedNameMatched = NUM_NAME_MATCHED;
-		TitularUi selectedTitularUi = null;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			for (TitularUi titularUi : coParticipacaoContext.getTitularUis()) {
-				if (titularUi.getMatricula().equals(matricula)) {
-					LOGGER.debug(
-							"Found TitularUi[{}] to be comparate with BeneficiarioUi[{}]:",
-							titularUi.getNameTitular(),
-							nameBeneficiario);
-					nameMatched = NumberUtils.INTEGER_ZERO;
-
-					stringTokenizerBeneficiario = new StringTokenizer(nameBeneficiario);
-					stringTokenizerTitular = new StringTokenizer(titularUi.getNameTitular());
-
-					while (stringTokenizerTitular.hasMoreTokens() && stringTokenizerBeneficiario.hasMoreTokens()) {
-						nameTitular = stringTokenizerTitular.nextToken();
-						nameBeneficiarioTmp = stringTokenizerBeneficiario.nextToken();
-
-						if (nameTitular.equals(nameBeneficiarioTmp)) {
-							nameMatched++;
-						} else {
-							break;
-						}
-					}
-
-					if (nameMatched >= selectedNameMatched) {
-						selectedNameMatched = nameMatched;
-						selectedTitularUi = titularUi;
-					}
-				}
-			}
-
-			LOGGER.info("END");
-			return selectedTitularUi;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	private boolean isNameBeneficiarioMatched(TitularUi titularUi, String nameBeneficiario) throws ServiceException {
-		StringTokenizer stringTokenizerDestine;
-		StringTokenizer stringTokenizerOrigin;
-		String nameTitular;
-		String nameBeneficiarioTmp;
-		int nameMatched = NumberUtils.INTEGER_ZERO;
-		int selectedNameMatched = NUM_NAME_MATCHED;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			stringTokenizerDestine = new StringTokenizer(nameBeneficiario);
-			stringTokenizerOrigin = new StringTokenizer(titularUi.getNameTitular());
-
-			while (stringTokenizerOrigin.hasMoreTokens() && stringTokenizerDestine.hasMoreTokens()) {
-				nameTitular = stringTokenizerOrigin.nextToken();
-				nameBeneficiarioTmp = stringTokenizerDestine.nextToken();
-
-				if (nameTitular.equals(nameBeneficiarioTmp)) {
-					nameMatched++;
-				} else {
-					break;
-				}
-			}
-
-			if (nameMatched >= selectedNameMatched) {
-				LOGGER.info("END");
-				return true;
-			} else {
-				/*
-				 * Uma última tentativa, talves o beneficiário esteja usando o
-				 * NM_BENEFICIARIO_COMPLETO:
-				 */
-				if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getNameCompletoBeneficiario())) {
-					if (titularUi.getBeneficiarioDetail().getNameCompletoBeneficiario().equals(nameBeneficiario)) {
-						LOGGER.info("END");
-						return true;
-					}
-				}
-			}
-
-			LOGGER.info("END");
-			return false;
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
 }
