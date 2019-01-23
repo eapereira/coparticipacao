@@ -30,7 +30,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegisterColumnUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.ArquivoInputException;
-import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.EndProcessException;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.RestrictedValueException;
 import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;

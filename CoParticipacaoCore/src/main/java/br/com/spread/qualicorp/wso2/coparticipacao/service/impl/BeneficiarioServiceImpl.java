@@ -57,8 +57,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	private static final Logger LOGGER = LogManager.getLogger(BeneficiarioServiceImpl.class);
 
-	private static final int NUM_NAME_MATCHED = 2;
-
 	@Autowired
 	private EmpresaService empresaService;
 
@@ -1459,6 +1457,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							beneficiarioUi.getMatricula(),
 							beneficiarioUi.getMatriculaEmpresa());
 				}
+			}
+
+			if (titularUi == null) {
+				titularUi = coParticipacaoContext.findTitularByMatricula(beneficiarioUi.getMatricula());
 			}
 
 			LOGGER.info("END");

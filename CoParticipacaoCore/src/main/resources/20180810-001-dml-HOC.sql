@@ -98,6 +98,7 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_ID_DEPENDENTE							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_DEPENDENTE							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_NM_ALIAS_01								int( 3 ) default 40;
+	declare VAR_COL_VIEW_LENGTH_NM_ALIAS_02								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF									int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NR_LOCAL								int( 3 ) default 10;
@@ -183,6 +184,7 @@ BEGIN
 		TP_SAVE_BENEFICIARIO_DETAIL,			
 		TP_REPORT_QUERY,
 		CD_SEARCH_BENEFICIARIO_NONAME,	
+		CD_UPDATE_BENEFICIARIO_FROM_FATUCOPA,
 		
 		USER_CREATED, 
 		DT_CREATED,
@@ -201,6 +203,7 @@ BEGIN
         VAR_FALSE,
         VAR_FALSE,		
         VAR_TP_REPORT_QUERY_BY_CD_CONTRATO,
+        VAR_TRUE,
         VAR_TRUE,
 		
 		VAR_ID_USER,
@@ -2389,7 +2392,7 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_ID_VIEW_DESTINATION,
 		'NM_ALIAS_01',
-		'APELIDO',
+		'APELIDO 01',
 		VAR_COL_VARCHAR,
 		VAR_COL_VIEW_LENGTH_NM_ALIAS_01,
 		VAR_CD_ORDEM,

@@ -130,4 +130,12 @@ public class TitularEntity extends Titular implements DomainEntity {
 		return super.getBeneficiarioDetail();
 	}
 
+	@Convert(converter = LocalDateConverter.class)
+	@Column(name = "DT_DEMISSAO")	
+	@Override
+	public LocalDate getDtDemissao() {
+		// TODO Auto-generated method stub
+		return super.getDtDemissao();
+	}
+
 }
