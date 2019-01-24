@@ -68,16 +68,16 @@ BEGIN
 	declare VAR_ID_ARQUIVO_OUTPUT										bigint( 17 );
     declare VAR_ID_VIEW_DESTINATION										bigint( 17 );
 	
-    declare VAR_COL_VIEW_LENGTH_CD_EMPRESA								int( 3 ) default 20;
+    declare VAR_COL_VIEW_LENGTH_CD_EMPRESA								int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA_EMPRESA					int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_CD_PLANO								int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_CD_PLANO								int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF									int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_NM_BENEFICIARIO							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
-	declare VAR_COL_VIEW_LENGTH_DT_ADMISSAO								int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_DT_ADMISSAO								int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_TP_SINAL								int( 3 ) default 10;
-	declare VAR_COL_VIEW_LENGTH_CD_VERBA								int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_CD_VERBA								int( 3 ) default 10;
 
     declare VAR_COL_LABEL_CD_EMPRESA									varchar( 40 ) default 'EMPRESA';
 	declare VAR_COL_LABEL_NR_MATRICULA_EMPRESA							varchar( 40 ) default 'MATRICULA EMPRESA';

@@ -1494,24 +1494,26 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 				if (titularUi != null) {
 					for (Dependente dependente : titularUi.getDependentes()) {
+						LOGGER.debug("Comparing with DependenteUi[{}]:", dependente.getNameDependente());
+
 						if (dependente.getNameDependente().equals(beneficiarioUi.getNameBeneficiario())) {
 							dependenteUi = (DependenteUi) dependente;
 							break;
-						} else if (StringUtils.isNotBlank(beneficiarioUi.getBeneficiarioDetail().getAlias01())) {
-							if (beneficiarioUi.getBeneficiarioDetail().getAlias01()
-									.equals(dependente.getBeneficiarioDetail().getAlias01())) {
+						} else if (StringUtils.isNotBlank(dependente.getBeneficiarioDetail().getAlias01())) {
+							if (dependente.getBeneficiarioDetail().getAlias01()
+									.equals(beneficiarioUi.getNameBeneficiario())) {
 								dependenteUi = (DependenteUi) dependente;
 								break;
 							}
-						} else if (StringUtils.isNotBlank(beneficiarioUi.getBeneficiarioDetail().getAlias02())) {
-							if (beneficiarioUi.getBeneficiarioDetail().getAlias02()
-									.equals(dependente.getBeneficiarioDetail().getAlias02())) {
+						} else if (StringUtils.isNotBlank(dependente.getBeneficiarioDetail().getAlias02())) {
+							if (dependente.getBeneficiarioDetail().getAlias02()
+									.equals(beneficiarioUi.getNameBeneficiario())) {
 								dependenteUi = (DependenteUi) dependente;
 								break;
 							}
-						} else if (StringUtils.isNotBlank(beneficiarioUi.getBeneficiarioDetail().getAlias03())) {
-							if (beneficiarioUi.getBeneficiarioDetail().getAlias03()
-									.equals(dependente.getBeneficiarioDetail().getAlias03())) {
+						} else if (StringUtils.isNotBlank(dependente.getBeneficiarioDetail().getAlias03())) {
+							if (dependente.getBeneficiarioDetail().getAlias03()
+									.equals(beneficiarioUi.getNameBeneficiario())) {
 								dependenteUi = (DependenteUi) dependente;
 								break;
 							}

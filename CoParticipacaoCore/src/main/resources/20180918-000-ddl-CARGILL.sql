@@ -36,7 +36,7 @@ create view VW_DESCONHECIDO_CARGILL as
 	    desconhecido.NM_BENEFICIARIO,
 	    'CP32' CD_VERBA,
 	    desconhecido.DT_ADMISSAO,
-	    desconhecido.NR_REF_CODE CD_PLANO
+	    desconhecido.CD_PLANO
 	from TB_DESCONHECIDO desconhecido
 		join TB_CONTRATO contrato on
 			contrato.ID = desconhecido.ID_CONTRATO
@@ -57,7 +57,7 @@ create view VW_DESCONHECIDO_CARGILL as
 	    titular.NM_TITULAR NM_BENEFICIARIO,
 	    'CP32' CD_VERBA,
 	    titular.DT_ADMISSAO,
-	    titular.NR_REF_CODE CD_PLANO
+	    titular.CD_PLANO
 	from TB_TITULAR titular
 	    join TB_LANCAMENTO lancamento on
 			lancamento.ID_TITULAR = titular.ID

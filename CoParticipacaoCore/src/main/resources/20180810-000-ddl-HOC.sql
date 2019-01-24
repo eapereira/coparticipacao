@@ -38,6 +38,10 @@ drop view if exists VW_DESCONHECIDO_HOC ;
 drop view if exists VW_DEPENDENTE_RDP_HOC;
 drop view if exists VW_TITULAR_RDP_HOC;
 
+drop view if exists VW_TOTAL_LEVEL02_HOC;
+drop view if exists VW_TOTAL_LEVEL01_HOC;
+drop view if exists VW_TOTAL_DIFF_HOC;
+
 /**********************************************************************************************************************/
 create view VW_DESCONHECIDO_LEVEL01_HOC as
 select
@@ -45,6 +49,7 @@ select
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,
 	empresa.ID ID_EMPRESA,
+	titular.NR_MATRICULA,
 	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
 	titular.NR_MATRICULA_EMPRESA COD_DEPENDENTE,
 	titular.NM_TITULAR NM_BENEFICIARIO,
@@ -78,6 +83,7 @@ select
 	lancamento.CD_ANO,
 	lancamento.ID_CONTRATO,
 	empresa.ID ID_EMPRESA,
+	dependente.NR_MATRICULA,
 	FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, 1 ) COD_TITULAR,
 	dependente.NR_MATRICULA_EMPRESA COD_DEPENDENTE,
 	dependente.NM_DEPENDENTE NM_BENEFICIARIO,
@@ -115,6 +121,7 @@ select distinct
 	desconhecido.CD_ANO,
 	desconhecido.ID_CONTRATO,
 	desconhecido.ID_EMPRESA,
+	desconhecido.NR_MATRICULA,
 	desconhecido.COD_TITULAR,
 	desconhecido.COD_DEPENDENTE,
 	desconhecido.NM_BENEFICIARIO,
@@ -149,7 +156,8 @@ select
     lancamento.VL_PRINCIPAL,
 	dependente.DT_NASCIMENTO,	
 	lpad( dependente.NR_CPF, 11, '0' ) CPF_DEPENDENTE,
-	dependente.NR_MATRICULA NR_MATRICULA_DEPENDENTE,
+    dependente.NR_MATRICULA,
+	dependente.NR_MATRICULA_EMPRESA NR_MATRICULA_DEPENDENTE,
 	dependente.NR_LOCAL
 from TB_TITULAR titular
 join TB_LANCAMENTO lancamento on 
@@ -178,7 +186,8 @@ select
     lancamento.VL_PRINCIPAL,
 	titular.DT_NASCIMENTO,	
 	lpad( titular.NR_CPF, 11, '0' ) CPF_DEPENDENTE,
-	titular.NR_MATRICULA NR_MATRICULA_DEPENDENTE,
+    titular.NR_MATRICULA,
+	titular.NR_MATRICULA_EMPRESA NR_MATRICULA_DEPENDENTE,
 	titular.NR_LOCAL
 from TB_TITULAR titular
 join TB_LANCAMENTO lancamento on 
@@ -206,6 +215,7 @@ select
     lancamento.VL_PRINCIPAL,
 	lancamento.DT_NASCIMENTO,	
 	lancamento.CPF_DEPENDENTE,
+    lancamento.NR_MATRICULA,
 	lancamento.NR_MATRICULA_DEPENDENTE,
 	lancamento.NR_LOCAL
 from VW_LANCAMENTO_LEVEL01_HOC lancamento
@@ -217,7 +227,8 @@ select
 	lanc_hoc.CD_ANO,
 	lanc_hoc.ID_EMPRESA,
 	lanc_hoc.ID_CONTRATO,
-	lanc_hoc.NR_MATRICULA_DEPENDENTE NR_MATRICULA,
+	lanc_hoc.NR_MATRICULA,
+	lanc_hoc.NR_MATRICULA_DEPENDENTE,
 	lanc_hoc.NM_USUARIO,
 	lanc_hoc.NM_TITULAR,
 	lanc_hoc.VL_PRINCIPAL
@@ -235,7 +246,8 @@ select
 	lanc_hoc.CD_ANO,
 	lanc_hoc.ID_EMPRESA,
 	lanc_hoc.ID_CONTRATO,
-	lanc_hoc.NR_MATRICULA_DEPENDENTE NR_MATRICULA,
+	lanc_hoc.NR_MATRICULA,
+	lanc_hoc.NR_MATRICULA_DEPENDENTE,
 	lanc_hoc.NM_USUARIO,
 	lanc_hoc.NM_TITULAR,
 	lanc_hoc.VL_PRINCIPAL
@@ -727,6 +739,120 @@ from TB_CONTRATO contrato ) resumo_empty
 	join VW_MESES_ANO meses_ano on
 		meses_ano.CD_ANO = resumo_empty.CD_ANO;
 
+
+
+create view VW_TOTAL_DIFF_HOC as
+select
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	isencao_gestantes.CD_MES,
+	isencao_gestantes.CD_ANO,
+	isencao_gestantes.ID_EMPRESA,
+	isencao_gestantes.ID_CONTRATO,
+	isencao_gestantes.TOTAL_COPART TOTAL_COPART
+from VW_ISENCAO_GESTANTES_HOC isencao_gestantes
+union all
+select
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	isencao.CD_MES,
+	isencao.CD_ANO,
+	isencao.ID_EMPRESA,
+	isencao.ID_CONTRATO,
+	isencao.TOTAL_COPART
+from VW_ISENCAO_VALOR_HOC isencao
+union all
+select
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	isencao_conselheiros.CD_MES,
+	isencao_conselheiros.CD_ANO,
+	isencao_conselheiros.ID_EMPRESA,
+	isencao_conselheiros.ID_CONTRATO,
+	isencao_conselheiros.TOTAL_COPART
+from VW_ISENCAO_CONSELHEIROS_HOC isencao_conselheiros
+union all
+select
+	'Total' NM_LABEL,
+    10 ID_RESUMO,
+	afastados.CD_MES,
+	afastados.CD_ANO,
+	afastados.ID_EMPRESA,
+	afastados.ID_CONTRATO,
+	afastados.TOTAL_COPART
+from VW_AFASTADOS_HOC afastados
+union all
+select
+	'Total' NM_LABEL,
+    10 ID_RESUMO,
+	agregados.CD_MES,
+	agregados.CD_ANO,
+	agregados.ID_EMPRESA,
+	agregados.ID_CONTRATO,
+	agregados.TOTAL_COPART
+from VW_AGREGADOS_HOC agregados
+union all
+select
+	'Total' NM_LABEL,
+    10 ID_RESUMO,
+	plano_extensao.CD_MES,
+	plano_extensao.CD_ANO,
+	plano_extensao.ID_EMPRESA,
+	plano_extensao.ID_CONTRATO,
+	plano_extensao.TOTAL_COPART
+from VW_PLANO_EXTENSAO_HOC plano_extensao
+union all
+select
+	'Total' NM_LABEL,
+    10 ID_RESUMO,
+	desligados.CD_MES,
+	desligados.CD_ANO,
+	desligados.ID_EMPRESA,
+	desligados.ID_CONTRATO,
+	desligados.TOTAL_COPART
+from VW_DESLIGADOS_HOC desligados;
+
+create view VW_TOTAL_LEVEL01_HOC as
+select 
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	original_hoc.CD_MES,
+	original_hoc.CD_ANO,
+	original_hoc.ID_EMPRESA,
+	original_hoc.ID_CONTRATO,
+	original_hoc.TOTAL_COPART TOTAL_COPART,
+	0.0 TOTAL_DIFF
+from VW_LANCAMENTO_ORIGINAL_HOC original_hoc
+union all
+select 
+	'Total' NM_LABEL,
+	10 ID_RESUMO,
+	total_diff.CD_MES,
+	total_diff.CD_ANO,
+	total_diff.ID_EMPRESA,
+	total_diff.ID_CONTRATO,
+	0.0 TOTAL_COPART,
+	total_diff.TOTAL_COPART TOTAL_DIFF
+from VW_TOTAL_DIFF_HOC total_diff;
+
+create view VW_TOTAL_LEVEL02_HOC as
+select 
+	total.NM_LABEL,
+	total.ID_RESUMO,
+	total.CD_MES,
+	total.CD_ANO,
+	total.ID_EMPRESA,
+	total.ID_CONTRATO,
+	sum( total.TOTAL_COPART ) - sum( total.TOTAL_DIFF ) TOTAL_COPART
+from VW_TOTAL_LEVEL01_HOC total
+group by
+	total.ID_RESUMO,
+	total.NM_LABEL,
+	total.CD_MES,
+	total.CD_ANO,
+	total.ID_CONTRATO,
+	total.ID_EMPRESA;
+
 create view VW_RESUMO_LEVEL01_HOC as
 select 
 	'Total Coparticipação' NM_LABEL,
@@ -819,84 +945,14 @@ select
 from VW_RESUMO_EMPTY_HOC resumo_empty
 union all
 select
-	'Total' NM_LABEL,
-	10 ID_RESUMO,
-	isencao_gestantes.CD_MES,
-	isencao_gestantes.CD_ANO,
-	isencao_gestantes.ID_EMPRESA,
-	isencao_gestantes.ID_CONTRATO,
-	isencao_gestantes.TOTAL_COPART * -1 TOTAL_COPART
-from VW_ISENCAO_GESTANTES_HOC isencao_gestantes
-union all
-select
-	'Total' NM_LABEL,
-	10 ID_RESUMO,
-	isencao.CD_MES,
-	isencao.CD_ANO,
-	isencao.ID_EMPRESA,
-	isencao.ID_CONTRATO,
-	isencao.TOTAL_COPART * -1 TOTAL_COPART
-from VW_ISENCAO_VALOR_HOC isencao
-union all
-select
-	'Total' NM_LABEL,
-	10 ID_RESUMO,
-	isencao_conselheiros.CD_MES,
-	isencao_conselheiros.CD_ANO,
-	isencao_conselheiros.ID_EMPRESA,
-	isencao_conselheiros.ID_CONTRATO,
-	isencao_conselheiros.TOTAL_COPART * -1 TOTAL_COPART
-from VW_ISENCAO_CONSELHEIROS_HOC isencao_conselheiros
-union all
-select 
-	'Total' NM_LABEL,
-    10 ID_RESUMO,
-	original_hoc.CD_MES,
-	original_hoc.CD_ANO,
-	original_hoc.ID_EMPRESA,
-	original_hoc.ID_CONTRATO,
-	original_hoc.TOTAL_COPART TOTAL_COPART
-from VW_LANCAMENTO_ORIGINAL_HOC original_hoc
-union all
-select
-	'Total' NM_LABEL,
-    10 ID_RESUMO,
-	afastados.CD_MES,
-	afastados.CD_ANO,
-	afastados.ID_EMPRESA,
-	afastados.ID_CONTRATO,
-	afastados.TOTAL_COPART TOTAL_COPART
-from VW_AFASTADOS_HOC afastados
-union all
-select
-	'Total' NM_LABEL,
-    10 ID_RESUMO,
-	agregados.CD_MES,
-	agregados.CD_ANO,
-	agregados.ID_EMPRESA,
-	agregados.ID_CONTRATO,
-	agregados.TOTAL_COPART TOTAL_COPART
-from VW_AGREGADOS_HOC agregados
-union all
-select
-	'Total' NM_LABEL,
-    10 ID_RESUMO,
-	plano_extensao.CD_MES,
-	plano_extensao.CD_ANO,
-	plano_extensao.ID_EMPRESA,
-	plano_extensao.ID_CONTRATO,
-	plano_extensao.TOTAL_COPART TOTAL_COPART
-from VW_PLANO_EXTENSAO_HOC plano_extensao
-union all
-select
-	'Total' NM_LABEL,
-    10 ID_RESUMO,
-	desligados.CD_MES,
-	desligados.CD_ANO,
-	desligados.ID_EMPRESA,
-	desligados.ID_CONTRATO,
-	desligados.TOTAL_COPART TOTAL_COPART
-from VW_DESLIGADOS_HOC desligados;
+	total.NM_LABEL,
+	total.ID_RESUMO,
+	total.CD_MES,
+	total.CD_ANO,
+	total.ID_EMPRESA,
+	total.ID_CONTRATO,
+	total.TOTAL_COPART
+from VW_TOTAL_LEVEL02_HOC total;
 
 create view VW_RESUMO_HOC as
 select

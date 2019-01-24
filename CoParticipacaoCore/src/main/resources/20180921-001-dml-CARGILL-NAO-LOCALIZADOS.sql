@@ -987,22 +987,6 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-
-	call PROC_LOG_MESSAGE('LINHA - 345');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_REGISTER_COLUMN,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
-		VAR_SHEET01_COLUMN_02_NR_MATRICULA,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
 	
 	call PROC_LOG_MESSAGE('LINHA - 1088');
 	insert into TB_BENEFICIARIO_COLS(
@@ -1103,22 +1087,6 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-
-	call PROC_LOG_MESSAGE('LINHA - 345');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_REGISTER_COLUMN,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
-		VAR_SHEET02_COLUMN_02_NR_MATRICULA,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
 	
 	call PROC_LOG_MESSAGE('LINHA - 361');
 	insert into TB_BENEFICIARIO_COLS(
@@ -1213,22 +1181,6 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
-		VAR_SHEET03_COLUMN_02_NR_MATRICULA,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 345');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_REGISTER_COLUMN,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
 		VAR_SHEET03_COLUMN_02_NR_MATRICULA,
 		
 		VAR_ID_USER,
