@@ -785,6 +785,18 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						}
 					}
 
+					if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
+						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+							LOGGER.info("END");
+							return true;
+						}
+					} else {
+						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameTitular())) {
+							LOGGER.info("END");
+							return true;
+						}
+					}
+
 					if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias01())) {
 						if (titularUi.getBeneficiarioDetail().getAlias01()
 								.equals(beneficiarioUi.getNameBeneficiario())) {
@@ -807,11 +819,6 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							LOGGER.info("END");
 							return true;
 						}
-					}
-
-					if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-						LOGGER.info("END");
-						return true;
 					}
 				} else {
 					if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {

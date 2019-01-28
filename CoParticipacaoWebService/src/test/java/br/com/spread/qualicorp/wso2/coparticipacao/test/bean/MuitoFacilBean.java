@@ -43,7 +43,7 @@ public class MuitoFacilBean {
 	private static final String NAO_LOCALIZADO_201808 = "muito-facil/input/MUITO-FACIL.NAO-LOCALIZADO.201808.002.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 277;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 19;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 18;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201807 = 93;
 

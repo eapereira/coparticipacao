@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,8 +21,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
  */
 public class DynamicEntityRowMapper implements RowMapper<DynamicEntity> {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(DynamicEntityRowMapper.class);
+	private static final Logger LOGGER = LogManager.getLogger(DynamicEntityRowMapper.class);
 
 	public DynamicEntity mapRow(ResultSet rs, int rownum) throws SQLException {
 		DynamicEntity dynamicEntity = new DynamicEntity();
@@ -28,6 +29,7 @@ public class DynamicEntityRowMapper implements RowMapper<DynamicEntity> {
 		String columnName;
 		Object value;
 		int columnType;
+		LocalDate localDate;
 
 		for (int col = 1; col < metaData.getColumnCount(); col++) {
 			columnName = metaData.getColumnName(col);
@@ -47,11 +49,18 @@ public class DynamicEntityRowMapper implements RowMapper<DynamicEntity> {
 				value = rs.getBigDecimal(col);
 				break;
 			case Types.DATE:
-				value = DateUtils.dateToLocalDate(rs.getDate(col));
+				/*
+				 * Gambiarra - BUG no MySQL faz ele retornar as data com um dia
+				 * a menos:
+				 */
+				localDate = DateUtils.dateToLocalDate(rs.getDate(col));
+
+				if (localDate != null) {
+					value = localDate.plusDays(NumberUtils.INTEGER_ONE);
+				}
 				break;
 			case Types.TIMESTAMP:
-				value = DateUtils
-						.timestampToLocalDateTime(rs.getTimestamp(col));
+				value = DateUtils.timestampToLocalDateTime(rs.getTimestamp(col));
 				break;
 			case Types.CHAR:
 			case Types.VARCHAR:
@@ -59,10 +68,7 @@ public class DynamicEntityRowMapper implements RowMapper<DynamicEntity> {
 				break;
 			}
 
-			LOGGER.info(
-					"Reading data from PreparedStatement with columnName [{}] and value [{}]:",
-					columnName,
-					value);
+			LOGGER.info("Reading data from PreparedStatement with columnName [{}] and value [{}]:", columnName, value);
 
 			dynamicEntity.addColumn(columnName, value);
 		}

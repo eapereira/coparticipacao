@@ -105,6 +105,7 @@ public class JpaConfigurationTest {
 		// properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 		properties.setProperty("spring.jpa.properties.hibernate.jdbc.time_zone", "UTC");
+		
 		properties.setProperty("spring.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver");
 
 		return properties;

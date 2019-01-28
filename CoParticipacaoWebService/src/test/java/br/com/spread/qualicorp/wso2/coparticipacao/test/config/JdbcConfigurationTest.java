@@ -25,6 +25,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoExcep
 public class JdbcConfigurationTest {
 	private static final Logger LOGGER = LogManager.getLogger(JdbcConfigurationTest.class);
 
+	private static final String DB_URL = "jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC&useLegacyDatetimeCode=false&generateSimpleParameterMetadata=true";
+
 	@Bean(name = "jdbcTransactionManager")
 	public DataSourceTransactionManager dataSourceTransactionManager(
 			@Qualifier("jdbcDataSource") DataSource dataSourceJdbc) throws CoParticipacaoException {
@@ -49,8 +51,7 @@ public class JdbcConfigurationTest {
 			LOGGER.info("BEGIN");
 			DriverManagerDataSource dataSource = new DriverManagerDataSource();
 			dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-			dataSource.setUrl(
-					"jdbc:mysql://mysql.desenv:3306/coparticipacao?useUnicode=true&useJDBCCompliantTimezoneShift=true&serverTimezone=UTC&useLegacyDatetimeCode=false&generateSimpleParameterMetadata=true");
+			dataSource.setUrl(DB_URL);
 			dataSource.setUsername("coparticipacao");
 			dataSource.setPassword("coparticipacao");
 

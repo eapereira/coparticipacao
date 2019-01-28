@@ -3,6 +3,9 @@
  * Script para criar as tabelas usadas peloprocesso OSWALDO CRUZ:
  */
 
+drop view if exists VW_DEPENDENTE_ISENCAO_VALOR_HOC;
+drop view if exists VW_TITULAR_ISENCAO_VALOR_HOC;
+
 drop view if exists VW_LANCAMENTO_LEVEL01_HOC;
 drop view if exists VW_LANCAMENTO_HOC;
 drop view if exists VW_LANCAMENTO_DETAIL_VL_PRINCIPAL_HOC;
@@ -18,12 +21,23 @@ drop view if exists VW_ISENCAO_GESTANTES_HOC;
 
 drop view if exists VW_ISENCAO_CONSELHEIROS_HOC;
 drop view if exists VW_DEPENDENTE_LOCAL_HOC;
+
+drop view if exists VW_AFASTADOS_LEVEL02_HOC;
+drop view if exists VW_AFASTADOS_LEVEL01_HOC;
 drop view if exists VW_AFASTADOS_HOC;
+
+drop view if exists VW_AGREGADOS_LEVEL02_HOC;
+drop view if exists VW_AGREGADOS_LEVEL01_HOC;
 drop view if exists VW_AGREGADOS_HOC;
+
+drop view if exists VW_PLANO_EXTENSAO_LEVEL02_HOC;
+drop view if exists VW_PLANO_EXTENSAO_LEVEL01_HOC;
 drop view if exists VW_PLANO_EXTENSAO_HOC;
+
 drop view if exists VW_PRN_HOC;
 drop view if exists VW_DESCONHECIDO_HOC;
 
+drop view if exists VW_DESLIGADOS_LEVEL02_HOC;
 drop view if exists VW_DESLIGADOS_LEVEL01_HOC;
 drop view if exists VW_DESLIGADOS_HOC;
 
@@ -159,15 +173,15 @@ select
     dependente.NR_MATRICULA,
 	dependente.NR_MATRICULA_EMPRESA NR_MATRICULA_DEPENDENTE,
 	dependente.NR_LOCAL
-from TB_TITULAR titular
-join TB_LANCAMENTO lancamento on 
-	lancamento.ID_TITULAR = titular.id
-join TB_CONTRATO contrato on
-	contrato.ID = lancamento.ID_CONTRATO
-join TB_EMPRESA empresa on
-	empresa.ID = contrato.ID_EMPRESA
-join TB_DEPENDENTE dependente on
-	dependente.ID = lancamento.ID_DEPENDENTE
+from TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on 
+		titular.ID = lancamento.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+	join TB_DEPENDENTE dependente on
+		dependente.ID = lancamento.ID_DEPENDENTE
 where	lancamento.ID_DEPENDENTE is not null
 and		empresa.CD_EMPRESA = '0444'
 union all
@@ -189,13 +203,13 @@ select
     titular.NR_MATRICULA,
 	titular.NR_MATRICULA_EMPRESA NR_MATRICULA_DEPENDENTE,
 	titular.NR_LOCAL
-from TB_TITULAR titular
-join TB_LANCAMENTO lancamento on 
-	lancamento.ID_TITULAR = titular.id
-join TB_CONTRATO contrato on
-	contrato.ID = lancamento.ID_CONTRATO
-join TB_EMPRESA empresa on
-	empresa.ID = contrato.ID_EMPRESA
+from TB_LANCAMENTO lancamento
+	join TB_TITULAR titular on 
+		titular.ID = lancamento.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = lancamento.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
 where 	lancamento.ID_DEPENDENTE is null
 and		empresa.CD_EMPRESA = '0444';
 
@@ -212,14 +226,32 @@ select
     lancamento.CD_MES,
     lancamento.CD_ANO,
     lancamento.ID_CONTRATO,
-    lancamento.VL_PRINCIPAL,
+	sum( lancamento.VL_PRINCIPAL ) VL_PRINCIPAL,
 	lancamento.DT_NASCIMENTO,	
 	lancamento.CPF_DEPENDENTE,
     lancamento.NR_MATRICULA,
 	lancamento.NR_MATRICULA_DEPENDENTE,
 	lancamento.NR_LOCAL
 from VW_LANCAMENTO_LEVEL01_HOC lancamento
-where lancamento.VL_PRINCIPAL > 0;
+where lancamento.VL_PRINCIPAL > 0
+group by 
+	lancamento.ID_TITULAR,
+	lancamento.COD_TITULAR,
+	lancamento.ID_EMPRESA,
+    lancamento.ID_LANCAMENTO,
+    lancamento.ID_DEPENDENTE,
+    lancamento.NM_TITULAR,
+    lancamento.NM_USUARIO,
+    lancamento.COD_DEPENDENTE,
+    lancamento.CD_MES,
+    lancamento.CD_ANO,
+    lancamento.ID_CONTRATO,
+	lancamento.DT_NASCIMENTO,	
+	lancamento.CPF_DEPENDENTE,
+    lancamento.NR_MATRICULA,
+	lancamento.NR_MATRICULA_DEPENDENTE,
+	lancamento.NR_LOCAL;
+
 
 create view VW_ISENCAO_GESTANTES_LEVEL01_HOC as
 select
@@ -276,8 +308,8 @@ select
 	isento.VL_ISENCAO VL_PRINCIPAL
 from VW_LANCAMENTO_HOC lanc_hoc
 	join TB_TITULAR_ISENTO isento on
-	isento.ID_TITULAR = lanc_hoc.ID_TITULAR and
-	isento.TP_ISENTO in ( 7, 8 )
+		isento.ID_TITULAR = lanc_hoc.ID_TITULAR and
+		isento.TP_ISENTO in ( 7, 8 )
 where lanc_hoc.ID_DEPENDENTE is null
 union all
 select
@@ -296,10 +328,64 @@ select
 from VW_LANCAMENTO_HOC lanc_hoc
 	join TB_DEPENDENTE_ISENTO isento on
 	isento.ID_DEPENDENTE = lanc_hoc.ID_DEPENDENTE and
-	isento.TP_ISENTO in ( 7, 8 )
+	isento.TP_ISENTO in ( 7, 8 ) and
+	isento.TP_ISENTO not in ( 1 )
 where lanc_hoc.ID_DEPENDENTE is not null;
 
-create view VW_DESLIGADOS_LEVEL01_HOC as
+
+create view VW_TITULAR_ISENCAO_VALOR_HOC as
+select
+	isento.CD_MES,
+	isento.CD_ANO,
+	empresa.ID ID_EMPRESA,
+	contrato.ID ID_CONTRATO,
+    titular.ID ID_TITULAR,
+	sum( isento.VL_ISENCAO ) VL_ISENCAO 
+from TB_TITULAR_ISENTO isento
+	join TB_TITULAR titular on
+		titular.ID = isento.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = titular.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where	isento.TP_ISENTO in ( 7, 8 )
+and		empresa.CD_EMPRESA = '0444'
+group by
+	isento.CD_MES,
+	isento.CD_ANO,
+	empresa.ID,
+	contrato.ID,
+	titular.ID;
+
+
+create view VW_DEPENDENTE_ISENCAO_VALOR_HOC as
+select
+	isento.CD_MES,
+	isento.CD_ANO,
+	empresa.ID ID_EMPRESA,
+	contrato.ID ID_CONTRATO,
+    titular.ID ID_TITULAR,
+    dependente.ID ID_DEPENDENTE,
+	sum( isento.VL_ISENCAO ) VL_ISENCAO 
+from TB_DEPENDENTE_ISENTO isento
+	join TB_DEPENDENTE dependente on
+		dependente.ID = isento.ID_DEPENDENTE
+	join TB_TITULAR titular on
+		titular.ID = dependente.ID_TITULAR
+	join TB_CONTRATO contrato on
+		contrato.ID = titular.ID_CONTRATO
+	join TB_EMPRESA empresa on
+		empresa.ID = contrato.ID_EMPRESA
+where	isento.TP_ISENTO in ( 7, 8 )
+and		empresa.CD_EMPRESA = '0444'
+group by
+	isento.CD_MES,
+	isento.CD_ANO,
+	empresa.ID,
+	contrato.ID,
+	dependente.ID;
+
+create view VW_DESLIGADOS_LEVEL02_HOC as
 select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
@@ -309,6 +395,8 @@ select
     FUNC_GET_MATRICULA_HOC( titular.NR_MATRICULA, titular.NR_RDP ) COD_DEPENDENTE,
 	titular.NM_TITULAR NM_USUARIO,
 	lancamento.VL_PRINCIPAL TOTAL_COPART,
+	titular.ID ID_TITULAR,
+	null ID_DEPENDENTE,
 	titular.NR_LOCAL,
 	titular.DT_NASCIMENTO,
 	titular.NR_CPF CPF_DEPENDENTE,
@@ -334,6 +422,8 @@ select
     FUNC_GET_MATRICULA_HOC( dependente.NR_MATRICULA, dependente.NR_RDP ) COD_DEPENDENTE,
 	dependente.NM_DEPENDENTE NM_USUARIO,
 	lancamento.VL_PRINCIPAL TOTAL_COPART,
+	titular.ID ID_TITULAR,
+	dependente.ID ID_DEPENDENTE,
 	dependente.NR_LOCAL,
 	dependente.DT_NASCIMENTO,
 	dependente.NR_CPF CPF_DEPENDENTE,
@@ -352,29 +442,188 @@ and	 lancamento.ID_DEPENDENTE is not null
 and titular.NR_LOCAL <> 100
 and titular.DT_DEMISSAO is not null;
 
+create view VW_DESLIGADOS_LEVEL01_HOC as
+select
+	desligados.CD_MES,
+	desligados.CD_ANO,
+	desligados.ID_EMPRESA,
+	desligados.ID_CONTRATO,
+	desligados.COD_TITULAR,
+	desligados.COD_DEPENDENTE,
+	desligados.NM_USUARIO,
+	sum( desligados.TOTAL_COPART ) TOTAL_COPART,
+	desligados.ID_TITULAR,
+	desligados.ID_DEPENDENTE,
+	desligados.NR_LOCAL,
+	desligados.DT_NASCIMENTO,
+	desligados.CPF_DEPENDENTE,
+	desligados.NR_MATRICULA
+from VW_DESLIGADOS_LEVEL02_HOC desligados
+group by
+	desligados.CD_MES,
+	desligados.CD_ANO,
+	desligados.ID_EMPRESA,
+	desligados.ID_CONTRATO,
+	desligados.COD_TITULAR,
+	desligados.COD_DEPENDENTE,
+	desligados.ID_TITULAR,
+	desligados.ID_DEPENDENTE,
+	desligados.NM_USUARIO,
+	desligados.NR_LOCAL,
+	desligados.DT_NASCIMENTO,
+	desligados.CPF_DEPENDENTE,
+	desligados.NR_MATRICULA;
+	
+	
+create view VW_AFASTADOS_LEVEL02_HOC as
+select
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_EMPRESA,
+	lancamento.ID_CONTRATO,
+	lancamento.COD_TITULAR,
+	lancamento.COD_DEPENDENTE,
+	lancamento.ID_TITULAR,
+	lancamento.ID_DEPENDENTE,	
+	lancamento.NM_USUARIO,
+	sum(lancamento.VL_PRINCIPAL) TOTAL_COPART,
+	lancamento.NR_LOCAL,
+	lancamento.DT_NASCIMENTO,
+	lancamento.CPF_DEPENDENTE,
+	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
+from VW_LANCAMENTO_HOC lancamento
+where lancamento.NR_LOCAL = 100
+group by
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_EMPRESA,
+	lancamento.ID_CONTRATO,
+	lancamento.COD_TITULAR,
+	lancamento.COD_DEPENDENTE,
+	lancamento.ID_TITULAR,
+	lancamento.ID_DEPENDENTE,	
+	lancamento.NM_USUARIO,
+	lancamento.NR_LOCAL,
+	lancamento.DT_NASCIMENTO,
+	lancamento.CPF_DEPENDENTE,
+	lancamento.NR_MATRICULA_DEPENDENTE;
+	
+create view VW_AFASTADOS_LEVEL01_HOC as
+select
+	afastados.CD_MES,
+	afastados.CD_ANO,
+	afastados.ID_EMPRESA,
+	afastados.ID_CONTRATO,
+	afastados.COD_TITULAR,
+	afastados.COD_DEPENDENTE,
+	afastados.ID_TITULAR,
+	afastados.ID_DEPENDENTE,
+	afastados.NM_USUARIO,
+	afastados.TOTAL_COPART - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+	afastados.NR_LOCAL,
+	afastados.DT_NASCIMENTO,
+	afastados.CPF_DEPENDENTE,
+	afastados.NR_MATRICULA
+from VW_AFASTADOS_LEVEL02_HOC afastados
+	left outer join VW_TITULAR_ISENCAO_VALOR_HOC isencao on
+			isencao.ID_TITULAR = afastados.ID_TITULAR
+where afastados.ID_DEPENDENTE is null
+union all
+select
+	afastados.CD_MES,
+	afastados.CD_ANO,
+	afastados.ID_EMPRESA,
+	afastados.ID_CONTRATO,
+	afastados.COD_TITULAR,
+	afastados.COD_DEPENDENTE,
+	afastados.ID_TITULAR,
+	afastados.ID_DEPENDENTE,
+	afastados.NM_USUARIO,
+	afastados.TOTAL_COPART - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+	afastados.NR_LOCAL,
+	afastados.DT_NASCIMENTO,
+	afastados.CPF_DEPENDENTE,
+	afastados.NR_MATRICULA
+from VW_AFASTADOS_LEVEL02_HOC afastados
+left outer join VW_DEPENDENTE_ISENCAO_VALOR_HOC isencao on
+		isencao.ID_DEPENDENTE = afastados.ID_DEPENDENTE
+where afastados.ID_DEPENDENTE is not null;
+	
+	
+create view VW_AGREGADOS_LEVEL02_HOC as
+select
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_EMPRESA,
+	lancamento.ID_CONTRATO,
+	lancamento.COD_TITULAR,
+	lancamento.COD_DEPENDENTE,
+	lancamento.ID_TITULAR,
+	lancamento.ID_DEPENDENTE,
+	lancamento.NM_USUARIO,
+	sum(lancamento.VL_PRINCIPAL) TOTAL_COPART,
+	lancamento.NR_LOCAL,
+	lancamento.DT_NASCIMENTO,
+	lancamento.CPF_DEPENDENTE,
+	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
+from VW_LANCAMENTO_HOC lancamento
+where lancamento.NR_LOCAL = 101
+group by
+	lancamento.CD_MES,
+	lancamento.CD_ANO,
+	lancamento.ID_EMPRESA,
+	lancamento.ID_CONTRATO,
+	lancamento.COD_TITULAR,
+	lancamento.COD_DEPENDENTE,
+	lancamento.ID_TITULAR,
+	lancamento.ID_DEPENDENTE,
+	lancamento.NM_USUARIO,
+	lancamento.NR_LOCAL,
+	lancamento.DT_NASCIMENTO,
+	lancamento.CPF_DEPENDENTE,
+	lancamento.NR_MATRICULA_DEPENDENTE;
+	
+
+create view VW_AGREGADOS_LEVEL01_HOC as
+select
+	agregados.CD_MES,
+	agregados.CD_ANO,
+	agregados.ID_EMPRESA,
+	agregados.ID_CONTRATO,
+	agregados.COD_TITULAR,
+	agregados.COD_DEPENDENTE,
+	agregados.NM_USUARIO,
+	agregados.TOTAL_COPART - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+	agregados.NR_LOCAL,
+	agregados.DT_NASCIMENTO,
+	agregados.CPF_DEPENDENTE,
+	agregados.NR_MATRICULA
+from VW_AGREGADOS_LEVEL02_HOC agregados
+	left outer join VW_TITULAR_ISENCAO_VALOR_HOC isencao on
+			isencao.ID_TITULAR = agregados.ID_TITULAR
+where agregados.ID_DEPENDENTE is null
+union all
+select
+	agregados.CD_MES,
+	agregados.CD_ANO,
+	agregados.ID_EMPRESA,
+	agregados.ID_CONTRATO,
+	agregados.COD_TITULAR,
+	agregados.COD_DEPENDENTE,
+	agregados.NM_USUARIO,
+	agregados.TOTAL_COPART - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+	agregados.NR_LOCAL,
+	agregados.DT_NASCIMENTO,
+	agregados.CPF_DEPENDENTE,
+	agregados.NR_MATRICULA
+from VW_AGREGADOS_LEVEL02_HOC agregados
+	left outer join VW_DEPENDENTE_ISENCAO_VALOR_HOC isencao on
+			isencao.ID_DEPENDENTE = agregados.ID_DEPENDENTE
+where agregados.ID_DEPENDENTE is not null;
+	
 /**********************************************************************************************************************/
 /**********************************************************************************************************************/
 	
-create view VW_ISENCAO_GESTANTES_HOC as
-select
-	lanc_hoc.CD_MES,
-	lanc_hoc.CD_ANO,
-	lanc_hoc.ID_EMPRESA,
-	lanc_hoc.ID_CONTRATO,
-	lanc_hoc.NR_MATRICULA,
-	lanc_hoc.NM_USUARIO,
-	lanc_hoc.NM_TITULAR,
-	sum( lanc_hoc.VL_PRINCIPAL ) TOTAL_COPART
-from VW_ISENCAO_GESTANTES_LEVEL01_HOC lanc_hoc
-group by 	lanc_hoc.CD_MES,
-			lanc_hoc.CD_ANO,
-			lanc_hoc.ID_EMPRESA,
-			lanc_hoc.ID_CONTRATO,
-			lanc_hoc.NR_MATRICULA,
-			lanc_hoc.NM_TITULAR,
-			lanc_hoc.NM_USUARIO
-order by lanc_hoc.NM_USUARIO;
-
 create view VW_ISENCAO_VALOR_HOC as
 select
 	lanc_hoc.CD_MES,
@@ -400,6 +649,26 @@ group by 	lanc_hoc.CD_MES,
 			lanc_hoc.CPF_DEPENDENTE,
 			lanc_hoc.COD_TITULAR,
 			lanc_hoc.COD_DEPENDENTE,				
+			lanc_hoc.NM_USUARIO
+order by lanc_hoc.NM_USUARIO;
+	
+create view VW_ISENCAO_GESTANTES_HOC as
+select
+	lanc_hoc.CD_MES,
+	lanc_hoc.CD_ANO,
+	lanc_hoc.ID_EMPRESA,
+	lanc_hoc.ID_CONTRATO,
+	lanc_hoc.NR_MATRICULA,
+	lanc_hoc.NM_USUARIO,
+	lanc_hoc.NM_TITULAR,
+	sum( lanc_hoc.VL_PRINCIPAL ) TOTAL_COPART
+from VW_ISENCAO_GESTANTES_LEVEL01_HOC lanc_hoc
+group by 	lanc_hoc.CD_MES,
+			lanc_hoc.CD_ANO,
+			lanc_hoc.ID_EMPRESA,
+			lanc_hoc.ID_CONTRATO,
+			lanc_hoc.NR_MATRICULA,
+			lanc_hoc.NM_TITULAR,
 			lanc_hoc.NM_USUARIO
 order by lanc_hoc.NM_USUARIO;
 
@@ -435,65 +704,39 @@ order by lanc_hoc.NM_USUARIO;
 
 create view VW_AFASTADOS_HOC as
 select
-	lancamento.CD_MES,
-	lancamento.CD_ANO,
-	lancamento.ID_EMPRESA,
-	lancamento.ID_CONTRATO,
-	lancamento.COD_TITULAR,
-	lancamento.COD_DEPENDENTE,
-	lancamento.NM_USUARIO,
-	sum(lancamento.VL_PRINCIPAL) TOTAL_COPART,
-	lancamento.NR_LOCAL,
-	lancamento.DT_NASCIMENTO,
-	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
-from VW_LANCAMENTO_HOC lancamento
-where lancamento.NR_LOCAL = 100
-group by
-	lancamento.CD_MES,
-	lancamento.CD_ANO,
-	lancamento.ID_EMPRESA,
-	lancamento.ID_CONTRATO,
-	lancamento.COD_TITULAR,
-	lancamento.COD_DEPENDENTE,
-	lancamento.NM_USUARIO,
-	lancamento.NR_LOCAL,
-	lancamento.DT_NASCIMENTO,
-	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE
-order by lancamento.NM_USUARIO;
+	afastados.CD_MES,
+	afastados.CD_ANO,
+	afastados.ID_EMPRESA,
+	afastados.ID_CONTRATO,
+	afastados.COD_TITULAR,
+	afastados.COD_DEPENDENTE,
+	afastados.NM_USUARIO,
+	afastados.TOTAL_COPART,
+	afastados.NR_LOCAL,
+	afastados.DT_NASCIMENTO,
+	afastados.CPF_DEPENDENTE,
+	afastados.NR_MATRICULA
+from VW_AFASTADOS_LEVEL01_HOC afastados
+order by afastados.NM_USUARIO;
 
 create view VW_AGREGADOS_HOC as
 select
-	lancamento.CD_MES,
-	lancamento.CD_ANO,
-	lancamento.ID_EMPRESA,
-	lancamento.ID_CONTRATO,
-	lancamento.COD_TITULAR,
-	lancamento.COD_DEPENDENTE,
-	lancamento.NM_USUARIO,
-	sum(lancamento.VL_PRINCIPAL) TOTAL_COPART,
-	lancamento.NR_LOCAL,
-	lancamento.DT_NASCIMENTO,
-	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
-from VW_LANCAMENTO_HOC lancamento
-where lancamento.NR_LOCAL = 101
-group by
-	lancamento.CD_MES,
-	lancamento.CD_ANO,
-	lancamento.ID_EMPRESA,
-	lancamento.ID_CONTRATO,
-	lancamento.COD_TITULAR,
-	lancamento.COD_DEPENDENTE,
-	lancamento.NM_USUARIO,
-	lancamento.NR_LOCAL,
-	lancamento.DT_NASCIMENTO,
-	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE
-order by lancamento.NM_USUARIO;
+	agregados.CD_MES,
+	agregados.CD_ANO,
+	agregados.ID_EMPRESA,
+	agregados.ID_CONTRATO,
+	agregados.COD_TITULAR,
+	agregados.COD_DEPENDENTE,
+	agregados.NM_USUARIO,
+	agregados.TOTAL_COPART,
+	agregados.NR_LOCAL,
+	agregados.DT_NASCIMENTO,
+	agregados.CPF_DEPENDENTE,
+	agregados.NR_MATRICULA
+from VW_AGREGADOS_LEVEL01_HOC agregados
+order by agregados.NM_USUARIO;
 
-create view VW_PLANO_EXTENSAO_HOC as
+create view VW_PLANO_EXTENSAO_LEVEL01_HOC as
 select
 	lancamento.CD_MES,
 	lancamento.CD_ANO,
@@ -501,8 +744,10 @@ select
 	lancamento.ID_CONTRATO,
 	lancamento.COD_TITULAR,
 	lancamento.COD_DEPENDENTE,
+    lancamento.ID_TITULAR,
+    lancamento.ID_DEPENDENTE,    
 	lancamento.NM_USUARIO,
-	sum(lancamento.VL_PRINCIPAL) TOTAL_COPART,
+	sum( lancamento.VL_PRINCIPAL ) VL_PRINCIPAL,
 	lancamento.NR_LOCAL,
 	lancamento.DT_NASCIMENTO,
 	lancamento.CPF_DEPENDENTE,
@@ -516,40 +761,105 @@ group by
 	lancamento.ID_CONTRATO,
 	lancamento.COD_TITULAR,
 	lancamento.COD_DEPENDENTE,
+    lancamento.ID_TITULAR,
+    lancamento.ID_DEPENDENTE,    
 	lancamento.NM_USUARIO,
 	lancamento.NR_LOCAL,
 	lancamento.DT_NASCIMENTO,
 	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE
-order by lancamento.NM_USUARIO;
+	lancamento.NR_MATRICULA_DEPENDENTE;
+
+create view VW_PLANO_EXTENSAO_LEVEL02_HOC as
+select
+	extensao.CD_MES,
+	extensao.CD_ANO,
+	extensao.ID_EMPRESA,
+	extensao.ID_CONTRATO,
+	extensao.COD_TITULAR,
+	extensao.COD_DEPENDENTE,
+	extensao.NM_USUARIO,
+	extensao.VL_PRINCIPAL - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+	extensao.NR_LOCAL,
+	extensao.DT_NASCIMENTO,
+	extensao.CPF_DEPENDENTE,
+	extensao.NR_MATRICULA
+from VW_PLANO_EXTENSAO_LEVEL01_HOC extensao
+	left outer join VW_TITULAR_ISENCAO_VALOR_HOC isencao on
+		isencao.ID_TITULAR = extensao.ID_TITULAR
+where extensao.ID_DEPENDENTE is null
+union all
+select
+	extensao.CD_MES,
+	extensao.CD_ANO,
+	extensao.ID_EMPRESA,
+	extensao.ID_CONTRATO,
+	extensao.COD_TITULAR,
+	extensao.COD_DEPENDENTE,
+	extensao.NM_USUARIO,
+	extensao.VL_PRINCIPAL - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+	extensao.NR_LOCAL,
+	extensao.DT_NASCIMENTO,
+	extensao.CPF_DEPENDENTE,
+	extensao.NR_MATRICULA
+from VW_PLANO_EXTENSAO_LEVEL01_HOC extensao
+	left outer join VW_DEPENDENTE_ISENCAO_VALOR_HOC isencao on
+		isencao.ID_DEPENDENTE = extensao.ID_DEPENDENTE
+where extensao.ID_DEPENDENTE is not null;
+
+create view VW_PLANO_EXTENSAO_HOC as
+select
+	extensao.CD_MES,
+	extensao.CD_ANO,
+	extensao.ID_EMPRESA,
+	extensao.ID_CONTRATO,
+	extensao.COD_TITULAR,
+	extensao.COD_DEPENDENTE,
+	extensao.NM_USUARIO,
+	extensao.TOTAL_COPART,
+	extensao.NR_LOCAL,
+	extensao.DT_NASCIMENTO,
+	extensao.CPF_DEPENDENTE,
+	extensao.NR_MATRICULA
+from VW_PLANO_EXTENSAO_LEVEL02_HOC extensao
+order by extensao.NM_USUARIO;
 
 create view VW_DESLIGADOS_HOC as
-select
-	desligados.CD_MES,
-	desligados.CD_ANO,
-	desligados.ID_EMPRESA,
-	desligados.ID_CONTRATO,
-	desligados.COD_TITULAR,
-	desligados.COD_DEPENDENTE,
-	desligados.NM_USUARIO,
-	sum( desligados.TOTAL_COPART ) TOTAL_COPART,
-	desligados.NR_LOCAL,
-	desligados.DT_NASCIMENTO,
-	desligados.CPF_DEPENDENTE,
-	desligados.NR_MATRICULA
-from VW_DESLIGADOS_LEVEL01_HOC desligados
-group by
-	desligados.CD_MES,
-	desligados.CD_ANO,
-	desligados.ID_EMPRESA,
-	desligados.ID_CONTRATO,
-	desligados.COD_TITULAR,
-	desligados.COD_DEPENDENTE,
-	desligados.NM_USUARIO,
-	desligados.NR_LOCAL,
-	desligados.DT_NASCIMENTO,
-	desligados.CPF_DEPENDENTE,
-	desligados.NR_MATRICULA
+select desligados.* from (
+	select
+		desligados.CD_MES,
+		desligados.CD_ANO,
+		desligados.ID_EMPRESA,
+		desligados.ID_CONTRATO,
+		desligados.COD_TITULAR,
+		desligados.COD_DEPENDENTE,
+		desligados.NM_USUARIO,
+		desligados.TOTAL_COPART - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+		desligados.NR_LOCAL,
+		desligados.DT_NASCIMENTO,
+		desligados.CPF_DEPENDENTE,
+		desligados.NR_MATRICULA
+	from VW_DESLIGADOS_LEVEL02_HOC desligados
+		left outer join VW_TITULAR_ISENCAO_VALOR_HOC isencao on
+				isencao.ID_TITULAR = desligados.ID_TITULAR
+	where desligados.ID_DEPENDENTE is null
+	union all
+	select
+		desligados.CD_MES,
+		desligados.CD_ANO,
+		desligados.ID_EMPRESA,
+		desligados.ID_CONTRATO,
+		desligados.COD_TITULAR,
+		desligados.COD_DEPENDENTE,
+		desligados.NM_USUARIO,
+		desligados.TOTAL_COPART - ifnull( isencao.VL_ISENCAO, 0.0 ) TOTAL_COPART,
+		desligados.NR_LOCAL,
+		desligados.DT_NASCIMENTO,
+		desligados.CPF_DEPENDENTE,
+		desligados.NR_MATRICULA
+	from VW_DESLIGADOS_LEVEL02_HOC desligados
+		left outer join VW_DEPENDENTE_ISENCAO_VALOR_HOC isencao on
+				isencao.ID_DEPENDENTE = desligados.ID_DEPENDENTE
+	where desligados.ID_DEPENDENTE is not null ) desligados
 order by desligados.NM_USUARIO;
 
 create view VW_LANCAMENTO_ORIGINAL_HOC as
@@ -565,7 +875,7 @@ select
 	lancamento.NR_LOCAL,
 	lancamento.DT_NASCIMENTO,
 	lancamento.CPF_DEPENDENTE,
-	lancamento.NR_MATRICULA_DEPENDENTE NR_MATRICULA
+	lancamento.NR_MATRICULA
 from VW_LANCAMENTO_HOC lancamento
 group by	lancamento.COD_TITULAR,
 		    lancamento.CD_MES,
@@ -577,7 +887,7 @@ group by	lancamento.COD_TITULAR,
 			lancamento.NR_LOCAL,
 			lancamento.DT_NASCIMENTO,
 			lancamento.CPF_DEPENDENTE,
-			lancamento.NR_MATRICULA_DEPENDENTE
+			lancamento.NR_MATRICULA
 order by lancamento.NM_USUARIO;
 
 create view VW_PRN_HOC as

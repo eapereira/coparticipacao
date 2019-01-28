@@ -46,14 +46,22 @@ public class TitularEntity extends Titular implements DomainEntity {
 		super(ui);
 	}
 
-	@Convert(converter = LocalDateConverter.class)
 	@Column(name = "DT_ADMISSAO")
+	@Convert(converter = LocalDateConverter.class)
 	public LocalDate getDtAdmissao() {
 		return super.getDtAdmissao();
 	}
 
+	@Column(name = "DT_DEMISSAO")
 	@Convert(converter = LocalDateConverter.class)
+	@Override
+	public LocalDate getDtDemissao() {
+		// TODO Auto-generated method stub
+		return super.getDtDemissao();
+	}
+
 	@Column(name = "DT_NASCIMENTO")
+	@Convert(converter = LocalDateConverter.class)
 	public LocalDate getDtNascimento() {
 		return super.getDtNascimento();
 	}
@@ -128,14 +136,6 @@ public class TitularEntity extends Titular implements DomainEntity {
 	public BeneficiarioDetail getBeneficiarioDetail() {
 		// TODO Auto-generated method stub
 		return super.getBeneficiarioDetail();
-	}
-
-	@Convert(converter = LocalDateConverter.class)
-	@Column(name = "DT_DEMISSAO")	
-	@Override
-	public LocalDate getDtDemissao() {
-		// TODO Auto-generated method stub
-		return super.getDtDemissao();
 	}
 
 }

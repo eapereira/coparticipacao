@@ -82,67 +82,67 @@ public class MarjanBean {
 	private static final String FATUCOPA_8C7XX_201811 = "marjan/input/MARJAN.8C7XX.201811.006.txt";
 	private static final String NAO_LOCALIZADO_201811 = "marjan/input/MARJAN.NAO-LOCALIZADO.201811.003.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 807;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201802 = 765;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201802 = 565;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 18;
-	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201802 = 143;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201802 = 26;
+	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201802 = 135;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 471;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 1019;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 565;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806 = 4;
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201806 = 170;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806_AFTER_USER_RETURN = 473;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806_AFTER_USER_RETURN = 1021;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806_AFTER_USER_RETURN = 569;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201806_AFTER_USER_RETURN = 174;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 830;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201807 = 786;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201807 = 565;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 3;
-	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201807 = 154;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201807 = 4;
+	private static final int NUM_TOTAL_FATUCOPA_FATUCOPA_201807 = 153;
 
-	private static final int NUM_TOTAL_TITULARES_201808 = 831;
+	private static final int NUM_TOTAL_TITULARES_201808 = 807;
 	private static final int NUM_TOTAL_DEPENDENTES_201808 = 614;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201808 = 7;
-	private static final int NUM_TOTAL_FATUCOPA_201808 = 160;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201808 = 14;
+	private static final int NUM_TOTAL_FATUCOPA_201808 = 153;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808 = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 14;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808 = 19;
 
-	private static final int NUM_TOTAL_TITULARES_201808_AFTER_USER_RETURN = 891;
-	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 621;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201808_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_FATUCOPA_201808_AFTER_USER_RETURN = 167;
+	private static final int NUM_TOTAL_TITULARES_201808_AFTER_USER_RETURN = 811;
+	private static final int NUM_TOTAL_DEPENDENTES_201808_AFTER_USER_RETURN = 619;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201808_AFTER_USER_RETURN = 8;
+	private static final int NUM_TOTAL_FATUCOPA_201808_AFTER_USER_RETURN = 159;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201808_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN = 14;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201808_AFTER_USER_RETURN = 19;
 
-	private static final int NUM_TOTAL_TITULARES_201810 = 831;
+	private static final int NUM_TOTAL_TITULARES_201810 = 807;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 614;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201810 = 7;
-	private static final int NUM_TOTAL_FATUCOPA_201810 = 160;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201810 = 14;
+	private static final int NUM_TOTAL_FATUCOPA_201810 = 153;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810 = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 14;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810 = 19;
 
-	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 831;
-	private static final int NUM_TOTAL_DEPENDENTES_201810_AFTER_USER_RETURN = 621;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201810_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_FATUCOPA_201810_AFTER_USER_RETURN = 167;
+	private static final int NUM_TOTAL_TITULARES_201810_AFTER_USER_RETURN = 811;
+	private static final int NUM_TOTAL_DEPENDENTES_201810_AFTER_USER_RETURN = 619;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201810_AFTER_USER_RETURN = 8;
+	private static final int NUM_TOTAL_FATUCOPA_201810_AFTER_USER_RETURN = 159;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 14;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_RETURN = 19;
 
-	private static final int NUM_TOTAL_TITULARES_201811 = 1133;
-	private static final int NUM_TOTAL_DEPENDENTES_201811 = 725;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201811 = 5;
-	private static final int NUM_TOTAL_FATUCOPA_201811 = 210;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 13;
+	private static final int NUM_TOTAL_TITULARES_201811 = 1089;
+	private static final int NUM_TOTAL_DEPENDENTES_201811 = 644;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201811 = 14;
+	private static final int NUM_TOTAL_FATUCOPA_201811 = 201;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811 = 18;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811 = 12;
 
-	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 1136;
-	private static final int NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN = 728;
-	private static final int NUM_TOTAL_DESCONHECIDOS_201811_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_FATUCOPA_201811_AFTER_USER_RETURN = 213;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 19;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 13;
+	private static final int NUM_TOTAL_TITULARES_201811_AFTER_USER_RETURN = 1094;
+	private static final int NUM_TOTAL_DEPENDENTES_201811_AFTER_USER_RETURN = 652;
+	private static final int NUM_TOTAL_DESCONHECIDOS_201811_AFTER_USER_RETURN = 6;
+	private static final int NUM_TOTAL_FATUCOPA_201811_AFTER_USER_RETURN = 209;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201811_AFTER_USER_RETURN = 18;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201811_AFTER_USER_RETURN = 12;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";

@@ -115,11 +115,11 @@ public class LancamentoSpreadsheetListener implements SpreadsheetListener<Dynami
 				for (ViewDestinationColsDef viewDestinationColsDef : viewDestinationColsDefUis) {
 
 					if (col >= columnIndex) {
-						LOGGER.info("Value for column [{}]:", viewDestinationColsDef.getNameColumn());
+						LOGGER.debug("Value for column [{}]:", viewDestinationColsDef.getNameColumn());
 
 						value = dynamicEntity.getColumnValue(viewDestinationColsDef.getNameColumn());
 
-						LOGGER.info(
+						LOGGER.debug(
 								"ViewDestination [{}] has column [{}] with value [{}]:",
 								viewDestinationColsDef.getViewDestination().getNameView(),
 								viewDestinationColsDef.getNameColumn(),

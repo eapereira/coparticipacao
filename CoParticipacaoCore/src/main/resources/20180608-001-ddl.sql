@@ -4,6 +4,7 @@
  * Edson - 08/06/2018
  */
 
+drop table if exists TB_PLANO_CARGILL;
 drop table if exists TB_PARAMETER;
 
 drop table if exists TB_LANCAMENTO_INPUT_SHEET_COLS;
@@ -1647,6 +1648,29 @@ create table TB_REPORT(
 );
 
 /*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+
+create table TB_PLANO_CARGILL(
+	ID				bigint( 17 ) auto_increment,
+	CD_PLANO		varchar( 20 ) not null,
+	CD_CARGILL		int( 3 ) not null,
+	NM_PLANO		varchar( 60 ) not null,
+
+	VERSION				bigint( 17 ) null,	 
+	USER_CREATED		bigint( 17 ) not null,
+	USER_ALTERED 		bigint( 17 ),
+	DT_CREATED			timestamp not null,
+	DT_ALTERED			timestamp not null,
+	
+	constraint PK_PLANO_CARGILL primary key( ID ),
+	
+	constraint UN_PLANO_CARGILL unique key( CD_PLANO, CD_CARGILL, NM_PLANO ),
+
+	constraint FK_PLANO_CARGILL_01 foreign key( USER_CREATED ) references TB_USER( ID ),
+	constraint FK_PLANO_CARGILL_02 foreign key( USER_ALTERED ) references TB_USER( ID )	
+);
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
 
 /**
  * Edson - 25/09/2018
@@ -1693,6 +1717,10 @@ from TB_DEPENDENTE dependente
 	join TB_EMPRESA empresa on
 		empresa.ID = contrato.ID_EMPRESA;
 	
+/*****************************************************************************************************************************************************/
+/*****************************************************************************************************************************************************/
+
+
 /*****************************************************************************************************************************************************/
 /*****************************************************************************************************************************************************/
 

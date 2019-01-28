@@ -70,6 +70,7 @@ BEGIN
 	
     declare VAR_COL_VIEW_LENGTH_CD_EMPRESA								int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA_EMPRESA					int( 3 ) default 20;
+	declare VAR_COL_VIEW_LENGTH_NR_MATRICULA							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_CD_PLANO								int( 3 ) default 10;
 	declare VAR_COL_VIEW_LENGTH_NR_CPF									int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_TITULAR								int( 3 ) default 40;
@@ -81,6 +82,7 @@ BEGIN
 
     declare VAR_COL_LABEL_CD_EMPRESA									varchar( 40 ) default 'EMPRESA';
 	declare VAR_COL_LABEL_NR_MATRICULA_EMPRESA							varchar( 40 ) default 'MATRICULA EMPRESA';
+	declare VAR_COL_LABEL_NR_MATRICULA									varchar( 40 ) default 'MATRICULA';
 	declare VAR_COL_LABEL_CD_PLANO										varchar( 40 ) default 'PLANO';
 	declare VAR_COL_LABEL_NR_CPF										varchar( 40 ) default 'CPF';
 	declare VAR_COL_LABEL_NM_TITULAR									varchar( 40 ) default 'NOME TÍTULAR';
@@ -441,7 +443,7 @@ BEGIN
 		'NAO-LOCALIZADO',
 	    'NAO-LOCALIZADO',
 	    VAR_NM_CONTRATO_NAO_LOCALIZADO,
-	    VAR_FALSE,
+	    VAR_TRUE,
 	    VAR_USE_TYPE_NAO_LOCALIZADO,
 	    
 		VAR_ID_USER,
@@ -1026,9 +1028,9 @@ BEGIN
 		VAR_ID_VIEW_DESTINATION,
 		'NR_MATRICULA',
 		VAR_COL_LONG,
-		VAR_COL_VIEW_LENGTH_NR_MATRICULA_EMPRESA,
+		VAR_COL_VIEW_LENGTH_NR_MATRICULA,
 		VAR_CD_ORDEM,
-		VAR_COL_LABEL_NR_MATRICULA_EMPRESA,
+		VAR_COL_LABEL_NR_MATRICULA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1167,6 +1169,171 @@ BEGIN
 	
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
+	call PROC_LOG_MESSAGE('LINHA - 1172');
+	/*********************************************************************************************************************************************/
+	    		
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17257',
+		1,					
+		'BASICO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17258',
+		2,					
+		'ESPECIAL 1',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17259',
+		3,					
+		'ESPECIAL 2',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17260',
+		4,					
+		'EXECUTIVO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+		
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17261',
+		1,					
+		'BASICO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17262',
+		2,					
+		'ESPECIAL 1',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17263',
+		3,					
+		'ESPECIAL 2',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17264',
+		4,					
+		'EXECUTIVO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);
+	
+	call PROC_LOG_MESSAGE('LINHA - 1174');
+	insert into TB_PLANO_CARGILL(
+		CD_PLANO,
+		CD_CARGILL,
+		NM_PLANO,
+		
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		'17268',
+		4,					
+		'EXECUTIVO',
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()				
+	);		
+			
 	call PROC_LOG_MESSAGE('LINHA - 950');
 	/*********************************************************************************************************************************************/
 	/*********************************************************************************************************************************************/	

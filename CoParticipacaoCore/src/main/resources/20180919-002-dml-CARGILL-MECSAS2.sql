@@ -34,7 +34,8 @@ BEGIN
 	declare VAR_COL_DOUBLE					int( 3 ) default 2;
 	
 	declare VAR_CD_ORDEM					int( 3 ) default 0;
-	declare VAR_DT_FORMAT					varchar( 40 ) default 'yyyMMdd';
+	declare VAR_DT_FORMAT_YYYYMMDD			varchar( 40 ) default 'yyyyMMdd';
+	declare VAR_DT_FORMAT_DMYYYY			varchar( 40 ) default 'dMyyyy';
 	
 	declare VAR_ARQUIVO_TYPE_FLATFILE		int( 3 ) default 1;
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
@@ -330,7 +331,7 @@ BEGIN
 		'COLUMN_004_DT_ADMISSAO',
 		VAR_COL_DATE,
 		null,
-		VAR_DT_FORMAT,
+		VAR_DT_FORMAT_DMYYYY,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,

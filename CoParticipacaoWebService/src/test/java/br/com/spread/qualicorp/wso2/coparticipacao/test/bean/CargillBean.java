@@ -146,15 +146,15 @@ public class CargillBean {
 	private static final int NUM_TOTAL_DEPENDENTES_201812 = 1235;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201812 = 3;
 	private static final int NUM_TOTAL_LANCAMENTOS_201812 = 86;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812 = 5;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812 = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812 = 5;
 
-	private static final int NUM_TOTAL_TITULARES_201812_AFTER_USER_RETURN = 1703;
-	private static final int NUM_TOTAL_DEPENDENTES_201812_AFTER_USER_RETURN = 1235;
+	private static final int NUM_TOTAL_TITULARES_201812_AFTER_USER_RETURN = 1704;
+	private static final int NUM_TOTAL_DEPENDENTES_201812_AFTER_USER_RETURN = 1237;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201812_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201812_AFTER_USER_RETURN = 89;
-	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812_AFTER_USER_RETURN = 5;
-	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812_AFTER_USER_RETURN = 6;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812_AFTER_USER_RETURN = 6;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812_AFTER_USER_RETURN = 5;
 	
 	@Autowired
 	private TitularService titularService;

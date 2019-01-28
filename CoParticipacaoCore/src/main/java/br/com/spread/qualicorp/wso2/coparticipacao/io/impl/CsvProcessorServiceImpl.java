@@ -48,8 +48,7 @@ public class CsvProcessorServiceImpl extends AbstractFileProcessorImpl implement
 				if (currentCol < lineColumns.length) {
 					columnValue = lineColumns[currentCol];
 
-					if (StringUtils.isNoneBlank(columnValue)) {
-
+					if (StringUtils.isNotBlank(columnValue)) {
 						LOGGER.info("Column [{}] with value [{}]:", registerColumnUi.getNameColumn(), columnValue);
 
 						mapLine.put(
