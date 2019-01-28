@@ -769,7 +769,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					 * próprio é um Títular, pois não foi encontrado pelo
 					 * processo MECSAS e FATUCOPA:
 					 */
-					if (beneficiarioUi.getNameBeneficiario() == null) {
+					if (StringUtils.isBlank(beneficiarioUi.getNameBeneficiario())) {
 						throw new BeneficiarioNotFoundException("The column[NM_BENEFICIARIO] must be defined:");
 					}
 				}
@@ -826,9 +826,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							LOGGER.info("END");
 							return true;
 						}
-					}
-
-					if (dependenteUi == null) {
+					} else if (dependenteUi == null) {
 						LOGGER.info("END");
 						return true;
 					}

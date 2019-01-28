@@ -55,15 +55,6 @@ public class CargillTest extends CoParticipacaoTest {
 
 		LOGGER.info("END");
 	}
-	
-	@Test
-	public void testCoparticipacao201810AfterUserReturnAndEmptyDatabase() throws Exception {
-		LOGGER.info("BEGIN");
-
-		cargillBean.testCoparticipacao201810AfterUserReturnAndEmptyDatabase(this);
-
-		LOGGER.info("END");
-	}
 
 	@Test
 	public void testCoparticipacao201811() throws Exception {
