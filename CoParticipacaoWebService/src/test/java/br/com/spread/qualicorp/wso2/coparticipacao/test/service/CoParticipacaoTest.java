@@ -1,8 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.test.service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.Properties;
 
@@ -36,6 +34,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.CoParticipacaoService
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ExecucaoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.UserService;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.config.CoParticipacaoWebServiceConfigurationTest;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.CoParticipacaoProperties;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.StopWatchAdapter;
 
 /**
@@ -122,7 +121,7 @@ public abstract class CoParticipacaoTest {
 		for (ArquivoExecucao arquivoExecucao : execucaoUi.getArquivoExecucaos()) {
 			sb = new StringBuilder();
 
-			sb.append(getProperty("test.path"));
+			sb.append(CoParticipacaoProperties.getProperty("test.path"));
 			sb.append(File.separator);
 			sb.append(arquivoExecucao.getNameArquivoInput());
 
@@ -193,32 +192,4 @@ public abstract class CoParticipacaoTest {
 		return arquivoExecucaoUi;
 	}
 
-	public String getProperty(String propertyName) throws Exception {
-		File file;
-		StringBuilder sb;
-
-		if (properties == null) {
-			sb = new StringBuilder();
-			sb.append(System.getProperty("user.home"));
-			sb.append(File.separator);
-			sb.append(".coparticipacao");
-			sb.append(File.separator);
-			sb.append("coparticipacao.properties");
-
-			file = new File(sb.toString());
-
-			properties = new Properties();
-
-			if (file.exists()) {
-				properties.load(new FileInputStream(file));
-			} else {
-				properties.store(new FileOutputStream(file), "Arquivo para as propriedades de teste do projeto:");
-
-				throw new CoParticipacaoException(
-						"É necessário preencher as propriedades em coparticipacao.properties para realizar os testes.");
-			}
-		}
-
-		return properties.getProperty(propertyName);
-	}
 }

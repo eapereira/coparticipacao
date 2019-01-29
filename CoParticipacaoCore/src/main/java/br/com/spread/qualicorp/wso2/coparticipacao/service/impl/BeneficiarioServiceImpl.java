@@ -774,61 +774,69 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					}
 				}
 
+				/*
+				 * Para o BeneficiarioUi, aqui iremos localizar o seu TitularUi
+				 * ou o títular pode ser o próprio BeneficiarioUi:
+				 */
 				titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
+
+				/*
+				 * Se localizarmos um DependenteUi com os dados do
+				 * BeneficiarioUi, então ele é um dependente:
+				 */
 				dependenteUi = findDependente(coParticipacaoContext, beneficiarioUi);
 
-				if (titularUi != null) {
-					if (titularUi.getMatriculaEmpresa() != null && beneficiarioUi.getMatriculaEmpresa() != null) {
-						if (titularUi.getMatriculaEmpresa().equals(beneficiarioUi.getMatriculaEmpresa())) {
-							LOGGER.info("END");
-							return true;
+				if (dependenteUi == null) {
+					if (titularUi != null) {
+						if (titularUi.getMatriculaEmpresa() != null && beneficiarioUi.getMatriculaEmpresa() != null) {
+							if (titularUi.getMatriculaEmpresa().equals(beneficiarioUi.getMatriculaEmpresa())) {
+								LOGGER.info("END");
+								return true;
+							}
 						}
-					}
 
-					if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
-						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-							LOGGER.info("END");
-							return true;
+						if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
+							if (titularUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+								LOGGER.info("END");
+								return true;
+							}
+						} else {
+							if (titularUi.getNameTitular().equals(beneficiarioUi.getNameTitular())) {
+								LOGGER.info("END");
+								return true;
+							}
+						}
+
+						if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias01())) {
+							if (titularUi.getBeneficiarioDetail().getAlias01()
+									.equals(beneficiarioUi.getNameBeneficiario())) {
+								LOGGER.info("END");
+								return true;
+							}
+						}
+
+						if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias02())) {
+							if (titularUi.getBeneficiarioDetail().getAlias02()
+									.equals(beneficiarioUi.getNameBeneficiario())) {
+								LOGGER.info("END");
+								return true;
+							}
+						}
+
+						if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias03())) {
+							if (titularUi.getBeneficiarioDetail().getAlias03()
+									.equals(beneficiarioUi.getNameBeneficiario())) {
+								LOGGER.info("END");
+								return true;
+							}
 						}
 					} else {
-						if (titularUi.getNameTitular().equals(beneficiarioUi.getNameTitular())) {
-							LOGGER.info("END");
-							return true;
+						if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
+							if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
+								LOGGER.info("END");
+								return true;
+							}
 						}
-					}
-
-					if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias01())) {
-						if (titularUi.getBeneficiarioDetail().getAlias01()
-								.equals(beneficiarioUi.getNameBeneficiario())) {
-							LOGGER.info("END");
-							return true;
-						}
-					}
-
-					if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias02())) {
-						if (titularUi.getBeneficiarioDetail().getAlias02()
-								.equals(beneficiarioUi.getNameBeneficiario())) {
-							LOGGER.info("END");
-							return true;
-						}
-					}
-
-					if (StringUtils.isNotBlank(titularUi.getBeneficiarioDetail().getAlias03())) {
-						if (titularUi.getBeneficiarioDetail().getAlias03()
-								.equals(beneficiarioUi.getNameBeneficiario())) {
-							LOGGER.info("END");
-							return true;
-						}
-					}
-				} else {
-					if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
-						if (beneficiarioUi.getNameTitular().equals(beneficiarioUi.getNameBeneficiario())) {
-							LOGGER.info("END");
-							return true;
-						}
-					} else if (dependenteUi == null) {
-						LOGGER.info("END");
-						return true;
 					}
 				}
 			}

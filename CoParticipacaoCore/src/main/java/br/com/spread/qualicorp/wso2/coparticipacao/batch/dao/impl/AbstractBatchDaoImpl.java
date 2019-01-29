@@ -25,6 +25,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.impl.preparedStatem
 import br.com.spread.qualicorp.wso2.coparticipacao.batch.dao.impl.preparedStatementSetter.SetterAdapterType;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.DaoException;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain;
+import br.com.spread.qualicorp.wso2.coparticipacao.util.CoParticipacaoProperties;
 import br.com.spread.qualicorp.wso2.coparticipacao.xml.QueryUtils;
 
 /**
@@ -43,6 +44,8 @@ public abstract class AbstractBatchDaoImpl<ENTITY extends AbstractDomain> implem
 
 	private QueryUtils queryUtils;
 
+	private int batchSize;
+
 	public AbstractBatchDaoImpl() throws DaoException {
 		try {
 			LOGGER.info("BEGIN");
@@ -50,6 +53,15 @@ public abstract class AbstractBatchDaoImpl<ENTITY extends AbstractDomain> implem
 					.getActualTypeArguments()[0];
 
 			queryUtils = new QueryUtils(entityClass.getSimpleName());
+
+			batchSize = CoParticipacaoProperties.getPropertyAsInteger(CoParticipacaoProperties.BATCH_SIZE);
+
+			if (batchSize == NumberUtils.INTEGER_ZERO) {
+				batchSize = BATCH_SIZE;
+			}
+
+			LOGGER.info("Using BATCH-SIZE[{}]:", batchSize);
+
 			LOGGER.info("END");
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
@@ -214,14 +226,15 @@ public abstract class AbstractBatchDaoImpl<ENTITY extends AbstractDomain> implem
 			batchEntities = new ArrayList<ENTITY>();
 
 			sql = queryUtils.getQueryById(getInsertSql());
-			LOGGER.debug("using SQL [{}] for Batch INSERT:", sql);
+			LOGGER.debug("Using SQL [{}] for Batch INSERT:", sql);
+			LOGGER.info("Using BATCH-SIZE[{}]:", batchSize);
 
 			preparedStatementSetter = getInsertPreparedStatementSetter(entityTmp);
 
 			for (ENTITY entity : entities) {
 				batchEntities.add(entity);
 
-				if (rowCount % BATCH_SIZE == 0) {
+				if (rowCount % batchSize == 0) {
 					batchPreparedStatementSetterAdapter = new BatchPreparedStatementSetterAdapter<ENTITY>(
 							(PreparedStatementSetterAdapter<ENTITY>) preparedStatementSetter,
 							batchEntities);
@@ -275,14 +288,15 @@ public abstract class AbstractBatchDaoImpl<ENTITY extends AbstractDomain> implem
 			batchEntities = new ArrayList<ENTITY>();
 
 			sql = queryUtils.getQueryById(getUpdateSql());
-			LOGGER.debug("using SQL [{}] for Batch INSERT:", sql);
+			LOGGER.debug("Using SQL [{}] for Batch INSERT:", sql);
+			LOGGER.info("Using BATCH-SIZE[{}]:", batchSize);
 
 			preparedStatementSetter = getUpdatePreparedStatementSetter(entityTmp);
 
 			for (ENTITY entity : entities) {
 				batchEntities.add(entity);
 
-				if (rowCount % BATCH_SIZE == 0) {
+				if (rowCount % batchSize == 0) {
 					batchPreparedStatementSetterAdapter = new BatchPreparedStatementSetterAdapter<ENTITY>(
 							(PreparedStatementSetterAdapter<ENTITY>) preparedStatementSetter,
 							batchEntities);
@@ -323,14 +337,15 @@ public abstract class AbstractBatchDaoImpl<ENTITY extends AbstractDomain> implem
 			batchEntities = new ArrayList<ENTITY>();
 
 			sql = queryUtils.getQueryById(getUpdateSql());
-			LOGGER.debug("using SQL [{}] for Batch INSERT:", sql);
+			LOGGER.debug("Using SQL [{}] for Batch INSERT:", sql);
+			LOGGER.info("Using BATCH-SIZE[{}]:", batchSize);
 
 			preparedStatementSetter = getDeletePreparedStatementSetter(entityTmp);
 
 			for (ENTITY entity : entities) {
 				batchEntities.add(entity);
 
-				if (rowCount % BATCH_SIZE == 0) {
+				if (rowCount % batchSize == 0) {
 					batchPreparedStatementSetterAdapter = new BatchPreparedStatementSetterAdapter<ENTITY>(
 							(PreparedStatementSetterAdapter<ENTITY>) preparedStatementSetter,
 							batchEntities);
