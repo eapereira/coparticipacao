@@ -32,8 +32,8 @@ public class IntervalorBean {
 
 	private static final Logger LOGGER = LogManager.getLogger(IntervalorBean.class);
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 44;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 21;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201806 = 50;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201806 = 36;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806 = 59;
 
@@ -48,8 +48,8 @@ public class IntervalorBean {
 	private static final String FATUCOPA_8EAQR_201806 = "intervalor/input/INTERVALOR.8EAQR.201806.000.txt";
 	private static final String NAO_LOCALIZADO_201806 = "intervalor/input/INTERVALOR.NAO-LOCALIZADO.201806.000.xlsx";;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201808 = 32;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201808 = 12;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201808 = 36;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201808 = 22;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201808 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201808 = 41;
 
