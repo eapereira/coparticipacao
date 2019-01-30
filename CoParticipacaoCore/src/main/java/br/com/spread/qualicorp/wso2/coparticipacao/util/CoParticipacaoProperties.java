@@ -23,7 +23,7 @@ public class CoParticipacaoProperties {
 
 	private static final CoParticipacaoProperties CO_PARTICIPACAO_PROPERTIES = new CoParticipacaoProperties();
 
-	public static final String BATCH_SIZE = "batchSize";
+	public static final String BATCH_SIZE = "batch.size";
 
 	private Properties properties;
 
