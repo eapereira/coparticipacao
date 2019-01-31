@@ -3,7 +3,9 @@ package br.com.spread.qualicorp.wso2.coparticipacao.service.impl;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +24,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.ExecucaoEntityMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.ExecucaoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.UserUi;
@@ -116,6 +119,11 @@ public class ExecucaoServiceImpl extends AbstractServiceImpl<ExecucaoUi, Execuca
 				ordem++;
 			}
 
+			/*
+			 * Verificando se os dados fornecidos estão corretos:
+			 */
+			validateArquivoExecucao(execucaoUi);
+
 			arquivoExecucaoService
 					.deleteByEmpresaIdAndMesAndAno(empresaUi, currentDate.getMonthValue(), currentDate.getYear());
 
@@ -130,6 +138,38 @@ public class ExecucaoServiceImpl extends AbstractServiceImpl<ExecucaoUi, Execuca
 			 * arquivos:
 			 */
 			createJob(empresaUi, execucaoUi);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
+	}
+
+	private void validateArquivoExecucao(ExecucaoUi execucaoUi) throws ServiceException {
+		List<ArquivoExecucao> arquivoExecucaos;
+		Map<ContratoUi, Integer> mapContratos;
+		Integer totalContrato;
+		ContratoUi contratoUi;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			mapContratos = new HashMap<ContratoUi, Integer>();
+			arquivoExecucaos = execucaoUi.getArquivoExecucaos();
+
+			for (ArquivoExecucao arquivoExecucao : arquivoExecucaos) {
+				contratoUi = (ContratoUi) arquivoExecucao.getContrato();
+				totalContrato = NumberUtils.INTEGER_ONE;
+
+				if (mapContratos.containsKey(contratoUi)) {
+					throw new ServiceException(
+							"O ContratoUi[%s] esta duplicado na seleção de arquivos.",
+							contratoUi.getCdContrato());
+				}
+
+				mapContratos.put(contratoUi, totalContrato);
+			}
 
 			LOGGER.info("END");
 		} catch (Exception e) {

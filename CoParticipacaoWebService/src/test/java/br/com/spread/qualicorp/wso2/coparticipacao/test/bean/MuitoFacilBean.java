@@ -1,7 +1,10 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.test.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -20,6 +23,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetReader;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.MuitoFacilData;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.MuitoFacilSpreadsheetReadertListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
@@ -88,6 +94,12 @@ public class MuitoFacilBean {
 	private static final String CD_CONTRATO_8CHE8 = "8CHE8";
 	private static final String CD_CONTRATO_NAO_LOCALIZADO = "NAO-LOCALIZADO";
 
+	private static final int NUM_TOTAL_REGISTROS_8CH5Y = 82;
+	private static final BigDecimal NUM_TOTAL_VL_PRINCIPAL_8CH5Y = new BigDecimal("4046.75");
+
+	private static final int NUM_TOTAL_REGISTROS_8CHE8 = 8;
+	private static final BigDecimal NUM_TOTAL_VL_PRINCIPAL_8CHE8 = new BigDecimal("387.31");
+
 	@Autowired
 	private TitularService titularService;
 
@@ -103,6 +115,9 @@ public class MuitoFacilBean {
 	@Autowired
 	private EmpresaService empresaService;
 
+	@Autowired
+	private SpreadsheetReader spreadsheetReader;
+
 	public void testCoparticipacao201806(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
 		List<DependenteUi> dependenteUis;
@@ -110,12 +125,18 @@ public class MuitoFacilBean {
 		List<LancamentoUi> lancamentoUis;
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("MUITO-FACIL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
+		Map<String, List<MuitoFacilData>> map;
+		MuitoFacilTestInfo testInfo;
+		int totalRegistros8CH5Y;
+		int totalRegistros8CHE8;
+		BigDecimal totalValorPrincipal8CH5Y;
+		BigDecimal totalValorPrincipal8CHE8;
 
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201802);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CH5Y, FATUCOPA_8CH5Y_201806);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_8CHE8, FATUCOPA_8CHE8_201806);
 
-		coParticipacaoTest.processFile(execucaoUi);
+		execucaoUi = coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -127,10 +148,50 @@ public class MuitoFacilBean {
 		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 
+		map = spreadsheetReader.loadData(
+				coParticipacaoTest.getCoparticipacaoReport(execucaoUi),
+				new MuitoFacilSpreadsheetReadertListener());
+
+		testInfo = createTestInfo(map.get(CD_CONTRATO_8CH5Y));
+		totalRegistros8CH5Y = testInfo.getTotalRegistros();
+		totalValorPrincipal8CH5Y = testInfo.getTotalValorPrincipal();
+
+		LOGGER.info("Total 8CH5Y registros ......... [{}]:", totalRegistros8CH5Y);
+		LOGGER.info("Total 8CH5Y valor ............. [{}]:", totalValorPrincipal8CH5Y);
+
+		testInfo = createTestInfo(map.get(CD_CONTRATO_8CHE8));
+		totalRegistros8CHE8 = testInfo.getTotalRegistros();
+		totalValorPrincipal8CHE8 = testInfo.getTotalValorPrincipal();
+
+		LOGGER.info("Total 8CHE8 registros ......... [{}]:", totalRegistros8CHE8);
+		LOGGER.info("Total 8CHE8 valor ............. [{}]:", totalValorPrincipal8CHE8);
+
 		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201806, titularUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201806, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201806, desconhecidoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201806, lancamentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_REGISTROS_8CH5Y, totalRegistros8CH5Y);
+		Assert.assertEquals(NUM_TOTAL_VL_PRINCIPAL_8CH5Y, totalValorPrincipal8CH5Y);
+		Assert.assertEquals(NUM_TOTAL_REGISTROS_8CHE8, totalRegistros8CHE8);
+		Assert.assertEquals(NUM_TOTAL_VL_PRINCIPAL_8CHE8, totalValorPrincipal8CHE8);
+	}
+
+	private MuitoFacilTestInfo createTestInfo(List<MuitoFacilData> muitoFacilDatas) throws Exception {
+		MuitoFacilTestInfo testInfo = new MuitoFacilTestInfo();
+		int totalRegistros = NumberUtils.INTEGER_ZERO;
+		BigDecimal totalValorPrincipal = BigDecimal.ZERO;
+
+		for (MuitoFacilData muitoFacilData : muitoFacilDatas) {
+			totalValorPrincipal = totalValorPrincipal.add(muitoFacilData.getValorPrincipal());
+
+			totalRegistros++;
+		}
+
+		testInfo.setTotalRegistros(totalRegistros);
+		testInfo.setTotalValorPrincipal(totalValorPrincipal);
+
+		return testInfo;
 	}
 
 	public void testCoparticipacao201807(CoParticipacaoTest coParticipacaoTest) throws Exception {

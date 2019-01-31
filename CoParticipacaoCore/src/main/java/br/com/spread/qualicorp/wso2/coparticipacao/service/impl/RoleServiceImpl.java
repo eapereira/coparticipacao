@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.AbstractDao;
 import br.com.spread.qualicorp.wso2.coparticipacao.dao.RoleDao;
-import br.com.spread.qualicorp.wso2.coparticipacao.dao.impl.UserRoleDaoImpl;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Role;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RoleEntity;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.AbstractMapper;

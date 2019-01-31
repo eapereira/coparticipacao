@@ -1,6 +1,8 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.test.service;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.Properties;
 
@@ -23,6 +25,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ExecucaoType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.StatusExecucaoType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoExecucaoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ContratoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.EmpresaUi;
@@ -99,7 +102,7 @@ public abstract class CoParticipacaoTest {
 		LOGGER.info("END");
 	}
 
-	public void processFile(ExecucaoUi execucaoUi) throws Exception {
+	public ExecucaoUi processFile(ExecucaoUi execucaoUi) throws Exception {
 		StringBuilder sb;
 		UserUi userUi = getTestUser();
 		LocalDate currentDate = LocalDate.now();
@@ -146,6 +149,11 @@ public abstract class CoParticipacaoTest {
 		execucaoUi = execucaoService.save(execucaoUi);
 
 		coParticipacaoServiceSpy.processExecucaoId(execucaoUi.getId());
+
+		// Atualizando as informações da ExecucaoUi:
+		execucaoUi = execucaoService.findById(execucaoUi.getId());
+
+		return execucaoUi;
 	}
 
 	protected UserUi getTestUser() throws Exception {
@@ -190,6 +198,26 @@ public abstract class CoParticipacaoTest {
 		arquivoExecucaoUi.setContrato(contratoUi);
 
 		return arquivoExecucaoUi;
+	}
+
+	public InputStream getCoparticipacaoReport(ExecucaoUi execucaoUi) throws Exception {
+		InputStream inputStream = null;
+
+		for (ArquivoExecucao arquivoExecucao : execucaoUi.getArquivoExecucaos()) {
+			LOGGER.debug(
+					"ContratoUi[{}] with status[{}]:",
+					arquivoExecucao.getContrato().getCdContrato(),
+					arquivoExecucao.getStatusExecucaoType().getDescription());
+
+			if (UseType.FATUCOPA.equals(arquivoExecucao.getContrato().getUseType())) {
+				if (StatusExecucaoType.SUCCESS.equals(arquivoExecucao.getStatusExecucaoType())) {
+					inputStream = new FileInputStream(arquivoExecucao.getNameArquivoOutput());
+					break;
+				}
+			}
+		}
+
+		return inputStream;
 	}
 
 }
