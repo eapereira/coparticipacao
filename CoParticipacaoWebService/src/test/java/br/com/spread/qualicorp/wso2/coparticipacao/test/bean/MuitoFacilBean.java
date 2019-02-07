@@ -23,10 +23,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.MuitoFacilData;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.MuitoFacilSpreadsheetReadertListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.spreadsheet.SpreadsheetReader;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.spreadsheet.impl.sulamerica.MuitoFacilData;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.spreadsheet.impl.sulamerica.MuitoFacilSpreadsheetReadertListener;
 
 /**
  * 
