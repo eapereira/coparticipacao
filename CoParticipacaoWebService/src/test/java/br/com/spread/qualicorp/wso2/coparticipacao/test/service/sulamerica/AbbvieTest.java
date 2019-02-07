@@ -32,4 +32,21 @@ public class AbbvieTest extends CoParticipacaoTest {
 		LOGGER.info("END");
 	}
 
+	@Test
+	public void testCoparticipacao201902() throws Exception {
+		LOGGER.info("BEGIN");
+
+		abbvieBean.testCoparticipacao201902(this);
+
+		LOGGER.info("END");
+	}
+
+	@Test
+	public void testCoparticipacao201902WithUserReturn() throws Exception {
+		LOGGER.info("BEGIN");
+
+		abbvieBean.testCoparticipacao201902WithUserReturn(this);
+
+		LOGGER.info("END");
+	}
 }

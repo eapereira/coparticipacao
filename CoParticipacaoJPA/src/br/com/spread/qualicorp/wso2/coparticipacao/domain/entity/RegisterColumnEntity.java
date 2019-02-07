@@ -95,4 +95,18 @@ public class RegisterColumnEntity extends RegisterColumn implements DomainEntity
 		// TODO Auto-generated method stub
 		return super.getBeneficiarioCols();
 	}
+
+	@Column(name = "REGEXP_VALUE")
+	@Override
+	public String getRegexpValue() {
+		// TODO Auto-generated method stub
+		return super.getRegexpValue();
+	}
+
+	@Column(name = "REGEXP_GROUP_VALUE")
+	@Override
+	public Integer getRegexpGroupValue() {
+		// TODO Auto-generated method stub
+		return super.getRegexpGroupValue();
+	}
 }

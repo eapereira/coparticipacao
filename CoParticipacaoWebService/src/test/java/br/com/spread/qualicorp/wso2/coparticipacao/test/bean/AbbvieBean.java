@@ -37,15 +37,31 @@ public class AbbvieBean {
 	private static final String FATUCOPA_201808 = "abbvie/input/ABBVIE.8B1LR.201802.004.TXT";
 	private static final String NAO_LOCALIZADO_201808 = "abbvie/input/ABBVIE.NAO-LOCALIZADO.201802.004.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA = 527;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA = 449;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA = 19;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA = 114;
+	private static final String MECSAS_201902 = "abbvie/input/201902/ABBVIE.MECSAS.201802.001.xlsx";
+	private static final String MECSAS2_201902 = "abbvie/input/201902/ABBVIE.MECSAS2.201802.002.xlsx";
+	private static final String ISENTOS_201902 = "abbvie/input/201902/ABBVIE.ISENTO.201802.003.xlsx";
+	private static final String FATUCOPA_201902 = "abbvie/input/201902/ABBVIE.8B1LR.201802.004.TXT";
+	private static final String NAO_LOCALIZADO_201902 = "abbvie/input/201902/ABBVIE.NAO-LOCALIZADO.201802.004.xlsx";
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN = 546;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN = 465;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN = 0;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN = 133;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201808 = 527;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201808 = 449;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201808 = 19;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201808 = 114;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201808 = 546;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201808 = 465;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201808 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201808 = 133;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201902 = 527;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201902 = 449;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902 = 19;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902 = 114;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201902 = 546;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201902 = 465;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201902 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201902 = 133;
 
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 	private static final String CD_CONTRATO_MECSAS2 = "MECSAS2";
@@ -93,10 +109,10 @@ public class AbbvieBean {
 		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 
-		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA, titularUis.size());
-		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA, desconhecidoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201808, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201808, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201808, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201808, lancamentoUis.size());
 	}
 
 	public void testCoparticipacao201808WithUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
@@ -128,9 +144,75 @@ public class AbbvieBean {
 		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
 		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
 
-		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN, titularUis.size());
-		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN, dependenteUis.size());
-		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN, desconhecidoUis.size());
-		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201808, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201808, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201808, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201808, lancamentoUis.size());
+	}
+
+	public void testCoparticipacao201902(CoParticipacaoTest coParticipacaoTest) throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		EmpresaUi empresaUi = empresaService.findByName("ABBVIE");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201902);
+
+		coParticipacaoTest.processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201902, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201902, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902, lancamentoUis.size());
+	}
+
+	public void testCoparticipacao201902WithUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		EmpresaUi empresaUi = empresaService.findByName("ABBVIE");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		testCoparticipacao201902(coParticipacaoTest);
+
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADO_201902);
+
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTOS_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201902);
+
+		coParticipacaoTest.processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Return after user's validation:");
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201902, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201902, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201902, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201902, lancamentoUis.size());
 	}
 }

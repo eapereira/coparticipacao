@@ -798,6 +798,8 @@ create table TB_REGISTER_COLUMN(
 	CD_FORMAT					varchar( 200 ) null, /* Para usar com datas e números */
 	CD_LOCALE_PATTERN			varchar( 200 ) null, /* Para usar com datas e números */
 	CD_RESTRICTED_VALUE			varchar( 40 ) null,
+	REGEXP_VALUE				varchar( 800 ) null,
+	REGEXP_GROUP_VALUE			int( 3 ) null,
 	
 	VERSION						bigint( 17 ) null,
 	 

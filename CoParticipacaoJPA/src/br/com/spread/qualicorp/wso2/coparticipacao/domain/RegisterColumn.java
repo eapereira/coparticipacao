@@ -27,6 +27,9 @@ public abstract class RegisterColumn extends AbstractDomain{
 
 	private List<BeneficiarioCols> beneficiarioCols;
 	
+	private String regexpValue;
+	private Integer regexpGroupValue;
+	
 	public RegisterColumn() {
 		super();
 		
@@ -103,5 +106,21 @@ public abstract class RegisterColumn extends AbstractDomain{
 
 	public void setBeneficiarioCols(List<BeneficiarioCols> beneficiarioCols) {
 		this.beneficiarioCols = beneficiarioCols;
+	}
+
+	public String getRegexpValue() {
+		return regexpValue;
+	}
+
+	public void setRegexpValue(String regexpValue) {
+		this.regexpValue = regexpValue;
+	}
+
+	public Integer getRegexpGroupValue() {
+		return regexpGroupValue;
+	}
+
+	public void setRegexpGroupValue(Integer regexpGroupValue) {
+		this.regexpGroupValue = regexpGroupValue;
 	}
 }

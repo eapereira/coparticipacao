@@ -480,7 +480,8 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				value = cell.getBooleanCellValue();
 				break;
 			case STRING:
-				value = cell.getRichStringCellValue().getString();
+				value = cell.getStringCellValue();
+				value = validateRegexpColumn(registerColumnUi, (String)value);
 				break;
 			case NUMERIC:
 				if (DateUtil.isCellDateFormatted(cell)) {

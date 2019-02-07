@@ -7,6 +7,8 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -126,6 +128,8 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 		tmp = StringUtils.replaceAll(columnValue, "'", "");
 		tmp = tmp.trim();
 
+		tmp = validateRegexpColumn(registerColumnUi, tmp);
+
 		if (StringUtils.isNotBlank(tmp)) {
 			if (ColDefType.INT.equals(registerColumnUi.getType())) {
 				value = Integer.parseInt(tmp);
@@ -142,6 +146,34 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 
 		LOGGER.info("END");
 		return value;
+	}
+
+	protected String validateRegexpColumn(RegisterColumnUi registerColumnUi, String columnValue)
+			throws ServiceException {
+		String value = columnValue;
+		Matcher matcher;
+		Pattern pattern;
+
+		try {
+			LOGGER.info("BEGIN");
+
+			if (StringUtils.isNotBlank(columnValue)) {
+				if (StringUtils.isNotBlank(registerColumnUi.getRegexpValue())) {
+					pattern = Pattern.compile(registerColumnUi.getRegexpValue());
+					matcher = pattern.matcher(columnValue);
+
+					if (matcher.find()) {
+						value = matcher.group(registerColumnUi.getRegexpGroupValue());
+					}
+				}
+			}
+
+			LOGGER.info("END");
+			return value;
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e);
+		}
 	}
 
 	protected Long stringToLong(String value, RegisterColumnUi registerColumnUi) throws ServiceException {
