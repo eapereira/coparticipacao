@@ -24,8 +24,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetReader;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.MuitoFacilData;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.MuitoFacilSpreadsheetReadertListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.MuitoFacilData;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.MuitoFacilSpreadsheetReadertListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
@@ -126,7 +126,7 @@ public class MuitoFacilBean {
 		EmpresaUi empresaUi = empresaService.findByCdEmpresa("MUITO-FACIL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
 		Map<String, List<MuitoFacilData>> map;
-		MuitoFacilTestInfo testInfo;
+		TestInfo testInfo;
 		int totalRegistros8CH5Y;
 		int totalRegistros8CHE8;
 		BigDecimal totalValorPrincipal8CH5Y;
@@ -177,8 +177,8 @@ public class MuitoFacilBean {
 		Assert.assertEquals(NUM_TOTAL_VL_PRINCIPAL_8CHE8, totalValorPrincipal8CHE8);
 	}
 
-	private MuitoFacilTestInfo createTestInfo(List<MuitoFacilData> muitoFacilDatas) throws Exception {
-		MuitoFacilTestInfo testInfo = new MuitoFacilTestInfo();
+	private TestInfo createTestInfo(List<MuitoFacilData> muitoFacilDatas) throws Exception {
+		TestInfo testInfo = new TestInfo();
 		int totalRegistros = NumberUtils.INTEGER_ZERO;
 		BigDecimal totalValorPrincipal = BigDecimal.ZERO;
 

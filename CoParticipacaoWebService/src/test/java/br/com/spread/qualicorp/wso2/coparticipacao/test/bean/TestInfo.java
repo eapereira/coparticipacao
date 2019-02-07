@@ -9,21 +9,21 @@ import org.apache.commons.lang3.math.NumberUtils;
  * @author <a href="mailto:lotalava@gmail.com">Edson Alves Pereira</a>
  *
  */
-public class MuitoFacilTestInfo {
-	private Integer totalRegistros;
+public class TestInfo {
+	private int totalRegistros;
 
 	private BigDecimal totalValorPrincipal;
 
-	public MuitoFacilTestInfo() {
+	public TestInfo() {
 		totalRegistros = NumberUtils.INTEGER_ZERO;
 		totalValorPrincipal = BigDecimal.ZERO;
 	}
 
-	public Integer getTotalRegistros() {
+	public int getTotalRegistros() {
 		return totalRegistros;
 	}
 
-	public void setTotalRegistros(Integer totalRegistros) {
+	public void setTotalRegistros(int totalRegistros) {
 		this.totalRegistros = totalRegistros;
 	}
 

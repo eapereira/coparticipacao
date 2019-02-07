@@ -1,4 +1,4 @@
-package br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl;
+package br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

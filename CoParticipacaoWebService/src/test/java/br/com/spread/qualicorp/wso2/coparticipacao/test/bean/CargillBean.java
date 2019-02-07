@@ -1,7 +1,10 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.test.bean;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.Assert;
@@ -24,6 +27,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetReader;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.CargillData;
+import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.CargillSpreadsheetReaderListerner;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
 
 /**
@@ -99,7 +105,7 @@ public class CargillBean {
 	private static final String FATUCOPA_00196_201812 = "cargill/input/201812/CARGILL.00196.201812.006.csv";
 	private static final String FATUCOPA_00197_201812 = "cargill/input/201812/CARGILL.00197.201812.007.csv";
 	private static final String NAO_LOCALIZADO_201812 = "cargill/input/201812/CARGILL.NAO-LOCALIZADO.201812.003.xlsx";
-	
+
 	private static final int NUM_TOTAL_TITULARES_201810 = 1616;
 	private static final int NUM_TOTAL_DEPENDENTES_201810 = 1196;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201810 = 2;
@@ -149,13 +155,19 @@ public class CargillBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812 = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812 = 5;
 
-	private static final int NUM_TOTAL_TITULARES_201812_AFTER_USER_RETURN = 1704;
-	private static final int NUM_TOTAL_DEPENDENTES_201812_AFTER_USER_RETURN = 1237;
+	private static final int NUM_TOTAL_TITULARES_201812_AFTER_USER_RETURN = 1705;
+	private static final int NUM_TOTAL_DEPENDENTES_201812_AFTER_USER_RETURN = 1238;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201812_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201812_AFTER_USER_RETURN = 89;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812_AFTER_USER_RETURN = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812_AFTER_USER_RETURN = 5;
-	
+
+	private static final int NUM_TOTAL_REGISTROS_201812 = 51;
+	private static final BigDecimal NUM_TOTAL_VL_PRINCIPAL_201812 = new BigDecimal("2679.55");
+
+	private static final int NUM_TOTAL_REGISTROS_201812_AFTER_USER_RETURN = 65;
+	private static final BigDecimal NUM_TOTAL_VL_PRINCIPAL_201812_AFTER_USER_RETURN = new BigDecimal("4037.78");
+
 	@Autowired
 	private TitularService titularService;
 
@@ -176,6 +188,9 @@ public class CargillBean {
 
 	@Autowired
 	private DependenteIsentoService dependenteIsentoService;
+
+	@Autowired
+	private SpreadsheetReader spreadsheetReader;
 
 	public void testCoparticipacao201807(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
@@ -448,7 +463,7 @@ public class CargillBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTO_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_INATIVO, INATIVO_201901);
-		
+
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201901);
@@ -533,17 +548,20 @@ public class CargillBean {
 		List<DependenteIsentoUi> dependenteIsentoUis;
 		EmpresaUi empresaUi = empresaService.findByName("CARGILL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
+		TestInfo testInfo;
 
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201812);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS2, MECSAS2_201812);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, ISENTO_201812);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_INATIVO, INATIVO_201812);
-		
+
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00192, FATUCOPA_00192_201812);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201812);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201812);
 
-		coParticipacaoTest.processFile(execucaoUi);
+		execucaoUi = coParticipacaoTest.processFile(execucaoUi);
+
+		testInfo = createTestInfo(coParticipacaoTest, empresaUi, execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -559,12 +577,18 @@ public class CargillBean {
 		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
 		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
 
+		LOGGER.info("Total registros ............... [{}]:", testInfo.getTotalRegistros());
+		LOGGER.info("Total valor ................... [{}]:", testInfo.getTotalValorPrincipal());
+
 		Assert.assertEquals(NUM_TOTAL_TITULARES_201812, titularUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_201812, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_201812, desconhecidoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_201812, lancamentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201812, titularIsentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201812, dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_REGISTROS_201812, testInfo.getTotalRegistros());
+		Assert.assertEquals(NUM_TOTAL_VL_PRINCIPAL_201812, testInfo.getTotalValorPrincipal());
 	}
 
 	public void testCoparticipacao201812AfterUserReturn(CoParticipacaoTest coParticipacaoTest) throws Exception {
@@ -576,6 +600,7 @@ public class CargillBean {
 		List<DependenteIsentoUi> dependenteIsentoUis;
 		EmpresaUi empresaUi = empresaService.findByName("CARGILL");
 		ExecucaoUi execucaoUi = new ExecucaoUi();
+		TestInfo testInfo;
 
 		testCoparticipacao201812(coParticipacaoTest);
 
@@ -589,7 +614,7 @@ public class CargillBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00196, FATUCOPA_00196_201812);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_00197, FATUCOPA_00197_201812);
 
-		coParticipacaoTest.processFile(execucaoUi);
+		execucaoUi = coParticipacaoTest.processFile(execucaoUi);
 
 		titularUis = titularService.listByEmpresaId(empresaUi);
 		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
@@ -597,6 +622,8 @@ public class CargillBean {
 		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
 		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
 		dependenteIsentoUis = dependenteIsentoService.listByEmpresaId(empresaUi);
+
+		testInfo = createTestInfo(coParticipacaoTest, empresaUi, execucaoUi);
 
 		LOGGER.info("After user's validation:");
 		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
@@ -606,12 +633,44 @@ public class CargillBean {
 		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
 		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
 
+		LOGGER.info("Total registros ............... [{}]:", testInfo.getTotalRegistros());
+		LOGGER.info("Total valor ................... [{}]:", testInfo.getTotalValorPrincipal());
+
 		Assert.assertEquals(NUM_TOTAL_TITULARES_201812_AFTER_USER_RETURN, titularUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_201812_AFTER_USER_RETURN, dependenteUis.size());
 		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_201812_AFTER_USER_RETURN, desconhecidoUis.size());
 		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_201812_AFTER_USER_RETURN, lancamentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201812_AFTER_USER_RETURN, titularIsentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201812_AFTER_USER_RETURN, dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_REGISTROS_201812_AFTER_USER_RETURN, testInfo.getTotalRegistros());
+		Assert.assertEquals(NUM_TOTAL_VL_PRINCIPAL_201812_AFTER_USER_RETURN, testInfo.getTotalValorPrincipal());
 	}
-	
+
+	private TestInfo createTestInfo(CoParticipacaoTest coParticipacaoTest, EmpresaUi empresaUi, ExecucaoUi execucaoUi)
+			throws Exception {
+		TestInfo testInfo = new TestInfo();
+		int totalRegistros = NumberUtils.INTEGER_ZERO;
+		BigDecimal totalValorPrincipal = BigDecimal.ZERO;
+		List<CargillData> cargillDatas;
+		Map<String, List<CargillData>> map;
+
+		map = spreadsheetReader.loadData(
+				coParticipacaoTest.getCoparticipacaoReport(execucaoUi),
+				new CargillSpreadsheetReaderListerner());
+
+		cargillDatas = map.get(empresaUi.getCdEmpresa());
+
+		for (CargillData cargillData : cargillDatas) {
+			totalValorPrincipal = totalValorPrincipal.add(cargillData.getValorPrincipal());
+
+			totalRegistros++;
+		}
+
+		testInfo.setTotalRegistros(totalRegistros);
+		testInfo.setTotalValorPrincipal(totalValorPrincipal);
+
+		return testInfo;
+	}
+
 }
