@@ -27,10 +27,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.EmpresaService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.LancamentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularIsentoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetReader;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.CargillData;
 import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.impl.sulamerica.CargillSpreadsheetReaderListerner;
 import br.com.spread.qualicorp.wso2.coparticipacao.test.service.CoParticipacaoTest;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.spreadsheet.SpreadsheetReader;
 
 /**
  * 

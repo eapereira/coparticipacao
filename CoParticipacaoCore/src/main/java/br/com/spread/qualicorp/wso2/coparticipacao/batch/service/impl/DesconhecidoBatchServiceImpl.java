@@ -16,7 +16,6 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.entity.Desconhe
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.mapper.ui.DesconhecidoUiMapper;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DesconhecidoUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.DesconhecidoServiceImpl;
 
 /**
  * 
@@ -27,7 +26,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.impl.DesconhecidoServ
 public class DesconhecidoBatchServiceImpl extends
 		AbstractBatchServiceImpl<DesconhecidoUi, DesconhecidoEntity, Desconhecido> implements DesconhecidoBatchService {
 
-	private static final Logger LOGGER = LogManager.getLogger(DesconhecidoServiceImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(DesconhecidoBatchServiceImpl.class);
 
 	@Autowired
 	private DesconhecidoJdbcDao desconhecidoJdbcDao;
