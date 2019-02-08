@@ -101,6 +101,15 @@ BEGIN
 	declare VAR_COL_LANCAMENTO_NM_BENEFICIARIO							bigint( 17 ) default 10;
 	declare VAR_COL_LANCAMENTO_NM_TITULAR								bigint( 17 ) default 11;
 	declare VAR_COL_LANCAMENTO_DT_NASCIMENTO							bigint( 17 ) default 12;
+	declare VAR_COL_LANCAMENTO_VL_REEMBOLSO								bigint( 17 ) default 13;
+	declare VAR_COL_LANCAMENTO_VL_PARTICIPACAO							bigint( 17 ) default 14;
+	declare VAR_COL_LANCAMENTO_CD_USUARIO								bigint( 17 ) default 15;
+	declare VAR_COL_LANCAMENTO_DT_UTILIZACAO							bigint( 17 ) default 16;
+	declare VAR_COL_LANCAMENTO_NR_SUBFATURA								bigint( 17 ) default 17;
+	declare VAR_COL_LANCAMENTO_DESCR_UTILIZACAO							bigint( 17 ) default 18;
+	declare VAR_COL_LANCAMENTO_NR_MATRICULA_ESPECIAL					bigint( 17 ) default 19;
+	declare VAR_COL_LANCAMENTO_NR_LOCAL									bigint( 17 ) default 20;
+	declare VAR_COL_LANCAMENTO_NR_MATRICULA_EMPRESA						bigint( 17 ) default 21;
 
 	declare VAR_ID_LANCAMENTO_INPUT_SHEET										bigint( 17 );
     
@@ -232,7 +241,7 @@ BEGIN
 	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
 	declare	VAR_DT_FORMAT_DDMMMYY										varchar( 15 ) default 'dd-MMM-yy';
 	
-	declare VAR_REGEXP_VALUE_CD_MATRICULA								varchar( 800 ) default '^(8B1LR)([0-9]{8})([0-9]{3})$';
+	declare VAR_REGEXP_VALUE_CD_MATRICULA								varchar( 800 ) default '^(8B1LR)([0-9]{11})';
 	declare VAR_REGEXP_GROUP_VALUE_CD_MATRICULA							int( 3 ) default 2;
 	
     
@@ -375,6 +384,8 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
+		REGEXP_VALUE,
+		REGEXP_GROUP_VALUE,					
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -384,6 +395,8 @@ BEGIN
 		'COLUMN_002_CD_MATRICULA',
 		VAR_COL_LONG,
 		null,
+		VAR_REGEXP_VALUE_CD_MATRICULA,
+		VAR_REGEXP_GROUP_VALUE_CD_MATRICULA,		
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -427,8 +440,6 @@ BEGIN
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
-		REGEXP_VALUE,
-		REGEXP_GROUP_VALUE,			
 		CD_ORDEM,
 		
 		USER_CREATED, 
@@ -436,10 +447,8 @@ BEGIN
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
 		'COLUMN_004_CD_MATRICULA',
-		VAR_COL_LONG,
+		VAR_COL_VARCHAR,
 		null,
-		VAR_REGEXP_VALUE_CD_MATRICULA,
-		VAR_REGEXP_GROUP_VALUE_CD_MATRICULA,
 		VAR_CD_ORDEM,
 		
 		VAR_ID_USER,
@@ -771,7 +780,7 @@ BEGIN
         DT_CREATED,
         DT_ALTERED ) values (
         VAR_ID_LANCAMENTO_INPUT_SHEET,
-		VAR_COL_LANCAMENTO_NR_MATRICULA_DEPENDENTE,
+		VAR_COL_LANCAMENTO_NR_MATRICULA_EMPRESA,
 		VAR_ID_COLUMN_002_CD_MATRICULA,
         
         VAR_ID_USER,

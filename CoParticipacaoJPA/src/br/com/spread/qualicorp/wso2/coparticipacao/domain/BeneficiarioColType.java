@@ -134,7 +134,8 @@ public enum BeneficiarioColType {
 									NR_CERTIFICADO(115, "NR_CERTIFICADO"),
 									NM_ALIAS_01(116, "NM_ALIAS_01"),
 									NM_ALIAS_02(117, "NM_ALIAS_01"),
-									NM_ALIAS_03(118, "NM_ALIAS_01");
+									NM_ALIAS_03(118, "NM_ALIAS_01"),
+									NR_CPF_DEPENDENTE(119, "NR_CPF_DEPENDENTE");
 
 	private Integer id;
 

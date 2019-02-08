@@ -16,8 +16,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetReader;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetReadertListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.spreadsheet.SpreadsheetReader;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.spreadsheet.SpreadsheetReadertListener;
 
 /**
  * 

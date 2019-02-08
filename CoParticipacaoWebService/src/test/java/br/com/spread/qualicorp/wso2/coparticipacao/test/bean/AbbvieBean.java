@@ -37,11 +37,11 @@ public class AbbvieBean {
 	private static final String FATUCOPA_201808 = "abbvie/input/ABBVIE.8B1LR.201802.004.TXT";
 	private static final String NAO_LOCALIZADO_201808 = "abbvie/input/ABBVIE.NAO-LOCALIZADO.201802.004.xlsx";
 
-	private static final String MECSAS_201902 = "abbvie/input/201902/ABBVIE.MECSAS.201802.001.xlsx";
-	private static final String MECSAS2_201902 = "abbvie/input/201902/ABBVIE.MECSAS2.201802.002.xlsx";
-	private static final String ISENTOS_201902 = "abbvie/input/201902/ABBVIE.ISENTO.201802.003.xlsx";
-	private static final String FATUCOPA_201902 = "abbvie/input/201902/ABBVIE.8B1LR.201802.004.TXT";
-	private static final String NAO_LOCALIZADO_201902 = "abbvie/input/201902/ABBVIE.NAO-LOCALIZADO.201802.004.xlsx";
+	private static final String MECSAS_201902 = "abbvie/input/201902/ABBVIE.MECSAS.201902.001.csv";
+	private static final String MECSAS2_201902 = "abbvie/input/201902/ABBVIE.MECSAS2.201902.002.xlsx";
+	private static final String ISENTOS_201902 = "abbvie/input/201902/ABBVIE.ISENTO.201902.003.xlsx";
+	private static final String FATUCOPA_201902 = "abbvie/input/201902/ABBVIE.8B1LR.201902.004.xlsx";
+	private static final String NAO_LOCALIZADO_201902 = "abbvie/input/201902/ABBVIE.NAO-LOCALIZADO.201902.004.xlsx";
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201808 = 527;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201808 = 449;
@@ -53,10 +53,10 @@ public class AbbvieBean {
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_AFTER_USER_RETURN_201808 = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_AFTER_USER_RETURN_201808 = 133;
 
-	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201902 = 527;
-	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201902 = 449;
-	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902 = 19;
-	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902 = 114;
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201902 = 536;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201902 = 457;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902 = 224;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902 = 2423;
 
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_AFTER_USER_RETURN_201902 = 546;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_AFTER_USER_RETURN_201902 = 465;

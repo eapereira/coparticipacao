@@ -254,6 +254,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.setMatriculaTitular((Long) value);
 				} else if (BeneficiarioColType.NR_CPF.equals(beneficiarioColType)) {
 					beneficiarioUi.setCpf((Long) value);
+				} else if (BeneficiarioColType.NR_CPF_DEPENDENTE.equals(beneficiarioColType)) {
+					beneficiarioUi.setCpf((Long) value);
 				} else if (BeneficiarioColType.NM_BENEFICIARIO.equals(beneficiarioColType)) {
 					beneficiarioUi.setNameBeneficiario(((String) value));
 				} else if (BeneficiarioColType.NM_TITULAR.equals(beneficiarioColType)) {
@@ -542,6 +544,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		List<BeneficiarioColsUi> beneficiarioColsUis;
 		BeneficiarioUi beneficiarioUi;
 		EmpresaUi empresaUi;
+		DependenteUi dependenteUi;
+		TitularUi titularUi;
 
 		try {
 			LOGGER.info("BEGIN");
@@ -583,6 +587,19 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 				if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					beneficiarioUi.setType(BeneficiarioType.OUTROS);
+
+					if (UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())) {
+						dependenteUi = findDependente(coParticipacaoContext, beneficiarioUi);
+
+						if (dependenteUi != null) {
+							titularUi = (TitularUi) dependenteUi.getTitular();
+
+							beneficiarioUi.setNameTitular(titularUi.getNameTitular());
+							beneficiarioUi.setMatricula(titularUi.getMatricula());
+
+							coParticipacaoContext.setTitularUi(titularUi);
+						}
+					}
 				}
 			}
 
@@ -1469,6 +1486,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
 							beneficiarioUi.getMatricula(),
 							beneficiarioUi.getMatriculaEmpresa());
+
+					if (titularUi == null
+							&& coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioByMatriculaEmpresa()) {
+						titularUi = coParticipacaoContext
+								.findTitularByMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
+					}
 				}
 			}
 
@@ -1546,6 +1569,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
 							beneficiarioUi.getMatricula(),
 							beneficiarioUi.getMatriculaEmpresa());
+
+					if (dependenteUi == null
+							&& coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioByMatriculaEmpresa()) {
+						dependenteUi = coParticipacaoContext
+								.findDependenteByMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
+					}
 				}
 			}
 

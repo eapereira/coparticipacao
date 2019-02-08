@@ -15,12 +15,12 @@ BEGIN
 	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180806-003-dml-abbvie-ISENTOS.sql';
 	declare VAR_NM_SCRIPT					varchar( 400 ) default '20180806-004-dml-abbvie-MECSAS.sql';
 	
-	declare VAR_FALSE						int( 3 ) default 0;			
-	declare VAR_TRUE						int( 3 ) default 1;
-	
 	DECLARE VAR_CODE CHAR(5) DEFAULT '00000';
   	DECLARE VAR_MSG TEXT;
 								
+	declare VAR_FALSE						int( 3 ) default 0;			
+	declare VAR_TRUE						int( 3 ) default 1;
+	
 	declare VAR_USE_TYPE_MECSAS				int( 3 ) default 1;
 	declare VAR_USE_TYPE_MECSAS2			int( 3 ) default 2;
 	declare VAR_USE_TYPE_NAO_LOCALIZADO		int( 3 ) default 3;	
@@ -37,92 +37,137 @@ BEGIN
 	declare VAR_ARQUIVO_TYPE_CSV			int( 3 ) default 2;
 	declare VAR_ARQUIVO_TYPE_SPREADSHEET	int( 3 ) default 3;
 	
-	declare VAR_ID_OPERADORA_SULAMERICA				bigint( 17 ) default 1;
-	DECLARE VAR_ID_USER 							bigint( 17 ) default 1;
-	DECLARE VAR_ID_EMPRESA 							bigint( 17 );
-	DECLARE VAR_ID_CONTRATO 						bigint( 17 );
+	declare VAR_ID_OPERADORA_SULAMERICA		bigint( 17 ) default 1;
+	DECLARE VAR_ID_USER 					bigint( 17 ) default 1;
+	DECLARE VAR_ID_EMPRESA 					bigint( 17 );
+	DECLARE VAR_ID_CONTRATO_FATUCOPA 		bigint( 17 );
+	DECLARE VAR_ID_CONTRATO 			bigint( 17 );
 	
-	declare VAR_ID_ARQUIVO_INPUT		 			bigint( 17 );
-	declare VAR_ID_ARQUIVO_INPUT_SHEET	 			bigint( 17 );
-	declare VAR_ID_ARQUIVO_INPUT_MECSAS 			bigint( 17 );
+	declare VAR_ID_CONTRATO_FATUCOPA_8C5Z8			bigint( 17 );
+	declare VAR_ID_CONTRATO_FATUCOPA_8C5Z9			bigint( 17 );
+	declare VAR_ID_CONTRATO_FATUCOPA_8C7XY			bigint( 17 );
+	declare VAR_ID_CONTRATO_FATUCOPA_8C7XX			bigint( 17 );
+	
+	declare VAR_ID_ARQUIVO_INPUT_FATUCOPA_8C5Z8		bigint( 17 );
+	declare VAR_ID_ARQUIVO_INPUT_FATUCOPA_8C5Z9		bigint( 17 );
+	declare VAR_ID_ARQUIVO_INPUT_FATUCOPA_8C7XY		bigint( 17 );
+	declare VAR_ID_ARQUIVO_INPUT_FATUCOPA_8C7XX		bigint( 17 );
+	
+	declare VAR_ID_ARQUIVO_INPUT 					bigint( 17 );
+	declare VAR_ID_ARQUIVO_INPUT_SHEET 				bigint( 17 );
 	declare VAR_ID_ARQUIVO_INPUT_ISENTOS			bigint( 17 );
 	declare VAR_ARQUIVO_INPUT_LAYOUT				bigint( 17 );
+			
+	declare VAR_ID_COLUMN_NUM_LINHA				bigint( 17 );
+	declare VAR_ID_COLUMN_COD_EMP					bigint( 17 );
+	declare VAR_ID_COLUMN_MATRICULA				bigint( 17 );
+	declare VAR_ID_COLUMN_DF						bigint( 17 );
+	declare VAR_ID_COLUMN_RDP						bigint( 17 );
+	declare VAR_ID_COLUMN_LOCAL					bigint( 17 );
+	declare VAR_ID_COLUMN_CATEGORIA				bigint( 17 );
+	declare VAR_ID_COLUMN_SETOR					bigint( 17 );
+	declare VAR_ID_COLUMN_ES						bigint( 17 );
+	declare VAR_ID_COLUMN_PLANO					bigint( 17 );
+	declare VAR_ID_COLUMN_DATA_ADESAO				bigint( 17 );
+	declare VAR_ID_COLUMN_CPF						bigint( 17 );
+	declare VAR_ID_COLUMN_NOME_BENEF				bigint( 17 );
+	declare VAR_ID_COLUMN_DATA_NASC				bigint( 17 );
+	declare VAR_ID_COLUMN_SEXO						bigint( 17 );
+	declare VAR_ID_COLUMN_PERMANENCIA				bigint( 17 );
+	declare VAR_ID_COLUMN_GP						bigint( 17 );
+	declare VAR_ID_COLUMN_DATA_ADM					bigint( 17 );
+	declare VAR_ID_COLUMN_DATA_REF					bigint( 17 );
+	declare VAR_ID_COLUMN_BANCO					bigint( 17 );
+	declare VAR_ID_COLUMN_AGENDA					bigint( 17 );
+	declare VAR_ID_COLUMN_DG_AGEN					bigint( 17 );
+	declare VAR_ID_COLUMN_CONTA_CORRENTE			bigint( 17 );
+	declare VAR_ID_COLUMN_CPF_CONTA_CORRENTE		bigint( 17 );
+	declare VAR_ID_COLUMN_NOME_TITULAR_CC			bigint( 17 );
+	declare VAR_ID_COLUMN_CODCARDIF				bigint( 17 );
+	declare VAR_ID_COLUMN_NUM_CEP					bigint( 17 );
+	declare VAR_ID_COLUMN_TIPO_LOGRADOURO			bigint( 17 );
+	declare VAR_ID_COLUMN_LOGRADOURO				bigint( 17 );
+	declare VAR_ID_COLUMN_NUMERO					bigint( 17 );
+	declare VAR_ID_COLUMN_COMP_LOGRADOURO			bigint( 17 );
+	declare VAR_ID_COLUMN_BAIRRO					bigint( 17 );
+	declare VAR_ID_COLUMN_MUNICIPIO				bigint( 17 );
+	declare VAR_ID_COLUMN_UF						bigint( 17 );
+	declare VAR_ID_COLUMN_TEL_RESID				bigint( 17 );
+	declare VAR_ID_COLUMN_TEL_COM					bigint( 17 );
+	declare VAR_ID_COLUMN_TEL_CEL					bigint( 17 );
+	declare VAR_ID_COLUMN_NOMEDAMAEBENE			bigint( 17 );
+	declare VAR_ID_COLUMN_RG						bigint( 17 );
+	declare VAR_ID_COLUMN_ORGAOEMISSORG			bigint( 17 );
+	declare VAR_ID_COLUMN_PAISEMISSORRG			bigint( 17 );
+	declare VAR_ID_COLUMN_DATAEMISSAORG			bigint( 17 );
+	declare VAR_ID_COLUMN_ESTADORG					bigint( 17 );
+	declare VAR_ID_COLUMN_PIS						bigint( 17 );
+	declare VAR_ID_COLUMN_CNS						bigint( 17 );
+	declare VAR_ID_COLUMN_EMAIL					bigint( 17 );
+	declare VAR_ID_COLUMN_GRAUESCOLARIDADE			bigint( 17 );
+	declare VAR_ID_COLUMN_RENDAFAMILIAR			bigint( 17 );
+	declare VAR_ID_COLUMN_CDPROFISSAO				bigint( 17 );
+	declare VAR_ID_COLUMN_CDPAISDEORIGEM				bigint( 17 );
+	declare VAR_ID_COLUMN_DATAEXCLUSAO				bigint( 17 );
+	declare VAR_ID_COLUMN_CODMOVEXCLUSAO				bigint( 17 );
+	declare VAR_ID_COLUMN_CODOPERACAO				bigint( 17 );
+	declare VAR_ID_COLUMN_CODEMPRESATRANSF				bigint( 17 );
+	declare VAR_ID_COLUMN_MATRICULATRANSF				bigint( 17 );
+	declare VAR_ID_COLUMN_LOCALTRANSF				bigint( 17 );
+	declare VAR_ID_COLUMN_CATTRANSF				bigint( 17 );
+	declare VAR_ID_COLUMN_PLANOTRANSF				bigint( 17 );
+	declare VAR_ID_COLUMN_MOTREMISSAO				bigint( 17 );
+	declare VAR_ID_COLUMN_CPFNOVOTITULAR				bigint( 17 );
+	declare VAR_ID_COLUMN_QTDPERMAMESES				bigint( 17 );
+	declare VAR_ID_COLUMN_RDPNOVOTITULAR				bigint( 17 );
+	declare VAR_ID_COLUMN_DTINICIOTRANSF				bigint( 17 );
+	declare VAR_ID_COLUMN_COD_STATUS					bigint( 17 );
+	declare VAR_ID_COLUMN_COD_ERRO						bigint( 17 );
+	declare VAR_ID_COLUMN_COD_DV								bigint( 17 );
+	declare VAR_ID_COLUMN_BLOQ_EMPR_INADIMPLENCIA				bigint( 17 );
+	declare VAR_ID_COLUMN_CPT								bigint( 17 );
+	declare VAR_ID_COLUMN_COD_EMPRESA_TITULAR				bigint( 17 );
+	declare VAR_ID_COLUMN_MATRICULA_02						bigint( 17 );
+	declare VAR_ID_COLUMN_DIFERENCIADOR_MATRICULA_TITULAR				bigint( 17 );
+	declare VAR_ID_COLUMN_NR_TITULO_ELEITOR				bigint( 17 );
+	declare VAR_ID_COLUMN_NR_RIC							bigint( 17 );
+	declare VAR_ID_COLUMN_NR_DECL_NASCIDO_VIVO				bigint( 17 );
+	declare VAR_ID_COLUMN_CARTEIRA_IDENTIFICACAO				bigint( 17 );
+	declare VAR_ID_COLUMN_INDICADOR_SEGURADO_CONTRIBUTARIO				bigint( 17 );
+	declare VAR_ID_COLUMN_INDICADOR_CONDICAO_EX_EMPREGADO				bigint( 17 );
+	declare VAR_ID_COLUMN_INDICADOR_PERM_PLANO				bigint( 17 );
+	declare VAR_ID_COLUMN_QTDE_MESES_CONTRIB				bigint( 17 );
+	declare VAR_ID_COLUMN_NM_COMPLETO_BENEF				bigint( 17 );
+	declare VAR_ID_COLUMN_INDICADOR_TITULAR_REMIDO				bigint( 17 );
+	declare VAR_ID_COLUMN_EMAIL_SEGURADORA				bigint( 17 );
+	declare VAR_ID_COLUMN_INDICADOR_PORTABILIDADE_01				bigint( 17 );
+	declare VAR_ID_COLUMN_INDICADOR_PORTABILIDADE_2				bigint( 17 );
+	declare VAR_ID_COLUMN_INDICADOR_CARENCIA				bigint( 17 );
+	declare VAR_ID_COLUMN_CD_PRODUTO				bigint( 17 );
+	declare VAR_ID_COLUMN_CD_IDENT_PLANO_ANTERIOR_SAS				bigint( 17 );
+	declare VAR_ID_COLUMN_CI01				bigint( 17 );
+	declare VAR_ID_COLUMN_CI02				bigint( 17 );
+	declare VAR_ID_COLUMN_CI03				bigint( 17 );
+	declare VAR_ID_COLUMN_CI04				bigint( 17 );
+	declare VAR_ID_COLUMN_CI05				bigint( 17 );
+	declare VAR_ID_COLUMN_CI06				bigint( 17 );
+	declare VAR_ID_COLUMN_CI07				bigint( 17 );
+	declare VAR_ID_COLUMN_CI08				bigint( 17 );
+	declare VAR_ID_COLUMN_CI09				bigint( 17 );
+	declare VAR_ID_COLUMN_CI010				bigint( 17 );
+	declare VAR_ID_COLUMN_IBGE				bigint( 17 );
+	declare VAR_ID_COLUMN_CBO				bigint( 17 );
+	declare VAR_ID_COLUMN_DIF_TRANSF				bigint( 17 );
+	
+	declare VAR_ISENTOS_NM_CONTRATO				bigint( 17 );
+	declare VAR_ISENTOS_NR_MATRICULA			bigint( 17 );
+	declare VAR_ISENTOS_NM_BENEFICIARIO			bigint( 17 );
+	declare VAR_ISENTOS_NR_CPF					bigint( 17 );
+	declare VAR_ISENTOS_NR_MATRICULA_TITULAR	bigint( 17 );
+	declare VAR_ISENTOS_NM_TITULAR				bigint( 17 );
 
-	declare VAR_ID_COLUMN_01_CD_CONTRATO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_02_NR_MATRICULA 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_03_DV 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_04_RDP 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_05_DC 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_06_LOCAL 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_07_CAT_FUNCIONAL 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_08_SETOR 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_09_ESTADO_CIVIL 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_10_CD_PLANO 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_11_CD_PLANO_AGREG 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_12_DT_INCLUSAO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_13_CD_PLANO_COMPL 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_14_NR_CPF 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_15_DG_CPF 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_16_BANCO 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_17_AGENCIA 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_18_DG_AGENCIA 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_19_CONTA 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_20 						bigint( 17 ); 
-	declare VAR_ID_COLUMN_21_NM_BENEFICIARIO 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_22_DT_NASCIMENTO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_23_SEXO 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_24_PERMANENCIA 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_25_GP 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_26_AGREGADO 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_27_DT_EXCLUSAO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_28_CARENCIA 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_29 						bigint( 17 ); 
-	declare VAR_ID_COLUMN_30_DT_REF 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_31_CD_ORGAO_LOTACAO 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_32_NM_ORGAO_LOTACAO 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_33 						bigint( 17 ); 
-	declare VAR_ID_COLUMN_34_CD_MOTIVO_EXCLUSAO 	bigint( 17 ); 
-	declare VAR_ID_COLUMN_35_CEP 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_36_TP_LOGRADOURO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_37_LOGRADOURO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_38_NUMERO 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_39_COMPL 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_40_BAIRRO 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_41_MUNICIPIO 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_42_UF 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_43_DDD_TEL_RES 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_44_TEL_RES 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_45_DDD_TEL_COM 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_46_TEL_COM 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_47_DDD_TEL_CEL	 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_48_TEL_CEL 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_49_NM_MAE 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_50_RG 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_51_CD_ORGAO_EMISSOR 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_52_CD_PAIS 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_53_DT_EMISSAO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_54_UF_EMISSAO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_55_NR_PIS 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_56_NR_CNS 				bigint( 17 ); 
-	declare VAR_ID_COLUMN_57_EMAIL 					bigint( 17 ); 
-	declare VAR_ID_COLUMN_58_CD_ESCOLARIDADE 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_59_CD_RENDA_FAMILIAR 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_60_CD_PROFISSAO_TIT 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_61_CD_PAIS_ORIGEM 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_62_CD_IDENTIFICACAO 		bigint( 17 ); 
-	declare VAR_ID_COLUMN_63_CD_OPERACAO 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_64_CRITICAS_01 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_65_CRITICAS_02 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_66_CRITICAS_03 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_67_CRITICAS_04 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_68_CRITICAS_05 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_69_CRITICAS_06 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_70_CRITICAS_07 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_71_CRITICAS_08 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_72_CRITICAS_09 			bigint( 17 ); 
-	declare VAR_ID_COLUMN_73_CRITICAS_10 			bigint( 17 ); 
-		
-	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO							bigint( 17 );	
+	declare VAR_ID_ARQUIVO_OUTPUT_DESCONHECIDO	bigint( 17 );
+	
 	declare VAR_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NR_MATRICULA  		bigint( 17 );
 	declare VAR_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NM_BENEFICIARIO  	bigint( 17 );
 	declare VAR_ARQUIVO_OUTPUT_DESCONHECIDO_COLS_DEF_NM_TITULAR  		bigint( 17 );
@@ -138,6 +183,7 @@ BEGIN
 	declare VAR_ID_ISENTO_INPUT_SHEET									bigint( 17 );
 	
 	declare VAR_ID_ARQUIVO_OUTPUT										bigint( 17 );
+	declare VAR_ID_VIEW_DESTINATION										bigint( 17 );
 	declare VAR_ID_VIEW_DESTINATION_COPART								bigint( 17 );
 	declare VAR_ID_VIEW_DESTINATION_GESTANTE							bigint( 17 );
 	declare VAR_ID_VIEW_DESTINATION_ESTAGIARIO							bigint( 17 );
@@ -148,22 +194,25 @@ BEGIN
 	declare VAR_COL_VIEW_LENGTH_ID_DEPENDENTE							int( 3 ) default 20;
 	declare VAR_COL_VIEW_LENGTH_NM_DEPENDENTE							int( 3 ) default 40;
 	declare VAR_COL_VIEW_LENGTH_VL_PRINCIPAL							int( 3 ) default 20;
+	
+	declare VAR_COL_LANCAMENTO_ID_DEPENDENTE							bigint( 17 );
+	declare VAR_COL_LANCAMENTO_ID_CONTRATO								bigint( 17 );
+	declare VAR_COL_LANCAMENTO_CD_MES									bigint( 17 );
+	declare VAR_COL_LANCAMENTO_CD_ANO									bigint( 17 );
+	declare VAR_COL_LANCAMENTO_VL_PRINCIPAL								bigint( 17 );
+		
+	declare CD_BENEFICIARIO_COLS_DEF_NM_CONTRATO						bigint( 17 ) default 0;
+	
 
-	declare VAR_COL_LANCAMENTO_ID_DEPENDENTE							bigint( 17 ) default 1;
-	declare VAR_COL_LANCAMENTO_ID_CONTRATO								bigint( 17 ) default 2;
-	declare VAR_COL_LANCAMENTO_CD_MES									bigint( 17 ) default 3;
-	declare VAR_COL_LANCAMENTO_CD_ANO									bigint( 17 ) default 4;
-	declare VAR_COL_LANCAMENTO_VL_PRINCIPAL								bigint( 17 ) default 5;
-
-	declare VAR_ID_LANCAMENTO_INPUT										bigint( 17 );
-    
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NM_DEPENDENTE					bigint( 17 ) default 4;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NM_TITULAR						bigint( 17 ) default 3;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CPF_DEPENDENTE				bigint( 17 ) default 8;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CPF_TITULAR					bigint( 17 ) default 7;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_MATRICULA_TITULAR			bigint( 17 ) default 1;
 	declare VAR_CD_DESCONHECIDO_COLS_DEF_VL_PRINCIPAL					bigint( 17 ) default 9;
-
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_DT_ADMISSAO					bigint( 17 ) default 10;
+	declare VAR_CD_DESCONHECIDO_COLS_DEF_NR_CODE_REF					bigint( 17 ) default 11;
 
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_TP_BENEFICIARIO				bigint( 17 ) default 1;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA					bigint( 17 ) default 2;
@@ -173,9 +222,8 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO					bigint( 17 ) default 6;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_LABEL						bigint( 17 ) default 7;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_REF_CODE						bigint( 17 ) default 8;
-	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_DIGITO_CPF					bigint( 17 ) default 9;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA			bigint( 17 ) default 10;
-	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR						bigint( 17 ) default 12;	
+	declare VAR_CD_BENEFICIARIO_COLS_DEF_NM_TITULAR						bigint( 17 ) default 12;
 	
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_DF              	 		bigint( 17 ) default 13;
 	declare VAR_CD_BENEFICIARIO_COLS_DEF_NR_RDP            	 			bigint( 17 ) default 14;
@@ -272,12 +320,12 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_NR_MATRICULA_ESPECIAL           	bigint( 17 ) default 105;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_FATOR_MODERADOR              	bigint( 17 ) default 106;
 	declare VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO     		         	bigint( 17 ) default 107;
-		
-	declare VAR_CD_SHEET												bigint( 17 ) default 0;
-    declare VAR_CD_ORDEM												bigint( 17 ) default 0;		
+
+	declare VAR_CD_SHEET												int( 3 ) default 0;
+	declare VAR_CD_ORDEM												int( 3 ) default 0;
 	declare	VAR_ID_REGISTER												bigint( 17 );
 	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
-    
+	
 	/***********************************************************************************************************************/
 	
 	DECLARE exit handler for sqlexception
@@ -296,18 +344,18 @@ BEGIN
 	START TRANSACTION;
 	
 	call PROC_VALIDATE_SCRIPT( VAR_NM_SCRIPT_REQUIRED, VAR_NM_SCRIPT );
-	/***********************************************************************************************************************/
 	/***********************************************************************************************************************/		
-    call PROC_LOG_MESSAGE('LINHA - 115');
+    call PROC_LOG_MESSAGE('LINHA - 236');
 	select ID into VAR_ID_EMPRESA from TB_EMPRESA
     where CD_EMPRESA = 'ABBVIE';
         
-    call PROC_LOG_MESSAGE('LINHA - 123');	
+    call PROC_LOG_MESSAGE('LINHA - 123');
 	select ID into VAR_ID_CONTRATO from TB_CONTRATO
-	where	ID_EMPRESA 	= VAR_ID_EMPRESA
-	and		CD_CONTRATO = 'MECSAS';
+	where 	ID_EMPRESA	= VAR_ID_EMPRESA
+	and 	CD_CONTRATO = 'MECSAS'; 
 	
-	call PROC_LOG_MESSAGE('LINHA - 139');
+	/***********************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 1341');
 	insert into TB_ARQUIVO_INPUT(
 		ID_CONTRATO,
 		NM_ARQUIVO_REGEXP,
@@ -316,17 +364,17 @@ BEGIN
 		TP_USE,
 		NUM_SKIP_LINES,
 		NUM_DEFAULT_LINE_LENGTH,
-				
+		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_CONTRATO,
-		'^(ABBVIE)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(xlsx|XLSX)$',
-		'Arquivo de Base de Ativos da Operadora',
-		VAR_ARQUIVO_TYPE_SPREADSHEET,
+		'^(ABBVIE)\\.(MECSAS)\\.([0-9]{4})([0-9]{2})\\.([0-9]{3})\\.(CSV|csv)$',
+		'Arquivo de carga de coparticipação',
+		VAR_ARQUIVO_TYPE_CSV,
 		VAR_USE_TYPE_MECSAS,
-		1,
-		182,
+		2,
+		null, /* Não é usado para arquivo CSV */
 				
 		VAR_ID_USER,
 		current_timestamp(),
@@ -334,9 +382,9 @@ BEGIN
 	);
 	
 	select max( ID ) into VAR_ID_ARQUIVO_INPUT from TB_ARQUIVO_INPUT;
-
+	
 	/*****************************************************************************************************************************************************/
-	/* ISENTOS  */
+	/* MECSAS  */
 	call PROC_LOG_MESSAGE('LINHA - 234');
 	insert into TB_ARQUIVO_INPUT_SHEET(
 		ID_ARQUIVO_INPUT,
@@ -358,8 +406,8 @@ BEGIN
 
 	select max( ID ) into VAR_ID_ARQUIVO_INPUT_SHEET
 	from TB_ARQUIVO_INPUT_SHEET; 
-	set VAR_CD_ORDEM = 0;	
-
+	set VAR_CD_ORDEM = 0;
+	
 	/*****************************************************************************************************************************************************/
 	call PROC_LOG_MESSAGE('LINHA - 234');
 	insert into TB_REGISTER(
@@ -383,8 +431,8 @@ BEGIN
 	select max( ID ) into VAR_ID_REGISTER
 	from TB_REGISTER; 
 	set VAR_CD_ORDEM = 0;
-
-	call PROC_LOG_MESSAGE('LINHA - 195');
+	
+	call PROC_LOG_MESSAGE('LINHA - 1379');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -396,32 +444,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_01_CD_CONTRATO',
-		VAR_COL_VARCHAR,
-		null,
-		0,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_01_CD_CONTRATO from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 219');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_02_NR_MATRICULA',
-		VAR_COL_LONG,
+		'NUM_LINHA',
+		VAR_COL_INT,
 		null,
 		1,
 		
@@ -430,9 +454,9 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_02_NR_MATRICULA from TB_REGISTER_COLUMN; 
-
-	call PROC_LOG_MESSAGE('LINHA - 243');
+	select max( ID ) into VAR_ID_COLUMN_NUM_LINHA from TB_REGISTER_COLUMN;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1401');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -444,8 +468,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_03_DV',
-		VAR_COL_INT,
+		'COD_EMP',
+		VAR_COL_VARCHAR,
 		null,
 		2,
 		
@@ -454,9 +478,9 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_03_DV from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_COD_EMP from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 267');
+	call PROC_LOG_MESSAGE('LINHA - 1423');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -468,187 +492,167 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_04_RDP',
+		'MATRICULA',
 		VAR_COL_LONG,
 		null,
 		3,
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_04_RDP from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_MATRICULA from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 291');
+	call PROC_LOG_MESSAGE('LINHA - 1445');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_05_DC',
-		VAR_COL_LONG,
+		'DF',
+		VAR_COL_INT,
 		null,
 		4,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_05_DC from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 219');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_06_LOCAL',
+		'RDP',
 		VAR_COL_INT,
 		null,
 		5,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_06_LOCAL from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_RDP from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 219');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_07_CAT_FUNCIONAL',
+		'LOCAL',
 		VAR_COL_INT,
 		null,
 		6,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_07_CAT_FUNCIONAL from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_LOCAL from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 219');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_08_SETOR',
-		VAR_COL_VARCHAR,
+		'CATEGORIA',
+		VAR_COL_INT,
 		null,
 		7,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_08_SETOR from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CATEGORIA from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 387');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_09_ESTADO_CIVIL',
+		'SETOR',
 		VAR_COL_VARCHAR,
 		null,
 		8,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_09_ESTADO_CIVIL from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_SETOR from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_10_CD_PLANO',
+		'ES',
 		VAR_COL_VARCHAR,
 		null,
 		9,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_10_CD_PLANO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_ES from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
+	call PROC_LOG_MESSAGE('LINHA - 1607');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_11_CD_PLANO_AGREG',
-		VAR_COL_INT,
+		'PLANO',
+		VAR_COL_VARCHAR,
 		null,
 		10,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_11_CD_PLANO_AGREG from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_PLANO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -661,236 +665,154 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_12_DT_INCLUSAO',
+		'DATA_ADESAO',
 		VAR_COL_DATE,
 		null,
 		11,
 		'yyyyMMdd',
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_12_DT_INCLUSAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DATA_ADESAO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_13_PLANO_COMPL',
-		VAR_COL_INT,
-		null,
-		12,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_13_CD_PLANO_COMPL from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_14_NR_CPF',
+		'CPF',
 		VAR_COL_LONG,
 		null,
-		13,
+		12,
+		'#0',
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_14_NR_CPF from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CPF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'NOME_BENEF',
+		VAR_COL_VARCHAR,
+		null,
+		13,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_NOME_BENEF from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_15_DG_CPF',
-		VAR_COL_INT,
+		'DATA_NASC',
+		VAR_COL_DATE,
 		null,
 		14,
+		'yyyyMMdd',
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_15_DG_CPF from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DATA_NASC from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
+	call PROC_LOG_MESSAGE('LINHA - 1725');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_16_BANCO',
-		VAR_COL_INT,
+		'SEXO',
+		VAR_COL_VARCHAR,
 		null,
 		15,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_16_BANCO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_SEXO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_17_AGENCIA',
-		VAR_COL_INT,
+		'PERMANENCIA',
+		VAR_COL_VARCHAR,
 		null,
 		16,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_17_AGENCIA from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_PERMANENCIA from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_18_DG_AGENCIA',
+		'GP',
 		VAR_COL_INT,
 		null,
 		17,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_18_DG_AGENCIA from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_GP from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_19_CONTA',
-		VAR_COL_LONG,
-		null,
-		18,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_19_CONTA from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 851');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_20',
-		VAR_COL_VARCHAR,
-		null,
-		19,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_20 from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_21_NM_BENEFICIARIO',
-		VAR_COL_VARCHAR,
-		null,
-		20,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_21_NM_BENEFICIARIO from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -903,188 +825,129 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_22_DT_NASCIMENTO',
-		VAR_COL_DATE,
+		'DATA_ADM',
+		4, /* VARCHAR */
 		null,
-		21,
+		18,
 		'yyyyMMdd',
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_22_DT_NASCIMENTO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DATA_ADM from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_23_SEXO',
-		VAR_COL_VARCHAR,
+		'DATA_REF',
+		VAR_COL_DATE,
+		null,
+		19,
+		'yyyyMMdd',
+		
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_DATA_REF from TB_REGISTER_COLUMN;
+	
+	call PROC_LOG_MESSAGE('LINHA - 1839');
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'BANCO',
+		VAR_COL_INT,
+		null,
+		20,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_BANCO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'AGENCIA',
+		VAR_COL_INT,
+		null,
+		21,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_AGENDA from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'DG_AGEN',
+		VAR_COL_INT,
 		null,
 		22,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_23_SEXO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DG_AGEN from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_24_PERMANENCIA',
+		'CONTA_CORRENTE',
 		VAR_COL_VARCHAR,
 		null,
 		23,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_24_PERMANENCIA from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CONTA_CORRENTE from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_25_GP',
-		VAR_COL_INT,
-		null,
-		24,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_25_GP from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_26_AGREGADO',
-		VAR_COL_VARCHAR,
-		null,
-		25,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_26_AGREGADO from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_27_DT_EXCLUSAO',
-		VAR_COL_INT,
-		null,
-		26,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_27_DT_EXCLUSAO from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_28_CARENCIA',
-		VAR_COL_VARCHAR,
-		null,
-		27,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_28_CARENCIA from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_29',
-		VAR_COL_INT,
-		null,
-		28,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_29 from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -1097,548 +960,380 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_30_DT_REF',
-		VAR_COL_DATE,
+		'CPF_CONTA_CORRENTE',
+		VAR_COL_LONG,
 		null,
-		29,
-		'yyyyMMdd',
+		24,
+		'#0',
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_30_DT_REF from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CPF_CONTA_CORRENTE from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
+	call PROC_LOG_MESSAGE('LINHA - 1949');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_31_CD_ORGAO_LOTACAO',
+		'NOME_TITULAR_CC',
+		VAR_COL_VARCHAR,
+		null,
+		25,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_NOME_TITULAR_CC from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CODCARDIF',
+		VAR_COL_VARCHAR,
+		null,
+		26,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CODCARDIF from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'NUM_CEP',
+		1, /* VARCHAR */
+		null,
+		27,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_NUM_CEP from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'TIPO_LOGRADOURO',
+		VAR_COL_VARCHAR,
+		null,
+		28,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_TIPO_LOGRADOURO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'LOGRADOURO',
+		VAR_COL_VARCHAR,
+		null,
+		29,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_LOGRADOURO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'NUMERO',
 		VAR_COL_INT,
 		null,
 		30,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_31_CD_ORGAO_LOTACAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_NUMERO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_32_NM_ORGAO_LOTACAO',
-		VAR_COL_INT,
+		'COMP_LOGRADOURO',
+		VAR_COL_VARCHAR,
 		null,
 		31,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_32_NM_ORGAO_LOTACAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_COMP_LOGRADOURO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_33',
+		'BAIRRO',
 		VAR_COL_VARCHAR,
 		null,
 		32,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_33 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_BAIRRO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
+	call PROC_LOG_MESSAGE('LINHA - 2118');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_34_CD_MOTIVO_EXCLUSAO',
-		VAR_COL_INT,
+		'MUNICIPIO',
+		VAR_COL_VARCHAR,
 		null,
 		33,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_34_CD_MOTIVO_EXCLUSAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_MUNICIPIO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_35_CEP',
-		VAR_COL_INT,
+		'UF',
+		VAR_COL_VARCHAR,
 		null,
 		34,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_35_CEP from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_UF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_36_TP_LOGRADOURO',
+		'TEL_RESID',
 		VAR_COL_VARCHAR,
 		null,
 		35,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_36_TP_LOGRADOURO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_TEL_RESID from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_37_LOGRADOURO',
+		'TEL_COM',
 		VAR_COL_VARCHAR,
 		null,
 		36,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_37_LOGRADOURO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_TEL_COM from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_38_NUMERO',
-		VAR_COL_INT,
+		'TEL_CEL',
+		VAR_COL_VARCHAR,
 		null,
 		37,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_38_NUMERO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_TEL_CEL from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_39_COMPL',
+		'NOMEDAMAEBENE',
 		VAR_COL_VARCHAR,
 		null,
 		38,
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_39_COMPL from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_NOMEDAMAEBENE from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_40_BAIRRO',
+		'RG',
 		VAR_COL_VARCHAR,
 		null,
 		39,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_40_BAIRRO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_RG from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_41_MUNICIPIO',
+		'ORGAOEMISSORG',
 		VAR_COL_VARCHAR,
 		null,
 		40,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_41_MUNICIPIO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_ORGAOEMISSORG from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 411');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_42_UF',
+		'PAISEMISSORRG',
 		VAR_COL_VARCHAR,
 		null,
 		41,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_42_UF from TB_REGISTER_COLUMN; 
-
-	call PROC_LOG_MESSAGE('LINHA - 1203');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_43_DDD_TEL_RES',
-		VAR_COL_INT,
-		null,
-		42,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
+	select max( ID ) into VAR_ID_COLUMN_PAISEMISSORRG from TB_REGISTER_COLUMN;
 	
-	select max( ID ) into VAR_ID_COLUMN_43_DDD_TEL_RES from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1203');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_44_TEL_RES',
-		VAR_COL_INT,
-		null,
-		43,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_44_TEL_RES from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1203');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_45_DDD_TEL_COM',
-		VAR_COL_INT,
-		null,
-		44,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_45_DDD_TEL_COM from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_46_TEL_COM',
-		VAR_COL_INT,
-		null,
-		45,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_46_TEL_COM from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_47_DDD_TEL_CEL',
-		VAR_COL_INT,
-		null,
-		46,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_47_DDD_TEL_CEL from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_48_TEL_CEL',
-		VAR_COL_INT,
-		null,
-		47,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_48_TEL_CEL from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_49_NM_MAE',
-		VAR_COL_VARCHAR,
-		null,
-		48,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_49_NM_MAE from TB_REGISTER_COLUMN; 
-
-	call PROC_LOG_MESSAGE('LINHA - 1275');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_50_RG',
-		VAR_COL_VARCHAR,
-		null,
-		49,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_50_RG from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_51_CD_ORGAO_EMISSOR',
-		VAR_COL_INT,
-		null,
-		50,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_51_CD_ORGAO_EMISSOR from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
-	insert into TB_REGISTER_COLUMN(
-		ID_REGISTER,
-		NM_COLUMN,
-		CD_TYPE,
-		VL_LENGTH,
-		CD_ORDEM,
-		
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-		VAR_ID_REGISTER,
-		'COLUMN_52_CD_PAIS',
-		VAR_COL_INT,
-		null,
-		51,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);
-	
-	select max( ID ) into VAR_ID_COLUMN_52_CD_PAIS from TB_REGISTER_COLUMN; 
-	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
+	call PROC_LOG_MESSAGE('LINHA - 2389');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -1651,20 +1346,19 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_53_DT_EMISSAO',
+		'DATAEMISSAORG',
 		VAR_COL_DATE,
 		null,
-		52,
+		42,
 		'yyyyMMdd',
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_53_DT_EMISSAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DATAEMISSAORG from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
@@ -1676,479 +1370,1237 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_54_UF_EMISSAO',
+		'ESTADORG',
 		VAR_COL_VARCHAR,
+		null,
+		43,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_ESTADORG from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'PIS',
+		VAR_COL_VARCHAR,
+		null,
+		44,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_PIS from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CNS',
+		VAR_COL_VARCHAR,
+		null,
+		45,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CNS from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'E-MAIL',
+		VAR_COL_VARCHAR,
+		null,
+		46,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_EMAIL from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'GRAUESCOLARIDADE',
+		VAR_COL_INT,
+		null,
+		47,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_GRAUESCOLARIDADE from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'RENDAFAMILIAR',
+		VAR_COL_INT,
+		null,
+		48,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_RENDAFAMILIAR from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CDPROFISSAO',
+		VAR_COL_INT,
+		null,
+		49,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CDPROFISSAO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CDPAISDEORIGEM',
+		VAR_COL_INT,
+		null,
+		50,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CDPAISDEORIGEM from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		CD_FORMAT,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'DATAEXCLUSAO',
+		VAR_COL_DATE,
+		null,
+		51,
+		'yyyyMMdd',
+		
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_DATAEXCLUSAO from TB_REGISTER_COLUMN;
+	
+	call PROC_LOG_MESSAGE('LINHA - 2530');
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CODMOVEXCLUSAO',
+		VAR_COL_INT,
+		null,
+		52,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CODMOVEXCLUSAO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CODOPERACAO',
+		VAR_COL_INT,
 		null,
 		53,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_54_UF_EMISSAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CODOPERACAO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_55_NR_PIS',
-		VAR_COL_LONG,
+		'CODEMPRESATRANSF',
+		VAR_COL_INT,
 		null,
 		54,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_55_NR_PIS from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CODEMPRESATRANSF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_56_NR_CNS',
-		VAR_COL_VARCHAR,
+		'MATRICULATRANSF',
+		VAR_COL_INT,
 		null,
 		55,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_56_NR_CNS from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_MATRICULATRANSF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_57_EMAIL',
+		'LOCALTRANSF',
 		VAR_COL_VARCHAR,
 		null,
 		56,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_57_EMAIL from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_LOCALTRANSF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_58_CD_ESCOLARIDADE',
+		'CATTRANSF',
 		VAR_COL_INT,
 		null,
 		57,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_58_CD_ESCOLARIDADE from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CATTRANSF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_59_CD_RENDA_FAMILIAR',
+		'PLANOTRANSF',
 		VAR_COL_INT,
 		null,
 		58,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_59_CD_RENDA_FAMILIAR from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_PLANOTRANSF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_60_CD_PROFISSAO_TIT',
+		'MOTREMISSAO',
 		VAR_COL_VARCHAR,
 		null,
 		59,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_60_CD_PROFISSAO_TIT from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_MOTREMISSAO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
+		CD_FORMAT,
 		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_61_CD_PAIS_ORIGEM',
-		VAR_COL_VARCHAR,
+		'CPFNOVOTITULAR',
+		VAR_COL_LONG,
 		null,
 		60,
+		'#0',
 		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_61_CD_PAIS_ORIGEM from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CPFNOVOTITULAR from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_62_CD_IDENTIFICACAO',
+		'QTDPERMAMESES',
 		VAR_COL_INT,
 		null,
 		61,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_62_CD_IDENTIFICACAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_QTDPERMAMESES from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1275');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_63_CD_OPERACAO',
+		'RDPNOVOTITULAR',
 		VAR_COL_VARCHAR,
 		null,
 		62,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_63_CD_OPERACAO from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_RDPNOVOTITULAR from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
+	call PROC_LOG_MESSAGE('LINHA - 2768');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_64_CRITICAS_01',
-		VAR_COL_VARCHAR,
+		'DTINICIOTRANSF',
+		VAR_COL_DATE,
 		null,
 		63,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_64_CRITICAS_01 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DTINICIOTRANSF from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_65_CRITICAS_02',
-		VAR_COL_VARCHAR,
+		'COD STATUS',
+		VAR_COL_INT,
 		null,
 		64,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_65_CRITICAS_02 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_COD_STATUS from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_66_CRITICAS_03',
-		VAR_COL_VARCHAR,
+		'COD ERRO',
+		VAR_COL_INT,
 		null,
 		65,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_66_CRITICAS_03 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_COD_ERRO from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_67_CRITICAS_04',
-		VAR_COL_VARCHAR,
+		'COD DV',
+		VAR_COL_INT,
 		null,
 		66,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_67_CRITICAS_04 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_COD_DV from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_68_CRITICAS_05',
+		'BLOQ EMPR INADIMPLENCIA',
 		VAR_COL_VARCHAR,
 		null,
 		67,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_68_CRITICAS_05 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_BLOQ_EMPR_INADIMPLENCIA from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_69_CRITICAS_06',
+		'CPT',
 		VAR_COL_VARCHAR,
 		null,
 		68,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_69_CRITICAS_06 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_CPT from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_70_CRITICAS_07',
+		'COD EMPRESA TITULAR',
 		VAR_COL_VARCHAR,
 		null,
 		69,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_70_CRITICAS_07 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_COD_EMPRESA_TITULAR from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_71_CRITICAS_08',
-		VAR_COL_VARCHAR,
+		'MATRICULA 02',
+		VAR_COL_LONG,
 		null,
 		70,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_71_CRITICAS_08 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_MATRICULA_02 from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_72_CRITICAS_09',
+		'DIFERENCIADOR DA MATRICULA DO TITULAR',
 		VAR_COL_VARCHAR,
 		null,
 		71,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_72_CRITICAS_09 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_DIFERENCIADOR_MATRICULA_TITULAR from TB_REGISTER_COLUMN;
 	
-	call PROC_LOG_MESSAGE('LINHA - 1709');
 	insert into TB_REGISTER_COLUMN(
 		ID_REGISTER,
 		NM_COLUMN,
 		CD_TYPE,
 		VL_LENGTH,
 		CD_ORDEM,
-		
 		USER_CREATED, 
 		DT_CREATED,
 		DT_ALTERED ) values (	
 		VAR_ID_REGISTER,
-		'COLUMN_73_CRITICAS_10',
+		'NUMERO DO TITULO DE ELEITOR',
 		VAR_COL_VARCHAR,
 		null,
 		72,
-		
-		VAR_ID_USER,
+		1,
 		current_timestamp(),
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_73_CRITICAS_10 from TB_REGISTER_COLUMN; 
+	select max( ID ) into VAR_ID_COLUMN_NR_TITULO_ELEITOR from TB_REGISTER_COLUMN;
 	
-	/***********************************************************************************************************************/
-	/***********************************************************************************************************************/
+	call PROC_LOG_MESSAGE('LINHA - 2979');
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'NUMERO DO RIC',
+		VAR_COL_VARCHAR,
+		null,
+		73,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_NR_RIC from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'NUMERO DA DECLARACAO DE NASCIDO VIVO',
+		VAR_COL_VARCHAR,
+		null,
+		74,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_NR_DECL_NASCIDO_VIVO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CARTEIRA DE IDENTIFICACAO',
+		VAR_COL_VARCHAR,
+		null,
+		75,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CARTEIRA_IDENTIFICACAO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'INDICADOR DE SEGURADO CONTRIBUTARIO',
+		VAR_COL_VARCHAR,
+		null,
+		76,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_INDICADOR_SEGURADO_CONTRIBUTARIO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'INDICADOR DOA CONDICAO DO EX-EMPREGADO',
+		VAR_COL_VARCHAR,
+		null,
+		77,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_INDICADOR_CONDICAO_EX_EMPREGADO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'INDICADOR DE PERMANENCIA NO PLANO',
+		VAR_COL_VARCHAR,
+		null,
+		78,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_INDICADOR_PERM_PLANO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'QUANTIDADE DE MESES DE CONTRIBUICAO',
+		VAR_COL_VARCHAR,
+		null,
+		79,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_QTDE_MESES_CONTRIB from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'NOME COMPLETO DO BENEFICIARIO',
+		VAR_COL_VARCHAR,
+		null,
+		80,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_NM_COMPLETO_BENEF from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'INDICADOR DE TITULAR REMIDO',
+		VAR_COL_VARCHAR,
+		null,
+		81,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_INDICADOR_TITULAR_REMIDO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'EMAIL DA SEGURADORA',
+		VAR_COL_VARCHAR,
+		null,
+		82,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_EMAIL_SEGURADORA from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'INDICADOR DE PORTABILIDADE 1',
+		VAR_COL_VARCHAR,
+		null,
+		83,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_INDICADOR_PORTABILIDADE_01 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'INDICADOR DE PORTABILIDADE 2',
+		VAR_COL_VARCHAR,
+		null,
+		84,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_INDICADOR_PORTABILIDADE_2 from TB_REGISTER_COLUMN;
+	
+	call PROC_LOG_MESSAGE('LINHA - 3232');
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'INDICADOR DE CARENCIA',
+		VAR_COL_VARCHAR,
+		null,
+		85,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_INDICADOR_CARENCIA from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CODIGO DO PRODUTO',
+		VAR_COL_INT,
+		null,
+		86,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CD_PRODUTO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CODIGO DE IDENTIFICACAO DE PLANO ANTERIOR NA SAS',
+		VAR_COL_VARCHAR,
+		null,
+		87,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CD_IDENT_PLANO_ANTERIOR_SAS from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID1',
+		VAR_COL_VARCHAR,
+		null,
+		88,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI01 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID2',
+		VAR_COL_VARCHAR,
+		null,
+		89,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI02 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID3',
+		VAR_COL_VARCHAR,
+		null,
+		90,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI03 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID4',
+		VAR_COL_VARCHAR,
+		null,
+		91,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI04 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID5',
+		VAR_COL_VARCHAR,
+		null,
+		92,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI05 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID6',
+		VAR_COL_VARCHAR,
+		null,
+		93,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI06 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID7',
+		VAR_COL_VARCHAR,
+		null,
+		94,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI07 from TB_REGISTER_COLUMN;
+	
+	call PROC_LOG_MESSAGE('LINHA - 3443');
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID8',
+		VAR_COL_VARCHAR,
+		null,
+		95,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI08 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID9',
+		VAR_COL_VARCHAR,
+		null,
+		96,
+		
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI09 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CID10',
+		VAR_COL_VARCHAR,
+		null,
+		97,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CI010 from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'IBGE',
+		VAR_COL_VARCHAR,
+		null,
+		98,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_IBGE from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'CBO',
+		VAR_COL_VARCHAR,
+		null,
+		99,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);
+	
+	select max( ID ) into VAR_ID_COLUMN_CBO from TB_REGISTER_COLUMN;
+	
+	insert into TB_REGISTER_COLUMN(
+		ID_REGISTER,
+		NM_COLUMN,
+		CD_TYPE,
+		VL_LENGTH,
+		CD_ORDEM,
+		USER_CREATED, 
+		DT_CREATED,
+		DT_ALTERED ) values (	
+		VAR_ID_REGISTER,
+		'DIF TRANSFERENCIA',
+		VAR_COL_VARCHAR,
+		null,
+		100,
+		1,
+		current_timestamp(),
+		current_timestamp()
+	);	
+	
+	select max( ID ) into VAR_ID_COLUMN_DIF_TRANSF from TB_REGISTER_COLUMN;
+	
+	/*****************************************************************************************************************************************************/
+	/*****************************************************************************************************************************************************/
 	/* Beneficiário */
-	
-    call PROC_LOG_MESSAGE('LINHA - 1848');
+				
+	/* MECSAS */
+	call PROC_LOG_MESSAGE('LINHA - 4867');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
 		ID_REGISTER_COLUMN,
@@ -2157,14 +2609,13 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
-		VAR_ID_COLUMN_02_NR_MATRICULA,
+		VAR_ID_COLUMN_MATRICULA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 1879');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
 		ID_REGISTER_COLUMN,
@@ -2173,14 +2624,13 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NM_BENEFICIARIO,
-		VAR_ID_COLUMN_21_NM_BENEFICIARIO,
+		VAR_ID_COLUMN_NOME_BENEF,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
 	
-	call PROC_LOG_MESSAGE('LINHA - 4834');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
 		ID_REGISTER_COLUMN,
@@ -2189,14 +2639,14 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_NR_CPF,
-		VAR_ID_COLUMN_14_NR_CPF,
+		VAR_ID_COLUMN_CPF,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
-
-	call PROC_LOG_MESSAGE('LINHA - 4850');
+	
+	call PROC_LOG_MESSAGE('LINHA - 4913');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
 		ID_REGISTER_COLUMN,
@@ -2205,14 +2655,14 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_NASCIMENTO,
-		VAR_ID_COLUMN_22_DT_NASCIMENTO,
+		VAR_ID_COLUMN_DATA_NASC,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
 	);
-		
-	call PROC_LOG_MESSAGE('LINHA - 2131');
+			
+	call PROC_LOG_MESSAGE('LINHA - 4929');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
 		ID_REGISTER_COLUMN,
@@ -2221,14 +2671,14 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_TP_BENEFICIARIO,
-		VAR_ID_COLUMN_25_GP,
+		VAR_ID_COLUMN_GP,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
-	);
+	);	
 
-	call PROC_LOG_MESSAGE('LINHA - 2147');
+	call PROC_LOG_MESSAGE('LINHA - 2521');
 	insert into TB_BENEFICIARIO_COLS(
 		CD_BENEFICIARIO_COLS_DEF,
 		ID_REGISTER_COLUMN,
@@ -2237,30 +2687,14 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO,
-		VAR_ID_COLUMN_12_DT_INCLUSAO,
+		VAR_ID_COLUMN_DATA_ADESAO,
 		
 		VAR_ID_USER,
 		current_timestamp(),
 		current_timestamp()		
-	);
-
-	call PROC_LOG_MESSAGE('LINHA - 2147');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_REGISTER_COLUMN,
+	);	
 	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NR_DIGITO_CPF,
-		VAR_ID_COLUMN_15_DG_CPF,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
-
-	call PROC_LOG_MESSAGE( 'LINHA - 2527' );
+ 	call PROC_LOG_MESSAGE( 'LINHA - 2527' );
     insert into TB_BENEFICIARIO_COLS(
         CD_BENEFICIARIO_COLS_DEF,
         ID_REGISTER_COLUMN,
@@ -2269,16 +2703,17 @@ BEGIN
         DT_CREATED,
         DT_ALTERED ) values (
         VAR_CD_BENEFICIARIO_COLS_CD_CONTRATO,
-        VAR_ID_COLUMN_01_CD_CONTRATO,
+        VAR_ID_COLUMN_COD_EMP,
         
         VAR_ID_USER,
         current_timestamp(),
         current_timestamp()		
     );
-	
-	call PROC_LOG_MESSAGE('LINHA - 1559');		
-	/*********************************************************************************************************************************************/
-	/*********************************************************************************************************************************************/
+    
+	call PROC_LOG_MESSAGE('LINHA - 2537');    	
+	/*****************************************************************************************************************************************************/	
+	/*****************************************************************************************************************************************************/
+		
 	call PROC_UPDATE_SCRIPT( VAR_NM_SCRIPT );
 	
 	COMMIT;

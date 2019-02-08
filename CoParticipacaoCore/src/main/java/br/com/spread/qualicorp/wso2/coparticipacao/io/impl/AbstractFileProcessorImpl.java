@@ -162,8 +162,14 @@ public abstract class AbstractFileProcessorImpl implements ProcessorService {
 					pattern = Pattern.compile(registerColumnUi.getRegexpValue());
 					matcher = pattern.matcher(columnValue);
 
+					LOGGER.debug(
+							"Validating value[{}] against REGEXP[{}]:",
+							columnValue,
+							registerColumnUi.getRegexpValue());
+
 					if (matcher.find()) {
 						value = matcher.group(registerColumnUi.getRegexpGroupValue());
+						LOGGER.debug("Extracted value[{}] from column:", value);
 					}
 				}
 			}

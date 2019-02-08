@@ -222,6 +222,7 @@ create table TB_EMPRESA(
 	CD_USE_JASPER_REPORTS					int( 3 ) not null default 0, /* informa se a Empresa utiliza para criar os relatórios o JasperReports */
 	CD_UPDATE_BENEFICIARIO_FROM_FATUCOPA	int( 3 ) not null default 0, /* informa se o processo pode atualizar os dados do beneficiário com os valores do arquivo de coparticipação: */
 	CD_UPDATE_BENEFICIARIO_FROM_ISENTO		int( 3 ) not null default 0, /* informa ao processo se devem ser criados os títulares usando o arquivo de Base de Ativos da Empresa: */
+	CD_SEARCH_BENEFICIARIO_MATRICULA_EMPRESA	int( 3 ) not null default 0,
 	
 	/*
 	 * 0 - TP_CREATE_BENEFICIARIO_ADD : 			Cria o beneficiário sem fazer alterações em sua estrutura;

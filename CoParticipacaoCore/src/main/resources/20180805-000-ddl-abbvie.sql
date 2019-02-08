@@ -27,7 +27,7 @@ select
     titular.ID ID_DEPENDENTE,
 	titular.NM_TITULAR NM_DEPENDENTE,
     titular.NR_MATRICULA NR_MATRICULA_DEPENDENTE,    
-    titular.NR_MATRICULA_EMPRESA NR_UPI,
+    round( titular.NR_MATRICULA_EMPRESA/1000, 0 ) NR_UPI,
     lancamento.VL_PRINCIPAL
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -51,7 +51,7 @@ select
     dependente.ID ID_DEPENDENTE,
 	dependente.NM_DEPENDENTE,
     dependente.NR_MATRICULA NR_MATRICULA_DEPENDENTE,    
-    titular.NR_MATRICULA_EMPRESA NR_UPI,
+    round( dependente.NR_MATRICULA_EMPRESA/1000, 0 ) NR_UPI,
     lancamento.VL_PRINCIPAL
 from TB_LANCAMENTO lancamento
 	join TB_TITULAR titular on
@@ -259,7 +259,7 @@ where	dependente.NR_MATRICULA_EMPRESA is null
 and		empresa.CD_EMPRESA = 'ABBVIE';	
 
 create view VW_DESCONHECIDO_ABBVIE as
-select
+select distinct
 	desconhecido.CD_MES,
     desconhecido.CD_ANO,
     desconhecido.ID_CONTRATO,

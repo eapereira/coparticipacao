@@ -51,7 +51,7 @@ BEGIN
 	declare VAR_ID_COLUMN_001_NR_APOLICE 					bigint( 17 );
 	declare VAR_ID_COLUMN_002_CD_EMPRESA 					bigint( 17 );
 	declare VAR_ID_COLUMN_003_NM_EMPRESA 					bigint( 17 );
-	declare VAR_ID_COLUMN_004_NR_MATRICULA 					bigint( 17 ); 
+	declare VAR_ID_COLUMN_004_NR_MATRICULA_EMPRESA 					bigint( 17 ); 
 	declare VAR_ID_COLUMN_005_NR_RDP 						bigint( 17 );
 	declare VAR_ID_COLUMN_006_CD_DIGITO 					bigint( 17 ); 
 	declare VAR_ID_COLUMN_007_NR_MATRICULA_EMPRESA 			bigint( 17 );
@@ -233,6 +233,7 @@ BEGIN
 	declare VAR_CD_BENEFICIARIO_COLS_VL_ALIQUOTA_INSS      				bigint( 17 ) default 110;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_INSS              				bigint( 17 ) default 111;
 	declare VAR_CD_BENEFICIARIO_COLS_VL_LIQUIDO_SINISTRO              	bigint( 17 ) default 112;
+	declare VAR_CD_BENEFICIARIO_COLS_NR_CPF_DEPENDENTE              	bigint( 17 ) default 119;
 		
 	declare VAR_CD_ORDEM												int( 5 ) default 0;
 	declare VAR_CD_SHEET												bigint( 17 ) default 0;
@@ -240,7 +241,7 @@ BEGIN
 	declare	VAR_CD_REGISTER_REG01										bigint( 17 ) default 0;
 	declare	VAR_DT_FORMAT_DDMMMYY										varchar( 15 ) default 'dd-MMM-yy';    	
         
-	declare VAR_REGEXP_VALUE_CD_MATRICULA								varchar( 800 ) default '^(8B1LR)([0-9]{11})$';
+	declare VAR_REGEXP_VALUE_CD_MATRICULA								varchar( 800 ) default '^(8B1LR|8B1LP)([0-9]{11})';
 	declare VAR_REGEXP_GROUP_VALUE_CD_MATRICULA							int( 3 ) default 2;
     	
 	/***********************************************************************************************************************/
@@ -449,7 +450,7 @@ BEGIN
 		current_timestamp()
 	);
 	
-	select max( ID ) into VAR_ID_COLUMN_004_NR_MATRICULA
+	select max( ID ) into VAR_ID_COLUMN_004_NR_MATRICULA_EMPRESA
 	from TB_REGISTER_COLUMN;
 	set VAR_CD_ORDEM = VAR_CD_ORDEM + 1;
 	
@@ -1248,8 +1249,8 @@ BEGIN
 		USER_CREATED,
 		DT_CREATED,
 		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA,
-		VAR_ID_COLUMN_004_NR_MATRICULA,
+		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
+		VAR_ID_COLUMN_007_NR_MATRICULA_EMPRESA,
 		
 		VAR_ID_USER,
 		current_timestamp(),
@@ -1303,22 +1304,6 @@ BEGIN
 		current_timestamp(),
 		current_timestamp()		
 	);
-
-	call PROC_LOG_MESSAGE('LINHA - 1228');
-	insert into TB_BENEFICIARIO_COLS(
-		CD_BENEFICIARIO_COLS_DEF,
-		ID_REGISTER_COLUMN,
-	
-		USER_CREATED,
-		DT_CREATED,
-		DT_ALTERED ) values (
-		VAR_CD_BENEFICIARIO_COLS_DEF_NR_MATRICULA_EMPRESA,
-		VAR_ID_COLUMN_007_NR_MATRICULA_EMPRESA,
-		
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()		
-	);
 	
 	call PROC_LOG_MESSAGE('LINHA - 1269');
 	insert into TB_BENEFICIARIO_COLS(
@@ -1330,6 +1315,22 @@ BEGIN
 		DT_ALTERED ) values (
 		VAR_CD_BENEFICIARIO_COLS_DEF_DT_ADMISSAO,
 		VAR_ID_COLUMN_015_DT_INCLUSAO,
+		
+		VAR_ID_USER,
+		current_timestamp(),
+		current_timestamp()		
+	);
+
+	call PROC_LOG_MESSAGE('LINHA - 1269');
+	insert into TB_BENEFICIARIO_COLS(
+		CD_BENEFICIARIO_COLS_DEF,
+		ID_REGISTER_COLUMN,
+	
+		USER_CREATED,
+		DT_CREATED,
+		DT_ALTERED ) values (
+		VAR_CD_BENEFICIARIO_COLS_NR_CPF_DEPENDENTE,
+		VAR_ID_COLUMN_010_NR_CPF_DEPENDENTE,
 		
 		VAR_ID_USER,
 		current_timestamp(),

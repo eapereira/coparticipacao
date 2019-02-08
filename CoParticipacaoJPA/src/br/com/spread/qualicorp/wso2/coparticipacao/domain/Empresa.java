@@ -66,6 +66,8 @@ public abstract class Empresa extends AbstractDomain {
 	
 	private CreateBeneficiarioType createBeneficiarioType; 
 
+	private boolean searchBeneficiarioByMatriculaEmpresa;
+	
 	public Empresa() {
 		titulars = new ArrayList<>();
 		contratos = new ArrayList<>();
@@ -446,6 +448,14 @@ public abstract class Empresa extends AbstractDomain {
 
 	public void setCreateBeneficiarioFromFatucopa(boolean createBeneficiarioFromFatucopa) {
 		this.createBeneficiarioFromFatucopa = createBeneficiarioFromFatucopa;
+	}
+
+	public boolean isSearchBeneficiarioByMatriculaEmpresa() {
+		return searchBeneficiarioByMatriculaEmpresa;
+	}
+
+	public void setSearchBeneficiarioByMatriculaEmpresa(boolean searchBeneficiarioByMatriculaEmpresa) {
+		this.searchBeneficiarioByMatriculaEmpresa = searchBeneficiarioByMatriculaEmpresa;
 	}
 
 }

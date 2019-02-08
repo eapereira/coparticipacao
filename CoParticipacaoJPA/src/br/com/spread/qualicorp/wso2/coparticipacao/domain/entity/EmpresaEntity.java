@@ -254,4 +254,11 @@ public class EmpresaEntity extends Empresa implements DomainEntity {
 		return super.isCreateBeneficiarioFromFatucopa();
 	}
 
+	@Column(name = "CD_SEARCH_BENEFICIARIO_MATRICULA_EMPRESA")
+	@Override
+	public boolean isSearchBeneficiarioByMatriculaEmpresa() {
+		// TODO Auto-generated method stub
+		return super.isSearchBeneficiarioByMatriculaEmpresa();
+	}
+
 }

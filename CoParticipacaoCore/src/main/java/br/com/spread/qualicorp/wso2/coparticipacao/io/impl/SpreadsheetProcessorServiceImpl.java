@@ -302,7 +302,17 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 
 				if (cell != null) {
 					if (!CellType.BLANK.equals(cell.getCellTypeEnum())) {
+						LOGGER.info("END");
 						return false;
+					} else {
+						/*
+						 * As duas primeiras colunas vazias, ignora toda a
+						 * linha:
+						 */
+						if (i <= 2) {
+							LOGGER.info("END");
+							return true;
+						}
 					}
 				}
 			}
@@ -481,7 +491,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 				break;
 			case STRING:
 				value = cell.getStringCellValue();
-				value = validateRegexpColumn(registerColumnUi, (String)value);
+				value = validateRegexpColumn(registerColumnUi, (String) value);
 				break;
 			case NUMERIC:
 				if (DateUtil.isCellDateFormatted(cell)) {

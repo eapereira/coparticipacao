@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.spreadsheet.SpreadsheetReadertListener;
+import br.com.spread.qualicorp.wso2.coparticipacao.test.spreadsheet.SpreadsheetReadertListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.util.DateUtils;
 
 /**
