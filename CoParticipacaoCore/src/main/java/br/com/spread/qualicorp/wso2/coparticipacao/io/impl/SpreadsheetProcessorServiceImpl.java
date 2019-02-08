@@ -309,7 +309,7 @@ public class SpreadsheetProcessorServiceImpl extends AbstractFileProcessorImpl i
 						 * As duas primeiras colunas vazias, ignora toda a
 						 * linha:
 						 */
-						if (i <= 2) {
+						if (i >= 2) {
 							LOGGER.info("END");
 							return true;
 						}
