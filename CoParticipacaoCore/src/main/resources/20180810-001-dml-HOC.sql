@@ -325,32 +325,8 @@ BEGIN
 		DT_CREATED,
 		DT_ALTERED ) values (	
 	    VAR_ID_EMPRESA,
-		'ISENTO-UTILIZACAO',
-	    'ISENTO-UTILIZACAO',
-	    VAR_NM_CONTRATO_ISENTO,
-	    VAR_FALSE,
-	    VAR_USE_TYPE_ISENTO,
-	    
-		VAR_ID_USER,
-		current_timestamp(),
-		current_timestamp()
-	);	
-
-	call PROC_LOG_MESSAGE('LINHA - 151');
-	insert into TB_CONTRATO(
-		ID_EMPRESA,
-		CD_CONTRATO,	
-	    NM_CONTRATO,
-	    DESCR_CONTRATO,
-	    CD_SPREADSHEET_ALL_PAGES,
-	    TP_USE,
-	    
-		USER_CREATED, 
-		DT_CREATED,
-		DT_ALTERED ) values (	
-	    VAR_ID_EMPRESA,
-		'ISENTO-CENTAVOS',
-	    'ISENTO-CENTAVOS',
+		'ISENTO-VALOR',
+	    'ISENTO-VALOR',
 	    VAR_NM_CONTRATO_ISENTO,
 	    VAR_FALSE,
 	    VAR_USE_TYPE_ISENTO,

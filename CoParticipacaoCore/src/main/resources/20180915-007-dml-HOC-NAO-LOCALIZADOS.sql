@@ -12,7 +12,7 @@ DETERMINISTIC
 SQL SECURITY DEFINER
 COMMENT 'Script para configurar o Hospital Oswaldo Cruz'
 BEGIN
-	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180915-006-dml-HOC-ISENTOS-VALOR-CENTAVOS.sql';
+	declare VAR_NM_SCRIPT_REQUIRED			varchar( 400 ) default '20180915-005-dml-HOC-ISENTOS-VALOR.sql';
 	declare VAR_NM_SCRIPT					varchar( 400 ) default '20180915-007-dml-HOC-NAO-LOCALIZADOS.sql';
 	
 	declare VAR_FALSE						int( 3 ) default 0;			

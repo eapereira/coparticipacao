@@ -64,7 +64,13 @@ public class HocBean {
 	private static final String ISENTO_VALOR_UTILIZACAO_201901 = "haoc/input/201901/0444.ISENTO-UTILIZACAO.201901.004.xlsx";
 	private static final String FATUCOPA_201901 = "haoc/input/201901/0444.0444.201901.005.csv";
 	private static final String NAO_LOCALIZADOS_201901 = "haoc/input/201901/0444.NAO-LOCALIZADO.201901.002.xlsx";
-	
+
+	private static final String MECSAS_201902 = "haoc/input/201902/0444.MECSAS.201902.001.csv";
+	private static final String GESTANTES_201902 = "haoc/input/201902/0444.ISENTO.201902.002.xlsx";
+	private static final String ISENTO_VALOR_201902 = "haoc/input/201902/0444.ISENTO-VALOR.201902.003.xlsx";
+	private static final String FATUCOPA_201902 = "haoc/input/201902/0444.0444.201902.004.csv";
+	private static final String NAO_LOCALIZADOS_201902 = "haoc/input/201902/0444.NAO-LOCALIZADO.201902.002.xlsx";
+
 	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201803 = 4949;
 	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201803 = 3910;
 	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201803 = 0;
@@ -120,11 +126,24 @@ public class HocBean {
 	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201901_AFTER_USER_VALIDATION = 2515;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201901_AFTER_USER_VALIDATION = 781;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201901_AFTER_USER_VALIDATION = 156;
-	
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201902 = 4692;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201902 = 3743;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902 = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902 = 2359;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201902 = 340;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201902 = 4;
+
+	private static final int NUM_TOTAL_TITULARES_FATUCOPA_201902_AFTER_USER_VALIDATION = 4748;
+	private static final int NUM_TOTAL_DEPENDENTES_FATUCOPA_201902_AFTER_USER_VALIDATION = 3757;
+	private static final int NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902_AFTER_USER_VALIDATION = 0;
+	private static final int NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902_AFTER_USER_VALIDATION = 2515;
+	private static final int NUM_TOTAL_TITULARES_ISENTOS_201902_AFTER_USER_VALIDATION = 781;
+	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201902_AFTER_USER_VALIDATION = 156;
+
 	private static final String CD_CONTRATO_NAO_LOCALIZADO = "NAO-LOCALIZADO";
 	private static final String CD_CONTRATO_ISENTO = "ISENTO";
-	private static final String CD_CONTRATO_ISENTO_VALOR = "ISENTO-UTILIZACAO";
-	private static final String CD_CONTRATO_ISENTO_CENTAVO = "ISENTO-CENTAVOS";
+	private static final String CD_CONTRATO_ISENTO_VALOR = "ISENTO-VALOR";
 	private static final String CD_CONTRATO_FATUCOPA = "0444";
 	private static final String CD_CONTRATO_MECSAS = "MECSAS";
 
@@ -164,7 +183,7 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201804);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201804);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -211,7 +230,7 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201804);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201804);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -257,7 +276,7 @@ public class HocBean {
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201807);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201807);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -305,7 +324,7 @@ public class HocBean {
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201807);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201807);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -349,7 +368,7 @@ public class HocBean {
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201810);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201810);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201810);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -395,7 +414,7 @@ public class HocBean {
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201810);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201810);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201810);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -422,7 +441,7 @@ public class HocBean {
 		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201810_AFTER_USER_VALIDATION, titularIsentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201810_AFTER_USER_VALIDATION, dependenteIsentoUis.size());
 	}
-	
+
 	@Test
 	public void testCoparticipacao201901(CoParticipacaoTest coParticipacaoTest) throws Exception {
 		List<TitularUi> titularUis;
@@ -439,7 +458,7 @@ public class HocBean {
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201901);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201901);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201901);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -485,7 +504,7 @@ public class HocBean {
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201901);
 		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_CENTAVO, ISENTO_VALOR_CENTAVOS_201901);
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201901);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -512,5 +531,89 @@ public class HocBean {
 		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201901_AFTER_USER_VALIDATION, titularIsentoUis.size());
 		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201901_AFTER_USER_VALIDATION, dependenteIsentoUis.size());
 	}
-	
+
+	@Test
+	public void testCoparticipacao201902(CoParticipacaoTest coParticipacaoTest) throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		List<TitularIsentoUi> titularIsentoUis;
+		List<DependenteIsentoUi> dependenteIsentoUis;
+		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201902);
+
+		coParticipacaoTest.processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
+		dependenteIsentoUis = dependenteIsentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
+		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201902, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201902, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201902, titularIsentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201902, dependenteIsentoUis.size());
+	}
+
+	@Test
+	public void testCoparticipacao201902AfterUserValidation(CoParticipacaoTest coParticipacaoTest) throws Exception {
+		List<TitularUi> titularUis;
+		List<DependenteUi> dependenteUis;
+		List<DesconhecidoUi> desconhecidoUis;
+		List<LancamentoUi> lancamentoUis;
+		List<TitularIsentoUi> titularIsentoUis;
+		List<DependenteIsentoUi> dependenteIsentoUis;
+		EmpresaUi empresaUi = empresaService.findByCdEmpresa("0444");
+		ExecucaoUi execucaoUi = new ExecucaoUi();
+
+		testCoparticipacao201902(coParticipacaoTest);
+
+		coParticipacaoTest
+				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201902);
+		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201902);
+
+		coParticipacaoTest.processFile(execucaoUi);
+
+		titularUis = titularService.listByEmpresaId(empresaUi);
+		dependenteUis = dependenteService.listByEmpresaId(empresaUi);
+		desconhecidoUis = desconhecidoService.listByEmpresaIdAndUseType(empresaUi, UseType.FATUCOPA);
+		lancamentoUis = lancamentoService.listByEmpresaId(empresaUi);
+		titularIsentoUis = titularIsentoService.listByEmpresaId(empresaUi);
+		dependenteIsentoUis = dependenteIsentoService.listByEmpresaId(empresaUi);
+
+		LOGGER.info("Results after user's validation:");
+		LOGGER.info("Total titulares ............... [{}]:", titularUis.size());
+		LOGGER.info("Total dependentes ............. [{}]:", dependenteUis.size());
+		LOGGER.info("Total desconhecidos ........... [{}]:", desconhecidoUis.size());
+		LOGGER.info("Total lançamentos ............. [{}]:", lancamentoUis.size());
+		LOGGER.info("Total titulares isentos ....... [{}]:", titularIsentoUis.size());
+		LOGGER.info("Total dependentes isentos ..... [{}]:", dependenteIsentoUis.size());
+
+		Assert.assertEquals(NUM_TOTAL_TITULARES_FATUCOPA_201902_AFTER_USER_VALIDATION, titularUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_FATUCOPA_201902_AFTER_USER_VALIDATION, dependenteUis.size());
+		Assert.assertEquals(NUM_TOTAL_DESCONHECIDOS_FATUCOPA_201902_AFTER_USER_VALIDATION, desconhecidoUis.size());
+		Assert.assertEquals(NUM_TOTAL_LANCAMENTOS_FATUCOPA_201902_AFTER_USER_VALIDATION, lancamentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_TITULARES_ISENTOS_201902_AFTER_USER_VALIDATION, titularIsentoUis.size());
+		Assert.assertEquals(NUM_TOTAL_DEPENDENTES_ISENTOS_201902_AFTER_USER_VALIDATION, dependenteIsentoUis.size());
+	}
+
 }
