@@ -853,6 +853,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								LOGGER.info("END");
 								return true;
 							}
+						} else {
+							if (UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
+								/*
+								 * Se o BeneficiarioUi não possui TitularUi e
+								 * não existe um DependenteUi, então ele próprio
+								 * é o TitularUi:
+								 */
+								LOGGER.info("END");
+								return true;
+							}
 						}
 					}
 				}
