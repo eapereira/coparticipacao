@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="findByLogin">
+		<![CDATA[
+			select user from UserEntity user
+			join fetch user.userRoles userRoles
+			where user.nameLogin = :nameLogin
+		]]>
+	</query>
+
+</queries>
+	

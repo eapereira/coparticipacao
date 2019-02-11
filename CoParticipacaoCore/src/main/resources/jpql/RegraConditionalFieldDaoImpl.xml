@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByRegraConditionalOperationId">
+		<![CDATA[
+			select distinct regraConditionalField from RegraConditionalFieldEntity regraConditionalField
+			join fetch regraConditionalField.registerColumn rquivoInputSheetColsDef
+			join fetch regraConditionalField.regraConditionalOperation regraConditionalOperation
+			where regraConditionalOperation.id = :regraConditionalOperationId
+		]]>
+	</query>
+
+</queries>
+	

@@ -24,6 +24,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 
 /**
@@ -42,8 +45,10 @@ public class JpaConfiguration {
 
 	private static final String CO_PARTICIPACAO_DS = "jdbc/CoparticipacaoDS";
 
+	private static final long QUERY_TIMEOUT = 2700000l;
+	
 	@Primary
-	@Bean(name = "jpaEntityManager")
+	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource)
 			throws CoParticipacaoException {
 		LocalContainerEntityManagerFactoryBean em;
@@ -70,7 +75,7 @@ public class JpaConfiguration {
 
 	@Primary
 	@Bean(name = "jpaTransactionManager")
-	public PlatformTransactionManager transactionManager(@Qualifier("jpaTransactionManager") EntityManagerFactory emf)
+	public PlatformTransactionManager transactionManager(@Qualifier("entityManagerFactory") EntityManagerFactory emf)
 			throws CoParticipacaoException {
 		JpaTransactionManager transactionManager;
 
@@ -117,12 +122,16 @@ public class JpaConfiguration {
 			// properties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 			properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
 			properties.setProperty("spring.jpa.properties.hibernate.jdbc.time_zone", "UTC");
-			properties.setProperty("spring.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver");
 			properties.setProperty("spring.jpa.datasource.driver-class-name", "com.mysql.cj.jdbc.Driver");
-			properties.setProperty("spring.datasource.driver-class", "com.mysql.cj.jdbc.Driver");
+			properties.setProperty("hibernate.connection.driver_class", "com.mysql.cj.jdbc.Driver");
 
-			properties.setProperty("spring.jpa.show-sql", "true");
-			properties.setProperty("spring.jpa.hibernate.format_sql", "true");
+			properties.setProperty("spring.datasource.hikari.driverClassName", "com.mysql.cj.jdbc.Driver");
+			properties.setProperty(
+					"spring.datasource.hikari.dataSourceClassName",
+					"com.mysql.jdbc.jdbc2.optional.MysqlDataSource");
+
+			//properties.setProperty("spring.jpa.show-sql", "true");
+			//properties.setProperty("spring.jpa.hibernate.format_sql", "true");
 			// properties.setProperty("spring.jpa.hibernate.ddl-auto",
 			// "update");
 			properties.setProperty("spring.jpa.properties.hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
@@ -141,15 +150,29 @@ public class JpaConfiguration {
 	public DataSource dataSource() throws Exception {
 		JndiDataSourceLookup dataSourceLookup;
 		DataSource dataSource;
+		HikariDataSource hikariDataSource;
+		HikariConfig hikariConfig;
 
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Creating DataSource");
+
 			dataSourceLookup = new JndiDataSourceLookup();
+			dataSourceLookup.setResourceRef(true);
 			dataSource = dataSourceLookup.getDataSource(CO_PARTICIPACAO_DS);
 
+			hikariConfig = new HikariConfig();
+			hikariConfig.setDataSource(dataSource);
+			hikariConfig.setPoolName("JPA-DataSource");
+			hikariConfig.setConnectionTimeout(QUERY_TIMEOUT);
+			hikariConfig.setIdleTimeout(QUERY_TIMEOUT);
+			hikariConfig.setMaxLifetime(QUERY_TIMEOUT);
+			hikariConfig.setValidationTimeout(QUERY_TIMEOUT);			
+			
+			hikariDataSource = new HikariDataSource(hikariConfig);
+
 			LOGGER.info("END");
-			return dataSource;
+			return hikariDataSource;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new CoParticipacaoException(e);

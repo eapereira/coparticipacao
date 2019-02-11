@@ -69,8 +69,7 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+		int result = super.hashCode();
 		result = prime * result
 				+ ((arquivoOutputDesconhecidoSheets == null) ? 0 : arquivoOutputDesconhecidoSheets.hashCode());
 		result = prime * result + ((description == null) ? 0 : description.hashCode());
@@ -82,16 +81,11 @@ public class ArquivoOutputDesconhecido extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoOutputDesconhecido other = (ArquivoOutputDesconhecido) obj;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
-				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
-			return false;
 		if (arquivoOutputDesconhecidoSheets == null) {
 			if (other.arquivoOutputDesconhecidoSheets != null)
 				return false;

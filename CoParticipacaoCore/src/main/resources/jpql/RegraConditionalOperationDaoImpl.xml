@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByRegraConditionalId">
+		<![CDATA[
+			select distinct regraConditionalOperation from RegraConditionalOperationEntity regraConditionalOperation			
+			join fetch regraConditionalOperation.regraConditional regraConditional
+			where regraConditional.id = :regraConditionalId
+		]]>
+	</query>
+
+</queries>
+	

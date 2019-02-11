@@ -121,4 +121,11 @@ public class DesconhecidoEntity extends Desconhecido implements DomainEntity {
 		return super.getMatriculaEmpresa();
 	}
 
+	@Column(name = "NM_TITULAR")
+	@Override
+	public String getNameTitular() {
+		// TODO Auto-generated method stub
+		return super.getNameTitular();
+	}
+
 }

@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputSh
  * The persistent class for the tb_arquivo_output_sheet database table.
  * 
  */
-public class ArquivoOutputSheetUi extends ArquivoOutputSheet implements DomainUi {
+public class ArquivoOutputSheetUi extends ArquivoOutputSheet {
 	private static final long serialVersionUID = 1L;
 
 	public ArquivoOutputSheetUi() {

@@ -1,5 +1,7 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.config;
 
+import javax.servlet.Filter;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -10,6 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jmx.export.annotation.AnnotationMBeanExporter;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.ws.config.annotation.EnableWs;
 import org.springframework.ws.config.annotation.WsConfigurerAdapter;
 import org.springframework.ws.soap.SoapVersion;
@@ -86,4 +89,15 @@ public class CoParticipacaoWebServiceConfiguration extends WsConfigurerAdapter {
 			throw new CoParticipacaoException(e);
 		}
 	}
+
+	@Bean
+	public Filter getCharacterEncodingFilter() {
+		CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
+
+		encodingFilter.setEncoding("UTF-8");
+		encodingFilter.setForceEncoding(true);
+
+		return encodingFilter;
+	}
+
 }

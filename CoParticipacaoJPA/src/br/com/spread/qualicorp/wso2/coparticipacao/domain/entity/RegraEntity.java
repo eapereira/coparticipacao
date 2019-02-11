@@ -12,7 +12,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraOperation;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraResult;
@@ -58,10 +58,10 @@ public class RegraEntity extends Regra implements DomainEntity {
 	}
 
 	// bi-directional many-to-one association to ArquivoInput
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT")
-	public ArquivoInput getArquivoInput() {
-		return super.getArquivoInput();
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET")
+	public ArquivoInputSheet getArquivoInputSheet() {
+		return super.getArquivoInputSheet();
 	}
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "regra", targetEntity = RegraOperationEntity.class)
@@ -73,6 +73,13 @@ public class RegraEntity extends Regra implements DomainEntity {
 	@Override
 	public List<RegraResult> getRegraResults() {
 		return super.getRegraResults();
+	}
+
+	@Column(name = "DESCR_REGRA")
+	@Override
+	public String getDescription() {
+		// TODO Auto-generated method stub
+		return super.getDescription();
 	}
 
 }

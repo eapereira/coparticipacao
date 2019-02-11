@@ -10,6 +10,8 @@ import java.util.List;
 public abstract class RegraOperation extends AbstractDomain {
 	private static final long serialVersionUID = 1L;
 
+	private Integer ordem;
+	
 	private Regra regra;
 	private OperationType tpOperation;
 
@@ -18,8 +20,8 @@ public abstract class RegraOperation extends AbstractDomain {
 	private List<RegraValor> regraValors;
 
 	public RegraOperation() {
-		regraFields=new ArrayList<>();
-		regraValors=new ArrayList<>();
+		regraFields = new ArrayList<>();
+		regraValors = new ArrayList<>();
 	}
 
 	public RegraOperation(RegraOperation entity) {
@@ -84,6 +86,60 @@ public abstract class RegraOperation extends AbstractDomain {
 		regraValor.setRegraOperation(null);
 
 		return regraValor;
+	}
+
+	public Integer getOrdem() {
+		return ordem;
+	}
+
+	public void setOrdem(Integer ordem) {
+		this.ordem = ordem;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((ordem == null) ? 0 : ordem.hashCode());
+		result = prime * result + ((regra == null) ? 0 : regra.hashCode());
+		result = prime * result + ((regraFields == null) ? 0 : regraFields.hashCode());
+		result = prime * result + ((regraValors == null) ? 0 : regraValors.hashCode());
+		result = prime * result + ((tpOperation == null) ? 0 : tpOperation.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RegraOperation other = (RegraOperation) obj;
+		if (ordem == null) {
+			if (other.ordem != null)
+				return false;
+		} else if (!ordem.equals(other.ordem))
+			return false;
+		if (regra == null) {
+			if (other.regra != null)
+				return false;
+		} else if (!regra.equals(other.regra))
+			return false;
+		if (regraFields == null) {
+			if (other.regraFields != null)
+				return false;
+		} else if (!regraFields.equals(other.regraFields))
+			return false;
+		if (regraValors == null) {
+			if (other.regraValors != null)
+				return false;
+		} else if (!regraValors.equals(other.regraValors))
+			return false;
+		if (tpOperation != other.tpOperation)
+			return false;
+		return true;
 	}
 
 }

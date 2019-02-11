@@ -16,10 +16,10 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraUi;
 		componentModel = "spring",
 		uses = {
 				UserUiMapper.class,
+				ArquivoInputSheetUiMapper.class,
 				RegraResultUiMapper.class,
 				RegraOperationUiMapper.class,
 				ArquivoInputUiMapper.class })
 public abstract class RegraUiMapper extends AbstractMapper<Regra, RegraUi> {
-	public static final RegraUiMapper INSTANCE = Mappers
-			.getMapper(RegraUiMapper.class);
+	public static final RegraUiMapper INSTANCE = Mappers.getMapper(RegraUiMapper.class);
 }

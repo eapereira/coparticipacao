@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-CelpeSaudeCoparticipacao" pageWidth="1600" pageHeight="99999" columnWidth="1600" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="bbeddaf3-755c-462b-b90c-66ecd23ec244">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/CelpeSaudeCoparticipacaoDataAdapter.xml"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="subFatura" class="java.lang.String">
+		<fieldDescription><![CDATA[subFatura]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
+	<field name="cdContrato" class="java.lang.String">
+		<fieldDescription><![CDATA[cdContrato]]></fieldDescription>
+	</field>
+	<field name="certificado" class="java.lang.String">
+		<fieldDescription><![CDATA[certificado]]></fieldDescription>
+	</field>
+	<field name="matriculaEspecial" class="java.lang.String">
+		<fieldDescription><![CDATA[matriculaEspecial]]></fieldDescription>
+	</field>
+	<field name="cdUsuario" class="java.lang.String">
+		<fieldDescription><![CDATA[cdUsuario]]></fieldDescription>
+	</field>
+	<field name="nameBeneficiario" class="java.lang.String">
+		<fieldDescription><![CDATA[nameBeneficiario]]></fieldDescription>
+	</field>
+	<field name="nameTitular" class="java.lang.String">
+		<fieldDescription><![CDATA[nameTitular]]></fieldDescription>
+	</field>
+	<field name="plano" class="java.lang.String">
+		<fieldDescription><![CDATA[plano]]></fieldDescription>
+	</field>
+	<field name="cpfBeneficiario" class="java.lang.String">
+		<fieldDescription><![CDATA[cpfBeneficiario]]></fieldDescription>
+	</field>
+	<field name="carteiraIdentificacao" class="java.lang.String">
+		<fieldDescription><![CDATA[carteiraIdentificacao]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="f4c0e857-ef63-4744-852c-a4dd8b4dfe1f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Código do Usuário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="200" y="0" width="280" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="29023b0d-2f0e-4631-af2b-d69118d7aa30"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Títular]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="480" y="0" width="280" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="94701b22-631a-4a81-8a9a-d4731e951f56"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Usuário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="760" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="114c1283-f5ca-472b-a381-6aeaa052573f"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cartão]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="860" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="7598103c-a69c-474d-b3f7-f8ebf42981f3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CPF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="960" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="277ec76b-a415-4e6a-9233-d76e0082db34"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor da Participação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1060" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="7709be37-912c-4fe2-a998-7e33bb2b2851"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Certificado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="a06a7790-dc9d-457f-9795-6ffb4b95eab6"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1160" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="b1965eee-5e40-49cb-b2c2-4af129ba4344"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matricula Especial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1260" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="85df2153-f528-4586-9809-ae7244f9ca24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Plano]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1360" y="0" width="100" height="20" forecolor="#FFFFFF" backcolor="#003366" uuid="361a823f-e4c3-4545-a0af-043c02458650"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sub-Fatura]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="654632f8-c9a3-42fa-b4d0-7c6f5de8a99a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cdContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="1c1b0680-f8b7-4d00-bb4d-961fdf5214c9"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cdUsuario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="280" height="20" uuid="d6c311d7-d778-4368-9fe0-c11c146eba36"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameTitular}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="0" width="280" height="20" uuid="983c403d-7ca9-4cf9-9137-230059acd401"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameBeneficiario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="760" y="0" width="100" height="20" uuid="9d64fe79-f9b1-4f74-ac79-36a7cfe541a2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{carteiraIdentificacao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="860" y="0" width="100" height="20" uuid="ba18dfb6-c24c-4d5f-8534-4cf44ba71151"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cpfBeneficiario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="960" y="0" width="100" height="20" uuid="73b34ab9-55ef-4f47-8f98-4fc631404b52"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1060" y="0" width="100" height="20" uuid="efc49802-4fae-4bca-97e6-e6011339cd3a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{certificado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1160" y="0" width="100" height="20" uuid="9f92dbae-2428-45a7-965d-06c233a36329"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matriculaEspecial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1260" y="0" width="100" height="20" uuid="09a74308-d3de-4481-ae4e-5845b081c45d"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{plano}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="1360" y="0" width="100" height="20" uuid="eb5925dd-187c-4b2b-be5f-509584cfbb25"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{subFatura}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

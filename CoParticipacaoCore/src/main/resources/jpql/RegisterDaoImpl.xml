@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByArquivoInputSheetId">
+		<![CDATA[
+			select distinct register from RegisterEntity register
+			join fetch register.arquivoInputSheet arquivoInputSheet
+			join fetch register.registerColumns registerColumns
+			where	arquivoInputSheet.id = :arquivoInputSheetId
+			order by registerColumns.ordem
+		]]>
+	</query>
+
+</queries>
+	

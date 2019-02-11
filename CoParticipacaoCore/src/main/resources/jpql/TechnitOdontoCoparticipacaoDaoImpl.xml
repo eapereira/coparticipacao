@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByMesAndAno">
+		<![CDATA[
+			select view from TechnitOdontoCoparticipacaoViewEntity view
+			where	view.mes = :mes
+			and 	view.ano = :ano
+		]]>
+	</query>
+
+	<query id="listByMesAndAnoAndSubFaturas">
+		<![CDATA[
+			select view from TechnitOdontoCoparticipacaoViewEntity view
+			where	view.mes 	= :mes
+			and 	view.ano 	= :ano
+			and		view.subFatura	in ( :subFaturas )			
+		]]>
+	</query>
+	
+	<query id="listBySubFaturas">
+		<![CDATA[
+			select view from TechnitOdontoCoparticipacaoViewEntity view
+			where	view.subFatura	in ( :subFaturas )			
+		]]>
+	</query>
+	
+</queries>
+	

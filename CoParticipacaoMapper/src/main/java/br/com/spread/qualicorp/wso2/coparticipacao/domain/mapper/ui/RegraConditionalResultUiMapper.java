@@ -16,7 +16,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.RegraConditionalRes
 		uses = {
 				UserUiMapper.class,
 				RegraUiMapper.class,
-				ArquivoInputColsDefUiMapper.class,
+				RegisterColumnUiMapper.class,
 				RegraConditionalUiMapper.class })
 public abstract class RegraConditionalResultUiMapper extends
 		AbstractMapper<RegraConditionalResult, RegraConditionalResultUi> {

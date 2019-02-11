@@ -25,32 +25,26 @@ import br.com.spread.qualicorp.wso2.coparticipacao.ws.CoParticipacaoEndPoint;
 @Endpoint
 public class CoParticipacaoEndpointImpl implements CoParticipacaoEndPoint {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(CoParticipacaoEndpointImpl.class);
+	private static final Logger LOGGER = LogManager.getLogger(CoParticipacaoEndpointImpl.class);
 
 	@Autowired
 	private CoParticipacaoService coParticipacaoService;
 
-	@PayloadRoot(
-			namespace = CoParticipacaoEndPoint.NAMESPACE,
-			localPart = "CoParticipacaoRequest")
+	@PayloadRoot(namespace = CoParticipacaoEndPoint.NAMESPACE, localPart = "CoParticipacaoRequest")
 	@ResponsePayload
-	public CoParticipacaoResponse processFile(
-			@RequestPayload CoParticipacaoRequest coParticipacaoRequest)
+	public CoParticipacaoResponse processFile(@RequestPayload CoParticipacaoRequest coParticipacaoRequest)
 			throws CoParticipacaoException {
 		CoParticipacaoResponse coParticipacaoResponse = null;
 		CoParticipacaoInfo coParticipacaoInfo = null;
 
 		try {
 			LOGGER.info("BEGIN");
-			LOGGER.info(
-					"Receiving file [{}] to process:",
-					coParticipacaoRequest.getFileName());
+			LOGGER.info("Receiving Execucao.ID [{}] to process:", coParticipacaoRequest.getExecucaoId());
+
 			coParticipacaoResponse = new CoParticipacaoResponse();
 
-			coParticipacaoInfo = coParticipacaoService.processFile(
-					coParticipacaoRequest.getFileName().trim(),
-					coParticipacaoRequest.getFilePath().trim());
+			coParticipacaoInfo = coParticipacaoService.processExecucaoId(coParticipacaoRequest.getExecucaoId());
+
 			coParticipacaoResponse.setCoParticipacaoInfo(coParticipacaoInfo);
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);

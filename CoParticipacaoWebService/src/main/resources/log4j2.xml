@@ -5,37 +5,45 @@
 			%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%30.30t] %-40.40c{1.} : %m%n%ex
 		</Property>
 		
-		<Property name="app.home">${sys:user.home}/.CoParticipacao</Property>
+		<Property name="app.home">${sys:user.home}/.coparticipacao</Property>
 	</Properties>
 	<Appenders>
 		<!-- Rolling File Appender -->
-		<RollingFile name="fileAppender" fileName="${app.home}logs/CoParticipacao.log"
-			filePattern="${app.home}logs/CoParticipacao-%d{yyyy-MM-dd}-%i.log">
+		<RollingFile name="fileAppender" fileName="${app.home}/logs/CoParticipacaoWebService.log"
+			filePattern="${app.home}/logs/CoParticipacaoWebService-%d{yyyy-MM-dd}-%i.log.zip">
 			<PatternLayout>
 				<Pattern>${LOG_PATTERN}</Pattern>
 			</PatternLayout>
 			<Policies>
-				<SizeBasedTriggeringPolicy size="50MB" />
+				<TimeBasedTriggeringPolicy interval="2" modulate="true" />
 			</Policies>
-			<DefaultRolloverStrategy max="10" />
+			<DefaultRolloverStrategy>
+		        <Delete basePath="${app.home}/logs" maxDepth="2">
+		          <IfFileName glob="*/CoParticipacaoWebService*.log*" />
+		          <IfLastModified age="30d" />
+		        </Delete>
+			</DefaultRolloverStrategy>						
 		</RollingFile>
 
-		<Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+		<Console name="consoleAppender" target="SYSTEM_OUT" follow="true">
 			<PatternLayout pattern="${LOG_PATTERN}" />
 		</Console>
 	</Appenders>
 	<Loggers>
 		<Logger name="br.com.spread.qualicorp.wso2.coparticipacao"
 			level="debug" additivity="false">
-			<AppenderRef ref="ConsoleAppender" />
+			<AppenderRef ref="consoleAppender" />
+			<AppenderRef ref="fileAppender" />
 		</Logger>
 
 		<Logger name="org.springframework" level="debug" additivity="false">
-			<AppenderRef ref="ConsoleAppender" />
+			<AppenderRef ref="consoleAppender" />
+			<AppenderRef ref="fileAppender" />
 		</Logger>
 
 		<Root level="debug">
-			<AppenderRef ref="ConsoleAppender" />
+			<AppenderRef ref="consoleAppender" />
+			<AppenderRef ref="fileAppender" />
 		</Root>
 	</Loggers>
 </Configuration>

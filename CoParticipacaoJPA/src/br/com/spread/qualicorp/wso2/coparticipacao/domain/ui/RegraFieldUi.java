@@ -8,7 +8,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraFieldEntit
  * 
  */
 
-public class RegraFieldUi extends RegraField implements DomainUi {
+public class RegraFieldUi extends RegraField {
 	private static final long serialVersionUID = 1L;
 
 	public RegraFieldUi() {

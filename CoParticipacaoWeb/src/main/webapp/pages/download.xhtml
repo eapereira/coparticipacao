@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:copa="http://java.sun.com/jsf/composite/coparticipacao">
+
+<copa:body id="bodyCoparticipacao" title="#{msg['download.title']}">
+	<script type="text/javascript">
+		function start() {
+			PF('statusDialog').show();
+		}
+
+		function stop() {
+			PF('statusDialog').hide();
+		}
+	</script>
+
+	<h:form id="formUpload">
+
+		<copa:selectEmpresa id="selectEmpresa"
+			valueChangeListener="#{downloadBean.valueChangeListenerUpdateArquivoExecucao}"
+			update="bodyCoparticipacao:formUpload:datatableArquivoExecucao"
+			value="#{downloadBean.empresaUi}" />
+
+		<p:poll interval="3" update="datatableArquivoExecucao"
+			widgetVar="pollTimer" listener="#{downloadBean.pollListener}" stop="#{downloadBean.stopPoll}"/>
+
+		<p:dataTable id="datatableArquivoExecucao" var="arquivoExecucao"
+			value="#{downloadBean.arquivoExecucaoUis}" paginator="true" rows="10">
+			<f:facet name="header">
+				<h:outputText value="#{msg['download.table.title']}" />
+			</f:facet>
+
+			<p:column id="colTask">
+				<p:commandButton value="#{msg['global.download']}" ajax="false"
+					icon="ui-icon-arrowthick-1-s"
+					rendered="#{downloadBean.renderedDownloadButton(arquivoExecucao)}"
+					disabled="#{downloadBean.disabledDownloadButton}">
+
+					<f:setPropertyActionListener value="#{arquivoExecucao}"
+						target="#{downloadBean.selectedArquivoExecucaoUi}" />
+					<p:fileDownload value="#{downloadBean.downloadFile}" />
+				</p:commandButton>
+			</p:column>
+
+			<p:column id="colFileName">
+				<f:facet name="header">
+					<h:outputText value="#{msg['download.table.filename']}" />
+				</f:facet>
+				<h:outputText value="#{arquivoExecucao.contrato.description}" />
+			</p:column>
+
+			<p:column id="colContrato">
+				<f:facet name="header">
+					<h:outputText value="#{msg['download.table.contrato']}" />
+				</f:facet>
+				<h:outputText value="#{arquivoExecucao.contrato.nameContrato}" />
+			</p:column>
+
+			<p:column id="colStatus">
+				<f:facet name="header">
+					<h:outputText value="#{msg['download.table.status']}" />
+				</f:facet>
+				<h:outputText
+					value="#{arquivoExecucao.statusExecucaoType.description}" />
+			</p:column>
+
+			<p:column id="colExecutionTime">
+				<f:facet name="header">
+					<h:outputText value="#{msg['download.table.executionTime']}" />
+				</f:facet>
+				<h:outputText value="#{arquivoExecucao.executionTime}" />
+			</p:column>
+
+			<p:column id="colErrorMessage">
+				<f:facet name="header">
+					<h:outputText value="#{msg['download.table.errorMessage']}" />
+				</f:facet>
+				<h:outputText value="#{arquivoExecucao.errorMessage}" />
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+	<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+		draggable="false" closable="false" resizable="false">
+		<p:graphicImage name="/demo/images/ajaxloadingbar.gif" />
+	</p:dialog>
+
+</copa:body>
+</html>

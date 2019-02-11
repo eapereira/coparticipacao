@@ -11,7 +11,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditional;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalOperation;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraConditionalResult;
@@ -46,10 +46,10 @@ public class RegraConditionalEntity extends RegraConditional implements DomainEn
 	}
 
 	// bi-directional many-to-one association to ArquivoInput
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT")
-	public ArquivoInput getArquivoInput() {
-		return super.getArquivoInput();
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputSheetEntity.class)
+	@JoinColumn(name = "ID_ARQUIVO_INPUT_SHEET")
+	public ArquivoInputSheet getArquivoInputSheet() {
+		return super.getArquivoInputSheet();
 	}
 
 	@OneToMany(

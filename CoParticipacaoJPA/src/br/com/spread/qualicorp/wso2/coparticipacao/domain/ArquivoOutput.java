@@ -17,6 +17,8 @@ public abstract class ArquivoOutput extends AbstractDomain {
 	private String descrArquivo;
 
 	private String nameArquivoFormat;
+	
+	private ArquivoType arquivoType;
 
 	private ArquivoInput arquivoInput;
 
@@ -78,19 +80,23 @@ public abstract class ArquivoOutput extends AbstractDomain {
 	public void setArquivoInput(ArquivoInput arquivoInput) {
 		this.arquivoInput = arquivoInput;
 	}
+	
+	public ArquivoType getArquivoType() {
+		return arquivoType;
+	}
+
+	public void setArquivoType(ArquivoType arquivoType) {
+		this.arquivoType = arquivoType;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
-		result = prime * result + ((arquivoOutputSheets == null) ? 0
-				: arquivoOutputSheets.hashCode());
-		result = prime * result
-				+ ((descrArquivo == null) ? 0 : descrArquivo.hashCode());
-		result = prime * result + ((nameArquivoFormat == null) ? 0
-				: nameArquivoFormat.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((arquivoOutputSheets == null) ? 0 : arquivoOutputSheets.hashCode());
+		result = prime * result + ((arquivoType == null) ? 0 : arquivoType.hashCode());
+		result = prime * result + ((descrArquivo == null) ? 0 : descrArquivo.hashCode());
+		result = prime * result + ((nameArquivoFormat == null) ? 0 : nameArquivoFormat.hashCode());
 		return result;
 	}
 
@@ -98,20 +104,17 @@ public abstract class ArquivoOutput extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		ArquivoOutput other = (ArquivoOutput) obj;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
-				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
-			return false;
 		if (arquivoOutputSheets == null) {
 			if (other.arquivoOutputSheets != null)
 				return false;
 		} else if (!arquivoOutputSheets.equals(other.arquivoOutputSheets))
+			return false;
+		if (arquivoType != other.arquivoType)
 			return false;
 		if (descrArquivo == null) {
 			if (other.descrArquivo != null)

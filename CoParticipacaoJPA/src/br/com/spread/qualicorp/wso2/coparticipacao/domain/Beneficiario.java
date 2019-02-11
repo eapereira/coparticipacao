@@ -34,7 +34,20 @@ public abstract class Beneficiario extends AbstractDomain {
 
 	private Long referenceCode;
 
+	private LocalDate dtDemissao;
+
+	private String nameTitular;
+
+	private Long matriculaTitular;
+
+	private String cdContrato;
+
+	private Contrato contrato;
+
+	private BeneficiarioDetail beneficiarioDetail;
+
 	public Beneficiario() {
+		beneficiarioDetail = new BeneficiarioDetail();
 	}
 
 	public LocalDate getDtNascimento() {
@@ -117,18 +130,58 @@ public abstract class Beneficiario extends AbstractDomain {
 		this.referenceCode = referenceCode;
 	}
 
+	public LocalDate getDtDemissao() {
+		return dtDemissao;
+	}
+
+	public void setDtDemissao(LocalDate dtDemissao) {
+		this.dtDemissao = dtDemissao;
+	}
+
+	public String getNameTitular() {
+		return nameTitular;
+	}
+
+	public void setNameTitular(String nameTitular) {
+		this.nameTitular = nameTitular;
+	}
+
+	public Long getMatriculaTitular() {
+		return matriculaTitular;
+	}
+
+	public void setMatriculaTitular(Long matriculaTitular) {
+		this.matriculaTitular = matriculaTitular;
+	}
+
+	public BeneficiarioDetail getBeneficiarioDetail() {
+		if (beneficiarioDetail == null) {
+			beneficiarioDetail = new BeneficiarioDetail();
+		}
+
+		return beneficiarioDetail;
+	}
+
+	public void setBeneficiarioDetail(BeneficiarioDetail beneficiarioDetail) {
+		this.beneficiarioDetail = beneficiarioDetail;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result + ((beneficiarioDetail == null) ? 0 : beneficiarioDetail.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((digitoCpf == null) ? 0 : digitoCpf.hashCode());
 		result = prime * result + ((dtAdmissao == null) ? 0 : dtAdmissao.hashCode());
+		result = prime * result + ((dtDemissao == null) ? 0 : dtDemissao.hashCode());
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
 		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
+		result = prime * result + ((matriculaTitular == null) ? 0 : matriculaTitular.hashCode());
 		result = prime * result + ((nameBeneficiario == null) ? 0 : nameBeneficiario.hashCode());
+		result = prime * result + ((nameTitular == null) ? 0 : nameTitular.hashCode());
 		result = prime * result + ((referenceCode == null) ? 0 : referenceCode.hashCode());
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -138,11 +191,16 @@ public abstract class Beneficiario extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Beneficiario other = (Beneficiario) obj;
+		if (beneficiarioDetail == null) {
+			if (other.beneficiarioDetail != null)
+				return false;
+		} else if (!beneficiarioDetail.equals(other.beneficiarioDetail))
+			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
@@ -157,6 +215,11 @@ public abstract class Beneficiario extends AbstractDomain {
 			if (other.dtAdmissao != null)
 				return false;
 		} else if (!dtAdmissao.equals(other.dtAdmissao))
+			return false;
+		if (dtDemissao == null) {
+			if (other.dtDemissao != null)
+				return false;
+		} else if (!dtDemissao.equals(other.dtDemissao))
 			return false;
 		if (dtNascimento == null) {
 			if (other.dtNascimento != null)
@@ -178,10 +241,20 @@ public abstract class Beneficiario extends AbstractDomain {
 				return false;
 		} else if (!matriculaEmpresa.equals(other.matriculaEmpresa))
 			return false;
+		if (matriculaTitular == null) {
+			if (other.matriculaTitular != null)
+				return false;
+		} else if (!matriculaTitular.equals(other.matriculaTitular))
+			return false;
 		if (nameBeneficiario == null) {
 			if (other.nameBeneficiario != null)
 				return false;
 		} else if (!nameBeneficiario.equals(other.nameBeneficiario))
+			return false;
+		if (nameTitular == null) {
+			if (other.nameTitular != null)
+				return false;
+		} else if (!nameTitular.equals(other.nameTitular))
 			return false;
 		if (referenceCode == null) {
 			if (other.referenceCode != null)
@@ -191,6 +264,22 @@ public abstract class Beneficiario extends AbstractDomain {
 		if (type != other.type)
 			return false;
 		return true;
+	}
+
+	public String getCdContrato() {
+		return cdContrato;
+	}
+
+	public void setCdContrato(String cdContrato) {
+		this.cdContrato = cdContrato;
+	}
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 }

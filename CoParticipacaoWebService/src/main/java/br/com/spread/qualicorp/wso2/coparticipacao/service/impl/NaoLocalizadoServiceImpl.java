@@ -12,6 +12,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
+import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
@@ -37,14 +40,14 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 	private BeneficiarioService beneficiarioService;
 
 	@Override
-	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
 		TitularUi titularUi;
+		ProcessLineResult processLineResult = ProcessLineResult.READ_NEXT;
 
 		try {
 			LOGGER.info("BEGIN");
-
 			beneficiarioUi = beneficiarioService.createBeneficiarioFromMecsas(coParticipacaoContext);
 
 			if (BeneficiarioType.TITULAR.equals(beneficiarioUi.getType())) {
@@ -66,14 +69,23 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 						beneficiarioUi.getNameBeneficiario(),
 						beneficiarioUi.getMatricula());
 
+				coParticipacaoContext.setTitularUi(null);
+
 				dependenteUi = beneficiarioService.createDependente(coParticipacaoContext, beneficiarioUi);
 
-				if (dependenteUi == null) {
+				if (dependenteUi == null && coParticipacaoContext.getTitularUi() == null) {
 					desconhecidoService.createDesconhecido(coParticipacaoContext, beneficiarioUi);
 				}
 			}
 
 			LOGGER.info("END");
+			return processLineResult;
+		} catch (TitularDuplicated e) {
+			LOGGER.info(e.getMessage());
+			return processLineResult;
+		} catch (DependenteDuplicated e) {
+			LOGGER.info(e.getMessage());
+			return processLineResult;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -83,6 +95,22 @@ public class NaoLocalizadoServiceImpl extends MecsasServiceImpl implements NaoLo
 	@Override
 	public boolean validateSheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		return true;
+	}
+
+	@Override
+	public void afterProcess(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		try {
+			LOGGER.info("BEGIN");
+
+			super.afterProcess(coParticipacaoContext);
+
+			// desconhecidoService.writeDesconhecidosFile(coParticipacaoContext);
+
+			LOGGER.info("END");
+		} catch (Exception e) {
+			LOGGER.error(e.getMessage(), e);
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
 
 }

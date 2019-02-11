@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByEmpresaId">
+		<![CDATA[
+			select
+				ID,
+				NR_MATRICULA,
+				NR_CPF,
+				NM_DEPENDENTE
+			from VW_DEPENDENTE_RESUMO
+			where ID_EMPRESA = ?	
+		]]>
+	</query>
+</queries>

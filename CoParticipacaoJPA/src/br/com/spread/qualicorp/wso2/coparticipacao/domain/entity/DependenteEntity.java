@@ -3,9 +3,9 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -14,9 +14,9 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
@@ -115,15 +115,11 @@ public class DependenteEntity extends Dependente implements DomainEntity {
 		return super.getMatriculaEmpresa();
 	}
 
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			fetch = FetchType.LAZY,
-			mappedBy = "dependente",
-			targetEntity = DependenteDetailEntity.class)
+	@Embedded
 	@Override
-	public List<DependenteDetail> getDependenteDetails() {
+	public BeneficiarioDetail getBeneficiarioDetail() {
 		// TODO Auto-generated method stub
-		return super.getDependenteDetails();
+		return super.getBeneficiarioDetail();
 	}
 
 }

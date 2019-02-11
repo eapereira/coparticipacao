@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByRegraOperationId">
+		<![CDATA[
+			select distinct regraField from RegraFieldEntity regraField
+			join fetch regraField.registerColumn registerColumn 
+			join fetch regraField.regraOperation regraOperation
+			where  regraOperation.id = :regraOperationId
+		]]>
+	</query>
+
+</queries>
+	

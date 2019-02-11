@@ -53,4 +53,11 @@ public class ArquivoOutputSheetEntity extends ArquivoOutputSheet implements Doma
 		return super.getViewDestination();
 	}
 
+	@Column(name = "CD_ORDEM")
+	@Override
+	public Integer getOrdem() {
+		// TODO Auto-generated method stub
+		return super.getOrdem();
+	}
+
 }

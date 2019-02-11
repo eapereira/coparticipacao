@@ -2,11 +2,8 @@ package br.com.spread.qualicorp.wso2.coparticipacao.config;
 
 import javax.sql.DataSource;
 
-import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.mybatis.spring.SqlSessionFactoryBean;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +16,9 @@ import org.springframework.jdbc.datasource.lookup.JndiDataSourceLookup;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.ws.config.annotation.EnableWs;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoException;
 
 @Configuration
@@ -26,17 +26,17 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.CoParticipacaoExcep
 @EnableWs
 @EnableAutoConfiguration
 @EnableTransactionManagement
-@MapperScan("br.com.spread.qualicorp.wso2.coparticipacao.mapper")
 @Profile(value = "desenv")
 public class JdbcConfiguration {
 	private static final Logger LOGGER = LogManager.getLogger(JdbcConfiguration.class);
 
 	private static final String CO_PARTICIPACAO_DS = "jdbc/CoparticipacaoJdbcDS";
 
-	@Bean
-	@Qualifier(value = "jdbcTransactionManager")
-	public DataSourceTransactionManager dataSourceTransactionManager(DataSource dataSourceJdbc)
-			throws CoParticipacaoException {
+	private static final long QUERY_TIMEOUT = 2700000l;
+	
+	@Bean(name = "jdbcTransactionManager")
+	public DataSourceTransactionManager dataSourceTransactionManager(
+			@Qualifier("jdbcDataSource") DataSource dataSourceJdbc) throws CoParticipacaoException {
 		DataSourceTransactionManager transactionManager;
 
 		try {
@@ -52,23 +52,33 @@ public class JdbcConfiguration {
 		}
 	}
 
-	@Bean
-	@Qualifier(value = "dataSourceJdbc")
-	public DataSource dataSourceJdbc() throws CoParticipacaoException {
+	@Bean(name = "jdbcDataSource")
+	public DataSource dataSource() throws Exception {
 		JndiDataSourceLookup dataSourceLookup;
 		DataSource dataSource;
+		HikariDataSource hikariDataSource;
+		HikariConfig hikariConfig;
 
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Creating DataSource");
 
-			Class.forName("com.mysql.cj.jdbc.Driver");
-
 			dataSourceLookup = new JndiDataSourceLookup();
+			dataSourceLookup.setResourceRef(true);
 			dataSource = dataSourceLookup.getDataSource(CO_PARTICIPACAO_DS);
 
+			hikariConfig = new HikariConfig();
+			hikariConfig.setDataSource(dataSource);			
+			hikariConfig.setPoolName("JPA-DataSource");
+			hikariConfig.setConnectionTimeout(QUERY_TIMEOUT);
+			hikariConfig.setIdleTimeout(QUERY_TIMEOUT);
+			hikariConfig.setMaxLifetime(QUERY_TIMEOUT);
+			hikariConfig.setValidationTimeout(QUERY_TIMEOUT);
+			
+			hikariDataSource = new HikariDataSource(hikariConfig);
+
 			LOGGER.info("END");
-			return dataSource;
+			return hikariDataSource;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new CoParticipacaoException(e);
@@ -76,14 +86,14 @@ public class JdbcConfiguration {
 	}
 
 	@Bean
-	public JdbcTemplate jdbcTemplate(@Qualifier("dataSourceJdbc") DataSource dataSourceJdbc)
+	public JdbcTemplate jdbcTemplate(@Qualifier("jdbcDataSource") DataSource dataSource)
 			throws CoParticipacaoException {
 		JdbcTemplate jdbcTemplate;
 
 		try {
 			LOGGER.info("BEGIN");
 
-			jdbcTemplate = new JdbcTemplate(dataSourceJdbc);
+			jdbcTemplate = new JdbcTemplate(dataSource);
 
 			LOGGER.info("END");
 			return jdbcTemplate;
@@ -92,23 +102,6 @@ public class JdbcConfiguration {
 			throw new CoParticipacaoException(e);
 		}
 
-	}
-
-	@Bean
-	public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws CoParticipacaoException {
-		SqlSessionFactoryBean sessionFactory;
-
-		try {
-			LOGGER.info("BEGIN");
-
-			sessionFactory = new SqlSessionFactoryBean();
-			sessionFactory.setDataSource(dataSource);
-
-			return sessionFactory.getObject();
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage(), e);
-			throw new CoParticipacaoException(e);
-		}
 	}
 
 }

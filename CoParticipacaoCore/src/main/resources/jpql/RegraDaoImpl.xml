@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByArquivoInputId">
+		<![CDATA[
+			select distinct regra from RegraEntity regra
+			join fetch regra.regraOperations regraOperations
+			join fetch regra.arquivoInputSheet arquivoInputSheet
+			join arquivoInputSheet.arquivoInput arquivoInput
+			where arquivoInput.id = :arquivoInputId
+			order by arquivoInputSheet.sheetId, regra.ordem
+		]]>
+	</query>
+	
+	<query id="listByArquivoInputSheetId">
+		<![CDATA[
+			select distinct regra from RegraEntity regra
+			join fetch regra.regraOperations regraOperations
+			join fetch regra.arquivoInputSheet arquivoInputSheet
+			where arquivoInputSheet.id = :arquivoInputSheetId
+			order by regra.ordem
+		]]>
+	</query>
+	
+</queries>
+	

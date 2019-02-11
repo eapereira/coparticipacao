@@ -9,7 +9,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.BeneficiarioColTypeConverter;
@@ -42,12 +43,11 @@ public class BeneficiarioColsEntity extends BeneficiarioCols implements DomainEn
 		return super.getBeneficiarioColType();
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL, targetEntity = ArquivoInputColsDefEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
+	@ManyToOne(cascade = CascadeType.ALL, targetEntity = RegisterColumnEntity.class)
+	@JoinColumn(name = "ID_REGISTER_COLUMN")
 	@Override
-	public ArquivoInputColsDef getArquivoInputColsDef() {
+	public RegisterColumn getRegisterColumn() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputColsDef();
+		return super.getRegisterColumn();
 	}
-
 }

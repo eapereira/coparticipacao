@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SpreadResumoCoparticipacao" pageWidth="700" pageHeight="842" columnWidth="700" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" isIgnorePagination="true" uuid="1fe3e239-d6be-4ccf-a0d5-dd3891349f99">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src\main\resources\dataAdapter\bradesco\SpreadSaudeResumoCoparticipacaoDataAdapter.xml"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="valorIsento" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorIsento]]></fieldDescription>
+	</field>
+	<field name="valorPrincipal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorPrincipal]]></fieldDescription>
+	</field>
+	<field name="nameEmpresa" class="java.lang.String">
+		<fieldDescription><![CDATA[nameEmpresa]]></fieldDescription>
+	</field>
+	<field name="valorParticipacao" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorParticipacao]]></fieldDescription>
+	</field>
+	<variable name="VAR_totalValorPrincipal" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorPrincipal}]]></variableExpression>
+	</variable>
+	<variable name="VAR_totalValorIsento" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorIsento}]]></variableExpression>
+	</variable>
+	<variable name="VAR_totalValorParticipacao" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorParticipacao}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="300" height="20" backcolor="#FFC300" uuid="7f9c1714-ea0c-4f9e-b1f3-98d95bbc5fd8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Empresa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="300" y="0" width="150" height="20" backcolor="#FFC300" uuid="30f582b5-1b93-412e-b169-e1580cc724f8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Coparticipação]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="300" height="20" uuid="279f6b9b-c308-48ba-81ec-229a1aacdb20"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nameEmpresa}]]></textFieldExpression>
+				<patternExpression><![CDATA[$F{nameEmpresa}]]></patternExpression>
+			</textField>
+			<textField pattern="#,##0.00">
+				<reportElement x="300" y="0" width="150" height="20" uuid="953951c5-1c5d-491b-8016-351334762192"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valorParticipacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="20">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="300" height="20" isPrintInFirstWholeBand="true" backcolor="#FFC300" uuid="c020bbef-860a-4742-913c-2c0300277f5a"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Geral]]></text>
+			</staticText>
+			<textField pattern="#,##0.00">
+				<reportElement mode="Opaque" x="300" y="0" width="150" height="20" backcolor="#FFC300" uuid="b8e1d4d3-4ebe-4bf9-a79e-ef4fbadcdaf4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{VAR_totalValorParticipacao}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+</jasperReport>

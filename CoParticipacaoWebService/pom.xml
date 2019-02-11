@@ -20,6 +20,29 @@
 		<spring.version>4.3.18.RELEASE</spring.version>
 	</properties>
 
+	<profiles>
+		<profile>
+			<id>DESENV</id>
+
+			<properties>
+				<jpa.showSql>true</jpa.showSql>
+				<jpa.formastSql>true</jpa.formastSql>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<profile>
+			<id>PROD</id>
+
+			<properties>
+				<jpa.showSql>false</jpa.showSql>
+				<jpa.formastSql>false</jpa.formastSql>
+			</properties>
+		</profile>
+	</profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -78,11 +101,15 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
 		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>1.3.2</version>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.7.4</version>
+			<scope>test</scope>
 		</dependency>
+
+
 		<!-- ////////////////////////////////////////////////////////////////////////////////// -->
 		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
 		<dependency>
@@ -106,27 +133,7 @@
 			<version>8.0.11</version>
 		</dependency>
 
-		<dependency>
-			<groupId>br.com.spread.qualicorp.wso2.coparticipacao</groupId>
-			<artifactId>CoParticipacaoJPA</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-
 		<!-- //////////////////////////////////////////////////////////////////////////////////////////////////// -->
-
-		<!-- https://mvnrepository.com/artifact/org.milyn/milyn-smooks-all -->
-		<dependency>
-			<groupId>org.milyn</groupId>
-			<artifactId>milyn-smooks-all</artifactId>
-			<version>1.7.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>javassist</groupId>
-					<artifactId>javassist</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
@@ -150,6 +157,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>br.com.spread.qualicorp.wso2.coparticipacao</groupId>
+			<artifactId>CoParticipacaoJPA</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>
 				br.com.spread.qualicorp.wso2.coparticipacao
 			</groupId>
@@ -160,7 +172,14 @@
 			<groupId>
 				br.com.spread.qualicorp.wso2.coparticipacao
 			</groupId>
-			<artifactId>CoParticipacaoJDBC</artifactId>
+			<artifactId>CoParticipacaoCore</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>
+				br.com.spread.qualicorp.wso2.coparticipacao
+			</groupId>
+			<artifactId>CoParticipacaoReport</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
@@ -173,7 +192,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
 				<configuration>
-					<source>${java.source}</source>
+					<source>${java.version}</source>
 					<target>${java.target}</target>
 					<encoding>${java.encoding}</encoding>
 
@@ -206,5 +225,12 @@
 			</plugin>
 
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 </project>

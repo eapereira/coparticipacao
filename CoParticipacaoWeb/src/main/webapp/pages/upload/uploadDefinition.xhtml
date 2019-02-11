@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:sec="http://www.springframework.org/security/tags"
+	xmlns:copa="http://java.sun.com/jsf/composite/coparticipacao">
+
+<copa:body id="bodyCoparticipacao"
+	title="#{msg['upload.title']} - #{uploadBean.nameUpload}">
+	<h:form id="formUpload">
+
+		<p:dataTable id="datatableUploadDefinition" var="arquivoExecucao"
+			value="#{uploadBean.arquivoExecucaoUis}" paginator="true" rows="10">
+			<f:facet name="header">
+				<h:outputText value="#{msg['upload.table.title']}" />
+			</f:facet>
+
+			<p:column id="colTipo">
+				<f:facet name="header">
+					<h:outputText value="#{msg['uploadDefinition.table.tipo']}" />
+				</f:facet>
+
+				<copa:selectContrato id="selectContrato" mode="simple"
+					empresa="#{uploadBean.empresaUi}"
+					update=":bodyCoparticipacao:formUpload:btNext"
+					value="#{arquivoExecucao.contrato}" />
+
+			</p:column>
+
+			<p:column id="colFileName">
+				<f:facet name="header">
+					<h:outputText value="#{msg['upload.table.filename']}" />
+				</f:facet>
+				<h:outputText value="#{arquivoExecucao.simpleNameArquivoInput}" />
+			</p:column>
+
+			<p:column id="colStatus">
+				<f:facet name="header">
+					<h:outputText value="#{msg['upload.table.status']}" />
+				</f:facet>
+				<h:outputText
+					value="#{arquivoExecucao.statusExecucaoType.description}" />
+			</p:column>
+
+		</p:dataTable>
+
+		<br />
+
+		<p:commandButton id="btNext" value="#{msg['global.confirm']}"
+			disabled="#{uploadBean.disabledConfirmUploadDefinition}"
+			action="#{uploadBean.confirmUploadDefinition}" />
+		<p:commandButton id="btCancel" value="#{msg['global.cancel']}"
+			action="#{uploadBean.cancelar}" />
+	</h:form>
+
+</copa:body>
+</html>

@@ -1,0 +1,48 @@
+.ui-widget {
+	font-size: 10pt !important;
+}
+
+.ui-widget-content {
+	background-color: #d5d8dc !important; /* cinza */
+	background: #d5d8dc !important; /* cinza */
+	color: #d35400 !important; /* laranja */
+}
+
+.errorMessage {
+	color: #c0392b; /* red */
+}
+
+.panelLogin {
+	position: relative;
+	top: 15em !important;
+	left: 35em !important;
+	width: 400px;
+}
+
+.appTitle {
+	font-size: 24px !important;
+	font-family: Arial;
+	font-weight: bold;
+	color: #000000 !important; /* black */
+	text-align: center;
+	padding-left: 4em;
+}
+
+.ui-panelAppTitle {
+	height: 60px;
+	width: 100%;
+	background-color: #ffffff !important;
+}
+
+.ui-panelAppTitle td {
+	background-color: #ffffff !important;
+	border-style: none !important;
+}
+
+.ui-label{
+	display:		block;
+	width: 			10em;
+	clear: 			left;
+	padding-right:	0.2em;
+	color: 			#d35400 !important; /* laranja */
+}

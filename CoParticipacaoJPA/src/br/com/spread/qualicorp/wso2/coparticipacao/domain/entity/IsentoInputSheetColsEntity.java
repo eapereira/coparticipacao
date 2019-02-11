@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioIsentoColType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.IsentoInputSheetCols;
@@ -34,16 +34,16 @@ public class IsentoInputSheetColsEntity extends IsentoInputSheetCols implements 
 
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
+	@JoinColumn(name = "ID_REGISTER_COLUMN")
 	@Override
-	public ArquivoInputColsDef getArquivoInputColsDef() {
+	public RegisterColumn getRegisterColumn() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputColsDef();
+		return super.getRegisterColumn();
 	}
 
 	@Convert(converter = BeneficiarioIsentoColTypeConverter.class)
-	@Column(name = "CD_BENEFICIARIO_COLS_DEF")
+	@Column(name = "CD_BENEFICIARIO_ISENTO_COLS_DEF")
 	@Override
 	public BeneficiarioIsentoColType getBeneficiarioIsentoColType() {
 		// TODO Auto-generated method stub
@@ -56,12 +56,5 @@ public class IsentoInputSheetColsEntity extends IsentoInputSheetCols implements 
 	public IsentoInputSheet getIsentoInputSheet() {
 		// TODO Auto-generated method stub
 		return super.getIsentoInputSheet();
-	}
-
-	@Column(name = "CD_ORDEM")
-	@Override
-	public Integer getOrdem() {
-		// TODO Auto-generated method stub
-		return super.getOrdem();
 	}
 }

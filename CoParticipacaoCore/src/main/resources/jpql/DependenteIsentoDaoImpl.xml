@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="deleteByMesAndAno">
+		<![CDATA[
+			delete from DependenteIsentoEntity dependenteIsento
+			where	dependenteIsento.dependente.id in (
+				select dependenteRoot.id from DependenteEntity dependenteRoot
+				join dependenteRoot.titular titular
+				join titular.empresa empresa
+				where 	dependenteRoot.id 	= dependenteIsento.dependente.id
+				and		empresa.id 			= :empresaId )
+			and		dependenteIsento.mes 		= :mes
+			and		dependenteIsento.ano 		= :ano
+		]]>
+	</query>
+
+	<query id="deleteByContratoAndMesAndAno">
+		<![CDATA[
+			delete from DependenteIsentoEntity dependenteIsento
+			where	dependenteIsento.contrato.id	= :contratoId
+			and		dependenteIsento.mes 			= :mes
+			and		dependenteIsento.ano 			= :ano
+		]]>
+	</query>
+
+	<query id="listByEmpresaId">
+		<![CDATA[
+			select dependenteIsento from DependenteIsentoEntity dependenteIsento
+			join fetch dependenteIsento.dependente dependente
+			join dependente.titular titular
+			join titular.contrato contrato
+			join contrato.empresa empresa
+			where empresa.id = :empresaId
+		]]>
+	</query>
+
+</queries>
+	

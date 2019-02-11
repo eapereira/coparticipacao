@@ -2,26 +2,27 @@ package br.com.spread.qualicorp.wso2.coparticipacao.domain.entity;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoExecucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.DependenteIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Execucao;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInput;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.LancamentoInputCols;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Operadora;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Parameter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraField;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraOperation;
@@ -29,6 +30,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraValor;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.User;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.UserRole;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.UserStatusType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestination;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ViewDestinationColsDef;
@@ -61,7 +63,7 @@ public class UserEntity extends User implements DomainEntity {
 		return super.getDescrName();
 	}
 
-	@Column(name = "DESCR_PASSWD")
+	@Column(name = "CD_PASSWD")
 	public String getPasswd() {
 		return super.getPasswd();
 	}
@@ -89,16 +91,16 @@ public class UserEntity extends User implements DomainEntity {
 		return super.getArquivoInputsUserAltered();
 	}
 
-	// bi-directional many-to-one association to ArquivoInputColsDef
-	@OneToMany(mappedBy = "userCreated", targetEntity = ArquivoInputColsDefEntity.class)
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserCreated() {
-		return super.getArquivoInputColsDefUserCreated();
+	// bi-directional many-to-one association to RegisterColumn
+	@OneToMany(mappedBy = "userCreated", targetEntity = RegisterColumnEntity.class)
+	public List<RegisterColumn> getRegisterColumnUserCreated() {
+		return super.getRegisterColumnUserCreated();
 	}
 
-	// bi-directional many-to-one association to ArquivoInputColsDef
-	@OneToMany(mappedBy = "userAltered", targetEntity = ArquivoInputColsDefEntity.class)
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserAltered() {
-		return super.getArquivoInputColsDefUserAltered();
+	// bi-directional many-to-one association to RegisterColumn
+	@OneToMany(mappedBy = "userAltered", targetEntity = RegisterColumnEntity.class)
+	public List<RegisterColumn> getRegisterColumnUserAltered() {
+		return super.getRegisterColumnUserAltered();
 	}
 
 	// bi-directional many-to-one association to ArquivoOutput
@@ -171,18 +173,6 @@ public class UserEntity extends User implements DomainEntity {
 	@OneToMany(mappedBy = "userAltered", targetEntity = EmpresaEntity.class)
 	public List<Empresa> getEmpresasUserAltered() {
 		return super.getEmpresasUserAltered();
-	}
-
-	// bi-directional many-to-one association to InputLancamento
-	@OneToMany(mappedBy = "userCreated", targetEntity = LancamentoInputEntity.class)
-	public List<LancamentoInput> getInputLancamentosUserCreated() {
-		return super.getInputLancamentosUserCreated();
-	}
-
-	// bi-directional many-to-one association to InputLancamento
-	@OneToMany(mappedBy = "userAltered", targetEntity = LancamentoInputEntity.class)
-	public List<LancamentoInput> getInputLancamentosUserAltered() {
-		return super.getInputLancamentosUserAltered();
 	}
 
 	// bi-directional many-to-one association to Lancamento
@@ -307,44 +297,59 @@ public class UserEntity extends User implements DomainEntity {
 		return super.getViewDestinationColsDefsUserAltered();
 	}
 
-	// bi-directional many-to-one association to Parameter
-	@OneToMany(mappedBy = "userCreated", targetEntity = ParameterEntity.class)
-	public List<Parameter> getUserCreatedParameter() {
-		return super.getUserCreatedParameter();
-	}
-
-	// bi-directional many-to-one association to Parameter
-	@OneToMany(mappedBy = "userAltered", targetEntity = ParameterEntity.class)
-	public List<Parameter> getUserAlteredParameter() {
-		return super.getUserAlteredParameter();
-	}
-
-	@OneToMany(mappedBy = "userCreated", targetEntity = LancamentoInputEntity.class)
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "user",
+			targetEntity = UserRoleEntity.class)
 	@Override
-	public List<LancamentoInput> getLancamentoInputUserCreated() {
+	public List<UserRole> getUserRoles() {
 		// TODO Auto-generated method stub
-		return super.getLancamentoInputUserCreated();
+		return super.getUserRoles();
 	}
 
-	@OneToMany(mappedBy = "userAltered", targetEntity = LancamentoInputEntity.class)
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userCreated",
+			targetEntity = ArquivoExecucaoEntity.class)
 	@Override
-	public List<LancamentoInput> getLancamentoInputUserAltered() {
+	public List<ArquivoExecucao> getArquivoExecucaoUserCreated() {
 		// TODO Auto-generated method stub
-		return super.getLancamentoInputUserAltered();
+		return super.getArquivoExecucaoUserCreated();
 	}
 
-	@OneToMany(mappedBy = "userCreated", targetEntity = LancamentoInputColsEntity.class)
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userAltered",
+			targetEntity = ArquivoExecucaoEntity.class)
 	@Override
-	public List<LancamentoInputCols> getLancamentoInputColsUserCreated() {
+	public List<ArquivoExecucao> getArquivoExecucaoUserAltered() {
 		// TODO Auto-generated method stub
-		return super.getLancamentoInputColsUserCreated();
+		return super.getArquivoExecucaoUserAltered();
 	}
 
-	@OneToMany(mappedBy = "userAltered", targetEntity = LancamentoInputColsEntity.class)
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userCreated",
+			targetEntity = ExecucaoEntity.class)
 	@Override
-	public List<LancamentoInputCols> getLancamentoInputColsUserAltered() {
+	public List<Execucao> getExecucaoUserCreated() {
 		// TODO Auto-generated method stub
-		return super.getLancamentoInputColsUserAltered();
+		return super.getExecucaoUserCreated();
+	}
+
+	@OneToMany(
+			cascade = CascadeType.ALL,
+			fetch = FetchType.LAZY,
+			mappedBy = "userAltered",
+			targetEntity = ExecucaoEntity.class)
+	@Override
+	public List<Execucao> getExecucaoUserAltered() {
+		// TODO Auto-generated method stub
+		return super.getExecucaoUserAltered();
 	}
 
 }

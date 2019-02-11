@@ -6,8 +6,7 @@
 	<xs:element name="CoParticipacaoRequest">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="fileName" type="xs:string" />
-				<xs:element name="filePath" type="xs:string" />
+				<xs:element name="execucaoId" type="xs:long" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
@@ -22,8 +21,7 @@
 
 	<xs:complexType name="CoParticipacaoInfo">
 		<xs:sequence>
-			<xs:element name="fileName" type="xs:string" />
-			<xs:element name="filePath" type="xs:string" />
+			<xs:element name="execucaoId" type="xs:long" />
 
 			<xs:element name="errorCode" type="xs:integer" />
 			<xs:element name="errorMessage" type="xs:string" />

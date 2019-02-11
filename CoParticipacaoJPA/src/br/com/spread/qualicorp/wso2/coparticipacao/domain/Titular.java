@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Embedded;
+
 /**
  * The persistent class for the tb_titular database table.
  * 
@@ -13,11 +15,11 @@ public abstract class Titular extends AbstractDomain {
 
 	private LocalDate dtAdmissao;
 
+	private LocalDate dtDemissao;
+
 	private LocalDate dtNascimento;
 	private String nameTitular;
 	private Long cpf;
-
-	private List<TitularDetail> titularDetails;
 
 	/**
 	 * Código de matricula usado pela operadora, campo fornecido pelos arquivos
@@ -43,14 +45,16 @@ public abstract class Titular extends AbstractDomain {
 
 	private List<TitularIsento> titularIsentos;
 
-	private Empresa empresa;
+	private Contrato contrato;
+
+	private BeneficiarioDetail beneficiarioDetail;
 
 	public Titular() {
 		lancamentos = new ArrayList<>();
 		dependentes = new ArrayList<>();
 		titularIsentos = new ArrayList<>();
 
-		titularDetails = new ArrayList<>();
+		beneficiarioDetail = new BeneficiarioDetail();
 	}
 
 	public Titular(Titular entity) {
@@ -167,14 +171,6 @@ public abstract class Titular extends AbstractDomain {
 		return dependente;
 	}
 
-	public Empresa getEmpresa() {
-		return empresa;
-	}
-
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
-	}
-
 	public String getLabel() {
 		return label;
 	}
@@ -205,40 +201,39 @@ public abstract class Titular extends AbstractDomain {
 		this.matriculaEmpresa = matriculaEmpresa;
 	}
 
-	public List<TitularDetail> getTitularDetails() {
-		return titularDetails;
+	public LocalDate getDtDemissao() {
+		return dtDemissao;
 	}
 
-	public void setTitularDetails(List<TitularDetail> titularDetails) {
-		this.titularDetails = titularDetails;
+	public void setDtDemissao(LocalDate dtDemissao) {
+		this.dtDemissao = dtDemissao;
 	}
 
-	public void addTitularDetail(TitularDetail titularDetail) {
-		getTitularDetails().add(titularDetail);
-		titularDetail.setTitular(this);
+	@Embedded
+	public BeneficiarioDetail getBeneficiarioDetail() {
+		return beneficiarioDetail;
 	}
 
-	public void removeTitularDetail(TitularDetail titularDetail) {
-		getTitularDetails().remove(titularDetail);
-		titularDetail.setTitular(null);
+	public void setBeneficiarioDetail(BeneficiarioDetail beneficiarioDetail) {
+		this.beneficiarioDetail = beneficiarioDetail;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result + ((beneficiarioDetail == null) ? 0 : beneficiarioDetail.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((dependentes == null) ? 0 : dependentes.hashCode());
 		result = prime * result + ((dtAdmissao == null) ? 0 : dtAdmissao.hashCode());
+		result = prime * result + ((dtDemissao == null) ? 0 : dtDemissao.hashCode());
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
-		result = prime * result + ((empresa == null) ? 0 : empresa.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
 		result = prime * result + ((lancamentos == null) ? 0 : lancamentos.hashCode());
 		result = prime * result + ((matricula == null) ? 0 : matricula.hashCode());
 		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
 		result = prime * result + ((nameTitular == null) ? 0 : nameTitular.hashCode());
 		result = prime * result + ((referenceCode == null) ? 0 : referenceCode.hashCode());
-		result = prime * result + ((titularDetails == null) ? 0 : titularDetails.hashCode());
 		result = prime * result + ((titularIsentos == null) ? 0 : titularIsentos.hashCode());
 		return result;
 	}
@@ -247,11 +242,16 @@ public abstract class Titular extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Titular other = (Titular) obj;
+		if (beneficiarioDetail == null) {
+			if (other.beneficiarioDetail != null)
+				return false;
+		} else if (!beneficiarioDetail.equals(other.beneficiarioDetail))
+			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
@@ -267,15 +267,15 @@ public abstract class Titular extends AbstractDomain {
 				return false;
 		} else if (!dtAdmissao.equals(other.dtAdmissao))
 			return false;
+		if (dtDemissao == null) {
+			if (other.dtDemissao != null)
+				return false;
+		} else if (!dtDemissao.equals(other.dtDemissao))
+			return false;
 		if (dtNascimento == null) {
 			if (other.dtNascimento != null)
 				return false;
 		} else if (!dtNascimento.equals(other.dtNascimento))
-			return false;
-		if (empresa == null) {
-			if (other.empresa != null)
-				return false;
-		} else if (!empresa.equals(other.empresa))
 			return false;
 		if (label == null) {
 			if (other.label != null)
@@ -307,17 +307,20 @@ public abstract class Titular extends AbstractDomain {
 				return false;
 		} else if (!referenceCode.equals(other.referenceCode))
 			return false;
-		if (titularDetails == null) {
-			if (other.titularDetails != null)
-				return false;
-		} else if (!titularDetails.equals(other.titularDetails))
-			return false;
 		if (titularIsentos == null) {
 			if (other.titularIsentos != null)
 				return false;
 		} else if (!titularIsentos.equals(other.titularIsentos))
 			return false;
 		return true;
+	}
+
+	public Contrato getContrato() {
+		return contrato;
+	}
+
+	public void setContrato(Contrato contrato) {
+		this.contrato = contrato;
 	}
 
 }

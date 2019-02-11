@@ -1,5 +1,6 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -17,8 +18,8 @@ public abstract class User extends AbstractDomain {
 
 	private List<ArquivoInput> arquivoInputsUserCreated;
 	private List<ArquivoInput> arquivoInputsUserAltered;
-	private List<ArquivoInputColsDef> arquivoInputColsDefUserCreated;
-	private List<ArquivoInputColsDef> arquivoInputColsDefUserAltered;
+	private List<RegisterColumn> RegisterColumnUserCreated;
+	private List<RegisterColumn> RegisterColumnUserAltered;
 	private List<ArquivoOutput> arquivoOutputsUserCreated;
 	private List<ArquivoOutput> arquivoOutputsUserAltered;
 	private List<ArquivoOutputSheet> arquivoOutputSheetsUserCreated;
@@ -31,15 +32,8 @@ public abstract class User extends AbstractDomain {
 	private List<DependenteIsento> dependenteIsentosUserAltered;
 	private List<Empresa> empresasUserCreated;
 	private List<Empresa> empresasUserAltered;
-	private List<LancamentoInput> inputLancamentosUserCreated;
-	private List<LancamentoInput> inputLancamentosUserAltered;
 	private List<Lancamento> lancamentosUserCreated;
 	private List<Lancamento> lancamentosUserAltered;
-
-	private List<LancamentoInput> lancamentoInputUserCreated;
-	private List<LancamentoInput> lancamentoInputUserAltered;
-	private List<LancamentoInputCols> lancamentoInputColsUserCreated;
-	private List<LancamentoInputCols> lancamentoInputColsUserAltered;
 
 	private List<Operadora> operadorasUserCreated;
 	private List<Operadora> operadorasUserAltered;
@@ -60,11 +54,19 @@ public abstract class User extends AbstractDomain {
 	private List<ViewDestinationColsDef> viewDestinationColsDefsUserCreated;
 	private List<ViewDestinationColsDef> viewDestinationColsDefsUserAltered;
 
-	private List<Parameter> userAlteredParameter;
+	private List<UserRole> userRoles;
 
-	private List<Parameter> userCreatedParameter;
+	private List<ArquivoExecucao> arquivoExecucaoUserCreated;
+	private List<ArquivoExecucao> arquivoExecucaoUserAltered;
+
+	private List<Execucao> execucaoUserCreated;
+	private List<Execucao> execucaoUserAltered;
 
 	public User() {
+		userRoles = new ArrayList<>();
+
+		execucaoUserAltered = new ArrayList<>();
+		execucaoUserCreated = new ArrayList<>();
 	}
 
 	public User(User entity) {
@@ -147,50 +149,54 @@ public abstract class User extends AbstractDomain {
 		return arquivoInputsUserAltered;
 	}
 
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserCreated() {
-		return this.arquivoInputColsDefUserCreated;
+	public List<RegisterColumn> getRegisterColumnUserCreated() {
+		return this.RegisterColumnUserCreated;
 	}
 
-	public void setArquivoInputColsDefUserCreated(List<ArquivoInputColsDef> arquivoInputColsDefUserCreated) {
-		this.arquivoInputColsDefUserCreated = arquivoInputColsDefUserCreated;
+	public void setRegisterColumnUserCreated(
+			List<RegisterColumn> RegisterColumnUserCreated) {
+		this.RegisterColumnUserCreated = RegisterColumnUserCreated;
 	}
 
-	public ArquivoInputColsDef addArquivoInputColsDefUserCreated(ArquivoInputColsDef arquivoInputColsDefUserCreated) {
-		getArquivoInputColsDefUserCreated().add(arquivoInputColsDefUserCreated);
-		arquivoInputColsDefUserCreated.setUserCreated(this);
+	public RegisterColumn addRegisterColumnUserCreated(
+			RegisterColumn RegisterColumnUserCreated) {
+		getRegisterColumnUserCreated().add(RegisterColumnUserCreated);
+		RegisterColumnUserCreated.setUserCreated(this);
 
-		return arquivoInputColsDefUserCreated;
+		return RegisterColumnUserCreated;
 	}
 
-	public ArquivoInputColsDef removeArquivoInputColsDefUserCreated(
-			ArquivoInputColsDef arquivoInputColsDefUserCreated) {
-		getArquivoInputColsDefUserCreated().remove(arquivoInputColsDefUserCreated);
-		arquivoInputColsDefUserCreated.setUserCreated(null);
+	public RegisterColumn removeRegisterColumnUserCreated(
+			RegisterColumn RegisterColumnUserCreated) {
+		getRegisterColumnUserCreated().remove(RegisterColumnUserCreated);
+		RegisterColumnUserCreated.setUserCreated(null);
 
-		return arquivoInputColsDefUserCreated;
+		return RegisterColumnUserCreated;
 	}
 
-	public List<ArquivoInputColsDef> getArquivoInputColsDefUserAltered() {
-		return this.arquivoInputColsDefUserAltered;
+	public List<RegisterColumn> getRegisterColumnUserAltered() {
+		return this.RegisterColumnUserAltered;
 	}
 
-	public void setArquivoInputColsDefUserAltered(List<ArquivoInputColsDef> arquivoInputColsDefUserAltered) {
-		this.arquivoInputColsDefUserAltered = arquivoInputColsDefUserAltered;
+	public void setRegisterColumnUserAltered(
+			List<RegisterColumn> RegisterColumnUserAltered) {
+		this.RegisterColumnUserAltered = RegisterColumnUserAltered;
 	}
 
-	public ArquivoInputColsDef addArquivoInputColsDefUserAltered(ArquivoInputColsDef arquivoInputColsDefUserAltered) {
-		getArquivoInputColsDefUserAltered().add(arquivoInputColsDefUserAltered);
-		arquivoInputColsDefUserAltered.setUserAltered(this);
+	public RegisterColumn addRegisterColumnUserAltered(
+			RegisterColumn RegisterColumnUserAltered) {
+		getRegisterColumnUserAltered().add(RegisterColumnUserAltered);
+		RegisterColumnUserAltered.setUserAltered(this);
 
-		return arquivoInputColsDefUserAltered;
+		return RegisterColumnUserAltered;
 	}
 
-	public ArquivoInputColsDef removeArquivoInputColsDefUserAltered(
-			ArquivoInputColsDef arquivoInputColsDefUserAltered) {
-		getArquivoInputColsDefUserAltered().remove(arquivoInputColsDefUserAltered);
-		arquivoInputColsDefUserAltered.setUserAltered(null);
+	public RegisterColumn removeRegisterColumnUserAltered(
+			RegisterColumn RegisterColumnUserAltered) {
+		getRegisterColumnUserAltered().remove(RegisterColumnUserAltered);
+		RegisterColumnUserAltered.setUserAltered(null);
 
-		return arquivoInputColsDefUserAltered;
+		return RegisterColumnUserAltered;
 	}
 
 	public List<ArquivoOutput> getArquivoOutputsUserCreated() {
@@ -455,50 +461,6 @@ public abstract class User extends AbstractDomain {
 		empresasUserAltered.setUserAltered(null);
 
 		return empresasUserAltered;
-	}
-
-	public List<LancamentoInput> getInputLancamentosUserCreated() {
-		return this.inputLancamentosUserCreated;
-	}
-
-	public void setInputLancamentosUserCreated(List<LancamentoInput> inputLancamentosUserCreated) {
-		this.inputLancamentosUserCreated = inputLancamentosUserCreated;
-	}
-
-	public LancamentoInput addInputLancamentosUserCreated(LancamentoInput inputLancamentosUserCreated) {
-		getInputLancamentosUserCreated().add(inputLancamentosUserCreated);
-		inputLancamentosUserCreated.setUserCreated(this);
-
-		return inputLancamentosUserCreated;
-	}
-
-	public LancamentoInput removeInputLancamentosUserCreated(LancamentoInput inputLancamentosUserCreated) {
-		getInputLancamentosUserCreated().remove(inputLancamentosUserCreated);
-		inputLancamentosUserCreated.setUserCreated(null);
-
-		return inputLancamentosUserCreated;
-	}
-
-	public List<LancamentoInput> getInputLancamentosUserAltered() {
-		return this.inputLancamentosUserAltered;
-	}
-
-	public void setInputLancamentosUserAltered(List<LancamentoInput> inputLancamentosUserAltered) {
-		this.inputLancamentosUserAltered = inputLancamentosUserAltered;
-	}
-
-	public LancamentoInput addInputLancamentosUserAltered(LancamentoInput inputLancamentosUserAltered) {
-		getInputLancamentosUserAltered().add(inputLancamentosUserAltered);
-		inputLancamentosUserAltered.setUserAltered(this);
-
-		return inputLancamentosUserAltered;
-	}
-
-	public LancamentoInput removeInputLancamentosUserAltered(LancamentoInput inputLancamentosUserAltered) {
-		getInputLancamentosUserAltered().remove(inputLancamentosUserAltered);
-		inputLancamentosUserAltered.setUserAltered(null);
-
-		return inputLancamentosUserAltered;
 	}
 
 	public List<Lancamento> getLancamentosUserCreated() {
@@ -946,120 +908,94 @@ public abstract class User extends AbstractDomain {
 		return tbViewDestinationColsDefsUserAltered;
 	}
 
-	public List<Parameter> getUserCreatedParameter() {
-		return this.userCreatedParameter;
+	public List<UserRole> getUserRoles() {
+		return userRoles;
 	}
 
-	public void setUserCreatedParameter(List<Parameter> userCreatedParameter) {
-		this.userCreatedParameter = userCreatedParameter;
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
 	}
 
-	public Parameter addUserCreatedParameter(Parameter userCreatedParameter) {
-		getUserCreatedParameter().add(userCreatedParameter);
-		userCreatedParameter.setUserCreated(this);
-
-		return userCreatedParameter;
+	public void addUserRole(UserRole userRole) {
+		getUserRoles().add(userRole);
+		userRole.setUser(this);
 	}
 
-	public Parameter removeUserCreatedParameter(Parameter userCreatedParameter) {
-		getUserCreatedParameter().remove(userCreatedParameter);
-		userCreatedParameter.setUserCreated(null);
-
-		return userCreatedParameter;
+	public void removeUserRole(UserRole userRole) {
+		getUserRoles().remove(userRole);
+		userRole.setUser(null);
 	}
 
-	public List<Parameter> getUserAlteredParameter() {
-		return this.userAlteredParameter;
+	public List<ArquivoExecucao> getArquivoExecucaoUserCreated() {
+		return arquivoExecucaoUserCreated;
 	}
 
-	public void setUserAlteredParameter(List<Parameter> userAlteredParameter) {
-		this.userAlteredParameter = userAlteredParameter;
+	public void setArquivoExecucaoUserCreated(List<ArquivoExecucao> arquivoExecucaoUserCreated) {
+		this.arquivoExecucaoUserCreated = arquivoExecucaoUserCreated;
 	}
 
-	public Parameter addUserAlteredParameter(Parameter userAlteredParameter) {
-		getUserAlteredParameter().add(userAlteredParameter);
-		userAlteredParameter.setUserAltered(this);
-
-		return userAlteredParameter;
+	public List<ArquivoExecucao> getArquivoExecucaoUserAltered() {
+		return arquivoExecucaoUserAltered;
 	}
 
-	public Parameter removeUserAlteredParameter(Parameter userAlteredParameter) {
-		getUserAlteredParameter().remove(userAlteredParameter);
-		userAlteredParameter.setUserAltered(null);
-
-		return userAlteredParameter;
+	public void setArquivoExecucaoUserAltered(List<ArquivoExecucao> arquivoExecucaoUserAltered) {
+		this.arquivoExecucaoUserAltered = arquivoExecucaoUserAltered;
 	}
 
-	public List<LancamentoInput> getLancamentoInputUserCreated() {
-		return lancamentoInputUserCreated;
+	public void addArquivoExecucaoUserCreated(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserCreated().add(arquivoExecucao);
+		arquivoExecucao.setUserCreated(this);
 	}
 
-	public void setLancamentoInputUserCreated(List<LancamentoInput> lancamentoInputUserCreated) {
-		this.lancamentoInputUserCreated = lancamentoInputUserCreated;
+	public void removeArquivoExecucaoUserCreated(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserCreated().remove(arquivoExecucao);
+		arquivoExecucao.setUserCreated(null);
 	}
 
-	public List<LancamentoInput> getLancamentoInputUserAltered() {
-		return lancamentoInputUserAltered;
+	public void addArquivoExecucaoUserAltered(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserAltered().add(arquivoExecucao);
+		arquivoExecucao.setUserAltered(this);
 	}
 
-	public void setLancamentoInputUserAltered(List<LancamentoInput> lancamentoInputUserAltered) {
-		this.lancamentoInputUserAltered = lancamentoInputUserAltered;
+	public void removeArquivoExecucaoUserAltered(ArquivoExecucao arquivoExecucao) {
+		getArquivoExecucaoUserAltered().remove(arquivoExecucao);
+		arquivoExecucao.setUserAltered(null);
 	}
 
-	public List<LancamentoInputCols> getLancamentoInputColsUserCreated() {
-		return lancamentoInputColsUserCreated;
+	public List<Execucao> getExecucaoUserCreated() {
+		return execucaoUserCreated;
 	}
 
-	public void setLancamentoInputColsUserCreated(List<LancamentoInputCols> lancamentoInputColsUserCreated) {
-		this.lancamentoInputColsUserCreated = lancamentoInputColsUserCreated;
+	public void setExecucaoUserCreated(List<Execucao> execucaoUserCreated) {
+		this.execucaoUserCreated = execucaoUserCreated;
 	}
 
-	public List<LancamentoInputCols> getLancamentoInputColsUserAltered() {
-		return lancamentoInputColsUserAltered;
+	public List<Execucao> getExecucaoUserAltered() {
+		return execucaoUserAltered;
 	}
 
-	public void setLancamentoInputColsUserAltered(List<LancamentoInputCols> lancamentoInputColsUserAltered) {
-		this.lancamentoInputColsUserAltered = lancamentoInputColsUserAltered;
+	public void setExecucaoUserAltered(List<Execucao> execucaoUserAltered) {
+		this.execucaoUserAltered = execucaoUserAltered;
 	}
 
-	public void addLancamentoInputUserAltered(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserAltered().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
+	public void addExecucaoUserCreated(Execucao execucaoUserCreated) {
+		getExecucaoUserCreated().add(execucaoUserCreated);
+		execucaoUserCreated.setUserCreated(this);
 	}
 
-	public void removeLancamentoInputUserAltered(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserAltered().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
+	public void removeExecucaoUserCreated(Execucao execucaoUserCreated) {
+		getExecucaoUserCreated().remove(execucaoUserCreated);
+		execucaoUserCreated.setUserCreated(null);
 	}
 
-	public void addLancamentoInputUserCreated(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserCreated().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
+	public void addExecucaoUserAltered(Execucao execucaoUserAltered) {
+		getExecucaoUserAltered().add(execucaoUserAltered);
+		execucaoUserAltered.setUserAltered(this);
 	}
 
-	public void removeLancamentoInputUserCreated(LancamentoInput lancamentoInput) {
-		getLancamentoInputUserCreated().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
-	}
-
-	public void addLancamentoInputColsUserAltered(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserAltered().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
-	}
-
-	public void removeLancamentoInputColsUserAltered(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserAltered().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
-	}
-
-	public void addLancamentoInputColsUserCreated(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserCreated().add(lancamentoInput);
-		lancamentoInput.setUserAltered(this);
-	}
-
-	public void removeLancamentoInputColsUserCreated(LancamentoInputCols lancamentoInput) {
-		getLancamentoInputColsUserCreated().remove(lancamentoInput);
-		lancamentoInput.setUserAltered(null);
+	public void removeExecucaoUserAltered(Execucao execucaoUserAltered) {
+		getExecucaoUserAltered().remove(execucaoUserAltered);
+		execucaoUserAltered.setUserAltered(null);
 	}
 
 }

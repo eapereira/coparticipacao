@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Spread" pageWidth="1400" pageHeight="999999" whenNoDataType="NoDataSection" columnWidth="1400" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="992a5d68-e256-4aa7-b437-78455f218c17">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/bradesco/SpreadSaudeDataAdapter.xml"/>
+	<property name="net.sf.jasperreports.export.xls.one.page.per.sheet" value="true"/>
+	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.1"><![CDATA["Resumo"]]></propertyExpression>
+	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.2"><![CDATA["Relatório Resumido"]]></propertyExpression>
+	<propertyExpression name="net.sf.jasperreports.export.xls.sheet.names.3"><![CDATA["Relatório Geral"]]></propertyExpression>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="spreadSaudeCoparticipacaoResumidaViewUis" class="java.util.List">
+		<fieldDescription><![CDATA[spreadSaudeCoparticipacaoResumidaViewUis]]></fieldDescription>
+	</field>
+	<field name="spreadSaudeCoparticipacaoViewUis" class="java.util.List">
+		<fieldDescription><![CDATA[spreadSaudeCoparticipacaoViewUis]]></fieldDescription>
+	</field>
+	<field name="spreadSaudeResumoReports" class="java.util.List">
+		<fieldDescription><![CDATA[spreadSaudeResumoReports]]></fieldDescription>
+	</field>
+	<detail>
+		<band height="233" splitType="Stretch">
+			<subreport>
+				<reportElement x="0" y="0" width="1400" height="60" uuid="7e4678b6-9539-4dda-9ab5-0fbc937b1964"/>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.spread.SpreadSaudeResumoJRDataSource($F{spreadSaudeResumoReports})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/bradesco/SpreadSaudeResumo.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="70" width="99" height="1" uuid="e68579a4-044c-4b3a-9dbc-9b54818c1b5e"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="86" width="1400" height="60" uuid="adc0ed3f-d461-45ff-8636-ed0ffa0e19c7"/>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.spread.SpreadSaudeCoparticipacaoResumidaJRDataSource($F{spreadSaudeCoparticipacaoResumidaViewUis})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/bradesco/SpreadSaudeCoparticipacaoResumido.jasper"]]></subreportExpression>
+			</subreport>
+			<break>
+				<reportElement x="0" y="160" width="98" height="1" uuid="fd1af9e9-07e2-4f7f-b7c6-a08fc549f475"/>
+			</break>
+			<subreport>
+				<reportElement x="0" y="171" width="1400" height="60" uuid="4267e819-0af3-4140-b660-99297439ecfd"/>
+				<dataSourceExpression><![CDATA[new br.com.spread.qualicorp.wso2.coparticipacao.report.dataSource.bradesco.spread.SpreadSaudeCoparticipacaoJRDataSource($F{spreadSaudeCoparticipacaoViewUis})]]></dataSourceExpression>
+				<subreportExpression><![CDATA["reports/bradesco/SpreadSaudeCoparticipacao.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

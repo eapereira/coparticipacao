@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="listByArquivoInputId">
+		<![CDATA[
+			select distinct arquivoInputSheet from ArquivoInputSheetEntity arquivoInputSheet
+			join fetch arquivoInputSheet.arquivoInput arquivoInput
+			left outer join fetch arquivoInputSheet.contrato contrato
+			join fetch arquivoInputSheet.registers registers
+			where	arquivoInput.id	= :arquivoInputId
+			order by arquivoInputSheet.sheetId
+		]]>
+	</query>
+
+</queries>
+	

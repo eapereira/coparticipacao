@@ -4,9 +4,17 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="CoParticipacaoJPA">
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.AbstractDomain</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.DadosBancarios</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Detail</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputColsDefEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Endereco</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Isento</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Rg</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Telefone</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.Transferencia</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoExecucaoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoInputSheetEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputDesconhecidoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputDesconhecidoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ArquivoOutputDesconhecidoSheetEntity</class>
@@ -16,25 +24,22 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.BeneficiarioEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.BeneficiarioIsentoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ContratoEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteDetailEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteIsentoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteIsentoEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DependenteResumoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.DesconhecidoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.EmpresaEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependenteIsentoColsEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputDependenteIsentoEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputTitularIsentoColsEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.InputTitularIsentoEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExecucaoEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ExternalProcessEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.IsentoInputSheetColsEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.IsentoInputSheetEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoDetailEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputColsEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputSheetColsEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.LancamentoInputSheetEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.OperadoraEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ParameterEntity</class>
 		
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegisterColumnEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegisterEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditionalEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditionalFieldEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraConditionalOperationEntity</class>
@@ -45,13 +50,29 @@
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraOperationEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraResultEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RegraValorEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularDetailEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.RoleEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularEntity</class>
-		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularIsentoEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.TitularResumoEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.UserRoleEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestinationColsDefEntity</class>
 		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.ViewDestinationEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.AutomindCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.AutomindResumoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.CelpeSaudeCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.CelpeSaudeRateioViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.CelpeSaudeResumoDetailViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.CelpeSaudeResumoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.LMTransportesCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.LMTransportesResumoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.SpreadSaudeCoparticipacaoResumidaViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.SpreadSaudeCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.SpreadSaudeResumoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.TechnitOdontoCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.view.bradesco.TechnitSaudeCoparticipacaoViewEntity</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.BradescoCoparticipacaoView</class>
+		<class>br.com.spread.qualicorp.wso2.coparticipacao.domain.view.bradesco.TechnitCoparticipacaoView</class>
 		
 		
 	</persistence-unit>

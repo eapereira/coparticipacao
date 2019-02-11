@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInputColsDef;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegisterColumn;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Regra;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.RegraResult;
 
@@ -38,12 +38,12 @@ public class RegraResultEntity extends RegraResult implements DomainEntity {
 		return super.getRegra();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ArquivoInputColsDefEntity.class)
-	@JoinColumn(name = "ID_ARQUIVO_INPUT_COLS_DEF")
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = RegisterColumnEntity.class)
+	@JoinColumn(name = "ID_REGISTER_COLUMN")
 	@Override
-	public ArquivoInputColsDef getArquivoInputColsDef() {
+	public RegisterColumn getRegisterColumn() {
 		// TODO Auto-generated method stub
-		return super.getArquivoInputColsDef();
+		return super.getRegisterColumn();
 	}
 
 }

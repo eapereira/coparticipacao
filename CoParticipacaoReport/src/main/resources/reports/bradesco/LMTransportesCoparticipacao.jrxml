@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="bradesco-LMTransportesCoparticipacao" pageWidth="1400" pageHeight="842" columnWidth="1400" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="8e24f7a4-0b2b-4f77-b53e-59fa253f5d29">
+	<property name="net.sf.jasperreports.export.xls.sheet.name" value="Coparticipação"/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="src/main/resources/dataAdapter/TechnitOdontoCoParticipacaoDataAdapter.xml"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="nomeTitular" class="java.lang.String">
+		<fieldDescription><![CDATA[nomeTitular]]></fieldDescription>
+	</field>
+	<field name="profissao" class="java.lang.String">
+		<fieldDescription><![CDATA[profissao]]></fieldDescription>
+	</field>
+	<field name="cdContrato" class="java.lang.String">
+		<fieldDescription><![CDATA[cdContrato]]></fieldDescription>
+	</field>
+	<field name="fatorModerador" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[fatorModerador]]></fieldDescription>
+	</field>
+	<field name="certificado" class="java.lang.String">
+		<fieldDescription><![CDATA[certificado]]></fieldDescription>
+	</field>
+	<field name="matriculaEspecial" class="java.lang.Long">
+		<fieldDescription><![CDATA[matriculaEspecial]]></fieldDescription>
+	</field>
+	<field name="cdEmpresa" class="java.lang.String">
+		<fieldDescription><![CDATA[cdEmpresa]]></fieldDescription>
+	</field>
+	<field name="fatorModeradorInss" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[fatorModeradorInss]]></fieldDescription>
+	</field>
+	<field name="matricula" class="java.lang.String">
+		<fieldDescription><![CDATA[matricula]]></fieldDescription>
+	</field>
+	<field name="idContrato" class="java.lang.Long">
+		<fieldDescription><![CDATA[idContrato]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="100" height="30" backcolor="#D1CFCF" uuid="3df6d0cc-087c-4d05-8d0c-b1ae1d295a7c"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número SubFatura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="120" height="30" backcolor="#D1CFCF" uuid="2451d0cf-0f9e-4c88-bc7b-b44704518f89"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número do Certificado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="220" y="0" width="120" height="30" backcolor="#D1CFCF" uuid="c2a74bc1-93b1-43a8-9f1f-dffe1c8f6b41"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número da Matricula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="340" y="0" width="280" height="30" backcolor="#D1CFCF" uuid="d0f40b38-9629-4303-986b-16676b6ba36f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nome do Segurado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="620" y="0" width="130" height="30" backcolor="#D1CFCF" uuid="60f5ac11-34f9-4190-834a-e4741d65ba37"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor do Fator Moderador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="750" y="0" width="130" height="30" backcolor="#D1CFCF" uuid="3e9f47b5-0484-4e61-8fb7-b8005d858cad"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Matricula Especial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="1010" y="0" width="240" height="30" backcolor="#D1CFCF" uuid="cc0063e5-5c2d-4b6c-9f5e-efc54c7168b0"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cargo do Segurado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="880" y="0" width="130" height="30" backcolor="#D1CFCF" uuid="54514fe7-c02a-4a4e-8326-3a2a0d15ede7"/>
+				<textElement textAlignment="Center">
+					<font fontName="Calibri" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor do Fator Moderador INSS]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="19" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="-5" width="100" height="20" uuid="99a3c927-07be-4e3d-82ee-5778d142c722"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cdEmpresa}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="-5" width="120" height="20" uuid="d49e1648-cb50-4eda-bca7-2df550d9abd6"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{certificado}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="220" y="-5" width="120" height="20" uuid="efc5e9b4-fda4-4a64-8374-dd109b0a5912"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matricula}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="340" y="-5" width="280" height="20" uuid="377d9079-c953-45d8-81a2-8cb38a283105"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nomeTitular}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="620" y="-5" width="130" height="20" uuid="82a12d4b-40e8-482c-bda0-cfb699a3e2f7"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fatorModerador}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="750" y="-5" width="130" height="20" uuid="7572fc37-cf15-43c9-8228-47929d7d573f"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{matriculaEspecial}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="1010" y="-5" width="240" height="20" uuid="67c18194-7712-4dcc-b285-4d0787094c11"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{profissao}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00" isBlankWhenNull="true">
+				<reportElement x="880" y="-4" width="130" height="20" uuid="7d4b2546-655a-4015-9169-a3025bb70ea1"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fatorModeradorInss}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

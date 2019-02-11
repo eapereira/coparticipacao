@@ -39,12 +39,13 @@ public abstract class Dependente extends AbstractDomain {
 	private List<DependenteIsento> dependenteIsentos;
 	private List<Lancamento> lancamentos;
 
-	private List<DependenteDetail> dependenteDetails;
+	private BeneficiarioDetail beneficiarioDetail;
 
 	public Dependente() {
 		dependenteIsentos = new ArrayList<>();
 		lancamentos = new ArrayList<>();
-		dependenteDetails = new ArrayList<>();
+
+		beneficiarioDetail = new BeneficiarioDetail();
 	}
 
 	public Dependente(Dependente entity) {
@@ -177,30 +178,20 @@ public abstract class Dependente extends AbstractDomain {
 		this.matriculaEmpresa = matriculaEmpresa;
 	}
 
-	public List<DependenteDetail> getDependenteDetails() {
-		return dependenteDetails;
+	public BeneficiarioDetail getBeneficiarioDetail() {
+		return beneficiarioDetail;
 	}
 
-	public void setDependenteDetails(List<DependenteDetail> dependenteDetails) {
-		this.dependenteDetails = dependenteDetails;
-	}
-
-	public void addDependenteDetail(DependenteDetail dependenteDetail) {
-		getDependenteDetails().add(dependenteDetail);
-		dependenteDetail.setDependente(this);
-	}
-
-	public void removeDependenteDetail(DependenteDetail dependenteDetail) {
-		getDependenteDetails().remove(dependenteDetail);
-		dependenteDetail.setDependente(null);
+	public void setBeneficiarioDetail(BeneficiarioDetail beneficiarioDetail) {
+		this.beneficiarioDetail = beneficiarioDetail;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
+		result = prime * result + ((beneficiarioDetail == null) ? 0 : beneficiarioDetail.hashCode());
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
-		result = prime * result + ((dependenteDetails == null) ? 0 : dependenteDetails.hashCode());
 		result = prime * result + ((dependenteIsentos == null) ? 0 : dependenteIsentos.hashCode());
 		result = prime * result + ((dtNascimento == null) ? 0 : dtNascimento.hashCode());
 		result = prime * result + ((label == null) ? 0 : label.hashCode());
@@ -209,7 +200,6 @@ public abstract class Dependente extends AbstractDomain {
 		result = prime * result + ((matriculaEmpresa == null) ? 0 : matriculaEmpresa.hashCode());
 		result = prime * result + ((nameDependente == null) ? 0 : nameDependente.hashCode());
 		result = prime * result + ((referenceCode == null) ? 0 : referenceCode.hashCode());
-		result = prime * result + ((titular == null) ? 0 : titular.hashCode());
 		result = prime * result + ((tpDependente == null) ? 0 : tpDependente.hashCode());
 		return result;
 	}
@@ -218,20 +208,20 @@ public abstract class Dependente extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Dependente other = (Dependente) obj;
+		if (beneficiarioDetail == null) {
+			if (other.beneficiarioDetail != null)
+				return false;
+		} else if (!beneficiarioDetail.equals(other.beneficiarioDetail))
+			return false;
 		if (cpf == null) {
 			if (other.cpf != null)
 				return false;
 		} else if (!cpf.equals(other.cpf))
-			return false;
-		if (dependenteDetails == null) {
-			if (other.dependenteDetails != null)
-				return false;
-		} else if (!dependenteDetails.equals(other.dependenteDetails))
 			return false;
 		if (dependenteIsentos == null) {
 			if (other.dependenteIsentos != null)
@@ -272,11 +262,6 @@ public abstract class Dependente extends AbstractDomain {
 			if (other.referenceCode != null)
 				return false;
 		} else if (!referenceCode.equals(other.referenceCode))
-			return false;
-		if (titular == null) {
-			if (other.titular != null)
-				return false;
-		} else if (!titular.equals(other.titular))
 			return false;
 		if (tpDependente != other.tpDependente)
 			return false;

@@ -7,7 +7,7 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.OperadoraEntity
  * The persistent class for the tb_operadora database table.
  * 
  */
-public class OperadoraUi extends Operadora implements DomainUi {
+public class OperadoraUi extends Operadora {
 	private static final long serialVersionUID = 1L;
 
 	public OperadoraUi() {

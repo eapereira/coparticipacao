@@ -8,13 +8,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputDesconhec
  *
  */
 public class ArquivoOutputDesconhecidoUi extends ArquivoOutputDesconhecido {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -6695094894604500658L;
 
-	public ArquivoOutputDesconhecidoUi(){
+	public ArquivoOutputDesconhecidoUi() {
 		super();
 	}
 }

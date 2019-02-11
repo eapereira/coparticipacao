@@ -1,5 +1,9 @@
 package br.com.spread.qualicorp.wso2.coparticipacao.domain.ui;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.beanutils.BeanUtils;
+
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Beneficiario;
 
 /**
@@ -15,5 +19,11 @@ public class BeneficiarioUi extends Beneficiario {
 
 	public BeneficiarioUi() {
 		super();
+	}
+
+	public BeneficiarioUi(BeneficiarioUi beneficiarioUi) throws IllegalAccessException, InvocationTargetException {
+		super();
+
+		BeanUtils.copyProperties(this, beneficiarioUi);
 	}
 }

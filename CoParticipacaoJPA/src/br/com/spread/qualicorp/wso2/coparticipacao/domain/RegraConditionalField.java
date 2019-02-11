@@ -12,20 +12,12 @@ public abstract class RegraConditionalField extends AbstractDomain{
 	 */
 	private static final long serialVersionUID = -7079838001281846490L;
 
-	private ArquivoInputColsDef arquivoInputColsDef;
+	private RegisterColumn registerColumn;
 
 	private RegraConditionalOperation regraConditionalOperation;
 
 	public RegraConditionalField() {
 
-	}
-
-	public ArquivoInputColsDef getArquivoInputColsDef() {
-		return arquivoInputColsDef;
-	}
-
-	public void setArquivoInputColsDef(ArquivoInputColsDef arquivoInputColsDef) {
-		this.arquivoInputColsDef = arquivoInputColsDef;
 	}
 
 	public RegraConditionalOperation getRegraConditionalOperation() {
@@ -40,11 +32,8 @@ public abstract class RegraConditionalField extends AbstractDomain{
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoInputColsDef == null) ? 0
-				: arquivoInputColsDef.hashCode());
-		result = prime * result + ((regraConditionalOperation == null) ? 0
-				: regraConditionalOperation.hashCode());
+		int result = super.hashCode();
+		result = prime * result + ((registerColumn == null) ? 0 : registerColumn.hashCode());
 		return result;
 	}
 
@@ -52,22 +41,24 @@ public abstract class RegraConditionalField extends AbstractDomain{
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		RegraConditionalField other = (RegraConditionalField) obj;
-		if (arquivoInputColsDef == null) {
-			if (other.arquivoInputColsDef != null)
+		if (registerColumn == null) {
+			if (other.registerColumn != null)
 				return false;
-		} else if (!arquivoInputColsDef.equals(other.arquivoInputColsDef))
-			return false;
-		if (regraConditionalOperation == null) {
-			if (other.regraConditionalOperation != null)
-				return false;
-		} else if (!regraConditionalOperation
-				.equals(other.regraConditionalOperation))
+		} else if (!registerColumn.equals(other.registerColumn))
 			return false;
 		return true;
+	}
+
+	public RegisterColumn getRegisterColumn() {
+		return registerColumn;
+	}
+
+	public void setRegisterColumn(RegisterColumn registerColumn) {
+		this.registerColumn = registerColumn;
 	}
 }

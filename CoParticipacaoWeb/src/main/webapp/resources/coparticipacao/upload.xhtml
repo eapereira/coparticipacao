@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:copa="http://java.sun.com/jsf/composite/coparticipacao">
+
+<composite:interface>
+
+	<composite:attribute name="value" />
+
+	<composite:attribute name="disabled" />
+
+</composite:interface>
+
+<composite:implementation>
+
+	<div id="#{cc.clientId}">
+		<h:form enctype="multipart/form-data">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:fileUpload value="#{fileUploadBean.file}" mode="simple"
+				skinSimple="true" />
+
+			<p:commandButton value="#{msg['blogal.submit']}" ajax="false"
+				actionListener="#{fileUploadBean.upload}" disabled="true" />
+			
+			<p:dataTable id="datatableUpload" var="file" value="#{fileUploadBean.files}">
+				<p:column id="colTask">
+					<f:facet name="header">
+						<h:outputText value="#{msg['upload.table.task']}"/>
+					</f:facet>					
+				
+				</p:column>
+				
+				<p:column id="colFileName">
+					<f:facet name="header">
+						<h:outputText value="#{msg['upload.table.filename']}"/>
+					</f:facet>					
+					<h:outputText value="#{file.name}"/>
+					
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</div>
+
+</composite:implementation>
+
+</html>

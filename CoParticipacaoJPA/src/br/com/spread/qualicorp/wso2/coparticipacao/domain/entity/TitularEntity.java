@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Convert;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -15,11 +16,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderColumn;
 import javax.persistence.Table;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioDetail;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.Contrato;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Dependente;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.Empresa;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Lancamento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.Titular;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularDetail;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.TitularIsento;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.LocalDateConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.TitularUi;
@@ -45,14 +46,22 @@ public class TitularEntity extends Titular implements DomainEntity {
 		super(ui);
 	}
 
-	@Convert(converter = LocalDateConverter.class)
 	@Column(name = "DT_ADMISSAO")
+	@Convert(converter = LocalDateConverter.class)
 	public LocalDate getDtAdmissao() {
 		return super.getDtAdmissao();
 	}
 
+	@Column(name = "DT_DEMISSAO")
 	@Convert(converter = LocalDateConverter.class)
+	@Override
+	public LocalDate getDtDemissao() {
+		// TODO Auto-generated method stub
+		return super.getDtDemissao();
+	}
+
 	@Column(name = "DT_NASCIMENTO")
+	@Convert(converter = LocalDateConverter.class)
 	public LocalDate getDtNascimento() {
 		return super.getDtNascimento();
 	}
@@ -93,12 +102,12 @@ public class TitularEntity extends Titular implements DomainEntity {
 		return super.getDependentes();
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = EmpresaEntity.class)
-	@JoinColumn(name = "ID_EMPRESA")
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = ContratoEntity.class)
+	@JoinColumn(name = "ID_CONTRATO")
 	@Override
-	public Empresa getEmpresa() {
+	public Contrato getContrato() {
 		// TODO Auto-generated method stub
-		return super.getEmpresa();
+		return super.getContrato();
 	}
 
 	@Column(name = "NM_LABEL")
@@ -122,15 +131,11 @@ public class TitularEntity extends Titular implements DomainEntity {
 		return super.getMatriculaEmpresa();
 	}
 
-	@OneToMany(
-			cascade = CascadeType.ALL,
-			mappedBy = "titular",
-			fetch = FetchType.LAZY,
-			targetEntity = TitularDetailEntity.class)
+	@Embedded
 	@Override
-	public List<TitularDetail> getTitularDetails() {
+	public BeneficiarioDetail getBeneficiarioDetail() {
 		// TODO Auto-generated method stub
-		return super.getTitularDetails();
+		return super.getBeneficiarioDetail();
 	}
 
 }

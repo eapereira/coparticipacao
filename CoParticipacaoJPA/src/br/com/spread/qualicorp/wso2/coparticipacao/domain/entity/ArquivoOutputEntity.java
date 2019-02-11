@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoInput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutput;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoOutputSheet;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ArquivoType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.entity.converter.ArquivoTypeConverter;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoOutputUi;
 
 /**
@@ -60,6 +63,12 @@ public class ArquivoOutputEntity extends ArquivoOutput implements DomainEntity {
 	public ArquivoInput getArquivoInput() {
 		// TODO Auto-generated method stub
 		return super.getArquivoInput();
+	}
+
+	@Convert(converter = ArquivoTypeConverter.class)
+	@Column(name = "TP_ARQUIVO")
+	public ArquivoType getArquivoType() {
+		return super.getArquivoType();
 	}
 
 }

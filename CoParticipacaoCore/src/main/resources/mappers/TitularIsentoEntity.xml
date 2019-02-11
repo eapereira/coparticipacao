@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="TitularIsentoEntity.insert">
+		<![CDATA[
+			INSERT INTO TB_TITULAR_ISENTO(
+				ID_TITULAR,
+				TP_ISENTO,
+				CD_MES,
+				CD_ANO,
+				VL_ISENCAO,
+				ID_CONTRATO,
+				
+				DT_INICIO,
+				DT_FIM,			/* 8 */
+				
+				USER_CREATED,
+				DT_ALTERED,
+				DT_CREATED
+			) VALUES (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				
+				?,
+				?,
+				
+				?,
+				CURRENT_TIMESTAMP(),
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="TitularIsentoEntity.update">
+		<![CDATA[
+			UPDATE TB_TITULAR_ISENTO
+			SET
+				ID_TITULAR 		= ?,
+				TP_ISENTO 		= ?,
+				CD_MES			= ?,
+				CD_ANO			= ?,
+				VL_ISENCAO		= ?,
+				ID_CONTRATO		= ?,
+				
+				DT_INICIO		= ?,
+				DT_FIM			= ?,	/* 8 */
+				
+				USER_ALTERED 	= ?,
+				DT_ALTERED 		= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="TitularIsentoEntity.delete">
+		<![CDATA[
+			DELETE FROM TB_TITULAR_ISENTO
+			WHERE  ID = ?
+		]]>
+	</query>
+</queries>
+	

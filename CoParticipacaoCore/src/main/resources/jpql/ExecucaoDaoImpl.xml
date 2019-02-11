@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="findById">
+		<![CDATA[
+			select execucao from ExecucaoEntity execucao
+			join fetch execucao.arquivoExecucaos arquivoExecucaos
+			join fetch arquivoExecucaos.contrato contrato
+			join fetch execucao.empresa empresa
+			where execucao.id = :id
+			order by contrato.useType
+		]]>
+	</query>
+</queries>

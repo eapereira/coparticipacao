@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queries>
+	<query id="ArquivoExecucaoEntity.insert">
+		<![CDATA[
+			insert into TB_ARQUIVO_EXECUCAO ( 
+				ID_EXECUCAO,
+				NM_ARQUIVO_INPUT, 
+				NM_ARQUIVO_OUTPUT, 
+				ID_CONTRATO, 
+				CD_MES, 
+				CD_ANO, 
+				DT_STARTED, 
+				DT_FINNISHED, 
+				TP_STATUS,
+				DESCR_ERROR_MESSAGE,
+				
+				USER_CREATED, 
+				DT_ALTERED, 
+				DT_CREATED
+			) values (
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,
+				?,				
+				?,
+			
+				?,
+				CURRENT_TIMESTAMP(),
+				CURRENT_TIMESTAMP()
+			)
+		]]>
+	</query>
+
+	<query id="ArquivoExecucaoEntity.update">
+		<![CDATA[
+			UPDATE TB_ARQUIVO_EXECUCAO
+			SET
+				ID_EXECUCAO			= ?,
+				NM_ARQUIVO_INPUT	= ?, 
+				NM_ARQUIVO_OUTPUT	= ?, 
+				ID_CONTRATO			= ?, 
+				CD_MES				= ?, 
+				CD_ANO				= ?, 
+				DT_STARTED			= ?, 
+				DT_FINNISHED		= ?, 
+				TP_STATUS			= ?,
+				DESCR_ERROR_MESSAGE	= ?,
+				
+				USER_ALTERED		= ?,
+				DT_ALTERED			= CURRENT_TIMESTAMP(),
+				DT_CREATED			= CURRENT_TIMESTAMP()
+			WHERE ID = ?
+		]]>
+	</query>
+
+	<query id="ArquivoExecucaoEntity.delete">
+		<![CDATA[
+			DELETE FROM TB_ARQUIVO_EXECUCAO
+			WHERE ID = ?
+		]]>
+	</query>
+</queries>
+	

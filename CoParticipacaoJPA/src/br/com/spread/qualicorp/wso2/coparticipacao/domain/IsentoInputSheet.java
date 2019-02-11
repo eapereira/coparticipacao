@@ -17,12 +17,9 @@ public abstract class IsentoInputSheet extends AbstractDomain {
 
 	private List<IsentoInputSheetCols> isentoInputSheetCols;
 
-	private ArquivoInput arquivoInput;
+	private ArquivoInputSheet arquivoInputSheet;
 
 	private IsentoType isentoType;
-	
-	private Integer sheetId;
-	
 
 	public IsentoInputSheet() {
 		isentoInputSheetCols = new ArrayList<>();
@@ -54,30 +51,20 @@ public abstract class IsentoInputSheet extends AbstractDomain {
 		this.isentoType = isentoType;
 	}
 
-	public ArquivoInput getArquivoInput() {
-		return arquivoInput;
+	public ArquivoInputSheet getArquivoInputSheet() {
+		return arquivoInputSheet;
 	}
 
-	public void setArquivoInput(ArquivoInput arquivoInput) {
-		this.arquivoInput = arquivoInput;
-	}
-
-	public Integer getSheetId() {
-		return sheetId;
-	}
-
-	public void setSheetId(Integer sheetId) {
-		this.sheetId = sheetId;
+	public void setArquivoInputSheet(ArquivoInputSheet arquivoInputSheet) {
+		this.arquivoInputSheet = arquivoInputSheet;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((arquivoInput == null) ? 0 : arquivoInput.hashCode());
+		int result = super.hashCode();
 		result = prime * result + ((isentoInputSheetCols == null) ? 0 : isentoInputSheetCols.hashCode());
 		result = prime * result + ((isentoType == null) ? 0 : isentoType.hashCode());
-		result = prime * result + ((sheetId == null) ? 0 : sheetId.hashCode());
 		return result;
 	}
 
@@ -85,27 +72,17 @@ public abstract class IsentoInputSheet extends AbstractDomain {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		IsentoInputSheet other = (IsentoInputSheet) obj;
-		if (arquivoInput == null) {
-			if (other.arquivoInput != null)
-				return false;
-		} else if (!arquivoInput.equals(other.arquivoInput))
-			return false;
 		if (isentoInputSheetCols == null) {
 			if (other.isentoInputSheetCols != null)
 				return false;
 		} else if (!isentoInputSheetCols.equals(other.isentoInputSheetCols))
 			return false;
 		if (isentoType != other.isentoType)
-			return false;
-		if (sheetId == null) {
-			if (other.sheetId != null)
-				return false;
-		} else if (!sheetId.equals(other.sheetId))
 			return false;
 		return true;
 	}

@@ -14,7 +14,7 @@ public class RegraConditionalFieldUi extends RegraConditionalField {
 	 */
 	private static final long serialVersionUID = -1207595160288222395L;
 
-	public RegraConditionalFieldUi(){
+	public RegraConditionalFieldUi() {
 		super();
 	}
 }

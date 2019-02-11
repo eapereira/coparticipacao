@@ -7,12 +7,13 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DependenteBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.DesconhecidoBatchService;
+import br.com.spread.qualicorp.wso2.coparticipacao.batch.service.TitularBatchService;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.BeneficiarioType;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.CoParticipacaoContext;
-import br.com.spread.qualicorp.wso2.coparticipacao.domain.UseType;
+import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputSheetUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.ArquivoInputUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.BeneficiarioUi;
 import br.com.spread.qualicorp.wso2.coparticipacao.domain.ui.DependenteUi;
@@ -21,20 +22,13 @@ import br.com.spread.qualicorp.wso2.coparticipacao.exception.BeneficiarioNotFoun
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.DependenteDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularDuplicated;
 import br.com.spread.qualicorp.wso2.coparticipacao.exception.TitularNotFoundException;
-import br.com.spread.qualicorp.wso2.coparticipacao.io.impl.SpreadsheetProcessorListener;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.DependenteBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.DesconhecidoBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.TitularBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.jdbc.service.TitularDetailBatchService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.AbstractService;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.ProcessLineResult;
+import br.com.spread.qualicorp.wso2.coparticipacao.io.SpreadsheetProcessorListener;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.BeneficiarioService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteDetailService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.DependenteService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.DesconhecidoService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.MecsasService;
+import br.com.spread.qualicorp.wso2.coparticipacao.service.RegraService;
 import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularDetailService;
-import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
 
 /**
  * 
@@ -43,13 +37,9 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.TitularService;
  */
 @Qualifier("MecsasService")
 @Service
-@Transactional(value = AbstractService.JDBC_TX)
 public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorListener {
 
 	private static final Logger LOGGER = LogManager.getLogger(MecsasServiceImpl.class);
-
-	@Autowired
-	private TitularService titularService;
 
 	@Autowired
 	private DesconhecidoService desconhecidoService;
@@ -58,30 +48,28 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 	private BeneficiarioService beneficiarioService;
 
 	@Autowired
-	private DependenteService dependenteService;
-
-	@Autowired
-	private TitularDetailService titularDetailService;
-
-	@Autowired
-	private DependenteDetailService dependenteDetailService;
-	
-	@Autowired
 	private TitularBatchService titularBatchService;
-	
+
 	@Autowired
 	private DependenteBatchService dependenteBatchService;
-	
+
 	@Autowired
 	private DesconhecidoBatchService desconhecidoBatchService;
 
-	public void processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+	@Autowired
+	private RegraService regraService;
+
+	public ProcessLineResult processLine(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
 		TitularUi titularUi = null;
+		ProcessLineResult processLineResult = ProcessLineResult.READ_NEXT;
 
 		try {
 			LOGGER.info("BEGIN");
+
+			// Aplicamdo regras do arquivo se existirem:
+			regraService.applyRegras(coParticipacaoContext);
 
 			beneficiarioUi = beneficiarioService.createBeneficiarioFromMecsas(coParticipacaoContext);
 
@@ -94,10 +82,6 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 					desconhecidoService.createDesconhecido(coParticipacaoContext, beneficiarioUi);
 				} else {
 					coParticipacaoContext.setTitularUi(titularUi);
-
-					if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
-						titularDetailService.storeDetails(coParticipacaoContext, titularUi);
-					}
 				}
 			} else {
 				LOGGER.info("Processing beneficiario:");
@@ -115,10 +99,6 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 
 					if (dependenteUi == null) {
 						desconhecidoService.createDesconhecido(coParticipacaoContext, beneficiarioUi);
-					} else {
-						if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
-							dependenteDetailService.storeDetails(coParticipacaoContext, dependenteUi);
-						}
 					}
 				} else {
 					desconhecidoService.createDesconhecido(coParticipacaoContext, beneficiarioUi);
@@ -128,14 +108,19 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 			}
 
 			LOGGER.info("END");
+			return processLineResult;
 		} catch (DependenteDuplicated e) {
 			LOGGER.info(e.getMessage());
+			return processLineResult;
 		} catch (TitularDuplicated e) {
 			LOGGER.info(e.getMessage());
+			return processLineResult;
 		} catch (BeneficiarioNotFoundException e) {
 			LOGGER.debug(e.getMessage());
+			return processLineResult;
 		} catch (TitularNotFoundException e) {
 			LOGGER.debug(e.getMessage());
+			return processLineResult;
 		} catch (Exception e) {
 			LOGGER.error(e.getMessage(), e);
 			throw new ServiceException(e.getMessage(), e);
@@ -150,26 +135,21 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 		return false;
 	}
 
-	@Transactional(propagation = Propagation.REQUIRED)
 	public void afterProcess(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 			LOGGER.info("Process ending and sending data to database:");
 
-			LOGGER.info(
-					"Storing titular [{}] and dependentes data:",
-					coParticipacaoContext.getBunker().getTitularUis().size());
+			LOGGER.info("Storing Titulars: ...... [{}]", coParticipacaoContext.getBunker().getTitularUis().size());
+			LOGGER.info("Storing Dependetes: .... [{}]", coParticipacaoContext.getBunker().getDependenteUis().size());
 
-			//titularService.saveBatch(coParticipacaoContext.getBunker().getTitularUis());
-			//dependenteService.saveBatch(coParticipacaoContext.getBunker().getDependenteUis());
-			
-			titularBatchService.saveBatch(coParticipacaoContext.getBunker().getTitularUis());
-			dependenteBatchService.saveBatch(coParticipacaoContext.getBunker().getDependenteUis());
+			titularBatchService.saveBatch(coParticipacaoContext, coParticipacaoContext.getBunker().getTitularUis());
+			dependenteBatchService
+					.saveBatch(coParticipacaoContext, coParticipacaoContext.getBunker().getDependenteUis());
 
 			LOGGER.info(
 					"Storing desconhecidos [{}] data:",
 					coParticipacaoContext.getBunker().getDesconhecidoUis().size());
-			//desconhecidoService.saveBatch(coParticipacaoContext.getBunker().getDesconhecidoUis());
 			desconhecidoBatchService.saveBatch(coParticipacaoContext.getBunker().getDesconhecidoUis());
 
 			LOGGER.info("END");
@@ -199,14 +179,30 @@ public class MecsasServiceImpl implements MecsasService, SpreadsheetProcessorLis
 	}
 
 	public boolean validateSheet(CoParticipacaoContext coParticipacaoContext) throws ServiceException {
+		ArquivoInputSheetUi arquivoInputSheetUi;
+
 		try {
 			LOGGER.info("BEGIN");
+			LOGGER.info(
+					"Validating if sheet.ID[{}] with sheet.NAME[{}] will be accepted:",
+					coParticipacaoContext.getCurrentSheet(),
+					coParticipacaoContext.getSpreadsheetContext().getSheetName());
 
-			// MECSAS no momento lê apenas a primeira pasta:
-			if (NumberUtils.INTEGER_ZERO.equals(coParticipacaoContext.getCurrentSheet())) {
+			if (!coParticipacaoContext.getMapArquivoInputSheetUi().isEmpty()) {
+				arquivoInputSheetUi = coParticipacaoContext.getMapArquivoInputSheetUi()
+						.get(coParticipacaoContext.getCurrentSheet());
+
+				if (arquivoInputSheetUi != null) {
+					LOGGER.info("Sheet.ID[{}] accepted:", coParticipacaoContext.getCurrentSheet());
+					return true;
+				}
+			} else if (NumberUtils.INTEGER_ZERO.equals(coParticipacaoContext.getCurrentSheet())) {
+				// MECSAS no momento lê apenas a primeira pasta:
+				LOGGER.info("Sheet.ID[{}] accepted:", coParticipacaoContext.getCurrentSheet());
 				return true;
 			}
 
+			LOGGER.info("Sheet.ID[{}] rejected:", coParticipacaoContext.getCurrentSheet());
 			LOGGER.info("END");
 			return false;
 		} catch (Exception e) {
