@@ -39,29 +39,25 @@ public class HocBean {
 
 	private static final String MECSAS_201803 = "haoc/input/0444.MECSAS.201803.001.csv";
 	private static final String GESTANTES_201803 = "haoc/input/0444.ISENTO.201803.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201804 = "haoc/input/0444.ISENTO-CENTAVOS.201804.003.xlsx";
-	private static final String ISENTO_VALOR_201804 = "haoc/input/0444.ISENTO-UTILIZACAO.201804.004.xlsx";
+	private static final String ISENTO_VALOR_201804 = "haoc/input/0444.ISENTO-VALOR.201804.004.xlsx";
 	private static final String FATUCOPA_201803 = "haoc/input/0444.0444.201803.005.csv";
 	private static final String NAO_LOCALIZADOS_201803 = "haoc/input/0444.NAO-LOCALIZADO.201803.005.xlsx";
 
 	private static final String MECSAS_201807 = "haoc/input/0444.MECSAS.201807.001.csv";
 	private static final String GESTANTES_201807 = "haoc/input/0444.ISENTO.201807.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201807 = "haoc/input/0444.ISENTO-CENTAVOS.201807.003.xlsx";
-	private static final String ISENTO_VALOR_UTILIZACAO_201807 = "haoc/input/0444.ISENTO-UTILIZACAO.201807.004.xlsx";
+	private static final String ISENTO_VALOR_UTILIZACAO_201807 = "haoc/input/0444.ISENTO-VALOR.201807.004.xlsx";
 	private static final String FATUCOPA_201807 = "haoc/input/0444.0444.201807.005.csv";
 	private static final String NAO_LOCALIZADOS_201807 = "haoc/input/0444.NAO-LOCALIZADO.201807.005.xlsx";
 
 	private static final String MECSAS_201810 = "haoc/input/0444.MECSAS.201810.001.csv";
 	private static final String GESTANTES_201810 = "haoc/input/0444.ISENTO.201810.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201810 = "haoc/input/0444.ISENTO-CENTAVOS.201810.003.xlsx";
-	private static final String ISENTO_VALOR_UTILIZACAO_201810 = "haoc/input/0444.ISENTO-UTILIZACAO.201810.004.xlsx";
+	private static final String ISENTO_VALOR_UTILIZACAO_201810 = "haoc/input/0444.ISENTO-VALOR.201810.004.xlsx";
 	private static final String FATUCOPA_201810 = "haoc/input/0444.0444.201810.005.csv";
 	private static final String NAO_LOCALIZADOS_201810 = "haoc/input/0444.NAO-LOCALIZADO.201810.005.xlsx";
 
 	private static final String MECSAS_201901 = "haoc/input/201901/0444.MECSAS.201901.001.csv";
 	private static final String GESTANTES_201901 = "haoc/input/201901/0444.ISENTO.201901.002.xlsx";
-	private static final String ISENTO_VALOR_CENTAVOS_201901 = "haoc/input/201901/0444.ISENTO-CENTAVOS.201901.003.xlsx";
-	private static final String ISENTO_VALOR_UTILIZACAO_201901 = "haoc/input/201901/0444.ISENTO-UTILIZACAO.201901.004.xlsx";
+	private static final String ISENTO_VALOR_UTILIZACAO_201901 = "haoc/input/201901/0444.ISENTO-VALOR.201901.004.xlsx";
 	private static final String FATUCOPA_201901 = "haoc/input/201901/0444.0444.201901.005.csv";
 	private static final String NAO_LOCALIZADOS_201901 = "haoc/input/201901/0444.NAO-LOCALIZADO.201901.002.xlsx";
 
@@ -182,8 +178,6 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_MECSAS, MECSAS_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201804);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -229,8 +223,6 @@ public class HocBean {
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_NAO_LOCALIZADO, NAO_LOCALIZADOS_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201803);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_201804);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201804);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201803);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -275,8 +267,6 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201807);
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201807);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -323,8 +313,6 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201807);
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201807);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201807);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201807);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -367,8 +355,6 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201810);
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201810);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201810);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -413,8 +399,6 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201810);
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201810);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201810);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201810);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -457,8 +441,6 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201901);
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201901);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201901);
 
 		coParticipacaoTest.processFile(execucaoUi);
@@ -503,8 +485,6 @@ public class HocBean {
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO, GESTANTES_201901);
 		coParticipacaoTest
 				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_UTILIZACAO_201901);
-		coParticipacaoTest
-				.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_ISENTO_VALOR, ISENTO_VALOR_CENTAVOS_201901);
 		coParticipacaoTest.createArquivoExecucao(execucaoUi, empresaUi, CD_CONTRATO_FATUCOPA, FATUCOPA_201901);
 
 		coParticipacaoTest.processFile(execucaoUi);
