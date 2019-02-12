@@ -60,8 +60,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 	@Autowired
 	private EmpresaService empresaService;
 
-	public boolean validateBeneficiario(
-			CoParticipacaoContext coParticipacaoContext,
+	public boolean validateBeneficiario(CoParticipacaoContext coParticipacaoContext,
 			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
@@ -77,11 +76,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				 */
 				coParticipacaoContext.setBeneficiarioUi(beneficiarioUi);
 
-				LOGGER.info(
-						"Validating Beneficiario[{}] with NR_CPF[{}] and using NR_MATRICULA[{}]:",
-						beneficiarioUi.getNameBeneficiario(),
-						beneficiarioUi.getCpf(),
-						beneficiarioUi.getMatricula());
+				LOGGER.info("Validating Beneficiario[{}] with NR_CPF[{}] and using NR_MATRICULA[{}]:",
+						beneficiarioUi.getNameBeneficiario(), beneficiarioUi.getCpf(), beneficiarioUi.getMatricula());
 
 				// Apenas o MECSAS tem o Tipo de Beneficiário:
 				if (isTitular(coParticipacaoContext, beneficiarioUi)) {
@@ -100,8 +96,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				LOGGER.info("END");
 				return true;
 			} else {
-				LOGGER.info(
-						"Não foram encontrados beneficiários para a linha [{}]",
+				LOGGER.info("Não foram encontrados beneficiários para a linha [{}]",
 						coParticipacaoContext.getCurrentLine());
 
 				LOGGER.info("END");
@@ -165,8 +160,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private BeneficiarioUi createBeneficiario(
-			CoParticipacaoContext coParticipacaoContext,
+	private BeneficiarioUi createBeneficiario(CoParticipacaoContext coParticipacaoContext,
 			LancamentoDetailUi lancamentoDetailUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 
@@ -241,9 +235,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			LOGGER.info("BEGIN");
 
 			if (value != null) {
-				LOGGER.info(
-						"Storing value[{}] to Beneficiario property [{}]",
-						value,
+				LOGGER.info("Storing value[{}] to Beneficiario property [{}]", value,
 						beneficiarioColType.getDescription());
 
 				if (BeneficiarioColType.TP_BENEFICIARIO.equals(beneficiarioColType)) {
@@ -288,9 +280,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private void defineBeneficiarioDetails(
-			BeneficiarioUi beneficiarioUi,
-			BeneficiarioColType beneficiarioColType,
+	private void defineBeneficiarioDetails(BeneficiarioUi beneficiarioUi, BeneficiarioColType beneficiarioColType,
 			Object value) throws ServiceException {
 		BeneficiarioDetail beneficiarioDetail = null;
 		Telefone telefone;
@@ -556,22 +546,16 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			beneficiarioUi = createBeneficiario(coParticipacaoContext, beneficiarioColsUis);
 
-			LOGGER.info(
-					"Current Titular[{}] and Beneficiario [{}] with MATRICULA [{}] and CPF[{}]:",
-					beneficiarioUi.getNameTitular(),
-					beneficiarioUi.getNameBeneficiario(),
-					beneficiarioUi.getMatricula(),
-					beneficiarioUi.getCpf());
+			LOGGER.info("Current Titular[{}] and Beneficiario [{}] with MATRICULA [{}] and CPF[{}]:",
+					beneficiarioUi.getNameTitular(), beneficiarioUi.getNameBeneficiario(),
+					beneficiarioUi.getMatricula(), beneficiarioUi.getCpf());
 
 			defineContrato(coParticipacaoContext, beneficiarioUi);
 
 			if (isTitular(coParticipacaoContext, beneficiarioUi)) {
-				LOGGER.info(
-						"TitularUi[{}] and Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Titular:",
-						beneficiarioUi.getNameTitular(),
-						beneficiarioUi.getNameBeneficiario(),
-						beneficiarioUi.getMatricula(),
-						beneficiarioUi.getCpf());
+				LOGGER.info("TitularUi[{}] and Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Titular:",
+						beneficiarioUi.getNameTitular(), beneficiarioUi.getNameBeneficiario(),
+						beneficiarioUi.getMatricula(), beneficiarioUi.getCpf());
 
 				beneficiarioUi.setType(BeneficiarioType.TITULAR);
 
@@ -579,11 +563,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					beneficiarioUi.setNameTitular(beneficiarioUi.getNameBeneficiario());
 				}
 			} else {
-				LOGGER.info(
-						"Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Dependente:",
-						beneficiarioUi.getNameBeneficiario(),
-						beneficiarioUi.getMatricula(),
-						beneficiarioUi.getCpf());
+				LOGGER.info("Beneficiario [{}] with MATRICULA [{}] and CPF[{}] is Dependente:",
+						beneficiarioUi.getNameBeneficiario(), beneficiarioUi.getMatricula(), beneficiarioUi.getCpf());
 
 				if (!UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					beneficiarioUi.setType(BeneficiarioType.OUTROS);
@@ -603,9 +584,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 			}
 
-			LOGGER.debug(
-					"BeneficiarioUi[{}] with CD_CONTRATO[{}]:",
-					beneficiarioUi.getNameBeneficiario(),
+			LOGGER.debug("BeneficiarioUi[{}] with CD_CONTRATO[{}]:", beneficiarioUi.getNameBeneficiario(),
 					beneficiarioUi.getCdContrato());
 
 			if (StringUtils.isNotBlank(beneficiarioUi.getCdContrato()) && beneficiarioUi.getContrato() == null) {
@@ -630,17 +609,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			if (beneficiarioUi.getContrato() != null) {
 				LOGGER.debug(
 						"Using ContratoUi[{}] for TitularUi[{}] and Beneficiario[{}] with NR_MATRICULA[{}] and NR_CPF[{}]:",
-						beneficiarioUi.getContrato().getCdContrato(),
-						beneficiarioUi.getNameTitular(),
-						beneficiarioUi.getNameBeneficiario(),
-						beneficiarioUi.getMatricula(),
-						beneficiarioUi.getCpf());
+						beneficiarioUi.getContrato().getCdContrato(), beneficiarioUi.getNameTitular(),
+						beneficiarioUi.getNameBeneficiario(), beneficiarioUi.getMatricula(), beneficiarioUi.getCpf());
 			} else {
 				if (UseType.MECSAS.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					throw new BeneficiarioNotFoundException(
 							"BeneficiarioUi[%s] has no ContratoUi defined for CD_CONTRATO[%s]",
-							beneficiarioUi.getNameBeneficiario(),
-							beneficiarioUi.getCdContrato());
+							beneficiarioUi.getNameBeneficiario(), beneficiarioUi.getCdContrato());
 				}
 			}
 
@@ -678,10 +653,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			}
 
 			/*
-			 * Se a pasta possuir informações do ContratoUi para ser utilizado
-			 * com o BeneficiarioUi, então iremos carrega-lo no BeneficiarioUi,
-			 * caso contrário devemos usar o ContratoUi expecifido no
-			 * ArquivoInputSheetUi que esta sendo usado pela pasta da planilha:
+			 * Se a pasta possuir informações do ContratoUi para ser utilizado com o
+			 * BeneficiarioUi, então iremos carrega-lo no BeneficiarioUi, caso contrário
+			 * devemos usar o ContratoUi expecifido no ArquivoInputSheetUi que esta sendo
+			 * usado pela pasta da planilha:
 			 */
 			if (StringUtils.isNotBlank(beneficiarioUi.getCdContrato())) {
 				for (Contrato contrato : coParticipacaoContext.getEmpresaUi().getContratos()) {
@@ -698,8 +673,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			}
 
 			/*
-			 * Agora vamos usar o ContratoUi que deve ser definido ao
-			 * BeneficiarioUi:
+			 * Agora vamos usar o ContratoUi que deve ser definido ao BeneficiarioUi:
 			 */
 			beneficiarioUi.setCdContrato(contratoUi.getCdContrato());
 			beneficiarioUi.setContrato(contratoUi);
@@ -711,8 +685,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private BeneficiarioUi createBeneficiario(
-			CoParticipacaoContext coParticipacaoContext,
+	private BeneficiarioUi createBeneficiario(CoParticipacaoContext coParticipacaoContext,
 			List<BeneficiarioColsUi> beneficiarioColsUis) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		Object value;
@@ -781,10 +754,9 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			} else {
 				if (UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
 					/*
-					 * Se o Beneficiário não for um Titular e não existe no
-					 * banco de dados e também não possuir um Títular, então ele
-					 * próprio é um Títular, pois não foi encontrado pelo
-					 * processo MECSAS e FATUCOPA:
+					 * Se o Beneficiário não for um Titular e não existe no banco de dados e também
+					 * não possuir um Títular, então ele próprio é um Títular, pois não foi
+					 * encontrado pelo processo MECSAS e FATUCOPA:
 					 */
 					if (StringUtils.isBlank(beneficiarioUi.getNameBeneficiario())) {
 						throw new BeneficiarioNotFoundException("The column[NM_BENEFICIARIO] must be defined:");
@@ -792,14 +764,14 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 
 				/*
-				 * Para o BeneficiarioUi, aqui iremos localizar o seu TitularUi
-				 * ou o títular pode ser o próprio BeneficiarioUi:
+				 * Para o BeneficiarioUi, aqui iremos localizar o seu TitularUi ou o títular
+				 * pode ser o próprio BeneficiarioUi:
 				 */
 				titularUi = findTitular(coParticipacaoContext, beneficiarioUi);
 
 				/*
-				 * Se localizarmos um DependenteUi com os dados do
-				 * BeneficiarioUi, então ele é um dependente:
+				 * Se localizarmos um DependenteUi com os dados do BeneficiarioUi, então ele é
+				 * um dependente:
 				 */
 				dependenteUi = findDependente(coParticipacaoContext, beneficiarioUi);
 
@@ -854,15 +826,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								return true;
 							}
 						} else {
-							if (UseType.NAO_LOCALIZADO.equals(contratoUi.getUseType())) {
-								/*
-								 * Se o BeneficiarioUi não possui TitularUi e
-								 * não existe um DependenteUi, então ele próprio
-								 * é o TitularUi:
-								 */
-								LOGGER.info("END");
-								return true;
-							}
+							/*
+							 * Se o BeneficiarioUi não possui TitularUi e não existe um DependenteUi, então
+							 * ele próprio é o TitularUi:
+							 */
+							LOGGER.info("END");
+							return true;
 						}
 					}
 				}
@@ -892,8 +861,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				if (empresaService.canAutomaticallyCreateBeneficiario(coParticipacaoContext)) {
 					if (validateBeneficiario(coParticipacaoContext, beneficiarioUi)) {
 						/*
-						 * Vamos verificar se já não existe um títular com o
-						 * mesmo CPF:
+						 * Vamos verificar se já não existe um títular com o mesmo CPF:
 						 */
 						if (!isTitularCpfInUse(coParticipacaoContext, beneficiarioUi)
 								&& !isMatriculaInUse(coParticipacaoContext, beneficiarioUi)) {
@@ -924,11 +892,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 								titularUi.setMatricula(beneficiarioUi.getMatricula());
 							}
 
-							LOGGER.info(
-									"Titular [{}] with CPF [{}] and Matricula [{}] will be created:",
-									titularUi.getNameTitular(),
-									titularUi.getCpf(),
-									titularUi.getMatricula());
+							LOGGER.info("Titular [{}] with CPF [{}] and Matricula [{}] will be created:",
+									titularUi.getNameTitular(), titularUi.getCpf(), titularUi.getMatricula());
 
 							titularUi.setContrato(beneficiarioUi.getContrato());
 							titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
@@ -939,12 +904,10 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							titularUi.setBeneficiarioDetail(beneficiarioUi.getBeneficiarioDetail());
 
 							/*
-							 * Se a empresa estiver configurada para adicionar
-							 * beneficiários a partir dos arquivos FATUCOPA,
-							 * existe a opção de marcar este beneficiário como
-							 * demitidos se for o caso, assim teremos como
-							 * diferenciar que eles não foram encontrados no
-							 * MECSAS. Usado pelo processo HAOC:
+							 * Se a empresa estiver configurada para adicionar beneficiários a partir dos
+							 * arquivos FATUCOPA, existe a opção de marcar este beneficiário como demitidos
+							 * se for o caso, assim teremos como diferenciar que eles não foram encontrados
+							 * no MECSAS. Usado pelo processo HAOC:
 							 */
 							if (UseType.FATUCOPA.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 								if (empresaUi.isCreateBeneficiarioFromFatucopa()) {
@@ -960,16 +923,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 							coParticipacaoContext.addTitular(titularUi);
 
-							LOGGER.info(
-									"Titular [{}] with CPF [{}] and Matricula [{}] created:",
-									titularUi.getNameTitular(),
-									titularUi.getCpf(),
-									titularUi.getMatricula());
+							LOGGER.info("Titular [{}] with CPF [{}] and Matricula [{}] created:",
+									titularUi.getNameTitular(), titularUi.getCpf(), titularUi.getMatricula());
 						} else {
 							LOGGER.info(
 									"Titular [{}] with CPF [{}] and Matricula [{}] cannot be created because NR_CPF is already in use:",
-									beneficiarioUi.getNameTitular(),
-									beneficiarioUi.getCpf(),
+									beneficiarioUi.getNameTitular(), beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
 						}
 					}
@@ -981,9 +940,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					coParticipacaoContext.setTitularUi(titularUi);
 
 					/*
-					 * Se estamos num processo MECSAS e encontramos o Titular,
-					 * então significa que ele esta duplicado no arquivo de
-					 * entrada e já foi processado:
+					 * Se estamos num processo MECSAS e encontramos o Titular, então significa que
+					 * ele esta duplicado no arquivo de entrada e já foi processado:
 					 */
 					if (!titularUi.isMarkedForUpdated() && titularUi.getId() != null) {
 						titularUi.setMarkedForUpdated(true);
@@ -1018,13 +976,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			titularUi = coParticipacaoContext
-					.findTitularByMatriculaAndCdContrato(beneficiarioUi.getMatricula(), beneficiarioUi.getCdContrato());
+			titularUi = coParticipacaoContext.findTitularByMatriculaAndCdContrato(beneficiarioUi.getMatricula(),
+					beneficiarioUi.getCdContrato());
 
 			if (titularUi != null) {
-				LOGGER.info(
-						"There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:",
-						titularUi.getCpf(),
+				LOGGER.info("There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:", titularUi.getCpf(),
 						titularUi.getMatricula());
 				return true;
 			}
@@ -1046,17 +1002,15 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			if (!NumberUtils.LONG_ZERO.equals(beneficiarioUi.getCpf())) {
 				if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
-					titularUi = coParticipacaoContext
-							.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameTitular());
+					titularUi = coParticipacaoContext.findTitularByCpfAndName(beneficiarioUi.getCpf(),
+							beneficiarioUi.getNameTitular());
 				} else {
-					titularUi = coParticipacaoContext
-							.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
+					titularUi = coParticipacaoContext.findTitularByCpfAndName(beneficiarioUi.getCpf(),
+							beneficiarioUi.getNameBeneficiario());
 				}
 
 				if (titularUi != null) {
-					LOGGER.info(
-							"There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:",
-							titularUi.getCpf(),
+					LOGGER.info("There's already a Titular using NR_CPF[{}] and NR_MATRICULA[{}]:", titularUi.getCpf(),
 							titularUi.getMatricula());
 					return true;
 				}
@@ -1110,16 +1064,12 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						}
 
 						if (titularUi != null) {
-							LOGGER.info(
-									"Using Titular [{}] with Matricula [{}] and CPF [{}]:",
-									titularUi.getNameTitular(),
-									titularUi.getMatricula(),
-									titularUi.getCpf());
+							LOGGER.info("Using Titular [{}] with Matricula [{}] and CPF [{}]:",
+									titularUi.getNameTitular(), titularUi.getMatricula(), titularUi.getCpf());
 
 							LOGGER.info(
 									"Adding Dependente [{}] with CPF [{}] and Matricula [{}] not found in database:",
-									beneficiarioUi.getNameBeneficiario(),
-									beneficiarioUi.getCpf(),
+									beneficiarioUi.getNameBeneficiario(), beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
 
 							dependenteUi = new DependenteUi();
@@ -1145,20 +1095,17 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 							coParticipacaoContext.addDependente(dependenteUi);
 						} else {
 							/*
-							 * Como este Beneficiário não existe no banco e
-							 * também não possui Títular, mas a Empresa esta
-							 * configurada para criar os Beneficiários
-							 * automaticamente, vamos transformá-lo em Titular:
+							 * Como este Beneficiário não existe no banco e também não possui Títular, mas a
+							 * Empresa esta configurada para criar os Beneficiários automaticamente, vamos
+							 * transformá-lo em Titular:
 							 */
 							LOGGER.info(
 									"BeneficiarioUi [{}] with CPF [{}] and Matricula [{}] cannot be created as a DependenteUi, no TitularUi found:",
-									beneficiarioUi.getNameBeneficiario(),
-									beneficiarioUi.getCpf(),
+									beneficiarioUi.getNameBeneficiario(), beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
 							throw new BeneficiarioNotFoundException(
 									"BeneficiarioUi [%s] with CPF [%s] and Matricula [%s] cannot be created as a DependenteUi, no TitularUi found:",
-									beneficiarioUi.getNameBeneficiario(),
-									beneficiarioUi.getCpf(),
+									beneficiarioUi.getNameBeneficiario(), beneficiarioUi.getCpf(),
 									beneficiarioUi.getMatricula());
 						}
 					}
@@ -1170,9 +1117,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 						|| UseType.MECSAS2.equals(coParticipacaoContext.getContratoUi().getUseType())
 						|| UseType.NAO_LOCALIZADO.equals(coParticipacaoContext.getContratoUi().getUseType())) {
 					/*
-					 * Se estamos num processo MECSAS e encontramos o
-					 * Dependente, então significa que ele esta duplicado no
-					 * arquivo de entrada e já foi processado:
+					 * Se estamos num processo MECSAS e encontramos o Dependente, então significa
+					 * que ele esta duplicado no arquivo de entrada e já foi processado:
 					 */
 					if (!dependenteUi.isMarkedForUpdated() && dependenteUi.getId() != null) {
 						dependenteUi.setMarkedForUpdated(true);
@@ -1236,11 +1182,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			cpf = (beneficiarioUi.getCpf() * 100) + beneficiarioUi.getDigitoCpf();
 
-			LOGGER.debug(
-					"Binding the CPF [{}] to its digit [{}] to form a complete number [{}]:",
-					beneficiarioUi.getCpf(),
-					beneficiarioUi.getDigitoCpf(),
-					cpf);
+			LOGGER.debug("Binding the CPF [{}] to its digit [{}] to form a complete number [{}]:",
+					beneficiarioUi.getCpf(), beneficiarioUi.getDigitoCpf(), cpf);
 
 			LOGGER.info("END");
 			return cpf;
@@ -1258,11 +1201,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 			cpf = (beneficiarioUi.getCpf() * 100) + beneficiarioUi.getDigitoCpf();
 
-			LOGGER.debug(
-					"Binding the CPF [{}] to its digit [{}] to form a complete number [{}]:",
-					beneficiarioUi.getCpf(),
-					beneficiarioUi.getDigitoCpf(),
-					cpf);
+			LOGGER.debug("Binding the CPF [{}] to its digit [{}] to form a complete number [{}]:",
+					beneficiarioUi.getCpf(), beneficiarioUi.getDigitoCpf(), cpf);
 
 			LOGGER.info("END");
 			return cpf;
@@ -1272,9 +1212,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private void updateTitular(
-			CoParticipacaoContext coParticipacaoContext,
-			TitularUi titularUi,
+	private void updateTitular(CoParticipacaoContext coParticipacaoContext, TitularUi titularUi,
 			BeneficiarioUi beneficiarioUi) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
@@ -1292,8 +1230,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 
 				if (beneficiarioUi.getDtNascimento() != null) {
-					LOGGER.debug(
-							"Updating Titular field DT_NASCIMENTO with value [{}]:",
+					LOGGER.debug("Updating Titular field DT_NASCIMENTO with value [{}]:",
 							beneficiarioUi.getDtNascimento());
 					titularUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 				}
@@ -1314,15 +1251,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 
 				if (beneficiarioUi.getReferenceCode() != null) {
-					LOGGER.debug(
-							"Updating Titular field NR_REF_CODE with value [{}]:",
+					LOGGER.debug("Updating Titular field NR_REF_CODE with value [{}]:",
 							beneficiarioUi.getReferenceCode());
 					titularUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 				}
 
 				if (NumberUtils2.isNotZero(beneficiarioUi.getMatriculaEmpresa())) {
-					LOGGER.debug(
-							"Updating Titular field NR_MATRICULA_EMPRESA with value [{}]:",
+					LOGGER.debug("Updating Titular field NR_MATRICULA_EMPRESA with value [{}]:",
 							beneficiarioUi.getMatriculaEmpresa());
 					titularUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 				}
@@ -1333,8 +1268,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					coParticipacaoContext.addTitular(titularUi);
 				}
 
-				BeneficiarioDetailHelper.copyBeneficiarioDetail(
-						titularUi.getBeneficiarioDetail(),
+				BeneficiarioDetailHelper.copyBeneficiarioDetail(titularUi.getBeneficiarioDetail(),
 						beneficiarioUi.getBeneficiarioDetail());
 
 				titularUi.setUserAltered(coParticipacaoContext.getUser());
@@ -1372,9 +1306,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private void updateDependente(
-			CoParticipacaoContext coParticipacaoContext,
-			DependenteUi dependenteUi,
+	private void updateDependente(CoParticipacaoContext coParticipacaoContext, DependenteUi dependenteUi,
 			BeneficiarioUi beneficiarioUi) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
@@ -1389,8 +1321,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 
 				if (beneficiarioUi.getDtNascimento() != null) {
-					LOGGER.debug(
-							"Updating Dependente field DT_NASCIMENTO with value [{}]:",
+					LOGGER.debug("Updating Dependente field DT_NASCIMENTO with value [{}]:",
 							beneficiarioUi.getDtNascimento());
 					dependenteUi.setDtNascimento(beneficiarioUi.getDtNascimento());
 				}
@@ -1401,15 +1332,13 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 				}
 
 				if (beneficiarioUi.getReferenceCode() != null) {
-					LOGGER.debug(
-							"Updating Dependente field NR_REF_CODE with value [{}]:",
+					LOGGER.debug("Updating Dependente field NR_REF_CODE with value [{}]:",
 							beneficiarioUi.getReferenceCode());
 					dependenteUi.setReferenceCode(beneficiarioUi.getReferenceCode());
 				}
 
 				if (beneficiarioUi.getMatriculaEmpresa() != null) {
-					LOGGER.debug(
-							"Updating Dependente field NR_MATRICULA_EMPRESA with value [{}]:",
+					LOGGER.debug("Updating Dependente field NR_MATRICULA_EMPRESA with value [{}]:",
 							beneficiarioUi.getMatriculaEmpresa());
 					dependenteUi.setMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 				}
@@ -1420,8 +1349,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 					coParticipacaoContext.addDependente(dependenteUi);
 				}
 
-				BeneficiarioDetailHelper.copyBeneficiarioDetail(
-						dependenteUi.getBeneficiarioDetail(),
+				BeneficiarioDetailHelper.copyBeneficiarioDetail(dependenteUi.getBeneficiarioDetail(),
 						beneficiarioUi.getBeneficiarioDetail());
 
 				dependenteUi.setUserAltered(coParticipacaoContext.getUser());
@@ -1444,58 +1372,52 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			LOGGER.info("BEGIN");
 
 			if (StringUtils.isNotBlank(beneficiarioUi.getNameTitular())) {
-				titularUi = coParticipacaoContext
-						.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameTitular());
+				titularUi = coParticipacaoContext.findTitularByCpfAndName(beneficiarioUi.getCpf(),
+						beneficiarioUi.getNameTitular());
 
 				if (titularUi == null) {
-					titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
-							beneficiarioUi.getMatricula(),
+					titularUi = coParticipacaoContext.findTitularByMatriculaAndName(beneficiarioUi.getMatricula(),
 							beneficiarioUi.getNameTitular());
 
 					if (titularUi == null) {
 						titularUi = coParticipacaoContext.findTitularByMatriculaEmpresaAndName(
-								beneficiarioUi.getMatriculaEmpresa(),
-								beneficiarioUi.getNameTitular());
+								beneficiarioUi.getMatriculaEmpresa(), beneficiarioUi.getNameTitular());
 					}
 				}
 			}
 
 			if (titularUi == null) {
 				if (StringUtils.isNotBlank(beneficiarioUi.getNameBeneficiario())) {
-					titularUi = coParticipacaoContext
-							.findTitularByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
+					titularUi = coParticipacaoContext.findTitularByCpfAndName(beneficiarioUi.getCpf(),
+							beneficiarioUi.getNameBeneficiario());
 
 					if (titularUi == null) {
-						titularUi = coParticipacaoContext.findTitularByMatriculaAndName(
-								beneficiarioUi.getMatricula(),
+						titularUi = coParticipacaoContext.findTitularByMatriculaAndName(beneficiarioUi.getMatricula(),
 								beneficiarioUi.getNameBeneficiario());
 
 						if (titularUi == null) {
 							titularUi = coParticipacaoContext.findTitularByMatriculaEmpresaAndName(
-									beneficiarioUi.getMatriculaEmpresa(),
-									beneficiarioUi.getNameBeneficiario());
+									beneficiarioUi.getMatriculaEmpresa(), beneficiarioUi.getNameBeneficiario());
 						}
 					}
 				}
 			}
 
 			if (titularUi == null && beneficiarioUi.getCdContrato() != null) {
-				titularUi = coParticipacaoContext.findTitularByMatriculaAndCdContrato(
-						beneficiarioUi.getMatricula(),
+				titularUi = coParticipacaoContext.findTitularByMatriculaAndCdContrato(beneficiarioUi.getMatricula(),
 						beneficiarioUi.getCdContrato());
 			}
 
 			/*
-			 * Em caso que existam diferenças nos nomes dos beneficiários entro
-			 * os arquivos de entrada, mas o valor do NR_CPF e NR_MATRICULA
-			 * estejam corretos, preferencialmente existam diferenças entre os
-			 * CPFs dos dependentes, podesse usar este recurso:
+			 * Em caso que existam diferenças nos nomes dos beneficiários entro os arquivos
+			 * de entrada, mas o valor do NR_CPF e NR_MATRICULA estejam corretos,
+			 * preferencialmente existam diferenças entre os CPFs dos dependentes, podesse
+			 * usar este recurso:
 			 */
 			if (titularUi == null) {
 				if (beneficiarioUi.getMatriculaEmpresa() != null) {
 					titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getMatriculaEmpresa());
+							beneficiarioUi.getMatricula(), beneficiarioUi.getMatriculaEmpresa());
 
 					if (titularUi == null
 							&& coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioByMatriculaEmpresa()) {
@@ -1526,12 +1448,11 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		try {
 			LOGGER.info("BEGIN");
 
-			dependenteUi = coParticipacaoContext
-					.findDependenteByCpfAndName(beneficiarioUi.getCpf(), beneficiarioUi.getNameBeneficiario());
+			dependenteUi = coParticipacaoContext.findDependenteByCpfAndName(beneficiarioUi.getCpf(),
+					beneficiarioUi.getNameBeneficiario());
 
 			if (dependenteUi == null) {
-				dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(
-						beneficiarioUi.getMatricula(),
+				dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndName(beneficiarioUi.getMatricula(),
 						beneficiarioUi.getNameBeneficiario());
 			}
 
@@ -1569,16 +1490,15 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			}
 
 			/*
-			 * Em caso que existam diferenças nos nomes dos beneficiários entro
-			 * os arquivos de entrada, mas o valor do NR_CPF e NR_MATRICULA
-			 * estejam corretos, preferencialmente existam diferenças entre os
-			 * CPFs dos dependentes, podesse usar este recurso:
+			 * Em caso que existam diferenças nos nomes dos beneficiários entro os arquivos
+			 * de entrada, mas o valor do NR_CPF e NR_MATRICULA estejam corretos,
+			 * preferencialmente existam diferenças entre os CPFs dos dependentes, podesse
+			 * usar este recurso:
 			 */
 			if (dependenteUi == null) {
 				if (beneficiarioUi.getMatriculaEmpresa() != null) {
 					dependenteUi = coParticipacaoContext.findDependenteByMatriculaAndMatriculaEmpresa(
-							beneficiarioUi.getMatricula(),
-							beneficiarioUi.getMatriculaEmpresa());
+							beneficiarioUi.getMatricula(), beneficiarioUi.getMatriculaEmpresa());
 
 					if (dependenteUi == null
 							&& coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioByMatriculaEmpresa()) {
@@ -1596,8 +1516,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	public DependenteUi findDependente(
-			CoParticipacaoContext coParticipacaoContext,
+	public DependenteUi findDependente(CoParticipacaoContext coParticipacaoContext,
 			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi;
@@ -1674,8 +1593,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	public TitularUi createTitular(
-			CoParticipacaoContext coParticipacaoContext,
+	public TitularUi createTitular(CoParticipacaoContext coParticipacaoContext,
 			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		TitularUi titularUi = null;
@@ -1696,8 +1614,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 
 	}
 
-	public DependenteUi createDependente(
-			CoParticipacaoContext coParticipacaoContext,
+	public DependenteUi createDependente(CoParticipacaoContext coParticipacaoContext,
 			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 		DependenteUi dependenteUi = null;
@@ -1717,8 +1634,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	private BeneficiarioUi createBeneficiario(
-			CoParticipacaoContext coParticipacaoContext,
+	private BeneficiarioUi createBeneficiario(CoParticipacaoContext coParticipacaoContext,
 			BeneficiarioIsentoUi beneficiarioIsentoUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 
@@ -1749,9 +1665,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	public void updateTitular(
-			CoParticipacaoContext coParticipacaoContext,
-			BeneficiarioIsentoUi beneficiarioIsentoUi,
+	public void updateTitular(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi,
 			TitularUi titularUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 
@@ -1769,9 +1683,7 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 		}
 	}
 
-	public void updateDependente(
-			CoParticipacaoContext coParticipacaoContext,
-			BeneficiarioIsentoUi beneficiarioIsentoUi,
+	public void updateDependente(CoParticipacaoContext coParticipacaoContext, BeneficiarioIsentoUi beneficiarioIsentoUi,
 			DependenteUi dependenteUi) throws ServiceException {
 		BeneficiarioUi beneficiarioUi;
 
