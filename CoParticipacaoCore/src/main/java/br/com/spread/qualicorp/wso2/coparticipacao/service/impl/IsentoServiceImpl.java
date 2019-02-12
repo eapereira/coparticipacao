@@ -161,26 +161,22 @@ public class IsentoServiceImpl implements IsentoService {
 					beneficiarioService.updateDependente(coParticipacaoContext, beneficiarioIsentoUi, dependenteUi);
 				}
 
-				dependenteIsentoUi = coParticipacaoContext.findDependenteIsento(dependenteUi);
+				dependenteIsentoUi = new DependenteIsentoUi();
+				dependenteIsentoUi.setDependente(dependenteUi);
+				dependenteIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
+				dependenteIsentoUi.setValorIsencao(beneficiarioIsentoUi.getValorIsencao());
 
-				if (dependenteIsentoUi == null) {
-					dependenteIsentoUi = new DependenteIsentoUi();
-					dependenteIsentoUi.setDependente(dependenteUi);
-					dependenteIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
-					dependenteIsentoUi.setValorIsencao(beneficiarioIsentoUi.getValorIsencao());
+				dependenteIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
+				dependenteIsentoUi.setMes(coParticipacaoContext.getMes());
+				dependenteIsentoUi.setAno(coParticipacaoContext.getAno());
 
-					dependenteIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
-					dependenteIsentoUi.setMes(coParticipacaoContext.getMes());
-					dependenteIsentoUi.setAno(coParticipacaoContext.getAno());
+				dependenteIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
+				dependenteIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
 
-					dependenteIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
-					dependenteIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
+				dependenteIsentoUi.setUserCreated(coParticipacaoContext.getUser());
+				dependenteIsentoUi.setUserAltered(coParticipacaoContext.getUser());
 
-					dependenteIsentoUi.setUserCreated(coParticipacaoContext.getUser());
-					dependenteIsentoUi.setUserAltered(coParticipacaoContext.getUser());
-
-					coParticipacaoContext.addDependenteIsento(dependenteIsentoUi);
-				}
+				coParticipacaoContext.addDependenteIsento(dependenteIsentoUi);
 			} else {
 				LOGGER.info(
 						"BeneficiárioIsento [{}] user of CPF[{}] is not a Dependente:",
@@ -212,27 +208,22 @@ public class IsentoServiceImpl implements IsentoService {
 					beneficiarioService.updateTitular(coParticipacaoContext, beneficiarioIsentoUi, titularUi);
 				}
 
-				titularIsentoUi = coParticipacaoContext.findTitularIsento(titularUi);
+				titularIsentoUi = new TitularIsentoUi();
+				titularIsentoUi.setTitular(titularUi);
+				titularIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
 
-				if (titularIsentoUi == null) {
-					titularIsentoUi = new TitularIsentoUi();
+				titularIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
+				titularIsentoUi.setMes(coParticipacaoContext.getMes());
+				titularIsentoUi.setAno(coParticipacaoContext.getAno());
+				titularIsentoUi.setValorIsencao(beneficiarioIsentoUi.getValorIsencao());
 
-					titularIsentoUi.setTitular(titularUi);
-					titularIsentoUi.setIsentoType(beneficiarioIsentoUi.getIsentoType());
+				titularIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
+				titularIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
 
-					titularIsentoUi.setContrato(coParticipacaoContext.getContratoUi());
-					titularIsentoUi.setMes(coParticipacaoContext.getMes());
-					titularIsentoUi.setAno(coParticipacaoContext.getAno());
-					titularIsentoUi.setValorIsencao(beneficiarioIsentoUi.getValorIsencao());
+				titularIsentoUi.setUserCreated(coParticipacaoContext.getUser());
+				titularIsentoUi.setUserAltered(coParticipacaoContext.getUser());
 
-					titularIsentoUi.setDtInicio(beneficiarioIsentoUi.getDtInicio());
-					titularIsentoUi.setDtFim(beneficiarioIsentoUi.getDtFim());
-
-					titularIsentoUi.setUserCreated(coParticipacaoContext.getUser());
-					titularIsentoUi.setUserAltered(coParticipacaoContext.getUser());
-
-					coParticipacaoContext.addTitularIsento(titularIsentoUi);
-				}
+				coParticipacaoContext.addTitularIsento(titularIsentoUi);
 			}
 
 			LOGGER.info("END");

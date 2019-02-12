@@ -961,8 +961,6 @@ create table TB_TITULAR_ISENTO(
 	
 	constraint PK_TITULAR_ISENTO primary key( ID ),
 	
-	constraint UN_TITULAR_ISENTO unique key ( ID_TITULAR, CD_MES, CD_ANO, TP_ISENTO ),
-	
 	constraint FK_TITULAR_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_TITULAR_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
 	constraint FK_TITULAR_ISENTO_03 foreign key( ID_TITULAR ) references TB_TITULAR( ID ),
@@ -990,8 +988,6 @@ create table TB_DEPENDENTE_ISENTO(
 	DT_ALTERED				timestamp not null,		
 		
 	constraint PK_DEPENDENTE_ISENTO primary key( ID ),
-	
-	constraint UN_DEPENDENTE_ISENTO unique key ( ID_DEPENDENTE, CD_MES, CD_ANO, TP_ISENTO ),	
 	
 	constraint FK_DEPENDENTE_ISENTO_01 foreign key( USER_CREATED ) references TB_USER( ID ),
 	constraint FK_DEPENDENTE_ISENTO_02 foreign key( USER_ALTERED ) references TB_USER( ID ),
