@@ -685,9 +685,9 @@ select
 	sum( lanc_hoc.VL_PRINCIPAL ) TOTAL_COPART,
 	lanc_hoc.DT_NASCIMENTO,
 	lanc_hoc.CPF_DEPENDENTE,
-	lanc_hoc.NR_MATRICULA_DEPENDENTE NR_MATRICULA
+	lanc_hoc.NR_MATRICULA
 from VW_LANCAMENTO_HOC lanc_hoc
-where lanc_hoc.NR_MATRICULA_DEPENDENTE < 1000
+where lanc_hoc.NR_MATRICULA < 1000
 group by
 	lanc_hoc.CD_MES,			
 	lanc_hoc.CD_ANO,
@@ -699,7 +699,7 @@ group by
 	lanc_hoc.NR_LOCAL,
 	lanc_hoc.DT_NASCIMENTO,
 	lanc_hoc.CPF_DEPENDENTE,
-	lanc_hoc.NR_MATRICULA_DEPENDENTE
+	lanc_hoc.NR_MATRICULA
 order by lanc_hoc.NM_USUARIO;
 
 create view VW_AFASTADOS_HOC as

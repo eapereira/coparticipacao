@@ -141,7 +141,7 @@ public class CargillBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201901 = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201901 = 6;
 
-	private static final int NUM_TOTAL_TITULARES_201901_AFTER_USER_RETURN = 1703;
+	private static final int NUM_TOTAL_TITULARES_201901_AFTER_USER_RETURN = 1704;
 	private static final int NUM_TOTAL_DEPENDENTES_201901_AFTER_USER_RETURN = 1235;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201901_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201901_AFTER_USER_RETURN = 89;
@@ -155,8 +155,8 @@ public class CargillBean {
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812 = 6;
 	private static final int NUM_TOTAL_DEPENDENTES_ISENTOS_201812 = 5;
 
-	private static final int NUM_TOTAL_TITULARES_201812_AFTER_USER_RETURN = 1705;
-	private static final int NUM_TOTAL_DEPENDENTES_201812_AFTER_USER_RETURN = 1238;
+	private static final int NUM_TOTAL_TITULARES_201812_AFTER_USER_RETURN = 1704;
+	private static final int NUM_TOTAL_DEPENDENTES_201812_AFTER_USER_RETURN = 1237;
 	private static final int NUM_TOTAL_DESCONHECIDOS_201812_AFTER_USER_RETURN = 0;
 	private static final int NUM_TOTAL_LANCAMENTOS_201812_AFTER_USER_RETURN = 89;
 	private static final int NUM_TOTAL_TITULARES_ISENTOS_201812_AFTER_USER_RETURN = 6;

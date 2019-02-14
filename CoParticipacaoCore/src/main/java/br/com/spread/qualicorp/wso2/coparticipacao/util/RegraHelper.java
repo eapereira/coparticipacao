@@ -18,10 +18,8 @@ import br.com.spread.qualicorp.wso2.coparticipacao.service.ServiceException;
 public abstract class RegraHelper {
 	private static final Logger LOGGER = LogManager.getLogger(RegraHelper.class);
 
-	public static void setFieldValueAsBigDecimal(
-			CoParticipacaoContext coParticipacaoContext,
-			RegisterColumnUi RegisterColumnUi,
-			BigDecimal result) throws ServiceException {
+	public static void setFieldValueAsBigDecimal(CoParticipacaoContext coParticipacaoContext,
+			RegisterColumnUi RegisterColumnUi, BigDecimal result) throws ServiceException {
 		try {
 			LOGGER.info("BEGIN");
 
@@ -32,8 +30,7 @@ public abstract class RegraHelper {
 			} else if (ColDefType.INT.equals(RegisterColumnUi.getType())) {
 				coParticipacaoContext.setColumnValue(RegisterColumnUi, result.intValue());
 			} else {
-				throw new ServiceException(
-						"The column[%s] must be a number type to use in RegraService:",
+				throw new ServiceException("The column[%s] must be a number type to use in RegraService:",
 						RegisterColumnUi.getNameColumn());
 			}
 
@@ -51,18 +48,23 @@ public abstract class RegraHelper {
 		try {
 			LOGGER.info("BEGIN");
 
-			if (ColDefType.DOUBLE.equals(RegisterColumnUi.getType())) {
-				value = (BigDecimal) coParticipacaoContext.getColumnValue(RegisterColumnUi);
-			} else if (ColDefType.LONG.equals(RegisterColumnUi.getType())) {
-				value = BigDecimal.valueOf((Long) coParticipacaoContext.getColumnValue(RegisterColumnUi));
-			} else if (ColDefType.INT.equals(RegisterColumnUi.getType())) {
-				value = BigDecimal.valueOf((Integer) coParticipacaoContext.getColumnValue(RegisterColumnUi));
-			} else if (ColDefType.STRING.equals(RegisterColumnUi.getType())) {
-				value = (String) coParticipacaoContext.getColumnValue(RegisterColumnUi);
+			value = coParticipacaoContext.getColumnValue(RegisterColumnUi);
+
+			if (value != null) {
+				if (!ColDefType.DOUBLE.equals(RegisterColumnUi.getType())) {
+					if (ColDefType.LONG.equals(RegisterColumnUi.getType())) {
+						value = BigDecimal.valueOf((Long) value);
+					} else if (ColDefType.INT.equals(RegisterColumnUi.getType())) {
+						value = BigDecimal.valueOf((Integer) value);
+					} else if (ColDefType.STRING.equals(RegisterColumnUi.getType())) {
+						value = (String) value;
+					} else {
+						throw new ServiceException("The column[%s] must be a number type to use in RegraService:",
+								RegisterColumnUi.getNameColumn());
+					}
+				}
 			} else {
-				throw new ServiceException(
-						"The column[%s] must be a number type to use in RegraService:",
-						RegisterColumnUi.getNameColumn());
+				value = BigDecimal.ZERO;
 			}
 
 			LOGGER.info("END");

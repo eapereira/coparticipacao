@@ -1416,8 +1416,8 @@ public class BeneficiarioServiceImpl implements BeneficiarioService {
 			 */
 			if (titularUi == null) {
 				if (beneficiarioUi.getMatriculaEmpresa() != null) {
-					titularUi = coParticipacaoContext.findTitularByMatriculaAndMatriculaEmpresa(
-							beneficiarioUi.getMatricula(), beneficiarioUi.getMatriculaEmpresa());
+					titularUi = coParticipacaoContext
+							.findTitularByMatriculaEmpresa(beneficiarioUi.getMatriculaEmpresa());
 
 					if (titularUi == null
 							&& coParticipacaoContext.getEmpresaUi().isSearchBeneficiarioByMatriculaEmpresa()) {
